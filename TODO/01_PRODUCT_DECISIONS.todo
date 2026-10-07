@@ -1,0 +1,42 @@
+# Product Decisions and Support Contract
+
+Status: IN_PROGRESS
+Milestone: M0 Decisions
+Dependencies: None
+
+## Purpose
+
+Separate the user's approved intent from proposed implementation choices before writing the app.
+
+## Tasks
+
+- [x] Record plain-text notes, normal dragging, quiet shell UI, and audience-capture exclusion.
+- [x] Explain that capture exclusion, shell omission, picker discovery, and process visibility differ.
+- [x] Record the user's explicit Windows 11-first choice and separate Teams/Zoom/Meet/OBS qualification.
+- [x] Write docs\PRODUCT.md with requirement IDs, proposals, non-goals, and proposed budgets.
+- [x] Begin D02 under the user's implementation instruction: WPF/.NET10 and opaque-window spike.
+- [ ] Choose exact Windows 11 edition/release/architecture and required product modes for G1/G4.
+- [ ] Approve D03/D05: no-tray recovery, hotkeys, Edit/Present interaction, and rehearsal gating.
+- [ ] Approve D04: local recovery opt-in, retention, plaintext disclosure, and explicit save behavior.
+- [ ] Approve D06/D07: initial package architecture, text limits, and hardware-specific budgets.
+- [ ] Resolve D08: owner-selected license, release destination, signing and maintenance ownership.
+
+## Acceptance criteria
+
+- [ ] Every implementation-affecting proposal is approved, rejected, or explicitly deferred with an owner.
+- [ ] The finite required capture matrix is named; no requirement says all software is undetectable.
+- [ ] Recovery and failure behavior are acceptable without taskbar/Alt-Tab access.
+- [ ] No future feature is silently added to the v1 release gate.
+
+## Completion evidence
+
+- 2026-10-07 planning conversation: Windows 11 first; Teams, Zoom, Google Meet, OBS separately.
+- docs\PRODUCT.md distinguishes approved requirements from D02-D08 proposals.
+- October8: user requested implementation; experimental WPF preview uses explicit saves/no autosave,
+  fixed no-tray recovery shortcuts and local-only speech. These are implemented defaults, not final UX approval.
+- User chose Docker Desktop installation/start as their own separate action; do not install it automatically.
+- Release/license choices, complete support matrix, resource budgets and final visual/accuracy acceptance remain open.
+
+## Completion log
+
+- 2026-10-07 - Requirements captured and platform chosen; remaining decisions intentionally open.

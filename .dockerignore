@@ -1,0 +1,9 @@
+**
+!services/
+!services/transcription/
+!services/transcription/Dockerfile
+!services/transcription/requirements.txt
+!services/transcription/server.py
+!services/transcription/recognizer.py
+!services/transcription/healthcheck.py
+!services/transcription/model.json

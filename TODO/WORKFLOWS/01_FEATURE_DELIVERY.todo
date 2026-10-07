@@ -1,0 +1,51 @@
+# Feature Delivery Procedure
+
+Status: DONE
+Milestone: M0 Procedure definition only
+Dependencies: None
+Execution status: IN_PROGRESS
+
+## Purpose
+
+Move an authorized ready workstream through implementation without dropping privacy or evidence gates.
+
+## Inputs
+
+Approved scope; ready root task; product/architecture contracts; current source state;
+existing test/build commands once the foundation creates them.
+
+## Procedure
+
+1. Read the index/task and dependency evidence. Stop if a required decision or dependency is unresolved.
+2. Set the root task IN_PROGRESS; name ownership of shared window/state files before parallel work.
+3. Implement one complete slice with targeted coverage and existing patterns.
+4. Run the relevant existing tests/build and interactive checks; capture actual outcomes.
+5. Requalify affected capture paths for window/style/popup/rendering/framework changes.
+6. Obtain explicit owner review where the task requires visual/readability/interaction approval.
+7. Update task checkboxes, evidence, index, docs, and ledger. Persist designated local context.
+8. Mark DONE only when all scoped conditions hold; otherwise record IN_PROGRESS/BLOCKED with next action.
+
+## Stop conditions
+
+Unsupported API path, content leak, failed save/data corruption, unreachable hidden window,
+missing approval, unknown external change, or absent required interactive environment.
+Do not downgrade privacy or erase user data to force a pass.
+
+## Tasks
+
+- [x] Define inputs, ready/dependency gate, implementation loop, evidence and stop conditions.
+- [x] Separate task execution state from this completed procedure definition.
+
+## Acceptance criteria
+
+- [x] Outputs include actual source/artifact identity, commands/results, limits, and task/ledger updates.
+- [x] Capture and human UX evidence cannot be replaced by unit-test success.
+
+## Completion evidence
+
+- Feature loop executed for the local Windows/speech preview; see docs\IMPLEMENTATION-STATUS.md.
+- Owner acceptance, Docker execution and final product qualification remain open.
+
+## Completion log
+
+- 2026-10-07 - Procedure defined; execution pending future implementation authorization.

@@ -1,0 +1,38 @@
+# Explicit Saves and Local Recovery
+
+Status: IN_PROGRESS
+Milestone: M2 Core utility
+Dependencies: 04_PROJECT_FOUNDATION.todo, 07_NOTEPAD_EDITOR.todo
+
+## Purpose
+
+Preserve notes without silent data loss, unexpected cloud storage, or exaggerated privacy claims.
+
+## Tasks
+
+- [x] Implement strict UTF-8 `.txt` Open/Save/Save As with explicit errors and 1MiB bounds.
+- [x] Preserve newline/BOM metadata, dirty state, and inline unsaved-change cancellation.
+- [ ] Use atomic replacement where supported; serialize writes and detect externally changed source files.
+- [ ] Implement opt-in recovery and its approved retention/clear policy in current-user local app data.
+- [ ] Keep recovery filenames generic; exclude data from repository/build/release artifacts.
+- [ ] Handle disk full, access denied, locked files, interrupted replace, invalid settings, and corrupt recovery.
+- [ ] Keep last good data on failure; never substitute an empty success-shaped document.
+- [ ] Load recovered content only after current capture setup allows reveal.
+- [ ] Explain plaintext/backup/clipboard/dump boundaries and ordinary deletion versus secure erasure.
+
+## Acceptance criteria
+
+- [ ] Save success is reported only after persistence succeeds; failure preserves dirty text and prior data.
+- [ ] Fault-injection cases recover without corrupting the original or overwriting external edits.
+- [ ] Recovery and fresh launch are tested with abrupt termination and malformed files.
+- [ ] No note contents, note hashes, or private paths are logged or shipped.
+- [ ] Native file dialogs are blocked in Present mode and their Edit-mode risks documented.
+
+## Completion evidence
+
+- NoteFileStore and native file/export UI implemented; Core tests cover roundtrip/conflict/size/cancellation.
+- Preview deliberately has no autosave/crash recovery. Full I/O race/disk/permission and recovery gates remain open.
+
+## Completion log
+
+- 2026-10-07 - Planned; encryption and sync are not assumed requirements.

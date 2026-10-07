@@ -1,0 +1,39 @@
+# Capture Policy and Failure Containment
+
+Status: IN_PROGRESS
+Milestone: M2 Core utility
+Dependencies: 03_CAPTURE_PROOF.todo, 05_WINDOW_SHELL.todo
+
+## Purpose
+
+Apply capture exclusion before sensitive reveal and handle detected failures honestly.
+
+## Tasks
+
+- [ ] Implement per-HWND-generation setup/invalidated/fault states and centralized reveal permission.
+- [x] Check Windows11/DWM and set WDA_EXCLUDEFROMCAPTURE on the owned top-level window.
+- [x] Capture native errors immediately; retain getter outcomes as separate local diagnostics.
+- [ ] Prevent stale async callbacks from binding/showing notes on a new or unconfigured handle.
+- [ ] Implement only spike-proven first-show/composition ordering; no arbitrary protection delay.
+- [x] Hide before mode style changes; reapply before every permitted reveal.
+- [x] Hide/stop on display/session/lock/power notifications; require deliberate reveal.
+- [ ] Audit secondary surfaces; use inline UI or protect/redesign every app-owned note-bearing surface.
+- [ ] Show generic actionable error/status without sensitive text or false 'invisible' certification.
+- [ ] Inject setter failure, contradictory readback, disposed handle, and capability failure.
+
+## Acceptance criteria
+
+- [ ] No tested startup/recreation path renders notes before successful setup for its current HWND.
+- [ ] Detected failure leaves content hidden, preserves the document, and provides recovery/exit.
+- [ ] No silent downgrade to WDA_NONE, WDA_MONITOR, or unprotected secondary window.
+- [ ] Getter-unavailable and capture-unverified are distinct from setter failure and observed pixel results.
+- [ ] Documentation states unobservable recorder bypasses and past captured frames remain outside control.
+
+## Completion evidence
+
+- Shared native adapter and WPF reveal/fault paths implemented; local synthetic GDI samples pass.
+- Full per-generation/failure/first-frame/secondary-surface and remote-product evidence remains open.
+
+## Completion log
+
+- 2026-10-07 - Planned; based on Microsoft API contracts and explicit empirical gates.

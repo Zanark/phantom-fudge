@@ -1,0 +1,42 @@
+# REQUIRED Live Meeting-Output Transcription
+
+Status: IN_PROGRESS
+Milestone: M2-M4 Required v1 feature
+Dependencies: 06_CAPTURE_POLICY.todo, 07_NOTEPAD_EDITOR.todo, 09_HOTKEYS_RECOVERY.todo, 20_DOCKER_LOCAL_SERVICE.todo
+
+## Purpose
+
+Continuously transcribe what the presenter hears from the selected playback device, never microphone input.
+
+## Tasks
+
+- [x] Record user-required live transcription and explicit local-only processing choice.
+- [x] Define host-loopback/Docker-recognizer architecture and wire contract in docs\TRANSCRIPTION.md.
+- [x] Implement active render-device selection, WASAPI loopback and 16 kHz mono PCM transport.
+- [x] Implement authenticated local-only WebSocket, strict ready/format validation, bounded queues and stop flushing.
+- [x] Display partial/final segments in the protected main HWND, separate from editable notes.
+- [x] Add explicit Start/Stop/status, safe memory limits and explicit transcript export.
+- [x] Implement stop on hide/session/power/protection/device events; no automatic restart/switch.
+- [ ] Exercise real offline recognition, actual output loopback, silence, faults and repeated lifecycle.
+- [ ] Measure latency/accuracy and qualify transcript pixels in every required sharing path.
+
+## Acceptance criteria
+
+- [ ] No microphone capture endpoint or cloud speech fallback exists.
+- [ ] Heard synthetic speech becomes timely partial/final text with no silent dropped audio or duplicated finals.
+- [ ] Output-device scope and possible other-app/sidetone audio are explained clearly.
+- [ ] Raw audio is not persisted and transcripts are saved only by explicit user action.
+- [ ] Faults are actionable; required capture and owner transcription-quality approval are recorded.
+
+## Completion evidence
+
+- 2026-10-08 user: live meeting-output transcription is a REQUIRED IMPLEMENTATION.
+- User selected fully local Docker service, no cloud speech processing.
+- Native implementation plus real synthetic output-loopback->Vosk passed locally:11partials,3finals,
+  expected phrase,37nonzero-meter updates, zero faults and stopped capture. No microphone/audio file.
+- Client/model in-memory integration and20synthetic client groups pass; final UI/capture/device matrix
+  and actual Docker qualification remain open. Required feature is not marked DONE prematurely.
+
+## Completion log
+
+- 2026-10-08 - Added as a required release gate; not an optional future feature.

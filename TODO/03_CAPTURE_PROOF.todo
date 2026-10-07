@@ -1,0 +1,45 @@
+# Capture and Window-Lifecycle Proof
+
+Status: IN_PROGRESS
+Milestone: M1 Feasibility spike
+Dependencies: 01_PRODUCT_DECISIONS.todo, 02_FEASIBILITY_RESEARCH.todo
+
+## Purpose
+
+Prove the central capture behavior with synthetic text before investing in a polished application.
+
+## Tasks
+
+- [x] Build an isolated minimal opaque WPF top-level-window spike using the approved SDK.
+- [x] Create HWND before showing, apply tool-window styles, set 0x11 affinity, then reveal synthetic text.
+- [x] Record successful setter/getter results separately in the local synthetic proof; fault matrix remains below.
+- [x] Resolve getter behavior on this actual opaque WPF HWND: getter succeeded with affinity17 on build26200.
+- [ ] Resolve desktop-composition/first-frame ordering; never treat setter success or a fixed sleep as a frame barrier.
+- [ ] Inventory app/helper/popup HWNDs and confirm generic titles and real taskbar/Alt-Tab behavior.
+- [ ] Add a working hide/recovery shortcut and deliberate Edit/Present focus switch.
+- [ ] Record positive control, startup while capture is active, ten hide/show/drag/resize cycles, and faults.
+- [ ] Smoke-test OBS and all three meeting products with an independent recipient; record missing access.
+- [ ] Compare a minimal native Win32 window only if evidence implicates the WPF rendering path.
+- [ ] Write a go/no-go record including required-mode gaps, fallback options, and owner decision.
+
+## Acceptance criteria
+
+- [ ] Locally visible synthetic notes are absent from required observed outputs, including startup frames.
+- [ ] Black rectangles, stale regions, borders/shadows, and picker entries are classified separately.
+- [ ] API failure never displays the note; no silent fallback to NONE or MONITOR.
+- [ ] Hidden-window recovery and editing remain usable without shell entries.
+- [ ] Source, environment, package/tree hash, recordings, frame counts, and limitations are preserved.
+- [ ] G1 is explicitly passed or blocked/narrowed with approval; no inferred all-recorder support.
+
+## Completion evidence
+
+- 2026-10-08 local proof: .local\capture-proof-initial\result.json and synthetic PNGs.
+- Windows26200 x64, .NET10; positive control differed in100000pixels,16 protected samples each
+  exactly matched underlying baseline; native tool-window=true/app-window=false, getter17/error0.
+- This is GDI BitBlt evidence for a synthetic opaque window using the shared adapter, not four-product
+  qualification, fault completeness, continuous-frame coverage, or final integrated-app acceptance.
+
+## Completion log
+
+- 2026-10-07 - Planned as the first implementation gate.
+- 2026-10-08 - Local synthetic proof passed; unqualified native development continues, release gate remains open.

@@ -1,0 +1,55 @@
+# Development and Decision Ledger
+
+Status: IN_PROGRESS
+Milestone: Entire v1 lifecycle
+Dependencies: None
+
+## Purpose
+
+Preserve instructions, decisions, evidence, corrections, and cross-session ownership without invented progress.
+
+## Tasks
+
+- [x] Record the initial research/planning scope and absence of application code.
+- [x] Record Windows 11-first approval and the separate four-product qualification requirement.
+- [x] Record the recurring numbered TODO convention and limits of the bounded cross-project survey.
+- [x] Separate source research, proposed architecture, implemented behavior, and release qualification.
+- [ ] Append significant decision/implementation/validation/owner-review milestones as they happen.
+- [ ] Record blockers, superseded/rejected approaches, exact candidate identities, and claim changes.
+- [ ] Keep index/task/docs and designated private context synchronized at milestones.
+- [ ] Close with final v1 handoff evidence; retain deferred work without implying it blocks the release.
+
+## Acceptance criteria
+
+- [ ] Every v1 milestone has a dated source-grounded record and an honest current status.
+- [ ] Human approval is distinguished from technical success.
+- [ ] No real notes, private credentials, unrelated sibling work, or personal capture evidence is published.
+- [ ] Final handoff identifies remaining support boundaries and maintenance ownership.
+
+## Completion evidence
+
+- Planning documents and task catalogue are the only current project artifacts.
+- Local session context registration/offload is separate from app implementation and public source.
+
+## Completion log
+
+- 2026-10-08 - Local native preview and required transcription implemented and packaged.
+  Core25tests/audio20groups/Python26tests, real approved playback-loopback recognition and exact
+  packaged synthetic UI/GDI evidence recorded in docs\IMPLEMENTATION-STATUS.md. Docker NOT_EXECUTED.
+- 2026-10-08 - Owner chose to install/start Docker Desktop separately, then went offline and
+  prohibited further questions/uploads/risky changes. No further audio playback, Docker installation,
+  commit/push/upload, live meeting capture or public release. Temporary validation processes stopped.
+- 2026-10-08 - User authorized implementation, required Docker, and added mandatory live meeting-output
+  transcription (not microphone). Explicit local-only Docker choice. Added mandatory tasks19/20,
+  frozen audio/socket contract, and release dependencies. Native development candidate in progress.
+- 2026-10-08 (Asia/Kolkata) - Completed source-grounded research, architecture, 18-workstream
+  catalogue and four procedure files. Source groups include capture timing/getter caveats,
+  .NET 10 support, framework alternatives, cross-platform limits, and distribution tradeoffs.
+  No implementation, captures, build/package, commit, push, or release performed.
+- 2026-10-07 - Initial request: offload/register, survey project TODO conventions, deeply research
+  private speaker notes, then create the full implementation backlog/workflow. No app coding requested.
+- 2026-10-07 - User chose Windows 11 first, separately qualifying Teams, Zoom, Google Meet, and OBS.
+- 2026-10-07 - Adopted indexed `.todo` files, metadata, acceptance/evidence/log sections and workflows.
+  Other surveyed projects also use narrative roadmaps; remote issue trackers were not audited.
+- 2026-10-07 - Proposed opaque WPF/native-affinity design and proof-before-polish delivery gates.
+  All runtime and compatibility outcomes remain untested; stack/defaults await approval.

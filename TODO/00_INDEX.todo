@@ -1,0 +1,137 @@
+# Phantom Fudge TODO Index
+
+Status: IN_PROGRESS
+Milestone: Entire v1 lifecycle
+Dependencies: None
+
+## Purpose
+
+Create a complete, evidence-backed Windows 11 speaker-notes application, starting with a
+capture proof rather than assuming a window can be universally undetectable.
+
+## Current state
+
+- Implementation authorized October 8. Local experimental implementation is now in progress.
+- User approved Windows 11 first with Teams, Zoom, Google Meet, and OBS qualified separately.
+- Start the proposed opaque WPF/C#/.NET 10 design; four-product qualification still blocks release.
+- Live meeting-output transcription and its local Docker service are REQUIRED workstreams 19 and 20.
+- Local synthetic GDI/UI/speech evidence and approved hardware-loopback recognition exist.
+- No four-product qualification, actual Docker execution, owner UX acceptance, commit, push or public release.
+- WORKFLOWS statuses describe authored procedures, not app execution.
+
+## Next action
+
+Use docs\PREVIEW-GUIDE.md for the native development candidate. Owner installs/starts Docker Desktop,
+then task20 can run its actual container checks. Complete required product/hardware/UX qualification
+before promoting this preview. Tasks19/20 remain mandatory, not future work.
+
+## Status values
+
+- NOT_STARTED - Planned, not implemented/executed.
+- IN_PROGRESS - Active work or partly resolved decisions, with current evidence.
+- BLOCKED - Named missing decision, dependency, access, device, or approval.
+- DONE - Every scoped task and acceptance criterion met with evidence.
+
+Dependencies are completion prerequisites. Unstarted dependent work is NOT_STARTED; a
+concrete attempted-work blocker is BLOCKED and must name the owner/action. See
+..\docs\TODO-CONVENTIONS.md for the full update and completion contract.
+
+## Work areas
+
+| ID | File | Status | Gate |
+| --- | --- | --- | --- |
+| 01 | 01_PRODUCT_DECISIONS.todo | IN_PROGRESS | G0 |
+| 02 | 02_FEASIBILITY_RESEARCH.todo | DONE | G0 desk research only |
+| 03 | 03_CAPTURE_PROOF.todo | IN_PROGRESS | G1; local synthetic result only |
+| 04 | 04_PROJECT_FOUNDATION.todo | IN_PROGRESS | G2 |
+| 05 | 05_WINDOW_SHELL.todo | IN_PROGRESS | G2 |
+| 06 | 06_CAPTURE_POLICY.todo | IN_PROGRESS | G2 |
+| 07 | 07_NOTEPAD_EDITOR.todo | IN_PROGRESS | G2 |
+| 08 | 08_LOCAL_STORAGE.todo | IN_PROGRESS | G2 |
+| 09 | 09_HOTKEYS_RECOVERY.todo | IN_PROGRESS | G2 |
+| 10 | 10_PRESENTATION_MODE.todo | IN_PROGRESS | G2 |
+| 11 | 11_DPI_ACCESSIBILITY.todo | NOT_STARTED | G3 |
+| 12 | 12_DIAGNOSTICS_TESTING.todo | IN_PROGRESS | G3 |
+| 13 | 13_COMPATIBILITY_QUALIFICATION.todo | NOT_STARTED | G4, after candidate packaging |
+| 14 | 14_PACKAGING_RELEASE.todo | IN_PROGRESS | G4 candidate, before qualification |
+| 15 | 15_USER_GUIDE.todo | IN_PROGRESS | G5 |
+| 16 | 16_DEVELOPMENT_LEDGER.todo | IN_PROGRESS | Entire lifecycle |
+| 17 | 17_RELEASE_ACCEPTANCE.todo | NOT_STARTED | G5 |
+| 18 | 18_FUTURE_SCOPE.todo | NOT_STARTED | Optional; not a v1 blocker |
+| 19 | 19_LIVE_TRANSCRIPTION.todo | IN_PROGRESS | Required v1 |
+| 20 | 20_DOCKER_LOCAL_SERVICE.todo | BLOCKED | Owner Docker installation/start |
+
+## Dependency map
+
+```text
+01 + 02 -> 03 -> 04 -> 05
+03 + 05 -> 06
+05 -> 07 -> 08 (also 04)
+05 -> 09
+06 + 07 + 09 -> 10
+05 + 07 + 10 -> 11
+04 + 06 -> 12
+04 -> 20
+06 + 07 + 09 + 20 -> 19
+08 + 09 + 10 + 11 + 12 + 19 + 20 -> 14
+14 -> 13
+13 + 14 -> 15
+13 + 14 + 15 -> 17
+16 spans every milestone; 18 remains outside the v1 dependency graph.
+```
+
+Numbers are stable IDs, not a strictly numeric execution order: 14 intentionally precedes 13.
+The final matrix must qualify the packaged candidate, not merely a development build.
+
+## Requirement traceability
+
+| Requirement | Main workstreams | Evidence surface |
+| --- | --- | --- |
+| R01 plain-text notes | 07, 08, 10, 11 | Editor/data/UX acceptance |
+| R02 normal dragging | 03, 05, 09, 11 | Interactive grip/resize/placement recovery |
+| R03 quiet shell | 03, 05, 09 | Taskbar/Alt-Tab and separate discovery observations |
+| R04 excluded captured contents | 03, 06, 10, 12, 13 | Positive controls and independent recipient frames |
+| R05 Windows 11 first | 01, 04, 11, 14 | Exact supported OS/runtime/package records |
+| R06 four sharing products | 03, 13, 15, 17 | Versioned product/backend support matrix |
+| R07 meeting-output transcription | 19, 06, 12, 13 | Output-only loopback, real offline speech, protected transcript pixels |
+| R08 local Docker processing | 20, 14, 17 | Actual container readiness/offline inference and host integration |
+
+## Workflow catalogue
+
+- WORKFLOWS\00_WORKFLOW_INDEX.todo - Procedure definitions and execution-state distinction.
+- WORKFLOWS\01_FEATURE_DELIVERY.todo - Ready task through implementation/evidence/handoff.
+- WORKFLOWS\02_CAPTURE_QUALIFICATION.todo - Synthetic controls, frame review, exact-version result.
+- WORKFLOWS\03_RELEASE_DELIVERY.todo - Package, qualify, approve, deliver, maintain.
+
+## Definition of done
+
+Every required checkbox and acceptance criterion is met. Evidence names actual source/artifact,
+environment, commands/results or observations, and limits. Related docs/index/ledger agree.
+Human usability approval is recorded where required. A passing build is not a capture test;
+a capture test is not an invisibility guarantee; authored research is not a finished app.
+
+## Tasks
+
+- [x] Adopt the observed indexed `.todo` structure and evidence-backed workflow conventions.
+- [x] Define requirements, architecture, compatibility experiments, gates, and release acceptance.
+- [x] Complete desk research source synthesis in workstream 02.
+- [ ] Resolve product decisions and complete required G1-G5 work.
+- [ ] Keep this index synchronized until the scoped v1 handoff is complete.
+
+## Acceptance criteria
+
+- [ ] Required v1 workstreams are DONE with matching evidence and owner acceptance.
+- [ ] Release claims match the exact tested package/configuration, not universal capture invisibility.
+- [ ] Optional future work and blocked/untested environments remain explicitly labelled.
+
+## Completion evidence
+
+- Actual implementation, local package identity and scoped evidence: docs\IMPLEMENTATION-STATUS.md.
+- No Docker or remote sharing qualification is inferred from the passing local development probes.
+
+## Completion log
+
+- 2026-10-07 - Initial dependency-driven v1 catalogue and workflow definitions authored.
+- 2026-10-08 (Asia/Kolkata) - Research/planning delivered; implementation and qualification remain unstarted.
+- 2026-10-08 - Subsequent implementation authorization delivered a local native/transcription preview
+  and unsigned ZIP. Docker recipes are ready; owner installs/starts engine. Full release gates stay open.

@@ -1,0 +1,37 @@
+# User Guide and Honest Support Claims
+
+Status: IN_PROGRESS
+Milestone: M5 User handoff
+Dependencies: 13_COMPATIBILITY_QUALIFICATION.todo, 14_PACKAGING_RELEASE.todo
+
+## Purpose
+
+Let a presenter use the finished utility safely without relying on invisible implementation assumptions.
+
+## Tasks
+
+- [ ] Write install/launch, edit/open/save, move/resize, font/wrap, Present, hide/recover, and exit instructions.
+- [ ] Show the synthetic rehearsal and independent-recipient check before real presentation use.
+- [ ] Publish the exact-version support matrix and explain API configured versus capture observed.
+- [ ] Explain taskbar/Alt-Tab omission versus Task Manager/window enumeration/picker visibility.
+- [ ] Document clipboard, local files, IME, accessibility/audio, recording, external camera, and hardware limits.
+- [ ] Explain hotkey conflicts, lost-window recovery, monitor changes, generic errors, and diagnostics.
+- [ ] Document recovery opt-in/retention/clear/export, unsaved edits, uninstall data behavior, and updates.
+- [ ] Include safer alternatives: specific presentation-window/tab sharing or an unshared display/device.
+- [ ] Use only synthetic screenshots; ensure no 'undetectable' marketing or unsupported compatibility claim.
+
+## Acceptance criteria
+
+- [ ] A fresh user completes the full presentation rehearsal and recovery journey from the guide.
+- [ ] Every compatibility statement traces to candidate evidence and discloses important exclusions.
+- [ ] Limitations are prominent before use, not buried behind a green protection badge.
+- [ ] Owner approves clarity and native-device readability.
+
+## Completion evidence
+
+- docs\PREVIEW-GUIDE.md, service README and actual launch/setup scripts describe the implemented preview.
+- Final qualified support table and owner onboarding/readability acceptance remain open.
+
+## Completion log
+
+- 2026-10-07 - Planned; guide must match the final qualified behavior.

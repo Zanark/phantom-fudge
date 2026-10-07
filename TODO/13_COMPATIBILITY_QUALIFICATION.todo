@@ -1,0 +1,39 @@
+# Exact-Package Capture Qualification
+
+Status: NOT_STARTED
+Milestone: M4 Qualified candidate
+Dependencies: 14_PACKAGING_RELEASE.todo
+
+## Purpose
+
+Determine which exact sharing configurations can be honestly supported for the packaged app.
+
+## Tasks
+
+- [ ] Freeze the required product/build/backend matrix approved in workstream 01.
+- [ ] Run TODO\WORKFLOWS\02_CAPTURE_QUALIFICATION.todo against the exact package SHA-256.
+- [ ] Record positive controls, API results, shell/picker observations, local visibility, and remote frames.
+- [ ] Qualify Teams/Zoom desktop and Meet Chrome/Edge screen/window/tab modes actually required.
+- [ ] Qualify each exposed required OBS Display/Window Capture backend independently.
+- [ ] Exercise C01-C14 transitions, startup under active sharing, and secondary-surface exposure.
+- [ ] Inspect independent recipient output and available applicable meeting recordings separately.
+- [ ] Capture frame counts/gaps and review transitions; use OCR only as an aid.
+- [ ] Record untested hardware, optional paths, unavailable recording access, and unsupported modes.
+- [ ] Publish a sanitized candidate support table and file defects for even a single content-leak frame.
+
+## Acceptance criteria
+
+- [ ] Every required row passes on the exact package, or the owner explicitly changes the release scope.
+- [ ] Whole-screen claims are not inferred from isolated tab/presentation-window results.
+- [ ] Black/stale rectangles, picker entries, text leakage, and API errors are separately classified.
+- [ ] No local preview, missing recording, negative OCR result, or assumed backend substitutes for evidence.
+- [ ] Support wording states exact versions, tested environments, date, and non-universal limits.
+
+## Completion evidence
+
+- None. docs\QUALIFICATION.md starts all qualification candidates NOT_TESTED.
+- Research and spike evidence, once created, will not by themselves satisfy this package gate.
+
+## Completion log
+
+- 2026-10-07 - Planned; packaging intentionally precedes final qualification.

@@ -1,0 +1,36 @@
+# Complete v1 Acceptance and Delivery
+
+Status: NOT_STARTED
+Milestone: M5 Finished application
+Dependencies: 13_COMPATIBILITY_QUALIFICATION.todo, 14_PACKAGING_RELEASE.todo, 15_USER_GUIDE.todo
+
+## Purpose
+
+Define 'complete app' as usable, qualified, recoverable, documented delivery, not just a working window.
+
+## Tasks
+
+- [ ] Audit R01-R08, including live output transcription and Docker, against actual feature/fault/capture evidence.
+- [ ] Confirm no unresolved required-mode content leak, data-loss defect, or unrecoverable hidden-window case.
+- [ ] Obtain owner approval of readability, moving/editing, focus behavior, and presentation workflow.
+- [ ] Confirm final package hash matches the qualified artifact and support documentation.
+- [ ] Resolve license/distribution/signing/account permissions and obtain explicit publication authorization.
+- [ ] Deliver the immutable artifact through the authorized destination, or record an agreed local-only handoff.
+- [ ] Verify delivered artifact identity and clean-machine first-run/recovery behavior.
+- [ ] Record maintenance/requalification/rollback ownership and mark obsolete compatibility claims historical.
+- [ ] Update index, ledger, and local offload with exact delivered scope and open deferred items.
+
+## Acceptance criteria
+
+- [ ] R01-R08 are satisfied, including real Docker and audio/transcript evidence within the accepted limits.
+- [ ] Owner UX acceptance, technical evidence, and distribution approval are separately recorded.
+- [ ] No unfinished required work is hidden behind a DONE label or replaced by optional feature success.
+- [ ] Public/local release status is exact; no unsupported promise of universal invisibility.
+
+## Completion evidence
+
+- None. No application has been implemented, accepted, packaged, or delivered.
+
+## Completion log
+
+- 2026-10-07 - Planned as the final v1 gate.

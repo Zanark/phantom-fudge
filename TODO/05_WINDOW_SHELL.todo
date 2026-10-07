@@ -1,0 +1,36 @@
+# Quiet Draggable Window Shell
+
+Status: IN_PROGRESS
+Milestone: M2 Core utility
+Dependencies: 04_PROJECT_FOUNDATION.todo
+
+## Purpose
+
+Deliver a normal-feeling movable/resizable surface without conventional app chrome.
+
+## Tasks
+
+- [x] Implement one opaque HWND, ShowInTaskbar=false, generic title, and validated tool-window styles.
+- [x] Preserve unrelated style bits and correct Win32 error/frame-change semantics.
+- [x] Use WindowChrome for a dedicated grip and resize borders.
+- [x] Separate editor selection, scrolling, controls, drag region, and resize regions in the UI.
+- [ ] Add keyboard move/reset, minimum useful size, explicit hide/exit controls, and safe bounds.
+- [ ] Test topmost and no-activation transitions without pretending managed/native state cannot diverge.
+- [ ] Inventory helper windows, system menu behavior, taskbar, Alt-Tab, Task View, and capture pickers.
+
+## Acceptance criteria
+
+- [ ] User can drag/resize with mouse and recover placement with keyboard.
+- [ ] No ordinary taskbar button or Alt-Tab entry exists in the qualified configuration.
+- [ ] Note text/paths never appear in native titles.
+- [ ] Window chrome and helper surfaces do not introduce an unprotected note-bearing HWND.
+- [ ] Owner approves the small, plain notepad-like appearance separately from technical results.
+
+## Completion evidence
+
+- Synthetic UI renders and Edit/Present/state/style assertions passed; see docs\IMPLEMENTATION-STATUS.md.
+- Native-device dragging/focus/accessibility and explicit owner appearance acceptance remain open.
+
+## Completion log
+
+- 2026-10-07 - Planned; opaque simplicity precedes optional visual effects.

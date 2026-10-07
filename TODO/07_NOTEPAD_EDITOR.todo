@@ -1,0 +1,35 @@
+# Plain-Text Notepad Editor
+
+Status: IN_PROGRESS
+Milestone: M2 Core utility
+Dependencies: 05_WINDOW_SHELL.todo
+
+## Purpose
+
+Make preparing and reading speaker notes feel like a dependable small notepad.
+
+## Tasks
+
+- [x] Implement standard multiline WPF text editing, selection, clipboard, undo/redo and navigation.
+- [x] Add inline find, wrapping, scrolling and font size; broader theme/accessibility work remains below.
+- [x] Separate text selection from dragging; synthetic mode-switch text preservation passed.
+- [ ] Define and enforce the approved size limit with an explicit error, never truncation.
+- [ ] Test line endings, BOM/encoding handoff, emoji, combining characters, RTL text, and IME.
+- [ ] Disable app-generated note previews and audit context menus/spelling/composition surfaces.
+- [ ] Keep editor state/dirty status separate from window visibility and capture setup.
+
+## Acceptance criteria
+
+- [ ] Text round-trips exactly through non-edit operations and approved file encoding paths.
+- [ ] Undo/redo and selection survive expected editing operations without lost or duplicated text.
+- [ ] A 10,000-character synthetic note meets approved interaction budgets.
+- [ ] Every context-menu/IME restriction is visible and documented, not silently broken input.
+- [ ] Owner confirms readability and the plain-notepad workflow.
+
+## Completion evidence
+
+- Native editor/UI smoke and UTF-8/BOM/newline tests exist; owner and input/accessibility corpus remain open.
+
+## Completion log
+
+- 2026-10-07 - Planned; rich text, tabs, and AI are outside v1.

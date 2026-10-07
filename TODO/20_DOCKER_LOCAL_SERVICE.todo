@@ -1,0 +1,41 @@
+# REQUIRED Docker Local Speech Service
+
+Status: BLOCKED
+Milestone: M2-M4 Required v1 infrastructure
+Dependencies: 04_PROJECT_FOUNDATION.todo
+
+## Purpose
+
+Containerize local speech inference while keeping interactive Windows UI/audio capture on the host.
+
+## Tasks
+
+- [x] Record user-approved native Windows client plus local Docker speech architecture.
+- [x] Implement streaming Vosk service with local token authentication and strict protocol validation.
+- [x] Provide offline model provisioning, provenance/license/hash receipt and clear absent-model errors.
+- [x] Add non-root Docker recipe, loopback-published Compose service, read-only model and health check.
+- [x] Exclude notes/audio/tokens/models from source and Docker contexts.
+- [x] Add26deterministic tests and real synthetic-speech/C#client/Windows-output integration checks.
+- [x] Provide startup/shutdown/native-client instructions and bounded resources.
+- [ ] Run actual Docker build/start/readiness/offline-inference/stop tests on an available engine.
+
+## Acceptance criteria
+
+- [ ] Local inference works without internet after explicit model setup.
+- [ ] No microphone/desktop access or credentials are baked into the container.
+- [ ] Service is authenticated, loopback-only on the host, resource-bounded, and stores no audio.
+- [ ] Actual container behavior is evidenced separately from native Python execution.
+- [ ] Required native Windows boundaries and Docker prerequisites are documented.
+
+## Completion evidence
+
+- Docker CLI/engine unavailable on this machine at implementation start.
+- A native service test will not be relabelled a container run.
+- Owner decision October8: prepare Docker support; owner will install/start Docker Desktop separately.
+- Blocker owner: user provisions a running Linux-container engine, then run Start-Transcription and
+  actual container health/model/socket/offline/shutdown checks. No automatic install authorized.
+- Service/Compose/model/setup files are implemented; native recognition is evidenced in service README.
+
+## Completion log
+
+- 2026-10-08 - Added as required implementation; actual Docker execution depends on an installed engine.

@@ -1,0 +1,36 @@
+# Edit and Presentation Modes
+
+Status: IN_PROGRESS
+Milestone: M2 Core utility
+Dependencies: 06_CAPTURE_POLICY.todo, 07_NOTEPAD_EDITOR.todo, 09_HOTKEYS_RECOVERY.todo
+
+## Purpose
+
+Read and position notes during a presentation without accidentally taking slide input focus.
+
+## Tasks
+
+- [ ] Implement explicit Edit/Present/Hidden transitions separate from capture and qualification status.
+- [x] Keep Edit focusable; set read-only/nonactivation only in Present, with synthetic state evidence.
+- [ ] Make Present read-only, with tested grip dragging/scrolling and an explicit way back to Edit.
+- [ ] Integrate a synthetic rehearsal guide and approved session/configuration acknowledgment policy.
+- [x] Show 'capture exclusion requested' and unqualified-preview status without claiming recipient verification.
+- [x] Keep settings/find/confirmations inline; block file operations in Present.
+- [ ] Rehearse with fullscreen/windowed slides, slide keyboard advance, clicks, and always-on-top toggles.
+- [ ] Hide/invalidate on relevant lifecycle changes; do not infer meeting state or auto-reveal after resume.
+
+## Acceptance criteria
+
+- [ ] Normal slide navigation remains with the presentation until the user deliberately requests Edit.
+- [ ] Read/scroll/drag/hide work without unwanted edits or focus theft in qualified scenarios.
+- [ ] Failed capture setup blocks reveal regardless of requested interaction mode.
+- [ ] No UI badge implies arbitrary recorder verification or automatic sharing detection.
+- [ ] Owner approves the end-to-end prepare/rehearse/present/hide/finish journey.
+
+## Completion evidence
+
+- Synthetic Edit/Present UI and note preservation passed; real presentation focus/drag/scroll remain open.
+
+## Completion log
+
+- 2026-10-07 - Planned; click-through and automatic meeting detection are deferred.

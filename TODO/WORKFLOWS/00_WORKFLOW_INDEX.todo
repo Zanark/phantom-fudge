@@ -1,0 +1,32 @@
+# Workflow Catalogue
+
+Status: DONE
+Milestone: M0 Procedure definition only
+Dependencies: None
+Execution status: IN_PROGRESS
+
+## Purpose
+
+Define reusable work procedures without duplicating implementation status from root workstreams.
+
+## Tasks
+
+- [x] Define 01_FEATURE_DELIVERY.todo for one ready feature or defect.
+- [x] Define 02_CAPTURE_QUALIFICATION.todo for synthetic exact-configuration capture evidence.
+- [x] Define 03_RELEASE_DELIVERY.todo for packaged, approved delivery.
+- [x] Link the gate sequence in ..\..\docs\DEVELOPMENT-WORKFLOW.md.
+
+## Acceptance criteria
+
+- [x] Procedures specify inputs, steps, stop conditions, and required outputs.
+- [x] Definition completion is explicitly distinct from runtime execution.
+- [x] Root workstreams remain the single source of implementation/qualification progress.
+
+## Completion evidence
+
+- The three adjacent procedure files and docs\DEVELOPMENT-WORKFLOW.md.
+- Native feature/diagnostic/speech execution has begun. Final Docker/product/release qualification remains open.
+
+## Completion log
+
+- 2026-10-07 - Authored workflow definitions; application execution remains NOT_STARTED.

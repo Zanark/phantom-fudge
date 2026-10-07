@@ -1,0 +1,36 @@
+# Reproducible Project Foundation
+
+Status: IN_PROGRESS
+Milestone: M2 Core utility
+Dependencies: 03_CAPTURE_PROOF.todo
+
+## Purpose
+
+Create a small reproducible Windows application structure from the proven spike.
+
+## Tasks
+
+- [x] Pin .NET10.0.112 SDK, Windows WPF target and native x64 preview path.
+- [x] Create App/Core/xUnit tests plus synthetic audio and shared-adapter capture proof projects.
+- [x] Choose xUnit for Core, typed P/Invoke and locked NuGet dependencies; audio harness uses existing .NET.
+- [x] Configure normal-user execution, STA startup, DPI awareness, explicit window creation, and shutdown.
+- [x] Extend ignore rules for build output, local notes, captures, credentials, recovery and private context.
+- [x] Document actual restore/build/test commands and preview publish script.
+- [ ] Add CI for deterministic build/unit tests without claiming hosted CI validates interactive capture.
+- [ ] Record license/dependency notices after owner approval; enable remote workflow only when authorized.
+
+## Acceptance criteria
+
+- [ ] A clean supported development machine reproduces restore, build, and core tests.
+- [ ] No auto-shown startup window bypasses CapturePolicy.
+- [ ] Public source/docs stand alone without private machine paths or sibling projects.
+- [ ] No unused runtime service, browser renderer, telemetry, or elevation requirement is introduced.
+
+## Completion evidence
+
+- PhantomFudge.slnx, global.json, Directory.Build.props, locked project restores and real local builds.
+- CI/clean-machine/release license gates remain open; no remote workflow was enabled.
+
+## Completion log
+
+- 2026-10-07 - Planned; awaits successful capture proof.

@@ -1,0 +1,35 @@
+# Multi-Monitor, DPI, and Accessibility
+
+Status: NOT_STARTED
+Milestone: M3 Hardening
+Dependencies: 05_WINDOW_SHELL.todo, 07_NOTEPAD_EDITOR.todo, 10_PRESENTATION_MODE.todo
+
+## Purpose
+
+Keep notes readable, reachable, and operable on real presentation display setups.
+
+## Tasks
+
+- [ ] Verify per-monitor-aware configuration and logical/native coordinate conversion.
+- [ ] Test 100/125/150/200% scaling, negative coordinates, portrait displays, and projector layouts.
+- [ ] Persist/clamp placement after disconnect, docking, primary-display changes, and virtual desktops.
+- [ ] Ensure grip and essential controls remain reachable at minimum size and large text scale.
+- [ ] Test keyboard-only navigation/move/reset, Narrator in Edit mode, focus order, and contrast.
+- [ ] Exercise IME/RTL/combining text and document external candidate/screen-reader audio boundaries.
+- [ ] Test sleep/lock/resume and monitor changes with simultaneous capture-policy invalidation.
+- [ ] Record HDR/high-refresh/ARM64 gaps rather than implying unavailable equipment was tested.
+
+## Acceptance criteria
+
+- [ ] No tested configuration loses the window off-screen or mixes pixels/DIPs incorrectly.
+- [ ] Text and controls remain usable at 200% and with high-contrast settings.
+- [ ] Accessibility works in Edit mode; Present nonactivation limitations are explicit and recoverable.
+- [ ] Owner confirms readability on the actual presentation display.
+
+## Completion evidence
+
+- None. No device, accessibility, or display-matrix results exist.
+
+## Completion log
+
+- 2026-10-07 - Planned as a release gate, not a cosmetic follow-up.

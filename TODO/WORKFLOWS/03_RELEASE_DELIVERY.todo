@@ -1,0 +1,50 @@
+# Release Delivery Procedure
+
+Status: DONE
+Milestone: M0 Procedure definition only
+Dependencies: None
+Execution status: NOT_STARTED
+
+## Purpose
+
+Deliver an immutable qualified artifact with accurate support, data, and maintenance guidance.
+
+## Inputs
+
+Candidate source/runtime/dependency identity; approved license/distribution choices;
+packaging recipe; clean-machine results; owner UX approval; required capture evidence.
+
+## Procedure
+
+1. Build/freeze the candidate via root workstream 14 and audit its contents for private data.
+2. Qualify its exact hash via workstream 13; rebuilding requires affected qualification again.
+3. Finish the user/support guide via workstream 15 and resolve every required release blocker.
+4. Obtain explicit publishing authorization and verify the intended destination/account permissions.
+5. Sign only with an approved identity/key workflow where required; record actual warnings and limits.
+6. Deliver immutable versioned artifacts/hashes/notices; do not overwrite historical evidence.
+7. Confirm the delivered identity and clean first-run/recovery behavior.
+8. Complete workstream 17 and final ledger/offload with actual local/published status and maintenance owner.
+
+## Stop conditions
+
+Required capture failure, artifact mismatch, data-loss/recovery defect, missing license/signing
+or publication permission, unsupported runtime/OS, or missing owner usability acceptance.
+Lack of publishing access is not authorization to change accounts or bypass restrictions.
+
+## Tasks
+
+- [x] Define candidate-before-qualification order, release gates, publication approval, and handoff.
+- [x] Separate signing from reputation and a local package from public delivery.
+
+## Acceptance criteria
+
+- [x] The procedure produces an exact scoped delivery receipt rather than an inferred successful release.
+- [x] Rollback/data-migration and requalification ownership are included in handoff.
+
+## Completion evidence
+
+- This procedure and ..\..\docs\DEVELOPMENT-WORKFLOW.md. No release has executed.
+
+## Completion log
+
+- 2026-10-07 - Procedure defined; distribution remains unauthorized until explicitly requested.

@@ -1,0 +1,50 @@
+# Capture Qualification Procedure
+
+Status: DONE
+Milestone: M0 Procedure definition only
+Dependencies: None
+Execution status: NOT_STARTED
+
+## Purpose
+
+Produce evidence for one exact package/OS/product/backend configuration without overstating coverage.
+
+## Inputs
+
+Approved required matrix; package hash; clean synthetic desktop/note; independent recipient;
+recording permission; actual app/backend versions; docs\QUALIFICATION.md scenario/result template.
+
+## Procedure
+
+1. Set the root proof/qualification task IN_PROGRESS and create a new exact-configuration result.
+2. Start independent capture before app launch; establish an appropriate synthetic positive control.
+3. Record native configuration and local visibility separately from shell/picker observations.
+4. Run steady-state and C01-C14 scenarios with repeated transitions as specified in QUALIFICATION.md.
+5. Inspect recipient live output and applicable recordings, including every captured transition frame.
+6. Record decoded frame counts/gaps, artifacts/hashes, leaks/residue, and environment limitations.
+7. Classify PASS/FAIL_CONTENT_LEAK/FAIL_ARTIFACT/BLOCKED/UNSUPPORTED; never fill missing evidence as PASS.
+8. Update only the exact tested matrix rows and root task evidence; preserve older results as history.
+
+## Stop conditions
+
+Any content-leak frame, invalid positive control, unexplained frame gaps, missing independent
+output, unavailable required account/hardware, or mismatch between tested and release package.
+Use synthetic text only; stop real-note use on a failed required path.
+
+## Tasks
+
+- [x] Define controls, independent observations, transitions, evidence, and outcome semantics.
+- [x] Reference the detailed qualification matrix and record template without inventing results.
+
+## Acceptance criteria
+
+- [x] Procedure distinguishes pixel exclusion from getter success, picker omission, and OCR misses.
+- [x] Output is a versioned limited result, never universal certification.
+
+## Completion evidence
+
+- This definition and ..\..\docs\QUALIFICATION.md. No capture run has executed.
+
+## Completion log
+
+- 2026-10-07 - Procedure defined; all actual product qualification remains untested.

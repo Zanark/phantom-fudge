@@ -1,0 +1,37 @@
+# Hotkeys and Lost-Window Recovery
+
+Status: IN_PROGRESS
+Milestone: M2 Core utility
+Dependencies: 05_WINDOW_SHELL.todo
+
+## Purpose
+
+Keep a no-taskbar utility discoverable and controllable by its owner, even after failures.
+
+## Tasks
+
+- [ ] Register configurable reveal/hide and Edit/Present hotkeys with explicit conflict handling.
+- [x] Use RegisterHotKey, not a keystroke hook; avoid reserved F12/Windows-key bindings.
+- [ ] Establish a working recovery path before hiding the only visible controls.
+- [x] Implement current-user single-instance ownership and current-user-only Reveal IPC.
+- [x] Reject unknown recovery commands and bound pipe connect/read timeouts.
+- [x] Recenter to the primary work area and recheck capture setup on second-launch recovery.
+- [ ] Unregister/re-register safely; preserve a working route when rebinding fails.
+- [ ] If the owner enables a tray option, test Explorer restart and document its visible shell presence.
+
+## Acceptance criteria
+
+- [ ] Hotkey conflict, missing monitor, invisible startup, and duplicate launch never permanently strand users.
+- [ ] Recovery requires no Task Manager, taskbar button, administrator rights, or global input recording.
+- [ ] Reveal cannot bypass the capture gate.
+- [ ] Hide/reveal meets approved latency budgets; exit really terminates rather than merely hides.
+- [ ] Single-instance signaling accepts only bounded same-user recovery operations.
+
+## Completion evidence
+
+- Fixed Ctrl+Alt+Space/ Ctrl+Alt+E and per-user named-pipe recovery implemented.
+- Configurable bindings, exhaustive startup/stale-ownership/monitor scenarios and owner acceptance remain open.
+
+## Completion log
+
+- 2026-10-07 - Planned; recoverability is core behavior, not optional polish.

@@ -1,0 +1,48 @@
+name: phantom-fudge
+services:
+  transcription:
+    build:
+      context: .
+      dockerfile: services/transcription/Dockerfile
+    platform: linux/amd64
+    ports:
+      - "127.0.0.1:8765:8765"
+    volumes:
+      - type: bind
+        source: ./.local/models/vosk-model-small-en-us-0.15
+        target: /models/vosk-model-small-en-us-0.15
+        read_only: true
+        bind:
+          create_host_path: false
+    secrets:
+      - transcription_token
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    init: true
+    restart: "no"
+    cpus: 2.0
+    mem_limit: 768m
+    pids_limit: 64
+    ulimits:
+      nofile:
+        soft: 256
+        hard: 256
+    stop_grace_period: 15s
+    networks:
+      - local_speech
+    logging:
+      driver: local
+      options:
+        max-size: 1m
+        max-file: "1"
+
+secrets:
+  transcription_token:
+    file: ./.local/transcription.token
+
+networks:
+  local_speech:
+    internal: true

@@ -1,0 +1,41 @@
+# Diagnostics, Failure Tests, and Performance
+
+Status: IN_PROGRESS
+Milestone: M3 Hardening
+Dependencies: 04_PROJECT_FOUNDATION.todo, 06_CAPTURE_POLICY.todo
+
+## Purpose
+
+Make failures reproducible without collecting notes, and test beyond the happy path.
+
+## Tasks
+
+- [x] Add Core parsing/persistence/transcript tests and20 synthetic audio-protocol/lifecycle test groups.
+- [ ] Add interactive Windows tests for HWND generations/styles, focus, hotkeys, and recovery.
+- [ ] Cover C01-C14 in docs\QUALIFICATION.md at the appropriate automated/manual layer.
+- [ ] Add bounded event codes/native-error diagnostics with no notes, file paths, clipboard, or dumps.
+- [ ] Provide user-reviewed diagnostic export with OS/app/runtime/GPU facts and redaction.
+- [ ] Measure approved latency/CPU/memory budgets and perform the 60-minute soak.
+- [ ] Check handles, subscriptions, hotkeys, IPC, file locks, and shutdown for resource leaks.
+- [ ] Keep headless CI results separate from physical-desktop and recipient-capture evidence.
+- [ ] Define regression triggers for framework/rendering/popup/native/API/runtime changes.
+
+## Acceptance criteria
+
+- [ ] Existing chosen build/tests pass with actual commands and results recorded.
+- [ ] Injected API/I/O/IPC faults are visible and preserve notes without unprotected fallback.
+- [ ] Diagnostics contain no synthetic canary note or private paths in intentional emissions.
+- [ ] Measured budgets pass or are explicitly revised/approved before release.
+- [ ] Every manual-only or unavailable scenario is labelled, not counted as automated coverage.
+
+## Completion evidence
+
+- Core25tests, audio20groups, Python26tests and local UI/GDI/synthetic-speech evidence recorded.
+- Actual user-approved render loopback->Vosk:11partials/3finals,37meter updates, expected phrase, zero faults.
+- No full soak/performance/accessibility/fault/capture matrix or Docker runtime result claimed.
+- Corrected save/confirmation race, malformed URI, partial restart loss, native-close reentry and
+  minimized recovery; final synthetic UI and real blank-process lifecycle regressions passed.
+
+## Completion log
+
+- 2026-10-07 - Planned; capture tests remain independent from functional tests.

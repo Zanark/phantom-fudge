@@ -1,0 +1,58 @@
+# Repository working contract
+
+This repository contains an unqualified native Windows preview and a local speech service.
+Do not invent build commands, passing tests, compatibility results, or user approvals.
+
+## Before changing anything
+
+1. Read `README.md`, `TODO\00_INDEX.todo`, and the selected workstream.
+2. Read `docs\PRODUCT.md`, `docs\ARCHITECTURE.md`, and `docs\QUALIFICATION.md` for affected behavior.
+3. If this machine has a designated `.agent-context`, hydrate it according to the local
+   continuity protocol. Public development must not depend on private paths or memories.
+4. Preserve existing edits. Implement only an authorized task whose dependency gates are met.
+
+## Non-negotiable distinctions
+
+- Capture exclusion is not a security boundary, process hiding, or guaranteed picker omission.
+- A successful native API call is not evidence of recipient-side exclusion.
+- An OCR miss is not proof that a frame contains no readable text.
+- A build/test pass is not human UX approval.
+- Desktop research, a successful spike, and a qualified release are different milestones.
+- Keep all unknown compatibility rows `NOT_TESTED`; never fill them from assumptions.
+
+## Implementation guardrails
+
+- Follow `TODO\WORKFLOWS\01_FEATURE_DELIVERY.todo`.
+- Keep notes out of a visible surface until its protection setup succeeds.
+- On detected protection failure, hide/blank notes and show a generic actionable error.
+  This is an application failure policy, not a guarantee against unobservable capture bypasses.
+- Prefer one opaque native top-level surface. No remote web content, hooks into sharing
+  software, injected overlays, kernel drivers, process concealment, or elevation requirement.
+- Keep real notes, filenames, clipboard data, and personal desktop captures out of logs,
+  tests, repository artifacts, telemetry, and CI uploads.
+- Meeting-output transcription is REQUIRED, not deferred. Capture only selected render endpoints,
+  never microphone inputs. Local Docker inference only; no implicit cloud fallback or automatic Start.
+- Preserve normal accessibility in Edit mode. Do not fake privacy by breaking assistive technology.
+- Any rendering, popup, native-window, or framework upgrade can invalidate capture evidence.
+
+## Tracking and handoff
+
+Use numbered `.todo` files, explicit dependencies, dated evidence, and the four defined
+statuses. Update the index and development ledger with the same change. Record blockers
+and superseded decisions without erasing history. A procedure marked DONE means its
+definition is complete, not that an application build or release has occurred.
+
+Implementation and synthetic tests are authorized. No commit, push, public release, signing identity,
+Docker installation, or live meeting with real notes is authorized merely by these documents.
+The owner explicitly chose to install/start Docker Desktop separately.
+
+## Existing local commands
+
+- `dotnet build .\PhantomFudge.slnx -c Release`
+- `dotnet test .\tests\PhantomFudge.Core.Tests -c Release`
+- `dotnet run --project .\tests\PhantomFudge.Audio.Tests -c Release`
+- `.\services\transcription\.venv\Scripts\python.exe -m unittest discover -s .\services\transcription\tests`
+- `.\scripts\Run-PhantomFudge.ps1`
+
+Playback testing requires explicit user consent and paused unrelated audio:
+`.\scripts\Test-PlaybackTranscription.ps1 -AllowPlayback`. No other test implicitly opens capture.

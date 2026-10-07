@@ -1,0 +1,42 @@
+# Reproducible Release Candidate
+
+Status: IN_PROGRESS
+Milestone: M4 Candidate packaging
+Dependencies: 08_LOCAL_STORAGE.todo, 09_HOTKEYS_RECOVERY.todo, 10_PRESENTATION_MODE.todo, 11_DPI_ACCESSIBILITY.todo, 12_DIAGNOSTICS_TESTING.todo, 19_LIVE_TRANSCRIPTION.todo, 20_DOCKER_LOCAL_SERVICE.todo
+
+## Purpose
+
+Produce the exact installable/runnable candidate that final qualification will test.
+
+## Tasks
+
+- [ ] Approve self-contained versus framework-dependent distribution and supported architectures.
+- [ ] Pin runtime patch, dependency locks, release version, source identity, and reproducible build recipe.
+- [ ] Publish the proposed x64 ZIP without assuming single-file/trimming/AOT is appropriate for WPF.
+- [ ] Include approved license/notices, checksums, release notes, privacy/support boundaries, and data policy.
+- [ ] Exclude notes, recovery, context stores, private captures, credentials, dumps, and development tooling.
+- [ ] Smoke-test a clean supported Windows account/machine without developer SDK or elevation.
+- [ ] Test first launch, no-taskbar recovery, relocation, upgrade/rollback data handling, exit, and removal.
+- [ ] Resolve signing identity/key custody if distribution requires it; never store keys in the repo.
+- [ ] Record unsigned/signed status, SmartScreen/enterprise-policy behavior, and runtime patching ownership.
+- [ ] Freeze the candidate hash for workstream 13; rebuilds invalidate that candidate's qualification.
+
+## Acceptance criteria
+
+- [ ] Artifact launches on the declared clean-machine baseline and contains exactly intended files.
+- [ ] Runtime dependencies/patch responsibilities are clear; no unsupported binary trick is required.
+- [ ] Package identity/hash and contents are reproducible and recorded.
+- [ ] Signing/reputation/enterprise policy are described without guaranteed warning-free installation.
+- [ ] This task creates a candidate only; it does not imply capture qualification or public release.
+
+## Completion evidence
+
+- Preview publish script exists; full qualified release still depends on19/20 and all capture/owner gates.
+- Local unsigned preview packaging is not signing, public upload, or final release acceptance.
+- Produced artifacts\phantom-fudge-0.1.0-preview-win-x64-20261008-024518.zip,76123503bytes,
+  SHA256518B597F1DCCA3C151EB2366420A27AD366E4AB79FDD4B15C8DA8D9353543E47.
+- Exact packaged UI/GDI synthetic probes pass; runtime10.0.12 included. No remote upload.
+
+## Completion log
+
+- 2026-10-07 - Planned; distribution needs owner authorization.

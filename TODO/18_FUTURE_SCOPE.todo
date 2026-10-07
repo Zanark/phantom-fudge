@@ -1,0 +1,32 @@
+# Explicitly Deferred Extensions
+
+Status: NOT_STARTED
+Milestone: After v1; not a release dependency
+Dependencies: None
+
+## Purpose
+
+Keep optional ideas visible without letting them inflate the plain-speaker-notes v1.
+
+## Tasks
+
+- [ ] Consider ARM64 and Windows 10 only with current support policy and separate qualification.
+- [ ] Reassess macOS/Linux with independent platform contracts; never promise Windows-equivalent exclusion.
+- [ ] Evaluate click-through, opacity/acrylic, or nonrectangular visuals only after capture/input requalification.
+- [ ] Consider multi-note/multi-window support only with a per-surface protection and recovery model.
+- [ ] Consider teleprompter/autoscroll, formatting, or slide linkage only after an explicit product request.
+- [ ] Consider encrypted recovery, cloud sync, or auto-update only with new threat/data/maintenance decisions.
+- [ ] Reopen any item only after owner authorization and create a scoped workstream with evidence gates.
+
+## Acceptance criteria
+
+- [ ] Any promoted idea has a separately approved purpose, risk assessment, and acceptance scope.
+- [ ] No deferred item is represented as implemented or required for v1.
+
+## Completion evidence
+
+- None. These are optional candidates, not approved requirements.
+
+## Completion log
+
+- 2026-10-07 - Deferred to preserve a small, honest first release.

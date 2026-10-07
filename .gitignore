@@ -1,0 +1,14 @@
+# Private, machine-local session continuity.
+.agent-context/
+.zmem/
+**/bin/
+**/obj/
+**/.venv/
+**/__pycache__/
+*.pyc
+.local/
+.env
+artifacts/
+TestResults/
+*.user
+*.suo

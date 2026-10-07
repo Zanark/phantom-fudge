@@ -1,0 +1,40 @@
+# Source-Grounded Feasibility Research
+
+Status: DONE
+Milestone: M0 Desk research only
+Dependencies: None
+
+## Purpose
+
+Establish documented mechanisms, limits, alternatives, and the experiments needed before implementation.
+
+## Tasks
+
+- [x] Verify Windows display-affinity values, HWND ownership, DWM, API floor, and non-security guarantee.
+- [x] Separate taskbar/Alt-Tab behavior, native enumeration, capture-picker presence, and pixels.
+- [x] Investigate WPF/native/WinUI/Electron/Tauri and their editor/runtime/distribution tradeoffs.
+- [x] Verify current .NET support and packaging/signing considerations without inventing measurements.
+- [x] Examine macOS/ScreenCaptureKit and bounded Linux contracts; avoid false universal parity claims.
+- [x] Record getter/layered-window and composition/first-frame questions as empirical work.
+- [x] Define required product/backend capture scenarios, controls, evidence, and failure boundaries.
+- [x] Preserve source register, retrieval limits, proposed architecture and proof-first delivery workflow.
+
+## Acceptance criteria
+
+- [x] Major API/framework claims trace to retrieved primary sources in docs\FEASIBILITY.md.
+- [x] Proposed stack/defaults are distinct from approved Windows 11 scope.
+- [x] No research completion is presented as app implementation or tested product compatibility.
+- [x] Unresolved runtime questions are assigned to workstreams 03, 06, and 13.
+
+## Completion evidence
+
+- docs\FEASIBILITY.md: 26 source-register groups, findings, limits, and experiment register.
+- docs\ARCHITECTURE.md: proposed lifecycle/state/components and failure policies.
+- docs\QUALIFICATION.md: unexecuted product matrix, controls, C01-C14, result schema.
+- docs\DEVELOPMENT-WORKFLOW.md: G0-G5 delivery gates.
+- No prototype, code benchmark, product capture test, or release qualification was run.
+
+## Completion log
+
+- 2026-10-08 (Asia/Kolkata) - Completed source synthesis from the October 7 UTC research session.
+  DONE applies only to desk research; actual capture feasibility still requires workstream 03.
