@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "kind": "synthetic-wpf-render-composited-on-palette-background",
+  "limitation": "Opaque README derivatives for legibility on GitHub; not desktop or capture-exclusion evidence.",
+  "images": [
+    {
+      "file": "docs/assets/readme/transcript.png",
+      "sha256": "650f82d64d4e9fdf05a5dcf63fa4bbe3e300839b2032663884d5c9599ed913cf",
+      "source": "docs/handbook/assets/screenshots/transcript-deepseafoam.png",
+      "sourceSha256": "c57bde169f840da8fca06e721301bad5d3a6642b38fd8d72f9dbebc40d8b2ca7",
+      "background": "#000F13",
+      "width": 620,
+      "height": 760
+    },
+    {
+      "file": "docs/assets/readme/question.png",
+      "sha256": "503eaf03bdbd3591c26fe9d53be45d9b02e32b25d6fd28a70d714622fb4bd3c2",
+      "source": "docs/handbook/assets/screenshots/question-draft.png",
+      "sourceSha256": "e1aaae90bf80fe717312a7d92306e19f5ff88b0ba9619abce9428d22fdf3d946",
+      "background": "#000F13",
+      "width": 620,
+      "height": 760
+    },
+    {
+      "file": "docs/assets/readme/deepseafoam.png",
+      "sha256": "650f82d64d4e9fdf05a5dcf63fa4bbe3e300839b2032663884d5c9599ed913cf",
+      "source": "docs/handbook/assets/screenshots/theme-DeepSeaFoam.png",
+      "sourceSha256": "c57bde169f840da8fca06e721301bad5d3a6642b38fd8d72f9dbebc40d8b2ca7",
+      "background": "#000F13",
+      "width": 620,
+      "height": 760
+    },
+    {
+      "file": "docs/assets/readme/harbor-daylight.png",
+      "sha256": "cd3bb0159b31ca39af874226c4a05e4bb49d2364ebb0840f5eeab75e00363546",
+      "source": "docs/handbook/assets/screenshots/theme-HarborDaylight.png",
+      "sourceSha256": "f745f765486b1b1a8cd909d6a64b210e72da06a1eb8cf6f289923966e1e183a9",
+      "background": "#F3F2E9",
+      "width": 620,
+      "height": 760
+    },
+    {
+      "file": "docs/assets/readme/plain.png",
+      "sha256": "c674d34b3a3c0eb001194bfc91191d192bd9a4a6a3afeafaa3ca09950dde5323",
+      "source": "docs/handbook/assets/screenshots/theme-Plain.png",
+      "sourceSha256": "2d7ecc6f63bab9cf6badd997c82815a9cd1886a5fb340affc3064b65609a1785",
+      "background": "#FAF9F6",
+      "width": 620,
+      "height": 760
+    }
+  ]
+}

@@ -41,7 +41,7 @@ tr { break-inside: avoid; }
 img { max-width: 100%; height: auto; }
 p > img { display: block; margin: 20px auto; max-height: 760px; object-fit: contain;
   background: repeating-conic-gradient(#000f13 0% 25%, #001e26 0% 50%) 50% / 18px 18px; }
-p > img[src*="theme-Harbor"], p > img[src*="theme-Plain"] {
+p > img[src*="theme-Harbor"], p > img[src*="theme-Plain"], p > img[src*="harbordaylight"] {
   background: repeating-conic-gradient(#e3ece7 0% 25%, #fcfaf2 0% 50%) 50% / 18px 18px;
 }
 .diagram { margin: 26px 0; padding: 14px; background: #161b22; border-radius: 6px; break-inside: avoid; }

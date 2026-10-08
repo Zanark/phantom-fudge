@@ -15,7 +15,7 @@ The initial request was a draggable speaker-notes window that would not appear i
 share. The useful part of that request is implementable on supported Windows capture paths.
 The absolute version—no software can ever detect or record the surface—is not. The product
 contract therefore separates plain-text editing, movement, shell presentation, captured pixels,
-platform support and actual product qualification (`docs\PRODUCT.md:6-29`).
+platform support and actual product qualification (`docs\PRODUCT.md:6-30`).
 
 That separation made later changes tractable. Transcription became the main view. Notes became
 collapsible. The owner removed repetitive permission/rehearsal acknowledgments. Translucency
@@ -66,7 +66,7 @@ in code and documentation.
 | No repeated acknowledgments | Owner handles permission/recipient check outside the app | This does not create technical evidence that a recorder is safe |
 | Background-only alpha | See through content while keeping text opaque | Underlying content can reduce contrast |
 | Native Python by default | No Docker prerequisite for ordinary use | Local environment/model setup must be reproducible |
-| Explicit future Ask | Owner chooses text crossing the Azure boundary | Structured question identity and cloud configuration are new work |
+| Local Ask snapshot; future Azure sending | Owner chooses the exact displayed question | Structured identity is implemented; cloud configuration and actual egress are future work |
 
 The requirements make the microphone change explicit: the later request supersedes the old
 never-microphone product scope, while tests still must not open live inputs implicitly
@@ -125,7 +125,7 @@ An authored workflow can be complete while execution is not started
 This is especially important for the Azure plan. The proposed path sends a frozen, explicit
 question to a streamed model request. It does not authorize automatic meeting uploads, resource
 creation or model calls simply because the diagram exists
-(`docs\AI-ANSWER-ARCHITECTURE.md:1-37`).
+(`docs\AI-ANSWER-ARCHITECTURE.md:21-89`).
 
 ## A worked change-impact exercise
 
@@ -148,11 +148,11 @@ is written down before pretending that all those surfaces agree
 
 ## References
 
-- `docs\PRODUCT.md:6-29` — distinct requirements and limits.
+- `docs\PRODUCT.md:6-30` — distinct requirements and limits.
 - `TODO\16_DEVELOPMENT_LEDGER.todo:1-90` — dated scope/evidence history.
 - `src\PhantomFudge.App\Native\WindowProtection.cs:18-45` — actual window mechanism.
 - `src\PhantomFudge.Core\AudioSource.cs:3-30` — input identities.
 - `scripts\Start-Transcription.ps1:1-24` — native default.
 - `scripts\Run-PhantomFudge.ps1:1-41` — launch options.
 - `docs\DUAL-SOURCE-AUDIO.md:1-108` — microphone supersession and protocol.
-- `docs\AI-ANSWER-ARCHITECTURE.md:1-37` — proposed answer boundary.
+- `docs\AI-ANSWER-ARCHITECTURE.md:21-89` — proposed answer boundary.

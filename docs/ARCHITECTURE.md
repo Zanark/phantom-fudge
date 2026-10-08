@@ -4,7 +4,7 @@
 October 8. See IMPLEMENTATION-STATUS.md for actual code/evidence versus unfinished release goals.
 Source IDs below resolve in [FEASIBILITY.md](FEASIBILITY.md).
 
-The15:05 request adds a **planned, not implemented** explicit question-to-Azure-answer extension.
+The15:05 request designed the Azure extension; TODO28 now implements its local question draft/snapshot boundary.
 Read [AI-ANSWER-ARCHITECTURE.md](AI-ANSWER-ARCHITECTURE.md) for the complete researched design.
 Current local-only ASR/runtime behavior remains unchanged. The proposal sends only selected frozen
 text on Ask, keeps audio local by default, streams to the same HWND and leaves Docker optional/last.

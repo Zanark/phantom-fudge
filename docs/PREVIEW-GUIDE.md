@@ -129,3 +129,19 @@ Local nonactivation and Arrow policy do not control that recorder's cursor strea
 show a captureable branded popup: content remains hidden and a generic local notice is written
 to `%LOCALAPPDATA%\PhantomFudge\last-window-error.txt`. File dialogs explicitly opened in Edit
 remain outside the main protected HWND.
+
+## Local question composer
+
+Open **Question** beside Export. Select only intended Mic/Computer segments and choose **Use selected**,
+or choose **Type / edit** to write a question. That separate editing action takes keyboard focus
+without stopping transcription or unlocking speaker notes. **Done typing** or Escape returns to
+passive interaction; ordinary global Edit/Present and Hide still stop audio.
+
+**Ask as shown freezes a local snapshot only. No Azure model is connected and nothing is sent.**
+Selected partials may update until you edit; frozen snapshots never change. The draft is capped at
+8192characters with explicit rejection rather than truncation. Copy/Clear are deliberate actions,
+and unsaved questions participate in the existing exit safeguard.
+
+The chooser is structured and source-scoped, not a parser over display labels. It never reads chats
+or automatically includes a whole meeting. Accurate armed-Mic finalization and real streamed answers
+remain separate TODOs. See [the local question guide](LOCAL-QUESTIONS.md).

@@ -12,5 +12,5 @@ flowchart TB
     Socket --> ASR["Python and independent Vosk decoders"]
     ASR --> Text["Source-labelled transcript"]
     Text --> UI
-    Text -. "future explicit selection" .-> Draft["PLANNED question draft"]
+    Text -->|"explicit selection"| Draft["Local question draft and snapshot"]
     Draft -. "manual Ask" .-> Azure["PLANNED Azure answer"]

@@ -123,7 +123,7 @@ cache files even when they use different final output directories. Compile once,
 The documentation fixture must never use real notes or chat content. It has its own command
 line path and validates a synthetic/no-recording result before copying images
 (`src\PhantomFudge.App\App.xaml.cs:24-36`,
-`scripts\Export-HandbookScreenshots.ps1:1-76`). A screenshot request is not authorization to
+`scripts\Export-HandbookScreenshots.ps1:1-80`). A screenshot request is not authorization to
 capture a meeting or disable display affinity.
 
 ## Failure tests worth keeping

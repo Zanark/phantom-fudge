@@ -54,7 +54,7 @@ flowchart TB
     linkStyle default stroke:#8b949e
 ```
 
-This state sketch includes the normal stop marker, not an automatic retry or reconnect. A `TranscriptionSocket` is single-use; a fresh transcription session creates a fresh transport. (`src\PhantomFudge.App\Audio\TranscriptionSocket.cs:119-133`, `ConnectCoreAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:490-496`, `Session`.)
+This state sketch includes the normal stop marker, not an automatic retry or reconnect. A `TranscriptionSocket` is single-use; a fresh transcription session creates a fresh transport. (`src\PhantomFudge.App\Audio\TranscriptionSocket.cs:119-133`, `ConnectCoreAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:493-500`, `Session`.)
 
 ## The contract, field by field
 
@@ -187,7 +187,7 @@ Native inbound JSON is limited to 32,768 bytes and depth eight; only text messag
 
 Server protocol failures normally attempt a fixed error envelope and close code 1008; grossly oversized messages can instead hit aiohttp's transport ceiling and close with 1009. Native code never displays a service-provided error string directly. (`services\transcription\server.py:26-39`, error catalogue; `services\transcription\server.py:155-159`, `close_with_error`; `services\transcription\tests\test_dual_protocol.py:257-264`, ceiling test; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:397-405`, error handling.)
 
-Read `V2FramingAsync`, `V2BackpressureAsync`, and `V2MissingFinalAsync` for copied bytes, independent native budgets, and incomplete stop rejection. Python's full-queue stop test proves sentinel ordering, while `RunDualSyntheticServiceCheckAsync` streams two in-memory fixtures through the actual C# transport and checks source-specific phrases. None of these test definitions constitutes a new passing run here, acoustic isolation, or cloud integration. Protocol v3 and question commit are not accepted by the current start parser. (`tests\PhantomFudge.Audio.Tests\DualSourceTests.cs:96-140`, `V2FramingAsync`; `tests\PhantomFudge.Audio.Tests\DualSourceTests.cs:352-424`, stop/budget tests; `services\transcription\tests\test_dual_protocol.py:499-522`, full-queue stop test; `tests\PhantomFudge.Audio.Tests\DualSyntheticServiceCheck.cs:49-79`, synthetic runner; `services\transcription\server.py:94-106`, `parse_start`.)
+Read `V2FramingAsync`, `V2BackpressureAsync`, and `V2MissingFinalAsync` for copied bytes, independent native budgets, and incomplete stop rejection. Python's full-queue stop test proves sentinel ordering, while `RunDualSyntheticServiceCheckAsync` streams two in-memory fixtures through the actual C# transport and checks source-specific phrases. None of these test definitions constitutes a new passing run here, acoustic isolation, or cloud integration. Protocol v3 and question commit are not accepted by the current start parser. (`tests\PhantomFudge.Audio.Tests\DualSourceTests.cs:96-140`, `V2FramingAsync`; `tests\PhantomFudge.Audio.Tests\DualSourceTests.cs:356-428`, stop/budget tests; `services\transcription\tests\test_dual_protocol.py:499-522`, full-queue stop test; `tests\PhantomFudge.Audio.Tests\DualSyntheticServiceCheck.cs:49-79`, synthetic runner; `services\transcription\server.py:94-106`, `parse_start`.)
 
 ### Reader checkpoints
 

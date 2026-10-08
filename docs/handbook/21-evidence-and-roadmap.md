@@ -12,7 +12,7 @@ A living engineering book must distinguish **what exists**, **what was observed*
 
 This chapter reads the frozen application source and current public evidence summaries. It does not rerun application tests, inspect private capture receipts, requalify a package, or perform cloud/audio operations. “Recorded result” below means the cited repository reports that observation, not that this documentation session independently repeated it. The qualification contract explicitly rejects substituting local previews, API return codes, or missing recordings for recipient evidence. (TODO\13_COMPATIBILITY_QUALIFICATION.todo:24-35, acceptance and evidence.)
 
-The engineering unit of assurance is therefore a **bounded claim**: a behavior, an exact subject, an environment, a procedure, an observation, and its limits. The repository's result template already asks for source identity, package hash, operating system, GPU, sharing backend, positive controls, frame coverage, and reviewer approval. A result without those boundaries may help investigation, but should not silently widen support. (docs\QUALIFICATION.md:140-166, result record.)
+The engineering unit of assurance is therefore a **bounded claim**: a behavior, an exact subject, an environment, a procedure, an observation, and its limits. The repository's result template already asks for source identity, package hash, operating system, GPU, sharing backend, positive controls, frame coverage, and reviewer approval. A result without those boundaries may help investigation, but should not silently widen support. (docs\QUALIFICATION.md:141-167, result record.)
 
 ## The evidence ladder: stronger claims require additional proof
 
@@ -63,13 +63,13 @@ These distinctions are instantiated by the native-runtime evidence, dual-source 
 
 ### Configuration is not observation of captured pixels
 
-`WindowProtection.Configure` checks Windows/DWM conditions, sets window styles and affinity, inspects available readback, and flushes composition. None of those calls observes another participant's screen. `ShowProtected` configures before showing and reports an unqualified-preview status. This is implemented failure-prevention logic, not recipient certification. (src\PhantomFudge.App\Native\WindowProtection.cs:18-45, `Configure`; src\PhantomFudge.App\MainWindow.xaml.cs:79-105, `ShowProtected`.)
+`WindowProtection.Configure` checks Windows/DWM conditions, sets window styles and affinity, inspects available readback, and flushes composition. None of those calls observes another participant's screen. `ShowProtected` configures before showing and reports an unqualified-preview status. This is implemented failure-prevention logic, not recipient certification. (src\PhantomFudge.App\Native\WindowProtection.cs:18-45, `Configure`; src\PhantomFudge.App\MainWindow.xaml.cs:80-106, `ShowProtected`.)
 
 Similarly, `CursorPolicy.SetArrow` sets the local standard cursor. It does not choose the recorder's cursor-capture option. The owner's reported disappearing shared cursor is credible as a reported symptom, while its exact product/backend reproduction remains missing. Local Arrow and nonactivation evidence cannot close that gap. (src\PhantomFudge.App\Native\CursorPolicy.cs:8-24, `SetArrow`; docs\CURSOR-AND-THEMES.md:23-37, recorder boundary.)
 
 ## What the current evidence actually says
 
-The latest dual-source update records **41 Core tests, 46 native synthetic groups, 71 backend tests, and four manager-upgrade guards**. These are differently scoped counts, not one interchangeable test total. Their historical pass reports are useful evidence, but no fresh pass is asserted here. (docs\IMPLEMENTATION-STATUS.md:17-25, current source evidence.)
+The earlier dual-source update records **41 Core tests, 46 native synthetic groups, 71 backend tests, and four manager-upgrade guards**. The subsequent local-question slice adds96Core cases, bringing the current Core run to137, and repeats the46native groups with GUID identity assertions. Python's71cases remain earlier evidence, not a fresh run for the C#-only change. These are distinct scopes, not one interchangeable total. (docs\IMPLEMENTATION-STATUS.md:17-25, earlier dual-source evidence; [local-question receipt](../../TODO/28_QUESTION_DRAFTS.todo).)
 
 The recorded real Python recognizer processed generated dual-source PCM with Computer/Mic partial counts of **11/8** and three finals each. The actual C# v2-to-Python path produced **13/10** partials and two finals each, with expected phrases and tail drain. “Real” describes the engine and transport; the input was still synthetic. No physical microphone, device-permission, echo, or OS-indicator qualification follows. (docs\IMPLEMENTATION-STATUS.md:17-21, integration results.)
 
@@ -90,25 +90,32 @@ Those values are present in the public receipt, not extrapolated from model name
 
 ## The current preview artifact is an identity, not a release claim
 
-The latest dual-source bundle recorded by the public status and packaging workstream is:
+The latest local-question bundle recorded by the public status and packaging workstream is:
 
 ```text
-artifacts\phantom-fudge-0.1.0-preview-win-x64-20261008-145231.zip
-Size: 76,184,066 bytes
-Contents: 485 files
+artifacts\phantom-fudge-0.1.0-preview-win-x64-20261008-183107.zip
+Size: 76,205,175 bytes
+Contents: 486 files
 Recorded SHA-256:
-BC89867277F3E8C8BAA179BE74B7F517A98D6E09CBE35534AFB21E12E127C846
+C5062B6B94F3ABC63901960F1572F1A9141EA128C2CA513E6D26C4C5C3FAB27A
 ```
 
-The hash is reproduced from the source record, not freshly computed. Exact-package UI checks are reported with `recordingStarted:false`; that makes them deliberately unsuitable as proof of hardware recording. Earlier `123245`, `035959`, and other bundles remain historical artifacts, not alternative evidence for the latest package by default. (docs\IMPLEMENTATION-STATUS.md:27-33, current bundle; TODO\14_PACKAGING_RELEASE.todo:34-46, package evidence.)
+The new archive was hashed and its exact executable exercised with the synthetic fixture.
+Question checks include immutable/no-auto-send behavior, source/session isolation, editing without
+audio cancellation, multiline fidelity and minimum layout, with no real recording/model call.
+The first source attempt's unexplained foreground assertion failure is retained; later source and
+package passes do not establish universal activation or recipient behavior. Earlier145231/123245/
+035959bundles are historical, not alternative qualification for183107.
+([Current implementation receipt](../IMPLEMENTATION-STATUS.md);
+[packaging evidence](../../TODO/14_PACKAGING_RELEASE.todo).)
 
-The publication script creates a timestamped self-contained x64 preview, refuses overwrite, copies selected documentation/scripts/service source, archives the result, and prints its hash as a **local unqualified preview**. Running that script would not satisfy clean-machine, signing, recipient, or release gates. No package was generated for this chapter. (scripts\Publish-Preview.ps1:10-41, publication flow; TODO\14_PACKAGING_RELEASE.todo:13-30, remaining acceptance.)
+The publication script creates a timestamped self-contained x64 preview, refuses overwrite, copies selected documentation/scripts/service source, archives the result, and prints its hash as a **local unqualified preview**. Running that script would not satisfy clean-machine, signing, recipient, or release gates. The latest package was generated for the implementation milestone, not as proof of release qualification. (scripts\Publish-Preview.ps1:10-41, publication flow; TODO\14_PACKAGING_RELEASE.todo:13-30, remaining acceptance.)
 
 ## What still needs qualification
 
 **Recipient pixels:** the required meeting/OBS candidates remain `NOT_TESTED`. Record product/version, exact sharing source and backend, local visibility, remote live view, applicable recording, positive controls, and transitions. A window/tab result cannot justify whole-screen support; a missing licensed recording capability is not a pass. A black rectangle can fail the intended experience even without readable text. (docs\QUALIFICATION.md:3-7, status; docs\QUALIFICATION.md:28-64, matrix and artifact criteria; docs\QUALIFICATION.md:79-107, procedure.)
 
-**Cursor:** reproduce the owner's report in the actual sharing mode and record hover/click/drag/type, foreground changes, and recipient cursor behavior independently. Do not substitute a fake cursor, recorder modification, or the local value `MA_NOACTIVATE=3` for that observation. (TODO\24_CURSOR_AND_FOCUS.todo:14-26, open gates; docs\QUALIFICATION.md:127-135, C15.)
+**Cursor:** reproduce the owner's report in the actual sharing mode and record hover/click/drag/type, foreground changes, and recipient cursor behavior independently. Do not substitute a fake cursor, recorder modification, or the local value `MA_NOACTIVATE=3` for that observation. (TODO\24_CURSOR_AND_FOCUS.todo:14-26, open gates; docs\QUALIFICATION.md:127-136, C15.)
 
 **Hardware and usability:** microphone access/denial, selected-device loss, echo, privacy indicators, headsets, alternative GPU/display/DPI/HDR combinations, startup transitions, accessibility, and long-session behavior remain scoped work. The code selects render versus capture endpoints explicitly; source inspection proves that branch exists, not that every physical configuration works. Owner readability/focus approval remains separate from automated success. (src\PhantomFudge.App\Audio\WasapiInput.cs:20-74, selection and `Direction`; TODO\26_MICROPHONE_AND_COMPUTER.todo:34-41, hardware gaps; docs\QUALIFICATION.md:66-77, environments; docs\IMPLEMENTATION-STATUS.md:149-158, remaining work.)
 
@@ -124,11 +131,12 @@ The current index covers workstreams **01–38**; documentation work adds an ong
 | 13–18 | 13 qualification, 17 acceptance, and optional 18 future scope are NOT_STARTED; 14 packaging, 15 guide, and 16 ledger are IN_PROGRESS. |
 | 19–26 | 22 native runtime and 23 benchmark are DONE; 20 Docker is NOT_STARTED; 19, 21, and 24–26 remain IN_PROGRESS. |
 | 27 | DONE for research/design only. |
-| 28–35 | NOT_STARTED: drafts, commit, Azure connection, client/UI, evaluation, resilience, and answer acceptance. |
+| 28 | DONE for local selected/typed drafts and immutable snapshots; no outbound provider is connected. |
+| 29–35 | NOT_STARTED: commit, approved Azure connection, real client/UI, evaluation, resilience, and answer acceptance. |
 | 36–37 | NOT_STARTED optional cloud-ASR and conditional broker extensions. |
 | 38 | DONE for the initial illustrated book and public journal; workflow06 continues maintenance with later changes. |
 
-“DONE” is scoped: research completion does not mean Ask exists. `NOT_STARTED` does not automatically mean `BLOCKED`; the latter requires a concrete attempted-work blocker and needed action. Stable numbers are not execution order. (TODO\00_INDEX.todo:38-90, statuses; docs\TODO-CONVENTIONS.md:40-56, dependency semantics.)
+“DONE” is scoped: a local Ask snapshot does not mean cloud submission or answers exist. `NOT_STARTED` does not automatically mean `BLOCKED`; the latter requires a concrete attempted-work blocker and needed action. Stable numbers are not execution order. (TODO\00_INDEX.todo:38-90, statuses; docs\TODO-CONVENTIONS.md:40-56, dependency semantics.)
 
 ### Candidate, qualification, and release
 
@@ -183,8 +191,8 @@ config:
 ---
 flowchart TB
     accTitle: PLANNED answer workstream dependencies
-    accDescr: Research is complete, but draft, commit, connection, streaming, UI, evaluation, and resilience remain planned.
-    Research["27 Research DONE"] --> Draft["28 PLANNED draft"]
+    accDescr: Research and local drafts are complete, while commit, connection, streaming answers, evaluation and resilience remain planned.
+    Research["27 Research DONE"] --> Draft["28 Local draft DONE"]
     Research --> Auth["30 PLANNED connection"]
     Draft --> Commit["29 PLANNED commit"]
     Draft --> Client["31 PLANNED client"]
@@ -210,7 +218,9 @@ flowchart TB
     linkStyle default stroke:#8b949e
 ```
 
-Start with structured local drafts and fake streams, not a cloud deployment. The baseline remains local ASR, explicit immutable Ask, negotiated Mic-only commit, and direct C# streamed text into the same protected UI. Azure identity/resource/geography approvals, actual model availability, and latency measurements remain future gates. Optional 36 depends on 27 and 33; conditional 37 depends on 27 and 30, neither silently becoming mandatory. (TODO\00_INDEX.todo:108-121, answer dependencies; TODO\27_AI_ANSWER_RESEARCH.todo:13-32, research-only scope; docs\AI-ANSWER-ARCHITECTURE.md:262-283, delivery and unresolved decisions.)
+The local selected/typed draft and immutable snapshot are implemented. Continue with source-specific
+start/commit boundaries and approved cloud connection, not an automatic deployment. The target remains
+local ASR and direct C# streamed text in the same protected UI. Azure identity/resource/geography approvals, actual model availability, and latency measurements remain future gates. Optional 36 depends on 27 and 33; conditional 37 depends on 27 and 30, neither silently becoming mandatory. (TODO\00_INDEX.todo:108-121, answer dependencies; TODO\27_AI_ANSWER_RESEARCH.todo:13-32, research-only scope; docs\AI-ANSWER-ARCHITECTURE.md:411-468, delivery and unresolved decisions.)
 
 ## Worked review algorithm: promote claims, not enthusiasm
 
@@ -232,15 +242,15 @@ def assess_support_claim(claim, evidence):
     return "SCOPED_PASS_CANDIDATE"      # still needs review and acceptance
 ```
 
-For example, a claim that the `145231` package supports Teams desktop sharing cannot be promoted using an older cropped GDI result. Both artifact and capture scope differ. Likewise, an owner's rehearsal preference cannot replace the missing recipient record. Retain failed and unavailable cases; changing a binary or backend makes prior results historical rather than transferable. (docs\QUALIFICATION.md:24-26, version changes; docs\QUALIFICATION.md:164-166, exact artifact; docs\IMPLEMENTATION-STATUS.md:27-33, latest package.)
+For example, a claim that the `145231` package supports Teams desktop sharing cannot be promoted using an older cropped GDI result. Both artifact and capture scope differ. Likewise, an owner's rehearsal preference cannot replace the missing recipient record. Retain failed and unavailable cases; changing a binary or backend makes prior results historical rather than transferable. (docs\QUALIFICATION.md:24-26, version changes; docs\QUALIFICATION.md:165-167, exact artifact; docs\IMPLEMENTATION-STATUS.md:27-33, historical dual-source package.)
 
 ## Keeping the book honest as the project changes
 
-Reviewing the book exposed historical wording that no longer matched the implementation. The summary now describes Computer/Microphone/Both and labels its initial-preview evidence historical; workstream17 distinguishes the existing preview from unstarted final acceptance; workstream13 follows the current C01-C18 scenario set. These corrections preserve the earlier journey without erasing implemented work or promoting a local package to a qualified release. (docs\IMPLEMENTATION-STATUS.md:101-110, corrected summary and historical heading; TODO\17_RELEASE_ACCEPTANCE.todo:31-37, final acceptance scope; TODO\14_PACKAGING_RELEASE.todo:34-46, local artifacts; TODO\13_COMPATIBILITY_QUALIFICATION.todo:18-21, current scenario list; docs\QUALIFICATION.md:127-135, added scenarios.)
+Reviewing the book exposed historical wording that no longer matched the implementation. The summary now describes Computer/Microphone/Both and labels its initial-preview evidence historical; workstream17 distinguishes the existing preview from unstarted final acceptance; Workstream13 follows the current C01-C19 scenario set. These corrections preserve the earlier journey without erasing implemented work or promoting a local package to a qualified release. (docs\IMPLEMENTATION-STATUS.md:101-110, corrected summary and historical heading; TODO\17_RELEASE_ACCEPTANCE.todo:31-37, final acceptance scope; TODO\14_PACKAGING_RELEASE.todo:34-46, local artifacts; TODO\13_COMPATIBILITY_QUALIFICATION.todo:18-21, current scenario list; docs\QUALIFICATION.md:127-136, added scenarios.)
 
 **Current documentation coordination:** workstream **38** is **DONE for the initial local edition**. Its receipt records the generated HTML/PDF, reviewed illustrations and freshness result. Workflow **06**, `06_LIVING_DOCUMENTATION.todo`, is **DONE as a procedure definition**, with ongoing execution **IN_PROGRESS**: future feature changes still need matching book updates. This is documentation completion, not application release acceptance. The documentation update did not replace the current preview ZIP. (TODO\38_LIVING_DOCUMENTATION.todo:3-22, status and tasks; TODO\WORKFLOWS\06_LIVING_DOCUMENTATION.todo:3-11, definition/execution distinction; docs\IMPLEMENTATION-STATUS.md:167-173, documentation edition boundary.)
 
-The public journal now supplies the narrative counterpart to the operational ledger. Future behavior changes require corresponding chapter, citation, diagram, image, and journal maintenance. Mechanical freshness detects drift in recorded inputs, but cannot prove semantic correctness or discover every uncited feature; human source review remains necessary. This extends the evidence discipline instead of relaxing application qualification. (JOURNAL.md:8-16, journal scope; docs\DOCUMENTATION-MAINTENANCE.md:7-22, completion requirements; docs\DOCUMENTATION-MAINTENANCE.md:58-66, freshness limitations; TODO\00_INDEX.todo:162-168, documentation definition of done.)
+The public journal now supplies the narrative counterpart to the operational ledger. Future behavior changes require corresponding chapter, citation, diagram, image, and journal maintenance. Mechanical freshness detects drift in recorded inputs, but cannot prove semantic correctness or discover every uncited feature; human source review remains necessary. This extends the evidence discipline instead of relaxing application qualification. (JOURNAL.md:8-16, journal scope; docs\DOCUMENTATION-MAINTENANCE.md:12-27, completion requirements; docs\DOCUMENTATION-MAINTENANCE.md:63-71, freshness limitations; TODO\00_INDEX.todo:162-168, documentation definition of done.)
 
 ## Exercises and references
 

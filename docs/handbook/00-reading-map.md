@@ -18,7 +18,7 @@ inputs, and a researched proposal for explicitly sending a question to an Azure 
 important engineering work is not drawing a rectangle. It is keeping each promise narrow enough
 to implement and each state transition strong enough to preserve data. The current product
 contract records those distinct requirements rather than collapsing them into a claim of
-universal invisibility (`docs\PRODUCT.md:6-29`).
+universal invisibility (`docs\PRODUCT.md:6-30`).
 
 This handbook is intended to support three activities. A new contributor should be able to
 run and navigate the application without guessing. A senior engineer should be able to review
@@ -91,7 +91,7 @@ flowchart TB
     Socket --> ASR["Python and independent Vosk decoders"]
     ASR --> Text["Source-labelled transcript"]
     Text --> UI
-    Text -. "future explicit selection" .-> Draft["PLANNED question draft"]
+    Text -->|"explicit selection"| Draft["Local question draft and snapshot"]
     Draft -. "manual Ask" .-> Azure["PLANNED Azure answer"]
 ```
 
@@ -125,10 +125,11 @@ explains why direction changed. The [implementation status](../IMPLEMENTATION-ST
 bounded receipts. The book explains mechanisms and reasoning; it should not become a second,
 inconsistent task database.
 
-The current executable does not contain the planned Ask pipeline. The design explicitly says
-that structured question drafts, a source commit, Azure identity and a streamed-answer adapter
-are future work (`docs\AI-ANSWER-ARCHITECTURE.md:1-37`). A diagram with a planned box cannot
-be used as evidence that a model was deployed.
+The local draft and immutable snapshot now exist. Explicit selected segments or typed text feed
+`QuestionDraft`; `Freeze` captures exact text and copied provenance without invoking any provider
+(`src\PhantomFudge.Core\QuestionDraft.cs:18-95`, `src\PhantomFudge.Core\QuestionSnapshot.cs:5-23`).
+Source commit, Azure identity and streamed answers remain future work
+(`docs\AI-ANSWER-ARCHITECTURE.md:21-89`). A local Ask snapshot is not a deployed model or cloud request.
 
 ## Reading source citations
 
@@ -151,11 +152,11 @@ If any pair sounds equivalent, revisit the relevant boundary before changing the
 
 ## References
 
-- `README.md:1-50` — current product and qualification summary.
-- `docs\PRODUCT.md:6-29` — requirement and impossibility boundary.
+- `docs\OVERVIEW.md:8-52` — current product and qualification summary, moved from the visual front page.
+- `docs\PRODUCT.md:6-30` — requirement and impossibility boundary.
 - `AGENTS.md:14-43` — engineering distinctions and privacy rules.
 - `src\PhantomFudge.App\App.xaml.cs:13-58` — real startup paths.
 - `src\PhantomFudge.Core\AudioSource.cs:3-30` — source identity.
 - `src\PhantomFudge.Core\TranscriptBuffer.cs:6-97` — partial/final text representation.
 - `scripts\Run-PhantomFudge.ps1:17-41` — launch versus audio/service behavior.
-- `docs\AI-ANSWER-ARCHITECTURE.md:1-37` — planned, not implemented, answer extension.
+- `docs\AI-ANSWER-ARCHITECTURE.md:21-89` — planned, not implemented, answer extension.

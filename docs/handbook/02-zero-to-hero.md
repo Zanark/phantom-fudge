@@ -152,7 +152,7 @@ user action while an operation awaits I/O. Conversely, doing CPU recognition on 
 can prevent other requests from being handled. The server therefore uses a bounded worker
 for native recognition, while native startup is kept away from a blocked WPF dispatcher
 (`services\transcription\server.py:109-142`,
-`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:106-124`).
+`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:109-127`).
 
 Three questions prevent many mistakes:
 
@@ -185,7 +185,7 @@ the default suite (`tests\PhantomFudge.Audio.Tests\Program.cs:18-71`).
 The documentation command renders actual WPF controls with synthetic text/device labels. It is
 not a Snipping Tool workaround for capturing someone else's private window
 (`src\PhantomFudge.App\App.xaml.cs:31-36`,
-`scripts\Export-HandbookScreenshots.ps1:1-76`).
+`scripts\Export-HandbookScreenshots.ps1:1-80`).
 
 ## How to avoid learning the wrong lesson
 

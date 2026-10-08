@@ -14,6 +14,16 @@ public partial class MainWindow
     {
         if (!presenting)
             await TogglePresentationAsync();
+        AudioStatus.Text = "Stopped. Synthetic question fixture; no audio inputs are opened.";
+        var multilineExact = true;
+        foreach (var text in new[] { "First\nSecond", "First\rSecond", "First\r\nSecond" })
+        {
+            questionDraft.EditText(text);
+            RenderQuestionDraft();
+            QuestionAsk_Click(this, new RoutedEventArgs());
+            multilineExact &= QuestionEditor.Text == text && lastQuestionSnapshot?.ExactText == QuestionEditor.Text;
+        }
+        QuestionClear_Click(this, new RoutedEventArgs());
         var oldSession = questionTranscript.SessionId;
         var currentSession = Guid.Parse("11111111-2222-4333-8444-555555555555");
         transcript.BeginSession();
@@ -42,6 +52,8 @@ public partial class MainWindow
         var passiveSelection = QuestionSegments.SelectedItems.Count == 1 && GetForegroundWindow() == foreground
             && PassiveWindow && questionDraft.Text == micPartial.Text;
         var noImplicitAsk = questionSnapshotCount == snapshotsBefore && lastQuestionSnapshot is null;
+        QuestionScroll.ScrollToTop();
+        await RenderDiagnosticAsync(System.IO.Path.Combine(directory, "question-selection.png"));
         QuestionAsk_Click(this, new RoutedEventArgs());
         var frozen = lastQuestionSnapshot ?? throw new InvalidOperationException("Question snapshot was not created.");
         ReceiveTranscript(new TranscriptEvent("final", "Explain Service Fabric like I am five.", 3, 1, 2,
@@ -81,6 +93,20 @@ public partial class MainWindow
         await RenderDiagnosticAsync(System.IO.Path.Combine(directory, "question-harbordaylight.png"));
         ApplyTheme(UiTheme.DeepSeaFoam);
         var themePreserved = questionDraft.Text == beforeTheme;
+        var originalWidth = Width;
+        var originalHeight = Height;
+        Width = MinWidth;
+        Height = MinHeight;
+        UpdateLayout();
+        await Dispatcher.InvokeAsync(UpdateLayout, System.Windows.Threading.DispatcherPriority.Render);
+        var minimumLayout = Math.Abs(ActualWidth - MinWidth) < 1 && Math.Abs(ActualHeight - MinHeight) < 1 &&
+            TranscriptText.ActualHeight > 0 && QuestionScroll.ViewportHeight > 0 &&
+            QuestionPanel.TranslatePoint(new Point(0, QuestionPanel.ActualHeight), this).Y <=
+                NotesToggleButton.TranslatePoint(new Point(0, 0), this).Y &&
+            QuestionPanel.TranslatePoint(new Point(QuestionPanel.ActualWidth, 0), this).X <= ActualWidth;
+        Width = originalWidth;
+        Height = originalHeight;
+        UpdateLayout();
         var oldQuestionId = questionDraft.QuestionId;
         QuestionClear_Click(this, new RoutedEventArgs());
         var explicitClear = questionDraft.QuestionId != oldQuestionId && questionDraft.Text.Length == 0 &&
@@ -88,13 +114,13 @@ public partial class MainWindow
         var beforeEmpty = questionSnapshotCount;
         QuestionAsk_Click(this, new RoutedEventArgs());
         var emptyRejected = questionSnapshotCount == beforeEmpty;
-        var passed = passiveSelection && noImplicitAsk && frozenUnchanged && independentEditing && isolation &&
-            oversizedRejected && themePreserved && explicitClear && emptyRejected && !transcriber.IsRunning;
+        var passed = multilineExact && passiveSelection && noImplicitAsk && frozenUnchanged && independentEditing && isolation &&
+            oversizedRejected && themePreserved && minimumLayout && explicitClear && emptyRejected && !transcriber.IsRunning;
         if (!passed)
             throw new InvalidOperationException("Synthetic local question assertions failed: " +
-                System.Text.Json.JsonSerializer.Serialize(new { passiveSelection, noImplicitAsk, frozenUnchanged,
-                    independentEditing, isolation, oversizedRejected, themePreserved, explicitClear, emptyRejected }));
-        return new { passed, passiveSelection, noImplicitAsk, frozenUnchanged, independentEditing, isolation,
-            oversizedRejected, themePreserved, explicitClear, emptyRejected, cloudRequests = 0, recordingStarted = false };
+                System.Text.Json.JsonSerializer.Serialize(new { multilineExact, passiveSelection, noImplicitAsk, frozenUnchanged,
+                    independentEditing, isolation, oversizedRejected, themePreserved, minimumLayout, explicitClear, emptyRejected }));
+        return new { passed, multilineExact, passiveSelection, noImplicitAsk, frozenUnchanged, independentEditing, isolation,
+            oversizedRejected, themePreserved, minimumLayout, explicitClear, emptyRejected, cloudRequests = 0, recordingStarted = false };
     }
 }

@@ -23,8 +23,8 @@ capture proof rather than assuming a window can be universally undetectable.
 - Latest UX: transcript-first, Notes collapsed, passive default, fixed arrow and canonical themes.
   The owner's remote cursor-disappearance report is not yet independently reproduced/qualified.
 - New15:05 request is DEEP RESEARCH/design for explicit dictated-question -> streamed Azure answer.
-  Design27 is complete;28-35 implementation/qualification is NOT_STARTED.36/37 are optional extensions.
-  No Azure resource, sign-in, model request, upload or answer UI exists from this planning task.
+  Design27 and local draft/snapshot28 are complete;29-35 remain NOT_STARTED.36/37 are optional extensions.
+  Local Ask freezes only; no Azure resource, sign-in, model request, upload or cloud-answer UI exists.
 
 ## Next action
 
@@ -32,8 +32,8 @@ Use docs\PREVIEW-GUIDE.md for native C# plus Python operation without Docker. Ru
 are complete; remaining work is product/hardware/UX qualification and measured streaming improvement.
 Docker20 comes only after
 native release17 and does not block the app or its transcription feature.
-For the requested answer feature, start with28local structured question drafts and fake streaming,
-then29Mic commit plus30approved Azure connection. Read docs\AI-ANSWER-ARCHITECTURE.md first.
+The local28question slice is delivered. Next implement29Mic start/commit boundaries;30needs an approved
+Azure profile before31real sending. Read docs\AI-ANSWER-ARCHITECTURE.md and LOCAL-QUESTIONS.md first.
 
 ## Status values
 
@@ -77,7 +77,7 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 | 25 | 25_TRANSCRIPT_FIRST_THEMES.todo | IN_PROGRESS | Transcript-first and canonical themes |
 | 26 | 26_MICROPHONE_AND_COMPUTER.todo | IN_PROGRESS | Source-labelled Computer/Mic/Both |
 | 27 | 27_AI_ANSWER_RESEARCH.todo | DONE | A0 design only |
-| 28 | 28_QUESTION_DRAFTS.todo | IN_PROGRESS | A1 local source-scoped draft/snapshot implementation |
+| 28 | 28_QUESTION_DRAFTS.todo | DONE | A1 local selection/typed draft and immutable snapshot; no sending |
 | 29 | 29_QUESTION_COMMIT_LATENCY.todo | NOT_STARTED | A2 Mic commit, no stop-all |
 | 30 | 30_AZURE_ANSWER_CONNECTION.todo | NOT_STARTED | A3 approved identity/deployment |
 | 31 | 31_STREAMING_ANSWER_CLIENT.todo | NOT_STARTED | A4 direct streamed answer |

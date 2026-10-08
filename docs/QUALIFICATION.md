@@ -128,6 +128,7 @@ State this limit with every release result.
 | C16 | Transcript-first, Notes expand/collapse, all three themes | No data loss/HWND replacement/unprotected surface; actual captured frames remain qualified |
 | C17 | Computer/Mic/Both selection, denied mic, device loss and concurrent speech | No automatic capture/fallback; correct source labels, final drain and cleanup |
 | C18 | OS microphone privacy indicator and speaker echo | Indicator visibility/echo are recorded as external limits, not hidden or claimed eliminated |
+| C19 | Question selection, independent typing, local snapshot and unsaved exit | Same protected HWND, no unintended audio stop or extra context; repeat recipient/IME/clipboard boundaries |
 
 C15 is currently open for the owner's reported cursor disappearance. Record screen versus
 window/tab source, cursor-capture setting/backend and app version. A visible local cursor or

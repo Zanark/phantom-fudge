@@ -29,6 +29,17 @@ It captures the WPF visual tree with synthetic content/device labels, never the 
 opens capture endpoints nor starts speech. Do not run simultaneous .NET builds sharing `obj`.
 No existing owner app is closed; a timeout terminates only the fixture's own PID.
 
+The screenshot exporter also runs `Export-ReadmeImages.ps1`. It composites five verified synthetic
+renders onto their palette backgrounds so GitHub's light/dark page backgrounds do not wash out
+transparent UI text. Reuse current captures without opening the app with:
+
+```powershell
+.\scripts\Export-ReadmeImages.ps1
+```
+
+That Windows-only step uses System.Drawing, performs no recording, and records source/output hashes
+in `docs\assets\readme\manifest.json`. The full book freshness check also covers those derivatives.
+
 If Edge is installed outside the standard locations, set an absolute browser path in the same shell:
 
 ```powershell

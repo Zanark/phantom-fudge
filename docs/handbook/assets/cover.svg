@@ -29,7 +29,7 @@
     <text x="883" y="206" fill="#93A1A1" font-size="18">Independent tracks</text>
     <text x="883" y="231" fill="#93A1A1" font-size="18">Bounded state</text>
     <path d="M987 263V292" stroke="#586E75" stroke-width="2" stroke-dasharray="6 6"/>
-    <text x="867" y="324" fill="#EBE565" font-size="20">FUTURE: EXPLICIT ASK</text>
+    <text x="867" y="324" fill="#EBE565" font-size="20">FUTURE: AZURE ANSWER</text>
     <text x="867" y="350" fill="#839496" font-size="18">Designed, not deployed</text>
   </g>
 </svg>

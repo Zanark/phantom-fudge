@@ -4,6 +4,11 @@ The owner requested book-level documentation, maintained images and a developmen
 2026-10-08. Documentation is now part of feature delivery, not a one-off writing exercise.
 The contributor making a behavior change owns the corresponding documentation update.
 
+The root README is a visual front page: use current synthetic UI images, concise status and clear
+links. Keep setup detail, explanations, architecture and caveats in `OVERVIEW.md` and the dedicated
+guides, linked through `docs/README.md`. Retain a short capture-limit and local-only Ask notice on
+the front page; do not turn it back into a long technical document.
+
 ## Completion requirements
 
 1. Read the affected handbook chapters and primary contract before changing the implementation.
@@ -11,7 +16,7 @@ The contributor making a behavior change owns the corresponding documentation up
    in the same change. Do not describe a proposal as implemented.
 3. Update diagrams when ownership, data flow, state transitions or trust boundaries change.
 4. For UI/rendering/theme/source-selector changes, rerun the synthetic documentation fixture and
-   review its nine images. Regenerate no real user content. New UI surfaces need matching fixtures.
+   review every exported image. Regenerate no real user content. New UI surfaces need matching fixtures.
 5. Append a dated milestone to root `JOURNAL.md` and the development ledger for significant decisions,
    implementations, regressions or new evidence. Routine wording fixes need not fabricate a milestone.
 6. Update the relevant TODO evidence and index. Keep blocked qualification distinct from completed code.
@@ -76,6 +81,9 @@ The final freshness check explicitly rejects an HTML-only manifest.
   rendering the app internally proves Windows or a remote sharing recipient cannot capture it.
 - Preserve provenance: source hashes, image hashes, dimensions and the no-recording declaration.
   If appearance changed, rerender; do not merely rewrite an old hash.
+- README derivatives live in `docs/assets/readme`. `Export-ReadmeImages.ps1` composites only the
+  approved synthetic source images over their palette backgrounds and records both hashes.
+  The screenshot exporter invokes it automatically; run it alone when reusing unchanged captures.
 - Do not use live microphone/playback tests, desktop capture, chat scraping or cloud uploads to
   generate documentation. Screenshots of a future answer pane must use fake streams.
 

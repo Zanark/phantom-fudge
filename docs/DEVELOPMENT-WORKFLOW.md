@@ -75,8 +75,8 @@ Those alternatives change the product contract and require approval.
 
 ### Planned explicit AI-answer extension
 
-Research27 is DONE only for design. Implement28structured local question drafts and fake streams
-first; then29source-scoped Mic commit and30approved Azure identity/deployment profile.31adds the
+Research27 is DONE for design;28now supplies the local draft/snapshot slice, without cloud sending.
+Continue29source-scoped Mic commit and30approved Azure identity/deployment profile.31adds the
 direct streaming adapter,32the protected answer pane,33quality/latency measurement and34failure/
 privacy gates.35qualifies the exact packaged answer feature before final native acceptance17.
 36Azure Speech and37enterprise broker remain optional/conditional. Docker20 still comes last.

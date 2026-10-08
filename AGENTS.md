@@ -38,8 +38,8 @@ Do not invent build commands, passing tests, compatibility results, or user appr
   No cloud fallback or automatic audio capture. Starting the idle service is not starting capture.
 - Preserve normal accessibility in Edit mode. Do not fake privacy by breaking assistive technology.
 - Any rendering, popup, native-window, or framework upgrade can invalidate capture evidence.
-- AI-answer docs/TODOs27-37 are researched plans, not implemented capabilities. Do not provision Azure,
-  sign in, upload audio/questions, or invoke a model merely to resume this design. Explicit Ask must
+- TODO28's local draft/snapshot slice is implemented; cloud/commit TODOs29-37 remain planned. Do not provision Azure,
+  sign in, upload audio/questions, or invoke a model merely to resume. Explicit Ask must
   freeze selected text; no automatic full-meeting prompt, chat reading or implicit cloud-ASR fallback.
 
 ## Tracking and handoff
@@ -81,3 +81,16 @@ Use synthetic PCM for dual-source integration. Playback testing requires explici
 - Review changed rendered pages and illustrations. Hash/range checks cannot establish semantic accuracy.
   Keep new/changed `.ps1` scripts byte-identical to their `.txt` twins.
 - Follow `TODO\WORKFLOWS\06_LIVING_DOCUMENTATION.todo`; this obligation continues after workstream38.
+- Keep the root README image-first and concise. Put setup/explanations in docs\OVERVIEW.md and
+  focused guides; link them through docs\README.md. Preserve brief local-Ask/capture-limit wording.
+  Refresh theme-safe README image derivatives with scripts\Export-ReadmeImages.ps1 after UI image changes.
+
+## Local question boundaries
+
+- The current Ask action freezes a local snapshot only; no provider or outbound request is connected.
+- Preserve GUID-stamped capture callbacks, structured source identity and exact displayed-text snapshots.
+  Never parse display labels or automatically add unselected segments/notes/chat context.
+- Question typing has an independent focus transition; do not route it through global Notes Edit,
+  which stops audio. Both remain protected by the same window policy, with deliberate typing focus.
+- Accurate armed-Mic spans require29commit. SourceRefs are local provenance; a future Azure request
+  must use ExactText, not serialize the entire snapshot and its original selected text.

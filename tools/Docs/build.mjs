@@ -191,14 +191,24 @@ async function loadBook() {
     if (hash(bytes) !== image.sha256) throw new Error(`Screenshot hash mismatch: ${image.file}`);
     inputs.set(relative(file), image.sha256);
   }
+  const readmeImages = JSON.parse(await record(path.join(root, 'docs', 'assets', 'readme', 'manifest.json')));
+  for (const image of readmeImages.images) {
+    for (const [file, expected] of [[image.source, image.sourceSha256], [image.file, image.sha256]]) {
+      const bytes = await fs.readFile(await publicRealPath(safeRepoPath(root, file)));
+      if (hash(bytes) !== expected)
+        throw new Error(`README image is stale: ${file}; run Export-ReadmeImages.ps1.`);
+      inputs.set(file, expected);
+    }
+  }
   for (const file of ['book.json', 'catalogue.json', 'assets/cover.svg'])
     await record(path.join(bookRoot, file));
   for (const file of ['build.mjs', 'handbook.css', 'package.json', 'package-lock.json', 'test-docs.mjs', 'README.md'])
     await record(path.join(here, file));
   for (const file of ['AGENTS.md', 'README.md', 'JOURNAL.md', 'docs/README.md',
-    'docs/handbook/README.md', 'docs/DOCUMENTATION-MAINTENANCE.md',
+    'docs/handbook/README.md', 'docs/DOCUMENTATION-MAINTENANCE.md', 'docs/LOCAL-QUESTIONS.md', 'docs/OVERVIEW.md',
     'scripts/Build-Handbook.ps1', 'scripts/Build-Handbook.txt',
     'scripts/Export-HandbookScreenshots.ps1', 'scripts/Export-HandbookScreenshots.txt',
+    'scripts/Export-ReadmeImages.ps1', 'scripts/Export-ReadmeImages.txt',
     'TODO/38_LIVING_DOCUMENTATION.todo', 'TODO/WORKFLOWS/06_LIVING_DOCUMENTATION.todo'])
     await record(safeRepoPath(root, file));
   return { config, pages, inputs: Object.fromEntries([...inputs].sort(([a], [b]) => a.localeCompare(b))) };
@@ -299,7 +309,7 @@ async function makeHtml(book) {
     `<header class="cover"><div class="edition">Engineering edition ${escape(book.config.edition)}</div>` +
     `<img src="assets/cover.svg" alt="Original diagrammatic handbook cover">` +
     `<h1>${escape(book.config.title)}</h1><p>${escape(book.config.subtitle)}</p>` +
-    '<p>Implemented local preview. Measured evidence is bounded. Azure Ask is planned, not deployed.</p></header>' +
+    '<p>Implemented local preview and question snapshots. Measured evidence is bounded. Azure answers are not connected.</p></header>' +
     '<div class="status">This book distinguishes implemented behavior, measured observations, proposals and unknowns. ' +
     'No universal screen-capture or cursor invisibility is promised. Documentation images use synthetic content.</div>' +
     `<h2 id="contents">Contents</h2><nav class="toc">${book.pages.map(page =>

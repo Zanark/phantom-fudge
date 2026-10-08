@@ -40,7 +40,7 @@ transcript does not silently erase the separately copied draft.
 
 ## Bounds and deliberate actions
 
-- The question limit is8192characters. Empty/whitespace-only Ask is rejected. Oversized selection,
+- The question limit is8192 UTF-16 code units (`string.Length` in .NET), not model tokens or visual grapheme clusters. Empty/whitespace-only Ask is rejected. Oversized selection,
   typing, paste or automatic revision is rejected atomically; the app does not silently truncate.
 - Structured history is bounded to256segments and64000characters, separate from the unchanged
   display/export transcript limit. Source epochs are locally labelled0 for current v2; this is not

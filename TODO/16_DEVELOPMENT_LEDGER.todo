@@ -91,3 +91,11 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
 - 2026-10-08 - Book38 completed locally:22chapters + public JOURNAL,47diagrams,9synthetic UI images,
   approximately37000words and183PDF pages. Full HTML/PDF source/artifact receipt is handbook\manifest.json.
   Print readability and1440/768/390reader layouts reviewed; maintenance is part of every future feature.
+- 2026-10-08 17:37 request - Offloaded the completed book, then implemented28local source-scoped question drafts,
+  independent protected editing and immutable local Ask snapshots. Core137/native46 and synthetic
+  source/exact-package UI pass; first foreground assertion failure retained without an invented cause.
+  New183107ZIP hash C5062B6B94F3ABC63901960F1572F1A9141EA128C2CA513E6D26C4C5C3FAB27A.
+  No real endpoint/chat access, model call, Azure action, upload or owner-app interruption.29commit next.
+- 2026-10-08 19:43 request - Root README changed to an image-first showcase. Setup/product/capture
+  explanations moved to docs\OVERVIEW.md and the docs index. Added opaque, provenance-backed derivatives
+  of existing synthetic UI images for GitHub readability. No app/source-feature change or upload.

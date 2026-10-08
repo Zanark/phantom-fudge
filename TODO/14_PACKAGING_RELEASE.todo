@@ -31,6 +31,12 @@ Produce the exact installable/runnable candidate that final qualification will t
 
 ## Completion evidence
 
+- Latest local-only question preview183107:76,205,175bytes/486files, SHA256
+  C5062B6B94F3ABC63901960F1572F1A9141EA128C2CA513E6D26C4C5C3FAB27A.
+  Exact-package synthetic UI passes with no recording/model request, including multiline/minimum-size
+  question cases. Adds LOCAL-QUESTIONS guide; no private context/token/audio/debug symbols in archive.
+  This does not close capture/owner/clean-machine/answer release gates. Earlier candidates follow.
+
 - Latest dual-source bundle145231:485files/76184066bytes,
   SHA256BC89867277F3E8C8BAA179BE74B7F517A98D6E09CBE35534AFB21E12E127C846.
   Packaged UI mode/source/stop guards pass; real hardware mic/echo/capture qualification remains open.

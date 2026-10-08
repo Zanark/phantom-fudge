@@ -1,90 +1,42 @@
 # Phantom Fudge
 
-A local transcription-first development preview for Windows 11: a movable, resizable
-surface with a large live transcript and collapsed speaker notes, no ordinary taskbar/Alt-Tab
-entry, and Windows capture exclusion requested for its contents.
+**Local transcription. Speaker notes. Questions under your control.**
 
-**Status: native development preview implemented; full meeting compatibility is not yet qualified.**
+[Get started](docs/PREVIEW-GUIDE.md) · [Overview](docs/OVERVIEW.md) · [Docs](docs/README.md) · [Roadmap](TODO/00_INDEX.todo)
 
-**Planned next: Ask AI.** Deep research/design is complete for explicitly sending a chosen
-dictated question to an Azure model and streaming its answer. This feature is **not implemented**,
-and the current app does not upload audio/questions to Azure. Start with
-[the proposed architecture](docs/AI-ANSWER-ARCHITECTURE.md) and new TODOs27-37.
+> Windows 11 preview. Capture exclusion is not universal. **Ask is local-only; Azure answers are not connected.**
 
-Includes a plain-text editor, hide/relaunch recovery, Edit/Present modes, and **live transcription
-from Computer audio, Microphone dictation, or Both**. Inputs are selected explicitly and remain
-stopped until Start. **C# handles the window and WASAPI capture; Python recognizes separate
-source-labelled tracks locally.** No chat reading or cloud speech fallback is used.
-Docker is not required. The same headless Python service can be containerized later.
+## Your conversation workspace
 
-The **Background** slider adjusts translucency from10% to100% (default55%) while keeping note
-and transcript text solid. Lower it to see the actual content behind the window.
-The sun/moon button switches **DeepSeaFoam / Harbor Daylight**; **Plain B/W** restores the neutral
-view. The default transcript view is non-activating with an arrow cursor; use **Edit** for typing.
+<p align="center">
+  <a href="docs/assets/readme/transcript.png"><img src="docs/assets/readme/transcript.png" width="47%" alt="Transcript-first DeepSeaFoam interface with separate Computer and Mic text"></a>
+  <a href="docs/assets/readme/question.png"><img src="docs/assets/readme/question.png" width="47%" alt="Editable local question and immutable snapshot; nothing sent to Azure"></a>
+</p>
 
-Start with the [preview guide](docs/PREVIEW-GUIDE.md). From PowerShell 7 in this repository:
+**Computer + Mic** → **choose your text** → **freeze a local question**
 
-```powershell
-.\scripts\Initialize-Transcription.ps1 -DownloadModel
-.\scripts\Run-PhantomFudge.ps1
-```
+[Transcription](docs/DUAL-SOURCE-AUDIO.md) · [Question composer](docs/LOCAL-QUESTIONS.md) · [Controls and limits](docs/OVERVIEW.md)
 
-Setup creates a service-local Python environment and explicitly downloads the model if needed.
-The app launcher starts/reuses native Python automatically; audio still requires an explicit Start
-inside the app. Use `-NotesOnly` to launch without the service. Stop the idle service with
-`.\scripts\Stop-Transcription.ps1`. No Docker installation or cloud account is needed.
+## Three looks. One workspace.
 
-Docker recipes are retained as **optional final-stage packaging**, after the native app is complete.
-They are not on the transcription or native-release critical path. Model setup downloads public
-dependencies/weights; meeting audio is never uploaded.
+<p align="center">
+  <a href="docs/assets/readme/deepseafoam.png"><img src="docs/assets/readme/deepseafoam.png" width="31%" alt="DeepSeaFoam dark theme"></a>
+  <a href="docs/assets/readme/harbor-daylight.png"><img src="docs/assets/readme/harbor-daylight.png" width="31%" alt="Harbor Daylight light theme"></a>
+  <a href="docs/assets/readme/plain.png"><img src="docs/assets/readme/plain.png" width="31%" alt="Plain B/W neutral theme"></a>
+</p>
 
-Windows supports `SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE)` for supported capture
-paths. It does **not** guarantee exclusion from every recorder, hide a running process,
-or necessarily remove a window from a sharing picker. Phantom Fudge will still be a real
-application and window. Never rely on it as a security boundary.
-The owner's recipient-side cursor-disappearance report remains unqualified in its actual
-sharing mode; local arrow/focus changes cannot guarantee every recorder's cursor behavior.
+**DeepSeaFoam** · **Harbor Daylight** · **Plain B/W**
 
-The approved target is **Windows 11 first**, qualifying **Teams, Zoom, Google Meet, and OBS**
-separately. None has been qualified with this application yet. Synthetic local Windows capture
-and local output-loopback recognition evidence do not substitute for those product results.
+[Themes and translucency](docs/CURSOR-AND-THEMES.md)
 
-## Start here
+## Under the hood
 
-| Document | Purpose |
-| --- | --- |
-| [TODO index](TODO/00_INDEX.todo) | Workstreams, statuses, dependencies, and the next task |
-| [Feasibility research](docs/FEASIBILITY.md) | Sources, technical limits, alternatives, and unanswered experiments |
-| [Product contract](docs/PRODUCT.md) | Requested behavior, proposed defaults, and explicit non-goals |
-| [Architecture](docs/ARCHITECTURE.md) | Proposed components, HWND lifecycle, and failure behavior |
-| [Development workflow](docs/DEVELOPMENT-WORKFLOW.md) | Proof-first delivery sequence and completion gates |
-| [Qualification matrix](docs/QUALIFICATION.md) | Exact capture scenarios, controls, and evidence requirements |
-| [TODO conventions](docs/TODO-CONVENTIONS.md) | The evidence-backed catalogue format |
-| [Required transcription](docs/TRANSCRIPTION.md) | C# output capture, native Python recognition, local protocol and later packaging |
-| [Local speech service](services/transcription/README.md) | Model setup, service operations and exact current evidence |
-| [Implementation evidence](docs/IMPLEMENTATION-STATUS.md) | Implemented scope and remaining release gates |
-| [Speech-engine comparison](docs/SPEECH-BENCHMARK.md) | Measured offline SAPI/Vosk/Whisper speed and word-error rates |
-| [Cursor and themes](docs/CURSOR-AND-THEMES.md) | Transcript-first controls, canonical palette provenance and cursor limitations |
-| [Computer + microphone](docs/DUAL-SOURCE-AUDIO.md) | Input modes, separate source tracks, v2 protocol and microphone boundaries |
-| [AI answer research](docs/AI-ANSWER-RESEARCH.md) | Current Azure/ASR sources, model lifecycle and design decisions |
-| [AI answer architecture](docs/AI-ANSWER-ARCHITECTURE.md) | Explicit draft/Ask, source commit, streaming and cancellation |
-| [Azure data/identity boundary](docs/AI-ANSWER-PRIVACY.md) | Selected-text egress, keyless auth and retention limits |
-| [Answer latency evaluation](docs/AI-ANSWER-EVALUATION.md) | Proposed budgets and controlled quality/latency experiments |
+[![One native window, separate Computer and Mic tracks, local recognition, and a planned Azure answer boundary](docs/handbook/assets/cover.svg)](docs/OVERVIEW.md)
 
-**Implementation:** C# / WPF on .NET 10 LTS, NAudio render-endpoint loopback, and a local
-Python/Vosk streaming service. Keep private notes, transcripts, models and local tokens out of Git.
+| Use it | Understand it | Build it |
+| --- | --- | --- |
+| [Setup and recovery](docs/PREVIEW-GUIDE.md) | [Product overview](docs/OVERVIEW.md) | [Architecture](docs/ARCHITECTURE.md) |
+| [Local questions](docs/LOCAL-QUESTIONS.md) | [Capture boundaries](docs/handbook/17-privacy-and-assurance.md) | [Implementation status](docs/IMPLEMENTATION-STATUS.md) |
+| [Speech service](services/transcription/README.md) | [HTML handbook](docs/handbook/Phantom-Fudge-Engineering-Handbook.html) · [PDF](docs/handbook/Phantom-Fudge-Engineering-Handbook.pdf) | [Development JOURNAL](JOURNAL.md) |
 
-If required capture paths fail, narrow the supported claim or use a dedicated unshared
-display/device or presentation-window sharing. Do not substitute an invisibility promise.
-
-## Engineering book and development journal
-
-The [illustrated Engineering Handbook](docs/handbook/README.md) covers the system from first
-principles through native capture, dual-source speech, failure recovery, measured benchmarks and
-the proposed Azure answer flow. Read the [offline HTML edition](docs/handbook/Phantom-Fudge-Engineering-Handbook.html)
-or [printable PDF](docs/handbook/Phantom-Fudge-Engineering-Handbook.pdf).
-
-The [public JOURNAL](JOURNAL.md) records the journey, including corrected decisions and remaining
-unknowns. [Documentation maintenance](docs/DOCUMENTATION-MAINTENANCE.md) is part of every feature:
-update the book, diagrams, synthetic UI images and significant journal entries with the implementation.
-See [all documentation](docs/README.md) for the shorter operational guides.
+*Synthetic WPF renders, composited for readability—not meeting captures. Click to enlarge. [Image provenance](docs/assets/readme/manifest.json).*

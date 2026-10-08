@@ -26,7 +26,7 @@ The future Azure answer chapters are deliberately marked **planned**, not disgui
 ## Illustrations and provenance
 
 `assets/diagrams` contains generated SVGs, their editable Mermaid sources and rendering receipts.
-`assets/screenshots` contains nine actual WPF visual-tree images rendered with synthetic notes,
+`assets/screenshots` contains actual WPF visual-tree images rendered with synthetic notes,
 transcripts and device labels. Its [manifest](assets/screenshots/manifest.json) records image and UI
 source hashes. These are not desktop captures or evidence that a meeting recorder excludes the app.
 The cover is original schematic artwork.

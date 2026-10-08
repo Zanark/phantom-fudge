@@ -1,6 +1,6 @@
 # Source-Scoped Question Drafts and Immutable Ask
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: A1 Local question state
 Dependencies: 27_AI_ANSWER_RESEARCH.todo
 
@@ -10,28 +10,39 @@ Choose a dictated or typed question without accidentally sending the rest of a m
 
 ## Tasks
 
-- [ ] Add a bounded structured transcript store with capture-session/source/segment/epoch/revision identity.
-- [ ] Preserve existing source-labelled display/export and all prior transcript tests.
-- [ ] Build an editable local QuestionDraft from explicit selected segments, an armed Mic span or typed text.
-- [ ] Do not infer provenance by parsing rendered `[Mic]` labels or copy the entire transcript.
-- [ ] Freeze exactly the displayed draft/revision on Ask, including its provisional/final provenance.
-- [ ] Define empty/oversized input, multi-segment questions, user edits and late ASR revision behavior.
-- [ ] Keep Computer text out of a Mic draft unless the owner explicitly selects it.
-- [ ] Add deterministic source/session/revision/cancel/eviction tests with synthetic data.
+- [x] Add a bounded structured transcript store with capture-session/source/segment/epoch/revision identity.
+- [x] Preserve existing source-labelled display/export and all prior transcript tests.
+- [x] Build an editable local QuestionDraft from explicit selected segments or typed text; armed live-Mic boundaries integrate with29commit.
+- [x] Do not infer provenance by parsing rendered `[Mic]` labels or copy the entire transcript.
+- [x] Freeze exactly the displayed draft/revision on Ask, including its provisional/final provenance.
+- [x] Define empty/oversized input, multi-segment questions, user edits and late ASR revision behavior.
+- [x] Keep Computer text out of a Mic draft unless the owner explicitly selects it.
+- [x] Add deterministic source/session/revision/cancel/eviction tests with synthetic data.
 
 ## Acceptance criteria
 
-- [ ] Only explicit Ask creates an outbound request; natural finals/question marks never auto-send.
-- [ ] Submitted snapshots are immutable; later transcript text cannot rewrite or resend them.
-- [ ] Prior unrelated Mic text and all unselected Computer/notes/chat data stay out of the prompt.
-- [ ] No new recording-permission or recipient-rehearsal confirmation is introduced.
+- [x] Only explicit Ask creates a snapshot; no provider is connected in this local slice and natural finals/question marks never auto-send.
+- [x] Frozen snapshots are immutable; later transcript text cannot rewrite or resend them.
+- [x] Prior unrelated Mic text and all unselected Computer/notes/chat data stay out of the prompt.
+- [x] No new recording-permission or recipient-rehearsal confirmation is introduced.
 
 ## Completion evidence
 
 - 2026-10-08 17:37 owner authorized the next ready implementation after the book offload.
-- Local structured selection/typed drafts and immutable snapshots are being implemented; no Azure calls.
+- Four Core types plus independent inline WPF composer and local GUID-stamped capture events implemented.
+-137Core tests pass (96new/41legacy);46native synthetic groups pass including v1/v2 generated/caller session IDs.
+- Synthetic UI covers source isolation, passive selection, independent question editing, frozen revisions,
+  exact LF/CR/CRLF text, oversized/empty rejection, themes, clear and470x560minimum layout; no inputs opened.
+- Exact packaged UI passes. ZIP183107:76,205,175bytes/486files,
+  SHA256 C5062B6B94F3ABC63901960F1572F1A9141EA128C2CA513E6D26C4C5C3FAB27A.
+- First source UI attempt failed its existing foreground-preservation check; identical-source repeat and
+  later source/package runs passed. Cause unestablished; recipient/startup qualification remains open.
+- Read-only review reported no significant defects. No Azure provider/authentication/fake model response.
 - Armed live-Mic start/end boundaries depend on negotiated commit29; do not pretend v2 partial text provides sample-exact cuts.
 
 ## Completion log
 
 - 2026-10-08 - Planned as the first local implementation slice.
+- 2026-10-08 - Delivered the safe selected/typed local slice after the requested context-offload. Armed dictation is
+  correctly deferred to29's start/commit boundary rather than inferred from v2 partial text. Real egress
+  requires30/31; the current Ask label/status explicitly says local snapshot only. No upload/publication.

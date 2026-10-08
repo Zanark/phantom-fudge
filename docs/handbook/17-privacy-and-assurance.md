@@ -15,7 +15,7 @@ description: "A bounded threat and evidence model for local audio, window exclus
 "Private" can mean that notes are absent from a recipient's frames, audio stays local, a token
 is not logged, a file is encrypted, or a process is not listed. Those are different properties.
 The current product explicitly does not promise process invisibility or a security/DRM boundary
-(`docs\PRODUCT.md:125-140`).
+(`docs\PRODUCT.md:130-145`).
 
 The first useful threat-model step is therefore to state what is controlled. The app owns
 its HWND and can request display affinity. It owns the selected capture objects and can require
@@ -128,6 +128,14 @@ a different scope. No single green test count can replace the others.
 
 ## The planned Azure boundary
 
+The local question implementation does not cross that boundary. It copies only explicitly selected
+structured segments or typed text, and freezes the displayed draft on explicit Ask. Source references
+stay local, including original text that may differ after editing. A future provider must use
+`ExactText` as its question payload; serializing the complete snapshot would defeat that separation.
+No provider or authentication client is currently connected to the composer.
+(`src\PhantomFudge.Core\QuestionDraft.cs:18-95`;
+`src\PhantomFudge.Core\QuestionSnapshot.cs:5-23`; [local guide](../LOCAL-QUESTIONS.md).)
+
 The future Ask design intentionally sends a chosen immutable question, not the whole transcript.
 Cloud audio is optional and separately configured. Model text is displayed as data, not executed
 as code or used to choose tools/URLs. The desktop is a public client and must not contain a
@@ -148,7 +156,7 @@ only; no deployed identity/profile or cloud latency result exists.
 
 ## References
 
-- `docs\PRODUCT.md:125-140` — privacy scope.
+- `docs\PRODUCT.md:130-145` — privacy scope.
 - `src\PhantomFudge.App\Native\WindowProtection.cs:18-45` — owned-window policy.
 - `src\PhantomFudge.App\Native\CursorPolicy.cs:1-25` — standard cursor behavior.
 - `src\PhantomFudge.App\LocalFailureNotice.cs:1-30` — generic local error notice.

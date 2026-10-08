@@ -22,7 +22,7 @@ The source enum assigns different wire identities to Computer and Microphone
 (`src\PhantomFudge.Core\AudioSource.cs:3-22`). The transcript store holds separate partials,
 but final IDs are session-global (`src\PhantomFudge.Core\TranscriptBuffer.cs:9-18`,
 `src\PhantomFudge.Core\TranscriptBuffer.cs:48-72`). The native adapter separately protects its lifecycle and invalidates queued starts
-when Stop is requested (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:71-152,182-189`).
+when Stop is requested (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:71-155,185-192`).
 These are concrete mechanisms, not an assumed generic event-driven architecture.
 
 ### The insight in a different language
@@ -170,7 +170,7 @@ OBS path. The qualification matrix keeps these observations separate
 Azure Ask currently exists in design documents and TODOs. A principal-level diagram should not
 quietly insert an operational cloud box into the implemented path. The planned architecture
 requires immutable question snapshots, source-scoped commit and request-bound streaming; none
-is implied by the current text buffer (`docs\AI-ANSWER-ARCHITECTURE.md:1-37`).
+is implied by the current text buffer (`docs\AI-ANSWER-ARCHITECTURE.md:21-89`).
 
 ## Where to go deep
 
@@ -196,7 +196,7 @@ the coordinator not start a new logical session until the old completion boundar
 - `src\PhantomFudge.Core\AudioSource.cs:3-30` — source identity.
 - `src\PhantomFudge.Core\TranscriptBuffer.cs:6-97` — source partials and session-global IDs.
 - `src\PhantomFudge.Core\NoteFileStore.cs:6-91` — bounded local file behavior.
-- `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:71-189` — native lifecycle ownership.
+- `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:71-192` — native lifecycle ownership.
 - `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:11-71` — transport state/bounds.
 - `services\transcription\server.py:235-338` — source queue and completion.
 - `services\transcription\manage.py:112-144` — authenticated process ownership.

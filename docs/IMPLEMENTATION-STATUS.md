@@ -2,11 +2,11 @@
 
 **Local development preview, not a qualified/public release.**
 
-The later15:05 Ask-AI request is **research/planning only**. Four AI-answer design documents,
-TODOs27-37 and workflows04/05 are added, but there is no implemented question composer,
-source-commit control, Azure auth/client, Ask button or streamed-answer pane. No cloud latency
-result, model deployment, account lookup or data upload exists from that research task.
-The current runnable application/package below is unchanged.
+The15:05 research is followed by the17:37 implementation authorization. **TODO28 is now local code**:
+structured question selection/typing and immutable Ask snapshots exist. **Ask sends nothing yet**.
+Source commit, Azure auth/client and streamed answers remain future work. No cloud latency result,
+model deployment, account lookup or data upload occurred. See LOCAL-QUESTIONS.md and the latest
+question-preview receipt at the end; older packages below remain historical, not overwritten.
 
 Latest14:01 input extension: Computer, Mic or Both after explicit Start. The owner's request
 supersedes the original never-microphone product scope. Separate WASAPI tracks, source-prefixed v2
@@ -14,7 +14,7 @@ transport and independent Python/Vosk decoders produce labelled finals and indep
 No chat access or speaker-identity inference exists. OS mic indicators/echo remain external limits.
 See DUAL-SOURCE-AUDIO.md. Development checks opened no real mic/render endpoint and played no audio.
 
-Current source evidence: Core41tests, native46synthetic groups, backend71tests and4manager-upgrade
+Earlier dual-source evidence: Core41tests, native46synthetic groups, backend71tests and4manager-upgrade
 guards pass. Real generated dual PCM through Python yielded Computer11/Mic8partials and3finals each,
 correct keywords/source separation and tail drain. Actual C#v2->Python yielded Computer13/Mic10partials
 and2finals each with expected phrases. These prove protocol/model integration, not physical mic,
@@ -24,7 +24,7 @@ A review-found stop/restart race was fixed: Start/mode/clear stay blocked throug
 draining, preventing late old-session IDs from discarding new-session text. Synthetic UI regression
 also covers modes, both passive device selectors, source labels, themes and prior note safeguards.
 
-Current dual-source bundle:
+Earlier dual-source bundle:
 `artifacts\phantom-fudge-0.1.0-preview-win-x64-20261008-145231.zip`,
 76,184,066bytes/485files, SHA256
 `BC89867277F3E8C8BAA179BE74B7F517A98D6E09CBE35534AFB21E12E127C846`.
@@ -171,3 +171,29 @@ The documentation-only `--documentation-screenshots` fixture renders actual WPF 
 synthetic text/device labels, without starting capture. Its images are not desktop screenshots or
 capture-exclusion evidence. The current preview ZIP above was not replaced for this documentation task.
 Edition provenance/counts live in `handbook\manifest.json`; maintenance is required by workflow06.
+
+## Latest implementation: local questions (owner17:37)
+
+Four Core types supply structured source/session/utterance/revision identity, bounded history,
+selected/typed8192-character drafts, user-edit detachment and immutable deep snapshot copies.
+Native events carry a per-Start local GUID before dispatch, rejecting stale callbacks without changing
+v1/v2 wire schemas. Legacy transcript display/export is unchanged.
+
+The inline Question panel defaults to Mic filtering, requires explicit row selection/Use selected,
+and permits separate question typing without stopping audio or enabling notes editing. Ask freezes
+exact displayed text locally; no provider/network is connected. Copy/Clear and unsaved-exit handling
+are explicit. Armed live-Mic source boundaries await29commit; approved Azure connection30 precedes31.
+
+Current evidence:137Core tests (96new +41existing),46native synthetic groups, and source/exact-package
+UI checks pass. UI covers source/session isolation, no implicit Ask, frozen partial/final revisions,
+LF/CR/CRLF fidelity, oversize/empty rejection, typing independence, theme preservation, clear and
+470x560layout. No real input endpoint was opened. The first source UI run failed its preexisting
+foreground-preservation assertion; an identical-source repeat and later runs passed. The cause was
+not established; no remote cursor, first-frame or owner acceptance is inferred.
+
+Latest local ZIP: `artifacts\phantom-fudge-0.1.0-preview-win-x64-20261008-183107.zip`,
+76,205,175bytes/486files, SHA256
+`C5062B6B94F3ABC63901960F1572F1A9141EA128C2CA513E6D26C4C5C3FAB27A`.
+Packaged synthetic evidence: `.local\packaged-question-ui\result.json`. Twelve source-generated UI
+images are maintained with provenance; they are not desktop/meeting captures. Existing owner
+processes/services were not stopped. No upload, publication, Azure operation or real meeting access.

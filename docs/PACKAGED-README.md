@@ -41,10 +41,14 @@ is active. A process owned by another launcher/workspace is not terminated.
 - Windows microphone indicators may be visible outside this app's window-exclusion setting.
 - Permission and recipient checks are your external workflow; the app does not ask again.
 - Save notes/export transcripts explicitly. There is no crash recovery or audio-file recording.
-- Hiding, mode/session/power changes stop transcription; start again deliberately.
+- Hiding, global Notes mode/session/power changes stop transcription; start again deliberately.
+- Question opens a local composer: explicit segments or typed text, then Ask as shown freezes a snapshot.
+- No Azure answers are connected; Ask sends nothing. Type / edit for the question does not stop audio.
+- Copy/Clear question text deliberately; questions stay memory-only and are included in unsaved-exit safeguards.
 
 See [preview usage](docs/PREVIEW-GUIDE.md) and [transcription design](docs/TRANSCRIPTION.md).
 See [cursor and theme details](docs/CURSOR-AND-THEMES.md) for exact limits and palette sources.
+See [local question drafts](docs/LOCAL-QUESTIONS.md) for source selection, editing and exact snapshot boundaries.
 Development/test commands in those documents require the source checkout, not just this bundle.
 Optional Docker recipes and the engine benchmark are source-checkout tools for later work;
 this bundle is the native runtime, not a container distribution or certified public release.

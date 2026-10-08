@@ -27,7 +27,7 @@ $names = @(
     'transcript-deepseafoam.png', 'theme-DeepSeaFoam.png', 'theme-HarborDaylight.png',
     'theme-Plain.png', 'audio-setup.png', 'notes-expanded.png',
     'background-10.png', 'background-100.png', 'present.png',
-    'question-draft.png', 'question-harbordaylight.png'
+    'question-selection.png', 'question-draft.png', 'question-harbordaylight.png'
 )
 $images = @()
 foreach ($name in $names) {
@@ -78,3 +78,4 @@ $manifest = [ordered]@{
 }
 $manifest | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $destination 'manifest.json') -Encoding utf8
 Write-Output ("Imported {0} synthetic application images with provenance." -f $images.Count)
+& (Join-Path $PSScriptRoot 'Export-ReadmeImages.ps1')

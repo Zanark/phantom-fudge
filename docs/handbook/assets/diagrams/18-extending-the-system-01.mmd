@@ -7,7 +7,7 @@ config:
 ---
 flowchart TB
     accTitle: Existing extension surfaces along the audio path
-    accDescr: A source change crosses selection, capture, transport, service, events, and UI; tests and policy review span the path.
+    accDescr: Typed events feed both display text and structured local questions. Explicit selection and Ask lead to a local snapshot, while tests and privacy review span every extension surface.
     Source["Source identity"] --> Capture["WASAPI owner"]
     Capture --> Socket["Bounded socket"]
     Socket --> Service["Service schema"]
@@ -15,6 +15,10 @@ flowchart TB
     Decoder --> Event["Typed event"]
     Event --> Buffer["Transcript buffer"]
     Buffer --> UI["Protected UI"]
+    Event --> Store["Structured store"]
+    Store -->|Explicit selection| Draft["Local draft"]
+    Draft -->|Manual Ask| Frozen["Local Freeze"]
+    Frozen --> UI
     Tests["Synthetic tests"] -.-> Socket
     Tests -.-> Decoder
     Policy["Privacy and docs"] -.-> Source
@@ -26,6 +30,9 @@ flowchart TB
     style Decoder fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Event fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Buffer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Store fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Draft fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Frozen fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style UI fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Tests fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Policy fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

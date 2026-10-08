@@ -124,7 +124,7 @@ That notice is diagnostic data, not saved notes.
 Check the selected input mode, every requested device, local token, model and service version.
 In Both mode, a missing microphone must not silently become Computer-only. The native adapter
 validates selection and waits for protocol readiness before opening inputs
-(`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:71-152`).
+(`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:71-155`).
 
 ### Nothing is transcribed
 

@@ -37,8 +37,9 @@ flowchart TB
     D --> E["Computer and microphone tracks"]
     E --> F["Azure answers: design only"]
     F --> G["Illustrated handbook and journal"]
+    G --> H["Local question drafts and snapshots"]
     classDef stage fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    class A,B,C,D,E,F,G stage
+    class A,B,C,D,E,F,G,H stage
 ```
 
 ## 2026-10-07, 23:30 - An idea becomes a bounded product
@@ -66,7 +67,7 @@ features arrived faster than real sharing environments could be qualified.
 
 **Public record:** initial decisions and scope appear in `TODO/16_DEVELOPMENT_LEDGER.todo:75-85`;
 the convention's bounded survey and evidence semantics are in `docs/TODO-CONVENTIONS.md:1-73`.
-The current capture-claim limits are stated in `README.md:41-50`.
+The current capture-claim limits are stated in `docs/OVERVIEW.md:34-52`.
 
 ## 2026-10-08, 00:32 onward - Implementation, and a new primary signal
 
@@ -286,7 +287,7 @@ DONE. There is no implemented Ask button, composer, Azure client, source commit 
 No Azure account/resource discovery, sign-in, inference or upload was performed.
 
 **Public record:** `docs/IMPLEMENTATION-STATUS.md:5-9`,
-`docs/AI-ANSWER-ARCHITECTURE.md:1-30` and the four linked [AI design documents](docs/README.md).
+`docs/AI-ANSWER-ARCHITECTURE.md:21-89` and the four linked [AI design documents](docs/README.md).
 
 ## 16:11 - Turn the implementation into a teachable engineering record
 
@@ -346,13 +347,75 @@ sequenceDiagram
     C->>C: Review changed rendered pages
 ```
 
-## What remains open at this edition
+## 2026-10-08, 17:37 - Offload the book, then implement the next safe slice
+
+The owner asked for context-offload after the detailed documentation, followed by the next
+dependency-ready implementation. The completed book was saved before code work resumed.
+Research27 made local question state28 the next ready step; cloud connection30 still required
+an approved destination and data/identity policy.
+
+The implementation deliberately stopped short of pretending that an answer service existed.
+It added structured transcript entries with capture-session GUID, source, utterance identity,
+revision and qualified timing. The native adapter stamps session identity before queuing UI
+callbacks, so delayed old-session text cannot enter a new capture. Existing display/export
+formatting remains in its original buffer.
+
+The new Question panel copies only explicitly selected segments or typed text. Mic is the initial
+filter, but Computer/All sources can be selected deliberately. A chosen partial can evolve into a
+final until the owner edits it; a frozen snapshot never changes. The8K-character draft limit rejects
+oversized input atomically rather than silently cutting off the end of a question. Eviction from
+the bounded history does not erase the copied draft's provenance.
+
+Question typing needed a separate focus transition. Reusing global Notes Edit would have stopped
+Computer audio, defeating dictation during a conversation. The new Type / edit action deliberately
+takes keyboard focus in the same protected HWND while leaving transcription running and notes
+read-only. Done typing/Escape returns to passive behavior. Ordinary global mode changes and Hide
+retain their earlier stop policy.
+
+**Ask as shown currently freezes locally only. Nothing is sent to Azure.** No fake answer is shown
+to suggest otherwise. Accurate armed-Mic start/end boundaries remain workstream29: current v2
+partials cannot reconstruct a sample-exact cut around speech already in a device or decoder buffer.
+That boundary was deferred explicitly rather than guessed from display text.
+
+The recorded local evidence is137Core tests (96new,41existing),46native synthetic groups, and
+source/exact-package synthetic UI checks including CR/LF fidelity and the470x560minimum window.
+The first source UI run failed its existing foreground-preservation assertion; an identical-source
+repeat and subsequent runs passed. The cause was not established, so no invented focus fix or
+recipient guarantee was recorded. No real audio endpoint, chat content or cloud model was accessed.
+
+The local183107preview contains486files and76,205,175bytes, with SHA256
+`C5062B6B94F3ABC63901960F1572F1A9141EA128C2CA513E6D26C4C5C3FAB27A`.
+It was packaged and exercised locally without interrupting the owner's running app. The handbook
+and screenshots were updated alongside the implementation, putting the new maintenance contract
+into practice immediately.
+
+**Public record:** [local question operation](docs/LOCAL-QUESTIONS.md),
+[workstream28](TODO/28_QUESTION_DRAFTS.todo), [current evidence](docs/IMPLEMENTATION-STATUS.md)
+and the [remaining answer architecture](docs/AI-ANSWER-ARCHITECTURE.md).
+
+## 2026-10-08, 19:43 - A visual front door, detailed documentation behind it
+
+The owner asked for more images and less text on the front README. The front page now emphasizes
+the actual synthetic UI, local questions and three themes, with a compact status note and links.
+Its setup, product explanation and capture limits moved into the product overview and expanded
+documentation index rather than disappearing.
+
+Transparent WPF renders were composited onto matching palette backgrounds for README legibility
+on both light and dark GitHub pages. The derivatives retain source/output hashes and are explicitly
+labelled as synthetic UI illustrations, not desktop captures. No new app capture, model request,
+runtime change or upload was needed. Future README changes must keep this image-first structure.
+
+See [the visual front page](README.md), [product overview](docs/OVERVIEW.md) and
+[documentation index](docs/README.md).
+
+## Remaining application boundaries
 
 The application is still a local unqualified preview. Full Teams/Zoom/Meet/OBS qualification,
 recipient cursor behavior, hardware microphone/echo/privacy-indicator observations, long-session
 quality, accessibility and owner acceptance have not been replaced by this book.
 
-The planned answer feature needs implementation and measured quality/latency. Optional cloud ASR
+The local draft/snapshot slice is implemented; the actual answer feature still needs approved cloud
+integration and measured quality/latency. Optional cloud ASR
 and a broker are separate decisions. Docker remains a final-stage packaging option after native
 release, not a prerequisite for transcription.
 
