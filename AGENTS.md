@@ -26,12 +26,15 @@ Do not invent build commands, passing tests, compatibility results, or user appr
 - Keep notes out of a visible surface until its protection setup succeeds.
 - On detected protection failure, hide/blank notes and show a generic actionable error.
   This is an application failure policy, not a guarantee against unobservable capture bypasses.
-- Prefer one opaque native top-level surface. No remote web content, hooks into sharing
+- Use one native top-level surface; the owner requested adjustable background-only translucency.
+  Preserve solid text, working hit regions and capture affinity on the layered WPF window.
+  Do not reduce whole-window opacity or add click-through. No remote web content, hooks into sharing
   software, injected overlays, kernel drivers, process concealment, or elevation requirement.
 - Keep real notes, filenames, clipboard data, and personal desktop captures out of logs,
   tests, repository artifacts, telemetry, and CI uploads.
 - Meeting-output transcription is REQUIRED, not deferred. Capture only selected render endpoints,
-  never microphone inputs. Local Docker inference only; no implicit cloud fallback or automatic Start.
+  never microphone inputs. Native local Python inference is the normal path; Docker is optional and last.
+  No cloud fallback or automatic audio capture. Starting the idle service is not starting capture.
 - Preserve normal accessibility in Edit mode. Do not fake privacy by breaking assistive technology.
 - Any rendering, popup, native-window, or framework upgrade can invalidate capture evidence.
 
@@ -44,7 +47,8 @@ definition is complete, not that an application build or release has occurred.
 
 Implementation and synthetic tests are authorized. No commit, push, public release, signing identity,
 Docker installation, or live meeting with real notes is authorized merely by these documents.
-The owner explicitly chose to install/start Docker Desktop separately.
+The owner corrected the architecture: do not require or install Docker for ordinary operation.
+Preserve container-neutral interfaces, then leave Docker work until after the native application.
 
 ## Existing local commands
 

@@ -1,0 +1,43 @@
+# Native Python Transcription Runtime
+
+Status: DONE
+Milestone: M2 Native operation, before optional Docker packaging
+Dependencies: None
+Reference workstream: 04_PROJECT_FOUNDATION.todo (the headless Python runtime can run independently)
+
+## Purpose
+
+Run the C# desktop app with a normal local Python recognizer, with no Docker installation or service dependency.
+
+## Tasks
+
+- [x] Make Initialize-Transcription provision a service-local Python environment and pinned dependencies.
+- [x] Make Start-Transcription default to native Python; retain Docker only as an explicit opt-in.
+- [x] Add authenticated instance-scoped startup/reuse/shutdown; never terminate unrelated processes.
+- [x] Refuse shutdown during active transcription instead of discarding audio.
+- [x] Start the native service from the app launcher; allow explicit NotesOnly and independent recovery.
+- [x] Keep the existing C# PCM/WebSocket contract unchanged and container-neutral.
+- [x] Exercise setup/start/reuse/status/stop and real C# plus synthetic-stream recognition without Docker.
+- [x] Record native lifecycle evidence, failure boundaries and current user instructions.
+
+## Acceptance criteria
+
+- [x] This host without Docker starts/stops local transcription through the normal launcher.
+- [x] The service persists beyond the starter, stays loopback-authenticated, and records no audio.
+- [x] Active-session and mismatched/untracked-instance guards reject shutdown; no arbitrary OS kill exists.
+- [x] Native results are distinguished from still-deferred container execution.
+
+## Completion evidence
+
+- Native runtime manager, management endpoints and scripts implemented;37service/management tests pass.
+- Native setup/start/reuse/status and owned graceful shutdown pass after the starter process exits.
+- Run-PhantomFudge -NoBuild automatically starts native service and creates the app; minimize/relaunch/
+  hide/relaunch/native-close passes, then the owned service stops. No Docker or audio capture.
+- Silent5.9s real Vosk recognition:11partials/2finals/7keywords/tail+silence; actual C#client->nativePython
+  produced13partials/2finals and expected synthetic phrase. No speaker output or real meeting data.
+- No cloud ASR, microphone capture, speaker playback or Docker installation is part of this work.
+
+## Completion log
+
+- 2026-10-08 03:25 IST - Owner corrected Docker interpretation; native C# plus Python is the standard path.
+- 2026-10-08 - Completed native operation and ownership checks. Optional Docker remains unexecuted.

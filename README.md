@@ -1,32 +1,43 @@
 # Phantom Fudge
 
-A plain-text speaker-notes development preview for Windows 11: a movable, resizable
-notepad-like surface without a taskbar button or Alt-Tab entry, with Windows capture
-exclusion requested for its contents.
+A local transcription-first development preview for Windows 11: a movable, resizable
+surface with a large live transcript and collapsed speaker notes, no ordinary taskbar/Alt-Tab
+entry, and Windows capture exclusion requested for its contents.
 
 **Status: native development preview implemented; full meeting compatibility is not yet qualified.**
 
 Includes a plain-text editor, hide/relaunch recovery, Edit/Present modes, and **required live
 transcription of selected playback-device audio**. No microphone endpoint or cloud speech fallback
-is used. Docker runs the local speech recognizer; the Windows window and WASAPI capture stay native.
+is used. **C# handles the window and WASAPI capture; Python performs recognition locally.**
+Docker is not required. The same headless Python service can be containerized later.
+
+The **Background** slider adjusts translucency from10% to100% (default55%) while keeping note
+and transcript text solid. Lower it to see the actual content behind the window.
+The sun/moon button switches **DeepSeaFoam / Harbor Daylight**; **Plain B/W** restores the neutral
+view. The default transcript view is non-activating with an arrow cursor; use **Edit** for typing.
 
 Start with the [preview guide](docs/PREVIEW-GUIDE.md). From PowerShell 7 in this repository:
 
 ```powershell
 .\scripts\Initialize-Transcription.ps1 -DownloadModel
-.\scripts\Start-Transcription.ps1
 .\scripts\Run-PhantomFudge.ps1
 ```
 
-The service-start command requires a separately installed, running Linux-container Docker engine.
-Docker support is prepared but **has not been executed on this machine**; the owner chose to
-install/start Docker Desktop separately. Without the service, the native app still edits notes.
-No audio starts automatically. Model setup downloads a public model, not meeting audio.
+Setup creates a service-local Python environment and explicitly downloads the model if needed.
+The app launcher starts/reuses native Python automatically; audio still requires an explicit Start
+inside the app. Use `-NotesOnly` to launch without the service. Stop the idle service with
+`.\scripts\Stop-Transcription.ps1`. No Docker installation or cloud account is needed.
+
+Docker recipes are retained as **optional final-stage packaging**, after the native app is complete.
+They are not on the transcription or native-release critical path. Model setup downloads public
+dependencies/weights; meeting audio is never uploaded.
 
 Windows supports `SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE)` for supported capture
 paths. It does **not** guarantee exclusion from every recorder, hide a running process,
 or necessarily remove a window from a sharing picker. Phantom Fudge will still be a real
 application and window. Never rely on it as a security boundary.
+The owner's recipient-side cursor-disappearance report remains unqualified in its actual
+sharing mode; local arrow/focus changes cannot guarantee every recorder's cursor behavior.
 
 The approved target is **Windows 11 first**, qualifying **Teams, Zoom, Google Meet, and OBS**
 separately. None has been qualified with this application yet. Synthetic local Windows capture
@@ -43,9 +54,11 @@ and local output-loopback recognition evidence do not substitute for those produ
 | [Development workflow](docs/DEVELOPMENT-WORKFLOW.md) | Proof-first delivery sequence and completion gates |
 | [Qualification matrix](docs/QUALIFICATION.md) | Exact capture scenarios, controls, and evidence requirements |
 | [TODO conventions](docs/TODO-CONVENTIONS.md) | The evidence-backed catalogue format |
-| [Required transcription](docs/TRANSCRIPTION.md) | Native output capture, local protocol, consent and Docker boundaries |
+| [Required transcription](docs/TRANSCRIPTION.md) | C# output capture, native Python recognition, local protocol and later packaging |
 | [Local speech service](services/transcription/README.md) | Model setup, service operations and exact current evidence |
 | [Implementation evidence](docs/IMPLEMENTATION-STATUS.md) | Implemented scope and remaining release gates |
+| [Speech-engine comparison](docs/SPEECH-BENCHMARK.md) | Measured offline SAPI/Vosk/Whisper speed and word-error rates |
+| [Cursor and themes](docs/CURSOR-AND-THEMES.md) | Transcript-first controls, canonical palette provenance and cursor limitations |
 
 **Implementation:** C# / WPF on .NET 10 LTS, NAudio render-endpoint loopback, and a local
 Python/Vosk streaming service. Keep private notes, transcripts, models and local tokens out of Git.

@@ -2,7 +2,7 @@
 
 Status: IN_PROGRESS
 Milestone: M4 Candidate packaging
-Dependencies: 08_LOCAL_STORAGE.todo, 09_HOTKEYS_RECOVERY.todo, 10_PRESENTATION_MODE.todo, 11_DPI_ACCESSIBILITY.todo, 12_DIAGNOSTICS_TESTING.todo, 19_LIVE_TRANSCRIPTION.todo, 20_DOCKER_LOCAL_SERVICE.todo
+Dependencies: 08_LOCAL_STORAGE.todo, 09_HOTKEYS_RECOVERY.todo, 10_PRESENTATION_MODE.todo, 11_DPI_ACCESSIBILITY.todo, 12_DIAGNOSTICS_TESTING.todo, 19_LIVE_TRANSCRIPTION.todo, 21_BACKGROUND_TRANSLUCENCY.todo, 22_NATIVE_PYTHON_RUNTIME.todo, 24_CURSOR_AND_FOCUS.todo, 25_TRANSCRIPT_FIRST_THEMES.todo
 
 ## Purpose
 
@@ -31,7 +31,15 @@ Produce the exact installable/runnable candidate that final qualification will t
 
 ## Completion evidence
 
-- Preview publish script exists; full qualified release still depends on19/20 and all capture/owner gates.
+- Latest transcript-first/theme native bundle123245:484files/76167343bytes,
+  SHA25675544D20F3C5CB70E9F8DF5E4B99AD4BBFA6E55AB61F52FE33274F80FED8F1EC.
+  Exact-package local UI regressions pass; actual recipient cursor/pixel matrix remains open.
+- Latest native runtime bundle035959 includes C# app plus Python service/setup scripts, not Docker.
+  SHA256DED2F7231064F3705F5E5F248F751671DF0B741F9E941A3908999F456C2D7426.
+- Extracted-copy fresh venv/token/cached-model setup and normal native launcher/recovery/close/
+  owned shutdown passed. Dependencies/models are provisioned outside the ZIP; no credentials baked in.
+
+- Preview publish script exists; native release depends on19/22 and capture/owner gates, NOT Docker20.
 - Local unsigned preview packaging is not signing, public upload, or final release acceptance.
 - Produced artifacts\phantom-fudge-0.1.0-preview-win-x64-20261008-024518.zip,76123503bytes,
   SHA256518B597F1DCCA3C151EB2366420A27AD366E4AB79FDD4B15C8DA8D9353543E47.

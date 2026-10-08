@@ -124,6 +124,13 @@ State this limit with every release result.
 | C12 | Hotkey collision, Explorer restart, off-screen recovery | User can recover/exit without relying on a taskbar button or broken shortcut |
 | C13 | Fullscreen slides, slideshow clicks, keyboard advance | Notes remain usable without accidental focus theft; unsupported exclusive mode named |
 | C14 | Crash and restart with recovery data | Content restored only after protection; no WER/log note snippets intentionally emitted |
+| C15 | Hover/click/select/drag text, controls and border | Local arrow/foreground observations AND recipient cursor shape/visibility recorded independently |
+| C16 | Transcript-first, Notes expand/collapse, all three themes | No data loss/HWND replacement/unprotected surface; actual captured frames remain qualified |
+
+C15 is currently open for the owner's reported cursor disappearance. Record screen versus
+window/tab source, cursor-capture setting/backend and app version. A visible local cursor or
+MA_NOACTIVATE result does not prove the recorder includes that cursor. No fake cursor rendering
+or recorder tampering is an acceptable substitute.
 
 Crash dumps created outside app control and external IME/accessibility/clipboard surfaces
 remain outside the capture-only guarantee. Do not claim secure erasure or total OS containment.

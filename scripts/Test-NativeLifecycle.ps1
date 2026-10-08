@@ -1,12 +1,24 @@
 #requires -Version 7.2
-param()
+param(
+    [switch]$UseLauncher,
+    [string]$AppRoot
+)
 
 $ErrorActionPreference = 'Stop'
-$root = Split-Path -Parent $PSScriptRoot
-$exe = Join-Path $root 'src\PhantomFudge.App\bin\Release\net10.0-windows\PhantomFudge.exe'
+$root = if ($AppRoot) { (Resolve-Path -LiteralPath $AppRoot).Path } else {
+    Split-Path -Parent $PSScriptRoot
+}
+$launcherScripts = Join-Path $root 'scripts'
+$packagedExe = Join-Path $root 'PhantomFudge.exe'
+$exe = if (Test-Path -LiteralPath $packagedExe -PathType Leaf) { $packagedExe } else {
+    Join-Path $root 'src\PhantomFudge.App\bin\Release\net10.0-windows\PhantomFudge.exe'
+}
 if (-not (Test-Path -LiteralPath $exe)) { throw 'Build the native preview first.' }
 if (Get-Process -Name PhantomFudge -ErrorAction SilentlyContinue) {
     throw 'A PhantomFudge process is already running. This test will not touch an existing instance.'
+}
+if ($UseLauncher -and (Get-NetTCPConnection -LocalPort 8765 -State Listen -ErrorAction SilentlyContinue)) {
+    throw 'A speech service is already listening. This test will not adopt or stop it.'
 }
 
 Add-Type @'
@@ -32,6 +44,13 @@ public static class PhantomLifecycleProbe {
 '@
 
 function Start-OwnInstance {
+    if ($UseLauncher -and $owned.Count -eq 0) {
+        $result = @(& (Join-Path $launcherScripts 'Run-PhantomFudge.ps1') -NoBuild -PassThru)
+        $result | Where-Object { $_ -isnot [Diagnostics.Process] } | Write-Host
+        $started = @($result | Where-Object { $_ -is [Diagnostics.Process] })
+        if ($started.Count -ne 1) { throw 'The launcher did not create exactly one native preview.' }
+        return $started[0]
+    }
     $info = [Diagnostics.ProcessStartInfo]::new($exe)
     $info.UseShellExecute = $false
     $info.WorkingDirectory = $root
@@ -87,5 +106,8 @@ finally {
     foreach ($process in $owned) {
         if (-not $process.HasExited) { Stop-Process -Id $process.Id }
         $process.Dispose()
+    }
+    if ($UseLauncher -and (Test-Path -LiteralPath (Join-Path $root '.local\transcription-runtime.json'))) {
+        & (Join-Path $launcherScripts 'Stop-Transcription.ps1')
     }
 }

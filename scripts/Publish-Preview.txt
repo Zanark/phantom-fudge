@@ -19,9 +19,22 @@ if ((Test-Path -LiteralPath $directory) -or (Test-Path -LiteralPath $archive)) {
 if ($LASTEXITCODE -ne 0) {
     throw 'Preview publication failed. Partial output is not a release candidate.'
 }
-Copy-Item -LiteralPath (Join-Path $root 'docs\PREVIEW-GUIDE.md') -Destination $directory
-Copy-Item -LiteralPath (Join-Path $root 'docs\TRANSCRIPTION.md') -Destination $directory
-Copy-Item -LiteralPath (Join-Path $root 'docs\THIRD-PARTY-NOTICES.md') -Destination $directory
+$docs = Join-Path $directory 'docs'
+$scripts = Join-Path $directory 'scripts'
+$service = Join-Path $directory 'services\transcription'
+New-Item -ItemType Directory -Path $docs,$scripts,$service -Force | Out-Null
+Copy-Item -LiteralPath (Join-Path $root 'docs\PACKAGED-README.md') -Destination (Join-Path $directory 'README.md')
+foreach ($name in @('PREVIEW-GUIDE.md','TRANSCRIPTION.md','CURSOR-AND-THEMES.md','THIRD-PARTY-NOTICES.md')) {
+    Copy-Item -LiteralPath (Join-Path $root "docs\$name") -Destination $docs
+}
+foreach ($name in @('Initialize-Transcription','Start-Transcription','Stop-Transcription','Run-PhantomFudge')) {
+    $source = Join-Path $root "scripts\$name.ps1"
+    Copy-Item -LiteralPath $source -Destination $scripts
+    Copy-Item -LiteralPath $source -Destination (Join-Path $scripts "$name.txt")
+}
+foreach ($name in @('server.py','recognizer.py','manage.py','model.json','requirements.txt')) {
+    Copy-Item -LiteralPath (Join-Path $root "services\transcription\$name") -Destination $service
+}
 Compress-Archive -Path (Join-Path $directory '*') -DestinationPath $archive
 $hash = Get-FileHash -LiteralPath $archive -Algorithm SHA256
 Write-Output ("Local unqualified preview: {0}" -f $archive)

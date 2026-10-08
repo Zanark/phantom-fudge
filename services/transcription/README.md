@@ -7,7 +7,7 @@ open a microphone, capture a desktop, identify a meeting process, or play sound.
 No cloud recognition, automatic model discovery, audio recording, transcript
 storage, telemetry, or inference HTTP calls are implemented.
 
-## Docker setup (the selected deployment)
+## Normal native setup - no Docker
 
 From any working directory, invoke these scripts using their full paths, or from
 the repository root:
@@ -15,21 +15,39 @@ the repository root:
 ```powershell
 .\scripts\Initialize-Transcription.ps1 -DownloadModel
 .\scripts\Start-Transcription.ps1
-docker compose -f .\compose.yaml down
+.\scripts\Run-PhantomFudge.ps1
+# After stopping audio in the app:
+.\scripts\Stop-Transcription.ps1
 ```
 
 Setup explicitly downloads the official English model only when no verified
-archive/model is cached. Without `-DownloadModel`, it is completely cache-only.
+archive/model is cached. Without `-DownloadModel`, model provisioning is cache-only.
 It generates a 256-bit cryptographically random token once, never prints or
 rotates an existing token, and restricts its Windows file ACL to the current user.
-It verifies every pinned model file and saves a nonsecret receipt. Setup does not
-start a service, install Docker, enable virtualization, or install Python packages.
-The `.txt` copies of the two setup/start scripts are byte-identical.
+It verifies every pinned model file, prepares a service-local Python virtual environment,
+installs pinned Python dependencies when needed, and saves nonsecret receipts. It does not
+start audio capture, install Docker, enable virtualization or install global packages.
+Matching `.txt` copies are provided for PowerShell scripts.
 
-Start requires your separately installed, running Linux-container Docker engine
-and Compose v2. It builds, starts, and waits for health; missing Docker is an error,
-not permission to switch to a cloud or native service. Image builds require package
-network access; inference does not. The container has an internal-only network,
+`Start-Transcription.ps1` now starts **native Python by default**. The main app launcher
+starts/reuses it automatically; `-NotesOnly` avoids service startup. Opening a second app
+instance only reveals the existing window without rebuilding/restarting recognition.
+The C# app captures and transports output PCM; Python/Vosk is the recognizer, not C#.
+
+The manager serializes startup with a local lock, stores a per-launch instance receipt,
+and authenticates `/v1/runtime` before reusing or stopping a process. An unfamiliar service
+on the port is not adopted or killed. `/v1/shutdown` requires the matching instance and
+refuses active transcription. The idle service persists until explicitly stopped.
+
+## Optional containerization - final stage only
+
+Docker is not a runtime requirement or native-release gate. The owner's03:25 clarification
+supersedes the earlier Docker-required startup. Only when the native application is complete,
+the same service can optionally be run with `Start-Transcription.ps1 -Docker` and stopped
+with `Stop-Transcription.ps1 -Docker`. Stop the native service first; do not run both on8765.
+
+That optional mode requires a Linux-container engine/Compose. Image builds require package
+network access; inference does not. The proposed container has an internal-only network,
 host publication **127.0.0.1:8765 only**, non-root UID/GID 10001, a read-only root
 filesystem/model, no devices/privileges, dropped capabilities, no-new-privileges,
 2 CPU / 768 MiB / 64 PID limits, and a 15-second graceful-stop deadline.
@@ -55,7 +73,7 @@ The provisioned host model is `.local\models\vosk-model-small-en-us-0.15`.
 The app uses the same token through its native-launch configuration. Use
 `Authorization: Bearer <token>`; no token is included in any documented command.
 
-**Explicit development/validation only**, not a fallback and not Docker evidence:
+**Foreground native alternative** for development; the managed native launcher above is normal:
 
 ```powershell
 python -m venv .\services\transcription\.venv
@@ -67,13 +85,18 @@ $env:PYTHONDONTWRITEBYTECODE = '1'
 .\services\transcription\.venv\Scripts\python.exe .\services\transcription\server.py
 ```
 
-Stop that foreground service with Ctrl+C before starting Docker on the same port.
+Stop that foreground service with Ctrl+C before starting another service on the same port.
 Relative environment paths resolve against the server process's working directory,
 so absolute paths as above are recommended. Native runs are not subject to Docker's
 memory/CPU/network limits. Tokens grant local transcription access; same-user/admin
 inspection, OS dumps, host swap, and malicious local processes are not contained.
 
 ## Protocol, privacy, and resource behavior
+
+Native lifecycle endpoints use the same local Bearer authentication, reject browser Origin/query/body,
+and expose only protocol/instance ID/PID/readiness/activity metadata, never model paths or token.
+Only a launcher-managed instance supports graceful idle shutdown. This does not add remote
+administration, arbitrary command execution, microphone capture or any third-party API.
 
 An authenticated upgrade reserves the **single** session immediately, including
 its 5-second start deadline. Each admitted session gets a new recognizer; immutable
@@ -144,11 +167,26 @@ choose a license for this repository.
 
 ## Validation and current evidence
 
+Current normal-runtime evidence supersedes the earlier Docker-required startup: native setup/start/
+reuse/status, detached-starter survival, automatic app launch/recovery, and authenticated owned idle
+shutdown pass on this Docker-free host.37service/management tests pass, including wrong-instance,
+unmanaged, browser, body/query and active-transcription shutdown rejection.
+Real silent synthetic checks pass through Python and the C# WebSocket client; no playback occurred.
+
+The owner's speed/accuracy comparison is [SPEECH-BENCHMARK.md](../../docs/SPEECH-BENCHMARK.md).
+It compared all3local engines; PythonWhisper base.en reduced WER and complete-file decode time
+relative to Vosk on this small corpus. Vosk remains the existing live streaming engine until a
+chunk/refinement mode is separately evaluated. Programming language alone is not recognition quality.
+
 ```powershell
 .\services\transcription\.venv\Scripts\python.exe -m unittest discover -s .\services\transcription\tests -v
 .\services\transcription\.venv\Scripts\python.exe -m pip check
 # With the native or Docker service already healthy:
 .\services\transcription\Test-SyntheticTranscription.ps1
+# Also exercise the real C# client with the same silent in-memory fixture:
+.\services\transcription\Test-SyntheticTranscription.ps1 -NativeClient
+# Exercise normal automatic native service/app launch and owned cleanup:
+.\scripts\Test-NativeLifecycle.ps1 -UseLauncher
 ```
 
 The unit suite uses injected recognizers **only in tests**, covering authentication,

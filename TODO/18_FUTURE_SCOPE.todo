@@ -12,7 +12,8 @@ Keep optional ideas visible without letting them inflate the plain-speaker-notes
 
 - [ ] Consider ARM64 and Windows 10 only with current support policy and separate qualification.
 - [ ] Reassess macOS/Linux with independent platform contracts; never promise Windows-equivalent exclusion.
-- [ ] Evaluate click-through, opacity/acrylic, or nonrectangular visuals only after capture/input requalification.
+- [x] Promote requested background translucency to required task21; it is no longer deferred.
+- [ ] Evaluate click-through, acrylic/blur, or nonrectangular visuals only after separate capture/input requalification.
 - [ ] Consider multi-note/multi-window support only with a per-surface protection and recovery model.
 - [ ] Consider teleprompter/autoscroll, formatting, or slide linkage only after an explicit product request.
 - [ ] Consider encrypted recovery, cloud sync, or auto-update only with new threat/data/maintenance decisions.

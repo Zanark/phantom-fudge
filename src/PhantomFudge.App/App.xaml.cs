@@ -17,7 +17,7 @@ public partial class App : Application
         {
             if (e.Args is ["--capture-proof", var outputDirectory])
             {
-                var code = await Diagnostics.CaptureProof.RunAsync(outputDirectory);
+                var code = await Diagnostics.CaptureProof.RunAsync(outputDirectory, transparent: true);
                 Shutdown(code);
                 return;
             }
@@ -47,10 +47,7 @@ public partial class App : Application
         catch (Exception error) when (error is Win32Exception or IOException or UnauthorizedAccessException
             or InvalidOperationException or PlatformNotSupportedException or OperationCanceledException or COMException)
         {
-            MessageBox.Show(
-                "Phantom Fudge could not initialize its protected window or recovery channel. " +
-                "No notes were loaded. Close an existing instance or retry on Windows 11.",
-                "Phantom Fudge startup", MessageBoxButton.OK, MessageBoxImage.Error);
+            LocalFailureNotice.Record(WindowFailure.Startup);
             Shutdown(1);
         }
     }

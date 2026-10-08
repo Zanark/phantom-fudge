@@ -14,7 +14,11 @@ selected it. "Proposed" is a recommendation to resolve in `TODO\01_PRODUCT_DECIS
 | R05 | Windows 11 first | Exact Windows 11 release/edition/architecture listed in qualification records |
 | R06 | Qualify Teams, Zoom, Google Meet, and OBS separately | Versioned results for each required product/mode |
 | R07 | REQUIRED live transcription of meeting sound heard through the output device, not microphone input | Render-endpoint loopback, partial/final transcript, stop/device/fault tests |
-| R08 | REQUIRED local Docker transcription backend; no cloud speech processing | Container definition, authenticated loopback-only transport, offline inference and lifecycle evidence |
+| R08 | Native local Python recognition, easily containerizable later; no cloud processing | Native setup/start/stop and container-neutral model/protocol interfaces; Docker never required |
+| R09 | See/read actual content behind the notes window using adjustable translucency | Background alpha control, solid text, retained drag/resize and capture requalification |
+| R10 | Transcription is primary; notes collapsed by default | Default layout and lossless expansion/collapse |
+| R11 | DeepSeaFoam/Harbor Daylight toggle plus Plain reset | Canonical semantic palettes, controls and local UI evidence |
+| R12 | Remove I-beam/unnecessary focus cues; investigate shared cursor disappearance | Local Arrow/nonactivation plus separately qualified recipient behavior; no universal guarantee |
 
 The original wish for a window that can "never be detected" is not an implementable
 universal contract. Task Manager, desktop-window enumeration, accessibility tools,
@@ -23,17 +27,23 @@ The user chose Windows 11 scope after being told about this limitation.
 
 ## Proposed v1 experience
 
-One note and one small, opaque, resizable surface, now with a protected live-transcript pane.
+One note and one small, resizable surface with background-only translucency and a protected live-transcript pane.
 No account, cloud service, Markdown preview, text-generation assistant, or rich formatting.
 A quiet header/grip holds Edit/Present,
 Hide, and Settings controls. Settings and find UI stay inside the same protected surface.
 Dark/light colors, font size, wrapping, and always-on-top are small usability options,
 not elaborate theme work.
 
+October8 11:31 direction: transcript-first replaces notes-first. Start in non-activating Present,
+with notes collapsed, fixed Arrow pointer and a deliberate Edit action for keyboard input.
+DeepSeaFoam is default, Harbor Daylight is its sun/moon companion, and Plain resets the neutral UI.
+The owner's absolute no-reveal goal remains outside what Windows display affinity can guarantee;
+the remote cursor disappearance is not silently declared fixed by local cursor tests.
+
 | Decision | Proposed default | Must be resolved before |
 | --- | --- | --- |
 | D01 | Windows 11; Teams/Zoom desktop, Meet in Chrome/Edge, OBS | Approved; exact build/backend coverage still needs G1/G4 |
-| D02 | C# WPF, .NET 10 LTS, opaque HWND and minimal interop | Capture spike |
+| D02 | C# WPF, .NET10 LTS, now a layered HWND with background-only alpha and minimal interop | Layered local proof passed; remote capture qualification remains |
 | D03 | No tray icon by default; configurable hotkeys plus second-launch recovery | Recovery implementation |
 | D04 | Local opt-in crash recovery; explicit `.txt` Open/Save/Save As; no cloud | Persistence implementation |
 | D05 | Always-on-top Present mode; editable/focusable Edit mode; explicit mode switch | Interaction implementation |
@@ -46,8 +56,10 @@ tests before implementing it. Do not infer license or publishing rights from the
 
 ## October 8 implementation authorization
 
-The user requested implementation of the proposed Windows-first design and explicitly
-selected a fully local Docker speech service. Begin a local experimental implementation
+The user requested implementation of the proposed Windows-first design and fully local speech.
+The later03:25 clarification supersedes the earlier Docker-selected interpretation: Docker
+containerization is only a final-stage portability option, not a runtime dependency. Continue
+local implementation
 using WPF/.NET 10, no-tray recovery, explicit saves and no automatic note/audio persistence.
 Unchosen license/signing/publication and final UX/resource approval remain release gates.
 The full four-product capture gate is not yet passed; local preview work must not promote
@@ -59,6 +71,26 @@ and is not falsely labelled meeting-process isolation. Transcription requires ex
 visible local status, an appropriate right to transcribe the meeting, and explicit Stop.
 Raw audio is not persisted; transcript export is explicit. The default local model is an
 English streaming model; multilingual accuracy and diarization are not assumed.
+
+## Runtime confirmations - owner decision, October 8
+
+The owner states that they always have permission to transcribe and always check sharing
+with a recipient first. Those steps are handled outside the app. Remove both checkboxes,
+all associated Start/Present gates, and any repeat confirmation after hide/restart/display
+changes. Do not replace them with dialogs or recurring reminders.
+
+Explicit Start/Stop, technical protection/device/token checks, and unsaved-content warnings
+remain. This preference is the owner's statement, not independent evidence that a capture
+configuration passed engineering qualification.
+
+## Background translucency - October 8 request
+
+The owner asked to read what is behind the window. The implementation uses a true layered
+WPF surface with a55% default background tint, adjustable10-100%; text remains fully opaque.
+The slider stays usable in Present mode and does not recreate the HWND or stop transcription.
+Header/setup/confirmation controls remain opaque for readability and recovery. There is no
+click-through or whole-window fade. Backgrounds that overlap note glyphs can still reduce
+readability; the owner can increase the tint or move the window. The setting is session-only.
 
 ## User journeys
 
@@ -114,7 +146,7 @@ a proof over all future frames, devices, versions, or capture implementations.
 ## Deferred / explicitly outside v1
 
 macOS/Linux parity, Windows 10 qualification, cloud sync, multiple notes/windows, rich text,
-click-through, transparent/acrylic backgrounds, automatic meeting detection, plugins,
+click-through, acrylic/blur backgrounds, automatic meeting detection, plugins,
 autoscroll/teleprompter controls, auto-update service, and encrypted vaults are not required
 to deliver the approved v1. Reconsider them only through `18_FUTURE_SCOPE.todo`.
 

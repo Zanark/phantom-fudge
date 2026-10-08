@@ -52,6 +52,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 Self-contained runtime packs may contain additional third-party notices. Preserve those
 shipped files. A public distribution must audit notices for its exact runtime and dependency set.
 
+## Palette attribution
+
+DeepSeaFoam and Harbor Daylight color values reference the owner's canonical
+https://github.com/Zanark/DeepSeaFoam palettes. DeepSeaFoam credits SpriteCanvas and
+Ethan Schoonover's Solarized (https://ethanschoonover.com/solarized/).
+The WPF role mapping/control templates here are newly authored. No showcase artwork,
+audio, product icons or bundled fonts were copied. See CURSOR-AND-THEMES.md for revision/hashes.
+
 ## Local speech service (separate from native ZIP)
 
 Vosk 0.3.45 and the explicitly downloaded `vosk-model-small-en-us-0.15` are Apache-2.0.

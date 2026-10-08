@@ -3,6 +3,11 @@
 Research baseline: **2026-10-07 UTC**. Sources below were retrieved during this planning
 session; some work continued into October 8 in Asia/Kolkata.
 
+Implementation update: the later October8 owner request promoted translucency out of deferred
+scope. A layered WPF local probe and adjustable background tint are implemented; task21 and
+IMPLEMENTATION-STATUS.md hold current results. The opaque recommendation below is the historical
+research baseline, not the current UI. Neither old nor new local evidence certifies meeting products.
+
 **Verdict:** a quiet Windows 11 speaker-notes utility that requests exclusion from supported
 capture paths is technically plausible and worth a small proof. A visible surface that can
 never be detected or captured by any software is not a supportable promise.

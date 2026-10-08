@@ -13,17 +13,20 @@ capture proof rather than assuming a window can be universally undetectable.
 
 - Implementation authorized October 8. Local experimental implementation is now in progress.
 - User approved Windows 11 first with Teams, Zoom, Google Meet, and OBS qualified separately.
-- Start the proposed opaque WPF/C#/.NET 10 design; four-product qualification still blocks release.
-- Live meeting-output transcription and its local Docker service are REQUIRED workstreams 19 and 20.
+- WPF/C#/.NET10 now uses owner-requested background translucency; four-product qualification still blocks release.
+- Live meeting-output transcription19 and native Python runtime22 are required; Docker20 is deferred until last.
 - Local synthetic GDI/UI/speech evidence and approved hardware-loopback recognition exist.
 - No four-product qualification, actual Docker execution, owner UX acceptance, commit, push or public release.
 - WORKFLOWS statuses describe authored procedures, not app execution.
+- Latest UX: transcript-first, Notes collapsed, passive default, fixed arrow and canonical themes.
+  The owner's remote cursor-disappearance report is not yet independently reproduced/qualified.
 
 ## Next action
 
-Use docs\PREVIEW-GUIDE.md for the native development candidate. Owner installs/starts Docker Desktop,
-then task20 can run its actual container checks. Complete required product/hardware/UX qualification
-before promoting this preview. Tasks19/20 remain mandatory, not future work.
+Use docs\PREVIEW-GUIDE.md for native C# plus Python operation without Docker. Runtime22 and comparison23
+are complete; remaining work is product/hardware/UX qualification and measured streaming improvement.
+Docker20 comes only after
+native release17 and does not block the app or its transcription feature.
 
 ## Status values
 
@@ -59,7 +62,12 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 | 17 | 17_RELEASE_ACCEPTANCE.todo | NOT_STARTED | G5 |
 | 18 | 18_FUTURE_SCOPE.todo | NOT_STARTED | Optional; not a v1 blocker |
 | 19 | 19_LIVE_TRANSCRIPTION.todo | IN_PROGRESS | Required v1 |
-| 20 | 20_DOCKER_LOCAL_SERVICE.todo | BLOCKED | Owner Docker installation/start |
+| 20 | 20_DOCKER_LOCAL_SERVICE.todo | NOT_STARTED | M6 optional, after native release |
+| 21 | 21_BACKGROUND_TRANSLUCENCY.todo | IN_PROGRESS | Rendering and capture requalification |
+| 22 | 22_NATIVE_PYTHON_RUNTIME.todo | DONE | Native service, no Docker |
+| 23 | 23_SPEECH_ENGINE_BENCHMARKS.todo | DONE | Offline measured engine comparison |
+| 24 | 24_CURSOR_AND_FOCUS.todo | IN_PROGRESS | Local mitigation; recipient cursor gap |
+| 25 | 25_TRANSCRIPT_FIRST_THEMES.todo | IN_PROGRESS | Transcript-first and canonical themes |
 
 ## Dependency map
 
@@ -71,12 +79,16 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 06 + 07 + 09 -> 10
 05 + 07 + 10 -> 11
 04 + 06 -> 12
-04 -> 20
-06 + 07 + 09 + 20 -> 19
-08 + 09 + 10 + 11 + 12 + 19 + 20 -> 14
+22 native Python and 23 offline benchmarks are independently runnable (04 is reference-only).
+06 + 07 + 09 + 22 -> 19
+05 + 06 -> 21
+05 + 06 -> 24
+05 + 19 + 21 -> 25
+08 + 09 + 10 + 11 + 12 + 19 + 21 + 22 + 24 + 25 -> 14
 14 -> 13
 13 + 14 -> 15
 13 + 14 + 15 -> 17
+17 -> 20 (optional final-stage containerization)
 16 spans every milestone; 18 remains outside the v1 dependency graph.
 ```
 
@@ -94,7 +106,11 @@ The final matrix must qualify the packaged candidate, not merely a development b
 | R05 Windows 11 first | 01, 04, 11, 14 | Exact supported OS/runtime/package records |
 | R06 four sharing products | 03, 13, 15, 17 | Versioned product/backend support matrix |
 | R07 meeting-output transcription | 19, 06, 12, 13 | Output-only loopback, real offline speech, protected transcript pixels |
-| R08 local Docker processing | 20, 14, 17 | Actual container readiness/offline inference and host integration |
+| R08 native Python, future portability | 22, 14, 17;20 later | Native startup/offline inference; container-neutral boundaries |
+| R09 see-through background | 21, 05, 06, 13 | Alpha, solid text, hit testing and current-rendering capture matrix |
+| R10 primary transcript/collapsed notes | 25, 07, 10 | Layout and note preservation |
+| R11 canonical themes/plain reset | 25, 11 | Palette, state/contrast, UI evidence |
+| R12 cursor/focus cue reduction | 24, 13 | Local arrow/nonactivation and separate recipient-side qualification |
 
 ## Workflow catalogue
 

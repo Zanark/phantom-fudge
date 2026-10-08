@@ -2,8 +2,8 @@
 
 Added 2026-10-08 by explicit user instruction. This is REQUIRED v1 implementation, not future scope.
 The native client and local recognizer are now implemented; see IMPLEMENTATION-STATUS.md for actual
-evidence. Docker recipe execution awaits the owner's separate Docker Desktop installation/start.
-The user selected local Docker processing, with no meeting audio sent to a cloud service.
+evidence. The owner clarified that Docker should come last, not be required for the solution.
+Normal operation is native C# plus native Python, with no meeting audio sent to a cloud service.
 
 ## Architecture
 
@@ -12,13 +12,14 @@ Meeting -> selected Windows playback device
               -> native WASAPI render-endpoint loopback (never microphone)
               -> PCM16 little-endian / mono / 16000 Hz
               -> authenticated WebSocket on literal loopback address
-              -> Docker local Vosk streaming recognizer
+              -> native local Python/Vosk streaming recognizer
               -> partial/final text in the SAME capture-excluded WPF window
 ```
 
-The GUI and Windows audio endpoint must run on the Windows host. Windows containers do not
-provide the interactive desktop required by this application. Docker runs the headless speech
-service, not the protected HWND or a fake Linux replacement for WASAPI.
+The GUI and Windows audio endpoint run on the Windows host. Recognition already runs in Python;
+C# is not the current speech-decoding engine. A loopback protocol separates these responsibilities.
+The same headless Python service can later be containerized without changing the C# client.
+Windows containers do not provide the interactive desktop required by this application.
 
 Initial engine: Vosk's offline streaming API with an explicitly installed English model.
 Its partial results make it suitable for a CPU-first prototype without chunk-boundary text
@@ -59,6 +60,10 @@ No speech starts on launch. Show capturing/stopped/fault status and an output me
 WASAPI, drains bounded queued audio/final recognition, and disposes the socket. Hide/lock/suspend/
 capture-policy failure stops transcription; no automatic restart without the user's action.
 
+The owner handles permission and recipient rehearsal externally. Per the explicit October 8
+request, no permission/preflight checkbox, confirmation dialog or repeat acknowledgment is
+shown or required by Start/Present. This does not remove technical protection or device checks.
+
 Keep transcript text in memory, separate from editable notes. No automatic audio files, transcript
 autosave, telemetry, third-party HTTP calls, speaker labels, or fabricated confidence. Explicit export
 uses the existing safe save path and is disabled during Present mode.
@@ -67,16 +72,39 @@ An absent model, invalid token, unavailable service, unsupported format, device 
 full queue, decoder failure, or malformed message must produce an actionable visible state.
 Never fall back to a microphone or cloud recognition.
 
-## Docker requirements
+## Native service lifecycle
+
+Initialize-Transcription prepares a local Python virtual environment, pinned dependencies, the
+explicit model and local token. Start-Transcription starts/reuses this workspace's native service.
+Run-PhantomFudge invokes it automatically unless NotesOnly is requested. No audio starts until
+the owner's explicit Start action in the app.
+
+The manager uses a local lifecycle lock and a per-launch random instance ID. Authenticated runtime
+metadata must match this workspace's receipt before reuse or stop. Stop-Transcription requests a
+graceful idle shutdown; active transcription and unrelated/untracked services are left alone.
+The service remains idle after closing the UI until explicitly stopped. Neither a service
+startup nor direct recognizer benchmark opens a microphone or playback endpoint.
+
+## Deferred Docker packaging requirements
 
 Run a non-root service, publish only `127.0.0.1:8765`, authenticate the WebSocket, mount a preinstalled
 model read-only, keep audio in memory, and expose a health endpoint that reports model readiness.
 Keep local tokens/models out of image build context and source control. Model setup can access its
 documented public download once; inference must work with internet access disabled.
 
-Pin service dependencies and provide reproducible unit/protocol tests plus a container recipe.
+Pin service dependencies and provide reproducible unit/protocol tests plus a future container recipe.
 Do not claim a successful Docker run when the Docker CLI/engine is unavailable. At implementation
 start on this machine, Docker was not installed; a native service run is not container evidence.
+That missing Docker runtime is not a blocker for native transcription or the native release.
+
+## Engine comparison, independent of output mute
+
+Speech quality depends on the recognizer/model and input, not whether C# or Python calls it.
+The requested comparison feeds identical synthetic PCM directly into local recognizers. Laptop
+mute does not affect those tests. Raw-file decode speed must be separated from streaming partial/
+final latency, and TTS fixture accuracy must not be sold as real meeting accuracy.
+Hardware playback-loopback tests remain a separate explicitly opt-in operation; none are run while
+the owner sleeps. The benchmark workstream is23.
 
 ## Required qualification additions
 

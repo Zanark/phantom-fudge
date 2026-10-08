@@ -1,41 +1,41 @@
-# REQUIRED Docker Local Speech Service
+# Deferred Docker Packaging - Final Stage
 
-Status: BLOCKED
-Milestone: M2-M4 Required v1 infrastructure
-Dependencies: 04_PROJECT_FOUNDATION.todo
+Status: NOT_STARTED
+Milestone: M6 Optional final-stage containerization
+Dependencies: 17_RELEASE_ACCEPTANCE.todo
 
 ## Purpose
 
-Containerize local speech inference while keeping interactive Windows UI/audio capture on the host.
+Package the already-working native Python speech service in a container only after the core
+application is complete. Docker must never be required for ordinary transcription.
 
 ## Tasks
 
-- [x] Record user-approved native Windows client plus local Docker speech architecture.
-- [x] Implement streaming Vosk service with local token authentication and strict protocol validation.
-- [x] Provide offline model provisioning, provenance/license/hash receipt and clear absent-model errors.
+- [x] Record corrected owner direction: native C# plus Python first, containerization at the absolute end.
+- [x] Keep protocol/model/token interfaces independent of the deployment host.
 - [x] Add non-root Docker recipe, loopback-published Compose service, read-only model and health check.
 - [x] Exclude notes/audio/tokens/models from source and Docker contexts.
-- [x] Add26deterministic tests and real synthetic-speech/C#client/Windows-output integration checks.
-- [x] Provide startup/shutdown/native-client instructions and bounded resources.
+- [x] Preserve optional Docker recipes without putting them on native startup or release prerequisites.
 - [ ] Run actual Docker build/start/readiness/offline-inference/stop tests on an available engine.
 
 ## Acceptance criteria
 
-- [ ] Local inference works without internet after explicit model setup.
+- [ ] Optional container inference works without internet after explicit model setup.
 - [ ] No microphone/desktop access or credentials are baked into the container.
 - [ ] Service is authenticated, loopback-only on the host, resource-bounded, and stores no audio.
 - [ ] Actual container behavior is evidenced separately from native Python execution.
-- [ ] Required native Windows boundaries and Docker prerequisites are documented.
+- [ ] Optional Docker packaging is documented as separate from normal native Python startup.
 
 ## Completion evidence
 
 - Docker CLI/engine unavailable on this machine at implementation start.
 - A native service test will not be relabelled a container run.
-- Owner decision October8: prepare Docker support; owner will install/start Docker Desktop separately.
-- Blocker owner: user provisions a running Linux-container engine, then run Start-Transcription and
-  actual container health/model/socket/offline/shutdown checks. No automatic install authorized.
-- Service/Compose/model/setup files are implemented; native recognition is evidenced in service README.
+- October8 03:25 correction supersedes the earlier Docker-selected interpretation: Docker was intended
+  only as eventual containerization, not architecture/runtime dependency. Native workstream22 owns startup.
+- Docker recipe files exist, but their execution is deferred until after17. No Docker installation is
+  needed to run the app, start recognition, test native inference, or complete the native release.
 
 ## Completion log
 
 - 2026-10-08 - Added as required implementation; actual Docker execution depends on an installed engine.
+- 2026-10-08 03:25 IST - Corrected to optional final-stage packaging; removed from native critical path.

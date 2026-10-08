@@ -33,6 +33,27 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
 
 ## Completion log
 
+- 2026-10-08 11:31 request delivered locally: transcript-first/collapsed notes, passive default,
+  fixed Arrow, canonical dark/light/plain themes and no automatic unprotected error popup.
+  Passive ListBox click-selection bug fixed; Core33tests and exact-package UI regressions pass.
+  Bundle123245 hash in IMPLEMENTATION-STATUS.md. Running user app preserved, no audio/upload.
+- The recipient-side cursor disappearance remains unqualified in the actual recorder/mode.
+  No universal no-reveal guarantee or new live-capture pass was claimed.
+- 2026-10-08 03:25 IST correction COMPLETE: native Python is normal; Docker20 deferred until after17.
+  Runtime22 and benchmark23 done. Normal/extracted-bundle setup/launcher/recovery/owned shutdown
+  and silent C#->Python recognition pass;37service/management and14benchmark tests pass.
+- 2026-10-08 - Actual32case/164.07s engine comparison: SAPI45.89%WER/10.139s, Vosk8.22%/41.754s,
+  Whisperbase.en4.79%/25.745s warm batch decode. Full report includes scoring/provenance/limitations;
+  no language-superiority or comparable Whisper live-latency claim. Vosk streaming remains current.
+- 2026-10-08 - Native C#+Python bundle035959 saved locally, hash in IMPLEMENTATION-STATUS.md.
+  No speaker/mic/loopback recording, cloud ASR, uploads, Docker install or user questions.
+
+- 2026-10-08 03:12 IST - Owner requested see-through notes. Added10-100% background-only alpha slider,
+  default55%, solid note/transcript text and opaque controls. Local layered capture, UI alpha/native
+  hit regions and recovery pass; packaged current candidate032051. No removed confirmations restored.
+- 2026-10-08 03:04 IST - Removed permission/rehearsal checkboxes and repeat Start/Present/reset
+  acknowledgments per owner instruction. External responsibility retained, not a test-pass claim.
+  Updated local build/package/guide; no user process killed, audio started or artifact uploaded.
 - 2026-10-08 - Local native preview and required transcription implemented and packaged.
   Core25tests/audio20groups/Python26tests, real approved playback-loopback recognition and exact
   packaged synthetic UI/GDI evidence recorded in docs\IMPLEMENTATION-STATUS.md. Docker NOT_EXECUTED.

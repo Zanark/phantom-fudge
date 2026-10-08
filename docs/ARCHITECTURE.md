@@ -8,17 +8,18 @@ Source IDs below resolve in [FEASIBILITY.md](FEASIBILITY.md).
 
 Use an ordinary, process-owned, top-level HWND with quiet tool-window behavior. Windows
 capture affinity works on that HWND [S01]; avoiding an HWND does not produce a magic
-uncapturable desktop surface. An opaque WPF window with `WindowChrome` can retain native
+uncapturable desktop surface. A WPF window with `WindowChrome` can retain native
 move/resize regions without a conventional frame [S08].
 
 Prefer one window and one note. Keep settings, search, errors, and status inside its visual
 tree. This minimizes additional native surfaces that require separate exclusion/lifecycle
 handling. Native and framework-created auxiliary windows still need inventory and testing.
 
-October 8 supersession: required transcription adds an authenticated local Docker speech service.
-The Windows host captures only a selected playback endpoint and streams PCM to literal loopback.
-The GUI/WASAPI are not containerized. No cloud service, browser renderer, remote content or telemetry
-is needed. Single-instance recovery remains narrowly bounded per-user IPC. See TRANSCRIPTION.md.
+October8 03:25 correction: required transcription uses an authenticated native Python speech service.
+C# owns the GUI/WASAPI capture and streams PCM to literal loopback; Python owns recognition.
+Docker is an optional final-stage package of that service, never a native operation dependency.
+No cloud service, browser renderer, remote content or telemetry is needed. Single-instance recovery
+remains narrowly bounded per-user IPC. See TRANSCRIPTION.md.
 
 ## Components and responsibilities
 
@@ -29,12 +30,14 @@ is needed. Single-instance recovery remains narrowly bounded per-user IPC. See T
 | `WindowSurfaceRegistry` | Owned HWND generations and sensitive-surface inventory | Assume parent affinity automatically covers every popup |
 | `CapturePolicy` | Capability checks, setter, diagnostics, invalidation and reveal permission | Claim capture pixels were independently verified |
 | `NativeWindowAdapter` | Typed Win32 calls, style changes, last-error capture, event hooks | Inject code into another process or clear errors silently |
-| `PresentationController` | Edit/Present/Hidden states, focus policy, rehearsal acknowledgment | Infer that a meeting started/stopped from window names |
+| `PresentationController` | Edit/Present/Hidden states and focus policy, without acknowledgment prompts | Infer that a meeting started/stopped from window names |
 | `HotkeyService` | Registration, conflicts, unregister/re-register and recovery commands | Use a global keystroke hook or record typed keys |
 | `NoteDocument` | Text, dirty state, undo boundaries, encoding/newline metadata | Own platform capture policy |
 | `NoteStore` | Explicit file I/O and approved opt-in recovery | Autosave to arbitrary source files or discard a failed save |
 | `PlacementStore` | Position/size in logical units plus monitor context, safe bounds | Restore an unreachable grip after monitor changes |
 | `Diagnostics` | Bounded redacted event codes and environment facts | Log text, clipboard, paths, note hashes, or dumps by default |
+| Python `manage.py` | Native service startup/reuse/status/idle shutdown with local receipt and authenticated instance identity | Require Docker, kill unrelated processes or interrupt active transcription |
+| Python recognizer adapter | Convert PCM into partial/final events independently of GUI/deployment | Infer that programming language alone improves accuracy |
 
 Keep domain logic independently testable without an interactive desktop. Use small interfaces
 for native and filesystem failure injection, not a generic plugin architecture.
@@ -57,16 +60,18 @@ TODO\
 ```
 
 The preview now implements App/Core, xUnit Core tests, an executable audio-protocol harness,
-and CaptureProof. Python speech service and Docker/setup files live under services/transcription
-and the root Compose configuration. Not every target component above is a separate class.
+and CaptureProof. Python service/native lifecycle live under services/transcription; optional final-stage
+Docker packaging is a separate recipe plus root Compose file. Not every target component above is a class.
 Prefer a minimal project count and no application framework dependency without need.
 
 ## Window construction and reveal contract
 
 1. Start with no visible sensitive content. Do not use an auto-shown `StartupUri` window
    followed by a late `Loaded` protection call.
-2. Construct the view with `ShowInTaskbar=false`, `AllowsTransparency=false`, a generic
-   title, an opaque background, and custom chrome. `WindowStyle=None` alone loses native
+2. Construct the view with `ShowInTaskbar=false`, `AllowsTransparency=true`, a generic
+   title, transparent Window background and an alpha-tinted root Border with custom chrome.
+   This supersedes the initial opaque baseline after the owner's translucency request.
+   `WindowStyle=None` alone loses native
    frame behaviors; use `WindowChrome` deliberately [S08, S09].
 3. Create the HWND without showing via `WindowInteropHelper.EnsureHandle()` [S07].
    Attach `SourceInitialized`/message hooks before creation; make the initialization
@@ -120,17 +125,27 @@ HIDDEN -> EDIT -> PRESENT -> HIDDEN
 Any detected setup failure -> FAULT_HIDDEN, regardless of interaction mode.
 ```
 
-Store rehearsal evidence separately: NOT_TESTED, HISTORICAL, or a user-confirmed current
-configuration. The app can guide a synthetic rehearsal; it cannot see another participant's
-screen or guarantee the recorder's backend. Present mode requires the agreed rehearsal
-policy from product decisions, not a misleading green "invisible" badge.
+Keep engineering qualification evidence separate from runtime UI. On October 8 the owner
+stated that permission and recipient rehearsal are always handled externally and explicitly
+removed both acknowledgments. Present/Start must not ask for them again, including after
+hide, display changes, or restart. The app cannot observe the recipient or certify capture
+behavior; retain an accurate status, not a misleading green "invisible" badge.
 
 On app-controlled style/handle changes, hide first, invalidate, reapply, then reveal.
-On display/session/resume notifications, hide promptly and require reinitialization plus
-rehearsal as appropriate. Notifications are not instantaneous defenses against all external
+On display/session/resume notifications, hide promptly and require technical reinitialization,
+without resetting or adding human-acknowledgment gates. Notifications are not instantaneous defenses against all external
 changes; already recorded frames cannot be revoked.
 
 ## Interaction and shell behavior
+
+The default is now transcript-first Present mode, non-activating, with Notes collapsed.
+The same controls can switch to Edit for real keyboard focus. Notes visibility and theme changes
+only update the existing visual tree/resources; they preserve data and do not restart capture.
+Window/child `Cursor=Arrow` with `ForceCursor`, plus owned-window native cursor messages, avoids
+the I-beam without touching global cursor visibility settings. This does not promise remote cursor
+inclusion. Generic protection errors are written locally rather than shown in unprotected popups.
+Semantic theme mappings live in ThemePalette/ThemeBrushes; canonical provenance and limitations
+are documented in CURSOR-AND-THEMES.md.
 
 In Edit mode, preserve keyboard focus, standard text editing, keyboard traversal, and
 accessibility. Use a separate drag grip, not the text area, as the move region.
@@ -149,6 +164,12 @@ with hooks or repeated focus-stealing calls.
 
 No click-through in v1. `WS_EX_TRANSPARENT` is a painting-order style, not a universal
 cross-process click-through contract [S03]. Transparent rendering is not capture protection.
+
+BackgroundOpacity changes only the root Border brush alpha from26to255 (10-100%), default140
+(55%). Window/text opacity remains1; the editor/transcript fills are transparent so there is
+only one tint layer. No HWND/style change is needed when moving the slider. Header and setup/
+confirmation controls retain opaque fills; minimum alpha avoids all-transparent mouse holes.
+Local layered-window getter/capture/hit-test evidence is in IMPLEMENTATION-STATUS.md.
 
 No taskbar/Alt-Tab entry does not mean no process, no Task View presence, no tray icon if
 one is explicitly enabled, or no capture-picker entry. Measure those separately.
@@ -229,5 +250,5 @@ Package the exact candidate first, then run final qualification against its hash
 redacted, bounded diagnostics, reproducible dependency locks, versioned data migrations,
 runtime patching ownership, and no automatic updates during presentations.
 
-If the supported opaque WPF path fails, compare a minimal native Win32 control-window spike
+If the supported WPF path fails, compare a minimal native Win32 control-window spike
 before changing frameworks. A framework switch cannot cure an unsupported recorder path.

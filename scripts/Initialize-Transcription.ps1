@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-    [switch]$DownloadModel
+    [switch]$DownloadModel,
+    [switch]$SkipPythonSetup
 )
 
 $ErrorActionPreference = 'Stop'
@@ -106,7 +107,35 @@ $receipt = [ordered]@{
     verifiedAtUtc = [DateTime]::UtcNow.ToString('o')
 }
 $receipt | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $Models ($Manifest.name + '.receipt.json')) -Encoding UTF8
-Write-Host 'Local token and pinned model are ready. The token was not printed. No speech service was started.'
-if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
-    Write-Warning 'Docker CLI/engine is not installed. Setup did not install Docker or enable virtualization. Docker execution remains unavailable.'
+if (-not $SkipPythonSetup) {
+    $Venv = Join-Path $Root 'services\transcription\.venv'
+    $Python = Join-Path $Venv 'Scripts\python.exe'
+    $Requirements = Join-Path $Root 'services\transcription\requirements.txt'
+    $RequirementsReceipt = Join-Path $Local 'transcription-python-requirements.sha256'
+    $RequirementsHash = (Get-FileHash -LiteralPath $Requirements -Algorithm SHA256).Hash
+    if (-not (Test-Path -LiteralPath $Python -PathType Leaf)) {
+        $HostPython = Get-Command python -ErrorAction SilentlyContinue
+        if (-not $HostPython) { throw 'Python is required for local transcription. Install Python 3.13, then rerun setup. Docker is not required.' }
+        & $HostPython.Source -m venv $Venv
+        if ($LASTEXITCODE -ne 0) { throw 'Could not create the service-local Python environment.' }
+    }
+    $RestoreRequired = -not (Test-Path -LiteralPath $RequirementsReceipt -PathType Leaf)
+    if (-not $RestoreRequired) {
+        $RestoreRequired = (Get-Content -LiteralPath $RequirementsReceipt -Raw).Trim() -ne $RequirementsHash
+    }
+    if (-not $RestoreRequired) {
+        & $Python -c 'import aiohttp, vosk' 2>$null
+        $RestoreRequired = $LASTEXITCODE -ne 0
+    }
+    if ($RestoreRequired) {
+        & $Python -m pip install --disable-pip-version-check --quiet --requirement $Requirements
+        if ($LASTEXITCODE -ne 0) { throw 'Installing pinned local transcription dependencies failed.' }
+        & $Python -m pip check
+        if ($LASTEXITCODE -ne 0) { throw 'Local transcription dependencies are inconsistent.' }
+        $RequirementsHash | Set-Content -LiteralPath $RequirementsReceipt -Encoding ASCII
+    }
+    Write-Host 'Local Python runtime, token and pinned model are ready. No Docker is needed; no speech capture was started.'
+}
+else {
+    Write-Host 'Token and pinned model are ready. Python setup was explicitly skipped; no service was started.'
 }

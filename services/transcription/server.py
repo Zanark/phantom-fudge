@@ -13,6 +13,7 @@ from pathlib import Path
 import re
 import sys
 import time
+import uuid
 
 from aiohttp import WSMsgType, web
 
@@ -89,7 +90,7 @@ def parse_control(message, limits):
 
 
 class Runtime:
-    def __init__(self, token, factory, limits):
+    def __init__(self, token, factory, limits, instance_id=None, managed_stop=None):
         self.token = token.encode("ascii")
         self.factory = factory
         self.limits = limits
@@ -98,6 +99,8 @@ class Runtime:
         self.failed = False
         self.sockets = set()
         self.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="speech")
+        self.instance_id = instance_id
+        self.managed_stop = managed_stop
 
     @property
     def ready(self):
@@ -146,6 +149,46 @@ async def health(request):
         status=200 if runtime.ready else 503,
         headers={"Cache-Control": "no-store"},
     )
+
+
+def authorized(request, runtime):
+    authorization = request.headers.getall("Authorization", [])
+    supplied = authorization[0].removeprefix("Bearer ") if (
+        len(authorization) == 1 and authorization[0].startswith("Bearer ")
+    ) else ""
+    return hmac.compare_digest(supplied.encode("utf-8"), runtime.token)
+
+
+async def runtime_info(request):
+    runtime = request.app[RUNTIME]
+    if any(request.headers.getall("Origin", [])) or not authorized(request, runtime):
+        return web.json_response(error("auth"), status=401)
+    if request.query_string or request.can_read_body:
+        return web.json_response(error("bad_frame"), status=400)
+    return web.json_response({
+        "service": "phantom-fudge-transcription",
+        "protocolVersion": 1,
+        "instanceId": runtime.instance_id,
+        "pid": os.getpid(),
+        "ready": runtime.ready,
+        "active": runtime.active,
+    }, headers={"Cache-Control": "no-store"})
+
+
+async def managed_shutdown(request):
+    runtime = request.app[RUNTIME]
+    if any(request.headers.getall("Origin", [])) or not authorized(request, runtime):
+        return web.json_response(error("auth"), status=401)
+    if request.query_string or request.can_read_body:
+        return web.json_response(error("bad_frame"), status=400)
+    if (not runtime.instance_id or not runtime.managed_stop or
+            request.headers.get("X-Phantom-Instance") != runtime.instance_id):
+        return web.json_response(error("bad_frame"), status=409)
+    if runtime.active:
+        return web.json_response(error("busy"), status=409)
+    runtime.stopping = True
+    asyncio.get_running_loop().call_later(0.2, runtime.managed_stop)
+    return web.json_response({"status": "stopping"}, headers={"Cache-Control": "no-store"})
 
 
 class Session:
@@ -259,10 +302,7 @@ async def transcribe(request):
     headers = {"Cache-Control": "no-store", "Connection": "close"}
     if any(request.headers.getall("Origin", [])):
         return web.json_response(error("origin"), status=403, headers=headers)
-    authorization = request.headers.getall("Authorization", [])
-    supplied = authorization[0].removeprefix("Bearer ") if len(authorization) == 1 and authorization[0].startswith("Bearer ") else ""
-    authenticated = hmac.compare_digest(supplied.encode("utf-8"), runtime.token)
-    if not authenticated:
+    if not authorized(request, runtime):
         return web.json_response(error("auth"), status=401, headers=headers)
     if request.query_string or request.can_read_body:
         return web.json_response(error("bad_frame"), status=400, headers=headers)
@@ -336,24 +376,32 @@ async def cleanup(app):
     app[RUNTIME].executor.shutdown(wait=False, cancel_futures=True)
 
 
-def create_app(token, factory, limits=None):
+def create_app(token, factory, limits=None, instance_id=None, managed_stop=None):
     if not re.fullmatch(r"[A-Za-z0-9_-]{32,512}", token):
         raise ValueError("auth")
+    if instance_id is not None and uuid.UUID(instance_id).hex != instance_id:
+        raise ValueError("instance")
     app = web.Application(
         client_max_size=1024, middlewares=[safe_errors],
         handler_args={"max_line_size": 1024, "max_field_size": 1024, "max_headers": 32,
                       "read_bufsize": 4096, "keepalive_timeout": 5, "auto_decompress": False},
     )
-    app[RUNTIME] = Runtime(token, factory, limits or Limits())
+    app[RUNTIME] = Runtime(token, factory, limits or Limits(), instance_id, managed_stop)
     app.router.add_get("/health", health)
     app.router.add_get("/v1/transcribe", transcribe)
+    app.router.add_get("/v1/runtime", runtime_info)
+    app.router.add_post("/v1/shutdown", managed_shutdown)
     app.on_shutdown.append(shutdown)
     app.on_cleanup.append(cleanup)
     return app
 
 
-async def production_app(token, model_path):
-    app = create_app(token, None)
+async def production_app(token, model_path, instance_id=None):
+    def request_exit():
+        raise web.GracefulExit()
+
+    app = create_app(token, None, instance_id=instance_id,
+                     managed_stop=request_exit if instance_id else None)
     runtime = app[RUNTIME]
     try:
         runtime.factory = await asyncio.get_running_loop().run_in_executor(runtime.executor, VoskFactory, model_path)
@@ -376,12 +424,15 @@ def main():
             raise ValueError("host")
         if not os.environ.get("PHANTOM_TRANSCRIPTION_MODEL_PATH"):
             raise ValueError("model")
+        instance_id = os.environ.get("PHANTOM_TRANSCRIPTION_INSTANCE") or None
+        if instance_id is not None and uuid.UUID(instance_id).hex != instance_id:
+            raise ValueError("instance")
     except (OSError, ValueError):
         print("Local speech setup is missing or invalid. Run Initialize-Transcription first.", flush=True)
         return 2
     try:
         web.run_app(
-            production_app(token, model_path), host=host, port=8765, access_log=None,
+            production_app(token, model_path, instance_id), host=host, port=8765, access_log=None,
             print=None, backlog=16, shutdown_timeout=8,
         )
     except Exception:

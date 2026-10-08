@@ -2,7 +2,7 @@
 
 Status: IN_PROGRESS
 Milestone: M2-M4 Required v1 feature
-Dependencies: 06_CAPTURE_POLICY.todo, 07_NOTEPAD_EDITOR.todo, 09_HOTKEYS_RECOVERY.todo, 20_DOCKER_LOCAL_SERVICE.todo
+Dependencies: 06_CAPTURE_POLICY.todo, 07_NOTEPAD_EDITOR.todo, 09_HOTKEYS_RECOVERY.todo, 22_NATIVE_PYTHON_RUNTIME.todo
 
 ## Purpose
 
@@ -11,14 +11,17 @@ Continuously transcribe what the presenter hears from the selected playback devi
 ## Tasks
 
 - [x] Record user-required live transcription and explicit local-only processing choice.
-- [x] Define host-loopback/Docker-recognizer architecture and wire contract in docs\TRANSCRIPTION.md.
+- [x] Define host-loopback/native-Python recognition and container-neutral wire contract in docs\TRANSCRIPTION.md.
 - [x] Implement active render-device selection, WASAPI loopback and 16 kHz mono PCM transport.
 - [x] Implement authenticated local-only WebSocket, strict ready/format validation, bounded queues and stop flushing.
 - [x] Display partial/final segments in the protected main HWND, separate from editable notes.
 - [x] Add explicit Start/Stop/status, safe memory limits and explicit transcript export.
+- [x] Remove transcription-permission checkbox and Start acknowledgment gate per the owner's standing instruction.
 - [x] Implement stop on hide/session/power/protection/device events; no automatic restart/switch.
 - [ ] Exercise real offline recognition, actual output loopback, silence, faults and repeated lifecycle.
 - [ ] Measure latency/accuracy and qualify transcript pixels in every required sharing path.
+- [ ] Evaluate optional PythonWhisper chunk/refinement mode using task23 results, measuring live latency
+  and transcript revision/deduplication before replacing the current Vosk streaming default.
 
 ## Acceptance criteria
 
@@ -31,11 +34,11 @@ Continuously transcribe what the presenter hears from the selected playback devi
 ## Completion evidence
 
 - 2026-10-08 user: live meeting-output transcription is a REQUIRED IMPLEMENTATION.
-- User selected fully local Docker service, no cloud speech processing.
+- Owner clarified native C# plus Python is the default; Docker is optional final-stage packaging only.
 - Native implementation plus real synthetic output-loopback->Vosk passed locally:11partials,3finals,
   expected phrase,37nonzero-meter updates, zero faults and stopped capture. No microphone/audio file.
 - Client/model in-memory integration and20synthetic client groups pass; final UI/capture/device matrix
-  and actual Docker qualification remain open. Required feature is not marked DONE prematurely.
+  remain open. Docker qualification is no longer a prerequisite for this feature or native release.
 
 ## Completion log
 

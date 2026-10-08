@@ -10,7 +10,7 @@ Deliver a normal-feeling movable/resizable surface without conventional app chro
 
 ## Tasks
 
-- [x] Implement one opaque HWND, ShowInTaskbar=false, generic title, and validated tool-window styles.
+- [x] Implement one HWND, ShowInTaskbar=false, generic title and tool styles; task21 adds requested background alpha.
 - [x] Preserve unrelated style bits and correct Win32 error/frame-change semantics.
 - [x] Use WindowChrome for a dedicated grip and resize borders.
 - [x] Separate editor selection, scrolling, controls, drag region, and resize regions in the UI.

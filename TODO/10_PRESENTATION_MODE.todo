@@ -13,7 +13,8 @@ Read and position notes during a presentation without accidentally taking slide 
 - [ ] Implement explicit Edit/Present/Hidden transitions separate from capture and qualification status.
 - [x] Keep Edit focusable; set read-only/nonactivation only in Present, with synthetic state evidence.
 - [ ] Make Present read-only, with tested grip dragging/scrolling and an explicit way back to Edit.
-- [ ] Integrate a synthetic rehearsal guide and approved session/configuration acknowledgment policy.
+- [x] Remove runtime rehearsal acknowledgment per owner instruction; Present works directly.
+- [x] Keep permission/recipient checks external; do not re-prompt after hide, restart, or invalidation.
 - [x] Show 'capture exclusion requested' and unqualified-preview status without claiming recipient verification.
 - [x] Keep settings/find/confirmations inline; block file operations in Present.
 - [ ] Rehearse with fullscreen/windowed slides, slide keyboard advance, clicks, and always-on-top toggles.

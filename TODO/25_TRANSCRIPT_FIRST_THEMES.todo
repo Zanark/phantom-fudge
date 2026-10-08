@@ -1,0 +1,44 @@
+# Transcript-First Layout and Canonical Themes
+
+Status: IN_PROGRESS
+Milestone: M2-M4 Primary UX
+Dependencies: 05_WINDOW_SHELL.todo, 19_LIVE_TRANSCRIPTION.todo, 21_BACKGROUND_TRANSLUCENCY.todo
+
+## Purpose
+
+Make transcription the primary view, keep notes collapsed by default, and offer the owner's two themes plus Plain.
+
+## Tasks
+
+- [x] Put the live transcript in the main growing reading area; start with Notes collapsed.
+- [x] Preserve note text, unsaved status and explicit editing across collapse and mode changes.
+- [x] Read canonical DeepSeaFoam/Harbor Daylight palettes without modifying their base.
+- [x] Add sun/moon themed toggle, current name and separate Plain B/W reset.
+- [x] Theme all normal/hover/pressed/selected/input/scrolling/status surfaces through semantic brushes.
+- [x] Preserve background-only opacity, HWND/affinity, no-repeat-confirmation and native Python behavior.
+- [x] Finish exact-package local layout/theme/cursor-policy regression evidence.
+- [ ] Requalify captured pixels and pointer behavior in the actual sharing-product matrix.
+- [ ] Record owner readability and native-device UX acceptance.
+
+## Acceptance criteria
+
+- [x] Default transcript occupies the primary view and notes expand/collapse without data loss.
+- [x] Canonical colors and opaque text/selection/action contrast are covered by tests.
+- [x] Theme/opacity/notes visibility changes do not recreate HWND or start/stop audio.
+- [ ] Relevant remote capture/foreground and owner usability evidence is recorded.
+
+## Completion evidence
+
+- Core33tests include canonical palette/toggle/contrast cases.
+- Local UI smoke covers default passive/collapsed state, themes/plain reset, stable HWND,
+  note/transcript preservation, alpha, hit regions and prior file/close regressions.
+- Passive output-device selection and both transcript/notes scrolling pass without keyboard-focus takeover.
+- Read-only review found the default ListBox Focus requirement; explicit passive selection fixes it.
+- Canonical source identity and palette hashes: docs\CURSOR-AND-THEMES.md.
+- Exact package123245 UI regressions pass;484files/76167343bytes,
+  SHA25675544D20F3C5CB70E9F8DF5E4B99AD4BBFA6E55AB61F52FE33274F80FED8F1EC.
+- Existing user process remained running; no positive-control display, audio or live meeting capture was initiated.
+
+## Completion log
+
+- 2026-10-08 - Transcript-first layout and DeepSeaFoam/Harbor Daylight/Plain switching implemented.

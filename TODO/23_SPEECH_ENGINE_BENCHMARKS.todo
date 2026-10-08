@@ -1,0 +1,41 @@
+# Offline Speech Engine Speed and Accuracy Comparison
+
+Status: DONE
+Milestone: M3 Measured recognizer selection
+Dependencies: None
+Reference workstream: 04_PROJECT_FOUNDATION.todo (offline benchmark does not require the app or Docker)
+
+## Purpose
+
+Compare actual local speech engines on identical audio instead of assuming C# or Python determines accuracy.
+
+## Tasks
+
+- [x] Record current architecture: C# captures/render UI; Python/Vosk already performs recognition.
+- [x] Design mute-independent tests by feeding synthetic PCM directly to recognizers.
+- [x] Compare installed Windows/System.Speech, Python/Vosk and offline Whisper base.en CPUint8.
+- [x] Keep fixtures/normalization/error accounting identical;14harness/scoring tests pass.
+- [x] Separate model load, warm decode/RTF and Vosk-only paced partial observations; no false latency comparison.
+- [x] Record versions/model IDs/hashes, per-case outcomes, aggregates and limitations.
+- [x] Provide repeatable private owner-corpus replay for later consented real-meeting samples.
+
+## Acceptance criteria
+
+- [x] All3engines ran; measured values, hashes, row coverage, scoring and timing totals verified.
+- [x] No speakers, microphone, loopback capture, uploads or cloud inference used.
+- [x] Synthetic accuracy/batch speed are explicitly not general meeting accuracy/live latency.
+- [x] Recommendation distinguishes engine/model from programming language and deployment mode.
+
+## Completion evidence
+
+- docs\SPEECH-BENCHMARK.md and tools\SpeechBench\results\synthetic-20261008.json.
+- 32cases/164.07s/292reference words;2serial passes each: SAPI45.89%WER/10.139s,
+  Vosk8.22%/41.754s, Whisperbase.en4.79%/25.745s median warm decode.
+- PythonWhisper is the stronger quality candidate on this set, faster than Vosk on complete files.
+  Existing Vosk streaming is retained until real chunk/refinement latency/accuracy is evaluated.
+- Private receipts: .local\speech-bench\results-20261008-verified. Direct PCM works while muted.
+
+## Completion log
+
+- 2026-10-08 - Owner requested independent speed/accuracy tests while the laptop is muted.
+- 2026-10-08 - All3local engines compared; report/replay harness complete, no live-engine replacement.

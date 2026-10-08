@@ -1,0 +1,37 @@
+# Cursor and Focus Cue Reduction
+
+Status: IN_PROGRESS
+Milestone: M3-M4 Interaction and recorder qualification
+Dependencies: 05_WINDOW_SHELL.todo, 06_CAPTURE_POLICY.todo
+
+## Purpose
+
+Remove app-created I-beam/focus cues and investigate the reported recipient-side cursor disappearance,
+without pretending that an excluded window controls every recorder's cursor stream.
+
+## Tasks
+
+- [x] Record the owner's shared-cursor report and distinguish it from local shape/foreground evidence.
+- [x] Force the standard arrow over text/controls and native window cursor messages.
+- [x] Default to non-activating Present view; make notes editing deliberate and keyboard-accessible.
+- [x] Remove automatic unprotected startup/protection message boxes; retain generic local failure notices.
+- [ ] Qualify hover/click/drag/type and cursor visibility in the actual reported sharing product/mode.
+- [ ] Repeat relevant cursor/foreground scenarios for every supported capture backend.
+
+## Acceptance criteria
+
+- [x] Local UI uses Arrow/ForceCursor and MA_NOACTIVATE by default without fake cursors or global OS changes.
+- [x] No permission/rehearsal prompt, audio autostart, injected recorder code or click forwarding is introduced.
+- [ ] Independent recipient evidence establishes the supported scope of cursor visibility and content exclusion.
+- [ ] Remaining backend/OS limitations are stated plainly; universal invisibility is not claimed.
+
+## Completion evidence
+
+- .local\transcript-first-ui: local default foreground preserved, MA_NOACTIVATE=3, Arrow policy true.
+- docs\CURSOR-AND-THEMES.md cites the platform boundary and records recipient disappearance as unverified.
+- Local GDI content tests are not cursor-stream or meeting-product tests.
+
+## Completion log
+
+- 2026-10-08 11:31 IST - Owner requested removal of cursor/focus clues; local mitigation implemented,
+  actual recipient-side symptom remains an explicit qualification gap.

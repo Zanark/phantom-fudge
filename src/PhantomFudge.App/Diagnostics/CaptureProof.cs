@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shell;
 using System.Windows.Threading;
 using PhantomFudge.App.Native;
 
@@ -15,13 +16,29 @@ namespace PhantomFudge.App.Diagnostics;
 
 internal static class CaptureProof
 {
-    public static async Task<int> RunAsync(string outputDirectory)
+    public static async Task<int> RunAsync(string outputDirectory, bool transparent = false)
     {
         Directory.CreateDirectory(outputDirectory);
         var backdrop = MakeWindow("Synthetic capture backdrop", 80, 80, 480, 330,
             Color.FromRgb(35, 150, 90), "");
         var overlay = MakeWindow("Synthetic capture control", 110, 110, 400, 250,
             Color.FromRgb(170, 45, 45), "SYNTHETIC NOTE\nPHANTOM CANARY 7319");
+        if (transparent)
+        {
+            backdrop.Content = new TextBlock
+            {
+                Text = "BACKGROUND CONTENT\nThis text is behind the notes.",
+                FontSize = 20, Foreground = Brushes.White, Margin = new Thickness(50, 160, 10, 10)
+            };
+            overlay.AllowsTransparency = true;
+            overlay.Background = new SolidColorBrush(Color.FromArgb(128, 170, 45, 45));
+            overlay.ResizeMode = ResizeMode.CanResize;
+            WindowChrome.SetWindowChrome(overlay, new WindowChrome
+            {
+                CaptionHeight = 38, ResizeBorderThickness = new Thickness(6),
+                GlassFrameThickness = new Thickness(0), CornerRadius = new CornerRadius(0)
+            });
+        }
         try
         {
             backdrop.Show();
@@ -38,7 +55,7 @@ internal static class CaptureProof
             SaveImage(outputDirectory, "underlying-baseline.png", bounds, baseline);
             var controlDifference = CountDifferences(baseline, positive);
 
-            var configuration = WindowProtection.Configure(overlay, nonActivating: false);
+            var configuration = WindowProtection.Configure(overlay, nonActivating: true);
             var frames = new List<object>();
             var maximumDifference = 0;
             for (var cycle = 0; cycle < 4; cycle++)
@@ -46,18 +63,29 @@ internal static class CaptureProof
                 overlay.Show();
                 for (var sample = 0; sample < 4; sample++)
                 {
+                    if (transparent)
+                    {
+                        byte[] alphaLevels = [26, 140, 255, 140];
+                        overlay.Background = new SolidColorBrush(Color.FromArgb(alphaLevels[sample], 170, 45, 45));
+                        await Dispatcher.Yield(DispatcherPriority.Render);
+                        WindowProtection.FlushComposition();
+                    }
                     var pixels = Grab(bounds);
                     var difference = CountDifferences(baseline, pixels);
                     maximumDifference = Math.Max(maximumDifference, difference);
                     var name = $"protected-{cycle}-{sample}.png";
                     SaveImage(outputDirectory, name, bounds, pixels);
-                    frames.Add(new { cycle, sample, difference, image = name, utc = DateTimeOffset.UtcNow });
+                    frames.Add(new
+                    {
+                        cycle, sample, difference, backgroundAlpha = ((SolidColorBrush)overlay.Background).Color.A,
+                        image = name, utc = DateTimeOffset.UtcNow
+                    });
                     await Dispatcher.Yield(DispatcherPriority.Render);
                     await Task.Delay(30);
                 }
                 overlay.Hide();
                 await SettleAsync();
-                WindowProtection.Configure(overlay, nonActivating: false);
+                WindowProtection.Configure(overlay, nonActivating: true);
             }
 
             var styles = WindowProtection.ReadStyles(handle);
@@ -72,6 +100,10 @@ internal static class CaptureProof
                 processArchitecture = RuntimeInformation.ProcessArchitecture.ToString(),
                 assemblySha256 = Convert.ToHexString(SHA256.HashData(await File.ReadAllBytesAsync(assemblyPath))),
                 configuration,
+                allowsTransparency = overlay.AllowsTransparency,
+                backgroundAlpha = ((SolidColorBrush)overlay.Background).Color.A,
+                layered = (styles & 0x80000) != 0,
+                noActivate = (styles & 0x08000000) != 0,
                 toolWindow = (styles & WindowProtection.ToolWindow) != 0,
                 appWindow = (styles & WindowProtection.AppWindow) != 0,
                 controlDifferencePixels = controlDifference,
@@ -96,7 +128,7 @@ internal static class CaptureProof
     {
         Title = title, Left = left, Top = top, Width = width, Height = height,
         WindowStyle = WindowStyle.None, ResizeMode = ResizeMode.NoResize,
-        ShowInTaskbar = false, AllowsTransparency = false, Topmost = true,
+        ShowInTaskbar = false, ShowActivated = false, AllowsTransparency = false, Topmost = true,
         Background = new SolidColorBrush(background),
         Content = new TextBlock
         {

@@ -1,0 +1,41 @@
+# Adjustable Background Translucency
+
+Status: IN_PROGRESS
+Milestone: M2-M4 Requested rendering change
+Dependencies: 05_WINDOW_SHELL.todo, 06_CAPTURE_POLICY.todo
+
+## Purpose
+
+Let the owner see/read actual content behind the notes while keeping note/transcript text solid.
+
+## Tasks
+
+- [x] Probe a layered WPF window with native chrome and capture affinity before changing the UI.
+- [x] Add a background-only opacity slider,10-100% with55% default; do not fade the text/window.
+- [x] Remove opaque editor/transcript fills; retain opaque header/setup/confirmation controls.
+- [x] Keep the slider enabled in Present and preserve HWND, notes, and removed-acknowledgment behavior.
+- [x] Exercise alpha endpoints, solid text, caption/resize/editor hit regions and local capture samples.
+- [ ] Complete the affected actual meeting/OBS capture matrix on supported hardware.
+- [ ] Record owner readability/usability acceptance with their presentation backgrounds.
+
+## Acceptance criteria
+
+- [x] 10% produces real background alpha26,100% produces255, while text/Window opacity stays1.
+- [x] Caption returns HTCAPTION, resize edge HTLEFT, editor HTCLIENT in native hit testing.
+- [x] No permission/rehearsal prompt or microphone/cloud capture path is introduced.
+- [ ] Exact packaged current-rendering configuration is covered by required product qualification.
+- [ ] Owner can comfortably read relevant content behind the note surface.
+
+## Completion evidence
+
+- Local Windows26200 layered WPF spike: getter affinity17;16protected GDI samples match background.
+- .local\translucent-ui-final\result.json: alpha26/255, solid text, stable HWND, all prior UI regressions.
+- .local\translucent-capture has synthetic visible-blend and capture-exclusion examples.
+- This is local synthetic evidence only, not an all-recorder guarantee or owner acceptance.
+- Exact packaged UI and layered GDI probes passed, along with native minimize/relaunch/hide/close.
+- Local ZIP artifacts\phantom-fudge-0.1.0-preview-translucent-20261008-032051.zip,
+  SHA2566BA27F4CF2DD5F64F86F02263594394694AF9A80FB03E5DE3948B536B4BDA1B8.
+
+## Completion log
+
+- 2026-10-08 - Owner requested see-through notes; implemented background tint with solid text.

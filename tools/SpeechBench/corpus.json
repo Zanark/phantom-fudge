@@ -1,0 +1,10 @@
+[
+  {"id":"meeting-01","category":"ordinary","text":"Please share the agenda before our next meeting."},
+  {"id":"meeting-02","category":"ordinary","text":"We agreed to review the open questions on Friday."},
+  {"id":"meeting-03","category":"ordinary","text":"The design looks good, but the timeline needs another review."},
+  {"id":"meeting-04","category":"technical","text":"Restart the database after the deployment finishes."},
+  {"id":"meeting-05","category":"technical","text":"The Kubernetes service retries the request when the cache is unavailable."},
+  {"id":"meeting-06","category":"technical","text":"Check the authentication token and the network timeout."},
+  {"id":"meeting-07","category":"numbers","text":"We need twenty five test cases and twelve reviewers."},
+  {"id":"meeting-08","category":"numbers","text":"The meeting starts at nine thirty and lasts forty five minutes."}
+]

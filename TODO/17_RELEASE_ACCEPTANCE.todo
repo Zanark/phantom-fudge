@@ -10,7 +10,7 @@ Define 'complete app' as usable, qualified, recoverable, documented delivery, no
 
 ## Tasks
 
-- [ ] Audit R01-R08, including live output transcription and Docker, against actual feature/fault/capture evidence.
+- [ ] Audit R01-R12, including native transcription, translucency, themes and bounded cursor behavior, against evidence.
 - [ ] Confirm no unresolved required-mode content leak, data-loss defect, or unrecoverable hidden-window case.
 - [ ] Obtain owner approval of readability, moving/editing, focus behavior, and presentation workflow.
 - [ ] Confirm final package hash matches the qualified artifact and support documentation.
@@ -22,7 +22,8 @@ Define 'complete app' as usable, qualified, recoverable, documented delivery, no
 
 ## Acceptance criteria
 
-- [ ] R01-R08 are satisfied, including real Docker and audio/transcript evidence within the accepted limits.
+- [ ] R01-R12 are satisfied within supported native/audio/theme/capture/cursor boundaries.
+- [ ] Docker is explicitly deferred until after this native release, not required for ordinary transcription.
 - [ ] Owner UX acceptance, technical evidence, and distribution approval are separately recorded.
 - [ ] No unfinished required work is hidden behind a DONE label or replaced by optional feature success.
 - [ ] Public/local release status is exact; no unsupported promise of universal invisibility.

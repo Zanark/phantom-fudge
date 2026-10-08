@@ -9,22 +9,21 @@ definition statuses, are the authoritative progress record.
 | Gate | Workstreams | Exit evidence |
 | --- | --- | --- |
 | G0 / M0: decisions and research | 01, 02 | Approved required behaviors/configurations, accepted privacy wording, stack/spike scope |
-| G1 / M1: capture proof | 03 | Synthetic-text opaque HWND proof, actual API/lifecycle results, initial recipient recordings |
-| G2 / M2: usable core | 04-10 | Reproducible project, shell/editor/storage/hotkeys/modes integrated |
-| G3 / M3: hardening | 11, 12 | Mixed-DPI/accessibility/failure/soak evidence on interactive Windows |
+| G1 / M1: capture proof | 03, 21 | Synthetic-text current-rendering HWND proof, actual API/lifecycle results, recipient recordings |
+| G2 / M2: usable core | 04-10,19,22 | Native C# UI/audio plus native Python recognition, no Docker |
+| G3 / M3: hardening | 11,12,21,23 | DPI/accessibility/failure/soak/rendering and measured engine results |
 | G4 / M4: qualified candidate | 14 then 13 | Package hash, exact-version capture matrix, no required content leaks |
 | G5 / M5: handoff | 15 then 17 | Honest guide/support table, owner UX acceptance, approved distribution and release artifacts |
+| G6 / M6: optional, last | 20 | Containerize the already-complete headless Python service if later requested |
 
 `16_DEVELOPMENT_LEDGER.todo` spans the lifecycle. `18_FUTURE_SCOPE.todo` is deferred and
 does not block v1. No calendar or effort estimate is asserted before the capture proof.
 
-October 8 required additions: `19_LIVE_TRANSCRIPTION.todo` and `20_DOCKER_LOCAL_SERVICE.todo`
-are v1 release dependencies, not future work. Implement native render-endpoint-only capture,
-authenticated local Docker inference, protected partial/final transcript UI and explicit start/stop.
-After a local desktop proof, continue an explicitly unqualified development candidate while
-remote meeting-account/hardware gates remain open; do not call that candidate a release.
-Before G4/G5, require actual Docker execution, real synthetic-speech integration, output-loopback
-evidence, and transcript-pixel capture qualification. Native Python tests cannot substitute for Docker.
+October8 03:25 correction: required transcription19 depends on native Python runtime22, not Docker20.
+Docker is only eventual containerization and comes after the native app/release. Preserve the
+headless model/protocol boundaries now without imposing container infrastructure on normal startup.
+Require real native speech/loopback and transcript-pixel qualification before native release.
+Benchmark23 compares actual engines on identical direct PCM while muted; no speaker/mic use.
 
 ## Critical path
 
@@ -37,11 +36,14 @@ evidence, and transcript-pixel capture qualification. Native Python tests cannot
        -> 07 editor -> 08 persistence
        -> 09 hotkeys/recovery
   -> 10 presentation mode (06 + 07 + 09)
+  -> 22 native Python runtime + 19 live transcription (Docker not required)
   -> 11 DPI/accessibility + 12 diagnostics/tests
+  -> 21 translucency + 23 offline recognizer comparison
   -> 14 packaged candidate
   -> 13 final capture qualification
   -> 15 user/support guide
   -> 17 release acceptance
+  -> 20 optional containerization, last
 ```
 
 Parallel work is possible after the shell boundary is stable: editor/storage, recovery,
@@ -52,7 +54,7 @@ competing HWND/style/state implementations.
 ## G1 spike: prove the risky behavior first
 
 Build only an isolated, synthetic-text prototype after the stack decision is approved.
-Create an opaque top-level window before showing it, configure tool-window styles,
+Create a top-level window in the current rendering mode before showing it, configure tool-window styles,
 apply `WDA_EXCLUDEFROMCAPTURE`, and implement a recovery shortcut. Record actual setter
 and getter behavior and every auxiliary HWND. Compare with an ordinary unprotected
 synthetic positive control.
@@ -70,6 +72,10 @@ consider sharing a specific presentation window/tab or a separate unshared displ
 Those alternatives change the product contract and require approval.
 
 ## Feature delivery loop
+
+Owner preference as of October 8: permission and recipient preflight are performed outside
+the app. Never add checkboxes, dialogs or repeat acknowledgments for either workflow.
+Keep explicit Start/Stop, technical failure checks and unsaved-data confirmation.
 
 1. Select a ready task; confirm its dependencies and open product decisions.
 2. Record scope and acceptance, set IN_PROGRESS, and isolate ownership of shared files.
