@@ -28,6 +28,13 @@ public partial class App : Application
                 Shutdown(await preview.RunUiSmokeAsync(uiDirectory));
                 return;
             }
+            if (e.Args is ["--documentation-screenshots", var documentationDirectory])
+            {
+                var preview = new MainWindow();
+                MainWindow = preview;
+                Shutdown(await preview.RunUiSmokeAsync(documentationDirectory, documentationFixture: true));
+                return;
+            }
 
             instance = new SingleInstance();
             if (!instance.IsOwner)

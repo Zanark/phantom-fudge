@@ -21,6 +21,8 @@ from recognizer import Recognition, VoskFactory
 
 
 FORMAT = {"sampleRate": 16000, "channels": 1, "encoding": "pcm_s16le"}
+SOURCES = {"computer": 1, "microphone": 2}
+SOURCE_NAMES = {value: name for name, value in SOURCES.items()}
 ERRORS = {
     "auth": "Local authentication failed. Check the configured token.",
     "origin": "Browser connections are not supported.",
@@ -87,6 +89,21 @@ def parse_control(message, limits):
     if not isinstance(value, dict):
         raise ProtocolError("bad_frame")
     return value
+
+
+def parse_start(value):
+    if type(value.get("sampleRate")) is not int or type(value.get("channels")) is not int:
+        raise ProtocolError("bad_format")
+    if value == {"type": "start", **FORMAT}:
+        return 1, ("computer",)
+    sources = value.get("sources")
+    if (type(value.get("protocolVersion")) is int
+            and value.get("protocolVersion") == 2
+            and isinstance(sources, list) and sources
+            and sources == [source for source in SOURCES if source in sources]
+            and value == {"type": "start", "protocolVersion": 2, **FORMAT, "sources": sources}):
+        return 2, tuple(sources)
+    raise ProtocolError("bad_format")
 
 
 class Runtime:
@@ -168,6 +185,7 @@ async def runtime_info(request):
     return web.json_response({
         "service": "phantom-fudge-transcription",
         "protocolVersion": 1,
+        "speechProtocolVersions": [1, 2],
         "instanceId": runtime.instance_id,
         "pid": os.getpid(),
         "ready": runtime.ready,
@@ -191,21 +209,30 @@ async def managed_shutdown(request):
     return web.json_response({"status": "stopping"}, headers={"Cache-Control": "no-store"})
 
 
+class SourceState:
+    def __init__(self, decoder, limits):
+        self.decoder = decoder
+        self.total_bytes = 0
+        self.last_partial = None
+        self.audio_credit = float(limits.burst_bytes)
+        self.frame_credit = float(limits.burst_frames)
+        self.last_receive = time.monotonic()
+        self.last_end = 0.0
+        self.queued_bytes = 0
+        self.queued_frames = 0
+
+
 class Session:
-    def __init__(self, runtime, ws, decoder):
+    def __init__(self, runtime, ws, decoders, protocol_version=1):
         self.runtime = runtime
         self.limits = runtime.limits
         self.ws = ws
-        self.decoder = decoder
-        self.queue = asyncio.Queue(maxsize=self.limits.queue_frames)
+        self.protocol_version = protocol_version
+        self.sources = {source: SourceState(decoder, self.limits) for source, decoder in decoders.items()}
+        self.queue = asyncio.Queue(maxsize=self.limits.queue_frames * len(self.sources))
+        self.queue_bytes = self.limits.queue_bytes * len(self.sources)
         self.queued_bytes = 0
-        self.total_bytes = 0
         self.segment_id = 0
-        self.last_partial = None
-        self.audio_credit = float(self.limits.burst_bytes)
-        self.frame_credit = float(self.limits.burst_frames)
-        self.last_receive = time.monotonic()
-        self.last_end = 0.0
 
     async def receive(self):
         while True:
@@ -220,64 +247,90 @@ class Session:
             if message.type == WSMsgType.TEXT:
                 if parse_control(message, self.limits) != {"type": "stop"}:
                     raise ProtocolError("bad_frame")
-                # The terminal marker drains after all already accepted audio.
-                try:
-                    self.queue.put_nowait(None)
-                except asyncio.QueueFull:
-                    raise ProtocolError("backlog") from None
+                # Wait for a slot rather than faulting a full, valid audio queue on stop.
+                await self.queue.put(None)
                 return True
             if message.type != WSMsgType.BINARY:
                 raise ProtocolError("bad_frame")
             pcm = message.data
+            source = "computer"
+            if self.protocol_version == 2:
+                source = SOURCE_NAMES.get(pcm[0]) if pcm else None
+                if source not in self.sources:
+                    raise ProtocolError("bad_frame")
+                pcm = pcm[1:]
             if not pcm or len(pcm) % 2 or len(pcm) > self.limits.frame_bytes:
                 raise ProtocolError("bad_frame")
+            state = self.sources[source]
             now = time.monotonic()
-            elapsed = now - self.last_receive
-            self.last_receive = now
-            self.audio_credit = min(self.limits.burst_bytes, self.audio_credit + elapsed * self.limits.bytes_per_second)
-            self.frame_credit = min(self.limits.burst_frames, self.frame_credit + elapsed * self.limits.frames_per_second)
-            if self.audio_credit < len(pcm) or self.frame_credit < 1:
+            elapsed = now - state.last_receive
+            state.last_receive = now
+            state.audio_credit = min(self.limits.burst_bytes, state.audio_credit + elapsed * self.limits.bytes_per_second)
+            state.frame_credit = min(self.limits.burst_frames, state.frame_credit + elapsed * self.limits.frames_per_second)
+            if state.audio_credit < len(pcm) or state.frame_credit < 1:
                 raise ProtocolError("rate_limit")
-            self.audio_credit -= len(pcm)
-            self.frame_credit -= 1
-            self.total_bytes += len(pcm)
-            if self.total_bytes / 32000 > self.limits.session_seconds:
+            state.audio_credit -= len(pcm)
+            state.frame_credit -= 1
+            state.total_bytes += len(pcm)
+            if state.total_bytes / 32000 > self.limits.session_seconds:
                 raise ProtocolError("session_limit")
-            if self.queued_bytes + len(pcm) > self.limits.queue_bytes:
+            if (self.queued_bytes + len(pcm) > self.queue_bytes
+                    or state.queued_bytes + len(pcm) > self.limits.queue_bytes
+                    or state.queued_frames >= self.limits.queue_frames):
                 raise ProtocolError("backlog")
             try:
-                self.queue.put_nowait(pcm)
+                self.queue.put_nowait((source, pcm))
             except asyncio.QueueFull:
                 raise ProtocolError("backlog") from None
             self.queued_bytes += len(pcm)
+            state.queued_bytes += len(pcm)
+            state.queued_frames += 1
 
-    async def publish(self, result):
+    async def publish(self, source, result):
+        state = self.sources[source]
         if not isinstance(result, Recognition) or not isinstance(result.text, str) or len(result.text) > 8192:
             raise ProtocolError("decoder_error")
+        label = {"source": source} if self.protocol_version == 2 else {}
         if result.final:
-            if not (math.isfinite(result.start) and math.isfinite(result.end)
-                    and 0 <= self.last_end <= result.start <= result.end <= self.total_bytes / 32000 + 0.1):
+            duration = state.total_bytes / 32000
+            tolerance = 0.1 if self.protocol_version == 1 else 0
+            if not (type(result.start) in (int, float) and type(result.end) in (int, float)
+                    and 0 <= state.last_end <= result.start <= result.end <= duration + tolerance
+                    and math.isfinite(result.start) and math.isfinite(result.end)):
                 raise ProtocolError("decoder_error")
             self.segment_id += 1
-            self.last_end = result.end
-            self.last_partial = None
+            state.last_end = result.end
+            state.last_partial = None
+            start, end = round(result.start, 3), round(result.end, 3)
+            if self.protocol_version == 2:
+                # Millisecond rounding must not extend a very short source past its PCM.
+                wire_duration = (state.total_bytes // 32) / 1000
+                start, end = min(start, wire_duration), min(end, wire_duration)
             await send(self.ws, {
-                "type": "final", "text": result.text, "segmentId": self.segment_id,
-                "startSeconds": round(result.start, 3), "endSeconds": round(result.end, 3),
+                "type": "final", **label, "text": result.text, "segmentId": self.segment_id,
+                "startSeconds": start, "endSeconds": end,
             }, self.limits)
-        elif result.text != self.last_partial:
-            self.last_partial = result.text
-            await send(self.ws, {"type": "partial", "text": result.text}, self.limits)
+        elif result.text != state.last_partial:
+            state.last_partial = result.text
+            await send(self.ws, {"type": "partial", **label, "text": result.text}, self.limits)
 
     async def recognize(self):
         while True:
-            pcm = await self.queue.get()
-            if pcm is None:
-                await self.publish(await self.runtime.cpu(self.decoder.finish))
+            item = await self.queue.get()
+            if item is None:
+                for source, state in self.sources.items():
+                    result = await self.runtime.cpu(state.decoder.finish)
+                    if not isinstance(result, Recognition) or not result.final:
+                        raise ProtocolError("decoder_error")
+                    await self.publish(source, result)
                 await send(self.ws, {"type": "stopped"}, self.limits)
                 return
+            source, pcm = item
             self.queued_bytes -= len(pcm)
-            await self.publish(await self.runtime.cpu(self.decoder.accept, pcm))
+            state = self.sources[source]
+            state.queued_bytes -= len(pcm)
+            state.queued_frames -= 1
+            await self.publish(source, await self.runtime.cpu(state.decoder.accept, pcm))
 
     async def run(self):
         receiver = asyncio.create_task(self.receive())
@@ -315,7 +368,7 @@ async def transcribe(request):
     ws = web.WebSocketResponse(
         # Aiohttp's framing ceiling is exclusive. A small allowance lets us report
         # slightly oversized audio as a protocol error before the hard transport cap.
-        max_msg_size=runtime.limits.frame_bytes + runtime.limits.control_bytes + 1,
+        max_msg_size=runtime.limits.frame_bytes + 1 + runtime.limits.control_bytes + 1,
         compress=False, autoping=True,
         heartbeat=10, timeout=runtime.limits.send_seconds, writer_limit=16384,
     )
@@ -324,13 +377,16 @@ async def transcribe(request):
         runtime.sockets.add(ws)
         message = await asyncio.wait_for(ws.receive(), runtime.limits.start_seconds)
         value = parse_control(message, runtime.limits)
-        if (value != {"type": "start", **FORMAT}
-                or type(value.get("sampleRate")) is not int or type(value.get("channels")) is not int):
-            raise ProtocolError("bad_format")
-        decoder = await runtime.cpu(runtime.factory)
-        await send(ws, {"type": "ready", **FORMAT}, runtime.limits)
-        await Session(runtime, ws, decoder).run()
+        protocol_version, sources = parse_start(value)
+        decoders = {source: await runtime.cpu(runtime.factory) for source in sources}
+        ready = {"type": "ready", **FORMAT}
+        if protocol_version == 2:
+            ready.update(protocolVersion=2, sources=list(sources))
+        await send(ws, ready, runtime.limits)
+        await Session(runtime, ws, decoders, protocol_version).run()
     except ProtocolError as exc:
+        if exc.code == "decoder_error":
+            runtime.failed = True
         if ws.prepared:
             await close_with_error(ws, exc.code, runtime.limits)
         else:

@@ -12,3 +12,4 @@ artifacts/
 TestResults/
 *.user
 *.suo
+**/node_modules/

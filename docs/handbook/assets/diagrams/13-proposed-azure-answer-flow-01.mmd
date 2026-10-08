@@ -1,0 +1,36 @@
+---
+config:
+  theme: base
+  themeVariables:
+    lineColor: "#8b949e"
+    textColor: "#e6edf3"
+---
+flowchart TB
+    accTitle: PLANNED explicit-question Azure boundary
+    accDescr: Existing local speech feeds a planned structured draft; only an explicit immutable question crosses to Azure.
+    subgraph Local["Local desktop"]
+        PCM["Selected PCM"] --> ASR["Existing local ASR"]
+        ASR -.-> Store["PLANNED segments"]
+        Store -.-> Draft["PLANNED draft"]
+        Draft -.-> Ask["PLANNED Ask"]
+        Ask -.-> Frozen["PLANNED snapshot"]
+        Frozen -.-> Client["PLANNED C# client"]
+        Answer["PLANNED answer pane"]
+    end
+    subgraph Cloud["PLANNED Azure boundary"]
+        API["v1 Responses"]
+    end
+    Client -. selected text .-> API
+    API -. text deltas .-> Answer
+    style PCM fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style ASR fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Store fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Draft fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Ask fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Frozen fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Client fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Answer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style API fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Local fill:#161b22,stroke:#30363d,color:#e6edf3
+    style Cloud fill:#161b22,stroke:#30363d,color:#e6edf3,stroke-dasharray:5 5
+    linkStyle default stroke:#8b949e

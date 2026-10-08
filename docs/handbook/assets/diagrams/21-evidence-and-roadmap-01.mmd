@@ -1,0 +1,28 @@
+---
+config:
+  theme: base
+  themeVariables:
+    lineColor: "#8b949e"
+    textColor: "#e6edf3"
+---
+flowchart TB
+    accTitle: Evidence ladder with independent owner observations
+    accDescr: Research, implementation, synthetic checks, scoped integration, recipient qualification, and accepted delivery require distinct proof.
+    Research["Research contract"] --> Code["Implemented path"]
+    Code --> Synthetic["Synthetic checks"]
+    Synthetic --> Integration["Scoped integration"]
+    Integration -. new evidence .-> Package["Exact candidate"]
+    Package -. new evidence .-> Recipient["Recipient qualification"]
+    Recipient -. approval .-> Delivery["Accepted delivery"]
+    Owner["Owner observation"] --> Reproduce["Reproduce exact scope"]
+    Reproduce -. evidence .-> Recipient
+    style Research fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Code fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Synthetic fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Integration fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Package fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Recipient fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Delivery fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Owner fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Reproduce fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    linkStyle default stroke:#8b949e

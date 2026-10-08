@@ -1,0 +1,23 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+sequenceDiagram
+    accTitle: Explicit capture and completion
+    accDescr: The owner starts capture through WPF, native input sends audio to local Python, and stopping must settle the pipeline.
+    autonumber
+    participant Owner
+    participant UI as WPF
+    participant Native as Native capture
+    participant Service as Local Python
+    participant Buffer
+    Owner->>UI: Select inputs and Start
+    UI->>Service: Authenticate and negotiate
+    Service-->>UI: Ready
+    UI->>Native: Open selected inputs
+    Native->>Service: Source-tagged PCM
+    Service-->>Buffer: Partial then final
+    Buffer-->>UI: Labelled text
+    Owner->>UI: Stop
+    UI->>Native: Release capture
+    UI->>Service: Drain and stop
+    Service-->>UI: Source finals then stopped

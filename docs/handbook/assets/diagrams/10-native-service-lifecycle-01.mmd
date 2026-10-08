@@ -1,0 +1,37 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Three independent lifecycle boundaries
+    accDescr: Provisioning enables a service, service readiness enables an explicit capture request, and capture stop precedes idle service shutdown.
+    subgraph P["Provisioning"]
+        I["Explicit initialization"] --> V["Token and verified model"]
+        V --> E["Local Python environment"]
+    end
+    subgraph S["Service ownership"]
+        E --> L["Lifecycle lock"]
+        L --> O["Authenticate ownership"]
+        O --> R["Ready idle service"]
+    end
+    subgraph A["Application session"]
+        R --> U["Explicit Start"]
+        U --> C["Selected capture"]
+        C --> F["Stop and final drain"]
+    end
+    F --> H["Authenticated idle shutdown"]
+    H --> X["Port closes; receipt removed"]
+    style I fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style V fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style E fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style L fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style O fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style R fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style U fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style C fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style F fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style H fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style X fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style P fill:#161b22,stroke:#30363d,color:#e6edf3
+    style S fill:#161b22,stroke:#30363d,color:#e6edf3
+    style A fill:#161b22,stroke:#30363d,color:#e6edf3
+    linkStyle default stroke:#8b949e

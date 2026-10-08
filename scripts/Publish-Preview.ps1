@@ -24,7 +24,7 @@ $scripts = Join-Path $directory 'scripts'
 $service = Join-Path $directory 'services\transcription'
 New-Item -ItemType Directory -Path $docs,$scripts,$service -Force | Out-Null
 Copy-Item -LiteralPath (Join-Path $root 'docs\PACKAGED-README.md') -Destination (Join-Path $directory 'README.md')
-foreach ($name in @('PREVIEW-GUIDE.md','TRANSCRIPTION.md','CURSOR-AND-THEMES.md','THIRD-PARTY-NOTICES.md')) {
+foreach ($name in @('PREVIEW-GUIDE.md','TRANSCRIPTION.md','DUAL-SOURCE-AUDIO.md','CURSOR-AND-THEMES.md','LOCAL-QUESTIONS.md','THIRD-PARTY-NOTICES.md')) {
     Copy-Item -LiteralPath (Join-Path $root "docs\$name") -Destination $docs
 }
 foreach ($name in @('Initialize-Transcription','Start-Transcription','Stop-Transcription','Run-PhantomFudge')) {

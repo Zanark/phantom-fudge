@@ -28,11 +28,20 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
 
 ## Completion evidence
 
-- Planning documents and task catalogue are the only current project artifacts.
+- Current implementation/package evidence is in docs\IMPLEMENTATION-STATUS.md; older planning-only entries below are historical.
 - Local session context registration/offload is separate from app implementation and public source.
 
 ## Completion log
 
+- 2026-10-08 15:05 request: deep research/design only for dictated question -> explicit Ask -> streamed
+  Azure answer. Added4design/research/privacy/evaluation docs, workstreams27-37 and workflows04/05.
+  No app/SDK/runtime changes, Azure resources/account discovery/inference, live audio or uploads.
+  Recommended direct v1Responses + localASR; source-scoped Mic commit; modern model lifecycle-aware
+  benchmark; optional cloudASR/broker, Dockerlast. Proposed latency targets are not measured results.
+- 2026-10-08 14:01 - Owner requested mic dictation plus machine audio; no chat reading. Implemented
+  Computer/Mic/Both, separate selected WASAPI tracks and source-labelled v2 recognizers with v1 compatibility.
+  Core41/native46/Python71/manager4 and real generated dual-source/C#integration pass without live capture.
+  Fixed Start-during-Stop session-reset race. Actual mic/echo/OS-indicator qualification remains open.
 - 2026-10-08 11:31 request delivered locally: transcript-first/collapsed notes, passive default,
   fixed Arrow, canonical dark/light/plain themes and no automatic unprotected error popup.
   Passive ListBox click-selection bug fixed; Core33tests and exact-package UI regressions pass.
@@ -74,3 +83,11 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
   Other surveyed projects also use narrative roadmaps; remote issue trackers were not audited.
 - 2026-10-07 - Proposed opaque WPF/native-affinity design and proof-before-polish delivery gates.
   All runtime and compatibility outcomes remain untested; stack/defaults await approval.
+
+- 2026-10-08 16:11 request - Establish a book-level illustrated engineering handbook and public
+  JOURNAL, with maintained source citations, diagrams and synthetic actual-WPF images. Added
+  workstream38 and workflow06; full edition build/review evidence belongs in38 and handbook manifest.
+  No live audio, chat read, Azure operation, user-process interruption, preview repackaging or upload.
+- 2026-10-08 - Book38 completed locally:22chapters + public JOURNAL,47diagrams,9synthetic UI images,
+  approximately37000words and183PDF pages. Full HTML/PDF source/artifact receipt is handbook\manifest.json.
+  Print readability and1440/768/390reader layouts reviewed; maintenance is part of every future feature.

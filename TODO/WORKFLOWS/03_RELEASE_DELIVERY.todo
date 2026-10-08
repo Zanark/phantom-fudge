@@ -18,7 +18,8 @@ packaging recipe; clean-machine results; owner UX approval; required capture evi
 
 1. Build/freeze the candidate via root workstream 14 and audit its contents for private data.
 2. Qualify its exact hash via workstream 13; rebuilding requires affected qualification again.
-3. Finish the user/support guide via workstream 15 and resolve every required release blocker.
+3. Finish the user/support guide via workstream15 and workflow06's source-matched handbook,
+   synthetic images, public journal and HTML/PDF manifest. Resolve every required release blocker.
 4. Obtain explicit publishing authorization and verify the intended destination/account permissions.
 5. Sign only with an approved identity/key workflow where required; record actual warnings and limits.
 6. Deliver immutable versioned artifacts/hashes/notices; do not overwrite historical evidence.
@@ -48,3 +49,4 @@ Lack of publishing access is not authorization to change accounts or bypass rest
 ## Completion log
 
 - 2026-10-07 - Procedure defined; distribution remains unauthorized until explicitly requested.
+- 2026-10-08 - Candidate-specific documentation freshness is required; a book build is not release qualification.

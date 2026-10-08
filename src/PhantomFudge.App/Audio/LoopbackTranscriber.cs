@@ -1,12 +1,12 @@
 using System.Buffers.Binary;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
+using PhantomFudge.Core;
 
 namespace PhantomFudge.App.Audio;
 
-/// <summary>Captures all audio on one explicitly selected render endpoint, never a microphone.</summary>
+/// <summary>Captures explicitly selected computer and/or microphone endpoints as independent tracks.</summary>
 public sealed class LoopbackTranscriber : IAsyncDisposable
 {
     private static readonly TimeSpan CaptureStopTimeout = TimeSpan.FromSeconds(5);
@@ -14,43 +14,65 @@ public sealed class LoopbackTranscriber : IAsyncDisposable
     private static readonly byte[] SilenceFrame = new byte[TranscriptionSocket.BytesPerSecond / 10];
     private readonly SemaphoreSlim _lifecycle = new(1, 1);
     private readonly object _requestLock = new();
+    private readonly Func<AudioSource, string, Action, IWaveIn> _openInput;
     private long _stopVersion;
     private Session? _session;
     private Task _pendingCaptureRelease = Task.CompletedTask;
     private int _captureReleaseFailed;
     private bool _disposed;
 
+    public LoopbackTranscriber() : this((source, id, disconnected) => new WasapiInput(source, id, disconnected)) { }
+
+    // Tests substitute synthetic IWaveIn objects; production always owns an explicit WASAPI endpoint.
+    internal LoopbackTranscriber(Func<AudioSource, string, Action, IWaveIn> openInput) => _openInput = openInput;
+
     public bool IsRunning => Volatile.Read(ref _session)?.Running == true;
     public event Action<TranscriptEvent>? TranscriptReceived;
     public event Action<string>? StatusChanged;
     public event Action<string>? Faulted;
+    /// <summary>Maximum of the latest levels from all selected inputs; zero after stop.</summary>
     public event Action<float>? LevelChanged;
+    public event Action<AudioSource, float>? SourceLevelChanged;
 
-    public static IReadOnlyList<RenderDevice> GetRenderDevices()
+    public static IReadOnlyList<RenderDevice> GetRenderDevices() =>
+        EnumerateDevices(AudioSource.Computer).Select(device => new RenderDevice(device.Id, device.Name)).ToArray();
+
+    public static IReadOnlyList<MicrophoneDevice> GetMicrophoneDevices() =>
+        EnumerateDevices(AudioSource.Microphone).Select(device => new MicrophoneDevice(device.Id, device.Name)).ToArray();
+
+    private static IReadOnlyList<(string Id, string Name)> EnumerateDevices(AudioSource source)
     {
         try
         {
             using var enumerator = new MMDeviceEnumerator();
-            var result = new List<RenderDevice>();
-            foreach (MMDevice device in enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active))
+            var result = new List<(string, string)>();
+            DataFlow direction = WasapiInput.Direction(source);
+            foreach (MMDevice device in enumerator.EnumerateAudioEndPoints(direction, DeviceState.Active))
             {
                 using (device)
-                    result.Add(new RenderDevice(device.ID, device.FriendlyName));
+                    if (device.DataFlow == direction && device.State == DeviceState.Active)
+                        result.Add((device.ID, device.FriendlyName));
             }
             return result;
         }
         catch (Exception)
         {
-            throw new InvalidOperationException("Cannot list playback devices. Check Windows sound settings.");
+            throw new InvalidOperationException("Cannot list the selected audio inputs. Check Windows sound settings.");
         }
     }
 
-    public async Task StartAsync(
-        string deviceId,
-        Uri endpoint,
-        string token,
-        CancellationToken cancellationToken = default)
+    public Task StartAsync(string deviceId, Uri endpoint, string token, CancellationToken cancellationToken = default) =>
+        StartCoreAsync(new AudioInputSelection(deviceId, null), endpoint, token, false, cancellationToken, Guid.NewGuid());
+
+    public Task StartAsync(AudioInputSelection selection, Uri endpoint, string token,
+        CancellationToken cancellationToken = default, Guid? captureSessionId = null) =>
+        StartCoreAsync(selection, endpoint, token, true, cancellationToken, captureSessionId ?? Guid.NewGuid());
+
+    private async Task StartCoreAsync(AudioInputSelection selection, Uri endpoint, string token, bool version2,
+        CancellationToken cancellationToken, Guid captureSessionId)
     {
+        if (captureSessionId == Guid.Empty)
+            throw new ArgumentException("A capture session must have an identity.", nameof(captureSessionId));
         long startVersion = Interlocked.Read(ref _stopVersion);
         await _lifecycle.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
@@ -60,58 +82,81 @@ public sealed class LoopbackTranscriber : IAsyncDisposable
                 throw new InvalidOperationException("Stop the current transcription session before starting another.");
             if (!_pendingCaptureRelease.IsCompleted || Volatile.Read(ref _captureReleaseFailed) != 0)
                 throw new InvalidOperationException("The previous audio device is still stopping. Close the app before retrying.");
-
+            Input[] inputs = ValidateSelection(selection);
             Session session;
             lock (_requestLock)
             {
                 if (startVersion != _stopVersion)
                     throw new InvalidOperationException("Local transcription startup was canceled.");
-                session = new Session();
+                session = new Session(inputs, captureSessionId);
                 Volatile.Write(ref _session, session);
             }
-            session.Transport.TranscriptReceived += transcript => TranscriptReceived?.Invoke(transcript);
+            session.Transport.TranscriptReceived += transcript =>
+                TranscriptReceived?.Invoke(transcript with { CaptureSessionId = session.Id });
             session.Transport.Faulted += message => SignalFault(session, message);
             session.Cancellation = cancellationToken.Register(() =>
                 SignalFault(session, "Local transcription was canceled. Start again when ready."));
-
             try
             {
-                if (string.IsNullOrWhiteSpace(deviceId))
-                    throw new InvalidOperationException("Select an active playback device.");
                 StatusChanged?.Invoke("Connecting to the local transcription service...");
-                await session.Transport.ConnectAsync(endpoint, token, session.StartCancellation.Token).ConfigureAwait(false);
+                if (version2)
+                    await session.Transport.ConnectAsync(endpoint, token, inputs.Select(input => input.Source).ToArray(),
+                        session.StartCancellation.Token).ConfigureAwait(false);
+                else
+                    await session.Transport.ConnectAsync(endpoint, token, session.StartCancellation.Token).ConfigureAwait(false);
                 session.StartCancellation.Token.ThrowIfCancellationRequested();
 
-                // NAudio remembers the creation SynchronizationContext for RecordingStopped.
-                // Always construct it on a worker, so shutdown never depends on a blocked WPF dispatcher.
-                session.CaptureStartup = Task.Run(() => StartCapture(session, deviceId), session.StartCancellation.Token);
-                await session.CaptureStartup.WaitAsync(CaptureStartTimeout, session.StartCancellation.Token).ConfigureAwait(false);
+                // NAudio captures SynchronizationContext at construction. No native construction
+                // or join may depend on a WPF dispatcher, including a late-returning hung startup.
+                foreach (Input input in inputs)
+                    input.Startup = Task.Run(() => StartCapture(session, input), session.StartCancellation.Token);
+                await Task.WhenAll(inputs.Select(input => input.Startup))
+                    .WaitAsync(CaptureStartTimeout, session.StartCancellation.Token).ConfigureAwait(false);
                 session.StartCancellation.Token.ThrowIfCancellationRequested();
-                session.SilenceTask = SupplySilenceAsync(session);
-                if (session.Running)
+                lock (session.StateGate)
                 {
-                    StatusChanged?.Invoke(
-                        "Transcribing all output on the selected playback device (not meeting-only). Times are audio-relative.");
+                    session.Running = session.Failure is null && !session.StopRequested &&
+                        inputs.All(input => input.StartSucceeded && !input.RecordingStopped.Task.IsCompleted);
                 }
+                if (!session.Running)
+                    throw new InvalidOperationException("The selected inputs did not start.");
+                foreach (Input input in inputs)
+                    input.SilenceTask = SupplySilenceAsync(session, input);
+                StatusChanged?.Invoke(version2
+                    ? "Transcribing the selected inputs independently. Computer audio includes all selected output; times are per input."
+                    : "Transcribing all output on the selected playback device (not meeting-only). Times are audio-relative.");
             }
             catch (Exception)
             {
                 SignalFault(session, cancellationToken.IsCancellationRequested || session.StopRequested
                     ? "Local transcription startup was canceled."
-                    : "Cannot start output transcription. Check the selected playback device, local service, token, and model.");
+                    : "Cannot start transcription. Check the selected inputs, Windows microphone access, local service, token, and model.");
                 await StopSessionAsync(session).ConfigureAwait(false);
                 throw new InvalidOperationException(session.Failure ?? "Local transcription could not start.");
             }
         }
-        finally
-        {
-            _lifecycle.Release();
-        }
+        finally { _lifecycle.Release(); }
+    }
+
+    private static Input[] ValidateSelection(AudioInputSelection selection)
+    {
+        ArgumentNullException.ThrowIfNull(selection);
+        if ((selection.ComputerDeviceId is null && selection.MicrophoneDeviceId is null) ||
+            (selection.ComputerDeviceId is not null && string.IsNullOrWhiteSpace(selection.ComputerDeviceId)) ||
+            (selection.MicrophoneDeviceId is not null && string.IsNullOrWhiteSpace(selection.MicrophoneDeviceId)) ||
+            (selection.ComputerDeviceId is not null &&
+                string.Equals(selection.ComputerDeviceId, selection.MicrophoneDeviceId, StringComparison.Ordinal)))
+            throw new InvalidOperationException("Select a distinct active device for each requested input.");
+        var inputs = new List<Input>(2);
+        if (selection.ComputerDeviceId is { } computer)
+            inputs.Add(new Input(AudioSource.Computer, computer));
+        if (selection.MicrophoneDeviceId is { } microphone)
+            inputs.Add(new Input(AudioSource.Microphone, microphone));
+        return inputs.ToArray();
     }
 
     public async Task StopAsync()
     {
-        // Cancel pending startup before waiting for the lifecycle lock; hiding must not start capture later.
         RequestStop();
         await _lifecycle.WaitAsync().ConfigureAwait(false);
         try
@@ -119,10 +164,7 @@ public sealed class LoopbackTranscriber : IAsyncDisposable
             if (_session is { } session)
                 await StopSessionAsync(session).ConfigureAwait(false);
         }
-        finally
-        {
-            _lifecycle.Release();
-        }
+        finally { _lifecycle.Release(); }
     }
 
     public async ValueTask DisposeAsync()
@@ -137,10 +179,7 @@ public sealed class LoopbackTranscriber : IAsyncDisposable
             if (_session is { } session)
                 await StopSessionAsync(session).ConfigureAwait(false);
         }
-        finally
-        {
-            _lifecycle.Release();
-        }
+        finally { _lifecycle.Release(); }
     }
 
     private void RequestStop()
@@ -152,93 +191,89 @@ public sealed class LoopbackTranscriber : IAsyncDisposable
         }
     }
 
-    private void StartCapture(Session session, string deviceId)
+    private void StartCapture(Session session, Input input)
     {
-        session.Enumerator = new MMDeviceEnumerator();
-        session.Notifications = new RenderEndpointNotification(deviceId, () =>
-        {
-            if (!session.StopRequested)
-                SignalFault(session, "The selected playback device disconnected. Select an active output and restart.");
-        });
-        Marshal.ThrowExceptionForHR(session.Enumerator.RegisterEndpointNotificationCallback(session.Notifications));
-        session.NotificationsRegistered = true;
-        foreach (MMDevice candidate in session.Enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active))
-        {
-            bool selected = false;
-            try
-            {
-                if (string.Equals(candidate.ID, deviceId, StringComparison.Ordinal))
-                {
-                    session.Device = candidate;
-                    selected = true;
-                    break;
-                }
-            }
-            finally
-            {
-                if (!selected)
-                    candidate.Dispose();
-            }
-        }
-        if (session.Device is null)
-            throw new InvalidOperationException("The selected playback device is no longer active.");
-        session.StartCancellation.Token.ThrowIfCancellationRequested();
-        session.Capture = new WasapiLoopbackCapture(session.Device)
-        {
-            WaveFormat = new WaveFormat(TranscriptionSocket.SampleRate, 16, 1)
-        };
-        session.DataHandler = (_, data) => OnAudio(session, data);
-        session.StoppedHandler = (_, stopped) => OnRecordingStopped(session, stopped);
-        session.Capture.DataAvailable += session.DataHandler;
-        session.Capture.RecordingStopped += session.StoppedHandler;
-
-        lock (session.AudioGate)
+        try
         {
             session.StartCancellation.Token.ThrowIfCancellationRequested();
-            session.LastMeter = Stopwatch.GetTimestamp();
-            session.Silence.ObservePacket(session.LastMeter);
-            session.AcceptAudio = true;
+            input.Capture = _openInput(input.Source, input.DeviceId, () =>
+            {
+                if (!session.StopRequested)
+                    SignalFault(session, "A selected audio device disconnected. Check both selections and restart.");
+            });
+            session.StartCancellation.Token.ThrowIfCancellationRequested();
+            input.DataHandler = (_, data) => OnAudio(session, input, data);
+            input.StoppedHandler = (_, stopped) => OnRecordingStopped(session, input, stopped);
+            input.Capture.DataAvailable += input.DataHandler;
+            input.Capture.RecordingStopped += input.StoppedHandler;
+            lock (input.AudioGate)
+            {
+                session.StartCancellation.Token.ThrowIfCancellationRequested();
+                input.LastMeter = Stopwatch.GetTimestamp();
+                input.Silence.ObservePacket(input.LastMeter);
+                input.AcceptAudio = true;
+            }
+            input.Capture.StartRecording();
+            input.StartSucceeded = true;
         }
-        session.Capture.StartRecording();
-        session.StartSucceeded = true;
-        lock (session.AudioGate)
-            session.Running = session.Failure is null && !session.StopRequested;
-        if (session.StopRequested)
-            session.Capture.StopRecording();
+        catch (CaptureReleaseException)
+        {
+            Interlocked.Exchange(ref _captureReleaseFailed, 1);
+            SignalFault(session, "An audio input could not be released after startup failed. Close the app before restarting.");
+            throw;
+        }
+        catch (OperationCanceledException) when (session.StopRequested) { throw; }
+        catch
+        {
+            SignalFault(session, "A selected audio input could not start. Check its device and Windows microphone access.");
+            throw;
+        }
     }
 
-    private void OnAudio(Session session, WaveInEventArgs data)
+    private void OnAudio(Session session, Input input, WaveInEventArgs data)
     {
         float? level = null;
         try
         {
-            lock (session.AudioGate)
+            lock (input.AudioGate)
             {
-                if (!session.AcceptAudio || data.BytesRecorded == 0)
+                if (!input.AcceptAudio || data.BytesRecorded == 0)
                     return;
                 if (data.BytesRecorded < 0 || data.BytesRecorded > data.Buffer.Length || (data.BytesRecorded & 1) != 0)
                     throw new InvalidOperationException();
                 long now = Stopwatch.GetTimestamp();
-                session.Silence.ObservePacket(now);
+                input.Silence.ObservePacket(now);
                 for (int offset = 0; offset < data.BytesRecorded; offset += TranscriptionSocket.MaximumFrameBytes)
                 {
                     int length = Math.Min(TranscriptionSocket.MaximumFrameBytes, data.BytesRecorded - offset);
-                    if (!session.Transport.TryEnqueueAudio(data.Buffer.AsSpan(offset, length)))
+                    if (!session.Transport.TryEnqueueAudio(input.Source, data.Buffer.AsSpan(offset, length)))
                         return;
                 }
-                if (Stopwatch.GetElapsedTime(session.LastMeter, now).TotalMilliseconds >= 100)
+                if (Stopwatch.GetElapsedTime(input.LastMeter, now).TotalMilliseconds >= 100)
                 {
-                    session.LastMeter = now;
+                    input.LastMeter = now;
                     level = CalculateLevel(data.Buffer.AsSpan(0, data.BytesRecorded));
                 }
             }
             if (level is { } rms)
-                LevelChanged?.Invoke(rms);
+                PublishLevel(session, input, rms);
         }
         catch (Exception)
         {
-            SignalFault(session, "Output audio could not be processed. Check the playback device and restart transcription.");
+            SignalFault(session, "Selected audio could not be processed. Check the inputs and restart transcription.");
         }
+    }
+
+    private void PublishLevel(Session session, Input input, float level)
+    {
+        float aggregate;
+        lock (session.StateGate)
+        {
+            input.Level = level;
+            aggregate = session.Inputs.Max(item => item.Level);
+        }
+        SourceLevelChanged?.Invoke(input.Source, level);
+        LevelChanged?.Invoke(aggregate);
     }
 
     internal static float CalculateLevel(ReadOnlySpan<byte> pcm)
@@ -254,7 +289,7 @@ public sealed class LoopbackTranscriber : IAsyncDisposable
         return (float)Math.Clamp(Math.Sqrt(sum / (pcm.Length / 2)), 0, 1);
     }
 
-    private async Task SupplySilenceAsync(Session session)
+    private async Task SupplySilenceAsync(Session session, Input input)
     {
         using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(100));
         try
@@ -262,46 +297,44 @@ public sealed class LoopbackTranscriber : IAsyncDisposable
             while (await timer.WaitForNextTickAsync(session.SilenceCancellation.Token).ConfigureAwait(false))
             {
                 bool emitted = false;
-                lock (session.AudioGate)
+                lock (input.AudioGate)
                 {
-                    if (!session.AcceptAudio || session.StopRequested)
+                    if (!input.AcceptAudio || session.StopRequested)
                         return;
                     long now = Stopwatch.GetTimestamp();
-                    if (session.Silence.TrySchedule(now))
+                    if (input.Silence.TrySchedule(now))
                     {
-                        // WASAPI may send no packet when playback is idle. Do not backfill wall-clock
-                        // gaps or race real packets; decoder times describe this supplied PCM stream.
-                        if (!session.Transport.TryEnqueueAudio(SilenceFrame))
+                        // Only this track's idle interval matters. Never backfill a delayed tick,
+                        // or insert silence while this input has delivered a recent real packet.
+                        if (!session.Transport.TryEnqueueAudio(input.Source, SilenceFrame))
                             return;
-                        session.LastMeter = now;
+                        input.LastMeter = now;
                         emitted = true;
                     }
                 }
                 if (emitted)
-                    LevelChanged?.Invoke(0);
+                    PublishLevel(session, input, 0);
             }
         }
-        catch (OperationCanceledException) when (session.SilenceCancellation.IsCancellationRequested)
-        {
-            // Explicit stop or an already reported fault ends synthetic silence.
-        }
+        catch (OperationCanceledException) when (session.SilenceCancellation.IsCancellationRequested) { }
         catch (Exception)
         {
-            SignalFault(session, "The selected playback device is unavailable. Check Windows sound settings and restart.");
+            SignalFault(session, "A selected audio input is unavailable. Check Windows sound settings and restart.");
         }
     }
 
-    private void OnRecordingStopped(Session session, StoppedEventArgs stopped)
+    private void OnRecordingStopped(Session session, Input input, StoppedEventArgs stopped)
     {
         try
         {
             if (stopped.Exception is not null || !session.StopRequested)
-                SignalFault(session, "Output capture stopped unexpectedly. Check the selected playback device and restart.");
+                SignalFault(session, "An audio input stopped unexpectedly. Check the selected devices and restart.");
         }
         finally
         {
-            session.Running = false;
-            session.RecordingStopped.TrySetResult();
+            lock (session.StateGate)
+                session.Running = false;
+            input.RecordingStopped.TrySetResult();
         }
     }
 
@@ -309,15 +342,15 @@ public sealed class LoopbackTranscriber : IAsyncDisposable
     {
         if (Interlocked.CompareExchange(ref session.Failure, safeMessage, null) is not null)
             return;
-        lock (session.AudioGate)
-        {
-            session.AcceptAudio = false;
+        // Do not acquire another track's AudioGate from a callback: simultaneous failures
+        // would deadlock. Transport admission and each input's volatile flag fail closed.
+        foreach (Input input in session.Inputs)
+            input.AcceptAudio = false;
+        lock (session.StateGate)
             session.Running = false;
-        }
         session.RequestStop();
         session.Transport.Abort(safeMessage);
-        // Never await this from NAudio's callback or the transport receiver: cleanup joins both.
-        session.FaultCleanup = Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             await _lifecycle.WaitAsync().ConfigureAwait(false);
             try
@@ -325,10 +358,7 @@ public sealed class LoopbackTranscriber : IAsyncDisposable
                 if (ReferenceEquals(_session, session))
                     await StopSessionAsync(session).ConfigureAwait(false);
             }
-            finally
-            {
-                _lifecycle.Release();
-            }
+            finally { _lifecycle.Release(); }
         });
         Faulted?.Invoke(safeMessage);
     }
@@ -339,60 +369,45 @@ public sealed class LoopbackTranscriber : IAsyncDisposable
         try
         {
             if (session.Failure is null)
-                StatusChanged?.Invoke("Stopping output capture and flushing final text...");
-            await session.SilenceTask.ConfigureAwait(false);
-            if (session.CaptureStartup.IsCompleted && session.Capture is { } capture)
-            {
-                capture.StopRecording();
-                if (session.StartSucceeded)
-                {
-                    try
-                    {
-                        await session.RecordingStopped.Task.WaitAsync(CaptureStopTimeout).ConfigureAwait(false);
-                    }
-                    catch (TimeoutException)
-                    {
-                        SignalFault(session, "The playback device did not stop promptly. Close the app before restarting.");
-                    }
-                }
-            }
-        }
-        catch (Exception)
-        {
-            SignalFault(session, "Output capture could not stop cleanly. Close the app before restarting.");
+                StatusChanged?.Invoke("Stopping selected audio inputs and flushing final text...");
         }
         finally
         {
-            lock (session.AudioGate)
-            {
-                session.AcceptAudio = false;
-                session.Running = false;
-            }
+            await FinishSessionAsync(session).ConfigureAwait(false);
+        }
+    }
 
-            // Dispose joins NAudio's capture thread. On a hung driver, leave ownership with this
-            // worker rather than disposing COM objects under a callback or hanging the UI thread.
-            _pendingCaptureRelease = Task.Run(async () =>
-            {
-                try
-                {
-                    await session.CaptureStartup.ConfigureAwait(false);
-                }
-                catch (Exception)
-                {
-                    // Startup may have failed after its caller timed out; it still owns the device.
-                    SignalFault(session, "Output capture startup failed. Check the playback device and restart.");
-                }
-                ReleaseCapture(session);
-            });
+    private async Task FinishSessionAsync(Session session)
+    {
+        try { await Task.WhenAll(session.Inputs.Select(input => input.SilenceTask)).ConfigureAwait(false); }
+        catch (Exception)
+        {
+            SignalFault(session, "Audio processing could not stop cleanly. Check the selected inputs before restarting.");
+        }
+        // Each worker retains its endpoint until late startup/driver joins finish. Neither a
+        // hung input nor its cleanup may prevent the other input from stopping and releasing.
+        _pendingCaptureRelease = Task.Run(async () =>
+        {
             try
             {
-                await _pendingCaptureRelease.WaitAsync(CaptureStopTimeout).ConfigureAwait(false);
+                await Task.WhenAll(session.Inputs.Select(input => Task.Run(() => ReleaseInputAsync(session, input))))
+                    .ConfigureAwait(false);
             }
-            catch (TimeoutException)
-            {
-                SignalFault(session, "The playback driver is not responding. Close the app before restarting transcription.");
-            }
-
+            finally { session.DisposeCancellation(); }
+        });
+        try
+        {
+            await _pendingCaptureRelease.WaitAsync(CaptureStopTimeout).ConfigureAwait(false);
+        }
+        catch (TimeoutException)
+        {
+            SignalFault(session, "An audio driver is not responding. Close the app before restarting transcription.");
+        }
+        finally
+        {
+            foreach (Input input in session.Inputs)
+                input.AcceptAudio = false;
+            session.Running = false;
             try
             {
                 await session.Transport.DisposeAsync().ConfigureAwait(false);
@@ -402,104 +417,103 @@ public sealed class LoopbackTranscriber : IAsyncDisposable
                 session.Cancellation.Dispose();
                 if (ReferenceEquals(_session, session))
                     Volatile.Write(ref _session, null);
-                LevelChanged?.Invoke(0);
+                foreach (Input input in session.Inputs)
+                    PublishLevel(session, input, 0);
                 if (session.Failure is null)
                     StatusChanged?.Invoke("Transcription stopped.");
             }
         }
     }
 
-    private void ReleaseCapture(Session session)
+    private async Task ReleaseInputAsync(Session session, Input input)
     {
         try
         {
-            session.Capture?.Dispose();
+            try { await input.Startup.ConfigureAwait(false); }
+            catch (OperationCanceledException) when (session.StopRequested) { }
+            catch (Exception)
+            {
+                SignalFault(session, "Audio input startup failed. Check the selected devices and restart.");
+            }
+            if (input.Capture is { } capture)
+            {
+                capture.StopRecording();
+                if (input.StartSucceeded)
+                {
+                    try { await input.RecordingStopped.Task.WaitAsync(CaptureStopTimeout).ConfigureAwait(false); }
+                    catch (TimeoutException)
+                    {
+                        SignalFault(session, "An audio input did not stop promptly. Close the app before restarting.");
+                    }
+                }
+            }
         }
         catch (Exception)
         {
-            Interlocked.Exchange(ref _captureReleaseFailed, 1);
-            SignalFault(session, "The playback device could not be released cleanly. Close the app before restarting.");
+            SignalFault(session, "Audio capture could not stop cleanly. Close the app before restarting.");
         }
         finally
         {
-            if (session.Capture is { } capture)
-            {
-                capture.DataAvailable -= session.DataHandler;
-                capture.RecordingStopped -= session.StoppedHandler;
-            }
-            try
-            {
-                if (session.NotificationsRegistered)
-                {
-                    Marshal.ThrowExceptionForHR(session.Enumerator!
-                        .UnregisterEndpointNotificationCallback(session.Notifications));
-                }
-            }
+            input.AcceptAudio = false;
+            try { input.Capture?.Dispose(); }
             catch (Exception)
             {
                 Interlocked.Exchange(ref _captureReleaseFailed, 1);
-                SignalFault(session, "Playback notifications could not be released cleanly. Close the app before restarting.");
+                SignalFault(session, "An audio device could not be released cleanly. Close the app before restarting.");
             }
             finally
             {
-                try
+                if (input.Capture is { } capture)
                 {
-                    try
-                    {
-                        session.Device?.Dispose();
-                    }
-                    finally
-                    {
-                        session.Enumerator?.Dispose();
-                    }
-                }
-                catch (Exception)
-                {
-                    Interlocked.Exchange(ref _captureReleaseFailed, 1);
-                    SignalFault(session, "The playback device could not be released cleanly. Close the app before restarting.");
-                }
-                finally
-                {
-                    session.DisposeCancellation();
+                    capture.DataAvailable -= input.DataHandler;
+                    capture.RecordingStopped -= input.StoppedHandler;
                 }
             }
         }
     }
 
-    private sealed class Session
+    private sealed class Input(AudioSource source, string deviceId)
+    {
+        public AudioSource Source { get; } = source;
+        public string DeviceId { get; } = deviceId;
+        public readonly object AudioGate = new();
+        public readonly SilenceCadence Silence = new();
+        public readonly TaskCompletionSource RecordingStopped = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        public IWaveIn? Capture;
+        public EventHandler<WaveInEventArgs>? DataHandler;
+        public EventHandler<StoppedEventArgs>? StoppedHandler;
+        public Task Startup = Task.CompletedTask;
+        public Task SilenceTask = Task.CompletedTask;
+        public volatile bool AcceptAudio;
+        public bool StartSucceeded;
+        public long LastMeter;
+        public float Level;
+    }
+
+    private sealed class Session(Input[] inputs, Guid id)
     {
         private readonly object _cancellationLock = new();
         private bool _cancellationDisposed;
-        public readonly object AudioGate = new();
-        public readonly SilenceCadence Silence = new();
+        public Input[] Inputs { get; } = inputs;
+        public Guid Id { get; } = id;
+        public readonly object StateGate = new();
         public readonly TranscriptionSocket Transport = new();
         public readonly CancellationTokenSource StartCancellation = new();
         public readonly CancellationTokenSource SilenceCancellation = new();
-        public readonly TaskCompletionSource RecordingStopped =
-            new(TaskCreationOptions.RunContinuationsAsynchronously);
         public CancellationTokenRegistration Cancellation;
-        public MMDevice? Device;
-        public MMDeviceEnumerator? Enumerator;
-        public RenderEndpointNotification? Notifications;
-        public bool NotificationsRegistered;
-        public WasapiLoopbackCapture? Capture;
-        public EventHandler<WaveInEventArgs>? DataHandler;
-        public EventHandler<StoppedEventArgs>? StoppedHandler;
-        public Task SilenceTask = Task.CompletedTask;
-        public Task CaptureStartup = Task.CompletedTask;
-        public Task FaultCleanup = Task.CompletedTask;
         public volatile bool Running;
         public volatile bool StopRequested;
-        public bool AcceptAudio;
-        public bool StartSucceeded;
         public string? Failure;
-        public long LastMeter;
 
         public void RequestStop()
         {
-            lock (_cancellationLock)
+            lock (StateGate)
             {
                 StopRequested = true;
+                Running = false;
+            }
+            lock (_cancellationLock)
+            {
                 if (!_cancellationDisposed)
                 {
                     StartCancellation.Cancel();

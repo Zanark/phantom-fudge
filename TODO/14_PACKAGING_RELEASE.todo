@@ -2,7 +2,7 @@
 
 Status: IN_PROGRESS
 Milestone: M4 Candidate packaging
-Dependencies: 08_LOCAL_STORAGE.todo, 09_HOTKEYS_RECOVERY.todo, 10_PRESENTATION_MODE.todo, 11_DPI_ACCESSIBILITY.todo, 12_DIAGNOSTICS_TESTING.todo, 19_LIVE_TRANSCRIPTION.todo, 21_BACKGROUND_TRANSLUCENCY.todo, 22_NATIVE_PYTHON_RUNTIME.todo, 24_CURSOR_AND_FOCUS.todo, 25_TRANSCRIPT_FIRST_THEMES.todo
+Dependencies: 08_LOCAL_STORAGE.todo, 09_HOTKEYS_RECOVERY.todo, 10_PRESENTATION_MODE.todo, 11_DPI_ACCESSIBILITY.todo, 12_DIAGNOSTICS_TESTING.todo, 19_LIVE_TRANSCRIPTION.todo, 21_BACKGROUND_TRANSLUCENCY.todo, 22_NATIVE_PYTHON_RUNTIME.todo, 24_CURSOR_AND_FOCUS.todo, 25_TRANSCRIPT_FIRST_THEMES.todo, 26_MICROPHONE_AND_COMPUTER.todo, 31_STREAMING_ANSWER_CLIENT.todo, 32_ANSWER_UI_LIFECYCLE.todo, 34_ANSWER_PRIVACY_RESILIENCE.todo
 
 ## Purpose
 
@@ -31,6 +31,9 @@ Produce the exact installable/runnable candidate that final qualification will t
 
 ## Completion evidence
 
+- Latest dual-source bundle145231:485files/76184066bytes,
+  SHA256BC89867277F3E8C8BAA179BE74B7F517A98D6E09CBE35534AFB21E12E127C846.
+  Packaged UI mode/source/stop guards pass; real hardware mic/echo/capture qualification remains open.
 - Latest transcript-first/theme native bundle123245:484files/76167343bytes,
   SHA25675544D20F3C5CB70E9F8DF5E4B99AD4BBFA6E55AB61F52FE33274F80FED8F1EC.
   Exact-package local UI regressions pass; actual recipient cursor/pixel matrix remains open.

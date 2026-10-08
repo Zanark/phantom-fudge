@@ -1,0 +1,20 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+sequenceDiagram
+    accTitle: A complete feature delivery loop
+    accDescr: An authorized TODO drives code and targeted evidence, followed by documentation and an honest status update.
+    autonumber
+    participant Developer
+    participant Task as TODO contract
+    participant Code
+    participant Tests
+    participant Docs
+    Developer->>Task: Select scoped change and prerequisites
+    Developer->>Code: Read callers and state ownership
+    Developer->>Tests: Add targeted synthetic regression
+    Developer->>Code: Implement complete slice
+    Code->>Tests: Run relevant existing layers
+    Tests-->>Developer: Actual outcomes and gaps
+    Developer->>Docs: Update chapters, visuals and journal
+    Developer->>Task: Record evidence and honest status

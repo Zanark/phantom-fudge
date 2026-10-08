@@ -58,6 +58,22 @@ class RecognizerTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             recognizer.finish()
 
+    def test_shared_model_has_independent_decoders_rotation_and_timing(self):
+        DecoderFixture.instances = []
+        model = object()
+        computer = VoskRecognizer(model, DecoderFixture)
+        microphone = VoskRecognizer(model, DecoderFixture)
+        self.assertIs(computer._model, microphone._model)
+        self.assertIsNot(computer._decoder, microphone._decoder)
+        mic_decoder = microphone._decoder
+        self.assertFalse(microphone.accept(b"\0" * 3200).final)
+        for _ in range(30):
+            computer.accept(b"\0" * 32000)
+        self.assertEqual(len(DecoderFixture.instances), 3)
+        self.assertIs(microphone._decoder, mic_decoder)
+        self.assertEqual(computer.finish().end, 30)
+        self.assertEqual(microphone.finish().end, 0.1)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,34 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","actorLineColor":"#8b949e","signalColor":"#8b949e","signalTextColor":"#e6edf3","noteBkgColor":"#161b22","noteBorderColor":"#30363d","noteTextColor":"#e6edf3"}}
+---
+sequenceDiagram
+    accTitle: Start and normal stop cross different ownership boundaries
+    accDescr: The UI waits for protocol readiness before worker construction and keeps stopping active through final text drain.
+    autonumber
+    participant UI as Window
+    participant S as Session
+    participant WS as Socket
+    participant C as Computer worker
+    participant M as Mic worker
+    UI->>S: Start selected inputs
+    S->>WS: Connect and declare sources
+    WS-->>S: Valid ready
+    par Independent startup
+        S->>C: Construct and start
+    and
+        S->>M: Construct and start
+    end
+    S-->>UI: Running after both succeed
+    UI->>UI: Set audioStopping
+    UI->>S: Stop
+    S->>S: Running false, cancel timers
+    par Independent release
+        S->>C: Stop and dispose
+    and
+        S->>M: Stop and dispose
+    end
+    S->>WS: Drain PCM and stop
+    WS-->>UI: Source final events
+    WS-->>S: Stopped
+    S-->>UI: Stop task complete
+    UI->>UI: Clear audioStopping

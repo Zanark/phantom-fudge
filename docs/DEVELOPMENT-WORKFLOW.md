@@ -73,9 +73,33 @@ Those alternatives change the product contract and require approval.
 
 ## Feature delivery loop
 
+### Planned explicit AI-answer extension
+
+Research27 is DONE only for design. Implement28structured local question drafts and fake streams
+first; then29source-scoped Mic commit and30approved Azure identity/deployment profile.31adds the
+direct streaming adapter,32the protected answer pane,33quality/latency measurement and34failure/
+privacy gates.35qualifies the exact packaged answer feature before final native acceptance17.
+36Azure Speech and37enterprise broker remain optional/conditional. Docker20 still comes last.
+
+The first manual Ask slice can send an already-reviewed snapshot without waiting for commit work;
+do not pretend that means the full low-latency/source-boundary release gate is complete.
+No implementation or cloud call is authorized merely by this research completion.
+
+Use WORKFLOWS\04_QUESTION_TO_ANSWER.todo and05_AI_LATENCY_QUALIFICATION.todo. Capture audio remains
+local unless a separately approved cloud-ASR mode is enabled; only explicit question text goes to
+Azure on Ask. Do not read chat history or automatically answer every transcript partial.
+
+The detailed design/evaluation/identity contracts are in docs\AI-ANSWER-ARCHITECTURE.md,
+AI-ANSWER-EVALUATION.md and AI-ANSWER-PRIVACY.md. Target budgets are proposals, not measured Azure SLOs.
+
 Owner preference as of October 8: permission and recipient preflight are performed outside
 the app. Never add checkboxes, dialogs or repeat acknowledgments for either workflow.
 Keep explicit Start/Stop, technical failure checks and unsaved-data confirmation.
+
+The14:01 microphone request supersedes the original no-microphone product scope, not test privacy.
+Implement selected Computer/Mic/Both and source-labelled v2 tracks. Development validation must
+use synthetic PCM; never open a live microphone or read chat content implicitly. Keep v1 clients,
+local Python startup, themes, passive cursor behavior and no-repeat-confirmation policy intact.
 
 1. Select a ready task; confirm its dependencies and open product decisions.
 2. Record scope and acceptance, set IN_PROGRESS, and isolate ownership of shared files.
@@ -132,3 +156,15 @@ data and respect schema compatibility; an old binary is not automatically safe w
 data file.
 
 Maintain the ledger and current-base offload at milestones. Sibling stores remain read-only.
+
+## Living engineering book
+
+The owner requested book-level documentation, updated images and a public journey journal.
+Workstream38 establishes the initial edition; `WORKFLOWS\06_LIVING_DOCUMENTATION.todo` applies
+to every subsequent feature and release. Read `DOCUMENTATION-MAINTENANCE.md`.
+
+Update affected chapters, precise source references, diagrams and primary contracts in the same
+change. Regenerate actual-WPF synthetic images when the UI changes; never use a real meeting or
+private desktop as a fixture. Append significant decisions/corrections/evidence to root JOURNAL.md.
+Rebuild HTML/PDF and require `.\scripts\Build-Handbook.ps1 -Check` before declaring delivery complete.
+The image/build manifests establish provenance and drift, not semantic correctness or capture privacy.

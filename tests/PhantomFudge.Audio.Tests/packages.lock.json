@@ -60,6 +60,9 @@
         "dependencies": {
           "NAudio.Core": "2.2.1"
         }
+      },
+      "phantomfudge.core": {
+        "type": "Project"
       }
     }
   }

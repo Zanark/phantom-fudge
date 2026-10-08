@@ -7,6 +7,7 @@
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="NAudio" Version="2.2.1" />
+    <ProjectReference Include="..\..\src\PhantomFudge.Core\PhantomFudge.Core.csproj" />
     <Compile Include="..\..\src\PhantomFudge.App\Audio\*.cs" Link="Audio\%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>

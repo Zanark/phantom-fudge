@@ -1,0 +1,29 @@
+---
+config:
+  theme: base
+  themeVariables:
+    lineColor: "#8b949e"
+    textColor: "#e6edf3"
+---
+flowchart TB
+    accTitle: Recommended surgical extension workflow
+    accDescr: Define an invariant, map contracts, design compatibility, test failures, and qualify the exact authorized candidate.
+    Need["Define invariant"] --> Map["Map change surfaces"]
+    Map --> Contract["Version contracts"]
+    Contract --> Fake["Synthetic failure tests"]
+    Fake --> Review["Privacy and UI review"]
+    Review --> Gate{"Evidence sufficient?"}
+    Gate -->|No| Revise["Revise or block"]
+    Revise --> Contract
+    Gate -->|Yes| Qualify["Exact candidate checks"]
+    Qualify --> Record["Document limits"]
+    style Need fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Map fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Contract fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Fake fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Review fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Gate fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Revise fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Qualify fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Record fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    linkStyle default stroke:#8b949e

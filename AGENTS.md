@@ -32,11 +32,15 @@ Do not invent build commands, passing tests, compatibility results, or user appr
   software, injected overlays, kernel drivers, process concealment, or elevation requirement.
 - Keep real notes, filenames, clipboard data, and personal desktop captures out of logs,
   tests, repository artifacts, telemetry, and CI uploads.
-- Meeting-output transcription is REQUIRED, not deferred. Capture only selected render endpoints,
-  never microphone inputs. Native local Python inference is the normal path; Docker is optional and last.
+- Transcription supports selected Computer, Microphone, or Both inputs after explicit Start.
+  The14:01 owner request supersedes the old microphone prohibition. Do not read chat apps or
+  silently substitute inputs. Native local Python inference is the normal path; Docker is optional and last.
   No cloud fallback or automatic audio capture. Starting the idle service is not starting capture.
 - Preserve normal accessibility in Edit mode. Do not fake privacy by breaking assistive technology.
 - Any rendering, popup, native-window, or framework upgrade can invalidate capture evidence.
+- AI-answer docs/TODOs27-37 are researched plans, not implemented capabilities. Do not provision Azure,
+  sign in, upload audio/questions, or invoke a model merely to resume this design. Explicit Ask must
+  freeze selected text; no automatic full-meeting prompt, chat reading or implicit cloud-ASR fallback.
 
 ## Tracking and handoff
 
@@ -58,5 +62,22 @@ Preserve container-neutral interfaces, then leave Docker work until after the na
 - `.\services\transcription\.venv\Scripts\python.exe -m unittest discover -s .\services\transcription\tests`
 - `.\scripts\Run-PhantomFudge.ps1`
 
-Playback testing requires explicit user consent and paused unrelated audio:
+Development tests must not open the user's live microphone or record a meeting implicitly.
+Use synthetic PCM for dual-source integration. Playback testing requires explicit user consent and paused unrelated audio:
 `.\scripts\Test-PlaybackTranscription.ps1 -AllowPlayback`. No other test implicitly opens capture.
+
+## Living book and journal
+
+- Read `docs\handbook\README.md` and `docs\DOCUMENTATION-MAINTENANCE.md` before feature work.
+- Update affected handbook chapters, exact source citations, primary contracts and diagrams in the
+  same change. The contributor changing behavior owns its documentation; proposals stay labelled.
+- Refresh `scripts\Export-HandbookScreenshots.ps1` synthetic UI images for visible UI changes.
+  Never substitute user notes, real meeting audio, chats or desktop screenshots for the fixture.
+- Append significant decisions, corrections and evidence to root `JOURNAL.md` and the TODO ledger.
+  Public documentation must not depend on private context stores.
+- Run `node --test .\tools\Docs\test-docs.mjs` when changing the pipeline, then
+  `.\scripts\Build-Handbook.ps1 -AcceptReviewedSource` after source review and
+  `.\scripts\Build-Handbook.ps1 -Check`. Final documentation delivery includes HTML and PDF.
+- Review changed rendered pages and illustrations. Hash/range checks cannot establish semantic accuracy.
+  Keep new/changed `.ps1` scripts byte-identical to their `.txt` twins.
+- Follow `TODO\WORKFLOWS\06_LIVING_DOCUMENTATION.todo`; this obligation continues after workstream38.

@@ -1,0 +1,25 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Content and persistence boundaries
+    accDescr: Notes and source-labelled transcript events remain in memory until an explicit save or export uses the file store.
+    Editor["NoteEditor"] --> Save["Explicit Save"]
+    Events["Transcript events"] --> Buffer["TranscriptBuffer"]
+    Buffer --> Finals["Final text"]
+    Buffer --> Partials["Per-source partials"]
+    Finals --> Export["Explicit Export"]
+    Partials -->|marked unfinished| Export
+    Save --> Store["NoteFileStore"]
+    Export --> Store
+    Store --> File["Chosen UTF-8 file"]
+    File -->|Open snapshot| Editor
+    style Editor fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Save fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Events fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Buffer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Finals fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Partials fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Export fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Store fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style File fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

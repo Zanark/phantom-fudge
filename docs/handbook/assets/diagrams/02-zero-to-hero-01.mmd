@@ -1,0 +1,13 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart LR
+    accTitle: A progressive learning path
+    accDescr: Types, WPF and PCM lead into state ownership, a versioned stream and practical system understanding.
+    Types["Types and values"] --> UI["WPF and HWND"]
+    Types --> Audio["PCM and source identity"]
+    UI --> State["State and ownership"]
+    Audio --> State
+    State --> Wire["Versioned stream"]
+    Wire --> ASR["Recognizer semantics"]
+    ASR --> Evidence["Evidence and qualification"]

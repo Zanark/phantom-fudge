@@ -1,0 +1,37 @@
+# Source-Scoped Question Drafts and Immutable Ask
+
+Status: IN_PROGRESS
+Milestone: A1 Local question state
+Dependencies: 27_AI_ANSWER_RESEARCH.todo
+
+## Purpose
+
+Choose a dictated or typed question without accidentally sending the rest of a meeting.
+
+## Tasks
+
+- [ ] Add a bounded structured transcript store with capture-session/source/segment/epoch/revision identity.
+- [ ] Preserve existing source-labelled display/export and all prior transcript tests.
+- [ ] Build an editable local QuestionDraft from explicit selected segments, an armed Mic span or typed text.
+- [ ] Do not infer provenance by parsing rendered `[Mic]` labels or copy the entire transcript.
+- [ ] Freeze exactly the displayed draft/revision on Ask, including its provisional/final provenance.
+- [ ] Define empty/oversized input, multi-segment questions, user edits and late ASR revision behavior.
+- [ ] Keep Computer text out of a Mic draft unless the owner explicitly selects it.
+- [ ] Add deterministic source/session/revision/cancel/eviction tests with synthetic data.
+
+## Acceptance criteria
+
+- [ ] Only explicit Ask creates an outbound request; natural finals/question marks never auto-send.
+- [ ] Submitted snapshots are immutable; later transcript text cannot rewrite or resend them.
+- [ ] Prior unrelated Mic text and all unselected Computer/notes/chat data stay out of the prompt.
+- [ ] No new recording-permission or recipient-rehearsal confirmation is introduced.
+
+## Completion evidence
+
+- 2026-10-08 17:37 owner authorized the next ready implementation after the book offload.
+- Local structured selection/typed drafts and immutable snapshots are being implemented; no Azure calls.
+- Armed live-Mic start/end boundaries depend on negotiated commit29; do not pretend v2 partial text provides sample-exact cuts.
+
+## Completion log
+
+- 2026-10-08 - Planned as the first local implementation slice.

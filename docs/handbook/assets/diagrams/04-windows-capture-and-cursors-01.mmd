@@ -1,0 +1,21 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart LR
+    accTitle: Separate window policies
+    accDescr: Startup configures one native window; shell presence, focus, pixels, and recorder evidence are separate concerns.
+    App["App startup"] --> Window["MainWindow"]
+    Window --> Native["WindowProtection"]
+    Native --> Styles["Shell and focus styles"]
+    Native --> Affinity["Affinity request"]
+    Window --> Cursor["Owned cursor messages"]
+    Window --> Tree["Inline content tree"]
+    Affinity -.-> Evidence["Recipient qualification"]
+    style App fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Window fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Native fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Styles fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Affinity fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Cursor fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Tree fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Evidence fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

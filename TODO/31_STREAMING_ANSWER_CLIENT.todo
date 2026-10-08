@@ -1,0 +1,36 @@
+# Streaming Azure Answer Adapter
+
+Status: NOT_STARTED
+Milestone: A4 One request, streamed answer
+Dependencies: 28_QUESTION_DRAFTS.todo, 30_AZURE_ANSWER_CONNECTION.todo
+
+## Purpose
+
+Turn one frozen question into a low-latency asynchronous answer without coupling inference to audio capture.
+
+## Tasks
+
+- [ ] Add an IAnswerProvider abstraction and an in-memory fake stream for deterministic tests.
+- [ ] Pin/compile-check current OpenAI .NET Responses client names, streaming/cancellation and Azure extra fields.
+- [ ] Implement v1 Responses foreground streaming with store:false, no tools/conversation/previous-response ID.
+- [ ] Reuse client/credential/HTTP connections and request silent tokens outside the audio/UI critical threads.
+- [ ] Keep model-specific reasoning/output parameters in a verified capability profile.
+- [ ] Handle metadata, text deltas, completion, incomplete, refusal/filter, post-HTTP200 error and cancellation.
+- [ ] Bound input/output/stream buffering, deadlines and pre-output retry policy; avoid double SDK/app retries.
+- [ ] Retain partial answers on interruption; never silently replay after output or append old request deltas.
+- [ ] Keep Chat Completions as a tested alternative adapter, not automatic provider/geography fallback.
+
+## Acceptance criteria
+
+- [ ] First answer text can render before generation completes; non-text events are not mistaken for TTFT.
+- [ ] Every event belongs to its request/snapshot and stale/cancelled output is rejected.
+- [ ] No whole transcript, notes, audio or unselected context is sent.
+- [ ] Synthetic API/error/cancel tests pass before authorized Azure calls.
+
+## Completion evidence
+
+- None. API/SDK references are research, not an installed or compiled Azure integration.
+
+## Completion log
+
+- 2026-10-08 - Planned as a direct C# adapter; Python continues owning ASR.

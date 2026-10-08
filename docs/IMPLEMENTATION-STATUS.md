@@ -2,6 +2,36 @@
 
 **Local development preview, not a qualified/public release.**
 
+The later15:05 Ask-AI request is **research/planning only**. Four AI-answer design documents,
+TODOs27-37 and workflows04/05 are added, but there is no implemented question composer,
+source-commit control, Azure auth/client, Ask button or streamed-answer pane. No cloud latency
+result, model deployment, account lookup or data upload exists from that research task.
+The current runnable application/package below is unchanged.
+
+Latest14:01 input extension: Computer, Mic or Both after explicit Start. The owner's request
+supersedes the original never-microphone product scope. Separate WASAPI tracks, source-prefixed v2
+transport and independent Python/Vosk decoders produce labelled finals and independent partials.
+No chat access or speaker-identity inference exists. OS mic indicators/echo remain external limits.
+See DUAL-SOURCE-AUDIO.md. Development checks opened no real mic/render endpoint and played no audio.
+
+Current source evidence: Core41tests, native46synthetic groups, backend71tests and4manager-upgrade
+guards pass. Real generated dual PCM through Python yielded Computer11/Mic8partials and3finals each,
+correct keywords/source separation and tail drain. Actual C#v2->Python yielded Computer13/Mic10partials
+and2finals each with expected phrases. These prove protocol/model integration, not physical mic,
+device permissions, echo quality or microphone-indicator/capture behavior.
+
+A review-found stop/restart race was fixed: Start/mode/clear stay blocked through cleanup/final
+draining, preventing late old-session IDs from discarding new-session text. Synthetic UI regression
+also covers modes, both passive device selectors, source labels, themes and prior note safeguards.
+
+Current dual-source bundle:
+`artifacts\phantom-fudge-0.1.0-preview-win-x64-20261008-145231.zip`,
+76,184,066bytes/485files, SHA256
+`BC89867277F3E8C8BAA179BE74B7F517A98D6E09CBE35534AFB21E12E127C846`.
+Exact packaged UI passes with `recordingStarted:false`; evidence is `.local\packaged-dual-source-ui`.
+The default source-launch build is refreshed. No live microphone/output endpoint was opened,
+no chat content was read, and no user process/service was stopped for this update.
+
 Latest UI update: transcript-first with Notes collapsed, default non-activating Present and
 standard Arrow cursor. DeepSeaFoam is default; sun/moon switches Harbor Daylight and Plain B/W
 resets the neutral theme. Canonical palette provenance and the unresolved recipient-cursor report
@@ -68,16 +98,16 @@ Updated synthetic UI behavior passed with no audio started. The earlier package 
   confirmations and in-memory transcript export. No automatic note/recovery/audio persistence.
 - Minimal drag/resize chrome, global hide/Edit shortcuts, current-user named-pipe second-launch
   reveal/reset and explicit read-only/non-activating Present mode without acknowledgment gates.
-- Playback-device-only WASAPI loopback using NAudio 2.2.1. No microphone enumeration/open.
-  Device loss stops; no automatic default-device switching.
+- Selected Computer/Microphone/Both WASAPI inputs using NAudio 2.2.1, opened only after explicit Start.
+  Separate source tracks; device loss stops and there is no automatic default-device switching.
 - Strict literal-loopback authenticated WebSocket transport, bounded PCM queue, partial/final
   schema checks, silence handling, startup cancellation, final draining and resource cleanup.
-- Protected transcript pane with explicit Start/Stop, output meter,
-  in-memory cap and explicit export. Selected output includes other apps and audible sidetone.
+- Protected transcript pane with explicit Start/Stop, per-source meters,
+  in-memory cap and source-labelled export. Selected output includes other apps and audible sidetone.
 - Offline English Vosk service, explicit verified-model/token/native-Python provisioning, health/auth/
   instance-scoped lifecycle and protocol/resource gates. Dockerfile/Compose are optional future packaging.
 
-## Observed development evidence
+## Historical initial-preview evidence (current dual-source evidence is above)
 
 | Scope | Actual result | Boundary |
 | --- | --- | --- |
@@ -133,3 +163,11 @@ No additional playback, Docker installation, live meeting capture, or external p
 Native transcription19/runtime22 remain release gates; Docker20 does not. Preparing the service
 is not claiming it ran in a container. The local preview can be developed/tested while native gates remain open; it must
 not be advertised as universally uncapturable or as a finished qualified release.
+
+## Documentation edition
+
+The handbook adds source-grounded chapters, diagrams, a public JOURNAL and a local HTML/PDF pipeline.
+The documentation-only `--documentation-screenshots` fixture renders actual WPF controls with
+synthetic text/device labels, without starting capture. Its images are not desktop screenshots or
+capture-exclusion evidence. The current preview ZIP above was not replaced for this documentation task.
+Edition provenance/counts live in `handbook\manifest.json`; maintenance is required by workflow06.

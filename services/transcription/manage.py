@@ -122,6 +122,28 @@ def owned_info(local_token, record):
     return info
 
 
+def supports_current_audio(info):
+    versions = info.get("speechProtocolVersions")
+    return isinstance(versions, list) and any(type(version) is int and version == 2 for version in versions)
+
+
+def stop_owned(local_token, record, info):
+    if info.get("active") is not False:
+        raise RuntimeFailure("Transcription may be active. Click Stop in the app before updating/stopping the local service.")
+    try:
+        response = request("/v1/shutdown", local_token, method="POST", instance_id=record["instanceId"])
+    except (HTTPError, URLError, OSError, ValueError):
+        raise RuntimeFailure("The owned service did not accept shutdown. No OS process was terminated.") from None
+    if response.get("status") != "stopping":
+        raise RuntimeFailure("The owned service did not confirm shutdown.")
+    deadline = time.monotonic() + 12
+    while port_in_use() and time.monotonic() < deadline:
+        time.sleep(0.1)
+    if port_in_use():
+        raise RuntimeFailure("The owned service has not stopped yet; the runtime receipt was retained.")
+    RECORD.unlink()
+
+
 def start():
     local_token = token()
     with lifecycle_lock():
@@ -130,8 +152,11 @@ def start():
             info = owned_info(local_token, record)
             if info.get("ready") is not True:
                 raise RuntimeFailure("The owned service is not ready. Stop it, check setup, then retry.")
-            print("Local Python transcription is already ready. Docker is not required.")
-            return
+            if supports_current_audio(info):
+                print("Local Python transcription is already ready for computer and microphone input. Docker is not required.")
+                return
+            stop_owned(local_token, record, info)
+            print("Restarting the owned idle service for the updated audio protocol.")
 
         model = LOCAL / "models" / "vosk-model-small-en-us-0.15"
         if not (model / "am" / "final.mdl").is_file():
@@ -166,6 +191,8 @@ def start():
                 write_record(record)
                 if info.get("ready") is not True:
                     raise RuntimeFailure("Local model did not load. Use Stop-Transcription, repair setup and restart.")
+                if not supports_current_audio(info):
+                    raise RuntimeFailure("The service does not support the installed client audio protocol. Update the service files.")
                 print("Local Python transcription is ready at 127.0.0.1:8765. Start audio explicitly in the app.")
                 return
             time.sleep(0.15)
@@ -183,20 +210,7 @@ def stop():
             print("No managed local Python service is running.")
             return
         info = owned_info(local_token, record)
-        if info.get("active") is True:
-            raise RuntimeFailure("Transcription is active. Click Stop in the app before stopping the local service.")
-        try:
-            response = request("/v1/shutdown", local_token, method="POST", instance_id=record["instanceId"])
-        except (HTTPError, URLError, OSError, ValueError):
-            raise RuntimeFailure("The owned service did not accept shutdown. No OS process was terminated.") from None
-        if response.get("status") != "stopping":
-            raise RuntimeFailure("The owned service did not confirm shutdown.")
-        deadline = time.monotonic() + 12
-        while port_in_use() and time.monotonic() < deadline:
-            time.sleep(0.1)
-        if port_in_use():
-            raise RuntimeFailure("The owned service has not stopped yet; the runtime receipt was retained.")
-        RECORD.unlink()
+        stop_owned(local_token, record, info)
         print("Owned local Python transcription service stopped.")
 
 

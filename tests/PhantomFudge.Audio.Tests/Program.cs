@@ -17,7 +17,7 @@ using PhantomFudge.App.Audio;
 
 return await AudioTests.RunAsync(args);
 
-internal static class AudioTests
+internal static partial class AudioTests
 {
     internal const string Token = "synthetic-test-token-not-a-real-secret";
     private const string Ready = """{"type":"ready","sampleRate":16000,"channels":1,"encoding":"pcm_s16le"}""";
@@ -27,6 +27,8 @@ internal static class AudioTests
     {
         if (filters.Length != 0 && filters[0] == "--service")
             return await RunSyntheticServiceCheckAsync(filters);
+        if (filters.Length != 0 && filters[0] == "--service-v2")
+            return await RunDualSyntheticServiceCheckAsync(filters);
         if (filters.Length != 0 && filters[0] == "--playback")
             return await PlaybackCheck.RunAsync(filters);
         (string Name, Func<Task> Test)[] tests =
@@ -50,7 +52,8 @@ internal static class AudioTests
             ("byte-budget backpressure", BackpressureAsync),
             ("invalid PCM frames", InvalidPcmAsync),
             ("missing stopped acknowledgement times out", StopTimeoutAsync),
-            ("repeated stop and dispose", IdempotentDisposeAsync)
+            ("repeated stop and dispose", IdempotentDisposeAsync),
+            .. DualSourceTests()
         ];
         foreach (var test in tests)
         {

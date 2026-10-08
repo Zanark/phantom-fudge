@@ -14,6 +14,9 @@ public sealed class TranscriptBuffer
     public string Partial => string.Join(Environment.NewLine, partials
         .Where(pair => pair.Value.Length > 0).OrderBy(pair => pair.Key)
         .Select(pair => SourcePrefix(pair.Key) + pair.Value));
+    private string UnfinishedText => string.Join(Environment.NewLine, partials
+        .Where(pair => pair.Value.Length > 0).OrderBy(pair => pair.Key)
+        .Select(pair => "[Unfinished recognition] " + SourcePrefix(pair.Key) + pair.Value));
     public bool IsFull { get; private set; }
     public bool HasContent => text.Length > 0 || Partial.Length > 0;
 
@@ -22,7 +25,7 @@ public sealed class TranscriptBuffer
         if (IsFull)
             throw new InvalidOperationException("Export and clear the full transcript before starting.");
         var unfinished = Partial.Length == 0 ? "" :
-            Environment.NewLine + "[Unfinished recognition] " + Partial + Environment.NewLine;
+            Environment.NewLine + UnfinishedText + Environment.NewLine;
         var separator = text.Length > 0 || unfinished.Length > 0 ? "\n--- New session ---\n" : "";
         if (text.Length + unfinished.Length + separator.Length > MaximumCharacters)
         {
@@ -71,7 +74,7 @@ public sealed class TranscriptBuffer
 
     public string ExportText() => Partial.Length == 0
         ? Text
-        : Text + Environment.NewLine + "[Unfinished recognition] " + Partial + Environment.NewLine;
+        : Text + Environment.NewLine + UnfinishedText + Environment.NewLine;
 
     public void Clear()
     {

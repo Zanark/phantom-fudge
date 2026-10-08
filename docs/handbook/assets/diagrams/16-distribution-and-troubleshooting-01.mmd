@@ -1,0 +1,14 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: A local candidate is not a release
+    accDescr: Source and allowlisted inputs produce a hashed archive; extracted-copy operation and qualification are separate subsequent activities.
+    Source["Source and lock files"] --> Publish["Self-contained native publish"]
+    Allowlist["Selected docs and Python source"] --> Bundle["Candidate directory"]
+    Publish --> Bundle
+    Bundle --> Archive["Timestamped ZIP and hash"]
+    Archive --> Fresh["Fresh extracted-copy setup"]
+    Fresh --> Native["Native service and UI checks"]
+    Native --> Qualify["Hardware and recipient qualification"]
+    Qualify --> Approval["Owner-authorized release"]

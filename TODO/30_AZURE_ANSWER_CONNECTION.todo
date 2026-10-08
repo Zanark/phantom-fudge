@@ -1,0 +1,37 @@
+# Approved Azure Answer Profile and Keyless Identity
+
+Status: NOT_STARTED
+Milestone: A3 Authorized cloud integration
+Dependencies: 27_AI_ANSWER_RESEARCH.todo
+
+## Purpose
+
+Connect to an explicitly approved model deployment without embedded service secrets or surprise login UI.
+
+## Tasks
+
+- [ ] Obtain approved tenant/subscription/resource or provisioning owner, data policy and network route.
+- [ ] Choose allowed processing geography/deployment type and verify model/version/API/lifecycle intersection.
+- [ ] Evaluate5.4-mini/nano and5-mini availability; do not infer quota/capacity or use retiring defaults blindly.
+- [ ] Select direct desktop public-client identity or explicitly justify enterprise broker workstream37.
+- [ ] Configure/pin supported WAM/MSAL or Azure.Identity public-client integration and resource-level inference RBAC.
+- [ ] Verify the exact inference adapter token audience, deployment alias and endpoint.
+- [ ] Perform interactive sign-in only through explicit setup; silent refresh or inline SignInRequired during Ask.
+- [ ] Keep graph/chat/mail permissions, app secrets and management privileges out of inference-only scope.
+- [ ] Define metadata-only diagnostics, budget/usage limits and approved synthetic cloud-test spend.
+- [ ] Provision/change resources only after separate authorization; preserve the configuration receipt.
+
+## Acceptance criteria
+
+- [ ] Approved destination/model/profile is visible and no secrets are distributed in the desktop/Python bundle.
+- [ ] Auth/account/network failure does not open a surprise captureable dialog or select another identity/provider.
+- [ ] Processing/retention boundaries are documented; store:false is not called universal zero retention.
+- [ ] Local ASR remains local; cloud audio is separately optional and disabled.
+
+## Completion evidence
+
+- None. No Azure account, registration, endpoint, quota, deployment or credential has been inspected/configured.
+
+## Completion log
+
+- 2026-10-08 - Planned; missing execution values do not imply authorization to discover/create resources.

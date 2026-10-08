@@ -1,0 +1,37 @@
+---
+config:
+  theme: base
+  themeVariables:
+    lineColor: "#8b949e"
+    textColor: "#e6edf3"
+---
+flowchart TB
+    accTitle: PLANNED source-scoped commit barrier
+    accDescr: An ordered Mic barrier waits for exact processed coverage, finalizes only Mic, and acknowledges a new epoch.
+    subgraph Desktop["PLANNED client ordering"]
+        Click["Finish dictation"] --> Lock["Freeze Mic watermark"]
+        Lock --> Queue["PCM then marker"]
+    end
+    subgraph Service["PLANNED negotiated v3"]
+        Work["Ordered worker"] --> Check["Exact coverage"]
+        Check --> Flush["Finalize Mic"]
+        Flush --> Epoch["Replace Mic decoder"]
+        Epoch --> Ack["Ack and new epoch"]
+        Computer["Computer unchanged"]
+    end
+    Queue -. local protocol .-> Work
+    Work --> Computer
+    Ack -. typed acknowledgment .-> Draft["Matching draft only"]
+    style Click fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Lock fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Queue fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Work fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Check fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Flush fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Epoch fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Ack fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Computer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Draft fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Desktop fill:#161b22,stroke:#30363d,color:#e6edf3
+    style Service fill:#161b22,stroke:#30363d,color:#e6edf3,stroke-dasharray:5 5
+    linkStyle default stroke:#8b949e

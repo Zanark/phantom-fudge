@@ -1,0 +1,12 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart LR
+    accTitle: The evidence ladder
+    accDescr: Reading code, synthetic observations, hardware behavior and recipient capture support successively scoped claims; missing evidence stays open.
+    Code["Read mechanism"] --> Local["Local synthetic behavior"]
+    Local --> Hardware["Named hardware scenario"]
+    Hardware --> Remote["Named recipient capture"]
+    Remote --> Claim["Scoped support claim"]
+    Missing["Missing evidence"] --> Open["Keep qualification open"]
+    Local -. "not equivalent" .-> Claim

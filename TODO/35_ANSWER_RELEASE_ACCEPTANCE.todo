@@ -1,0 +1,34 @@
+# Question-to-Answer Release Acceptance
+
+Status: NOT_STARTED
+Milestone: A6 Exact-candidate answer handoff
+Dependencies: 14_PACKAGING_RELEASE.todo, 13_COMPATIBILITY_QUALIFICATION.todo, 33_ANSWER_LATENCY_QUALITY.todo, 34_ANSWER_PRIVACY_RESILIENCE.todo
+
+## Purpose
+
+Deliver the actual qualified dictate/select/Ask/answer workflow, not merely a model API wrapper.
+
+## Tasks
+
+- [ ] Run the complete synthetic Service Fabric ELI5 journey on the exact packaged candidate.
+- [ ] Verify local-only capture, visible question snapshot, configured Azure destination and streamed result.
+- [ ] Confirm accepted latency/fidelity/answer-quality budgets and current model lifecycle.
+- [ ] Qualify answer-pane streaming/cancel/resize/theme/focus with the required sharing matrix.
+- [ ] Complete owner usability/accessibility, data-policy, license/signing and distribution approvals.
+- [ ] Update usage/support/cost/troubleshooting guidance and immutable artifact/measurement receipts.
+- [ ] Hand off only through an authorized destination; no publication inferred from a working API.
+
+## Acceptance criteria
+
+- [ ] The owner's intended question, not unrelated meeting text, produces the corresponding useful answer.
+- [ ] Runtime/support/privacy claims match the exact measured configuration.
+- [ ] No unfinished mandatory work is hidden behind DONE or replaced by an optional cloud-ASR/broker success.
+- [ ] Docker remains optional final-stage packaging after the native application is accepted.
+
+## Completion evidence
+
+- None. The answer feature is currently researched/planned only.
+
+## Completion log
+
+- 2026-10-08 - Planned as the answer feature's final native-app gate.

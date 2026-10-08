@@ -6,7 +6,8 @@ Dependencies: 06_CAPTURE_POLICY.todo, 07_NOTEPAD_EDITOR.todo, 09_HOTKEYS_RECOVER
 
 ## Purpose
 
-Continuously transcribe what the presenter hears from the selected playback device, never microphone input.
+Transcribe selected computer output; task26 extends this to explicitly selected microphone dictation
+or both inputs. The original never-microphone requirement is superseded by the14:01 owner request.
 
 ## Tasks
 
@@ -25,7 +26,7 @@ Continuously transcribe what the presenter hears from the selected playback devi
 
 ## Acceptance criteria
 
-- [ ] No microphone capture endpoint or cloud speech fallback exists.
+- [ ] Only explicitly selected sources are captured; no automatic microphone or cloud fallback exists.
 - [ ] Heard synthetic speech becomes timely partial/final text with no silent dropped audio or duplicated finals.
 - [ ] Output-device scope and possible other-app/sidetone audio are explained clearly.
 - [ ] Raw audio is not persisted and transcripts are saved only by explicit user action.

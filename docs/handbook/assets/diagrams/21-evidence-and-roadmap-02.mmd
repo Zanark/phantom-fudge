@@ -1,0 +1,34 @@
+---
+config:
+  theme: base
+  themeVariables:
+    lineColor: "#8b949e"
+    textColor: "#e6edf3"
+---
+flowchart LR
+    accTitle: Remaining candidate and native release gates
+    accDescr: Native prerequisites feed candidate packaging, then exact-package qualification and acceptance; Docker stays after native release.
+    Native["Native prerequisites"] --> Package["14 Candidate"]
+    Privacy["34 PLANNED resilience"] -.-> Package
+    Package --> Capture["13 Qualification"]
+    Package --> Guide["15 Guide"]
+    Capture --> Guide
+    Package --> Answer["35 PLANNED acceptance"]
+    Capture --> Answer
+    Quality["33 PLANNED evaluation"] -.-> Answer
+    Privacy -.-> Answer
+    Package --> Release["17 Native release"]
+    Capture --> Release
+    Guide --> Release
+    Answer -.-> Release
+    Release --> Docker["20 Optional Docker LAST"]
+    style Native fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Package fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Privacy fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Capture fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Guide fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Answer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Quality fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Release fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Docker fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    linkStyle default stroke:#8b949e

@@ -1,0 +1,33 @@
+# Optional Azure Speech Question Transcription
+
+Status: NOT_STARTED
+Milestone: Optional after local baseline; not an answer prerequisite
+Dependencies: 27_AI_ANSWER_RESEARCH.todo, 33_ANSWER_LATENCY_QUALITY.todo
+
+## Purpose
+
+Evaluate cloud ASR only if local question quality/latency fails a measured requirement and raw-audio processing is approved.
+
+## Tasks
+
+- [ ] Obtain separate cloud-audio policy/profile and selected-source/region/budget approval.
+- [ ] Compare continuous Azure Speech on identical synthetic PCM; Fast/file and Batch are not live substitutes.
+- [ ] Validate phrase hints, segmentation/stability properties and real measured latency.
+- [ ] If explicit commit is needed, verify Speech SDK1.52+ preview support/format/region and CommitToken behavior.
+- [ ] Preserve source isolation, manual Ask, no automatic responses and visible cloud-audio status.
+- [ ] Keep Azure Realtime audio/VAD as a separately evaluated alternative, not required infrastructure.
+- [ ] Promote only after evidence; never auto-fallback from local ASR to cloud audio.
+
+## Acceptance criteria
+
+- [ ] Any cloud audio is deliberate, scoped and accurately disclosed.
+- [ ] It improves a defined quality/latency target without unapproved privacy or preview dependencies.
+- [ ] Local ASR plus Azure text answers still works independently.
+
+## Completion evidence
+
+- None. No Azure Speech request or cloud-audio configuration was performed.
+
+## Completion log
+
+- 2026-10-08 - Explicitly optional; local transcription remains the recommended baseline.

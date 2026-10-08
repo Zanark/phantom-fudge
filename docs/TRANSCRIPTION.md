@@ -1,4 +1,4 @@
-# Required local meeting-output transcription
+# Required local computer/microphone transcription
 
 Added 2026-10-08 by explicit user instruction. This is REQUIRED v1 implementation, not future scope.
 The native client and local recognizer are now implemented; see IMPLEMENTATION-STATUS.md for actual
@@ -8,13 +8,17 @@ Normal operation is native C# plus native Python, with no meeting audio sent to 
 ## Architecture
 
 ```text
-Meeting -> selected Windows playback device
-              -> native WASAPI render-endpoint loopback (never microphone)
-              -> PCM16 little-endian / mono / 16000 Hz
-              -> authenticated WebSocket on literal loopback address
-              -> native local Python/Vosk streaming recognizer
-              -> partial/final text in the SAME capture-excluded WPF window
+Meeting -> selected render endpoint -> WASAPI loopback ---- Computer track --+
+Dictated question -> selected capture endpoint -> WASAPI -- Mic track ------+
+       -> one authenticated loopback WebSocket (separate v2 source frames)
+       -> independent native Python/Vosk recognizers
+       -> labelled partial/final text in the SAME capture-excluded WPF window
 ```
+
+The owner's14:01 request explicitly adds microphone dictation; it supersedes the old never-mic
+requirement. Computer, Mic and Both modes require explicit Start. No chat reading is implemented.
+The full v2 contract and limits are in [DUAL-SOURCE-AUDIO.md](DUAL-SOURCE-AUDIO.md). V1 below remains
+supported for existing computer-only clients, not the new app's combined-input protocol.
 
 The GUI and Windows audio endpoint run on the Windows host. Recognition already runs in Python;
 C# is not the current speech-decoding engine. A loopback protocol separates these responsibilities.
@@ -51,8 +55,9 @@ models can be provisioned separately. Do not download a model implicitly during 
 ## Required behavior and boundaries
 
 Explicitly select a playback device. The default can be the current communications/default output;
-list only active render endpoints. Do not silently switch endpoints when a headset disconnects.
-Capture all output on that selected endpoint; process-specific capture is a separate future enhancement.
+the computer selector lists active render endpoints, and the mic selector lists active capture endpoints.
+Do not silently switch endpoints or drop an input when a headset disconnects.
+Computer captures all output on its selected endpoint; process-specific capture is a separate enhancement.
 The older NAudio article's claim that Windows has no process-specific API is not used as a current
 platform assertion; the endpoint-scoped implementation simply does not implement that facility.
 
@@ -70,7 +75,7 @@ uses the existing safe save path and is disabled during Present mode.
 
 An absent model, invalid token, unavailable service, unsupported format, device loss, disconnect,
 full queue, decoder failure, or malformed message must produce an actionable visible state.
-Never fall back to a microphone or cloud recognition.
+Never fall back to an unselected source/device or cloud recognition.
 
 ## Native service lifecycle
 
@@ -109,7 +114,8 @@ the owner sleeps. The benchmark workstream is23.
 ## Required qualification additions
 
 Synthetic speech fixture -> real recognizer -> WebSocket -> transcript event must work end-to-end.
-Separately exercise actual playback-device loopback, proving no microphone endpoint was opened.
+Separately qualify actual selected playback/microphone hardware only with explicit test authorization;
+computer-only mode must not open a mic, and synthetic unattended tests must open neither input.
 Test silence/stop tail flushing, repeated Start/Stop, wrong token, browser Origin, invalid PCM,
 bounded queues, device removal, service restart, no-model readiness, and no hidden audio persistence.
 Review captured transcript partial/final updates with the same C01-C14 HWND/meeting matrix as notes.

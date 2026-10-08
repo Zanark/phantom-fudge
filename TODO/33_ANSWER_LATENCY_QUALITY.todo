@@ -1,0 +1,36 @@
+# End-to-End Answer Latency and Quality Evaluation
+
+Status: NOT_STARTED
+Milestone: A5 Measured model and path selection
+Dependencies: 29_QUESTION_COMMIT_LATENCY.todo, 31_STREAMING_ANSWER_CLIENT.todo, 32_ANSWER_UI_LIFECYCLE.todo
+
+## Purpose
+
+Choose the fastest useful configuration from measured end-to-end results rather than model names or batch speed.
+
+## Tasks
+
+- [ ] Implement the stage clocks/receipt schema from docs\AI-ANSWER-EVALUATION.md without content telemetry.
+- [ ] Measure current local ASR, commit and visible-draft latency using annotated identical synthetic PCM.
+- [ ] Obtain explicit cloud-test configuration/spend approval and use only original public-safe questions.
+- [ ] Compare candidate model/version/deployment profiles with the same prompts/output requirements.
+- [ ] Separate warm/cold auth/connections; randomize/interleave order and report sample counts/distributions.
+- [ ] Score question fidelity, answer correctness/usefulness, uncertainty and first-useful-sentence latency.
+- [ ] Record output/reasoning/cached tokens, actual tier, throttling/errors/filters/incomplete results and cost.
+- [ ] Compare API/eligible Priority options only after a baseline; do not assume caching or routing wins.
+- [ ] Approve/revise targets explicitly based on evidence; preserve failed candidates and limitations.
+
+## Acceptance criteria
+
+- [ ] Ask-to-rendered-text and useful-answer metrics are not replaced with gateway TTFT or a filler token.
+- [ ] Short/incomplete/wrong answers do not win by being faster.
+- [ ] Local/cloud/synthetic/real-speaker and proposed/measured values remain distinct.
+- [ ] No production meeting data or real question content is uploaded by a benchmark.
+
+## Completion evidence
+
+- None. Existing local speech benchmark is not an Azure or end-to-end answer benchmark.
+
+## Completion log
+
+- 2026-10-08 - Planned; latency targets are provisional allocations, not guarantees.

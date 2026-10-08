@@ -1,0 +1,28 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Configuration boundaries before recording
+    accDescr: Provisioning supplies files, the launcher starts an owned service and window, and recording needs a separate explicit Start and protocol readiness.
+    subgraph P["Explicit provisioning"]
+        I["Initialize"] --> F["Token and verified model"]
+    end
+    L["Run launcher"] --> M["Native manager"]
+    F --> M
+    M --> S["Idle Python service"]
+    L --> W["Native window"]
+    W --> U["Explicit Start"]
+    S --> G["Validated ready"]
+    U --> G
+    G --> C["Selected capture"]
+    style I fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style F fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style L fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style M fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style S fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style W fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style U fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style G fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style C fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style P fill:#161b22,stroke:#30363d,color:#e6edf3
+    linkStyle default stroke:#8b949e

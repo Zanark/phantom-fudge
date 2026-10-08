@@ -1,0 +1,45 @@
+# Microphone Dictation and Computer Audio Together
+
+Status: IN_PROGRESS
+Milestone: M2-M4 Required input extension
+Dependencies: 19_LIVE_TRANSCRIPTION.todo, 22_NATIVE_PYTHON_RUNTIME.todo
+
+## Purpose
+
+Transcribe dictated chat questions through the selected microphone while retaining selected computer audio,
+without reading chat applications or requiring Docker/cloud inference.
+
+## Tasks
+
+- [x] Record explicit owner microphone authorization and supersession of earlier computer-only scope.
+- [x] Define Computer/Mic/Both, explicit Start, separate source labels and v1-compatible v2 protocol.
+- [x] Implement two independent native inputs and bounded source-tagged PCM transport.
+- [x] Implement independent Python recognizers, source partials/timing and global final IDs in one session.
+- [x] Add input selectors/meters and labelled transcript/export with no silent source substitution.
+- [x] Preserve cancellation, stop/final drain, device-loss cleanup and no automatic mic startup.
+- [x] Handle stale owned idle service upgrade without interrupting active transcription.
+- [x] Run deterministic/native/backend/UI and real-recognizer synthetic dual-source integration.
+- [x] Record manual microphone/device/echo/OS-indicator and actual capture qualification limits.
+
+## Acceptance criteria
+
+- [ ] Computer, Mic and Both behave explicitly; capture begins only after Start and protocol readiness.
+- [ ] Source finals do not erase the other partial; export preserves source labels and unfinished text.
+- [ ] Missing/denied/lost requested input stops the session, never substitutes or quietly downgrades.
+- [ ] No real microphone recording, playback, chat access or upload is used by unattended tests.
+- [ ] Windows mic privacy indicators and acoustic echo are disclosed without invisibility/AEC guarantees.
+
+## Completion evidence
+
+- Owner request2026-10-08 14:01; docs\DUAL-SOURCE-AUDIO.md freezes the integration contract.
+- Implementing with synthetic fixtures; no live microphone capture authorized for agent testing.
+- Core41tests, native46synthetic groups, Python71tests and4upgrade guards pass.
+- Real synthetic dual recognizer and actual C#v2transport/source-keyword separation/tail drain pass,
+  with no devices opened/audio files/playback. UI modes, passive mic selection and stop-drain guard pass.
+- Actual hardware mic/permission/echo and recorder privacy-indicator qualification remain open.
+- Exact package145231 UI passes including source labels/modes/passive microphone selector and
+  stoppingGuardsSession; recordingStarted=false. SHA256BC89867277F3E8C8BAA179BE74B7F517A98D6E09CBE35534AFB21E12E127C846.
+
+## Completion log
+
+- 2026-10-08 - Added microphone dictation as required functionality; no chat integration.

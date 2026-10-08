@@ -1,0 +1,21 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","signalColor":"#8b949e","signalTextColor":"#e6edf3","noteBkgColor":"#161b22","noteBorderColor":"#30363d","noteTextColor":"#e6edf3"}}
+---
+sequenceDiagram
+    accTitle: Units and completion boundaries
+    accDescr: A source-labelled PCM frame produces provisional text; Stop drains source finals before the UI permits another session.
+    autonumber
+    participant UI as WPF
+    participant Client as Native audio client
+    participant Python as Local service
+    participant Buffer as TranscriptBuffer
+    Client->>Python: Source byte plus PCM bytes
+    Python-->>Client: Source-labelled partial
+    Client-->>UI: Dispatch transcript event
+    UI->>Buffer: Replace source partial
+    UI->>Client: Explicit Stop
+    Client->>Client: Running false while cleanup continues
+    Client->>Python: Remaining PCM, then stop
+    Python-->>Client: Final from each source, then stopped
+    Client-->>UI: Forward finals and complete Stop
+    UI->>Buffer: Retain history for export or next session

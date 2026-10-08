@@ -1,0 +1,26 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","actorLineColor":"#8b949e","signalColor":"#8b949e","signalTextColor":"#e6edf3","noteBkgColor":"#161b22","noteBorderColor":"#30363d","noteTextColor":"#e6edf3"}}
+---
+sequenceDiagram
+    accTitle: A complete dual-source wire session
+    accDescr: Ready precedes source-prefixed PCM, and a queued Stop drains both recognizers before stopped.
+    autonumber
+    participant C as Client
+    participant S as Server
+    participant Q as Source queue
+    participant D as Decoder worker
+    C->>S: Authenticated upgrade
+    C->>S: v2 start and source subset
+    S->>D: Create declared decoders
+    S-->>C: Matching ready
+    C->>S: Source byte plus PCM
+    S->>Q: Admit bounded frame
+    Q->>D: Decode source PCM
+    D-->>C: Source partial or final
+    C->>C: Drain outgoing PCM
+    C->>S: stop
+    S->>Q: Queue stop marker
+    Q->>D: Finish each source
+    D-->>C: Computer final
+    D-->>C: Mic final
+    S-->>C: stopped

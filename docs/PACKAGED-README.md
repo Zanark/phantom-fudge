@@ -35,7 +35,10 @@ is active. A process owned by another launcher/workspace is not terminated.
 - Text keeps an arrow cursor. Captured-pointer visibility is still recorder-dependent, not guaranteed.
 - Ctrl+Alt+Space: hide/reveal; Ctrl+Alt+E: Edit. Relaunch to recover/recenter.
 - Background:10-100% tint, default55%; note/transcript text remains solid.
-- Select the meeting's playback device, not a microphone. Other audio on that device is included.
+- Choose Computer, Mic, or Both; select each required device. Start is always explicit.
+- Computer includes other output audio; Mic lets you dictate chat questions. The app does not read chats.
+- Separate labelled tracks/meters are not speaker identification. Use headphones to reduce echo.
+- Windows microphone indicators may be visible outside this app's window-exclusion setting.
 - Permission and recipient checks are your external workflow; the app does not ask again.
 - Save notes/export transcripts explicitly. There is no crash recovery or audio-file recording.
 - Hiding, mode/session/power changes stop transcription; start again deliberately.

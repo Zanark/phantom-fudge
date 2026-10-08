@@ -1,0 +1,36 @@
+# Azure Question-to-Answer Research and Architecture
+
+Status: DONE
+Milestone: A0 Design only
+Dependencies: None
+
+## Purpose
+
+Define a source-grounded, low-latency manual question-to-answer feature without deploying or uploading data.
+
+## Tasks
+
+- [x] Read current dual-source code, transcript state and measured local ASR evidence.
+- [x] Research Vosk finalization, optional Whisper refinement, Azure Speech and Realtime alternatives.
+- [x] Research current Azure APIs, models/lifecycle, deployment types, streaming and latency controls.
+- [x] Define explicit draft/snapshot/Ask, source commit, answer lifecycle and same-window UX.
+- [x] Define Entra desktop identity, selected-text egress, privacy/retention and optional broker boundaries.
+- [x] Define measured-stage evaluation, provisional targets, failure cases and required future approvals.
+- [x] Append implementation workstreams/procedures without changing the running app.
+
+## Acceptance criteria
+
+- [x] Claims cite retrieved primary sources; recommendation differs from measured performance.
+- [x] Azure answering does not require cloud audio, chat reading, Agents/RAG or Docker.
+- [x] Existing permission/rehearsal preferences, capture limits and Docker-last direction are preserved.
+- [x] No resource/account discovery, paid inference, deployment, real capture or upload is claimed.
+
+## Completion evidence
+
+- docs\AI-ANSWER-RESEARCH.md, AI-ANSWER-ARCHITECTURE.md, AI-ANSWER-PRIVACY.md and AI-ANSWER-EVALUATION.md.
+- Primary source groups L01-L15/A01-A10/P01-P10 and current local implementation references.
+- No Azure latency benchmark or answer-feature implementation exists yet.
+
+## Completion log
+
+- 2026-10-08 - Deep research and architecture delivered for the owner's explicit Ask workflow.

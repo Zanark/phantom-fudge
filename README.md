@@ -6,9 +6,15 @@ entry, and Windows capture exclusion requested for its contents.
 
 **Status: native development preview implemented; full meeting compatibility is not yet qualified.**
 
-Includes a plain-text editor, hide/relaunch recovery, Edit/Present modes, and **required live
-transcription of selected playback-device audio**. No microphone endpoint or cloud speech fallback
-is used. **C# handles the window and WASAPI capture; Python performs recognition locally.**
+**Planned next: Ask AI.** Deep research/design is complete for explicitly sending a chosen
+dictated question to an Azure model and streaming its answer. This feature is **not implemented**,
+and the current app does not upload audio/questions to Azure. Start with
+[the proposed architecture](docs/AI-ANSWER-ARCHITECTURE.md) and new TODOs27-37.
+
+Includes a plain-text editor, hide/relaunch recovery, Edit/Present modes, and **live transcription
+from Computer audio, Microphone dictation, or Both**. Inputs are selected explicitly and remain
+stopped until Start. **C# handles the window and WASAPI capture; Python recognizes separate
+source-labelled tracks locally.** No chat reading or cloud speech fallback is used.
 Docker is not required. The same headless Python service can be containerized later.
 
 The **Background** slider adjusts translucency from10% to100% (default55%) while keeping note
@@ -59,9 +65,26 @@ and local output-loopback recognition evidence do not substitute for those produ
 | [Implementation evidence](docs/IMPLEMENTATION-STATUS.md) | Implemented scope and remaining release gates |
 | [Speech-engine comparison](docs/SPEECH-BENCHMARK.md) | Measured offline SAPI/Vosk/Whisper speed and word-error rates |
 | [Cursor and themes](docs/CURSOR-AND-THEMES.md) | Transcript-first controls, canonical palette provenance and cursor limitations |
+| [Computer + microphone](docs/DUAL-SOURCE-AUDIO.md) | Input modes, separate source tracks, v2 protocol and microphone boundaries |
+| [AI answer research](docs/AI-ANSWER-RESEARCH.md) | Current Azure/ASR sources, model lifecycle and design decisions |
+| [AI answer architecture](docs/AI-ANSWER-ARCHITECTURE.md) | Explicit draft/Ask, source commit, streaming and cancellation |
+| [Azure data/identity boundary](docs/AI-ANSWER-PRIVACY.md) | Selected-text egress, keyless auth and retention limits |
+| [Answer latency evaluation](docs/AI-ANSWER-EVALUATION.md) | Proposed budgets and controlled quality/latency experiments |
 
 **Implementation:** C# / WPF on .NET 10 LTS, NAudio render-endpoint loopback, and a local
 Python/Vosk streaming service. Keep private notes, transcripts, models and local tokens out of Git.
 
 If required capture paths fail, narrow the supported claim or use a dedicated unshared
 display/device or presentation-window sharing. Do not substitute an invisibility promise.
+
+## Engineering book and development journal
+
+The [illustrated Engineering Handbook](docs/handbook/README.md) covers the system from first
+principles through native capture, dual-source speech, failure recovery, measured benchmarks and
+the proposed Azure answer flow. Read the [offline HTML edition](docs/handbook/Phantom-Fudge-Engineering-Handbook.html)
+or [printable PDF](docs/handbook/Phantom-Fudge-Engineering-Handbook.pdf).
+
+The [public JOURNAL](JOURNAL.md) records the journey, including corrected decisions and remaining
+unknowns. [Documentation maintenance](docs/DOCUMENTATION-MAINTENANCE.md) is part of every feature:
+update the book, diagrams, synthetic UI images and significant journal entries with the implementation.
+See [all documentation](docs/README.md) for the shorter operational guides.

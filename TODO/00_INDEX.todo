@@ -18,8 +18,13 @@ capture proof rather than assuming a window can be universally undetectable.
 - Local synthetic GDI/UI/speech evidence and approved hardware-loopback recognition exist.
 - No four-product qualification, actual Docker execution, owner UX acceptance, commit, push or public release.
 - WORKFLOWS statuses describe authored procedures, not app execution.
+- Owner14:01 adds selected microphone dictation alongside computer output; task26 supersedes the
+  earlier never-microphone product scope. No chat reading or automatic capture is introduced.
 - Latest UX: transcript-first, Notes collapsed, passive default, fixed arrow and canonical themes.
   The owner's remote cursor-disappearance report is not yet independently reproduced/qualified.
+- New15:05 request is DEEP RESEARCH/design for explicit dictated-question -> streamed Azure answer.
+  Design27 is complete;28-35 implementation/qualification is NOT_STARTED.36/37 are optional extensions.
+  No Azure resource, sign-in, model request, upload or answer UI exists from this planning task.
 
 ## Next action
 
@@ -27,6 +32,8 @@ Use docs\PREVIEW-GUIDE.md for native C# plus Python operation without Docker. Ru
 are complete; remaining work is product/hardware/UX qualification and measured streaming improvement.
 Docker20 comes only after
 native release17 and does not block the app or its transcription feature.
+For the requested answer feature, start with28local structured question drafts and fake streaming,
+then29Mic commit plus30approved Azure connection. Read docs\AI-ANSWER-ARCHITECTURE.md first.
 
 ## Status values
 
@@ -68,6 +75,19 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 | 23 | 23_SPEECH_ENGINE_BENCHMARKS.todo | DONE | Offline measured engine comparison |
 | 24 | 24_CURSOR_AND_FOCUS.todo | IN_PROGRESS | Local mitigation; recipient cursor gap |
 | 25 | 25_TRANSCRIPT_FIRST_THEMES.todo | IN_PROGRESS | Transcript-first and canonical themes |
+| 26 | 26_MICROPHONE_AND_COMPUTER.todo | IN_PROGRESS | Source-labelled Computer/Mic/Both |
+| 27 | 27_AI_ANSWER_RESEARCH.todo | DONE | A0 design only |
+| 28 | 28_QUESTION_DRAFTS.todo | IN_PROGRESS | A1 local source-scoped draft/snapshot implementation |
+| 29 | 29_QUESTION_COMMIT_LATENCY.todo | NOT_STARTED | A2 Mic commit, no stop-all |
+| 30 | 30_AZURE_ANSWER_CONNECTION.todo | NOT_STARTED | A3 approved identity/deployment |
+| 31 | 31_STREAMING_ANSWER_CLIENT.todo | NOT_STARTED | A4 direct streamed answer |
+| 32 | 32_ANSWER_UI_LIFECYCLE.todo | NOT_STARTED | A4 same-HWND answer UI |
+| 33 | 33_ANSWER_LATENCY_QUALITY.todo | NOT_STARTED | A5 measured latency/quality |
+| 34 | 34_ANSWER_PRIVACY_RESILIENCE.todo | NOT_STARTED | A5 privacy/failure gates |
+| 35 | 35_ANSWER_RELEASE_ACCEPTANCE.todo | NOT_STARTED | A6 exact-candidate handoff |
+| 36 | 36_OPTIONAL_AZURE_SPEECH.todo | NOT_STARTED | Optional cloud-audio experiment |
+| 37 | 37_OPTIONAL_ANSWER_BROKER.todo | NOT_STARTED | Conditional enterprise policy |
+| 38 | 38_LIVING_DOCUMENTATION.todo | DONE | Initial illustrated edition; workflow06 maintains future changes |
 
 ## Dependency map
 
@@ -84,12 +104,23 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 05 + 06 -> 21
 05 + 06 -> 24
 05 + 19 + 21 -> 25
-08 + 09 + 10 + 11 + 12 + 19 + 21 + 22 + 24 + 25 -> 14
+19 + 22 -> 26
+27 -> 28 -> 29
+27 -> 30
+28 + 30 -> 31
+28 + 31 -> 32
+29 + 31 + 32 -> 33
+28 + 29 + 30 + 31 + 32 -> 34
+08 + 09 + 10 + 11 + 12 + 19 + 21 + 22 + 24 + 25 + 26 + 31 + 32 + 34 -> 14
 14 -> 13
 13 + 14 -> 15
-13 + 14 + 15 -> 17
+14 + 13 + 33 + 34 -> 35
+13 + 14 + 15 + 35 -> 17
 17 -> 20 (optional final-stage containerization)
+27 + 33 -> 36 (optional cloud ASR; not a prerequisite of31)
+27 + 30 -> 37 (conditional broker; direct baseline does not depend on it)
 16 spans every milestone; 18 remains outside the v1 dependency graph.
+38 establishes the book; workflow06 documentation maintenance spans subsequent feature/release work.
 ```
 
 Numbers are stable IDs, not a strictly numeric execution order: 14 intentionally precedes 13.
@@ -105,12 +136,16 @@ The final matrix must qualify the packaged candidate, not merely a development b
 | R04 excluded captured contents | 03, 06, 10, 12, 13 | Positive controls and independent recipient frames |
 | R05 Windows 11 first | 01, 04, 11, 14 | Exact supported OS/runtime/package records |
 | R06 four sharing products | 03, 13, 15, 17 | Versioned product/backend support matrix |
-| R07 meeting-output transcription | 19, 06, 12, 13 | Output-only loopback, real offline speech, protected transcript pixels |
+| R07 computer + mic transcription | 19, 26, 06, 12, 13 | Explicit source tracks, offline speech, protected labelled transcript |
 | R08 native Python, future portability | 22, 14, 17;20 later | Native startup/offline inference; container-neutral boundaries |
 | R09 see-through background | 21, 05, 06, 13 | Alpha, solid text, hit testing and current-rendering capture matrix |
 | R10 primary transcript/collapsed notes | 25, 07, 10 | Layout and note preservation |
 | R11 canonical themes/plain reset | 25, 11 | Palette, state/contrast, UI evidence |
 | R12 cursor/focus cue reduction | 24, 13 | Local arrow/nonactivation and separate recipient-side qualification |
+| R13 explicit question -> streamed answer | 28, 31, 32, 35 | Immutable source-scoped Ask and corresponding visible answer |
+| R14 low-latency, useful response | 29, 33, 35 | ASR/commit/TTFT/render/quality measurements, not batch-speed inference |
+| R15 deliberate Azure data boundary | 30, 34 | Keyless identity, selected-text egress, approved processing policy |
+| R16 living illustrated documentation | 38, 16; all later features | Source-linked handbook, synthetic images, public journal, HTML/PDF freshness |
 
 ## Workflow catalogue
 
@@ -118,6 +153,9 @@ The final matrix must qualify the packaged candidate, not merely a development b
 - WORKFLOWS\01_FEATURE_DELIVERY.todo - Ready task through implementation/evidence/handoff.
 - WORKFLOWS\02_CAPTURE_QUALIFICATION.todo - Synthetic controls, frame review, exact-version result.
 - WORKFLOWS\03_RELEASE_DELIVERY.todo - Package, qualify, approve, deliver, maintain.
+- WORKFLOWS\04_QUESTION_TO_ANSWER.todo - Explicit draft/snapshot/Ask/stream/cancel procedure.
+- WORKFLOWS\05_AI_LATENCY_QUALIFICATION.todo - Local-first, quality-qualified model/path comparison.
+- WORKFLOWS\06_LIVING_DOCUMENTATION.todo - Source-grounded chapters, visuals, journal and generated editions.
 
 ## Definition of done
 
@@ -125,6 +163,9 @@ Every required checkbox and acceptance criterion is met. Evidence names actual s
 environment, commands/results or observations, and limits. Related docs/index/ledger agree.
 Human usability approval is recorded where required. A passing build is not a capture test;
 a capture test is not an invisibility guarantee; authored research is not a finished app.
+Affected handbook chapters/citations/diagrams must match source; visible UI changes refresh synthetic
+images. Significant milestones update root JOURNAL.md. The full HTML/PDF edition must be current
+under Build-Handbook.ps1 -Check; generated outputs do not authorize publication.
 
 ## Tasks
 

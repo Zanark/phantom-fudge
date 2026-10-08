@@ -2,7 +2,6 @@ import asyncio
 import json
 from pathlib import Path
 import sys
-import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -39,10 +38,14 @@ class ManagementTests(unittest.IsolatedAsyncioTestCase):
     async def test_runtime_is_authenticated_and_contains_no_paths_or_token(self):
         denied = await self.client.get("/v1/runtime")
         self.assertEqual(denied.status, 401)
+        self.assertNotIn("speechProtocolVersions", await denied.json())
         response = await self.client.get("/v1/runtime", headers=AUTH)
         data = await response.json()
         self.assertEqual(data["instanceId"], INSTANCE)
         self.assertEqual(data["service"], "phantom-fudge-transcription")
+        self.assertEqual(data["protocolVersion"], 1)
+        self.assertEqual(data["speechProtocolVersions"], [1, 2])
+        self.assertFalse(data["active"])
         self.assertTrue(data["ready"])
         self.assertGreater(data["pid"], 0)
         self.assertNotIn(TOKEN, json.dumps(data))
@@ -86,6 +89,32 @@ class ManagementTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(health.status, 503)
         await asyncio.wait_for(self.stopped.wait(), 1)
 
+    async def test_dual_session_is_one_active_runtime_and_refuses_shutdown(self):
+        ws = await self.client.ws_connect("/v1/transcribe", headers=AUTH)
+        await ws.send_json({"type": "start", "protocolVersion": 2, **FORMAT,
+                            "sources": ["computer", "microphone"]})
+        self.assertEqual((await ws.receive_json())["type"], "ready")
+        data = await (await self.client.get("/v1/runtime", headers=AUTH)).json()
+        self.assertIs(data["active"], True)
+        self.assertEqual(data["protocolVersion"], 1)
+        self.assertEqual(data["speechProtocolVersions"], [1, 2])
+        response = await self.client.post("/v1/shutdown", headers=OWNED)
+        self.assertEqual(response.status, 409)
+        self.assertEqual((await response.json())["code"], "busy")
+        self.assertFalse(self.app[RUNTIME].stopping)
+        self.assertFalse(self.stopped.is_set())
+        await ws.send_json({"type": "stop"})
+        for source in ("computer", "microphone"):
+            event = await ws.receive_json()
+            self.assertEqual((event["type"], event["source"]), ("final", source))
+        self.assertEqual(await ws.receive_json(), {"type": "stopped"})
+        await ws.close()
+        async with asyncio.timeout(2):
+            while self.app[RUNTIME].active:
+                await asyncio.sleep(0.001)
+        data = await (await self.client.get("/v1/runtime", headers=AUTH)).json()
+        self.assertIs(data["active"], False)
+
     async def test_body_and_query_not_accepted(self):
         response = await self.client.post("/v1/shutdown", headers=OWNED, data=b"unexpected")
         self.assertEqual(response.status, 400)
@@ -109,12 +138,11 @@ class ManagerTests(unittest.TestCase):
                 manage.owned_info(TOKEN, {"instanceId": INSTANCE})
 
     def test_invalid_receipt_does_not_trigger_an_action(self):
-        with tempfile.TemporaryDirectory() as directory:
-            path = Path(directory) / "runtime.json"
-            path.write_text('{"schemaVersion":1,"instanceId":42}', encoding="utf-8")
-            with patch.object(manage, "RECORD", path):
-                with self.assertRaises(manage.RuntimeFailure):
-                    manage.read_record()
+        with patch.object(manage, "RECORD") as record:
+            record.exists.return_value = True
+            record.read_text.return_value = '{"schemaVersion":1,"instanceId":42}'
+            with self.assertRaises(manage.RuntimeFailure):
+                manage.read_record()
 
     def test_redirects_never_forward_authentication(self):
         with self.assertRaises(manage.RuntimeFailure):

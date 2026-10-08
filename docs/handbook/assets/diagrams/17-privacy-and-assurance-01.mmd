@@ -1,0 +1,15 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Current and proposed data boundaries
+    accDescr: Selected input remains between the desktop and authenticated local recognizer; local saves and proposed Azure egress require explicit actions.
+    Owner["Explicit owner action"] --> App["Desktop process"]
+    Devices["Selected Windows inputs"] --> App
+    App --> Local["Authenticated local Python"]
+    Local --> App
+    App --> Files["Explicit local saves"]
+    App --> Display["Windows compositor"]
+    Display --> Recorder["External recorder"]
+    Recorder --> Audience["Recipient"]
+    App -. "future explicit text only" .-> Azure["PLANNED Azure request"]

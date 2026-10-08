@@ -1,0 +1,37 @@
+# Source-Scoped Question Commit and ASR Latency
+
+Status: NOT_STARTED
+Milestone: A2 Fast finalization
+Dependencies: 28_QUESTION_DRAFTS.todo
+
+## Purpose
+
+Finalize the intended Mic question without waiting for silence or stopping Computer transcription.
+
+## Tasks
+
+- [ ] Negotiate v3/commit capability while preserving strict v1/v2 behavior.
+- [ ] Add typed commit envelopes to the single ordered sender queue under the audio watermark lock.
+- [ ] Define question start/end boundaries, device-buffer lag and delivered-versus-spoken sample semantics.
+- [ ] Track processed sample watermarks server-side; do not use received bytes as decoded coverage.
+- [ ] Flush/recreate only the selected decoder with cumulative offsets/global IDs preserved.
+- [ ] Ack source/epoch/watermark/final reference; deduplicate retries by session/source/request ID.
+- [ ] Reject stale/changed duplicate controls and keep Computer capture/decoder state continuous.
+- [ ] Keep explicit send-as-shown separate; timeout must not silently send another draft.
+- [ ] Measure paced dual-source commit/fidelity p50/p95 before tuning capture chunk size.
+- [ ] Evaluate bounded question-only Whisper refinement without changing already-sent text.
+
+## Acceptance criteria
+
+- [ ] No clipped/duplicated final words, old-question leakage or cross-source reset in the synthetic matrix.
+- [ ] Empty/repeated commits are acknowledged without duplicate finals or new IDs.
+- [ ] Commit and snapshot latency targets are measured, not inferred from batch RTF or stream-start timing.
+- [ ] Whisper or lower-buffer changes are promoted only with actual live-path quality/latency evidence.
+
+## Completion evidence
+
+- None. Pinned Vosk FinalResult/replacement feasibility is researched, not implemented.
+
+## Completion log
+
+- 2026-10-08 - Planned; local ASR remains default and global Stop is not the question boundary.

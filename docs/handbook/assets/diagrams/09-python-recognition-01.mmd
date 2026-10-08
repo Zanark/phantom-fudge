@@ -1,0 +1,28 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Model identity and mutable decoder ownership
+    accDescr: Verified files create one model, while Computer and Mic retain separate decoder histories serialized on one executor.
+    F["Provisioned files"] --> V["Exact set and hashes"]
+    V --> M["Shared Vosk model"]
+    M --> C["Computer decoder"]
+    M --> D["Mic decoder"]
+    Q["Source-tagged FIFO"] --> W["One executor worker"]
+    W --> C
+    W --> D
+    C --> CS["Computer time and partial"]
+    D --> MS["Mic time and partial"]
+    CS --> P["Validated publication"]
+    MS --> P
+    style F fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style V fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style M fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style C fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style D fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Q fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style W fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style CS fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style MS fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style P fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    linkStyle default stroke:#8b949e

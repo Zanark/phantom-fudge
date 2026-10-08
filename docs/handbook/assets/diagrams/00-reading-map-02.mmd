@@ -1,0 +1,16 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Implemented local pipeline and planned Azure boundary
+    accDescr: Explicit selected audio goes through native capture and local recognition; future selected questions may be sent on manual Ask.
+    Owner["Explicit owner actions"] --> UI["WPF window"]
+    Computer["Computer endpoint"] --> Capture["Selected WASAPI inputs"]
+    Mic["Microphone endpoint"] --> Capture
+    UI --> Capture
+    Capture --> Socket["Authenticated local stream"]
+    Socket --> ASR["Python and independent Vosk decoders"]
+    ASR --> Text["Source-labelled transcript"]
+    Text --> UI
+    Text -. "future explicit selection" .-> Draft["PLANNED question draft"]
+    Draft -. "manual Ask" .-> Azure["PLANNED Azure answer"]

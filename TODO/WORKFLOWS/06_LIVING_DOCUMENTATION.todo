@@ -1,0 +1,60 @@
+# Living Documentation Procedure
+
+Status: DONE
+Milestone: D1 Procedure definition; execution recurs with every relevant change
+Dependencies: None
+Execution status: IN_PROGRESS
+
+## Purpose
+
+Keep the source-linked engineering book, diagrams, synthetic UI illustrations and public journal
+accurate as the implementation evolves. Workstream38 completion does not retire this procedure.
+
+## Inputs
+
+Authorized change scope, affected source, current primary contracts/chapters, synthetic image
+fixtures, prior edition manifest and public evidence. See docs\DOCUMENTATION-MAINTENANCE.md.
+
+## Procedure
+
+1. Identify changed behavior and corresponding chapters/contracts before editing source.
+2. Update explanations, defaults, examples, error paths and precise path/line citations from source.
+3. Refresh diagrams when data flow, state, ownership or trust boundaries change. Label plans clearly.
+4. Regenerate affected UI images with Export-HandbookScreenshots.ps1; inspect synthetic content,
+   device labels and provenance. Never capture user notes, desktop, chats or real audio.
+5. Append significant decisions, corrections and evidence to root JOURNAL.md and the TODO ledger.
+6. Run existing documentation parser tests if tooling changes; keep ps1/txt script twins identical.
+7. Review changed source against prose, then build the complete HTML/PDF edition with
+   Build-Handbook.ps1 -AcceptReviewedSource. Use -NoPdf only for intermediate editing.
+8. Inspect changed rendered pages/images, resolve missing links/diagrams/layout and run -Check.
+9. Record actual evidence and limitations in the feature task/index. Persist only designated context.
+
+## Stop conditions
+
+Unknown source behavior, invalid citation/link, stale image/source hash, rendering failure,
+private-content fixture, misleading qualification claim or missing PDF in a final book milestone.
+Do not overwrite a hash to bless stale pixels or use a hosted renderer as a shortcut.
+
+## Outputs
+
+Updated primary contracts/chapters/diagrams, synthetic image provenance where relevant, dated
+journal/ledger entry, full local HTML/PDF and current manifest. No publication is implied.
+
+## Tasks
+
+- [x] Define source-to-document ownership and feature/release integration.
+- [x] Define safe synthetic visual provenance, source review and full-edition checks.
+- [x] Separate mechanical freshness from semantic review and capture qualification.
+
+## Acceptance criteria
+
+- [x] Future contributors have reproducible commands and clear stop conditions.
+- [x] Procedure completion cannot be mistaken for qualification or publishing authorization.
+
+## Completion evidence
+
+- docs\DOCUMENTATION-MAINTENANCE.md, tools\Docs\README.md and AGENTS.md.
+
+## Completion log
+
+- 2026-10-08 - Authored and integrated the ongoing living-documentation procedure.

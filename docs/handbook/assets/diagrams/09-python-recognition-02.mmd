@@ -1,0 +1,26 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","actorLineColor":"#8b949e","signalColor":"#8b949e","signalTextColor":"#e6edf3","noteBkgColor":"#161b22","noteBorderColor":"#30363d","noteTextColor":"#e6edf3"}}
+---
+sequenceDiagram
+    accTitle: A source rotates without resetting its audio clock
+    accDescr: Computer rotates at thirty processed seconds while Mic retains its separate decoder and shorter clock.
+    autonumber
+    participant S as Session
+    participant C as Computer wrapper
+    participant D as Computer decoder
+    participant M as Mic wrapper
+    S->>M: accept 3200 PCM bytes
+    M-->>S: Partial at 0.1 s processed
+    S->>C: Frame reaching 30 s
+    C->>D: AcceptWaveform
+    D-->>C: Not endpoint-complete
+    C->>D: FinalResult
+    D-->>C: Local word times
+    C->>C: Clamp final, offset = 30
+    C->>C: Create fresh decoder
+    C-->>S: Final ending by 30 s
+    S->>C: Process next 1 s
+    S->>C: finish on Stop
+    C-->>S: Tail in 30 to 31 s
+    S->>M: finish on Stop
+    M-->>S: Tail ending by 0.1 s

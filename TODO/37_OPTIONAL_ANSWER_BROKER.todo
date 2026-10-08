@@ -1,0 +1,34 @@
+# Optional Enterprise Answer Broker
+
+Status: NOT_STARTED
+Milestone: Conditional governance extension
+Dependencies: 27_AI_ANSWER_RESEARCH.todo, 30_AZURE_ANSWER_CONNECTION.todo
+
+## Purpose
+
+Add an Azure-hosted boundary only when approved governance/network requirements cannot be met by direct desktop inference.
+
+## Tasks
+
+- [ ] Record the concrete need: central quotas, private route, shared identity or organization-wide policy.
+- [ ] Design client Entra audience/scope validation and backend managed-identity inference RBAC.
+- [ ] Enforce model/endpoint/token/context allowlists and metadata-only logging.
+- [ ] Preserve streaming/cancellation end-to-end; if APIM is required, disable response buffering intentionally.
+- [ ] Measure hosting/cold-start/extra-hop behavior and cost against direct baseline.
+- [ ] Keep no database/queue/agent/tool loop unless separately required.
+- [ ] Update dependencies explicitly if this becomes the selected mandatory path; do not retrofit it silently.
+
+## Acceptance criteria
+
+- [ ] Added infrastructure satisfies a documented policy requirement and measured latency budget.
+- [ ] No model key or application secret is distributed to clients.
+- [ ] No arbitrary upstream proxying, transcript logging or automatic region/provider fallback.
+- [ ] Native desktop operation and Docker-last direction remain explicit.
+
+## Completion evidence
+
+- None. No broker/resource/container is created or required by the recommended baseline.
+
+## Completion log
+
+- 2026-10-08 - Conditional extension only; direct desktop Azure inference is the initial proposal.

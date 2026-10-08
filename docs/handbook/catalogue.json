@@ -1,0 +1,76 @@
+{
+  "items": [
+    {
+      "title": "onboarding",
+      "name": "Onboarding",
+      "collapsed": false,
+      "prompt": "Introduce the implemented local conversation companion and planned Azure extension from README.md:1, src/PhantomFudge.App/App.xaml.cs:1 and docs/IMPLEMENTATION-STATUS.md:1.",
+      "children": [
+        {"title":"00-reading-map","name":"Reading Map","prompt":"Orient readers using README.md:1, docs/PRODUCT.md:1 and TODO/00_INDEX.todo:1; distinguish implemented, measured, planned and unqualified.","children":[]},
+        {"title":"01-principal-engineer-guide","name":"Principal Engineer Guide","prompt":"Explain the central invariant with Python pseudocode, architecture and domain ER diagrams, using src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:9, src/PhantomFudge.Core/TranscriptBuffer.cs:6, services/transcription/server.py:1 and src/PhantomFudge.App/Native/WindowProtection.cs:10.","children":[]},
+        {"title":"02-zero-to-hero","name":"Zero-to-Hero Learning Path","prompt":"Teach C#/WPF, Python asyncio, PCM and local lifecycle progressively using src/PhantomFudge.App/PhantomFudge.App.csproj:1, services/transcription/server.py:1, scripts/Initialize-Transcription.ps1:1 and tests/PhantomFudge.Core.Tests/TranscriptBufferTests.cs:1.","children":[]}
+      ]
+    },
+    {
+      "title":"foundations",
+      "name":"Product and Windows Foundations",
+      "prompt":"Explain actual requirements and platform limits using docs/PRODUCT.md:1, docs/FEASIBILITY.md:1 and src/PhantomFudge.App/Native/WindowProtection.cs:10.",
+      "children":[
+        {"title":"03-product-boundaries-and-decisions","name":"Product Boundaries and Decisions","prompt":"Trace scope changes and decisions from TODO/16_DEVELOPMENT_LEDGER.todo:1, docs/PRODUCT.md:1 and docs/DUAL-SOURCE-AUDIO.md:1.","children":[]},
+        {"title":"04-windows-capture-and-cursors","name":"Windows Capture and Cursors","prompt":"Trace HWND affinity, layered windows and nonactivation using src/PhantomFudge.App/Native/WindowProtection.cs:18, Native/CursorPolicy.cs and src/PhantomFudge.App/Diagnostics/CaptureProof.cs:19; use docs/CURSOR-AND-THEMES.md:1 for bounded claims.","children":[]}
+      ]
+    },
+    {
+      "title":"desktop",
+      "name":"Desktop State and Presentation",
+      "prompt":"Explain presentation and content ownership through src/PhantomFudge.App/MainWindow.xaml.cs:1, src/PhantomFudge.Core/NoteFileStore.cs:1 and src/PhantomFudge.Core/TranscriptBuffer.cs:1.",
+      "children":[
+        {"title":"05-desktop-ui-and-themes","name":"WPF UI and Canonical Themes","prompt":"Trace controls/resources/default passive mode through src/PhantomFudge.App/MainWindow.xaml:1, MainWindow.xaml.cs, ThemeBrushes.cs and src/PhantomFudge.Core/ThemePalette.cs:1.","children":[]},
+        {"title":"06-notes-transcripts-and-storage","name":"Notes, Transcripts and Storage","prompt":"Explain bounded text, source partials and atomic saves from src/PhantomFudge.Core/TranscriptBuffer.cs:6, NoteFileStore.cs and tests/PhantomFudge.Core.Tests/SourceTranscriptTests.cs:1.","children":[]},
+        {"title":"11-state-machines-and-failure-containment","name":"State Machines and Failure Containment","prompt":"Trace capture, ASR and UI lifecycle races using src/PhantomFudge.App/MainWindow.xaml.cs:1, Audio/LoopbackTranscriber.cs, Native/SingleInstance.cs and services/transcription/manage.py:1.","children":[]}
+      ]
+    },
+    {
+      "title":"streaming",
+      "name":"Audio and Local Recognition",
+      "prompt":"Trace the complete selected-input-to-text path using src/PhantomFudge.App/Audio/WasapiInput.cs:1, TranscriptionSocket.cs and services/transcription/server.py:1.",
+      "children":[
+        {"title":"07-dual-input-capture","name":"Dual-Input Capture","prompt":"Explain direction-specific WASAPI, cancellation and ownership through src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:9, WasapiInput.cs and tests/PhantomFudge.Audio.Tests/DualSourceTests.cs:1.","children":[]},
+        {"title":"08-streaming-protocol","name":"Versioned Streaming Protocol","prompt":"Trace v1/v2 source frames, bounds and finalization through src/PhantomFudge.App/Audio/TranscriptionSocket.cs:10, services/transcription/server.py:1 and docs/DUAL-SOURCE-AUDIO.md:28.","children":[]},
+        {"title":"09-python-recognition","name":"Python Recognition Pipeline","prompt":"Explain aiohttp admission, single worker and Vosk state using services/transcription/server.py:1, recognizer.py:1, model.json:1 and tests/test_dual_protocol.py.","children":[]},
+        {"title":"10-native-service-lifecycle","name":"Native Service Lifecycle","prompt":"Trace explicit setup, lock/instance ownership and idle shutdown through scripts/Initialize-Transcription.ps1:1, scripts/Run-PhantomFudge.ps1:1 and services/transcription/manage.py:1.","children":[]}
+      ]
+    },
+    {
+      "title":"research",
+      "name":"Performance and Planned AI Answers",
+      "prompt":"Separate measured ASR from planned Azure answers using docs/SPEECH-BENCHMARK.md:1, tools/SpeechBench/metrics.py:1 and docs/AI-ANSWER-ARCHITECTURE.md:1.",
+      "children":[
+        {"title":"12-performance-and-benchmarks","name":"Performance and Benchmarks","prompt":"Explain WER/RTF/latency methods from tools/SpeechBench/metrics.py:1, bench.py, SapiBridge.cs and docs/SPEECH-BENCHMARK.md:17.","children":[]},
+        {"title":"13-proposed-azure-answer-flow","name":"Proposed Azure Answer Flow","prompt":"Label all Ask/commit/provider boxes PLANNED using docs/AI-ANSWER-ARCHITECTURE.md:1, AI-ANSWER-RESEARCH.md and current src/PhantomFudge.Core/TranscriptBuffer.cs:6.","children":[]},
+        {"title":"14-answer-latency-identity-and-privacy","name":"Answer Latency, Identity and Privacy","prompt":"Explain proposed egress/auth/evaluation from docs/AI-ANSWER-PRIVACY.md:1, AI-ANSWER-EVALUATION.md and TODO/30_AZURE_ANSWER_CONNECTION.todo:1, not a deployed cloud system.","children":[]}
+      ]
+    },
+    {
+      "title":"engineering",
+      "name":"Engineering and Operations",
+      "prompt":"Teach reproducible development and safe operation from scripts/Run-PhantomFudge.ps1:1, scripts/Publish-Preview.ps1:1 and docs/QUALIFICATION.md:1.",
+      "children":[
+        {"title":"15-development-and-testing","name":"Development and Testing","prompt":"Map actual runners from tests/PhantomFudge.Core.Tests/PhantomFudge.Core.Tests.csproj:1, tests/PhantomFudge.Audio.Tests/Program.cs:1, services/transcription/tests/test_protocol.py:1 and global.json:1.","children":[]},
+        {"title":"16-distribution-and-troubleshooting","name":"Distribution and Troubleshooting","prompt":"Trace bundle content and fault branches from scripts/Publish-Preview.ps1:1, Initialize-Transcription.ps1:1, services/transcription/manage.py:93 and docs/PREVIEW-GUIDE.md:1.","children":[]},
+        {"title":"17-privacy-and-assurance","name":"Privacy and Assurance","prompt":"Ground boundaries in docs/QUALIFICATION.md:1, AGENTS.md:14, src/PhantomFudge.App/LocalFailureNotice.cs:1 and services/transcription/server.py:1.","children":[]},
+        {"title":"18-extending-the-system","name":"Extending the System","prompt":"Give evidence-based change-surface maps using src/PhantomFudge.Core/AudioSource.cs:1, App/Audio/TranscriptionSocket.cs, services/transcription/server.py:1 and TODO/00_INDEX.todo:1.","children":[]}
+      ]
+    },
+    {
+      "title":"reference",
+      "name":"Reference and Evidence",
+      "prompt":"Provide the operational reference and honest roadmap using docs/IMPLEMENTATION-STATUS.md:1, docs/DUAL-SOURCE-AUDIO.md:1 and TODO/00_INDEX.todo:1.",
+      "children":[
+        {"title":"19-api-configuration-reference","name":"API and Configuration Reference","prompt":"Inventory verified constants/routes/options from services/transcription/server.py:23, manage.py:17, src/PhantomFudge.Core/AudioSource.cs:1 and scripts/Run-PhantomFudge.ps1:1.","children":[]},
+        {"title":"20-glossary-and-repository-map","name":"Glossary and Repository Map","prompt":"Define40+project terms and navigation anchors from src/PhantomFudge.App/Native/WindowProtection.cs:10, Core/TranscriptBuffer.cs, services/transcription/recognizer.py:1 and docs/AI-ANSWER-RESEARCH.md:1.","children":[]},
+        {"title":"21-evidence-and-roadmap","name":"Evidence and Roadmap","prompt":"Separate code, local synthetic evidence, owner statements and unqualified scope using docs/IMPLEMENTATION-STATUS.md:1, QUALIFICATION.md, SPEECH-BENCHMARK.md and TODO/16_DEVELOPMENT_LEDGER.todo:1.","children":[]}
+      ]
+    }
+  ]
+}

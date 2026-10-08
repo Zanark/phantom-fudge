@@ -1,0 +1,24 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Theme transitions and rendering
+    accDescr: The companion toggle and Plain reset select a palette, then replace resources without replacing content.
+    Dark["DeepSeaFoam"] -->|themed toggle| Light["Harbor Daylight"]
+    Light -->|themed toggle| Dark
+    Dark -->|Plain button| Plain["Plain"]
+    Light -->|Plain button| Plain
+    Plain -->|themed toggle| Dark
+    Dark -.-> Apply["ApplyTheme"]
+    Light -.-> Apply
+    Plain -.-> Apply
+    Apply --> Brushes["Replace semantic brushes"]
+    Apply --> Labels["Update names and icon"]
+    Apply --> Alpha["Reapply current background alpha"]
+    style Dark fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Light fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Plain fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Apply fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Brushes fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Labels fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Alpha fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "generatedAtUtc": "2026-10-08T11:08:52.7202646+00:00",
+  "captureKind": "WPF RenderTargetBitmap of actual controls using synthetic text and device labels; not a desktop or screen-sharing capture",
+  "recordingStarted": false,
+  "documentationFixture": true,
+  "appAssemblySha256": "5d850ca916476fa91060e083a84a732a603bef122043cf7189bc423e92f4690c",
+  "sourceFiles": {
+    "src/PhantomFudge.App/App.xaml": "d041b4a7e2f4c6fc5336aa1359757c22c43f62e713bcdc94ec38c7ac10890a33",
+    "src/PhantomFudge.App/App.xaml.cs": "239aff9db0603674746ef061c60cd0bb02aea1b254681d6e3e7c9ae0de290709",
+    "src/PhantomFudge.App/MainWindow.xaml": "6ca0507eb1564787d29f2feccbdce3eb0987bc77be242ec08c97fca084d7d1a8",
+    "src/PhantomFudge.App/MainWindow.xaml.cs": "56b1e0017f93d65df05089b7f5e41dce90a29a97439e6b8f424d9189d4ce0c18",
+    "src/PhantomFudge.App/ThemeBrushes.cs": "b30cebc67f08e2e9117f2e4f9851ba830785d27f4658e8043f5175a0e9c2266d",
+    "src/PhantomFudge.Core/ThemePalette.cs": "a0debc5a9728548e9aadfbf7a1aced60eedb4127e87d93f01c0cea0357822151",
+    "src/PhantomFudge.Core/AudioSource.cs": "a2b5a65fab05e33c18ac7582bf20d3b750d6e15117cb33b1baff973100679b20",
+    "src/PhantomFudge.Core/TranscriptBuffer.cs": "d9d2477acd821aa6b3e075a7c02ab4ec040791bad2c89181e629b4746a11e449",
+    "src/PhantomFudge.App/Native/WindowProtection.cs": "a3abc695cf790e76c43dc04e830ccd93b9b39f5bdd3119d5589d5f9b460442bf",
+    "src/PhantomFudge.App/Native/CursorPolicy.cs": "60fdd0df16389f15f2383df9fed2af3a83ecea6581171b85e8da3c175df05610"
+  },
+  "images": [
+    {
+      "file": "transcript-deepseafoam.png",
+      "sha256": "d398fcbc409c897bf0305b9a1018086d39905a49b052c9a7f50d4948e4158e49",
+      "width": 620,
+      "height": 760,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "theme-DeepSeaFoam.png",
+      "sha256": "d398fcbc409c897bf0305b9a1018086d39905a49b052c9a7f50d4948e4158e49",
+      "width": 620,
+      "height": 760,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "theme-HarborDaylight.png",
+      "sha256": "ed53823f63acb928d5f60c49f3f8ba2d24dc60d286942f64ae1cdc2bfb91e22f",
+      "width": 620,
+      "height": 760,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "theme-Plain.png",
+      "sha256": "1f502e5bfa3bd936d36998d14c1fb24da4105cbe9dbb1623662372f7a1cdc2d4",
+      "width": 620,
+      "height": 760,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "audio-setup.png",
+      "sha256": "b46804d41b01913d46e715164bd7e3644153d6a33d68c9f09f4ec515be57a305",
+      "width": 620,
+      "height": 760,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "notes-expanded.png",
+      "sha256": "ac3fcf93fce65fd4357d37d6f80f37d60dd6fc0b72694ef86d7a4bda41c78217",
+      "width": 620,
+      "height": 760,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "background-10.png",
+      "sha256": "e3767a99ab6b82f1714b35c17f18e62f98c059b7a5fd956bab0b68657eae6bcc",
+      "width": 620,
+      "height": 760,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "background-100.png",
+      "sha256": "58680a69b349e17bef428eb55aadeb5e19602bdaa3018f46db1b60d521d460fe",
+      "width": 620,
+      "height": 760,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "present.png",
+      "sha256": "ac3fcf93fce65fd4357d37d6f80f37d60dd6fc0b72694ef86d7a4bda41c78217",
+      "width": 620,
+      "height": 760,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    }
+  ],
+  "limitations": [
+    "No user notes, transcripts, token values or actual device names are included.",
+    "No microphone/output endpoint is opened and no speech service/cloud request is started.",
+    "These images establish UI appearance only, not capture exclusion or recorder compatibility."
+  ]
+}

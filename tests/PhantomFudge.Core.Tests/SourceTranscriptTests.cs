@@ -26,8 +26,8 @@ public sealed class SourceTranscriptTests
         buffer.SetPartial("computer unfinished", AudioSource.Computer);
         buffer.SetPartial("microphone unfinished", AudioSource.Microphone);
         buffer.BeginSession();
-        Assert.Contains("[Computer] computer unfinished", buffer.Text);
-        Assert.Contains("[Mic] microphone unfinished", buffer.Text);
+        Assert.Contains("[Unfinished recognition] [Computer] computer unfinished", buffer.Text);
+        Assert.Contains("[Unfinished recognition] [Mic] microphone unfinished", buffer.Text);
         Assert.Empty(buffer.Partial);
         buffer.AddFinal(1, "new", 0, AudioSource.Microphone);
         Assert.Contains("[Mic] new", buffer.Text);

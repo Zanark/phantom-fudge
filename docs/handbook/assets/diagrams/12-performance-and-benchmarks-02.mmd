@@ -1,0 +1,26 @@
+---
+config:
+  theme: base
+  themeVariables:
+    lineColor: "#8b949e"
+    textColor: "#e6edf3"
+---
+flowchart TB
+    accTitle: Throughput and live latency have different boundaries
+    accDescr: Complete-file decoding measures RTF; paced PCM observes stream-start events; the full application has additional stages.
+    File["Complete file"] --> Decode["Timed decode"] --> RTF["File RTF"]
+    Pace["Paced PCM"] --> Events["Partial and final"] --> Start["From stream start"]
+    Device["Device delivery"] -.-> Queue["Transport queue"]
+    Queue -.-> ASR["ASR processing"]
+    ASR -.-> UI["WPF rendering"]
+    style File fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Decode fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style RTF fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Pace fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Events fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Start fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Device fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Queue fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style ASR fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style UI fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    linkStyle default stroke:#8b949e

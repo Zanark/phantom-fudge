@@ -1,0 +1,16 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Diagnose readiness through ownership
+    accDescr: A listening port requires authenticated identity before reuse; absence requires explicit setup and an owned startup.
+    Start["Start requested"] --> Port{"Port listening?"}
+    Port -- no --> Setup["Check explicit model and token"]
+    Setup --> Spawn["Spawn owned native service"]
+    Spawn --> Ready["Wait for authenticated readiness"]
+    Port -- yes --> Identity["Authenticate and match instance"]
+    Identity --> Compatible{"Current speech protocol?"}
+    Compatible -- yes --> Reuse["Reuse without restart"]
+    Compatible -- no --> Active{"Transcription active?"}
+    Active -- yes --> Refuse["Refuse interruption"]
+    Active -- no --> Restart["Owned graceful restart"]

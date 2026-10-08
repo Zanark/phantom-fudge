@@ -1,0 +1,28 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart LR
+    accTitle: Transcript-first visual tree
+    accDescr: One window contains opaque controls, a translucent content tint, and inline optional panels.
+    Window["MainWindow"] --> Tint["Root background tint"]
+    subgraph Tree["One WPF content tree"]
+        Tint --> Header["Caption and mode"]
+        Tint --> Themes["Themes and opacity"]
+        Tint --> Audio["Inputs and audio setup"]
+        Tint --> Transcript["Growing transcript"]
+        Transcript --> Final["Final text"]
+        Transcript --> Partial["Unfinished text"]
+        Tint --> Notes["Collapsed notes"]
+        Tint --> Notices["Inline status and confirmation"]
+    end
+    style Tree fill:#161b22,stroke:#30363d,color:#e6edf3
+    style Window fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Tint fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Header fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Themes fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Audio fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Transcript fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Final fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Partial fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Notes fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Notices fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

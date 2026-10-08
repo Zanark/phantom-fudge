@@ -1,0 +1,15 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+erDiagram
+    accTitle: Conceptual domain ownership
+    accDescr: Capture sessions own selected source inputs and a local stream, while the window presents transcript state and edits notes.
+    CAPTURE_SESSION ||--|{ SELECTED_INPUT : owns
+    SELECTED_INPUT ||--|| AUDIO_SOURCE : identifies
+    CAPTURE_SESSION ||--|| LOCAL_STREAM : transports
+    LOCAL_STREAM ||--|{ SOURCE_DECODER : feeds
+    SOURCE_DECODER ||--o{ TRANSCRIPT_EVENT : produces
+    TRANSCRIPT_BUFFER ||--o{ TRANSCRIPT_EVENT : applies
+    WINDOW ||--|| TRANSCRIPT_BUFFER : presents
+    WINDOW ||--|| NOTE_DOCUMENT : edits
+    NATIVE_SERVICE ||--o| CAPTURE_SESSION : admits

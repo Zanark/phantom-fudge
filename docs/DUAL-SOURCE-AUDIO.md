@@ -29,6 +29,10 @@ record the user's live microphone or meeting while editing the application.
 
 Keep v1 unchanged for existing computer-only clients/tests. The endpoint, authentication,
 loopback restriction, one-active-WebSocket policy and native lifecycle management remain unchanged.
+Authenticated `/v1/runtime` keeps management `protocolVersion:1` and adds
+`"speechProtocolVersions":[1,2]` so the native launcher can recognize a stale v1-only service.
+An owned idle stale service may be restarted through its authenticated shutdown endpoint;
+active transcription must never be interrupted automatically.
 
 V2 start:
 

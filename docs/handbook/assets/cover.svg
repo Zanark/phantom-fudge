@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">Phantom Fudge engineering boundaries</title>
+  <desc id="desc">An original schematic illustration of a window, two audio tracks, local recognition and an explicitly planned answer boundary.</desc>
+  <rect width="1200" height="420" rx="18" fill="#000F13"/>
+  <g fill="none" stroke="#586E75" stroke-width="2">
+    <path d="M40 90H1160M40 210H1160M40 330H1160" opacity=".35"/>
+    <path d="M160 35V385M400 35V385M640 35V385M880 35V385M1120 35V385" opacity=".25"/>
+  </g>
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <rect x="60" y="58" width="375" height="295" rx="10" fill="#001E26" stroke="#00A591" stroke-width="3"/>
+    <path d="M60 103H435" stroke="#586E75" stroke-width="2"/>
+    <circle cx="83" cy="81" r="6" fill="#45D072"/>
+    <text x="105" y="87" fill="#EEE8D5" font-size="21">ONE OWNED WINDOW</text>
+    <text x="87" y="142" fill="#93A1A1" font-size="20">Source-labelled text</text>
+    <path d="M87 173H379M87 197H337M87 221H357" stroke="#93A1A1" stroke-width="5" stroke-linecap="round"/>
+    <path d="M87 266H390" stroke="#586E75" stroke-width="2"/>
+    <text x="87" y="303" fill="#EEE8D5" font-size="20">VISIBLE LOCALLY</text>
+    <text x="87" y="329" fill="#839496" font-size="18">Capture policy has boundaries</text>
+    <rect x="480" y="61" width="260" height="100" rx="9" fill="#001E26" stroke="#586E75" stroke-width="2"/>
+    <text x="502" y="93" fill="#EEE8D5" font-size="20">COMPUTER</text>
+    <path d="M502 128H522L532 113L543 143L554 120L565 133H712" fill="none" stroke="#00A591" stroke-width="3"/>
+    <rect x="480" y="215" width="260" height="100" rx="9" fill="#001E26" stroke="#586E75" stroke-width="2"/>
+    <text x="502" y="247" fill="#EEE8D5" font-size="20">MICROPHONE</text>
+    <path d="M502 282H542L551 263L563 297L574 274L586 286H712" fill="none" stroke="#45D072" stroke-width="3"/>
+    <path d="M756 112H803V190H841M756 266H803V190" fill="none" stroke="#93A1A1" stroke-width="3"/>
+    <path d="M831 180L845 190L831 200" fill="none" stroke="#93A1A1" stroke-width="3"/>
+    <rect x="855" y="135" width="270" height="113" rx="10" fill="#001E26" stroke="#00A591" stroke-width="3"/>
+    <text x="883" y="177" fill="#EEE8D5" font-size="20">LOCAL RECOGNITION</text>
+    <text x="883" y="206" fill="#93A1A1" font-size="18">Independent tracks</text>
+    <text x="883" y="231" fill="#93A1A1" font-size="18">Bounded state</text>
+    <path d="M987 263V292" stroke="#586E75" stroke-width="2" stroke-dasharray="6 6"/>
+    <text x="867" y="324" fill="#EBE565" font-size="20">FUTURE: EXPLICIT ASK</text>
+    <text x="867" y="350" fill="#839496" font-size="18">Designed, not deployed</text>
+  </g>
+</svg>

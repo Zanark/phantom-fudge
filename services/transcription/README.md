@@ -2,8 +2,10 @@
 
 Vosk performs real, offline, CPU recognition. Aiohttp exposes the frozen
 [`docs\TRANSCRIPTION.md`](../../docs/TRANSCRIPTION.md) WebSocket protocol.
-The Windows app supplies **selected playback-endpoint** audio; this service cannot
-open a microphone, capture a desktop, identify a meeting process, or play sound.
+The Windows app supplies explicitly selected Computer and/or Microphone PCM tracks.
+The Python service itself cannot open devices, read chats, capture a desktop, identify a
+meeting process or play sound. V2 recognizes independent source-labelled tracks; v1 remains
+compatible with existing computer-only clients. See [DUAL-SOURCE-AUDIO.md](../../docs/DUAL-SOURCE-AUDIO.md).
 No cloud recognition, automatic model discovery, audio recording, transcript
 storage, telemetry, or inference HTTP calls are implemented.
 
@@ -32,12 +34,14 @@ Matching `.txt` copies are provided for PowerShell scripts.
 `Start-Transcription.ps1` now starts **native Python by default**. The main app launcher
 starts/reuses it automatically; `-NotesOnly` avoids service startup. Opening a second app
 instance only reveals the existing window without rebuilding/restarting recognition.
-The C# app captures and transports output PCM; Python/Vosk is the recognizer, not C#.
+The C# app captures/transports selected PCM sources; Python/Vosk is the recognizer, not C#.
 
 The manager serializes startup with a local lock, stores a per-launch instance receipt,
 and authenticates `/v1/runtime` before reusing or stopping a process. An unfamiliar service
 on the port is not adopted or killed. `/v1/shutdown` requires the matching instance and
 refuses active transcription. The idle service persists until explicitly stopped.
+The launcher checks authenticated speech-protocol capabilities. It restarts only its own
+idle v1-only service when a new v2 client is installed; active or foreign instances are not killed.
 
 ## Optional containerization - final stage only
 
@@ -253,3 +257,31 @@ The synthetic result is not a meeting accuracy/latency benchmark or language/voi
 coverage claim. Real playback loopback, device loss, full native GUI flow, protected
 transcript capture pixels, long-session memory/CPU/latency, owner-approved corpora,
 and user UX acceptance remain separate qualification workstreams.
+
+## V2 dual-source evidence (2026-10-08)
+
+The frozen [dual-source contract](../../docs/DUAL-SOURCE-AUDIO.md) adds computer,
+microphone, or both tracks on the same authenticated endpoint. The service still
+does not open capture devices. V1 start/ready/audio/result shapes and management
+`protocolVersion: 1` remain unchanged; speech v2 explicitly negotiates its sources.
+Each source has its own decoder, partial state, timing, rate credits and eight-hour
+audio limit. One shared model and one CPU worker serve the session. Queue bounds
+scale to 128000 PCM bytes / 64 frames for both sources; source prefixes do not
+consume PCM credits. The transport ceiling is 33026 bytes exclusive, allowing the
+32001-byte v2 maximum frame plus bounded control headroom.
+
+```powershell
+.\services\transcription\.venv\Scripts\python.exe -m unittest discover -s .\services\transcription\tests -v
+.\services\transcription\tests\Test-DualSyntheticTranscription.ps1
+```
+
+The complete service/management unit suite passed: **69 tests** in 7.217 seconds.
+The second command uses an ephemeral in-process loopback server, a synthetic token,
+the verified cached model and two different System.Speech sentences generated
+directly in memory. It never touches an existing service or plays/captures audio.
+Observed real-model result: Computer 6.900 seconds / 11 nonempty partials / 3 finals;
+Mic 7.055 seconds / 10 nonempty partials / 3 finals; all seven expected keywords per
+source matched without crossing tracks. Shared model/distinct decoders, global IDs,
+independent timestamp bounds, canonical stop tails, mic-only silence and unchanged
+v1 silence all passed. No audio/transcript files were written. This is synthetic
+protocol evidence, not microphone-device, acoustic-echo or real-meeting qualification.

@@ -71,3 +71,8 @@ Their headers and evidence explicitly distinguish the two.
 
 Completed tasks and superseded decisions remain in place with dated logs. Keep current
 status concise in the index; keep longer history in the development ledger.
+
+Every feature completion also follows `DOCUMENTATION-MAINTENANCE.md` and workflow06. Update
+affected source-linked handbook chapters/diagrams, synthetic images for visible changes, and root
+`JOURNAL.md` for significant milestones. Require a current full HTML/PDF manifest. Workstream38
+establishes the book; its completion does not end this ongoing obligation.

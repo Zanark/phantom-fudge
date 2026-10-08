@@ -1,0 +1,15 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Evidence layers and their limits
+    accDescr: Policy, protocol, generated speech and UI fixtures contribute local candidate evidence without replacing hardware or recipient qualification.
+    Core["Core policy tests"] --> Wire["Synthetic native protocol tests"]
+    Python["Python protocol and decoder tests"] --> Wire
+    Wire --> Model["Real model with generated PCM"]
+    UI["Synthetic WPF UI fixture"] --> Candidate["Local candidate evidence"]
+    Model --> Candidate
+    Candidate --> Hardware["Authorized hardware checks"]
+    Candidate --> Recipient["Actual recipient capture matrix"]
+    Hardware --> Acceptance["Scoped release acceptance"]
+    Recipient --> Acceptance

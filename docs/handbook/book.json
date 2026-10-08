@@ -1,0 +1,37 @@
+{
+  "title": "Phantom Fudge Engineering Handbook",
+  "subtitle": "A local-first conversation companion, from Windows surfaces to source-labelled speech",
+  "edition": "2026-10-08",
+  "language": "en",
+  "chapters": [
+    "00-reading-map.md",
+    "01-principal-engineer-guide.md",
+    "02-zero-to-hero.md",
+    "03-product-boundaries-and-decisions.md",
+    "04-windows-capture-and-cursors.md",
+    "05-desktop-ui-and-themes.md",
+    "06-notes-transcripts-and-storage.md",
+    "07-dual-input-capture.md",
+    "08-streaming-protocol.md",
+    "09-python-recognition.md",
+    "10-native-service-lifecycle.md",
+    "11-state-machines-and-failure-containment.md",
+    "12-performance-and-benchmarks.md",
+    "13-proposed-azure-answer-flow.md",
+    "14-answer-latency-identity-and-privacy.md",
+    "15-development-and-testing.md",
+    "16-distribution-and-troubleshooting.md",
+    "17-privacy-and-assurance.md",
+    "18-extending-the-system.md",
+    "19-api-configuration-reference.md",
+    "20-glossary-and-repository-map.md",
+    "21-evidence-and-roadmap.md"
+  ],
+  "appendices": [
+    "../../JOURNAL.md"
+  ],
+  "outputs": {
+    "html": "Phantom-Fudge-Engineering-Handbook.html",
+    "pdf": "Phantom-Fudge-Engineering-Handbook.pdf"
+  }
+}

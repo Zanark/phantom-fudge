@@ -2,7 +2,7 @@
 
 Status: NOT_STARTED
 Milestone: M5 Finished application
-Dependencies: 13_COMPATIBILITY_QUALIFICATION.todo, 14_PACKAGING_RELEASE.todo, 15_USER_GUIDE.todo
+Dependencies: 13_COMPATIBILITY_QUALIFICATION.todo, 14_PACKAGING_RELEASE.todo, 15_USER_GUIDE.todo, 35_ANSWER_RELEASE_ACCEPTANCE.todo
 
 ## Purpose
 
@@ -10,7 +10,7 @@ Define 'complete app' as usable, qualified, recoverable, documented delivery, no
 
 ## Tasks
 
-- [ ] Audit R01-R12, including native transcription, translucency, themes and bounded cursor behavior, against evidence.
+- [ ] Audit R01-R16, including AI answers/latency/egress, native capabilities and living documentation, against evidence.
 - [ ] Confirm no unresolved required-mode content leak, data-loss defect, or unrecoverable hidden-window case.
 - [ ] Obtain owner approval of readability, moving/editing, focus behavior, and presentation workflow.
 - [ ] Confirm final package hash matches the qualified artifact and support documentation.
@@ -22,7 +22,7 @@ Define 'complete app' as usable, qualified, recoverable, documented delivery, no
 
 ## Acceptance criteria
 
-- [ ] R01-R12 are satisfied within supported native/audio/theme/capture/cursor boundaries.
+- [ ] R01-R16 are satisfied within supported native/audio/theme/capture/cursor/AI/documentation boundaries.
 - [ ] Docker is explicitly deferred until after this native release, not required for ordinary transcription.
 - [ ] Owner UX acceptance, technical evidence, and distribution approval are separately recorded.
 - [ ] No unfinished required work is hidden behind a DONE label or replaced by optional feature success.
@@ -30,7 +30,7 @@ Define 'complete app' as usable, qualified, recoverable, documented delivery, no
 
 ## Completion evidence
 
-- None. No application has been implemented, accepted, packaged, or delivered.
+- Final acceptance is unstarted. The implemented local preview/package is recorded in docs\IMPLEMENTATION-STATUS.md, not a qualified release.
 
 ## Completion log
 

@@ -1,0 +1,33 @@
+---
+config:
+  theme: base
+  themeVariables:
+    lineColor: "#8b949e"
+    textColor: "#e6edf3"
+---
+flowchart TB
+    accTitle: File-only benchmark architecture
+    accDescr: Original sentences become identical PCM fixtures, decoded serially and scored with a shared metric.
+    subgraph Fixtures["Synthetic fixtures"]
+        Corpus["Eight sentences"] --> Voices["Two voices"]
+        Voices --> PCM["Clean and noisy PCM"]
+    end
+    PCM --> Runs["Serial engine runs"]
+    Runs --> Sapi["SAPI"]
+    Runs --> Vosk["Vosk wrapper"]
+    Runs --> Whisper["Whisper files"]
+    Sapi --> Score["Shared WER"]
+    Vosk --> Score
+    Whisper --> Score
+    Score --> Receipt["Public receipt"]
+    style Corpus fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Voices fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style PCM fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Runs fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Sapi fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Vosk fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Whisper fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Score fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Receipt fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Fixtures fill:#161b22,stroke:#30363d,color:#e6edf3
+    linkStyle default stroke:#8b949e

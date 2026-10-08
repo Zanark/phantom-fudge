@@ -1,0 +1,36 @@
+# Protected Question and Answer UI
+
+Status: NOT_STARTED
+Milestone: A4 Same-window answer experience
+Dependencies: 28_QUESTION_DRAFTS.todo, 31_STREAMING_ANSWER_CLIENT.todo
+
+## Purpose
+
+Show a question and a streamed answer without losing transcript continuity or the current privacy/focus behavior.
+
+## Tasks
+
+- [ ] Add an inline question composer and expandable answer pane while keeping transcript primary and notes optional.
+- [ ] Add explicit Ask/Cancel/Copy/Expand controls and visible question/provider/request status.
+- [ ] Support immediate immutable send-as-shown; expose Finish dictation only when commit capability is available.
+- [ ] Decouple draft keyboard editing from the old global mode transition that stops all audio.
+- [ ] Keep passive Ask/Cancel usable with Arrow/no unnecessary activation; deliberate editing stays accessible.
+- [ ] Render plain text safely, coalescing deltas16-50ms; no model-driven HTML/XAML, links, tools or automatic TTS.
+- [ ] Preserve incomplete/cancelled answers with their original question; no auto-resend on reveal.
+- [ ] Handle hide/lock/close/protection failure and new Ask without stale-output or unsaved-content loss.
+- [ ] Apply all three themes/alpha policies and qualify the new pane/stream updates under capture scenarios.
+
+## Acceptance criteria
+
+- [ ] Correct question/answer pairing survives rapid asks, revisions, cancellation and delayed callbacks.
+- [ ] Cosmetic/pane changes do not silently start/stop audio or create unprotected popups.
+- [ ] Existing no-repeat confirmations, input modes, notes and native recovery behavior remain intact.
+- [ ] Owner readability/interaction and actual recorder qualification are separately recorded.
+
+## Completion evidence
+
+- None. No Ask button or answer pane has been added by this research task.
+
+## Completion log
+
+- 2026-10-08 - Planned; same-HWND rendering is necessary but not universal capture certification.

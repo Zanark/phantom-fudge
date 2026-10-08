@@ -1,0 +1,34 @@
+---
+config:
+  theme: base
+  themeVariables:
+    lineColor: "#8b949e"
+    textColor: "#e6edf3"
+---
+flowchart TB
+    accTitle: PLANNED answer workstream dependencies
+    accDescr: Research is complete, but draft, commit, connection, streaming, UI, evaluation, and resilience remain planned.
+    Research["27 Research DONE"] --> Draft["28 PLANNED draft"]
+    Research --> Auth["30 PLANNED connection"]
+    Draft --> Commit["29 PLANNED commit"]
+    Draft --> Client["31 PLANNED client"]
+    Auth --> Client
+    Draft --> UI["32 PLANNED UI"]
+    Client --> UI
+    Commit --> Measure["33 PLANNED evaluation"]
+    Client --> Measure
+    UI --> Measure
+    Draft --> Resilience["34 PLANNED resilience"]
+    Commit --> Resilience
+    Auth --> Resilience
+    Client --> Resilience
+    UI --> Resilience
+    style Research fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Draft fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Auth fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Commit fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Client fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style UI fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Measure fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Resilience fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    linkStyle default stroke:#8b949e

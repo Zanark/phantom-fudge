@@ -1,0 +1,35 @@
+---
+config:
+  theme: base
+  themeVariables:
+    lineColor: "#8b949e"
+    textColor: "#e6edf3"
+---
+flowchart LR
+    accTitle: PLANNED user-visible answer timing
+    accDescr: Ask, snapshot, authentication, HTTP, text arrival, and actual rendering are distinct measured stages.
+    subgraph Client["PLANNED local monotonic events"]
+        Q0["Q0 Ask"] --> Q1["Q1 Snapshot"]
+        Q1 --> N0["N0 Silent auth"]
+        N0 --> N1["N1 HTTP start"]
+        N3["N3 Text delta"] --> N4["N4 Rendered"]
+        N4 --> N5["N5 Useful sentence"]
+        N5 --> N6["N6 Terminal state"]
+    end
+    subgraph Remote["PLANNED Azure boundary"]
+        Model["Model and filtering"]
+    end
+    N1 -. request .-> Model
+    Model -. streamed text .-> N3
+    style Q0 fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Q1 fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style N0 fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style N1 fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style N3 fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style N4 fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style N5 fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style N6 fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Model fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Client fill:#161b22,stroke:#30363d,color:#e6edf3
+    style Remote fill:#161b22,stroke:#30363d,color:#e6edf3,stroke-dasharray:5 5
+    linkStyle default stroke:#8b949e

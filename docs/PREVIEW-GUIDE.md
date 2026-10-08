@@ -55,11 +55,13 @@ or protection invalidation stops transcription.
 Start again deliberately after checking the new configuration. Normal dialogs/export are
 disabled during Present. The current preview uses fixed shortcut defaults.
 
-## Local transcription: C# plus native Python
+## Local transcription: Computer, Mic, or Both
 
-The native app captures **the selected playback device**, not a microphone. It includes other
-apps and any sidetone already audible on that device. Match it to the meeting application's
-headphone/speaker output. No process-specific meeting filter is implied.
+Choose Computer for meeting/system playback, Mic to dictate a question, or Both to transcribe both
+independently. Both is selected initially, but capture does not start automatically. Audio setup has
+separate playback and microphone selectors. Match the playback device to the meeting's headphones.
+Computer audio includes other apps and audible sidetone; no meeting-process isolation is implied.
+Headphones help prevent the microphone from picking up speaker audio twice.
 
 Follow `services\transcription\README.md` for provisioning. `Initialize-Transcription.ps1`
 creates the local Python environment, model and token. `Start-Transcription.ps1` starts native
@@ -76,10 +78,11 @@ Use the repository launcher so the token is passed automatically, or enter the l
 in the session-only Audio setup field. The endpoint is literal loopback
 `ws://127.0.0.1:8765/v1/transcribe`; there is no cloud speech fallback.
 
-Open Audio setup, select the playback device, and click Start. No permission confirmation
-is requested. Final lines accumulate in the transcript pane; the italic unfinished line
-may change until finalized. Stop flushes remaining recognition and releases the capture device.
-The output meter measures playback, not a microphone.
+Open Audio setup, select the required devices, and click Start. No permission confirmation
+is requested. Final lines are labelled Computer or Mic; independent unfinished lines can change.
+Stop flushes both sources and releases selected devices. Separate meters show Computer/Mic levels.
+Stop before changing mode or devices. Windows may display its own microphone privacy indicator;
+this app does not suppress it. No chats, clipboard history or meeting APIs are read.
 Audio setup works with the mouse in Present; choose Edit to type a token or export a transcript.
 
 Audio is processed in memory and is not recorded to a file. Transcripts are retained in memory
@@ -87,8 +90,8 @@ and written only through Export. Clear requires export of unsaved transcript con
 an explicit discard choice. Recognition is machine-generated and can be wrong, particularly
 names, technical terms, accents and overlapping speakers. No diarization is promised.
 
-If the service/model/token/device is unavailable, the app reports failure instead of opening
-a microphone or uploading audio. A full audio queue stops transcription rather than silently
+If a selected service/model/token/device is unavailable, the app reports failure instead of using
+an unselected input or uploading audio. A full audio queue stops transcription rather than silently
 dropping speech. An interrupted connection can lose the unfinished tail; that is reported.
 
 ## Synthetic diagnostics

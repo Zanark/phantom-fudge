@@ -1,0 +1,25 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","actorLineColor":"#8b949e","signalColor":"#8b949e","signalTextColor":"#e6edf3","noteBkgColor":"#161b22","noteBorderColor":"#30363d","noteTextColor":"#e6edf3"}}
+---
+sequenceDiagram
+    accTitle: Stop cannot overtake accepted PCM
+    accDescr: The client drains sends, the server queues a sentinel, and both source tails precede stopped.
+    autonumber
+    participant C as Client
+    participant R as Receiver
+    participant Q as Server queue
+    participant W as CPU worker
+    C->>C: Complete audio channel
+    C->>R: Remaining source frames
+    R->>Q: Append accepted PCM
+    C->>R: stop
+    R->>Q: Await slot, append sentinel
+    Q->>W: Earlier PCM in FIFO order
+    W-->>C: Partials or finals
+    Q->>W: Stop sentinel
+    W->>W: Finish Computer
+    W-->>C: Computer final
+    W->>W: Finish Mic
+    W-->>C: Mic final
+    W-->>C: stopped
+    C->>C: Complete bounded drain

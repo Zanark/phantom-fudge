@@ -30,9 +30,12 @@ public partial class MainWindow : Window
     private bool withBom;
     private bool presenting = true;
     private UiTheme currentTheme = UiTheme.DeepSeaFoam;
+    private AudioCaptureMode captureMode = AudioCaptureMode.Both;
     private bool protectionReady;
     private bool fileBusy;
     private bool audioBusy;
+    private bool audioStopping;
+    private Task? audioStopTask;
     private bool allowClose;
     private bool closeRequestQueued;
     private bool subscribed;
@@ -47,6 +50,7 @@ public partial class MainWindow : Window
         Resources["ControlsFocusable"] = false;
         ThemeBrushes.Apply(Resources, currentTheme);
         InitializeComponent();
+        InitializeQuestionView();
         ApplyTheme(currentTheme);
         ServiceToken.Password = Environment.GetEnvironmentVariable("PHANTOM_TRANSCRIPTION_TOKEN") ?? "";
         transcriber.TranscriptReceived += value => Dispatch(() => ReceiveTranscript(value));
@@ -55,13 +59,20 @@ public partial class MainWindow : Window
             AudioStatus.Text = value;
             UpdateAudioControls();
         });
-        transcriber.Faulted += value => Dispatch(() =>
+        transcriber.Faulted += value => Dispatch(async () =>
         {
             AudioStatus.Text = value;
+            await StopTranscriptionAsync();
+            AudioStatus.Text = value;
             AudioLevel.Value = 0;
+            MicrophoneLevel.Value = 0;
             UpdateAudioControls();
         });
-        transcriber.LevelChanged += value => Dispatch(() => AudioLevel.Value = Math.Clamp(value, 0, 1));
+        transcriber.SourceLevelChanged += (source, value) => Dispatch(() =>
+        {
+            var meter = source == AudioSource.Microphone ? MicrophoneLevel : AudioLevel;
+            meter.Value = Math.Clamp(value, 0, 1);
+        });
         RefreshDevices();
         UpdateInteractionControls();
     }
@@ -72,7 +83,7 @@ public partial class MainWindow : Window
         try
         {
             protectionReady = false;
-            lastProtection = WindowProtection.Configure(this, presenting);
+            lastProtection = WindowProtection.Configure(this, PassiveWindow);
             protectionReady = true;
             if (WindowState == WindowState.Minimized)
                 WindowState = WindowState.Normal;
@@ -88,8 +99,8 @@ public partial class MainWindow : Window
                 SystemEvents.PowerModeChanged += PowerModeChanged;
                 subscribed = true;
             }
-            ShowActivated = !presenting && !diagnosticRendering;
-            UpdateAudioControls();
+            ShowActivated = !PassiveWindow && !diagnosticRendering;
+            UpdateInteractionControls();
             Show();
             ReportStatus("Capture exclusion requested. UNQUALIFIED PREVIEW: compatibility varies by capture method.");
         }
@@ -123,7 +134,7 @@ public partial class MainWindow : Window
         try
         {
             ShowProtected();
-            if (!presenting && !diagnosticRendering)
+            if (!PassiveWindow && !diagnosticRendering)
                 Activate();
         }
         catch (Exception error) when (IsProtectionFailure(error))
@@ -164,7 +175,7 @@ public partial class MainWindow : Window
                     await TogglePresentationAsync(forceEdit: true);
                 });
         }
-        else if (message == 0x0021 && presenting)
+        else if (message == 0x0021 && PassiveWindow)
         {
             handled = true;
             return 3; // MA_NOACTIVATE still permits deliberate pointer interaction.
@@ -194,6 +205,7 @@ public partial class MainWindow : Window
     private async Task InvalidateAsync(string message)
     {
         protectionReady = false;
+        questionEditing = false;
         Hide();
         await StopTranscriptionAsync();
         ReportStatus(message);
@@ -203,6 +215,7 @@ public partial class MainWindow : Window
     {
         if (IsVisible)
         {
+            questionEditing = false;
             Hide();
             await StopTranscriptionAsync();
         }
@@ -218,6 +231,7 @@ public partial class MainWindow : Window
             return;
         }
         var next = forceEdit ? false : !presenting;
+        questionEditing = false;
         Hide();
         await StopTranscriptionAsync();
         presenting = next;
@@ -233,7 +247,7 @@ public partial class MainWindow : Window
 
     private void UpdateInteractionControls()
     {
-        Resources["ControlsFocusable"] = !presenting;
+        Resources["ControlsFocusable"] = !PassiveWindow;
         NoteEditor.IsReadOnly = presenting;
         NoteEditor.Focusable = !presenting;
         TranscriptText.Focusable = !presenting;
@@ -244,6 +258,7 @@ public partial class MainWindow : Window
         AudioEditHint.Visibility = presenting ? Visibility.Visible : Visibility.Collapsed;
         ConfirmEditHint.Visibility = presenting ? Visibility.Visible : Visibility.Collapsed;
         ModeButton.Content = presenting ? "Edit" : "Present";
+        UpdateQuestionInteraction();
         UpdateAudioControls();
     }
 
@@ -267,7 +282,7 @@ public partial class MainWindow : Window
         if (action == PendingAction.Exit)
             await StopTranscriptionAsync();
         pending = action;
-        if (NotesDirty || (action == PendingAction.Exit && TranscriptDirty))
+        if (NotesDirty || (action == PendingAction.Exit && (TranscriptDirty || HasQuestionContent)))
             ConfirmPanel.Visibility = Visibility.Visible;
         else
             await ExecutePendingAsync();
@@ -305,12 +320,12 @@ public partial class MainWindow : Window
 
     private async void ConfirmSave_Click(object sender, RoutedEventArgs args)
     {
-        if (await SaveNoteAsync(false) && (pending != PendingAction.Exit || !TranscriptDirty))
+        if (await SaveNoteAsync(false) && (pending != PendingAction.Exit || (!TranscriptDirty && !HasQuestionContent)))
             await ExecutePendingAsync();
     }
     private async void ConfirmExport_Click(object sender, RoutedEventArgs args)
     {
-        if (await ExportTranscriptAsync() && !NotesDirty)
+        if (await ExportTranscriptAsync() && !NotesDirty && (pending != PendingAction.Exit || !HasQuestionContent))
             await ExecutePendingAsync();
     }
     private async void ConfirmDiscard_Click(object sender, RoutedEventArgs args) => await ExecutePendingAsync();
@@ -463,7 +478,10 @@ public partial class MainWindow : Window
         NotesSection.Visibility = expanded ? Visibility.Visible : Visibility.Collapsed;
         NotesToggleButton.Content = expanded ? "Notes \u25BE" : "Notes \u25B8";
         if (expanded)
+        {
             AudioPanel.Visibility = Visibility.Collapsed;
+            SetQuestionExpanded(false);
+        }
         else
             FindPanel.Visibility = Visibility.Collapsed;
     }
@@ -503,6 +521,12 @@ public partial class MainWindow : Window
 
     private async void Window_PreviewKeyDown(object sender, KeyEventArgs args)
     {
+        if (args.Key == Key.Escape && questionEditing)
+        {
+            SetQuestionEditing(false);
+            args.Handled = true;
+            return;
+        }
         if (Keyboard.Modifiers != ModifierKeys.Control || presenting)
             return;
         if (args.Key is Key.S or Key.O or Key.N or Key.F)
@@ -518,24 +542,38 @@ public partial class MainWindow : Window
 
     private void RefreshDevices()
     {
+        var oldId = (OutputDevices.SelectedItem as RenderDevice)?.Id;
+        var oldMicrophoneId = (MicrophoneDevices.SelectedItem as MicrophoneDevice)?.Id;
         try
         {
-            var oldId = (OutputDevices.SelectedItem as RenderDevice)?.Id;
             var devices = LoopbackTranscriber.GetRenderDevices();
             OutputDevices.ItemsSource = devices;
             OutputDevices.SelectedItem = devices.FirstOrDefault(device => device.Id == oldId) ?? devices.FirstOrDefault();
             if (devices.Count == 0)
-                AudioStatus.Text = "No active playback device. A microphone will never be substituted.";
+                AudioStatus.Text = "No active computer playback device. Choose Mic mode or connect an output device.";
         }
         catch (Exception error) when (error is COMException or InvalidOperationException)
         {
             AudioStatus.Text = "Playback-device discovery failed. Check Windows audio output and retry.";
         }
+        try
+        {
+            var microphones = LoopbackTranscriber.GetMicrophoneDevices();
+            MicrophoneDevices.ItemsSource = microphones;
+            MicrophoneDevices.SelectedItem = microphones.FirstOrDefault(device => device.Id == oldMicrophoneId)
+                ?? microphones.FirstOrDefault();
+            if (microphones.Count == 0 && captureMode != AudioCaptureMode.Computer)
+                AudioStatus.Text = "No active microphone. Choose Computer mode or connect a microphone.";
+        }
+        catch (Exception error) when (error is COMException or InvalidOperationException)
+        {
+            AudioStatus.Text = "Microphone discovery failed. Check Windows microphone access/devices and retry.";
+        }
     }
 
     private void RefreshDevices_Click(object sender, RoutedEventArgs args)
     {
-        if (transcriber.IsRunning || audioBusy)
+        if (transcriber.IsRunning || audioBusy || audioStopping)
             AudioStatus.Text = "Stop transcription before changing playback devices.";
         else
             RefreshDevices();
@@ -543,13 +581,13 @@ public partial class MainWindow : Window
 
     private void OutputDevices_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs args)
     {
-        if (!presenting || !OutputDevices.IsEnabled)
+        if (!presenting || sender is not ListBox list || !list.IsEnabled)
             return;
         if (args.OriginalSource is DependencyObject target &&
-            ItemsControl.ContainerFromElement(OutputDevices, target) is ListBoxItem { IsEnabled: true } item)
+            ItemsControl.ContainerFromElement(list, target) is ListBoxItem { IsEnabled: true } item)
         {
             // The default ListBoxItem click path requires Focus(); passive selection must not activate us.
-            OutputDevices.SelectedItem = item.Content;
+            list.SelectedItem = item.Content;
             args.Handled = true;
         }
     }
@@ -558,22 +596,28 @@ public partial class MainWindow : Window
     {
         var opening = AudioPanel.Visibility != Visibility.Visible;
         if (opening)
+        {
             SetNotesExpanded(false);
+            SetQuestionExpanded(false);
+        }
         AudioPanel.Visibility = opening ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private async void Start_Click(object sender, RoutedEventArgs args)
     {
-        if (audioBusy || transcriber.IsRunning)
+        if (audioBusy || audioStopping || transcriber.IsRunning)
             return;
-        if (!protectionReady ||
-            OutputDevices.SelectedItem is not RenderDevice device || ServiceToken.Password.Length < 32)
+        var computer = captureMode == AudioCaptureMode.Microphone ? null : OutputDevices.SelectedItem as RenderDevice;
+        var microphone = captureMode == AudioCaptureMode.Computer ? null : MicrophoneDevices.SelectedItem as MicrophoneDevice;
+        var missingInput = (captureMode != AudioCaptureMode.Microphone && computer is null)
+            || (captureMode != AudioCaptureMode.Computer && microphone is null);
+        if (!protectionReady || missingInput || ServiceToken.Password.Length < 32)
         {
             SetNotesExpanded(false);
             AudioPanel.Visibility = Visibility.Visible;
             AudioStatus.Text = presenting
-                ? "Select playback output. Use Edit or the launcher to configure a missing local token."
-                : "Select playback output and configure the local service token first.";
+                ? "Select every requested input. Use Edit or the launcher to configure a missing local token."
+                : "Select every requested input and configure the local service token first.";
             return;
         }
         var endpointText = Environment.GetEnvironmentVariable("PHANTOM_TRANSCRIPTION_URI")
@@ -591,13 +635,20 @@ public partial class MainWindow : Window
         {
             TranscriptionSocket.ValidateEndpoint(endpoint);
             transcript.BeginSession();
-            await transcriber.StartAsync(device.Id, endpoint, ServiceToken.Password, startCancellation.Token);
+            var captureSessionId = Guid.NewGuid();
+            questionTranscript.BeginSession(captureSessionId);
+            RefreshQuestionSegments();
+            TranscriptText.Text = transcript.Text;
+            PartialText.Text = transcript.Partial;
+            TranscriptPlaceholder.Visibility = transcript.HasContent ? Visibility.Collapsed : Visibility.Visible;
+            await transcriber.StartAsync(new AudioInputSelection(computer?.Id, microphone?.Id),
+                endpoint, ServiceToken.Password, startCancellation.Token, captureSessionId);
             TranscriptText.Text = transcript.Text;
         }
         catch (Exception error) when (error is ArgumentException or InvalidOperationException or IOException
             or System.Net.WebSockets.WebSocketException or OperationCanceledException or COMException)
         {
-            AudioStatus.Text = "Transcription could not start. Check the local service, model, token and playback device.";
+            AudioStatus.Text = "Transcription could not start. Check the updated local service, selected inputs, token and Windows microphone access.";
         }
         finally
         {
@@ -609,16 +660,57 @@ public partial class MainWindow : Window
 
     private void UpdateAudioControls()
     {
-        StartButton.IsEnabled = !audioBusy && !transcriber.IsRunning && protectionReady;
-        StopButton.IsEnabled = !audioBusy && transcriber.IsRunning;
-        OutputDevices.IsEnabled = !audioBusy && !transcriber.IsRunning;
-        ServiceToken.IsEnabled = !presenting && !audioBusy && !transcriber.IsRunning;
+        StartButton.IsEnabled = !audioBusy && !audioStopping && !transcriber.IsRunning && protectionReady;
+        StopButton.IsEnabled = !audioStopping && (audioBusy || transcriber.IsRunning);
+        var idle = !audioBusy && !audioStopping && !transcriber.IsRunning;
+        InputModeControls.IsEnabled = idle;
+        OutputDevices.IsEnabled = idle && captureMode != AudioCaptureMode.Microphone;
+        MicrophoneDevices.IsEnabled = idle && captureMode != AudioCaptureMode.Computer;
+        ComputerDeviceSection.Visibility = captureMode == AudioCaptureMode.Microphone ? Visibility.Collapsed : Visibility.Visible;
+        MicrophoneDeviceSection.Visibility = captureMode == AudioCaptureMode.Computer ? Visibility.Collapsed : Visibility.Visible;
+        ComputerModeButton.BorderThickness = new Thickness(captureMode == AudioCaptureMode.Computer ? 2 : 1);
+        MicrophoneModeButton.BorderThickness = new Thickness(captureMode == AudioCaptureMode.Microphone ? 2 : 1);
+        BothModeButton.BorderThickness = new Thickness(captureMode == AudioCaptureMode.Both ? 2 : 1);
+        InputModeLabel.Text = captureMode switch
+        {
+            AudioCaptureMode.Computer => "Computer only",
+            AudioCaptureMode.Microphone => "Mic only",
+            _ => "Computer + Mic"
+        };
+        ServiceToken.IsEnabled = !presenting && idle;
+        UpdateQuestionInteraction();
     }
 
-    private async void Stop_Click(object sender, RoutedEventArgs args) => await StopTranscriptionAsync();
-    private async Task StopTranscriptionAsync()
+    private void SetCaptureMode(AudioCaptureMode mode)
     {
+        if (audioBusy || audioStopping || transcriber.IsRunning)
+        {
+            AudioStatus.Text = "Stop transcription before changing inputs.";
+            return;
+        }
+        captureMode = mode;
+        AudioLevel.Value = 0;
+        MicrophoneLevel.Value = 0;
+        UpdateAudioControls();
+    }
+
+    private void ComputerMode_Click(object sender, RoutedEventArgs args) => SetCaptureMode(AudioCaptureMode.Computer);
+    private void MicrophoneMode_Click(object sender, RoutedEventArgs args) => SetCaptureMode(AudioCaptureMode.Microphone);
+    private void BothMode_Click(object sender, RoutedEventArgs args) => SetCaptureMode(AudioCaptureMode.Both);
+
+    private async void Stop_Click(object sender, RoutedEventArgs args) => await StopTranscriptionAsync();
+    private Task StopTranscriptionAsync()
+    {
+        if (audioStopTask is { IsCompleted: false })
+            return audioStopTask;
+        audioStopping = true;
+        UpdateAudioControls();
         audioStartCancellation?.Cancel();
+        return audioStopTask = StopTranscriptionCoreAsync();
+    }
+
+    private async Task StopTranscriptionCoreAsync()
+    {
         try
         {
             await transcriber.StopAsync();
@@ -628,25 +720,34 @@ public partial class MainWindow : Window
         {
             AudioStatus.Text = "Transcription stopped with a connection/device error. An unfinished tail may be missing.";
         }
-        AudioLevel.Value = 0;
-        UpdateAudioControls();
+        finally
+        {
+            audioStopping = false;
+            AudioLevel.Value = 0;
+            MicrophoneLevel.Value = 0;
+            UpdateAudioControls();
+        }
     }
 
     private async void ReceiveTranscript(TranscriptEvent value)
     {
+        var captureSessionId = value.CaptureSessionId ?? (diagnosticRendering ? questionTranscript.SessionId : Guid.Empty);
+        if (captureSessionId != questionTranscript.SessionId)
+            return; // An old dispatcher callback cannot enter a new capture session.
         try
         {
             if (value.Type == "partial")
-                transcript.SetPartial(value.Text);
+                transcript.SetPartial(value.Text, value.Source ?? AudioSource.Computer);
             else if (value.Type == "final")
                 transcript.AddFinal(value.SegmentId ?? throw new InvalidDataException("Missing segment ID."),
-                    value.Text, value.StartSeconds);
+                    value.Text, value.StartSeconds, value.Source ?? AudioSource.Computer);
+            UpdateQuestionTranscript(value, captureSessionId);
             TranscriptText.Text = transcript.Text;
             TranscriptText.ScrollToEnd();
             PartialText.Text = transcript.Partial;
             TranscriptPlaceholder.Visibility = transcript.HasContent ? Visibility.Collapsed : Visibility.Visible;
         }
-        catch (Exception error) when (error is InvalidDataException or InvalidOperationException)
+        catch (Exception error) when (error is InvalidDataException or InvalidOperationException or ArgumentException)
         {
             await StopTranscriptionAsync();
             AudioStatus.Text = "Transcription stopped: invalid data or transcript memory limit. Export before clearing.";
@@ -694,9 +795,9 @@ public partial class MainWindow : Window
 
     private void ClearTranscript_Click(object sender, RoutedEventArgs args)
     {
-        if (transcriber.IsRunning || audioBusy)
+        if (transcriber.IsRunning || audioBusy || audioStopping)
         {
-            AudioStatus.Text = "Stop transcription before clearing.";
+            AudioStatus.Text = "Wait until transcription has fully stopped before clearing.";
             return;
         }
         if (TranscriptDirty)
@@ -705,6 +806,8 @@ public partial class MainWindow : Window
             return;
         }
         transcript.Clear();
+        questionTranscript.Clear();
+        RefreshQuestionSegments();
         exportedTranscript = "";
         TranscriptText.Clear();
         PartialText.Text = "";
@@ -739,7 +842,7 @@ public partial class MainWindow : Window
         Application.Current.Shutdown();
     }
 
-    internal async Task<int> RunUiSmokeAsync(string directory)
+    internal async Task<int> RunUiSmokeAsync(string directory, bool documentationFixture = false)
     {
         Directory.CreateDirectory(directory);
         diagnosticRendering = true;
@@ -753,10 +856,33 @@ public partial class MainWindow : Window
                 (WindowProtection.ReadStyles(handle) & 0x08000000) != 0;
             var startAvailableAfterProtection = StartButton.IsEnabled;
             var notesCollapsedByDefault = NotesSection.Visibility == Visibility.Collapsed;
+            var defaultsToBoth = captureMode == AudioCaptureMode.Both;
             ServiceToken.Password = "";
+            var discoveredRenderCount = OutputDevices.Items.Count;
+            var discoveredMicrophoneCount = MicrophoneDevices.Items.Count;
+            if (documentationFixture)
+            {
+                OutputDevices.ItemsSource = new[]
+                {
+                    new RenderDevice("documentation-output", "Example meeting headphones")
+                };
+                OutputDevices.SelectedIndex = 0;
+                MicrophoneDevices.ItemsSource = new[]
+                {
+                    new MicrophoneDevice("documentation-mic", "Example dictation microphone")
+                };
+                MicrophoneDevices.SelectedIndex = 0;
+                AudioStatus.Text = "Stopped. Synthetic documentation fixture; no audio devices are opened.";
+            }
             NoteEditor.Text = "Speaker notes\n\n1. Introduce the idea.\n2. Show the example.\n3. Invite questions.";
-            ReceiveTranscript(new TranscriptEvent("final", "This is a synthetic UI transcript.", 1, 0, 2));
-            ReceiveTranscript(new TranscriptEvent("partial", "This unfinished line may change"));
+            ReceiveTranscript(new TranscriptEvent("final", "This is computer audio.", 1, 0, 2, AudioSource.Computer));
+            ReceiveTranscript(new TranscriptEvent("final", "This is my dictated question.", 2, 0, 2, AudioSource.Microphone));
+            ReceiveTranscript(new TranscriptEvent("partial", "The meeting continues", Source: AudioSource.Computer));
+            ReceiveTranscript(new TranscriptEvent("partial", "I am dictating a question", Source: AudioSource.Microphone));
+            var sourceLabelsVisible = TranscriptText.Text.Contains("[Computer]", StringComparison.Ordinal)
+                && TranscriptText.Text.Contains("[Mic]", StringComparison.Ordinal)
+                && PartialText.Text.Contains("[Computer]", StringComparison.Ordinal)
+                && PartialText.Text.Contains("[Mic]", StringComparison.Ordinal);
             await RenderDiagnosticAsync(Path.Combine(directory, "transcript-deepseafoam.png"));
             var transcriptPrimary = notesCollapsedByDefault && TranscriptText.ActualHeight >= ActualHeight * 0.40;
             var mouseActivation = SendMessage(handle, 0x0021, GetForegroundWindow(),
@@ -815,6 +941,50 @@ public partial class MainWindow : Window
                 && ReferenceEquals(Keyboard.FocusedElement, keyboardBeforeDeviceClick);
             OutputDevices.ItemsSource = deviceSource;
             OutputDevices.SelectedItem = selectedDevice;
+            var microphoneSource = MicrophoneDevices.ItemsSource;
+            var selectedMicrophone = MicrophoneDevices.SelectedItem;
+            var syntheticMicrophones = new[]
+            {
+                new MicrophoneDevice("synthetic-mic-a", "Synthetic microphone A"),
+                new MicrophoneDevice("synthetic-mic-b", "Synthetic microphone B")
+            };
+            MicrophoneDevices.ItemsSource = syntheticMicrophones;
+            MicrophoneDevices.SelectedIndex = 0;
+            UpdateLayout();
+            var secondMicrophone = (ListBoxItem)MicrophoneDevices.ItemContainerGenerator.ContainerFromIndex(1);
+            var microphoneClick = new MouseButtonEventArgs(Mouse.PrimaryDevice, Environment.TickCount, MouseButton.Left)
+            {
+                RoutedEvent = Mouse.PreviewMouseDownEvent
+            };
+            secondMicrophone.RaiseEvent(microphoneClick);
+            var passiveMicrophoneSelection = ReferenceEquals(MicrophoneDevices.SelectedItem, syntheticMicrophones[1])
+                && !secondMicrophone.Focusable && GetForegroundWindow() == focusBeforeDeviceClick
+                && ReferenceEquals(Keyboard.FocusedElement, keyboardBeforeDeviceClick);
+            MicrophoneDevices.ItemsSource = microphoneSource;
+            MicrophoneDevices.SelectedItem = selectedMicrophone;
+            SetCaptureMode(AudioCaptureMode.Computer);
+            var computerModeWorks = OutputDevices.IsEnabled && !MicrophoneDevices.IsEnabled
+                && MicrophoneDeviceSection.Visibility == Visibility.Collapsed;
+            SetCaptureMode(AudioCaptureMode.Microphone);
+            var microphoneModeWorks = !OutputDevices.IsEnabled && MicrophoneDevices.IsEnabled
+                && ComputerDeviceSection.Visibility == Visibility.Collapsed;
+            SetCaptureMode(AudioCaptureMode.Both);
+            audioBusy = true;
+            UpdateAudioControls();
+            SetCaptureMode(AudioCaptureMode.Computer);
+            var inputChangesBlockedWhenBusy = captureMode == AudioCaptureMode.Both && !InputModeControls.IsEnabled;
+            audioBusy = false;
+            UpdateAudioControls();
+            var beforeStoppingGuard = transcript.ExportText();
+            audioStopping = true;
+            UpdateAudioControls();
+            Start_Click(this, new RoutedEventArgs());
+            SetCaptureMode(AudioCaptureMode.Computer);
+            ClearTranscript_Click(this, new RoutedEventArgs());
+            var stoppingGuardsSession = !StartButton.IsEnabled && !InputModeControls.IsEnabled
+                && captureMode == AudioCaptureMode.Both && transcript.ExportText() == beforeStoppingGuard;
+            audioStopping = false;
+            UpdateAudioControls();
             AudioPanel.Visibility = Visibility.Collapsed;
             BackgroundOpacity.Value = 10;
             var translucentImage = await RenderDiagnosticAsync(Path.Combine(directory, "background-10.png"));
@@ -880,6 +1050,9 @@ public partial class MainWindow : Window
             var uriBefore = Environment.GetEnvironmentVariable("PHANTOM_TRANSCRIPTION_URI");
             try
             {
+                OutputDevices.ItemsSource = syntheticDevices;
+                OutputDevices.SelectedIndex = 0;
+                SetCaptureMode(AudioCaptureMode.Computer);
                 ServiceToken.Password = new string('x', 64);
                 Environment.SetEnvironmentVariable("PHANTOM_TRANSCRIPTION_URI", "not a valid uri");
                 Start_Click(this, new RoutedEventArgs());
@@ -890,7 +1063,11 @@ public partial class MainWindow : Window
             {
                 Environment.SetEnvironmentVariable("PHANTOM_TRANSCRIPTION_URI", uriBefore);
                 ServiceToken.Password = "";
+                OutputDevices.ItemsSource = deviceSource;
+                OutputDevices.SelectedItem = selectedDevice;
+                SetCaptureMode(AudioCaptureMode.Both);
             }
+            var questionChecks = await RunQuestionDiagnosticAsync(directory);
             var styles = WindowProtection.ReadStyles(new WindowInteropHelper(this).Handle);
             var acknowledgmentsRemoved = FindName("ConsentCheck") is null && FindName("RehearsalCheck") is null;
             var passed = protectionReady && preserved && readOnly && !ShowInTaskbar && acknowledgmentsRemoved &&
@@ -899,6 +1076,8 @@ public partial class MainWindow : Window
                 notesCollapsedByDefault && transcriptPrimary &&
                 mouseActivation == 3 && arrowPolicy && allThemesMatch && plainReset && darkToggle && lightToggle &&
                 expandedWithoutActivation && editableOnRequest && passiveDeviceSelection &&
+                defaultsToBoth && sourceLabelsVisible && passiveMicrophoneSelection && computerModeWorks &&
+                microphoneModeWorks && inputChangesBlockedWhenBusy && stoppingGuardsSession &&
                 replacementBlocked && recoveredMinimized &&
                 (styles & WindowProtection.ToolWindow) != 0 && !transcriber.IsRunning;
             await File.WriteAllTextAsync(Path.Combine(directory, "result.json"),
@@ -910,11 +1089,15 @@ public partial class MainWindow : Window
                     startsPassive, startAvailableAfterProtection, foregroundPreservedOnShow, notesCollapsedByDefault, transcriptPrimary,
                     mouseActivation, arrowPolicy, allThemesMatch, plainReset, darkToggle, lightToggle,
                     expandedWithoutActivation, editableOnRequest, passiveDeviceSelection, themes,
+                    defaultsToBoth, sourceLabelsVisible, passiveMicrophoneSelection, computerModeWorks,
+                    microphoneModeWorks, inputChangesBlockedWhenBusy, stoppingGuardsSession,
                     transcriptScrollWorks, noteScrollWorks,
                     invalidUriRejected = true, presentReadOnly = readOnly, ShowInTaskbar,
                     toolWindow = (styles & WindowProtection.ToolWindow) != 0,
                     nativeStyles = styles, recordingStarted = transcriber.IsRunning,
-                    discoveredRenderEndpoints = OutputDevices.Items.Count,
+                    discoveredRenderEndpoints = discoveredRenderCount,
+                    discoveredMicrophoneEndpoints = discoveredMicrophoneCount,
+                    documentationFixture, questionChecks,
                     limitation = "Synthetic local UI, cursor-shape policy and nonactivation assertions only; " +
                         "no real audio or remote captured-cursor visibility guarantee."
                 }, new JsonSerializerOptions { WriteIndented = true }));

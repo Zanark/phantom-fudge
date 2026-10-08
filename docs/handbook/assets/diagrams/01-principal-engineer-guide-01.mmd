@@ -1,0 +1,21 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Runtime ownership across two local processes
+    accDescr: The Windows process owns interaction and audio while the authenticated Python process owns independent source decoders.
+    subgraph Desktop["Windows process"]
+      UI["MainWindow and explicit actions"]
+      Policy["Window protection and focus policy"]
+      Native["Selected WASAPI ownership"]
+      Transport["Bounded source-aware transport"]
+      Buffer["Transcript and note state"]
+    end
+    subgraph Local["Local Python process"]
+      Admission["Authenticated single-session admission"]
+      Worker["One bounded decoder worker"]
+      Sources["Independent source recognizers"]
+    end
+    UI --> Policy
+    UI --> Native --> Transport --> Admission --> Worker --> Sources
+    Sources --> Transport --> Buffer --> UI

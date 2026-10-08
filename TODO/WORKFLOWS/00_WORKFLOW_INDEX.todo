@@ -15,6 +15,9 @@ Define reusable work procedures without duplicating implementation status from r
 - [x] Define 02_CAPTURE_QUALIFICATION.todo for synthetic exact-configuration capture evidence.
 - [x] Define 03_RELEASE_DELIVERY.todo for packaged, approved delivery.
 - [x] Link the gate sequence in ..\..\docs\DEVELOPMENT-WORKFLOW.md.
+- [x] Define04_QUESTION_TO_ANSWER.todo for explicit source-scoped Ask and streaming lifecycle.
+- [x] Define05_AI_LATENCY_QUALIFICATION.todo for measured local/cloud quality and latency.
+- [x] Define06_LIVING_DOCUMENTATION.todo for chapters, synthetic images, journal and local book artifacts.
 
 ## Acceptance criteria
 
@@ -24,7 +27,7 @@ Define reusable work procedures without duplicating implementation status from r
 
 ## Completion evidence
 
-- The three adjacent procedure files and docs\DEVELOPMENT-WORKFLOW.md.
+- The six adjacent procedure files and docs\DEVELOPMENT-WORKFLOW.md.
 - Native feature/diagnostic/speech execution has begun. Final Docker/product/release qualification remains open.
 
 ## Completion log

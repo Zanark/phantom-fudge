@@ -1,0 +1,11 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart LR
+    accTitle: Container-neutral design without a container prerequisite
+    accDescr: A working native application and stable protocol precede optional container packaging; Docker-first operation is superseded.
+    Native["Working native application"] --> Contract["Stable local protocol"]
+    Contract --> Package["Optional later container package"]
+    Contract --> Identity["Explicit token and ownership"]
+    Contract --> Tests["Same protocol tests"]
+    Bad["Docker required before core use"] -. "superseded" .-> Native

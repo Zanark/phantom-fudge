@@ -1,0 +1,36 @@
+# Answer Privacy, Failure and Concurrency Gates
+
+Status: NOT_STARTED
+Milestone: A5 Robust integration
+Dependencies: 28_QUESTION_DRAFTS.todo, 29_QUESTION_COMMIT_LATENCY.todo, 30_AZURE_ANSWER_CONNECTION.todo, 31_STREAMING_ANSWER_CLIENT.todo, 32_ANSWER_UI_LIFECYCLE.todo
+
+## Purpose
+
+Prevent accidental egress, stale answers, duplicate billing attempts and misleading completion states.
+
+## Tasks
+
+- [ ] Exercise the full privacy/failure matrix in docs\AI-ANSWER-EVALUATION.md.
+- [ ] Prove source-scoped snapshots and explicit Ask; no auto-send from ambient transcript events.
+- [ ] Test session/epoch/revision/request ID races, duplicate clicks, commit retries and late deltas.
+- [ ] Verify auth failures require explicit setup instead of surprise broker/browser windows.
+- [ ] Test401/403/429/timeouts/post-200 errors/partial disconnect/filter/incomplete/cancel states.
+- [ ] Validate HTTPS endpoint/deployment/context limits and reject transcript-driven URLs/tools/role promotion.
+- [ ] Inspect telemetry/debug/export paths for prompt/answer/audio/token/authorization leakage.
+- [ ] Preserve local-only ASR and prevent automatic provider/region/cloud-audio fallback.
+- [ ] Confirm new UI surfaces stay under the intended capture/focus policy; OS/auth surfaces remain explicit limits.
+
+## Acceptance criteria
+
+- [ ] No request leaves the device without the explicit configured Ask boundary.
+- [ ] Failed/interrupted/refused answers are never shown as completed or silently replayed.
+- [ ] All scoped failure/concurrency tests pass with exact source identity and evidence.
+- [ ] Service retention and cursor/window exclusion limits are stated without absolute guarantees.
+
+## Completion evidence
+
+- None. This is a future gate, not a claim that the planned Azure path has been audited.
+
+## Completion log
+
+- 2026-10-08 - Planned as part of the answer feature, not optional cleanup.

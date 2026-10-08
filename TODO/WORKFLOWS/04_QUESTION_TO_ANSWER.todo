@@ -1,0 +1,56 @@
+# Explicit Question-to-Answer Procedure
+
+Status: DONE
+Milestone: A0 Procedure definition only
+Dependencies: None
+Execution status: NOT_STARTED
+
+## Purpose
+
+Define the intended dictate/select/Ask/stream flow without automatically uploading a meeting.
+
+## Inputs
+
+Implemented source-scoped draft/commit/answer components; approved Azure profile and silent auth;
+current capture policy; explicit owner-selected question. None of those future answer components
+is implied implemented by this authored procedure.
+
+## Procedure
+
+1. Keep ordinary Computer/Mic transcription local and source-separated.
+2. Owner selects known transcript segments, arms a Mic question span, or types the question.
+3. Show the editable draft and whether it includes provisional text. No chat/clipboard-history reading.
+4. For Ask-as-shown, freeze exactly that displayed revision. For Finish dictation, enqueue/ack the
+   source commit first; never use global Stop or silently send a fallback revision.
+5. On explicit Ask, create one request bound to the immutable snapshot/profile/context policy.
+6. Acquire a cached/silent token; if interaction is required, retain the draft and show SignInRequired.
+7. Stream one foreground stateless model request. No tools, server conversation or unselected meeting context.
+8. Render bounded text batches in the existing HWND, with question identity and honest terminal status.
+9. Cancel/replacement/hide/lock/failure invalidate that request's future UI events; preserve partial output as incomplete.
+10. Record only timings/counts/result metadata. Save/export Q/A only on explicit action.
+
+## Stop conditions
+
+Missing approved profile/auth/network route, empty/oversized draft, ambiguous source/session/revision,
+commit failure, revoked capture readiness, rejected/filtered/incomplete stream, unsupported model
+parameters or exhausted retry/deadline budget. Do not change provider/region/data policy automatically.
+
+## Tasks
+
+- [x] Define manual egress, source/snapshot boundaries and streamed lifecycle.
+- [x] Preserve no-repeat permission/rehearsal confirmations and local-ASR/Docker-last direction.
+- [x] Separate authored procedure from future execution evidence.
+
+## Acceptance criteria
+
+- [x] Procedure cannot imply automatic meeting upload, background answer generation or cloud-ASR fallback.
+- [x] Failure retains inspectable local state instead of a success-shaped or silently changed answer.
+
+## Completion evidence
+
+- docs\AI-ANSWER-ARCHITECTURE.md and AI-ANSWER-PRIVACY.md.
+- Procedure authored only; no model request or live execution performed.
+
+## Completion log
+
+- 2026-10-08 - Defined for future implementation after deep research.

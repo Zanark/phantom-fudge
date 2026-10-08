@@ -22,7 +22,9 @@ existing test/build commands once the foundation creates them.
 4. Run the relevant existing tests/build and interactive checks; capture actual outcomes.
 5. Requalify affected capture paths for window/style/popup/rendering/framework changes.
 6. Obtain explicit owner review where the task requires visual/readability/interaction approval.
-7. Update task checkboxes, evidence, index, docs, and ledger. Persist designated local context.
+7. Follow06_LIVING_DOCUMENTATION: update affected chapters/citations/diagrams, regenerate synthetic
+   UI images when visible behavior changes, append significant root JOURNAL milestones and rebuild
+   the full HTML/PDF edition. Update task evidence/index/ledger; persist designated local context.
 8. Mark DONE only when all scoped conditions hold; otherwise record IN_PROGRESS/BLOCKED with next action.
 
 ## Stop conditions
@@ -49,3 +51,4 @@ Do not downgrade privacy or erase user data to force a pass.
 ## Completion log
 
 - 2026-10-07 - Procedure defined; execution pending future implementation authorization.
+- 2026-10-08 - Living handbook/journal/visual freshness added to feature completion.

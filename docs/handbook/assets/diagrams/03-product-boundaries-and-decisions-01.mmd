@@ -1,0 +1,13 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Turning a need into a bounded claim
+    accDescr: An observable outcome needs an implementation mechanism, acceptance evidence and explicit limits.
+    Need["Owner need"] --> Outcome["Observable outcome"]
+    Outcome --> Mechanism["Implementation mechanism"]
+    Outcome --> Evidence["Acceptance evidence"]
+    Mechanism --> Limits["Known limits"]
+    Evidence --> Claim["Bounded product claim"]
+    Limits --> Claim
+    NewNeed["Later explicit correction"] --> Outcome

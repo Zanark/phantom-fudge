@@ -1,0 +1,53 @@
+# AI Answer Latency and Quality Qualification Procedure
+
+Status: DONE
+Milestone: A0 Procedure definition only
+Dependencies: None
+Execution status: NOT_STARTED
+
+## Purpose
+
+Compare actual transcription-to-answer configurations without replacing quality or privacy with a fast-looking token.
+
+## Inputs
+
+Implemented stage instrumentation and fake-stream tests; approved synthetic corpus/rubrics;
+authorized deployment/account/budget if cloud calls will run; exact model/API/SDK/runtime/source identity.
+
+## Procedure
+
+1. Run local draft/source/commit/stream state and failure tests before any cloud call.
+2. Replay identical synthetic PCM without speakers/microphone; record capture/ASR/commit/draft stages.
+3. Obtain the actual approved model/version/deployment/processing policy and a bounded spend cap.
+4. Run one fixed baseline with standard filtering and one active Ask; separate cold and warm samples.
+5. Compare candidate configurations with randomized/interleaved order and equal useful-answer constraints.
+6. Measure Ask-to-first-rendered-text, first-useful-sentence, completion/cancel/error rates and quality.
+7. Record tokens, actual tier/caching, retry outcomes and cost; never drop failed/incomplete samples silently.
+8. Tune one bottleneck at a time: capture/commit, output length/reasoning, model, API or eligible tier.
+9. Qualify the exact candidate UI/capture/privacy behavior and obtain owner usability approval.
+10. Publish a bounded result table and preserve rejected candidates/uncertainty.
+
+## Stop conditions
+
+Unapproved cloud data/budget, source contamination, lost question tail/negation, unreliable cancellation,
+silent retry/egress, content-logging leakage, wrong answer used as a speed win, or unsupported lifecycle/model.
+
+## Tasks
+
+- [x] Define staged local-first evaluation and explicit cloud authorization boundary.
+- [x] Require comparable quality, visible latency and reproducible identities.
+- [x] State that research/targets are not measured Azure results.
+
+## Acceptance criteria
+
+- [x] Procedure separates batch RTF, ASR finalization, API TTFT and user-visible useful-answer latency.
+- [x] A model is called fastest only within a named, measured, quality-qualified comparison.
+
+## Completion evidence
+
+- docs\AI-ANSWER-EVALUATION.md and AI-ANSWER-RESEARCH.md.
+- No Azure experiment or application instrumentation has executed yet.
+
+## Completion log
+
+- 2026-10-08 - Evaluation procedure defined; execution pending implementation and resource/budget approval.

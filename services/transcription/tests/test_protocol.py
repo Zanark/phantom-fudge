@@ -64,12 +64,13 @@ class ProtocolTests(unittest.IsolatedAsyncioTestCase):
     async def test_ready_partial_final_stop_timing_and_cpu_thread(self):
         ws = await self.start()
         await ws.send_bytes(b"\0" * 3200)
-        self.assertEqual((await ws.receive_json())["type"], "partial")
+        self.assertEqual(await ws.receive_json(), {"type": "partial", "text": "synthetic partial"})
         await ws.send_bytes(b"\0" * 3200)
         first = await ws.receive_json()
         self.assertEqual(first["type"], "final")
         self.assertEqual(first["segmentId"], 1)
         self.assertEqual(first["endSeconds"], 0.2)
+        self.assertEqual(set(first), {"type", "text", "segmentId", "startSeconds", "endSeconds"})
         await ws.send_json({"type": "stop"})
         tail = await ws.receive_json()
         self.assertEqual(tail["segmentId"], 2)
@@ -105,6 +106,14 @@ class ProtocolTests(unittest.IsolatedAsyncioTestCase):
         response = await self.client.get("/v1/transcribe?token=synthetic", headers=HEADERS)
         self.assertEqual(response.status, 400)
         self.assertEqual((await response.json())["code"], "bad_frame")
+
+    async def test_duplicate_authorization_is_rejected(self):
+        response = await self.client.get("/v1/transcribe", headers=[
+            ("Authorization", "Bearer " + TOKEN), ("Authorization", "Bearer " + TOKEN),
+        ])
+        self.assertEqual(response.status, 401)
+        self.assertEqual((await response.json())["code"], "auth")
+        self.assertFalse(self.instances)
 
     async def test_missing_model_is_not_healthy(self):
         self.app[RUNTIME].factory = None
@@ -152,6 +161,17 @@ class ProtocolTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual((await ws.receive_json())["code"], "bad_frame")
             await ws.close()
             await asyncio.sleep(0.01)
+
+    async def test_v1_start_does_not_accept_extra_source_or_version_fields(self):
+        for extra in ({"protocolVersion": 1}, {"sources": ["computer"]}, {"unexpected": True}):
+            ws = await self.client.ws_connect("/v1/transcribe", headers=HEADERS)
+            await ws.send_json({"type": "start", **FORMAT, **extra})
+            failure = await ws.receive_json()
+            self.assertEqual(failure["code"], "bad_format")
+            self.assertEqual(set(failure), {"type", "code", "message"})
+            await ws.close()
+            await asyncio.sleep(0.01)
+        self.assertFalse(self.instances)
 
     async def test_maximum_legal_frame_is_accepted(self):
         ws = await self.start()

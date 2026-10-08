@@ -13,12 +13,15 @@ selected it. "Proposed" is a recommendation to resolve in `TODO\01_PRODUCT_DECIS
 | R04 | Keep notes out of audience capture | Qualified capture modes and recipient/recording evidence, not a universal guarantee |
 | R05 | Windows 11 first | Exact Windows 11 release/edition/architecture listed in qualification records |
 | R06 | Qualify Teams, Zoom, Google Meet, and OBS separately | Versioned results for each required product/mode |
-| R07 | REQUIRED live transcription of meeting sound heard through the output device, not microphone input | Render-endpoint loopback, partial/final transcript, stop/device/fault tests |
+| R07 | Live Computer output plus optional Microphone dictation, separately or together | Explicit selected sources, labelled partial/final tracks, stop/device/fault tests |
 | R08 | Native local Python recognition, easily containerizable later; no cloud processing | Native setup/start/stop and container-neutral model/protocol interfaces; Docker never required |
 | R09 | See/read actual content behind the notes window using adjustable translucency | Background alpha control, solid text, retained drag/resize and capture requalification |
 | R10 | Transcription is primary; notes collapsed by default | Default layout and lossless expansion/collapse |
 | R11 | DeepSeaFoam/Harbor Daylight toggle plus Plain reset | Canonical semantic palettes, controls and local UI evidence |
 | R12 | Remove I-beam/unnecessary focus cues; investigate shared cursor disappearance | Local Arrow/nonactivation plus separately qualified recipient behavior; no universal guarantee |
+| R13 | Planned: choose/dictate a question, explicitly Ask a model, view a streamed answer | Immutable source-scoped request and corresponding same-window answer |
+| R14 | Planned: minimize useful-answer latency without sacrificing question fidelity | Stage-based local/cloud measurement and quality gates |
+| R15 | Planned: use Azure where justified with explicit data/identity boundaries | Approved selected-text inference profile; audio remains local by default |
 
 The original wish for a window that can "never be detected" is not an implementable
 universal contract. Task Manager, desktop-window enumeration, accessibility tools,
@@ -28,11 +31,16 @@ The user chose Windows 11 scope after being told about this limitation.
 ## Proposed v1 experience
 
 One note and one small, resizable surface with background-only translucency and a protected live-transcript pane.
-No account, cloud service, Markdown preview, text-generation assistant, or rich formatting.
+The current implementation has no cloud answer service, Markdown preview or rich formatting.
 A quiet header/grip holds Edit/Present,
 Hide, and Settings controls. Settings and find UI stay inside the same protected surface.
 Dark/light colors, font size, wrapping, and always-on-top are small usability options,
 not elaborate theme work.
+
+The15:05 request asks for research/design of a future manual AI-answer feature, including Azure
+where appropriate. It is not yet implemented or provisioned. The proposed baseline adds Azure text
+inference after explicit Ask while keeping local ASR, no chat reading, no automatic prompts, same-HWND
+answers, and Docker-last. Cloud audio is separately optional. See AI-ANSWER-ARCHITECTURE.md.
 
 October8 11:31 direction: transcript-first replaces notes-first. Start in non-activating Present,
 with notes collapsed, fixed Arrow pointer and a deliberate Edit action for keyboard input.
@@ -66,11 +74,17 @@ The full four-product capture gate is not yet passed; local preview work must no
 it to a qualified release. See [TRANSCRIPTION.md](TRANSCRIPTION.md).
 
 Output-device loopback captures ALL sounds played on the selected device, including other
-apps and any microphone sidetone already audible there. It never opens a microphone endpoint
-and is not falsely labelled meeting-process isolation. Transcription requires explicit Start,
+apps and any microphone sidetone already audible there. The14:01 request adds explicit microphone
+input for dictated chat questions; Computer/Mic/Both modes supersede the earlier no-microphone scope.
+No chat application/clipboard/history is read. Transcription requires explicit Start,
 visible local status, an appropriate right to transcribe the meeting, and explicit Stop.
 Raw audio is not persisted; transcript export is explicit. The default local model is an
 English streaming model; multilingual accuracy and diarization are not assumed.
+
+Both is the default mode selection, not automatic capture. Independent recognizers label Computer
+and Mic; they do not identify speakers. Selected-device failure stops the session without switching
+inputs. Windows microphone privacy indicators and acoustic speaker echo are outside window-exclusion
+assurance; headphones reduce echo. See DUAL-SOURCE-AUDIO.md.
 
 ## Runtime confirmations - owner decision, October 8
 

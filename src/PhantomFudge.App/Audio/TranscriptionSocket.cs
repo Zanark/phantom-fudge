@@ -3,6 +3,7 @@ using System.Net.WebSockets;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
+using PhantomFudge.Core;
 
 namespace PhantomFudge.App.Audio;
 
@@ -13,6 +14,7 @@ public sealed class TranscriptionSocket : IAsyncDisposable
     public const int BytesPerSecond = SampleRate * 2;
     public const int MaximumFrameBytes = 32000;
     public const int MaximumPendingBytes = BytesPerSecond * 2;
+    public const int MaximumTotalPendingBytes = MaximumPendingBytes * 2;
     internal const int MaximumMessageBytes = 32768;
 
     private static readonly TimeSpan ConnectTimeout = TimeSpan.FromSeconds(10);
@@ -31,8 +33,8 @@ public sealed class TranscriptionSocket : IAsyncDisposable
     private readonly CancellationTokenSource _abort = new();
     private readonly object _queueLock = new();
     private readonly object _resourceLock = new();
-    private readonly Channel<byte[]> _audio = Channel.CreateBounded<byte[]>(
-        new BoundedChannelOptions(MaximumPendingBytes / 2)
+    private readonly Channel<AudioFrame> _audio = Channel.CreateBounded<AudioFrame>(
+        new BoundedChannelOptions(MaximumTotalPendingBytes / 2)
         {
             SingleReader = true,
             SingleWriter = false,
@@ -47,7 +49,12 @@ public sealed class TranscriptionSocket : IAsyncDisposable
     private Task _sender = Task.CompletedTask;
     private Task _receiver = Task.CompletedTask;
     private int _pendingBytes;
-    private long _submittedBytes;
+    private readonly int[] _pendingBySource = new int[3];
+    private readonly long[] _submittedBySource = new long[3];
+    private readonly double[] _lastEndBySource = new double[3];
+    private readonly bool[] _stopFinalBySource = new bool[3];
+    private AudioSource[] _sources = [AudioSource.Computer];
+    private int _protocolVersion = 1;
     private int _lastSegmentId;
     private int _faulted;
     private int _stopSent;
@@ -56,6 +63,8 @@ public sealed class TranscriptionSocket : IAsyncDisposable
     private bool _used;
     private bool _closed;
     private bool _disposed;
+    private bool _stopRequested;
+    private bool _connecting;
 
     public event Action<TranscriptEvent>? TranscriptReceived;
     public event Action<string>? Faulted;
@@ -80,7 +89,24 @@ public sealed class TranscriptionSocket : IAsyncDisposable
         }
     }
 
-    public async Task ConnectAsync(Uri endpoint, string token, CancellationToken cancellationToken = default)
+    public Task ConnectAsync(Uri endpoint, string token, CancellationToken cancellationToken = default) =>
+        ConnectCoreAsync(endpoint, token, null, cancellationToken);
+
+    public Task ConnectAsync(Uri endpoint, string token, IReadOnlyList<AudioSource> sources,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(sources);
+        AudioSource[] selected = sources.ToArray();
+        if (selected.Length is < 1 or > 2 ||
+            selected.Any(source => source is not (AudioSource.Computer or AudioSource.Microphone)) ||
+            selected.Distinct().Count() != selected.Length)
+            throw new ArgumentException("Select computer audio, microphone audio, or both without duplicates.", nameof(sources));
+        Array.Sort(selected);
+        return ConnectCoreAsync(endpoint, token, selected, cancellationToken);
+    }
+
+    private async Task ConnectCoreAsync(Uri endpoint, string token, AudioSource[]? sources,
+        CancellationToken cancellationToken)
     {
         ValidateEndpoint(endpoint);
         if (string.IsNullOrWhiteSpace(token) || token.Length > 1024 ||
@@ -94,9 +120,18 @@ public sealed class TranscriptionSocket : IAsyncDisposable
         try
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
-            if (_used || _closed)
-                throw new InvalidOperationException("Create a new transport for each transcription session.");
-            _used = true;
+            lock (_queueLock)
+            {
+                if (_used || _closed || _stopRequested)
+                    throw new InvalidOperationException("Create a new transport for each transcription session.");
+                _used = true;
+                _connecting = true;
+                if (sources is not null)
+                {
+                    _protocolVersion = 2;
+                    _sources = sources;
+                }
+            }
             _socket.Options.SetRequestHeader("Authorization", "Bearer " + token);
             _socket.Options.KeepAliveInterval = TimeSpan.FromSeconds(10);
             _socket.Options.KeepAliveTimeout = TimeSpan.FromSeconds(10);
@@ -105,7 +140,12 @@ public sealed class TranscriptionSocket : IAsyncDisposable
             try
             {
                 await _socket.ConnectAsync(endpoint, _http, deadline.Token).ConfigureAwait(false);
-                await _socket.SendAsync(StartMessage.AsMemory(), WebSocketMessageType.Text, true, deadline.Token)
+                byte[] start = _protocolVersion == 1 ? StartMessage : JsonSerializer.SerializeToUtf8Bytes(new
+                {
+                    type = "start", protocolVersion = 2, sampleRate = SampleRate, channels = 1,
+                    encoding = "pcm_s16le", sources = _sources.Select(source => source.WireName()).ToArray()
+                });
+                await _socket.SendAsync(start.AsMemory(), WebSocketMessageType.Text, true, deadline.Token)
                     .ConfigureAwait(false);
                 _receiver = ReceiveAsync();
                 if (!await _ready.Task.WaitAsync(deadline.Token).ConfigureAwait(false))
@@ -113,7 +153,7 @@ public sealed class TranscriptionSocket : IAsyncDisposable
 
                 lock (_queueLock)
                 {
-                    if (_faulted != 0)
+                    if (_faulted != 0 || _stopRequested)
                         throw new InvalidOperationException("The local service disconnected during startup.");
                     _acceptAudio = true;
                 }
@@ -127,6 +167,11 @@ public sealed class TranscriptionSocket : IAsyncDisposable
                 throw new InvalidOperationException(
                     "Cannot start local transcription. Check the service, token, and installed model.");
             }
+            finally
+            {
+                lock (_queueLock)
+                    _connecting = false;
+            }
         }
         finally
         {
@@ -135,14 +180,16 @@ public sealed class TranscriptionSocket : IAsyncDisposable
     }
 
     /// <summary>Copies one PCM16 mono frame. A full queue faults the session; audio is never silently dropped.</summary>
-    public bool TryEnqueueAudio(ReadOnlySpan<byte> pcm)
+    public bool TryEnqueueAudio(ReadOnlySpan<byte> pcm) => TryEnqueueAudio(AudioSource.Computer, pcm);
+
+    public bool TryEnqueueAudio(AudioSource source, ReadOnlySpan<byte> pcm)
     {
         lock (_queueLock)
         {
             if (_closed || _disposed)
                 return false;
         }
-        if (pcm.Length == 0 || pcm.Length > MaximumFrameBytes || (pcm.Length & 1) != 0)
+        if (!_sources.Contains(source) || pcm.Length == 0 || pcm.Length > MaximumFrameBytes || (pcm.Length & 1) != 0)
         {
             Fail("Invalid PCM audio frame. Stop and restart local transcription.");
             return false;
@@ -153,30 +200,46 @@ public sealed class TranscriptionSocket : IAsyncDisposable
         {
             if (!_acceptAudio)
                 return false;
-            overflow = pcm.Length > MaximumPendingBytes - _pendingBytes;
+            int index = (int)source;
+            overflow = pcm.Length > MaximumPendingBytes - _pendingBySource[index] ||
+                pcm.Length > MaximumTotalPendingBytes - _pendingBytes;
             if (!overflow)
             {
-                byte[] copy = pcm.ToArray();
-                _pendingBytes += copy.Length;
-                if (_audio.Writer.TryWrite(copy))
+                int prefix = _protocolVersion == 2 ? 1 : 0;
+                byte[] copy = new byte[pcm.Length + prefix];
+                if (prefix != 0)
+                    copy[0] = (byte)source;
+                pcm.CopyTo(copy.AsSpan(prefix));
+                _pendingBytes += pcm.Length;
+                _pendingBySource[index] += pcm.Length;
+                if (_audio.Writer.TryWrite(new AudioFrame(source, copy, pcm.Length)))
                 {
-                    _submittedBytes += copy.Length;
+                    _submittedBySource[index] += pcm.Length;
                     return true;
                 }
-                _pendingBytes -= copy.Length;
+                _pendingBytes -= pcm.Length;
+                _pendingBySource[index] -= pcm.Length;
                 Array.Clear(copy);
                 overflow = true;
             }
         }
 
         if (overflow)
-            Fail("Local transcription cannot keep up with output audio. Session stopped; no audio was silently skipped.");
+            Fail("Local transcription cannot keep up with selected audio. Session stopped; no audio was silently skipped.");
         return false;
     }
 
     /// <summary>Drains queued PCM, sends stop, then receives final text and the stopped acknowledgement.</summary>
     public async Task StopAsync()
     {
+        bool cancelStartup;
+        lock (_queueLock)
+        {
+            _stopRequested = true;
+            cancelStartup = _connecting;
+        }
+        if (cancelStartup)
+            Fail("Local transcription startup was canceled.");
         await _lifecycle.WaitAsync().ConfigureAwait(false);
         try
         {
@@ -251,18 +314,16 @@ public sealed class TranscriptionSocket : IAsyncDisposable
     {
         try
         {
-            await foreach (byte[] frame in _audio.Reader.ReadAllAsync(_abort.Token).ConfigureAwait(false))
+            await foreach (AudioFrame frame in _audio.Reader.ReadAllAsync(_abort.Token).ConfigureAwait(false))
             {
                 try
                 {
-                    await _socket.SendAsync(frame.AsMemory(), WebSocketMessageType.Binary, true, _abort.Token)
+                    await _socket.SendAsync(frame.WireBytes.AsMemory(), WebSocketMessageType.Binary, true, _abort.Token)
                         .ConfigureAwait(false);
                 }
                 finally
                 {
-                    lock (_queueLock)
-                        _pendingBytes -= frame.Length;
-                    Array.Clear(frame);
+                    ReleaseFrame(frame);
                 }
             }
             Volatile.Write(ref _stopSent, 1);
@@ -345,6 +406,16 @@ public sealed class TranscriptionSocket : IAsyncDisposable
         }
         if (_hasReady == 0)
         {
+            if (_protocolVersion == 2)
+            {
+                RequireProperties(names, "type", "protocolVersion", "sampleRate", "channels", "encoding", "sources");
+                if (!message.GetProperty("protocolVersion").TryGetInt32(out int version) || version != 2 ||
+                    message.GetProperty("sources").ValueKind != JsonValueKind.Array ||
+                    !message.GetProperty("sources").EnumerateArray().Select(value =>
+                        value.ValueKind == JsonValueKind.String ? value.GetString() : null)
+                        .SequenceEqual(_sources.Select(source => source.WireName())))
+                    throw new JsonException();
+            }
             if (type != "ready" ||
                 !message.TryGetProperty("sampleRate", out var rate) || !rate.TryGetInt32(out int hz) || hz != SampleRate ||
                 !message.TryGetProperty("channels", out var channels) || !channels.TryGetInt32(out int count) || count != 1 ||
@@ -357,12 +428,15 @@ public sealed class TranscriptionSocket : IAsyncDisposable
         switch (type)
         {
             case "partial":
-                RequireProperties(names, "type", "text");
+                RequireTranscriptProperties(names, "type", "text");
+                AudioSource partialSource = RequiredSource(message);
                 string partial = RequiredString(message, "text", 16384);
-                TranscriptReceived?.Invoke(new TranscriptEvent(type, partial));
+                TranscriptReceived?.Invoke(new TranscriptEvent(type, partial,
+                    Source: _protocolVersion == 2 ? partialSource : null));
                 return false;
             case "final":
-                RequireProperties(names, "type", "text", "segmentId", "startSeconds", "endSeconds");
+                RequireTranscriptProperties(names, "type", "text", "segmentId", "startSeconds", "endSeconds");
+                AudioSource source = RequiredSource(message);
                 string text = RequiredString(message, "text", 16384);
                 if (!message.TryGetProperty("segmentId", out var id) || !id.TryGetInt32(out int segmentId) ||
                     segmentId <= _lastSegmentId)
@@ -371,15 +445,21 @@ public sealed class TranscriptionSocket : IAsyncDisposable
                 double end = RequiredSeconds(message, "endSeconds");
                 long submittedBytes;
                 lock (_queueLock)
-                    submittedBytes = _submittedBytes;
-                if (end < start || end > (double)submittedBytes / BytesPerSecond + 1)
+                    submittedBytes = _submittedBySource[(int)source];
+                if (end < start || end > (double)submittedBytes / BytesPerSecond + 1 ||
+                    (_protocolVersion == 2 && start < _lastEndBySource[(int)source]))
                     throw new JsonException();
                 _lastSegmentId = segmentId;
-                TranscriptReceived?.Invoke(new TranscriptEvent(type, text, segmentId, start, end));
+                _lastEndBySource[(int)source] = end;
+                if (Volatile.Read(ref _stopSent) != 0)
+                    _stopFinalBySource[(int)source] = true;
+                TranscriptReceived?.Invoke(new TranscriptEvent(type, text, segmentId, start, end,
+                    _protocolVersion == 2 ? source : null));
                 return false;
             case "stopped":
                 RequireProperties(names, "type");
-                if (Volatile.Read(ref _stopSent) == 0)
+                if (Volatile.Read(ref _stopSent) == 0 ||
+                    (_protocolVersion == 2 && _sources.Any(source => !_stopFinalBySource[(int)source])))
                     throw new JsonException();
                 _stopped.TrySetResult(true);
                 return true;
@@ -387,6 +467,20 @@ public sealed class TranscriptionSocket : IAsyncDisposable
                 throw new JsonException();
         }
     }
+
+    private AudioSource RequiredSource(JsonElement message)
+    {
+        if (_protocolVersion == 1)
+            return AudioSource.Computer;
+        string name = RequiredString(message, "source", 32);
+        foreach (AudioSource source in _sources)
+            if (source.WireName() == name)
+                return source;
+        throw new JsonException();
+    }
+
+    private void RequireTranscriptProperties(HashSet<string> names, params string[] properties) =>
+        RequireProperties(names, _protocolVersion == 2 ? [.. properties, "source"] : properties);
 
     private static string RequiredString(JsonElement message, string name, int maximumLength)
     {
@@ -442,11 +536,19 @@ public sealed class TranscriptionSocket : IAsyncDisposable
 
     private void ClearQueuedAudio()
     {
-        while (_audio.Reader.TryRead(out byte[]? frame))
-        {
-            lock (_queueLock)
-                _pendingBytes -= frame.Length;
-            Array.Clear(frame);
-        }
+        while (_audio.Reader.TryRead(out AudioFrame? frame))
+            ReleaseFrame(frame);
     }
+
+    private void ReleaseFrame(AudioFrame frame)
+    {
+        lock (_queueLock)
+        {
+            _pendingBytes -= frame.PcmLength;
+            _pendingBySource[(int)frame.Source] -= frame.PcmLength;
+        }
+        Array.Clear(frame.WireBytes);
+    }
+
+    private sealed record AudioFrame(AudioSource Source, byte[] WireBytes, int PcmLength);
 }

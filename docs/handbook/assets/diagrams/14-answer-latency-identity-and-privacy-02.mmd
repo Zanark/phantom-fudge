@@ -1,0 +1,39 @@
+---
+config:
+  theme: base
+  themeVariables:
+    lineColor: "#8b949e"
+    textColor: "#e6edf3"
+---
+flowchart TB
+    accTitle: PLANNED identity and selected-text boundaries
+    accDescr: Explicit setup may open the broker; Ask uses silent credentials and sends selected text only to the approved model.
+    subgraph App["PLANNED desktop"]
+        Setup["Explicit Connect"]
+        Ask["Ask snapshot"] --> Silent["Silent credential"]
+        Silent --> Need["Sign-in required"]
+        Silent --> Provider["C# provider"]
+        Audio["Local audio and ASR"]
+    end
+    subgraph Identity["External identity surface"]
+        WAM["WAM and Entra"]
+    end
+    subgraph Azure["PLANNED model resource"]
+        RBAC["Inference RBAC"] --> Model["Approved deployment"]
+    end
+    Setup -. deliberate setup .-> WAM
+    WAM -. broker credential .-> Silent
+    Provider -. selected text and token .-> RBAC
+    style Setup fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Ask fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Silent fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Need fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Provider fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Audio fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style WAM fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style RBAC fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Model fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style App fill:#161b22,stroke:#30363d,color:#e6edf3
+    style Identity fill:#161b22,stroke:#30363d,color:#e6edf3,stroke-dasharray:5 5
+    style Azure fill:#161b22,stroke:#30363d,color:#e6edf3,stroke-dasharray:5 5
+    linkStyle default stroke:#8b949e

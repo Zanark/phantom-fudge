@@ -1,0 +1,19 @@
+{
+  "name": "phantom-fudge-handbook-tools",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local-only handbook, Mermaid SVG and print rendering",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "node build.mjs --check"
+  },
+  "dependencies": {
+    "markdown-it": "15.0.2",
+    "mermaid": "12.0.0",
+    "puppeteer-core": "25.12.0"
+  }
+}

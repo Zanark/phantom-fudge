@@ -1,0 +1,21 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","signalColor":"#8b949e","signalTextColor":"#e6edf3","noteBkgColor":"#161b22","noteBorderColor":"#30363d","noteTextColor":"#e6edf3"}}
+---
+sequenceDiagram
+    accTitle: Explicit note replacement
+    accDescr: The UI saves a text snapshot through two fingerprint checks and a same-directory staged rename.
+    autonumber
+    participant UI as MainWindow
+    participant Store as NoteFileStore
+    participant Disk as Filesystem
+    UI->>UI: Set fileBusy and snapshot text
+    UI->>Store: WriteAsync with expected fingerprint
+    Store->>Store: Strict UTF-8 and byte limit
+    Store->>Disk: Verify destination unchanged
+    Store->>Disk: Create unique temporary file
+    Store->>Disk: Write and flush to disk
+    Store->>Disk: Verify destination again
+    Store->>Disk: Move temporary file to destination
+    Store-->>UI: Saved snapshot and fingerprint
+    UI->>UI: Update saved baseline
+    Note over Store,Disk: Checks narrow but do not eliminate external races

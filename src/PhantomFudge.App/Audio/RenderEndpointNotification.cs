@@ -17,7 +17,7 @@ internal sealed class RenderEndpointNotification(string deviceId, Action disconn
     public void OnDeviceAdded(string addedId) { }
     public void OnPropertyValueChanged(string changedId, PropertyKey key) { }
 
-    // Default-device changes must never switch the explicitly selected render endpoint.
+    // Default-device changes must never switch the explicitly selected endpoint in either direction.
     public void OnDefaultDeviceChanged(DataFlow flow, Role role, string defaultDeviceId) { }
 
     private void Invalidate(string changedId)

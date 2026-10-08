@@ -1,0 +1,29 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","actorLineColor":"#8b949e","signalColor":"#8b949e","signalTextColor":"#e6edf3","noteBkgColor":"#161b22","noteBorderColor":"#30363d","noteTextColor":"#e6edf3"}}
+---
+sequenceDiagram
+    accTitle: Native cold start does not start capture
+    accDescr: The manager writes ownership before spawn and verifies readiness before the application can explicitly request recording.
+    autonumber
+    participant L as Launcher
+    participant M as Manager
+    participant R as Receipt
+    participant S as Python service
+    participant A as Native app
+    L->>M: start under lifecycle lock
+    M->>R: Write new instance UUID
+    M->>S: Spawn detached with explicit paths
+    S->>S: Verify and load model
+    M->>S: Authenticated runtime query
+    S-->>M: Instance, ready, speech versions
+    M->>R: Record reported PID
+    M-->>L: Ready, no audio started
+    L->>A: Launch with local configuration
+    A->>A: Wait for explicit Start
+    A->>S: Speech session
+    A->>S: Stop and drain
+    L->>M: Separate service stop
+    M->>S: Shutdown with matching instance
+    S-->>M: stopping
+    M->>M: Wait for listener to disappear
+    M->>R: Remove receipt

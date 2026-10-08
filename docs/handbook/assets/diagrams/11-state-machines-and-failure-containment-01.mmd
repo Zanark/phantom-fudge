@@ -1,0 +1,24 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Conceptual audio lifecycle
+    accDescr: Stopping includes drain and release, while an unresolved device owner blocks a new session even after running becomes false.
+    Idle["Idle and reusable"] -->|explicit Start| Starting["Starting"]
+    Starting -->|all inputs ready| Running["Running"]
+    Starting -->|Stop or cancel| Stopping["Stopping and draining"]
+    Running -->|Stop| Stopping
+    Starting -->|failure| Fault["First fault latched"]
+    Running -->|failure| Fault
+    Fault -->|abort and clean up| Stopping
+    Stopping -->|all ownership released| Idle
+    Stopping -->|driver still owns input| Held["Release pending"]
+    Held -->|late successful release| Idle
+    Stopping -->|release failed| Restart["Restart required"]
+    style Idle fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Starting fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Running fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Stopping fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Fault fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Held fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Restart fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

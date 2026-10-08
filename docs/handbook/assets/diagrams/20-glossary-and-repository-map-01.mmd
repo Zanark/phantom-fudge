@@ -1,0 +1,25 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Repository responsibility map
+    accDescr: Scripts launch the native app and managed service; the app uses Core and audio transport, while Python owns recognition.
+    Scripts["scripts"] --> App["App and WPF"]
+    Scripts --> Manager["manage.py"]
+    App --> Core["Core policies"]
+    App --> Native["Native window adapters"]
+    App --> Audio["Audio and socket"]
+    Audio --> Server["server.py"]
+    Manager --> Server
+    Server --> Recognizer["recognizer.py"]
+    Tests["tests"] -.-> Core
+    Tests -.-> Audio
+    style Scripts fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style App fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Manager fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Core fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Native fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Audio fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Server fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Recognizer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Tests fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

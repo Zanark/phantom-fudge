@@ -1,0 +1,30 @@
+# Phantom Fudge documentation
+
+**Start with the [Engineering Handbook](handbook/README.md).** It is the long-form, source-linked
+explanation of the product, implementation, evidence, operational procedures and planned evolution.
+The [development journal](../JOURNAL.md) tells the chronological story, including corrections.
+
+| Need | Read |
+| --- | --- |
+| Read the illustrated book | [Offline HTML](handbook/Phantom-Fudge-Engineering-Handbook.html) or [printable PDF](handbook/Phantom-Fudge-Engineering-Handbook.pdf) |
+| Understand the system quickly | [Principal engineer's guide](handbook/01-principal-engineer-guide.md) |
+| Learn the prerequisites | [Zero to hero](handbook/02-zero-to-hero.md) |
+| Run the current preview | [Preview guide](PREVIEW-GUIDE.md), [service operations](../services/transcription/README.md) |
+| Separate implemented from planned | [Current evidence](IMPLEMENTATION-STATUS.md), [roadmap](handbook/21-evidence-and-roadmap.md) |
+| Understand two audio sources | [Frozen v2 contract](DUAL-SOURCE-AUDIO.md), [audio chapter](handbook/07-dual-input-capture.md) |
+| Design the future Azure answer feature | [Architecture](AI-ANSWER-ARCHITECTURE.md), [research](AI-ANSWER-RESEARCH.md), [evaluation](AI-ANSWER-EVALUATION.md), [privacy](AI-ANSWER-PRIVACY.md) |
+| Choose the next implementation task | [TODO index](../TODO/00_INDEX.todo), [delivery workflow](DEVELOPMENT-WORKFLOW.md) |
+| Change the docs or regenerate images | [Maintenance contract](DOCUMENTATION-MAINTENANCE.md), [book tooling](../tools/Docs/README.md) |
+
+The app is a **local, unqualified Windows preview**, not a universally invisible application.
+The current native Python service does not need Docker. Azure Ask is designed, not implemented.
+Handbook UI images are actual WPF visual-tree renders with **synthetic content and device labels**,
+not desktop screenshots and not evidence of screen-sharing exclusion.
+
+## Which document is authoritative?
+
+Source code establishes current behavior; dated receipts establish what was actually exercised.
+The protocol document establishes the current transport contract. Product/design documents explain
+intent and must label unimplemented portions. The TODO index owns work status. The journal records
+why decisions changed without rewriting history. The handbook connects those sources for readers;
+it does not replace them.

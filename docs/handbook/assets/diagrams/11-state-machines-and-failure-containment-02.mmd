@@ -1,0 +1,26 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","signalColor":"#8b949e","signalTextColor":"#e6edf3","noteBkgColor":"#161b22","noteBorderColor":"#30363d","noteTextColor":"#e6edf3"}}
+---
+sequenceDiagram
+    accTitle: Graceful stop and final drain
+    accDescr: UI stopping remains true while input workers release and the transport receives source finals and stopped acknowledgement.
+    autonumber
+    participant UI as MainWindow
+    participant Audio as LoopbackTranscriber
+    participant Inputs as Input workers
+    participant Socket as TranscriptionSocket
+    participant Peer as Local recognizer
+    UI->>UI: Set audioStopping
+    UI->>Audio: StopAsync
+    Audio->>Audio: RequestStop sets Running false
+    Audio->>Inputs: Stop and release selected inputs
+    Inputs-->>Audio: RecordingStopped and disposal complete
+    Audio->>Socket: DisposeAsync invokes StopAsync
+    Socket->>Socket: Close admission and drain queued PCM
+    Socket->>Peer: Send stop after PCM
+    Peer-->>Socket: Final for each selected source
+    Socket-->>UI: Forward final events through dispatcher
+    Peer-->>Socket: stopped
+    Socket-->>Audio: Receiver and transport cleanup complete
+    Audio-->>UI: Stop task completes
+    UI->>UI: Clear audioStopping and reset meters

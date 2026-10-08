@@ -1,0 +1,25 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","signalColor":"#8b949e","signalTextColor":"#e6edf3","noteBkgColor":"#161b22","noteBorderColor":"#30363d","noteTextColor":"#e6edf3"}}
+---
+sequenceDiagram
+    accTitle: Configure before showing
+    accDescr: Startup obtains an HWND, configures affinity, and shows only after configuration succeeds.
+    autonumber
+    participant App
+    participant Window as MainWindow
+    participant Policy as WindowProtection
+    participant OS as Windows
+    App->>Window: ShowProtected
+    Window->>Policy: Configure with presentation mode
+    Policy->>OS: EnsureHandle and check composition
+    Policy->>OS: Set styles and refresh frame
+    Policy->>OS: Set affinity to 0x11
+    Policy->>OS: Read affinity and flush composition
+    alt configuration succeeds
+        Policy-->>Window: ProtectionResult
+        Window->>Window: Attach hook and recovery shortcuts
+        Window->>OS: Show
+    else configuration throws
+        Policy-->>App: Startup exception propagates
+        App->>App: Generic notice and nonzero shutdown
+    end

@@ -4,6 +4,12 @@
 October 8. See IMPLEMENTATION-STATUS.md for actual code/evidence versus unfinished release goals.
 Source IDs below resolve in [FEASIBILITY.md](FEASIBILITY.md).
 
+The15:05 request adds a **planned, not implemented** explicit question-to-Azure-answer extension.
+Read [AI-ANSWER-ARCHITECTURE.md](AI-ANSWER-ARCHITECTURE.md) for the complete researched design.
+Current local-only ASR/runtime behavior remains unchanged. The proposal sends only selected frozen
+text on Ask, keeps audio local by default, streams to the same HWND and leaves Docker optional/last.
+The source registry for this extension is AI-ANSWER-RESEARCH.md, not the older capture-feasibility IDs.
+
 ## Why this shape
 
 Use an ordinary, process-owned, top-level HWND with quiet tool-window behavior. Windows
@@ -20,6 +26,11 @@ C# owns the GUI/WASAPI capture and streams PCM to literal loopback; Python owns 
 Docker is an optional final-stage package of that service, never a native operation dependency.
 No cloud service, browser renderer, remote content or telemetry is needed. Single-instance recovery
 remains narrowly bounded per-user IPC. See TRANSCRIPTION.md.
+
+October8 14:01 adds explicitly selected microphone dictation alongside Computer output. The client
+sends independent source-tagged PCM tracks in one v2 WebSocket; Python owns a decoder per source.
+No mixing, chat scraping, speaker identification, automatic input fallback or cloud ASR is introduced.
+Source labels/partial state are preserved separately; see DUAL-SOURCE-AUDIO.md for the versioned contract.
 
 ## Components and responsibilities
 

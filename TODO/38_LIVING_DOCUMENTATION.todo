@@ -1,0 +1,51 @@
+# Living Engineering Handbook and Public Journal
+
+Status: DONE
+Milestone: D1 Initial illustrated edition, then continuous feature maintenance
+Dependencies: None; implemented source and prior research are reference inputs, not release gates
+
+## Purpose
+
+Deliver the requested book-depth documentation, original diagrams, actual synthetic UI images and
+public development journey, with an enforceable source-freshness workflow for future changes.
+
+## Tasks
+
+- [x] Study the owner's reference documentation read-only; adopt depth, not copied prose or assets.
+- [x] Create the ordered22-chapter catalogue, first-principles onboarding and source-grounded chapters.
+- [x] Author the public root JOURNAL with dated decisions, corrections, observations and limits.
+- [x] Generate nine actual-WPF synthetic visual-tree images with source/image provenance.
+- [x] Build a local Mermaid/Markdown/installed-browser pipeline; no hosted rendering or browser download.
+- [x] Add maintenance rules to repository, feature/release workflows and definition of done.
+- [x] Render and review all diagrams, offline HTML and printable PDF; fix actual content/layout issues.
+- [x] Confirm full edition freshness, public links/citations and byte-identical script twins.
+- [x] Record actual edition metrics and artifact receipt, preserving outstanding application qualification.
+
+## Acceptance criteria
+
+- [x] All22chapters plus public journal are included, with implemented/planned/unknown labels.
+- [x] Every chapter has source references, at least two diagrams and useful substantive exposition.
+- [x] Every UI illustration is synthetic, labelled and linked to exact UI-source/image hashes.
+- [x] HTML/PDF are locally generated and reviewed; the full edition passes freshness checks.
+- [x] Later behavior/UI changes require corresponding docs/diagram/image/journal updates.
+- [x] No real audio, chats, notes, credentials, desktop capture or cloud upload is used.
+- [x] Azure Ask remains planned; Docker remains optional and last; no preview release is implied.
+
+## Completion evidence
+
+- Source order/catalogue: docs\handbook\book.json and catalogue.json.
+- Screenshot provenance: docs\handbook\assets\screenshots\manifest.json.
+- Generated edition evidence: docs\handbook\manifest.json, with exact source/output hashes and counts.
+- Delivered22chapters + journal, approximately37000words,47diagrams,9synthetic UI PNGs and183PDF pages.
+- Ten Node parser/path/catalogue tests passed. All80catalogue source ranges were checked.
+- Local PDF contact sheets and representative full pages reviewed; diagram/cover text is at least6pt.
+- Reader widths1440/768/390 have no horizontal overflow; all print images/anchors resolve.
+- App documentation fixture passed without recording; ps1/txt twins match. No new preview ZIP.
+- Maintenance contract: docs\DOCUMENTATION-MAINTENANCE.md and WORKFLOWS\06_LIVING_DOCUMENTATION.todo.
+
+## Completion log
+
+- 2026-10-08 - Owner requested book-level illustrated documentation and a proper journey journal.
+  Completed local HTML/PDF edition, public JOURNAL, provenance and continuous maintenance workflow.
+  Increased diagram print size, wrapped sequence labels and repaired narrow-screen source-path overflow.
+  No publication or application qualification claimed; future maintenance continues through workflow06.
