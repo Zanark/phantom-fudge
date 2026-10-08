@@ -87,10 +87,14 @@ Use synthetic PCM for dual-source integration. Playback testing requires explici
 
 ## Local question boundaries
 
-- The current Ask action freezes a local snapshot only; no provider or outbound request is connected.
+- Snapshot-only mode never sends. Explicit installed-provider setup39 may enable Copilot cloud or
+  loopback local-model answers; no automatic selection, fallback, login or provider installation.
 - Preserve GUID-stamped capture callbacks, structured source identity and exact displayed-text snapshots.
   Never parse display labels or automatically add unselected segments/notes/chat context.
 - Question typing has an independent focus transition; do not route it through global Notes Edit,
   which stops audio. Both remain protected by the same window policy, with deliberate typing focus.
 - Accurate armed-Mic spans require29commit. SourceRefs are local provenance; a future Azure request
   must use ExactText, not serialize the entire snapshot and its original selected text.
+- Copilot CLI is not synonymous with offline inference. Keep dedicated configuration/instructions/
+  tool isolation and CLI-local/cloud retention boundaries explicit. Genuine local mode requires a
+  separately installed loopback model and no cloud fallback; Azure remains a future optional adapter.

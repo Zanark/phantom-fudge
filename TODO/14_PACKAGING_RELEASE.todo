@@ -2,7 +2,7 @@
 
 Status: IN_PROGRESS
 Milestone: M4 Candidate packaging
-Dependencies: 08_LOCAL_STORAGE.todo, 09_HOTKEYS_RECOVERY.todo, 10_PRESENTATION_MODE.todo, 11_DPI_ACCESSIBILITY.todo, 12_DIAGNOSTICS_TESTING.todo, 19_LIVE_TRANSCRIPTION.todo, 21_BACKGROUND_TRANSLUCENCY.todo, 22_NATIVE_PYTHON_RUNTIME.todo, 24_CURSOR_AND_FOCUS.todo, 25_TRANSCRIPT_FIRST_THEMES.todo, 26_MICROPHONE_AND_COMPUTER.todo, 31_STREAMING_ANSWER_CLIENT.todo, 32_ANSWER_UI_LIFECYCLE.todo, 34_ANSWER_PRIVACY_RESILIENCE.todo
+Dependencies: 08_LOCAL_STORAGE.todo, 09_HOTKEYS_RECOVERY.todo, 10_PRESENTATION_MODE.todo, 11_DPI_ACCESSIBILITY.todo, 12_DIAGNOSTICS_TESTING.todo, 19_LIVE_TRANSCRIPTION.todo, 21_BACKGROUND_TRANSLUCENCY.todo, 22_NATIVE_PYTHON_RUNTIME.todo, 24_CURSOR_AND_FOCUS.todo, 25_TRANSCRIPT_FIRST_THEMES.todo, 26_MICROPHONE_AND_COMPUTER.todo, 39_INSTALLED_CLI_ANSWERS.todo, 32_ANSWER_UI_LIFECYCLE.todo, 34_ANSWER_PRIVACY_RESILIENCE.todo
 
 ## Purpose
 
@@ -30,6 +30,11 @@ Produce the exact installable/runnable candidate that final qualification will t
 - [ ] This task creates a candidate only; it does not imply capture qualification or public release.
 
 ## Completion evidence
+
+- Latest installed-Agency answer preview235421:76,252,854bytes/489files, SHA256
+  88D98E7CAFA56B067A521571778D0F661A879DDCBF5EBBE9D412987D2BFA5A69.
+  Exact-package synthetic answer/UI checks pass with no model/audio calls; native profiles/logs/
+  token/model files remain excluded. Includes Initialize-Answers script and ANSWER-PROVIDERS guide.
 
 - Latest local-only question preview183107:76,205,175bytes/486files, SHA256
   C5062B6B94F3ABC63901960F1572F1A9141EA128C2CA513E6D26C4C5C3FAB27A.

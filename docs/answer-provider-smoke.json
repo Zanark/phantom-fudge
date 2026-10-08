@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-08",
+  "provider": "installed Agency",
+  "prompt": "Reply with exactly PHANTOM_OK and no other text.",
+  "expectedOutput": "PHANTOM_OK",
+  "outputMatchedAfterTrimming": true,
+  "exitCode": 0,
+  "durationSeconds": 69.8812573000032,
+  "observedModel": "claude-sonnet-5",
+  "modelCallCount": 1,
+  "modelToolCount": 0,
+  "assistantToolRequestCount": 0,
+  "builtinMcpStatuses": {
+    "github-mcp-server": "disabled",
+    "githubiq": "disabled"
+  },
+  "newLoginFlowObserved": false,
+  "syntheticOnly": true,
+  "limitations": [
+    "One authorized smoke request, not a latency or answer-quality benchmark.",
+    "Agency uses a remote model service and its own authentication; this is not offline inference.",
+    "No claim that future wrapper versions or expired credentials cannot require authentication.",
+    "No actual local model was installed or exercised; local-mode evidence uses a synthetic loopback API.",
+    "Earlier direct-Copilot smoke failed the customization/tool gate and was not retried."
+  ]
+}

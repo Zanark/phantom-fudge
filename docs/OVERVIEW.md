@@ -19,7 +19,7 @@ to choose a detailed guide.
 | --- | --- | --- |
 | Computer / Mic / Both | Explicitly chosen inputs, separate labelled tracks, no recording before Start | [Dual-source audio](DUAL-SOURCE-AUDIO.md) |
 | Live transcript and notes | Transcript-first interface with optional plain-text notes and explicit save/export | [Preview guide](PREVIEW-GUIDE.md) |
-| Local questions | Select intended segments or type/edit; Ask freezes exact text locally and sends nothing | [Question composer](LOCAL-QUESTIONS.md) |
+| Questions and answers | Select/compose exact text; freeze locally or Ask an explicitly configured provider | [Question composer](LOCAL-QUESTIONS.md), [provider setup](ANSWER-PROVIDERS.md) |
 | Appearance | DeepSeaFoam, Harbor Daylight and Plain B/W; adjustable background-only translucency | [Themes and cursor behavior](CURSOR-AND-THEMES.md) |
 | Recovery | Hide/reveal shortcut and second-launch recovery without an ordinary taskbar entry | [Controls and recovery](PREVIEW-GUIDE.md) |
 | Recognition | Native C# capture/UI with local Python/Vosk, not a mandatory Docker deployment | [Speech service](../services/transcription/README.md) |
@@ -124,9 +124,9 @@ palette. The theme values and two-theme transition are explicit in `ThemePalette
 The default Present view is non-activating and uses an arrow cursor. Global Edit enables note
 typing and stops transcription. Question **Type / edit** is deliberately separate: it permits
 keyboard focus without stopping audio or enabling note editing. Done typing/Escape returns to
-passive interaction (`src/PhantomFudge.App/MainWindow.Questions.cs:141-180`).
+passive interaction (`src/PhantomFudge.App/MainWindow.Questions.cs:143-182`).
 
-## Local questions, future Azure answers
+## Local questions, selectable providers and future Azure
 
 ```mermaid
 ---
@@ -140,22 +140,24 @@ config:
 ---
 flowchart LR
     accTitle: Local question state and the unconnected Azure boundary
-    accDescr: Explicit selection or typing creates a local draft. Ask freezes exact text. The future Azure answer connection remains unimplemented.
+    accDescr: Selection or typing creates a draft. Explicit Ask freezes exact text and uses the selected installed provider; direct Azure remains future work.
     Selected["Selected segments"] --> Draft["Editable local draft"]
     Typed["Typed question"] --> Draft
     Draft --> Ask["Explicit Ask"]
     Ask --> Snapshot["Immutable local snapshot"]
-    Snapshot -. "not connected" .-> Azure["PLANNED Azure answers"]
+    Snapshot --> Provider["Configured Copilot or local model"]
+    Snapshot -. "future adapter" .-> Azure["PLANNED direct Azure"]
 ```
 
 Only intended segments enter the draft. Manual edits prevent later ASR from overwriting its text;
 `Freeze` validates and copies the exact local question
 (`src/PhantomFudge.Core/QuestionDraft.cs:48-95`). The current Ask handler displays that snapshot
-and explicitly reports that **no request was sent**
-(`src/PhantomFudge.App/MainWindow.Questions.cs:228-242`).
+or sends only its exact question through an explicitly configured provider
+(`src/PhantomFudge.App/MainWindow.Questions.cs:231-250`).
 
-Accurate armed-Mic finalization, approved Azure identity/profile and real streamed answers remain
-separate TODOs. Read the [implemented local workflow](LOCAL-QUESTIONS.md), then the
+Accurate armed-Mic finalization and approved direct Azure identity/provider integration remain
+separate TODOs. Copilot CLI runs on the machine but normally uses GitHub cloud inference; offline
+inference requires a separately installed local model endpoint. See [provider setup](ANSWER-PROVIDERS.md). Read the [implemented local workflow](LOCAL-QUESTIONS.md), then the
 [remaining Azure architecture](AI-ANSWER-ARCHITECTURE.md), [identity/data boundaries](AI-ANSWER-PRIVACY.md)
 and [latency evaluation plan](AI-ANSWER-EVALUATION.md). No model is claimed fastest without measurement.
 

@@ -10,7 +10,7 @@ outline: deep
 
 Many dangerous misunderstandings are substitutions between nearly related words: *source* becomes *speaker*, *configured* becomes *qualified*, or *stopped* becomes *fully drained*. This chapter makes those substitutions visible. A term is useful when it identifies an owner, a unit, or a completion condition—not merely when it expands an acronym.
 
-For example, `AudioSource` names Computer and Microphone, while `Session.RequestStop` clears Running before cleanup finishes. The current local Ask freezes an immutable question but sends nothing; source-specific commit and actual Azure submission are still proposed operations. (src\PhantomFudge.Core\AudioSource.cs:3-30; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:508-522; src\PhantomFudge.Core\QuestionDraft.cs:90-95; docs\AI-ANSWER-ARCHITECTURE.md:264-309)
+For example, `AudioSource` names Computer and Microphone, while `Session.RequestStop` clears Running before cleanup finishes. The current local Ask freezes an immutable question but sends nothing; source-specific commit and actual Azure submission are still proposed operations. (src\PhantomFudge.Core\AudioSource.cs:3-30; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:508-522; src\PhantomFudge.Core\QuestionDraft.cs:90-95; docs\AI-ANSWER-ARCHITECTURE.md:320-365)
 
 Use this chapter as a junction rather than a replacement for the detailed chapters. Start with a question, locate the responsible boundary, then follow the cited function. Source establishes implementation; a test establishes its asserted conditions; qualification requires separate environmental evidence. (docs\QUALIFICATION.md:9-26)
 
@@ -46,18 +46,18 @@ flowchart TB
     style Tests fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
 ```
 
-This is an ownership map, not a claim that the manager processes PCM. `Run-PhantomFudge.ps1` starts the service unless NotesOnly is selected, then launches the app with a local endpoint; audio still requires `Start_Click`. (scripts\Run-PhantomFudge.ps1:39-55; src\PhantomFudge.App\MainWindow.xaml.cs:606-645)
+This is an ownership map, not a claim that the manager processes PCM. `Run-PhantomFudge.ps1` starts the service unless NotesOnly is selected, then launches the app with a local endpoint; audio still requires `Start_Click`. (scripts\Run-PhantomFudge.ps1:39-55; src\PhantomFudge.App\MainWindow.xaml.cs:613-652)
 
 | Repository area | Open this first; why |
 | --- | --- |
-| `src\PhantomFudge.App` | [App entry](../../src/PhantomFudge.App/App.xaml.cs), then `MainWindow`: startup, recovery, UI orchestration. `OnStartup` explicitly calls protected reveal. (src\PhantomFudge.App\App.xaml.cs:39-59) |
+| `src\PhantomFudge.App` | [App entry](../../src/PhantomFudge.App/App.xaml.cs), then `MainWindow`: startup, recovery, UI orchestration. `OnStartup` explicitly calls protected reveal. (src\PhantomFudge.App\App.xaml.cs:62-83) |
 | `src\PhantomFudge.Core` | [TranscriptBuffer](../../src/PhantomFudge.Core/TranscriptBuffer.cs) and [NoteFileStore](../../src/PhantomFudge.Core/NoteFileStore.cs): text/encoding policies without WPF controls. (src\PhantomFudge.Core\TranscriptBuffer.cs:6-39; src\PhantomFudge.Core\NoteFileStore.cs:10-44) |
 | `services\transcription` | [server.py](../../services/transcription/server.py) owns protocol; [recognizer.py](../../services/transcription/recognizer.py) owns Vosk adaptation; [manage.py](../../services/transcription/manage.py) owns authenticated lifecycle. (services\transcription\server.py:435-451; services\transcription\recognizer.py:41-96; services\transcription\manage.py:112-144) |
 | `scripts` | [Run-PhantomFudge.ps1](../../scripts/Run-PhantomFudge.ps1): source/package launch and existing-window recovery, not automatic recording. (scripts\Run-PhantomFudge.ps1:9-41) |
 | `tests` | [Core file tests](../../tests/PhantomFudge.Core.Tests/NoteFileStoreTests.cs) and [native harness](../../tests/PhantomFudge.Audio.Tests/Program.cs): deterministic policies and synthetic protocol checks. (tests\PhantomFudge.Core.Tests\NoteFileStoreTests.cs:13-109; tests\PhantomFudge.Audio.Tests\Program.cs:26-75) |
 | `spikes` and `tools` | [CaptureProof project](../../spikes/CaptureProof/CaptureProof.csproj) links diagnostic code; [SpeechBench](../../tools/SpeechBench/bench.py) and [DualSourceProbe](../../tools/DualSourceProbe/probe.py) serve separate experiments. (spikes\CaptureProof\CaptureProof.csproj:9-12; tools\SpeechBench\bench.py:1-25; tools\DualSourceProbe\probe.py:18-33) |
-| `docs` and `TODO` | [Qualification](../QUALIFICATION.md) defines evidence; [TODO index](../../TODO/00_INDEX.todo) records dependencies and status, not executable behavior. (docs\QUALIFICATION.md:141-167; TODO\00_INDEX.todo:38-47) |
-| Repository root | [Solution](../../PhantomFudge.slnx) lists projects; [global.json](../../global.json) pins SDK policy. [Compose](../../compose.yaml) is optional, last-stage packaging—not a native prerequisite. (PhantomFudge.slnx:1-13; global.json:2-6; docs\IMPLEMENTATION-STATUS.md:54-57) |
+| `docs` and `TODO` | [Qualification](../QUALIFICATION.md) defines evidence; [TODO index](../../TODO/00_INDEX.todo) records dependencies and status, not executable behavior. (docs\QUALIFICATION.md:142-168; TODO\00_INDEX.todo:40-49) |
+| Repository root | [Solution](../../PhantomFudge.slnx) lists projects; [global.json](../../global.json) pins SDK policy. [Compose](../../compose.yaml) is optional, last-stage packaging—not a native prerequisite. (PhantomFudge.slnx:1-13; global.json:2-6; docs\IMPLEMENTATION-STATUS.md:76-79) |
 
 ## Navigation by question
 
@@ -115,8 +115,8 @@ This is an ownership map, not a claim that the manager processes PCM. `Run-Phant
 | **Segment ID** | Session-global ordering across sources, not a durable cross-session identifier. `publish` increments one counter; `BeginSession` resets the UI baseline. (services\transcription\server.py:301-311; src\PhantomFudge.Core\TranscriptBuffer.cs:35-38) |
 | **Audio-relative timestamp** | Position in a source's audio timeline, not wall-clock meeting time. `publish` checks bounds against that source's received PCM duration. (services\transcription\server.py:289-311) |
 | **Session reset** | `BeginSession` retains earlier history and marks unfinished text before resetting IDs/partials. It is not `Clear`. (src\PhantomFudge.Core\TranscriptBuffer.cs:23-39,79-85) |
-| **Export** | Explicit file persistence of a text snapshot, including labelled unfinished recognition. `ExportTranscriptAsync` writes text, not raw audio. (src\PhantomFudge.App\MainWindow.xaml.cs:758-793; src\PhantomFudge.Core\TranscriptBuffer.cs:75-77) |
-| **Dirty** | Current text differs from the last successful save/export baseline. It does not mean the disk file was checked recently. (src\PhantomFudge.App\MainWindow.xaml.cs:272-273,389-403) |
+| **Export** | Explicit file persistence of a text snapshot, including labelled unfinished recognition. `ExportTranscriptAsync` writes text, not raw audio. (src\PhantomFudge.App\MainWindow.xaml.cs:765-800; src\PhantomFudge.Core\TranscriptBuffer.cs:75-77) |
+| **Dirty** | Current text differs from the last successful save/export baseline. It does not mean the disk file was checked recently. (src\PhantomFudge.App\MainWindow.xaml.cs:276-277,396-410) |
 | **UTF-8 byte cap** | `Fits` permits at most 1 MiB encoded bytes; character count alone is insufficient for multibyte Unicode. (src\PhantomFudge.Core\NoteFileStore.cs:12-24) |
 | **BOM** | Optional three-byte UTF-8 signature, preserved in `NoteSnapshot` and included in the byte budget—not visible document text. (src\PhantomFudge.Core\NoteFileStore.cs:19-19,41-44,56-58) |
 | **Fingerprint** | SHA-256 of file bytes used by `VerifyUnchangedAsync` for optimistic conflict detection, not encryption or a tamper-proof vault. (src\PhantomFudge.Core\NoteFileStore.cs:41-44,83-95) |
@@ -130,11 +130,11 @@ This is an ownership map, not a claim that the manager processes PCM. `Run-Phant
 | **Visual tree** | WPF's nested content/control structure. Inline setup and confirmation panels belong to `MainWindow`; an external dialog is a different boundary. (src\PhantomFudge.App\MainWindow.xaml:15-27,70-85,107-143) |
 | **DWM** | Desktop Window Manager composition, checked and flushed by `Configure`; a flush is not independent recipient observation. (src\PhantomFudge.App\Native\WindowProtection.cs:24-27,43-45) |
 | **Affinity** | Here, display affinity `0x11`: a Windows capture-exclusion request. It is unrelated to CPU affinity and not universal invisibility. (src\PhantomFudge.App\Native\WindowProtection.cs:16-45; docs\QUALIFICATION.md:9-26) |
-| **Opacity** | The root background brush's alpha, 10–100%; `BackgroundOpacity_ValueChanged` does not fade the whole window or glyphs. (src\PhantomFudge.App\MainWindow.xaml.cs:447-454,1004-1008) |
+| **Opacity** | The root background brush's alpha, 10–100%; `BackgroundOpacity_ValueChanged` does not fade the whole window or glyphs. (src\PhantomFudge.App\MainWindow.xaml.cs:454-461,1016-1020) |
 | **Taskbar presence** | Shell presentation controlled by `ShowInTaskbar` and tool-window styles, not proof of picker omission or hidden processes. (src\PhantomFudge.App\MainWindow.xaml:5-8; src\PhantomFudge.App\Native\WindowProtection.cs:29-31; docs\QUALIFICATION.md:13-18) |
-| **Focus** | Keyboard/foreground interaction state, distinct from visibility and cursor shape. `UpdateInteractionControls` changes focusability separately from content. (src\PhantomFudge.App\MainWindow.xaml.cs:248-262) |
-| **Present** | Default passive, read-only interaction mode; it neither starts capture automatically nor certifies the sharing configuration. (src\PhantomFudge.App\MainWindow.xaml.cs:31-34,248-262,606-645) |
-| **Edit** | Deliberate focusable editing. `TogglePresentationAsync` currently hides and stops transcription before switching—not a purely cosmetic toggle. (src\PhantomFudge.App\MainWindow.xaml.cs:226-245) |
+| **Focus** | Keyboard/foreground interaction state, distinct from visibility and cursor shape. `UpdateInteractionControls` changes focusability separately from content. (src\PhantomFudge.App\MainWindow.xaml.cs:252-266) |
+| **Present** | Default passive, read-only interaction mode; it neither starts capture automatically nor certifies the sharing configuration. (src\PhantomFudge.App\MainWindow.xaml.cs:31-34,252-266,613-652) |
+| **Edit** | Deliberate focusable editing. `TogglePresentationAsync` currently hides and stops transcription before switching—not a purely cosmetic toggle. (src\PhantomFudge.App\MainWindow.xaml.cs:229-249) |
 | **Arrow** | Standard local cursor shape set by `CursorPolicy`, not an instruction controlling a recorder's separate pointer stream. (src\PhantomFudge.App\Native\CursorPolicy.cs:8-24; docs\CURSOR-AND-THEMES.md:23-37) |
 | **Semantic theme** | Named color roles converted into WPF resources by `ThemeBrushes.Apply`; appearance changes do not constitute content or session replacement. (src\PhantomFudge.Core\ThemePalette.cs:5-28; src\PhantomFudge.App\ThemeBrushes.cs:9-40) |
 
@@ -142,12 +142,12 @@ This is an ownership map, not a claim that the manager processes PCM. `Run-Phant
 
 | Term | Meaning here |
 | --- | --- |
-| **Commit** | Planned source-scoped finalization through a negotiated watermark/acknowledgement—not current global Stop, and not a Git commit. (docs\AI-ANSWER-ARCHITECTURE.md:264-309) |
-| **Ask** | Current explicit local Freeze; no outbound provider is connected. Azure submission is future work, and v2 still has no Ask/commit control. (src\PhantomFudge.Core\QuestionDraft.cs:90-95; services\transcription\server.py:247-252) |
+| **Commit** | Planned source-scoped finalization through a negotiated watermark/acknowledgement—not current global Stop, and not a Git commit. (docs\AI-ANSWER-ARCHITECTURE.md:320-365) |
+| **Ask** | Explicitly freeze the exact draft; snapshot mode stays local, while configured Agency/local-model mode submits to that provider. Azure submission is future work, and v2 still has no Ask/commit control. (src\PhantomFudge.Core\QuestionDraft.cs:90-95; services\transcription\server.py:247-252) |
 | **QuestionSnapshot** | Implemented immutable exact question text/revision with copied local source provenance, provisional/edit flags and a monotonic creation timestamp. It is not proof of submission. (src\PhantomFudge.Core\QuestionSnapshot.cs:5-23) |
-| **Synthetic fixture** | Deliberately generated test content. `RunUiSmokeAsync` uses synthetic text/devices; visual-tree renders are not screen-sharing captures. (src\PhantomFudge.App\MainWindow.xaml.cs:845-886,1113-1126) |
+| **Synthetic fixture** | Deliberately generated test content. `RunUiSmokeAsync` uses synthetic text/devices; visual-tree renders are not screen-sharing captures. (src\PhantomFudge.App\MainWindow.xaml.cs:853-898,1126-1139) |
 | **Qualification** | Configuration-specific recipient/recording evidence with controls and explicit outcomes; neither build success nor API readback substitutes for it. (docs\QUALIFICATION.md:9-26,79-107) |
-| **Preview** | Implemented development software with open release gates, not “planned only” and not a universally supported release. (docs\IMPLEMENTATION-STATUS.md:1-3,149-158) |
+| **Preview** | Implemented development software with open release gates, not “planned only” and not a universally supported release. (docs\IMPLEMENTATION-STATUS.md:1-3,171-180) |
 
 ## Data flow: one worked boundary trace
 
@@ -188,18 +188,18 @@ sequenceDiagram
     UI->>Buffer: Retain history for export or next session
 ```
 
-The diagram shows a graceful path, not a guarantee after transport or device failure. Python's stop sentinel follows queued PCM; the client validates finals before terminal acknowledgement; the UI holds `audioStopping` until its awaited operation finishes. (services\transcription\server.py:247-252,317-333; src\PhantomFudge.App\Audio\TranscriptionSocket.cs:437-465; src\PhantomFudge.App\MainWindow.xaml.cs:702-729)
+The diagram shows a graceful path, not a guarantee after transport or device failure. Python's stop sentinel follows queued PCM; the client validates finals before terminal acknowledgement; the UI holds `audioStopping` until its awaited operation finishes. (services\transcription\server.py:247-252,317-333; src\PhantomFudge.App\Audio\TranscriptionSocket.cs:437-465; src\PhantomFudge.App\MainWindow.xaml.cs:709-736)
 
 ## Glossary pitfalls and review exercises
 
 **“Two streams means two speakers.”** No: independent source tracks prevent state mixing, not acoustic echo or multiple voices sharing one endpoint. Inspect source labels before inferring people. (docs\PRODUCT.md:81-92)
 
-**“Final means saved.”** No: final concerns recognizer state; export concerns filesystem persistence. The buffer can contain finals while `TranscriptDirty` remains true. (src\PhantomFudge.App\MainWindow.xaml.cs:272-273,758-785)
+**“Final means saved.”** No: final concerns recognizer state; export concerns filesystem persistence. The buffer can contain finals while `TranscriptDirty` remains true. (src\PhantomFudge.App\MainWindow.xaml.cs:276-277,765-792)
 
-**“Hidden means stopped and exited.”** No: Hide awaits Stop but retains the process and content; Exit separately evaluates unsaved work. (src\PhantomFudge.App\MainWindow.xaml.cs:214-223,275-305)
+**“Hidden means stopped and exited.”** No: Hide awaits Stop but retains the process and content; Exit separately evaluates unsaved work. (src\PhantomFudge.App\MainWindow.xaml.cs:216-226,279-312)
 
 **Exercise:** Is 100% background opacity stronger capture exclusion than 10%?  
-**Answer:** No. Brush alpha and native affinity are independent mechanisms. (src\PhantomFudge.App\MainWindow.xaml.cs:447-454; src\PhantomFudge.App\Native\WindowProtection.cs:35-45)
+**Answer:** No. Brush alpha and native affinity are independent mechanisms. (src\PhantomFudge.App\MainWindow.xaml.cs:454-461; src\PhantomFudge.App\Native\WindowProtection.cs:35-45)
 
 **Exercise:** Can an idle ready Python service contain several successive sessions?  
 **Answer:** Yes. Session admission is released after cleanup; service identity need not change. (services\transcription\server.py:364-386,403-408)

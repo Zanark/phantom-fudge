@@ -11,7 +11,7 @@ Deliver the actual qualified dictate/select/Ask/answer workflow, not merely a mo
 ## Tasks
 
 - [ ] Run the complete synthetic Service Fabric ELI5 journey on the exact packaged candidate.
-- [ ] Verify local-only capture, visible question snapshot, configured Azure destination and streamed result.
+- [ ] Verify local-only capture, visible question snapshot, explicitly selected provider destination and streamed result.
 - [ ] Confirm accepted latency/fidelity/answer-quality budgets and current model lifecycle.
 - [ ] Qualify answer-pane streaming/cancel/resize/theme/focus with the required sharing matrix.
 - [ ] Complete owner usability/accessibility, data-policy, license/signing and distribution approvals.
@@ -27,7 +27,8 @@ Deliver the actual qualified dictate/select/Ask/answer workflow, not merely a mo
 
 ## Completion evidence
 
-- None. The answer feature is currently researched/planned only.
+- Final release acceptance remains unexecuted. Installed-provider code and local preview39 exist;
+  one synthetic Agency model request is not user, recorder or performance qualification.
 
 ## Completion log
 

@@ -24,7 +24,8 @@ capture proof rather than assuming a window can be universally undetectable.
   The owner's remote cursor-disappearance report is not yet independently reproduced/qualified.
 - New15:05 request is DEEP RESEARCH/design for explicit dictated-question -> streamed Azure answer.
   Design27 and local draft/snapshot28 are complete;29-35 remain NOT_STARTED.36/37 are optional extensions.
-  Local Ask freezes only; no Azure resource, sign-in, model request, upload or cloud-answer UI exists.
+  Delivered28freezes locally; new39installed-provider work is in progress. The one approved direct
+  Copilot smoke failed; its sign-in was cancelled after user rejected org access. Agency is now primary.
 
 ## Next action
 
@@ -32,8 +33,9 @@ Use docs\PREVIEW-GUIDE.md for native C# plus Python operation without Docker. Ru
 are complete; remaining work is product/hardware/UX qualification and measured streaming improvement.
 Docker20 comes only after
 native release17 and does not block the app or its transcription feature.
-The local28question slice is delivered. Next implement29Mic start/commit boundaries;30needs an approved
-Azure profile before31real sending. Read docs\AI-ANSWER-ARCHITECTURE.md and LOCAL-QUESTIONS.md first.
+Local28and installed-provider39 are delivered in preview235421. Next scope is29Mic commit plus
+latency/quality and owner/recorder qualification; directAzure30/31 remains a future optional provider.
+Read ANSWER-PROVIDERS.md; no more model probes or cancelled login without explicit authorization.
 
 ## Status values
 
@@ -88,6 +90,7 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 | 36 | 36_OPTIONAL_AZURE_SPEECH.todo | NOT_STARTED | Optional cloud-audio experiment |
 | 37 | 37_OPTIONAL_ANSWER_BROKER.todo | NOT_STARTED | Conditional enterprise policy |
 | 38 | 38_LIVING_DOCUMENTATION.todo | DONE | Initial illustrated edition; workflow06 maintains future changes |
+| 39 | 39_INSTALLED_CLI_ANSWERS.todo | DONE | Installed Agency and explicit local-model adapters; bounded evidence |
 
 ## Dependency map
 
@@ -108,10 +111,10 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 27 -> 28 -> 29
 27 -> 30
 28 + 30 -> 31
-28 + 31 -> 32
-29 + 31 + 32 -> 33
-28 + 29 + 30 + 31 + 32 -> 34
-08 + 09 + 10 + 11 + 12 + 19 + 21 + 22 + 24 + 25 + 26 + 31 + 32 + 34 -> 14
+28 -> 39 -> 32 (installed-provider path; Azure31 is optional future integration)
+29 + 39 + 32 -> 33
+28 + 39 + 32 -> 34 (qualify selected provider; Azure rows apply when31is implemented)
+08 + 09 + 10 + 11 + 12 + 19 + 21 + 22 + 24 + 25 + 26 + 39 + 32 + 34 -> 14
 14 -> 13
 13 + 14 -> 15
 14 + 13 + 33 + 34 -> 35
@@ -143,6 +146,7 @@ The final matrix must qualify the packaged candidate, not merely a development b
 | R11 canonical themes/plain reset | 25, 11 | Palette, state/contrast, UI evidence |
 | R12 cursor/focus cue reduction | 24, 13 | Local arrow/nonactivation and separate recipient-side qualification |
 | R13 explicit question -> streamed answer | 28, 31, 32, 35 | Immutable source-scoped Ask and corresponding visible answer |
+| R17 installed CLI / local model choice | 39, 32, 34 | Explicit provider, no tool execution, bounded streaming and honest inference location |
 | R14 low-latency, useful response | 29, 33, 35 | ASR/commit/TTFT/render/quality measurements, not batch-speed inference |
 | R15 deliberate Azure data boundary | 30, 34 | Keyless identity, selected-text egress, approved processing policy |
 | R16 living illustrated documentation | 38, 16; all later features | Source-linked handbook, synthetic images, public journal, HTML/PDF freshness |

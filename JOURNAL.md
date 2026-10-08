@@ -94,7 +94,7 @@ system changes. Later testing therefore relied on generated PCM and isolated syn
 No public release or push followed from creating a local ZIP.
 
 **Public record:** the historical implementation/evidence table and approved playback boundary are
-in `docs/IMPLEMENTATION-STATUS.md:93-147`; the authorization and subsequent restrictions are preserved
+in `docs/IMPLEMENTATION-STATUS.md:115-169`; the authorization and subsequent restrictions are preserved
 in `TODO/16_DEVELOPMENT_LEDGER.todo:66-74`.
 
 ## 03:01 - A hidden window must still be recoverable
@@ -123,7 +123,7 @@ protection setup and unsaved-content safeguards remained. Nor did it turn an ext
 into recorded compatibility evidence. The lasting requirement is **not to reintroduce permission or
 rehearsal prompts** under a different name during future feature work.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:86-91` records the change and local artifact;
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:108-113` records the change and local artifact;
 `docs/DEVELOPMENT-WORKFLOW.md:95-102` preserves the durable behavioral requirement.
 
 ## 03:12 - Seeing through the surface without washing out the text
@@ -142,7 +142,7 @@ first-frame guarantee.
 The lesson was to treat rendering changes as changes to the capture-evidence boundary, not just
 visual polish.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:75-84` identifies the layered result and limitations;
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:97-106` identifies the layered result and limitations;
 the implementation is explored in [chapter05](docs/handbook/05-desktop-ui-and-themes.md).
 
 ## 03:25 - Correcting Docker's place in the architecture
@@ -162,7 +162,7 @@ was moved after native release17. Runtime22 became the required operational path
 prevented infrastructure work from blocking the thing the owner actually wanted to run.
 
 **Public record:** native operation and the Docker correction are recorded in
-`docs/IMPLEMENTATION-STATUS.md:54-73`; the current dependency graph is in `TODO/00_INDEX.todo`.
+`docs/IMPLEMENTATION-STATUS.md:76-95`; the current dependency graph is in `TODO/00_INDEX.todo`.
 
 ## The muted-laptop experiment - Compare engines, not language stereotypes
 
@@ -192,7 +192,7 @@ that today's harness hash differs from the historical receipt rather than rewrit
 
 **Public record:** [the full benchmark report](docs/SPEECH-BENCHMARK.md) and
 [chapter12](docs/handbook/12-performance-and-benchmarks.md). Summary measurements and their limit
-are recorded in `docs/IMPLEMENTATION-STATUS.md:60-63`.
+are recorded in `docs/IMPLEMENTATION-STATUS.md:82-85`.
 
 ## 11:31 - Transcription moves to the foreground
 
@@ -217,7 +217,7 @@ packaged separately.
 **Still unresolved:** recipient-side cursor disappearance needs qualification in the actual
 recorder/sharing mode. No implementation change justified the requested absolute invisibility claim.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:35-52`, [cursor/theme notes](docs/CURSOR-AND-THEMES.md)
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:57-74`, [cursor/theme notes](docs/CURSOR-AND-THEMES.md)
 and workstreams24/25.
 
 ## 13:47-14:01 - Small UI questions clarify the evidence
@@ -258,7 +258,7 @@ manager-upgrade guards, plus real generated dual PCM and C#-to-Python v2 recogni
 microphone/render endpoint or chat content was opened for this work. Hardware permissions, echo,
 OS microphone indicators and recipient behavior remain to be qualified.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:11-33`,
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:33-55`,
 `docs/DUAL-SOURCE-AUDIO.md:1-30` and [chapters07-11](docs/handbook/07-dual-input-capture.md).
 
 ## 15:05 - An answer feature is researched before it is built
@@ -286,8 +286,8 @@ Four design documents, workstreams27-37 and workflows04/05 capture the plan. Onl
 DONE. There is no implemented Ask button, composer, Azure client, source commit or answer pane.
 No Azure account/resource discovery, sign-in, inference or upload was performed.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:5-9`,
-`docs/AI-ANSWER-ARCHITECTURE.md:21-89` and the four linked [AI design documents](docs/README.md).
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:27-31`,
+`docs/AI-ANSWER-ARCHITECTURE.md:44-138` and the four linked [AI design documents](docs/README.md).
 
 ## 16:11 - Turn the implementation into a teachable engineering record
 
@@ -322,7 +322,7 @@ so the reader gained responsive wrapping. Those corrections improved the actual 
 than treating a successful export as sufficient. Nothing was uploaded or published.
 
 The documentation-only fixture does not replace the most recent user preview ZIP. That preview
-remains the145231 dual-source bundle identified in `docs/IMPLEMENTATION-STATUS.md:27-33`.
+remains the145231 dual-source bundle identified in `docs/IMPLEMENTATION-STATUS.md:49-55`.
 The book does not implement Azure Ask, qualify remote cursors, or move Docker earlier.
 
 ```mermaid
@@ -408,14 +408,54 @@ runtime change or upload was needed. Future README changes must keep this image-
 See [the visual front page](README.md), [product overview](docs/OVERVIEW.md) and
 [documentation index](docs/README.md).
 
-## Remaining application boundaries
+## 2026-10-08, 21:24 - Installed model tools, and a simpler Agency path
+
+The owner wanted answers through software already installed on the machine, while retaining
+future Azure integration. The design gained a narrow `IAnswerProvider`: a request contains only
+the exact frozen question, never its original source references or the rest of a meeting. The
+window gained streamed plain-text answers, bounded rendering, Cancel and explicit Copy.
+
+The initial implementation investigated standalone Copilot plus its documented offline
+OpenAI-compatible mode. Local installation and local inference were kept separate: ordinary Copilot
+uses cloud models, while an offline model requires a separately running local server. Synthetic
+loopback tests established tool-free requests, literal input and bounded error/cancellation behavior;
+they did not install or benchmark a real local model.
+
+One authorized direct-Copilot cloud attempt failed at its customization/tool gate. A requested
+dedicated sign-in then produced an organization-authentication popup. The owner corrected the path:
+no organization-data access or new sign-in; simply run their existing Agency with a prompt in the
+background. The owned login was stopped and app settings returned to SnapshotOnly. The failure was
+not relabelled a success, and its model-call allowance was not silently reused.
+
+Agency exposes `agency copilot` with profile-only configuration and controls for excluding default
+MCPs/plugins. A separately authorized synthetic Agency request returned `PHANTOM_OK` using existing
+authentication, with no new login flow. The recorded model surface had zero tools and no assistant
+tool requests; both builtin GitHub MCP descriptors were disabled. The selected model was
+`claude-sonnet-5`. No notes, meeting audio, repository files or organization-data tools were submitted.
+
+The run took69.881seconds end to end. That proves a functional route, not a low-latency experience
+or a guarantee that cached authentication will always be available. Agency remains a local process
+using a remote model service; it is not an offline model. Its session/log retention also remains
+separate from the application's in-memory draft policy.
+
+The direct Azure adapter stays a future option behind the same interface. Accurate Mic-only
+finalization remains workstream29; it is not required to explicitly send an already-reviewed draft.
+See [provider setup](docs/ANSWER-PROVIDERS.md) and the [sanitized smoke receipt](docs/answer-provider-smoke.json).
+
+The final adapter replays that successful protocol and uses the same restricted profile/launch.
+Core268tests and the exact packaged synthetic UI passed, including cancellation, early text,
+invalid settings and minimum-size layout. New preview235421contains489files and76,252,854bytes,
+SHA256 `88D98E7CAFA56B067A521571778D0F661A879DDCBF5EBBE9D412987D2BFA5A69`.
+No additional real model call was made for packaging. The existing app was not force-closed.
+
+## Remaining qualification
 
 The application is still a local unqualified preview. Full Teams/Zoom/Meet/OBS qualification,
 recipient cursor behavior, hardware microphone/echo/privacy-indicator observations, long-session
 quality, accessibility and owner acceptance have not been replaced by this book.
 
-The local draft/snapshot slice is implemented; the actual answer feature still needs approved cloud
-integration and measured quality/latency. Optional cloud ASR
+Local drafts and installed Agency answers are implemented; direct Azure still needs its approved
+integration, and all provider paths need broader quality/latency and release qualification. Optional cloud ASR
 and a broker are separate decisions. Docker remains a final-stage packaging option after native
 release, not a prerequisite for transcription.
 

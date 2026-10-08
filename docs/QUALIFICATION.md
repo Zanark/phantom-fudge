@@ -129,6 +129,7 @@ State this limit with every release result.
 | C17 | Computer/Mic/Both selection, denied mic, device loss and concurrent speech | No automatic capture/fallback; correct source labels, final drain and cleanup |
 | C18 | OS microphone privacy indicator and speaker echo | Indicator visibility/echo are recorded as external limits, not hidden or claimed eliminated |
 | C19 | Question selection, independent typing, local snapshot and unsaved exit | Same protected HWND, no unintended audio stop or extra context; repeat recipient/IME/clipboard boundaries |
+| C20 | Provider setup, streamed answers, Cancel/Hide/clear/close and late callbacks | Explicit destination; no tools/org data or auto-login; partial/failed answers labelled; actual recorder behavior separately observed |
 
 C15 is currently open for the owner's reported cursor disappearance. Record screen versus
 window/tab source, cursor-capture setting/backend and app version. A visible local cursor or

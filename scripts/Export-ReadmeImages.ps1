@@ -13,7 +13,7 @@ Add-Type -AssemblyName System.Drawing
 New-Item -ItemType Directory -Force -Path $destination | Out-Null
 $variants = @(
     @{ source = 'transcript-deepseafoam.png'; file = 'transcript.png'; background = '#000F13' },
-    @{ source = 'question-draft.png'; file = 'question.png'; background = '#000F13' },
+    @{ source = 'answer-synthetic.png'; file = 'question.png'; background = '#000F13' },
     @{ source = 'theme-DeepSeaFoam.png'; file = 'deepseafoam.png'; background = '#000F13' },
     @{ source = 'theme-HarborDaylight.png'; file = 'harbor-daylight.png'; background = '#F3F2E9' },
     @{ source = 'theme-Plain.png'; file = 'plain.png'; background = '#FAF9F6' }

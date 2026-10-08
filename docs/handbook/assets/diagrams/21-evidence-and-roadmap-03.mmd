@@ -9,6 +9,8 @@ flowchart TB
     accTitle: PLANNED answer workstream dependencies
     accDescr: Research and local drafts are complete, while commit, connection, streaming answers, evaluation and resilience remain planned.
     Research["27 Research DONE"] --> Draft["28 Local draft DONE"]
+    Draft --> Installed["39 Installed Agency or local model"]
+    Installed --> UI
     Research --> Auth["30 PLANNED connection"]
     Draft --> Commit["29 PLANNED commit"]
     Draft --> Client["31 PLANNED client"]
@@ -25,6 +27,7 @@ flowchart TB
     UI --> Resilience
     style Research fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Draft fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Installed fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Auth fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Commit fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Client fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

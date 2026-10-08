@@ -15,6 +15,29 @@ public partial class App : Application
         base.OnStartup(e);
         try
         {
+            if (e.Args is ["--prepare-agency", var agencyPath])
+            {
+                var executable = Core.Answers.AgencyCliAnswerProvider.ResolveExecutable(
+                    agencyPath == "auto" ? null : agencyPath);
+                Directory.CreateDirectory(Core.Answers.AnswerConfiguration.DirectoryPath);
+                await File.WriteAllTextAsync(
+                    Path.Combine(Core.Answers.AnswerConfiguration.DirectoryPath, "answer-setup.json"),
+                    System.Text.Json.JsonSerializer.Serialize(new { agencyPath = executable }));
+                Shutdown(0);
+                return;
+            }
+            if (e.Args is ["--prepare-answer-profile", var cliPath])
+            {
+                var executable = Core.Answers.CopilotCliAnswerProvider.ResolveExecutable(
+                    cliPath == "auto" ? null : cliPath);
+                Core.Answers.CopilotCliAnswerProvider.InitializeProfile(Core.Answers.AnswerConfiguration.CopilotProfilePath);
+                Directory.CreateDirectory(Core.Answers.AnswerConfiguration.DirectoryPath);
+                await File.WriteAllTextAsync(
+                    Path.Combine(Core.Answers.AnswerConfiguration.DirectoryPath, "answer-setup.json"),
+                    System.Text.Json.JsonSerializer.Serialize(new { cliPath = executable }));
+                Shutdown(0);
+                return;
+            }
             if (e.Args is ["--capture-proof", var outputDirectory])
             {
                 var code = await Diagnostics.CaptureProof.RunAsync(outputDirectory, transparent: true);
@@ -52,7 +75,8 @@ public partial class App : Application
             window.ShowProtected();
         }
         catch (Exception error) when (error is Win32Exception or IOException or UnauthorizedAccessException
-            or InvalidOperationException or PlatformNotSupportedException or OperationCanceledException or COMException)
+            or InvalidOperationException or PlatformNotSupportedException or OperationCanceledException or COMException
+            or Core.Answers.AnswerProviderException)
         {
             LocalFailureNotice.Record(WindowFailure.Startup);
             Shutdown(1);

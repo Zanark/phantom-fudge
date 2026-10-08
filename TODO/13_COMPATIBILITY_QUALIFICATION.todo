@@ -15,7 +15,7 @@ Determine which exact sharing configurations can be honestly supported for the p
 - [ ] Record positive controls, API results, shell/picker observations, local visibility, and remote frames.
 - [ ] Qualify Teams/Zoom desktop and Meet Chrome/Edge screen/window/tab modes actually required.
 - [ ] Qualify each exposed required OBS Display/Window Capture backend independently.
-- [ ] Exercise current C01-C19 scenarios, startup under active sharing, and secondary-surface exposure.
+- [ ] Exercise current C01-C20 scenarios, startup under active sharing, and secondary-surface exposure.
 - [ ] Inspect independent recipient output and available applicable meeting recordings separately.
 - [ ] Capture frame counts/gaps and review transitions; use OCR only as an aid.
 - [ ] Record untested hardware, optional paths, unavailable recording access, and unsupported modes.

@@ -6,8 +6,8 @@ config:
     textColor: "#e6edf3"
 ---
 flowchart TB
-    accTitle: Existing extension surfaces along the audio path
-    accDescr: Typed events feed both display text and structured local questions. Explicit selection and Ask lead to a local snapshot, while tests and privacy review span every extension surface.
+    accTitle: Existing audio seams, IN PROGRESS Agency-first provider and PLANNED Azure
+    accDescr: Typed events feed display and structured questions. ExactText alone enters the requested Agency-first adapter, still under validation, or optional future Azure. SnapshotOnly currently sends nothing; local installation does not prove offline inference.
     Source["Source identity"] --> Capture["WASAPI owner"]
     Capture --> Socket["Bounded socket"]
     Socket --> Service["Service schema"]
@@ -19,9 +19,12 @@ flowchart TB
     Store -->|Explicit selection| Draft["Local draft"]
     Draft -->|Manual Ask| Frozen["Local Freeze"]
     Frozen --> UI
-    Tests["Synthetic tests"] -.-> Socket
-    Tests -.-> Decoder
-    Policy["Privacy and docs"] -.-> Source
+    Frozen -. ExactText when configured .-> CLI["IN PROGRESS Agency"]
+    CLI -. AnswerEvent .-> UI
+    Frozen -. Optional ExactText .-> Azure["PLANNED Azure"]
+    Azure -. Future events .-> UI
+    Policy["Tests and privacy"] -.-> Socket
+    Policy -.-> Source
     Policy -.-> UI
     style Source fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Capture fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
@@ -34,6 +37,7 @@ flowchart TB
     style Draft fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Frozen fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style UI fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style Tests fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style CLI fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Azure fill:#2d333b,stroke:#6d5dfc,color:#e6edf3,stroke-dasharray:5 5
     style Policy fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     linkStyle default stroke:#8b949e

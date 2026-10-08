@@ -14,9 +14,9 @@
     },
     {
       "file": "docs/assets/readme/question.png",
-      "sha256": "503eaf03bdbd3591c26fe9d53be45d9b02e32b25d6fd28a70d714622fb4bd3c2",
-      "source": "docs/handbook/assets/screenshots/question-draft.png",
-      "sourceSha256": "e1aaae90bf80fe717312a7d92306e19f5ff88b0ba9619abce9428d22fdf3d946",
+      "sha256": "1542a918237c54b488e20ac634dacee797cb731d59849645bba2659fe27b7922",
+      "source": "docs/handbook/assets/screenshots/answer-synthetic.png",
+      "sourceSha256": "15d6fd274cb05de421596a325cfbd744172eebe5ca0197cf771271c582135c51",
       "background": "#000F13",
       "width": 620,
       "height": 760

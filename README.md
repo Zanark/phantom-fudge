@@ -4,18 +4,18 @@
 
 [Get started](docs/PREVIEW-GUIDE.md) · [Overview](docs/OVERVIEW.md) · [Docs](docs/README.md) · [Roadmap](TODO/00_INDEX.todo)
 
-> Windows 11 preview. Capture exclusion is not universal. **Ask is local-only; Azure answers are not connected.**
+> Windows 11 preview. Capture exclusion is not universal. **Installed Agency / local-model options; direct Azure is future work.**
 
 ## Your conversation workspace
 
 <p align="center">
   <a href="docs/assets/readme/transcript.png"><img src="docs/assets/readme/transcript.png" width="47%" alt="Transcript-first DeepSeaFoam interface with separate Computer and Mic text"></a>
-  <a href="docs/assets/readme/question.png"><img src="docs/assets/readme/question.png" width="47%" alt="Editable local question and immutable snapshot; nothing sent to Azure"></a>
+  <a href="docs/assets/readme/question.png"><img src="docs/assets/readme/question.png" width="47%"   alt="Synthetic illustration of the protected streamed-answer pane"></a>
 </p>
 
-**Computer + Mic** → **choose your text** → **freeze a local question**
+**Computer + Mic** → **choose your text** → **Ask your selected provider**
 
-[Transcription](docs/DUAL-SOURCE-AUDIO.md) · [Question composer](docs/LOCAL-QUESTIONS.md) · [Controls and limits](docs/OVERVIEW.md)
+[Transcription](docs/DUAL-SOURCE-AUDIO.md) · [Question composer](docs/LOCAL-QUESTIONS.md) · [Provider setup](docs/ANSWER-PROVIDERS.md)
 
 ## Three looks. One workspace.
 

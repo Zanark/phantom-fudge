@@ -20,7 +20,7 @@ public partial class MainWindow
     private int questionSnapshotCount;
 
     private bool PassiveWindow => presenting && !questionEditing;
-    private bool HasQuestionContent => questionDraft.Text.Length > 0 || lastQuestionSnapshot is not null;
+    private bool HasQuestionContent => questionDraft.Text.Length > 0 || lastQuestionSnapshot is not null || HasAnswerContent;
 
     private void InitializeQuestionView()
     {
@@ -35,6 +35,8 @@ public partial class MainWindow
 
     private void SetQuestionExpanded(bool expanded)
     {
+        if (!expanded)
+            CancelAnswer();
         if (!expanded && questionEditing)
             SetQuestionEditing(false);
         if (expanded)
@@ -179,6 +181,7 @@ public partial class MainWindow
         QuestionEditButton.IsEnabled = protectionReady && !fileBusy;
         QuestionAskButton.IsEnabled = protectionReady && !fileBusy && !string.IsNullOrWhiteSpace(questionDraft.Text);
         QuestionCopyButton.IsEnabled = questionDraft.Text.Length > 0;
+        UpdateAnswerControls();
     }
 
     private void QuestionEditor_TextChanged(object sender, TextChangedEventArgs args)
@@ -227,6 +230,11 @@ public partial class MainWindow
 
     private void QuestionAsk_Click(object sender, RoutedEventArgs args)
     {
+        if (AnswerBusy)
+        {
+            QuestionStatus.Text = "Cancel and wait for the current answer before another Ask.";
+            return;
+        }
         if (!protectionReady || fileBusy)
         {
             QuestionStatus.Text = "Restore capture protection and finish the file operation before Ask.";
@@ -240,6 +248,7 @@ public partial class MainWindow
             QuestionSnapshotPanel.Visibility = Visibility.Visible;
             QuestionStatus.Text = "Snapshot frozen locally. Azure is not connected; no request was sent.";
             QuestionScroll.ScrollToEnd();
+            StartAnswer(lastQuestionSnapshot);
         }
         catch (Exception error) when (IsQuestionInputFailure(error))
         {
@@ -267,6 +276,7 @@ public partial class MainWindow
 
     private void QuestionClear_Click(object sender, RoutedEventArgs args)
     {
+        ClearAnswer();
         questionDraft.Clear();
         lastQuestionSnapshot = null;
         QuestionSnapshotText.Clear();

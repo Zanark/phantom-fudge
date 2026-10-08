@@ -122,8 +122,8 @@ cache files even when they use different final output directories. Compile once,
 
 The documentation fixture must never use real notes or chat content. It has its own command
 line path and validates a synthetic/no-recording result before copying images
-(`src\PhantomFudge.App\App.xaml.cs:24-36`,
-`scripts\Export-HandbookScreenshots.ps1:1-80`). A screenshot request is not authorization to
+(`src\PhantomFudge.App\App.xaml.cs:47-59`,
+`scripts\Export-HandbookScreenshots.ps1:1-81`). A screenshot request is not authorization to
 capture a meeting or disable display affinity.
 
 ## Failure tests worth keeping
@@ -143,7 +143,7 @@ synthetic sentence does not prove every cancellation path.
 
 Record source identity, environment, exact command, pass/failure, sample size and limitations.
 The implementation-status document is a bounded receipt, not a badge that everything is safe
-(`docs\IMPLEMENTATION-STATUS.md:1-70`).
+(`docs\IMPLEMENTATION-STATUS.md:1-92`).
 
 For capture, an in-process `RenderTargetBitmap` image proves UI appearance. A cropped GDI
 fixture proves only the sampled local path. Neither proves what a remote participant sees.

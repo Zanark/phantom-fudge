@@ -1,8 +1,8 @@
 # Protected Question and Answer UI
 
-Status: NOT_STARTED
+Status: IN_PROGRESS
 Milestone: A4 Same-window answer experience
-Dependencies: 28_QUESTION_DRAFTS.todo, 31_STREAMING_ANSWER_CLIENT.todo
+Dependencies: 28_QUESTION_DRAFTS.todo, 39_INSTALLED_CLI_ANSWERS.todo
 
 ## Purpose
 
@@ -10,14 +10,14 @@ Show a question and a streamed answer without losing transcript continuity or th
 
 ## Tasks
 
-- [ ] Add an inline question composer and expandable answer pane while keeping transcript primary and notes optional.
-- [ ] Add explicit Ask/Cancel/Copy/Expand controls and visible question/provider/request status.
-- [ ] Support immediate immutable send-as-shown; expose Finish dictation only when commit capability is available.
-- [ ] Decouple draft keyboard editing from the old global mode transition that stops all audio.
-- [ ] Keep passive Ask/Cancel usable with Arrow/no unnecessary activation; deliberate editing stays accessible.
-- [ ] Render plain text safely, coalescing deltas16-50ms; no model-driven HTML/XAML, links, tools or automatic TTS.
-- [ ] Preserve incomplete/cancelled answers with their original question; no auto-resend on reveal.
-- [ ] Handle hide/lock/close/protection failure and new Ask without stale-output or unsaved-content loss.
+- [x] Add an inline question composer and expandable answer pane while keeping transcript primary and notes optional.
+- [x] Add explicit Ask/Cancel/Copy/Expand controls and visible question/provider/request status.
+- [x] Support immediate immutable send-as-shown; expose Finish dictation only when commit capability is available.
+- [x] Decouple draft keyboard editing from the old global mode transition that stops all audio.
+- [x] Keep passive Ask/Cancel usable with Arrow/no unnecessary activation; deliberate editing stays accessible.
+- [x] Render plain text safely, coalescing deltas16-50ms; no model-driven HTML/XAML, links, tools or automatic TTS.
+- [x] Preserve incomplete/cancelled answers with their original question; no auto-resend on reveal.
+- [x] Handle hide/lock/close/protection failure and new Ask without stale-output or unsaved-content loss.
 - [ ] Apply all three themes/alpha policies and qualify the new pane/stream updates under capture scenarios.
 
 ## Acceptance criteria
@@ -29,7 +29,8 @@ Show a question and a streamed answer without losing transcript continuity or th
 
 ## Completion evidence
 
-- None. No Ask button or answer pane has been added by this research task.
+- Local question composer28 and shared streamed answer pane39 are implemented. Core268and exact
+  packaged synthetic UI pass; owner/recorder qualification remains open. Azure31 is not a prerequisite.
 
 ## Completion log
 

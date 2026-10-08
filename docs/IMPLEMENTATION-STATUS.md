@@ -2,6 +2,28 @@
 
 **Local development preview, not a qualified/public release.**
 
+## Installed Agency answer preview implemented locally
+
+The21:24 request adds selectable installed answer providers while keeping direct Azure future.
+Common streaming state/UI, constrained installed-provider adapters and setup are implemented.
+One owner-approved direct Copilot smoke attempt failed at the customization/tool gate; no successful
+model answer is claimed and no automatic retry was sent. Its model-call outcome could not be ruled out.
+The owner subsequently rejected the organization-authentication popup and requested existing Agency
+background prompting with no org-data access. The owned login was stopped; app configuration was
+reset to SnapshotOnly. A separately authorized Agency-only synthetic prompt then returned PHANTOM_OK
+with exit0, tool_count0, no tool requests, both builtin MCPs disabled and no new login flow.
+The one observed run took69.881seconds; it is not a performance benchmark. See answer-provider-smoke.json.
+
+Latest local ZIP: `artifacts\phantom-fudge-0.1.0-preview-win-x64-20261008-235421.zip`,
+76,252,854bytes/489files, SHA256
+`88D98E7CAFA56B067A521571778D0F661A879DDCBF5EBBE9D412987D2BFA5A69`.
+Core268tests and source/exact-package synthetic UI pass, including early streaming, exact snapshot,
+cancel/stale output, clear, invalid setup and minimum answer layout. No real model or audio was used
+by UI tests. Agent-specific recorded-event replay/process tests passed without another cloud call.
+Setup now selects Agency locally; open Question and Reload setup in this new preview.
+No owner app/service was force-stopped. Direct Copilot cloud remains unvalidated; real local-model
+quality/latency and recipient capture qualification remain open. Earlier candidate receipts follow.
+
 The15:05 research is followed by the17:37 implementation authorization. **TODO28 is now local code**:
 structured question selection/typing and immutable Ask snapshots exist. **Ask sends nothing yet**.
 Source commit, Azure auth/client and streamed answers remain future work. No cloud latency result,

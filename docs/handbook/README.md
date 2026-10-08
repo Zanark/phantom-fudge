@@ -18,6 +18,7 @@ edition's counts, source hashes, citations and artifact hashes; it is the author
 | Performance and planned AI | [12 Benchmarks](12-performance-and-benchmarks.md), [13 Azure answer design](13-proposed-azure-answer-flow.md), [14 Latency, identity, privacy](14-answer-latency-identity-and-privacy.md) |
 | Engineering practice | [15 Development](15-development-and-testing.md), [16 Distribution](16-distribution-and-troubleshooting.md), [17 Assurance](17-privacy-and-assurance.md), [18 Extensions](18-extending-the-system.md) |
 | Reference and journey | [19 API/configuration](19-api-configuration-reference.md), [20 Glossary/map](20-glossary-and-repository-map.md), [21 Evidence/roadmap](21-evidence-and-roadmap.md), [Development journal](../../JOURNAL.md) |
+| Installed answer providers | [Agency, offline local models, setup and retention](../ANSWER-PROVIDERS.md) |
 
 Each chapter contains diagrams and exact public source references. The onboarding path starts from
 first principles; the principal engineer path starts from invariants and failure boundaries.

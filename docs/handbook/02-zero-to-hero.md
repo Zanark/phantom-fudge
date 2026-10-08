@@ -75,7 +75,7 @@ It passes the token through the child environment rather than printing it
 
 Then follow `App.OnStartup`: a normal launch establishes per-user ownership and either reveals
 the existing process or constructs a new protected window
-(`src\PhantomFudge.App\App.xaml.cs:39-58`). This explains why double-clicking an updated EXE
+(`src\PhantomFudge.App\App.xaml.cs:62-82`). This explains why double-clicking an updated EXE
 while an old instance is running does not necessarily replace the old UI.
 
 ### Path B: one utterance
@@ -184,8 +184,8 @@ the default suite (`tests\PhantomFudge.Audio.Tests\Program.cs:18-71`).
 
 The documentation command renders actual WPF controls with synthetic text/device labels. It is
 not a Snipping Tool workaround for capturing someone else's private window
-(`src\PhantomFudge.App\App.xaml.cs:31-36`,
-`scripts\Export-HandbookScreenshots.ps1:1-80`).
+(`src\PhantomFudge.App\App.xaml.cs:54-59`,
+`scripts\Export-HandbookScreenshots.ps1:1-81`).
 
 ## How to avoid learning the wrong lesson
 
@@ -203,7 +203,7 @@ test/documentation improvement that follows one real invariant end to end.
 - `src\PhantomFudge.Core\PhantomFudge.Core.csproj:1-5` — platform-independent policy layer.
 - `src\PhantomFudge.Core\AudioSource.cs:3-30` — typed input identity.
 - `scripts\Run-PhantomFudge.ps1:8-57` — launch/reuse/token boundary.
-- `src\PhantomFudge.App\App.xaml.cs:13-58` — entry paths.
+- `src\PhantomFudge.App\App.xaml.cs:13-82` — entry paths.
 - `services\transcription\requirements.txt:1-20` — Python dependency baseline.
 - `tests\PhantomFudge.Audio.Tests\Program.cs:18-71` — synthetic test entry.
 - `docs\DUAL-SOURCE-AUDIO.md:28-76` — byte contract.

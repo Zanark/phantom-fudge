@@ -1,7 +1,7 @@
 {
   "title": "Phantom Fudge Engineering Handbook",
   "subtitle": "A local-first conversation companion, from Windows surfaces to source-labelled speech",
-  "edition": "2026-10-08",
+  "edition": "2026-10-09",
   "language": "en",
   "chapters": [
     "00-reading-map.md",
@@ -25,7 +25,8 @@
     "18-extending-the-system.md",
     "19-api-configuration-reference.md",
     "20-glossary-and-repository-map.md",
-    "21-evidence-and-roadmap.md"
+    "21-evidence-and-roadmap.md",
+    "../ANSWER-PROVIDERS.md"
   ],
   "appendices": [
     "../../JOURNAL.md"

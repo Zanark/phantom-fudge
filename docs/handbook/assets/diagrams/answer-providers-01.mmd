@@ -1,0 +1,22 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#2d333b"
+    primaryBorderColor: "#6d5dfc"
+    primaryTextColor: "#e6edf3"
+    lineColor: "#8b949e"
+---
+flowchart TB
+    accTitle: One question with an explicitly selected answer destination
+    accDescr: A snapshot feeds only ExactText to a provider. Snapshot-only, Copilot cloud and local model modes are distinct; a direct Azure adapter is future work.
+    Draft["Local editable draft"] --> Snapshot["Immutable snapshot"]
+    Snapshot --> Exact["ExactText only"]
+    Exact --> Choice{"Configured mode"}
+    Choice --> NoSend["Snapshot only: no request"]
+    Choice --> Agency["Installed Agency"]
+    Agency --> Remote["Agency model service"]
+    Choice --> CLI["Installed Copilot CLI"]
+    CLI --> GitHub["Copilot cloud model"]
+    CLI --> Local["Explicit loopback local model"]
+    Exact -. future .-> Azure["PLANNED direct Azure"]

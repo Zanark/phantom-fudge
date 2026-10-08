@@ -183,9 +183,14 @@
                         Background="{DynamicResource ThemeSurface}" Padding="7">
                     <ScrollViewer x:Name="QuestionScroll" MaxHeight="280" VerticalScrollBarVisibility="Auto">
                         <StackPanel>
-                           <TextBlock Text="LOCAL QUESTION" FontWeight="SemiBold" Foreground="{DynamicResource ThemeHeading}" />
-                           <TextBlock Text="No Azure connection. Ask freezes text locally; nothing is sent."
+                           <TextBlock Text="QUESTION AND ANSWER" FontWeight="SemiBold" Foreground="{DynamicResource ThemeHeading}" />
+                           <TextBlock x:Name="AnswerProviderNotice" Text="Snapshot only: nothing is sent. Configure an answer provider to enable responses."
                                       FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource ThemeMuted}" Margin="0,3" />
+                           <WrapPanel>
+                               <Button x:Name="AnswerSnapshotMode" Content="Snapshot only" Click="AnswerSnapshotMode_Click" />
+                               <Button x:Name="AnswerConfiguredMode" Content="Use configured provider" Click="AnswerConfiguredMode_Click" />
+                               <Button x:Name="AnswerReloadSettings" Content="Reload setup" Click="AnswerReloadSettings_Click" />
+                           </WrapPanel>
                            <WrapPanel>
                                <Button x:Name="QuestionMicFilter" Content="Mic segments" Click="QuestionMicFilter_Click" />
                                <Button x:Name="QuestionComputerFilter" Content="Computer segments" Click="QuestionComputerFilter_Click" />
@@ -220,11 +225,25 @@
                            <TextBlock x:Name="QuestionStatus" Text="Choose segments or use Type / edit."
                                       FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource ThemeHeading}" Margin="0,3" />
                            <StackPanel x:Name="QuestionSnapshotPanel" Visibility="Collapsed">
-                               <TextBlock Text="Frozen snapshot - local only, not sent" FontSize="11"
+                               <TextBlock x:Name="QuestionSnapshotLabel" Text="Frozen snapshot - local only, not sent" FontSize="11"
                                           Foreground="{DynamicResource ThemeWarning}" />
                                <TextBox x:Name="QuestionSnapshotText" Height="65" IsReadOnly="True" Focusable="False"
                                         AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
                                         AutomationProperties.Name="Immutable local question snapshot" />
+                           </StackPanel>
+                           <StackPanel x:Name="AnswerPanel" Visibility="Collapsed" Margin="0,6,0,0">
+                               <WrapPanel>
+                                   <TextBlock Text="ANSWER" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                   <Button x:Name="AnswerCancelButton" Content="Cancel answer" Click="AnswerCancel_Click" />
+                                   <Button x:Name="AnswerCopyButton" Content="Copy answer" Click="AnswerCopy_Click" />
+                               </WrapPanel>
+                               <TextBlock x:Name="AnswerRunLabel" TextWrapping="Wrap" FontSize="11" Foreground="{DynamicResource ThemeMuted}" />
+                               <TextBox x:Name="AnswerText" Height="150" IsReadOnly="True" Focusable="False"
+                                        TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                                        FontSize="16" Padding="5" Background="Transparent"
+                                        AutomationProperties.Name="Provider answer, plain text" />
+                               <TextBlock x:Name="AnswerStatus" TextWrapping="Wrap" FontSize="11"
+                                          Foreground="{DynamicResource ThemeWarning}" Margin="0,3" />
                            </StackPanel>
                         </StackPanel>
                     </ScrollViewer>

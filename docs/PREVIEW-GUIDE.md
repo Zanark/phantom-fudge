@@ -137,11 +137,12 @@ or choose **Type / edit** to write a question. That separate editing action take
 without stopping transcription or unlocking speaker notes. **Done typing** or Escape returns to
 passive interaction; ordinary global Edit/Present and Hide still stop audio.
 
-**Ask as shown freezes a local snapshot only. No Azure model is connected and nothing is sent.**
+Snapshot-only mode freezes locally and sends nothing. An explicitly configured installed Agency or local-model provider can answer the frozen question. [Set up an answer provider](ANSWER-PROVIDERS.md);
+the app does not install a CLI/model or sign in automatically.
 Selected partials may update until you edit; frozen snapshots never change. The draft is capped at
 8192characters with explicit rejection rather than truncation. Copy/Clear are deliberate actions,
 and unsaved questions participate in the existing exit safeguard.
 
 The chooser is structured and source-scoped, not a parser over display labels. It never reads chats
-or automatically includes a whole meeting. Accurate armed-Mic finalization and real streamed answers
-remain separate TODOs. See [the local question guide](LOCAL-QUESTIONS.md).
+or automatically includes a whole meeting. Accurate armed-Mic finalization and direct Azure
+integration remain separate TODOs. See [the local question guide](LOCAL-QUESTIONS.md).

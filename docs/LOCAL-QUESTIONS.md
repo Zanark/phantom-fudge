@@ -1,8 +1,9 @@
 # Local question drafts and exact snapshots
 
-**Implemented locally; Azure answers are not connected.** This is the first question-to-answer
-implementation slice (TODO28), not a working cloud-answer client. The app does not read chats and
-does not send a meeting, question or audio to a model.
+**Local drafts are independent of answer providers.** Snapshot-only mode sends nothing.
+An explicitly configured Copilot CLI or local-model provider can receive only the question on Ask.
+Direct Azure answers remain future work. The app does not read chats or send meeting audio.
+See [answer provider setup](ANSWER-PROVIDERS.md) before enabling requests.
 
 ## Use the composer
 
@@ -13,8 +14,9 @@ does not send a meeting, question or audio to a model.
    keyboard focus for the question, without stopping computer/microphone transcription or enabling
    note editing. **Done typing** or Escape returns to passive interaction.
 4. Review the draft and its provisional/final, user-edited and revision indicators.
-5. **Ask as shown** freezes the exact displayed text in a local immutable snapshot. The banner and
-   status explicitly say that Azure is not connected and nothing was sent.
+5. **Freeze locally** creates a snapshot without sending. With an explicitly configured provider,
+   **Ask provider** sends only that exact question and displays the streamed answer beside it.
+   The provider notice distinguishes GitHub cloud inference from a loopback local model.
 
 No repeated permission or recipient-rehearsal confirmation has been added. Start/Stop still controls
 audio separately. Question selection, typing and Ask never start audio.
@@ -32,7 +34,8 @@ only broadens the visible chooser; it does not select or submit those rows autom
 Selected partials can evolve into final text until you edit the draft. Manual edits detach that text
 from automatic recognition replacement. A frozen snapshot is never changed by later recognition,
 typing, clearing, eviction or a new capture. Another explicit Ask creates another local snapshot;
-question marks and natural finals never do so.
+question marks and natural finals never do so. One provider request may be active at a time;
+Cancel it and wait for cleanup before submitting another. Cancel/Hide never automatically retries.
 
 Selecting across capture sessions is rejected rather than silently combining histories. The draft
 keeps immutable copies of its selected entries when the bounded chooser evicts them. Clearing the
@@ -50,7 +53,8 @@ transcript does not silently erase the separately copied draft.
 - **Clear question** explicitly discards the local draft and last frozen snapshot, without clearing
   notes or transcription. Closing with question content uses the existing unsaved-data safeguard;
   saving notes/exporting transcripts does not pretend to save a question.
-- Everything is memory-only. There is no automatic question history, persistence or crash recovery.
+- The app's draft and answer history remain memory-only. The external CLI may retain session data
+  in its dedicated profile; do not confuse application memory-only state with provider zero retention.
 
 ## Deferred boundaries
 
@@ -59,9 +63,9 @@ start/end boundaries. Current v2 partial text cannot support a sample-exact cut 
 the decoder/device buffer. Use explicit known segments or typed text in this slice. Global Stop has
 not been repurposed into a question boundary.
 
-TODO30 needs an approved Azure profile/identity/data policy before cloud integration. TODO31/32 add
-real streamed answers and their protected lifecycle. No model, region, resource, credentials or
-cloud permission was guessed during local implementation. Docker remains optional and last.
+TODO30/31 retain an approved direct Azure profile/adapter as future work. Installed-provider
+workstream39 and the shared answer UI32 do not depend on Azure. No model/resource/credential is
+guessed or installed automatically. Docker remains optional and last.
 
 ## Source map
 

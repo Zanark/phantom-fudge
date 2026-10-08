@@ -1,0 +1,56 @@
+# Installed Agency, Copilot CLI and Local Model Answers
+
+Status: DONE
+Milestone: A4 Provider-selectable answers before Azure
+Dependencies: 28_QUESTION_DRAFTS.todo
+
+## Purpose
+
+Use an installed Copilot CLI now while retaining an independent future Azure adapter. Distinguish
+a local CLI process using GitHub cloud models from genuine local-model inference.
+
+## Tasks
+
+- [x] Research installed CLI help and current public programmatic/provider contracts.
+- [x] Add provider-independent exact-text requests and bounded request-ID/sequence/terminal state.
+- [x] Implement and exercise a constrained noninteractive CLI adapter with no tool execution.
+- [x] Support an explicitly configured loopback local-model endpoint without cloud fallback.
+- [x] Integrate streamed plain text, Cancel/Copy and hide/clear/close lifecycle in the same HWND.
+- [x] Provide setup, separate authentication/profile and privacy/retention guidance.
+- [x] Exercise fake/model-protocol/CLI/error/cancel and synthetic UI behavior without real meeting data.
+- [x] Run the single synthetic Copilot cloud prompt explicitly authorized by the owner (failed); separately authorized Agency probe succeeded.
+- [x] Update the illustrated handbook, screenshots, visual README and public JOURNAL.
+
+## Acceptance criteria
+
+- [x] Only explicit Ask sends ExactText; source refs, notes, audio and unrelated transcripts stay local.
+- [x] No app-initiated Ask-time sign-in; Agency never calls login. External wrapper auth expiry remains a documented limit.
+- [x] No provider fallback; cloud/offline meaning is visible and setup failures remain actionable.
+- [x] Completion requires terminal success; bounded partial answers survive cancellation/failure.
+- [x] Local retention by the external CLI is documented, not misrepresented as memory-only operation.
+- [x] Azure and Mic commit remain separate future work; Docker stays last.
+
+## Completion evidence
+
+- Installed CLI initially reports1.0.92; standalone --no-auto-update selects bundled1.0.81-0.
+  Required capabilities must be verified against the actual selected binary, not a cached help version.
+- Owner approved one synthetic cloud prompt, not meeting text, repository content or audio.
+- The single direct-Copilot smoke attempt failed its customization/tool gate. A model request could
+  not be ruled out; its allowance is consumed. No success or silent retry is claimed.
+- Owner then rejected the organization-authentication popup during explicitly requested profile login.
+  The owned login was stopped and the app reset SnapshotOnly. Current scope is existing Agency
+  background prompt-only operation, no new sign-in and no organization-data MCP/tools.
+- Separately authorized Agency probe: PHANTOM_OK/exit0/69.881s,one model call,zero modeltools,
+  no toolrequests,builtinMCPs disabled,no newlogin. Public receipt: docs\answer-provider-smoke.json.
+- Final Core suite268passed; adapter-specific99cases include recorded-event replay, fake process
+  cancellation/fault/output limits and exact launch/environment/profile guards. No further model calls.
+- Synthetic WPF stream/snapshot/cancel/clear/config-failure checks pass without live audio or model.
+- Local preview235421has489files/76252854bytes; SHA256
+  88D98E7CAFA56B067A521571778D0F661A879DDCBF5EBBE9D412987D2BFA5A69. Exact-package UI passes.
+- Agency2026.10.7.4/bcff2c0f is pinned. Ordinary Copilot cloud remains unvalidated after its failure;
+  actual local-model inference/quality is not claimed from loopback mocks. No recipient qualification.
+
+## Completion log
+
+- 2026-10-08 21:24 - Owner requested installed Copilot CLI integration and local-model choice now;
+  Azure remains open for the future. Implementing isolated provider/UI boundaries.

@@ -27,7 +27,7 @@ $names = @(
     'transcript-deepseafoam.png', 'theme-DeepSeaFoam.png', 'theme-HarborDaylight.png',
     'theme-Plain.png', 'audio-setup.png', 'notes-expanded.png',
     'background-10.png', 'background-100.png', 'present.png',
-    'question-selection.png', 'question-draft.png', 'question-harbordaylight.png'
+    'question-selection.png', 'question-draft.png', 'question-harbordaylight.png', 'answer-synthetic.png'
 )
 $images = @()
 foreach ($name in $names) {
@@ -51,6 +51,7 @@ $sourceFiles = @(
     'src\PhantomFudge.App\App.xaml', 'src\PhantomFudge.App\App.xaml.cs',
     'src\PhantomFudge.App\MainWindow.xaml', 'src\PhantomFudge.App\MainWindow.xaml.cs',
     'src\PhantomFudge.App\MainWindow.Questions.cs', 'src\PhantomFudge.App\MainWindow.QuestionDiagnostics.cs',
+    'src\PhantomFudge.App\MainWindow.Answers.cs', 'src\PhantomFudge.App\MainWindow.AnswerDiagnostics.cs',
     'src\PhantomFudge.Core\StructuredTranscriptStore.cs', 'src\PhantomFudge.Core\QuestionDraft.cs',
     'src\PhantomFudge.Core\TranscriptSegment.cs', 'src\PhantomFudge.Core\QuestionSnapshot.cs',
     'src\PhantomFudge.App\ThemeBrushes.cs', 'src\PhantomFudge.Core\ThemePalette.cs',

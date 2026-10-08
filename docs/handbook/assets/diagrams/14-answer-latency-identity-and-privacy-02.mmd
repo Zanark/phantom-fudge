@@ -6,9 +6,9 @@ config:
     textColor: "#e6edf3"
 ---
 flowchart TB
-    accTitle: PLANNED identity and selected-text boundaries
-    accDescr: Explicit setup may open the broker; Ask uses silent credentials and sends selected text only to the approved model.
-    subgraph App["PLANNED desktop"]
+    accTitle: PLANNED optional direct Azure identity boundary
+    accDescr: This future direct Azure path is separate from installed CLI authentication. Explicit setup may open WAM; an authorized Ask would use silent credentials and send ExactText to the approved resource.
+    subgraph App["PLANNED Azure adapter"]
         Setup["Explicit Connect"]
         Ask["Ask snapshot"] --> Silent["Silent credential"]
         Silent --> Need["Sign-in required"]

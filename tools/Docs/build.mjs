@@ -206,6 +206,8 @@ async function loadBook() {
     await record(path.join(here, file));
   for (const file of ['AGENTS.md', 'README.md', 'JOURNAL.md', 'docs/README.md',
     'docs/handbook/README.md', 'docs/DOCUMENTATION-MAINTENANCE.md', 'docs/LOCAL-QUESTIONS.md', 'docs/OVERVIEW.md',
+    'docs/ANSWER-PROVIDERS.md', 'docs/answer-provider-smoke.json',
+    'scripts/Initialize-Answers.ps1', 'scripts/Initialize-Answers.txt',
     'scripts/Build-Handbook.ps1', 'scripts/Build-Handbook.txt',
     'scripts/Export-HandbookScreenshots.ps1', 'scripts/Export-HandbookScreenshots.txt',
     'scripts/Export-ReadmeImages.ps1', 'scripts/Export-ReadmeImages.txt',
@@ -309,7 +311,7 @@ async function makeHtml(book) {
     `<header class="cover"><div class="edition">Engineering edition ${escape(book.config.edition)}</div>` +
     `<img src="assets/cover.svg" alt="Original diagrammatic handbook cover">` +
     `<h1>${escape(book.config.title)}</h1><p>${escape(book.config.subtitle)}</p>` +
-    '<p>Implemented local preview and question snapshots. Measured evidence is bounded. Azure answers are not connected.</p></header>' +
+    '<p>Local capture and explicit provider answers. Measured evidence is bounded. Direct Azure remains future work.</p></header>' +
     '<div class="status">This book distinguishes implemented behavior, measured observations, proposals and unknowns. ' +
     'No universal screen-capture or cursor invisibility is promised. Documentation images use synthetic content.</div>' +
     `<h2 id="contents">Contents</h2><nav class="toc">${book.pages.map(page =>

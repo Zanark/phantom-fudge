@@ -51,6 +51,7 @@ public partial class MainWindow : Window
         ThemeBrushes.Apply(Resources, currentTheme);
         InitializeComponent();
         InitializeQuestionView();
+        InitializeAnswers();
         ApplyTheme(currentTheme);
         ServiceToken.Password = Environment.GetEnvironmentVariable("PHANTOM_TRANSCRIPTION_TOKEN") ?? "";
         transcriber.TranscriptReceived += value => Dispatch(() => ReceiveTranscript(value));
@@ -207,6 +208,7 @@ public partial class MainWindow : Window
         protectionReady = false;
         questionEditing = false;
         Hide();
+        CancelAnswer();
         await StopTranscriptionAsync();
         ReportStatus(message);
     }
@@ -217,6 +219,7 @@ public partial class MainWindow : Window
         {
             questionEditing = false;
             Hide();
+            CancelAnswer();
             await StopTranscriptionAsync();
         }
         else
@@ -233,6 +236,7 @@ public partial class MainWindow : Window
         var next = forceEdit ? false : !presenting;
         questionEditing = false;
         Hide();
+        CancelAnswer();
         await StopTranscriptionAsync();
         presenting = next;
         UpdateInteractionControls();
@@ -280,7 +284,10 @@ public partial class MainWindow : Window
             return;
         }
         if (action == PendingAction.Exit)
+        {
+            await StopAnswerAsync();
             await StopTranscriptionAsync();
+        }
         pending = action;
         if (NotesDirty || (action == PendingAction.Exit && (TranscriptDirty || HasQuestionContent)))
             ConfirmPanel.Visibility = Visibility.Visible;
@@ -838,6 +845,7 @@ public partial class MainWindow : Window
         }
         source?.RemoveHook(WindowMessage);
         hotkeys?.Dispose();
+        await StopAnswerAsync();
         await transcriber.DisposeAsync();
         Application.Current.Shutdown();
     }
@@ -846,6 +854,10 @@ public partial class MainWindow : Window
     {
         Directory.CreateDirectory(directory);
         diagnosticRendering = true;
+        useAnswerProvider = false;
+        configuredAnswerSettings = new(PhantomFudge.Core.Answers.AnswerProviderMode.SnapshotOnly);
+        answerSettingsValid = false;
+        UpdateAnswerControls();
         try
         {
             var foregroundBefore = GetForegroundWindow();
@@ -1068,6 +1080,7 @@ public partial class MainWindow : Window
                 SetCaptureMode(AudioCaptureMode.Both);
             }
             var questionChecks = await RunQuestionDiagnosticAsync(directory);
+            var answerChecks = await RunAnswerDiagnosticAsync(directory);
             var styles = WindowProtection.ReadStyles(new WindowInteropHelper(this).Handle);
             var acknowledgmentsRemoved = FindName("ConsentCheck") is null && FindName("RehearsalCheck") is null;
             var passed = protectionReady && preserved && readOnly && !ShowInTaskbar && acknowledgmentsRemoved &&
@@ -1097,7 +1110,7 @@ public partial class MainWindow : Window
                     nativeStyles = styles, recordingStarted = transcriber.IsRunning,
                     discoveredRenderEndpoints = discoveredRenderCount,
                     discoveredMicrophoneEndpoints = discoveredMicrophoneCount,
-                    documentationFixture, questionChecks,
+                    documentationFixture, questionChecks, answerChecks,
                     limitation = "Synthetic local UI, cursor-shape policy and nonactivation assertions only; " +
                         "no real audio or remote captured-cursor visibility guarantee."
                 }, new JsonSerializerOptions { WriteIndented = true }));

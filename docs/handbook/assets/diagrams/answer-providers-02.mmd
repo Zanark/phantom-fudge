@@ -1,0 +1,32 @@
+---
+config:
+  theme: base
+  themeVariables:
+    actorBkg: "#2d333b"
+    actorBorder: "#6d5dfc"
+    actorTextColor: "#e6edf3"
+    signalColor: "#8b949e"
+    signalTextColor: "#e6edf3"
+---
+sequenceDiagram
+    accTitle: A bounded answer request and explicit cancellation
+    accDescr: The UI sends one exact question, accepts identified text deltas, and cancels the owned process without retrying when the user cancels.
+    autonumber
+    participant Owner
+    participant UI as Protected window
+    participant Adapter
+    participant CLI as Owned CLI process
+    Owner->>UI: Ask configured provider
+    UI->>Adapter: Request ID and ExactText
+    Adapter->>CLI: Restricted invocation and stdin
+    CLI-->>Adapter: Identified text events
+    Adapter-->>UI: Text deltas
+    alt Explicit cancellation
+        Owner->>UI: Cancel or Hide
+        UI->>Adapter: Cancel request
+        Adapter->>CLI: Stop owned process tree
+        UI->>UI: Keep partial marked incomplete
+    else Successful terminal event and exit
+        CLI-->>Adapter: Completed
+        Adapter-->>UI: Completed
+    end

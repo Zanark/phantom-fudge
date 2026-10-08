@@ -14,7 +14,7 @@ deep, source-linked reference; the [development journal](../JOURNAL.md) tells th
 | Separate implemented from planned | [Current evidence](IMPLEMENTATION-STATUS.md), [roadmap](handbook/21-evidence-and-roadmap.md) |
 | Understand two audio sources | [Frozen v2 contract](DUAL-SOURCE-AUDIO.md), [audio chapter](handbook/07-dual-input-capture.md) |
 | Explore appearance and input behavior | [Themes, translucency and cursors](CURSOR-AND-THEMES.md) |
-| Compose a local question | [Selection, editing and exact snapshots](LOCAL-QUESTIONS.md); no model request is sent yet |
+| Compose and answer a question | [Drafts and snapshots](LOCAL-QUESTIONS.md), [Copilot/local model setup](ANSWER-PROVIDERS.md) |
 | Design the future Azure answer feature | [Architecture](AI-ANSWER-ARCHITECTURE.md), [research](AI-ANSWER-RESEARCH.md), [evaluation](AI-ANSWER-EVALUATION.md), [privacy](AI-ANSWER-PRIVACY.md) |
 | Choose the next implementation task | [TODO index](../TODO/00_INDEX.todo), [delivery workflow](DEVELOPMENT-WORKFLOW.md) |
 | Review feasibility and support claims | [Research](FEASIBILITY.md), [architecture](ARCHITECTURE.md), [qualification matrix](QUALIFICATION.md) |
@@ -23,7 +23,8 @@ deep, source-linked reference; the [development journal](../JOURNAL.md) tells th
 | Change the docs or regenerate images | [Maintenance contract](DOCUMENTATION-MAINTENANCE.md), [book tooling](../tools/Docs/README.md) |
 
 The app is a **local, unqualified Windows preview**, not a universally invisible application.
-The current native Python service does not need Docker. Local question drafting is implemented; Azure sending is not.
+The current native Python service does not need Docker. Providers are explicit: installed Copilot
+can use cloud models or a configured local endpoint. Direct Azure remains future work.
 Handbook UI images are actual WPF visual-tree renders with **synthetic content and device labels**,
 not desktop screenshots and not evidence of screen-sharing exclusion.
 

@@ -10,7 +10,7 @@ Turn one frozen question into a low-latency asynchronous answer without coupling
 
 ## Tasks
 
-- [ ] Add an IAnswerProvider abstraction and an in-memory fake stream for deterministic tests.
+- [x] Add an IAnswerProvider abstraction and an in-memory fake stream for deterministic tests (shared implementation in39).
 - [ ] Pin/compile-check current OpenAI .NET Responses client names, streaming/cancellation and Azure extra fields.
 - [ ] Implement v1 Responses foreground streaming with store:false, no tools/conversation/previous-response ID.
 - [ ] Reuse client/credential/HTTP connections and request silent tokens outside the audio/UI critical threads.
@@ -34,3 +34,5 @@ Turn one frozen question into a low-latency asynchronous answer without coupling
 ## Completion log
 
 - 2026-10-08 - Planned as a direct C# adapter; Python continues owning ASR.
+- 2026-10-08 21:24 - Shared abstraction/UI now belong to39's installed-provider path. This workstream
+  retains the future direct Azure adapter and approved30profile requirement, not a global prerequisite.

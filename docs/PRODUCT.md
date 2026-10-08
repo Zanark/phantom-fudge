@@ -19,10 +19,11 @@ selected it. "Proposed" is a recommendation to resolve in `TODO\01_PRODUCT_DECIS
 | R10 | Transcription is primary; notes collapsed by default | Default layout and lossless expansion/collapse |
 | R11 | DeepSeaFoam/Harbor Daylight toggle plus Plain reset | Canonical semantic palettes, controls and local UI evidence |
 | R12 | Remove I-beam/unnecessary focus cues; investigate shared cursor disappearance | Local Arrow/nonactivation plus separately qualified recipient behavior; no universal guarantee |
-| R13 | Local selection/typed question and exact snapshot implemented; model submission/answer remains planned | Immutable source-scoped snapshot, then future corresponding same-window answer |
+| R13 | Local question and installed-provider answer implemented; direct Azure remains future | Immutable source-scoped request and corresponding same-window answer |
 | R14 | Planned: minimize useful-answer latency without sacrificing question fidelity | Stage-based local/cloud measurement and quality gates |
 | R15 | Planned: use Azure where justified with explicit data/identity boundaries | Approved selected-text inference profile; audio remains local by default |
 | R16 | Keep illustrated engineering documentation and a public development journal current | Source-linked chapters, synthetic images, diagrams and generated editions maintained with changes |
+| R17 | Use existing Agency in background or an explicit local model, with no org-data tools | Labelled provider, isolated prompt-only launch, zero-tool surface and bounded streamed output |
 
 The original wish for a window that can "never be detected" is not an implementable
 universal contract. Task Manager, desktop-window enumeration, accessibility tools,
@@ -44,8 +45,7 @@ inference after explicit Ask while keeping local ASR, no chat reading, no automa
 answers, and Docker-last. Cloud audio is separately optional. See AI-ANSWER-ARCHITECTURE.md.
 
 Question typing deliberately takes keyboard focus through its own protected transition without
-stopping transcription or enabling notes editing. Ask currently freezes locally only; it sends
-nothing. Accurate armed-Mic finalization remains29. See LOCAL-QUESTIONS.md.
+stopping transcription or enabling notes editing. Snapshot-only mode sends nothing; configured-provider Ask sends only the exact selected question. Accurate armed-Mic finalization remains29. See LOCAL-QUESTIONS.md.
 
 October8 11:31 direction: transcript-first replaces notes-first. Start in non-activating Present,
 with notes collapsed, fixed Arrow pointer and a deliberate Edit action for keyboard input.

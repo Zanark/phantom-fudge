@@ -104,7 +104,7 @@
     {
       "title": "research",
       "name": "Performance and Planned AI Answers",
-      "prompt": "Separate measured ASR from planned Azure answers using docs/SPEECH-BENCHMARK.md:1, tools/SpeechBench/metrics.py:1 and docs/AI-ANSWER-ARCHITECTURE.md:1-20.",
+      "prompt": "Separate measured ASR from planned Azure answers using docs/SPEECH-BENCHMARK.md:1, tools/SpeechBench/metrics.py:1 and docs/AI-ANSWER-ARCHITECTURE.md:1-32.",
       "children": [
         {
           "title": "12-performance-and-benchmarks",
@@ -115,7 +115,7 @@
         {
           "title": "13-proposed-azure-answer-flow",
           "name": "Local Questions and Proposed Azure Answers",
-          "prompt": "Distinguish implemented local Freeze from PLANNED commit/provider using src/PhantomFudge.Core/QuestionDraft.cs:90-95, src/PhantomFudge.Core/QuestionSnapshot.cs:5-23 and docs/AI-ANSWER-ARCHITECTURE.md:1-20.",
+          "prompt": "Distinguish implemented local Freeze from PLANNED commit/provider using src/PhantomFudge.Core/QuestionDraft.cs:90-95, src/PhantomFudge.Core/QuestionSnapshot.cs:5-23 and docs/AI-ANSWER-ARCHITECTURE.md:1-32.",
           "children": []
         },
         {

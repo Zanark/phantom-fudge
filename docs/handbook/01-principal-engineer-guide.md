@@ -170,7 +170,7 @@ OBS path. The qualification matrix keeps these observations separate
 Azure Ask currently exists in design documents and TODOs. A principal-level diagram should not
 quietly insert an operational cloud box into the implemented path. The planned architecture
 requires immutable question snapshots, source-scoped commit and request-bound streaming; none
-is implied by the current text buffer (`docs\AI-ANSWER-ARCHITECTURE.md:21-89`).
+is implied by the current text buffer (`docs\AI-ANSWER-ARCHITECTURE.md:44-138`).
 
 ## Where to go deep
 

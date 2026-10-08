@@ -99,3 +99,13 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
 - 2026-10-08 19:43 request - Root README changed to an image-first showcase. Setup/product/capture
   explanations moved to docs\OVERVIEW.md and the docs index. Added opaque, provenance-backed derivatives
   of existing synthetic UI images for GitHub readability. No app/source-feature change or upload.
+- 2026-10-08 21:24 - Installed-provider answers requested, with Azure future. Direct Copilot attempt
+  failed; requested login stopped after owner rejected org-auth popup. Existing Agency became primary.
+  Separately approved synthetic Agency prompt returned PHANTOM_OK/exit0 in69.881s,tool_count0,
+  no toolrequests,builtinMCPs disabled,no newlogin. No org data or meeting content submitted.
+  Shared UI/adapter packaging and docs follow in39; this is not latency or recipient qualification.
+- 2026-10-09 00:01 local handoff - Installed Agency provider39 implemented, configured without login,
+  and packaged as235421 (489files/76252854bytes), SHA256
+  88D98E7CAFA56B067A521571778D0F661A879DDCBF5EBBE9D412987D2BFA5A69.
+  Core268 and source/exact-package synthetic UI pass. Expanded handbook has provider setup chapter;
+  no further real model calls, auth attempts or force-restart of the owner's app were performed.

@@ -18,7 +18,7 @@ inputs, and a researched proposal for explicitly sending a question to an Azure 
 important engineering work is not drawing a rectangle. It is keeping each promise narrow enough
 to implement and each state transition strong enough to preserve data. The current product
 contract records those distinct requirements rather than collapsing them into a claim of
-universal invisibility (`docs\PRODUCT.md:6-30`).
+universal invisibility (`docs\PRODUCT.md:6-31`).
 
 This handbook is intended to support three activities. A new contributor should be able to
 run and navigate the application without guessing. A senior engineer should be able to review
@@ -63,7 +63,7 @@ flowchart LR
 The WPF application owns its native window and starts without an ordinary taskbar/Alt-Tab
 entry. Its startup path distinguishes synthetic diagnostics from normal single-instance
 operation, creates `MainWindow`, installs recovery callbacks, and calls `ShowProtected`
-(`src\PhantomFudge.App\App.xaml.cs:13-58`). The UI is not a browser or a remote webpage.
+(`src\PhantomFudge.App\App.xaml.cs:13-82`). The UI is not a browser or a remote webpage.
 
 The speech path remains local. The native adapter selects explicit audio endpoints, while
 the Python server accepts one authenticated session and uses separate decoder state for
@@ -104,7 +104,7 @@ a recording of a user's desktop or evidence that a meeting recorder excludes the
 
 The screenshot fixture is a separate application entry path. It invokes the same window and
 its rendering diagnostics, but supplies documentation-safe examples; it does not start the
-speech service or open a capture endpoint (`src\PhantomFudge.App\App.xaml.cs:24-36`).
+speech service or open a capture endpoint (`src\PhantomFudge.App\App.xaml.cs:47-59`).
 The accompanying screenshot manifest identifies source and image hashes.
 
 ## Choose a reading path
@@ -128,8 +128,9 @@ inconsistent task database.
 The local draft and immutable snapshot now exist. Explicit selected segments or typed text feed
 `QuestionDraft`; `Freeze` captures exact text and copied provenance without invoking any provider
 (`src\PhantomFudge.Core\QuestionDraft.cs:18-95`, `src\PhantomFudge.Core\QuestionSnapshot.cs:5-23`).
-Source commit, Azure identity and streamed answers remain future work
-(`docs\AI-ANSWER-ARCHITECTURE.md:21-89`). A local Ask snapshot is not a deployed model or cloud request.
+Source commit and direct Azure identity remain future work. Installed-provider streaming and setup
+are explained in the new [Agency/local-model chapter](../ANSWER-PROVIDERS.md), separately from Azure
+(`docs\AI-ANSWER-ARCHITECTURE.md:44-138`). A local-only snapshot is not a model request; configured provider Ask crosses its labelled inference boundary.
 
 ## Reading source citations
 
@@ -153,10 +154,10 @@ If any pair sounds equivalent, revisit the relevant boundary before changing the
 ## References
 
 - `docs\OVERVIEW.md:8-52` — current product and qualification summary, moved from the visual front page.
-- `docs\PRODUCT.md:6-30` — requirement and impossibility boundary.
+- `docs\PRODUCT.md:6-31` — requirement and impossibility boundary.
 - `AGENTS.md:14-43` — engineering distinctions and privacy rules.
-- `src\PhantomFudge.App\App.xaml.cs:13-58` — real startup paths.
+- `src\PhantomFudge.App\App.xaml.cs:13-82` — real startup paths.
 - `src\PhantomFudge.Core\AudioSource.cs:3-30` — source identity.
 - `src\PhantomFudge.Core\TranscriptBuffer.cs:6-97` — partial/final text representation.
 - `scripts\Run-PhantomFudge.ps1:17-41` — launch versus audio/service behavior.
-- `docs\AI-ANSWER-ARCHITECTURE.md:21-89` — planned, not implemented, answer extension.
+- `docs\AI-ANSWER-ARCHITECTURE.md:44-138` — planned, not implemented, answer extension.

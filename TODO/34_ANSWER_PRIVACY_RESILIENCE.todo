@@ -2,7 +2,7 @@
 
 Status: NOT_STARTED
 Milestone: A5 Robust integration
-Dependencies: 28_QUESTION_DRAFTS.todo, 29_QUESTION_COMMIT_LATENCY.todo, 30_AZURE_ANSWER_CONNECTION.todo, 31_STREAMING_ANSWER_CLIENT.todo, 32_ANSWER_UI_LIFECYCLE.todo
+Dependencies: 28_QUESTION_DRAFTS.todo, 39_INSTALLED_CLI_ANSWERS.todo, 32_ANSWER_UI_LIFECYCLE.todo
 
 ## Purpose
 
@@ -34,3 +34,5 @@ Prevent accidental egress, stale answers, duplicate billing attempts and mislead
 ## Completion log
 
 - 2026-10-08 - Planned as part of the answer feature, not optional cleanup.
+- 2026-10-08 21:24 - Scope the current gate to the selected installed provider. Commit/Azure-specific
+  rows remain deferred until29/30/31, not prerequisites to testing the Copilot/local-model path39.
