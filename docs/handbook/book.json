@@ -1,13 +1,15 @@
 {
   "title": "Phantom Fudge Engineering Handbook",
   "subtitle": "A local-first conversation companion, from Windows surfaces to source-labelled speech",
-  "edition": "2026-10-09",
+  "edition": "2026-10-10",
   "language": "en",
   "chapters": [
     "00-reading-map.md",
     "01-principal-engineer-guide.md",
     "02-zero-to-hero.md",
+    "../INSTALLATION.md",
     "../CURRENT-WORKFLOW.md",
+    "../KEYBOARD-CONTROLS.md",
     "03-product-boundaries-and-decisions.md",
     "04-windows-capture-and-cursors.md",
     "05-desktop-ui-and-themes.md",

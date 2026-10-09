@@ -1,0 +1,13 @@
+---
+config: {"theme":"base","flowchart":{"htmlLabels":false},"themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TD
+    accTitle: Keyboard modes and explicit lifecycle actions
+    accDescr: Ordinary modes and masking preserve already-running work. Devices refuses busy audio or answers and otherwise closes Q A for setup. Start, Stop, Cancel and Clear are separate explicit actions.
+    Control["Keyboard control"] --> Intent{"Chosen action"}
+    Intent -->|Ordinary mode or mask| Keep["Preserve current work"]
+    Intent -->|devices| Busy{"Audio or answer busy?"}
+    Busy -->|Yes| Refuse["Refuse setup; do not stop work"]
+    Busy -->|No| Setup["Device setup closes Q/A"]
+    Intent -->|start, stop, cancel or clear| Explicit["Invoke existing guarded handler"]
+    Explicit --> Separate["Separate audio and answer lifecycles"]

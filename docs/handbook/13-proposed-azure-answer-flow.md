@@ -8,7 +8,7 @@ outline: deep
 
 ## Why question selection is the architectural center
 
-**Persistent Agency ACP now implements controlled direct Q&A; measured evidence is provider-level, not WPF acceptance. Direct Azure remains optional future work.** TODO28 established exact local Freeze. Accurate armed Mic spans remain TODO29; they do not block asking reviewed segments or typed text. Azure30/31 still need an approved profile and adapter. (src\PhantomFudge.App\MainWindow.Questions.cs:258-297, `QuestionAsk_Click`; TODO\29_QUESTION_COMMIT_LATENCY.todo:13-22, planned commit; TODO\31_STREAMING_ANSWER_CLIENT.todo:30-36, completion evidence.)
+**Persistent Agency ACP now implements controlled direct Q&A; measured evidence is provider-level, not WPF acceptance. Direct Azure remains optional future work.** TODO28 established exact local Freeze. Accurate armed Mic spans remain TODO29; they do not block asking reviewed segments or typed text. Azure30/31 still need an approved profile and adapter. (src\PhantomFudge.App\MainWindow.Questions.cs:265-304, `QuestionAsk_Click`; TODO\29_QUESTION_COMMIT_LATENCY.todo:13-22, planned commit; TODO\31_STREAMING_ANSWER_CLIENT.todo:30-36, completion evidence.)
 
 The owner redirected the primary path to installed **Agency** after an organization-auth popup: no new login and no organization-data access. The parent stopped the owned login and reset the app to SnapshotOnly. Agency mode and `AnswerSettings.AgencyPath` support that direction. The earlier single Copilot smoke **failed at the customization/tool gate**; its allowance remains consumed because a model call cannot be ruled out. The later Agency probe had **new, separate authorization**, not a retry of that allowance. (src\PhantomFudge.Core\Answers\AnswerContracts.cs:3-20, contract and modes; src\PhantomFudge.Core\Answers\AnswerConfiguration.cs:13-29, `Load`.) See [provider setup/status](../../docs/ANSWER-PROVIDERS.md) and [workstream39](../../TODO/39_INSTALLED_CLI_ANSWERS.todo).
 
@@ -23,7 +23,7 @@ The hard problem is not posting text to a model. It is knowing **which text the 
 The October9 source-only update makes direct multi-click selection the normal entrance to that
 draft: click Mic/Computer rows, review their combined text, then Ask separately. The historical045022
 ZIP does not contain it. Selection changes no provider contract and creates no model request.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:84-141; [local workflow](../LOCAL-QUESTIONS.md).)
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:85-147; [local workflow](../LOCAL-QUESTIONS.md).)
 
 A useful mental model has three objects: the transcript is an evolving observation, the draft is a working selection, and the snapshot is an immutable local commitment. Its copied `SourceRefs` remain **local provenance**, not provider input. (src\PhantomFudge.Core\QuestionSnapshot.cs:5-23, `QuestionSnapshot`.) `AnswerRun` now constructs a fresh request ID plus `snapshot.ExactText`; serializing the whole snapshot would undo that deliberately narrow boundary. (src\PhantomFudge.Core\Answers\AnswerRun.cs:15-27, constructor and `Request`.)
 
@@ -105,27 +105,27 @@ Sources: (src\PhantomFudge.Core\AudioSource.cs:3-30, `AudioSource`, `AudioSource
 The additional answer seam is implemented in (src\PhantomFudge.Core\Answers\AnswerContracts.cs:3-12, `AnswerRequest`, `IAnswerProvider`; src\PhantomFudge.Core\Answers\AnswerRun.cs:15-30, run identity/state).
 
 The retained-row seam and common mouse/keyboard/automation composition path are in
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-82,84-141).
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-83,85-147).
 
 `TranscriptBuffer.AddFinal` appends a formatted line and advances one global final ID; `BeginSession` resets that ID while retaining existing text with a separator. Therefore `17` is not a durable cross-session reference. Likewise, `[Mic]` is presentation text that a user could type. The unchanged display/export buffer is deliberately not the selection database. (src\PhantomFudge.Core\TranscriptBuffer.cs:23-38, `BeginSession`; src\PhantomFudge.Core\TranscriptBuffer.cs:48-72, `AddFinal`; src\PhantomFudge.Core\TranscriptBuffer.cs:87-96, source formatting.)
 
 ## Implemented components and local dataflow
 
-The store accepts the local capture GUID supplied with each event and uses epoch 0 for current v2. A partial and its eventual final share a local utterance key; revisions distinguish replacement text. Qualified final times are audio-relative seconds, not word-level/sample-exact boundaries. A stale session/epoch or duplicate/out-of-order protocol final ID is rejected. (src\PhantomFudge.App\MainWindow.Questions.cs:132-140, `UpdateQuestionTranscript`; src\PhantomFudge.Core\StructuredTranscriptStore.cs:36-100, `SetPartial`, `AddFinal`; src\PhantomFudge.Core\StructuredTranscriptStore.cs:120-125, freshness; src\PhantomFudge.Core\TranscriptSegment.cs:28-58, segment fields.)
+The store accepts the local capture GUID supplied with each event and uses epoch 0 for current v2. A partial and its eventual final share a local utterance key; revisions distinguish replacement text. Qualified final times are audio-relative seconds, not word-level/sample-exact boundaries. A stale session/epoch or duplicate/out-of-order protocol final ID is rejected. (src\PhantomFudge.App\MainWindow.Questions.cs:134-142, `UpdateQuestionTranscript`; src\PhantomFudge.Core\StructuredTranscriptStore.cs:36-100, `SetPartial`, `AddFinal`; src\PhantomFudge.Core\StructuredTranscriptStore.cs:120-125, freshness; src\PhantomFudge.Core\TranscriptSegment.cs:28-58, segment fields.)
 
 Direct main-transcript clicks toggle whole Mic/Computer segments without Ctrl, composing raw text
 in displayed history order. Wrapped/multiline segments are indivisible rows, not arbitrary text
 ranges. Both final and unfinished ListBoxes route `SelectionChanged` to the same validator.
 Selection opens Q/A and enters independent editing but never creates a snapshot or submits it.
 After a manual edit, further direct changes are rejected with inline retained-draft status and
-restored highlights until **Clear question**. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:84-141.)
+restored highlights until **Clear question**. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:85-147.)
 
 The alternative **Choose source** chooser defaults to **Mic**. **Computer** or **All** are explicit
 filters; changing one never selects its contents automatically. **Use selected** is an explicit
 replacement action, including after editing, and copies only chosen keys. Typing is another alternative.
 Both selection paths use `ReplaceSelection`: one capture session, at most256entries and8,192UTF-16
 code units including newline separators. Empty Ask and oversized changes reject without truncation.
-(src\PhantomFudge.App\MainWindow.Questions.cs:14-17, default filter; src\PhantomFudge.App\MainWindow.Questions.cs:68-126, selection; src\PhantomFudge.Core\QuestionDraft.cs:18-45, session/copy rules; src\PhantomFudge.Core\QuestionDraft.cs:90-124, validation.)
+(src\PhantomFudge.App\MainWindow.Questions.cs:14-17, default filter; src\PhantomFudge.App\MainWindow.Questions.cs:70-128, selection; src\PhantomFudge.Core\QuestionDraft.cs:18-45, session/copy rules; src\PhantomFudge.Core\QuestionDraft.cs:90-124, validation.)
 
 Store retention is separate: 256 records/64,000 text characters. `ApplyUpdate` stages changes and evicts oldest non-active records except the current update; it fails if protected live data cannot fit. Drafts retain copied selections through eviction. `Refresh` can improve a selected unfinished record, but `EditText` makes user text authoritative—even reasserting the same text blocks later ASR replacement. (src\PhantomFudge.Core\StructuredTranscriptStore.cs:13-18, limits; src\PhantomFudge.Core\StructuredTranscriptStore.cs:134-145, eviction; src\PhantomFudge.Core\QuestionDraft.cs:48-79, edit/refresh.)
 
@@ -133,7 +133,7 @@ Main-history rows retain their own structured identity after chooser eviction an
 by the unchanged display/export buffer. Archived unfinished partials stay selectable/provisional;
 separators are not selectable. Before editing, selected keys follow partial revisions into finals.
 New finals follow scrolling only when already at the end, avoiding jumps during history selection.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-82;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-83;
 [`TranscriptBuffer`](../../src/PhantomFudge.Core/TranscriptBuffer.cs).)
 
 ### Worked local ordering
@@ -151,7 +151,7 @@ draft.Refresh(store);                        // user edit wins
 Assert(frozen.ExactText == "Explain Service Fabric like");
 ```
 
-The snapshot copies text and provenance; later recognition, typing, eviction or Clear cannot mutate the already-created object. Copy draft is deliberate and uses the Windows clipboard, outside capture protection. These local objects remain memory-only, but the configured CLI path does not: external profiles can retain prompts and sessions. Clear is not a deletion request to that profile or cloud service. (src\PhantomFudge.Core\QuestionSnapshot.cs:5-23, copied immutable fields; src\PhantomFudge.App\MainWindow.Questions.cs:14-21, state; src\PhantomFudge.App\MainWindow.Questions.cs:258-330, Ask/Copy/Clear.)
+The snapshot copies text and provenance; later recognition, typing, eviction or Clear cannot mutate the already-created object. Copy draft is deliberate and uses the Windows clipboard, outside capture protection. These local objects remain memory-only, but the configured CLI path does not: external profiles can retain prompts and sessions. Clear is not a deletion request to that profile or cloud service. (src\PhantomFudge.Core\QuestionSnapshot.cs:5-23, copied immutable fields; src\PhantomFudge.App\MainWindow.Questions.cs:14-22, state; src\PhantomFudge.App\MainWindow.Questions.cs:265-337, Ask/Copy/Clear.)
 
 **Finish dictation remains planned.** Selecting text does not arm a sample-exact live span. `IQuestionCommitter` remains proposed, whereas `IAnswerProvider.StreamAsync` now exists. Fake streams are validation tools, never pretend real answers. This distinction allows explicit Ask before source commit without claiming acoustic completeness. (docs\AI-ANSWER-ARCHITECTURE.md:611-642, provider/commit separation; TODO\29_QUESTION_COMMIT_LATENCY.todo:13-22, commit work.)
 
@@ -201,7 +201,7 @@ flowchart TB
     linkStyle default stroke:#8b949e
 ```
 
-The wrapper already provides a useful implementation pattern: after 30 audio seconds it retrieves a final, advances its cumulative offset, and constructs a new decoder. `finish()` alone retrieves a final but does not prepare continued recognition. The proposed commit must adapt finalize-and-replace for Mic while preserving Computer state and session-global final numbering. This is feasibility evidence, not an existing commit API. (services\transcription\recognizer.py:55-96, `VoskRecognizer`; TODO\29_QUESTION_COMMIT_LATENCY.todo:13-22, planned tasks.)
+The wrapper already provides a useful implementation pattern: after 30 audio seconds it retrieves a final, advances its cumulative offset, and constructs a new decoder. `finish()` alone retrieves a final but does not prepare continued recognition. The proposed commit must adapt finalize-and-replace for Mic while preserving Computer state and session-global final numbering. This is feasibility evidence, not an existing commit API. (services\transcription\recognizer.py:69-110, `VoskRecognizer`; TODO\29_QUESTION_COMMIT_LATENCY.todo:13-22, planned tasks.)
 
 ### Worked pseudocode: retries without duplicate finalization
 
@@ -230,7 +230,7 @@ def process_commit(marker, session):
 
 Lookup precedes current-epoch validation so a genuine retry can replay its original acknowledgment after the epoch has advanced. Changed parameters under the same request ID must fail. The eventual implementation also needs a defined publication/failure boundary and bounded deduplication lifetime; the sketch does not promise durable exactly-once delivery across process crashes. (docs\AI-ANSWER-ARCHITECTURE.md:461-506, commit ordering/idempotency; TODO\29_QUESTION_COMMIT_LATENCY.todo:26-28, duplicate/empty-commit acceptance.)
 
-An armed question needs a start boundary as well as an end. Otherwise earlier Mic conversation enters the question. Current partials disable word-level timing, so arbitrary retrospective acoustic cuts cannot be reconstructed exactly from displayed text. A click watermark also covers delivered samples, not audio still inside a device buffer. A bounded tail-drain policy must be specified and measured rather than disguised as sample-exact knowledge of when the user finished speaking. (services\transcription\recognizer.py:64-67, `_new_decoder`; docs\AI-ANSWER-ARCHITECTURE.md:461-506, start and device-buffer boundaries.)
+An armed question needs a start boundary as well as an end. Otherwise earlier Mic conversation enters the question. Current partials disable word-level timing, so arbitrary retrospective acoustic cuts cannot be reconstructed exactly from displayed text. A click watermark also covers delivered samples, not audio still inside a device buffer. A bounded tail-drain policy must be specified and measured rather than disguised as sample-exact knowledge of when the user finished speaking. (services\transcription\recognizer.py:78-81, `_new_decoder`; docs\AI-ANSWER-ARCHITECTURE.md:461-506, start and device-buffer boundaries.)
 
 ## Common answer state, then optional Azure
 
@@ -280,8 +280,8 @@ The question pane is inside the protected WPF surface, and common answer UI is i
 Global `TogglePresentationAsync` still stops transcription before changing Notes modes. Question
 typing instead uses `SetQuestionEditing`: deliberate focus, no transcription stop and no Notes-edit
 enablement. The manual chooser can remain passive, but direct main-row clicks deliberately enter
-that question-editing path. Neither selection path is Ask. (src\PhantomFudge.App\MainWindow.xaml.cs:245-266, `TogglePresentationAsync`; src\PhantomFudge.App\MainWindow.Questions.cs:36-56, inline expansion; src\PhantomFudge.App\MainWindow.Questions.cs:154-201, separate focus;
-src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:125-141.)
+that question-editing path. Neither selection path is Ask. (src\PhantomFudge.App\MainWindow.xaml.cs:253-275, `TogglePresentationAsync`; src\PhantomFudge.App\MainWindow.Questions.cs:37-58, inline expansion; src\PhantomFudge.App\MainWindow.Questions.cs:156-208, separate focus;
+src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:131-147.)
 
 ## Tradeoffs and adversarial event ordering
 
@@ -293,7 +293,7 @@ Core snapshot tests assert stability across later recognition, edits, Clear, evi
 
 ## Exercises
 
-1. Trace Ask on revision 4, then a final producing draft revision 5. Specify the snapshot/editor contents and explain how SnapshotOnly differs from configured provider mode without changing the frozen text. (src\PhantomFudge.Core\QuestionDraft.cs:61-95, `Refresh`, `Freeze`; src\PhantomFudge.App\MainWindow.Questions.cs:258-283, snapshot boundary.)
+1. Trace Ask on revision 4, then a final producing draft revision 5. Specify the snapshot/editor contents and explain how SnapshotOnly differs from configured provider mode without changing the frozen text. (src\PhantomFudge.Core\QuestionDraft.cs:61-95, `Refresh`, `Freeze`; src\PhantomFudge.App\MainWindow.Questions.cs:265-290, snapshot boundary.)
 2. Place a Mic marker behind two Mic frames and an interleaved Computer frame. Explain why acknowledging reception is insufficient and why global Stop is incorrect. (services\transcription\server.py:296-498, `Session.receive`, `recognize`.)
 3. Retry a commit after its epoch changes, then retry the same ID with a different watermark. Write expected acknowledgment/rejection assertions without opening audio devices. (TODO\29_QUESTION_COMMIT_LATENCY.todo:16-28, retry and boundary requirements.)
 

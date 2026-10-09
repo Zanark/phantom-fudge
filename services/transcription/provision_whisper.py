@@ -3,17 +3,26 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import shutil
 import sys
 from urllib.request import Request, urlopen
 
-ROOT = Path(__file__).resolve().parent.parent.parent
+ROOT = Path(os.environ.get("PHANTOM_TRANSCRIPTION_WORKSPACE",
+                           Path(__file__).resolve().parents[2])).resolve()
+MODELS_ROOT = Path(os.environ.get("PHANTOM_TRANSCRIPTION_MODELS_ROOT",
+                                  ROOT / ".local" / "models")).resolve()
 MANIFEST = Path(__file__).with_name("whisper-models.json")
 
 
 def model_spec(name):
     return json.loads(MANIFEST.read_text(encoding="utf-8"))["models"][name]
+
+
+def model_directory(name):
+    user_model = ROOT / ".local" / "models" / name
+    return user_model if user_model.exists() else MODELS_ROOT / name
 
 
 def valid_file(path, spec):

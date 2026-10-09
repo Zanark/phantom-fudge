@@ -39,29 +39,29 @@
     },
     {
       "path": "services/transcription/configuration.py",
-      "sourceSha256": "da858b8e6403dd927bcc13c7fdca4374830a765d778336f1303d07a95636777c",
-      "role": "Defines the strict selected-engine configuration and content-sensitive identity used to decide whether an owned runtime can be reused.",
+      "sourceSha256": "159868e84a06c7bea80214d7b5f353d2959aae603984166d6f35d0b6ef80c302",
+      "role": "Shares installed/developer workspace and model resolution, validates selected-engine configuration, and fingerprints the effective runtime before reuse.",
       "entryPoints": ["load_config", "metadata", "paths", "verify_config"],
       "blocks": [
         {
-          "start": 1, "end": 17, "title": "Locate configuration and state the native default",
-          "explanation": "ROOT accepts PHANTOM_TRANSCRIPTION_WORKSPACE or the repository root derived from this file. CONFIG names .local/transcription-config.json without reading it here. The five default fields choose schema 1, hybrid-whisper, small.en, four CPU threads and technical vocabulary; PIPELINE_VERSION is a separate runtime-identity version, currently 2. Imports use the provisioner module's read-only specification/verification helpers; importing those helpers is not a download.",
-          "focus": [{"start": 11, "end": 15}]
+          "start": 1, "end": 16, "title": "Share one writable workspace without initializing it",
+          "explanation": "ROOT now comes from provision_whisper, which resolves PHANTOM_TRANSCRIPTION_WORKSPACE or the source-derived repository root; manage.py imports this same value rather than inventing a second root. CONFIG names the workspace's .local/transcription-config.json without creating or reading it at import time. Defaults remain schema 1, hybrid-whisper, small.en, four CPU threads and technical vocabulary, with independent PIPELINE_VERSION 2. Importing model_directory and verification helpers does not invoke provisioning or download models.",
+          "focus": [{"start": 8, "end": 14}]
         },
         {
-          "start": 18, "end": 37, "title": "Accept one narrow configuration shape",
+          "start": 17, "end": 37, "title": "Accept one narrow configuration shape",
           "explanation": "An absent file yields a fresh default dictionary; an existing file uses utf-8-sig to tolerate PowerShell's BOM. Only missing vocabulary is backfilled for older configurations. The optional engine environment override is applied before validation. Exact keys exclude extras and missing fields. Exact int tests reject booleans for schema/threads; schema must be 1 and threads 1..8. Engine, model and vocabulary are finite selectors, including explicit legacy vosk and optional base.en. Invalid input raises rather than silently selecting a different engine.",
-          "focus": [{"start": 25, "end": 35}]
+          "focus": [{"start": 24, "end": 34}]
         },
         {
           "start": 38, "end": 59, "title": "Fingerprint effective identity and selected runtime source bytes",
-          "explanation": "metadata first resolves the selected Whisper model specification, then records pipeline, engine, effective model/revision, compute type, threads and vocabulary. Vosk reports its own 0.15 identity rather than the otherwise configured Whisper name. runtimeRevision hashes each listed filename plus a NUL separator and raw file bytes in fixed order: server, recognizer, accurate, configuration, diagnostics, provisioner, requirements and both model manifests. It is not a repository-wide fingerprint: manage.py, Dockerfile and healthcheck.py are excluded. Technical vocabulary gets a separate raw-file hash only when selected. Sorted compact JSON of the resulting identity becomes configFingerprint. With legacy Vosk, changing the unused Whisper name alone does not change its effective model identity; threads/vocabulary remain fingerprint fields even though VoskFactory does not consume them.",
+          "explanation": "metadata records pipeline, engine, effective model/revision, compute type, threads and vocabulary; Vosk uses its own 0.15 identity rather than the otherwise selected Whisper name. runtimeRevision hashes the listed filenames, NUL separators and raw bytes in order, not the entire repository or installed package tree. manage.py is excluded. In an installed payload the bundler intentionally rewrites requirements.txt to private faster-whisper/CTranslate2 versions and removes av, so this byte-sensitive fingerprint describes those installed requirements rather than pretending the source environment is unchanged. Technical vocabulary adds its own hash; sorted compact identity JSON produces configFingerprint. Vosk's unused Whisper selection does not alter its effective model identity, though threads/vocabulary remain fingerprint fields.",
           "focus": [{"start": 46, "end": 57}]
         },
         {
-          "start": 60, "end": 70, "title": "Resolve and verify only the selected inference prerequisites",
-          "explanation": "paths builds the fixed Vosk path and the manifest-selected Whisper directory beneath ROOT/.local/models. verify_config always verifies Vosk, because both engines need it, and verifies Whisper only for hybrid-whisper. No directory is downloaded, repaired or substituted by these functions. manage.validate_start additionally checks that faster_whisper imports before replacing an old idle hybrid runtime.",
-          "focus": [{"start": 61, "end": 70}]
+          "start": 60, "end": 69, "title": "Prefer user models but never bypass their manifest checks",
+          "explanation": "Both the fixed Vosk name and manifest-selected Whisper directory pass through model_directory: an existing workspace .local/models entry wins, otherwise MODELS_ROOT supplies the bundled location. Selection is not validation; an invalid user override fails verification rather than falling back to a valid packaged model. verify_config always checks Vosk and checks Whisper only for hybrid-whisper. These helpers neither download nor repair files; explicit provisioning remains a separate operation writing only to the user workspace.",
+          "focus": [{"start": 60, "end": 69}]
         }
       ]
     },
@@ -121,59 +121,74 @@
     },
     {
       "path": "services/transcription/manage.py",
-      "sourceSha256": "1a41c671ef50b7da12ace1ecf2aea5f708d877b713a4355d9a16056e19ca23f0",
-      "role": "Windows-native lifecycle manager that reuses or replaces only an authenticated workspace-owned idle service, retaining receipts on ambiguous failures.",
-      "entryPoints": ["main", "start", "stop", "status", "owned_info", "stop_owned"],
+      "sourceSha256": "71c9f51ee23e8fc503aa3345af01151013913386c0619584eb9a152d974e1ffe",
+      "role": "Serializes Windows service lifecycle, authenticates the owned loopback instance, and recovers only provably dead or recycled process receipts without arbitrary PID termination.",
+      "entryPoints": ["main", "start", "stop", "status", "lifecycle_lock", "process_identity", "clear_dead_record", "owned_info", "stop_owned"],
       "blocks": [
         {
-          "start": 1, "end": 44, "title": "Fix the workspace identity and reject credential redirects",
-          "explanation": "The manager anchors its own LOCAL/RECORD/SERVER paths to the repository containing this file and targets literal http://127.0.0.1:8765. Unlike configuration.ROOT, these manager paths do not read the workspace override. NoRedirects raises a safe RuntimeFailure instead of forwarding credentials to a redirect target. token reads only the workspace token file, trims it, and enforces the server-compatible 32..512 URL-safe ASCII character pattern; errors do not echo token content.",
-          "focus": [{"start": 35, "end": 42}]
+          "start": 1, "end": 43, "title": "Separate immutable service code from mutable workspace ownership",
+          "explanation": "ROOT is imported from configuration, sharing provision_whisper's resolved workspace override. LOCAL and RECORD therefore live under the user's InstalledRuntime/.local when installed, while SERVER stays beside this package's manage.py. BASE_URL remains literal IPv4 loopback. NoRedirects refuses credential forwarding to redirect targets. token reads and strips the workspace's ASCII token, enforcing 32..512 URL-safe characters without creating, rotating or printing it. Importing this module sets paths and defines functions; it does not launch the service.",
+          "focus": [{"start": 16, "end": 22}, {"start": 34, "end": 41}]
         },
         {
-          "start": 45, "end": 66, "title": "Authenticate bounded management requests without proxies",
-          "explanation": "request adds Bearer authentication and, when requested, the instance header. A new opener disables environment proxies and redirects, uses a two-second timeout, reads at most 4097 bytes and refuses anything over 4096 or not a JSON object. port_in_use makes only a 0.3-second IPv4 TCP reachability check; a listening port is not ownership evidence. owned_info must subsequently authenticate and match the instance. Neither function inspects or terminates OS processes.",
-          "focus": [{"start": 49, "end": 58}]
+          "start": 44, "end": 65, "title": "Authenticate bounded management requests without proxies",
+          "explanation": "request sends the local token as Bearer authorization and optionally an X-Phantom-Instance header. The opener disables environment proxies and rejects redirects, uses a two-second timeout, reads at most 4097 bytes and refuses responses over 4096 bytes or non-object JSON. port_in_use performs only a 0.3-second IPv4 TCP reachability check; it does not identify the listener. Subsequent owned_info authentication and instance matching are required before treating that listener as managed.",
+          "focus": [{"start": 44, "end": 55}]
         },
         {
-          "start": 67, "end": 94, "title": "Serialize native lifecycle operations with a Windows byte lock",
-          "explanation": "lifecycle_lock refuses non-Windows use before importing msvcrt. It creates LOCAL and a one-byte lock file, then retries nonblocking exclusive locking of byte zero for at most 50 seconds with 100-ms waits. The context yields only after obtaining the lock and releases it in finally. This coordinates this manager's starts/stops/status calls; it does not itself reserve TCP port 8765 or attest the listening program.",
-          "focus": [{"start": 78, "end": 87}]
+          "start": 66, "end": 93, "title": "Hold a Windows byte-range lock across lifecycle decisions",
+          "explanation": "lifecycle_lock refuses non-Windows use, creates nested LOCAL directories and ensures the lock file contains byte zero. It retries a one-byte nonblocking msvcrt lock for 50 seconds with 100-ms waits, yields only after acquiring it, then unlocks in finally. start, stop and status use this context, keeping receipt inspection, proven-dead recovery and spawn decisions serialized among cooperating managers. The file lock does not reserve port 8765 or by itself prove process ownership.",
+          "focus": [{"start": 72, "end": 82}, {"start": 87, "end": 91}]
         },
         {
-          "start": 95, "end": 124, "title": "Retain receipts and authenticate the actual instance rather than a PID",
-          "explanation": "Missing receipts return None; existing receipts must contain schemaVersion equal to 1 and a canonical lowercase UUID-hex string. This is narrower than trusting arbitrary JSON but is not an exact-key or strict-schema-type validator, and pid is not checked. write_record replaces the receipt through a same-directory .tmp file. owned_info refuses an untracked listener before any authenticated request, then checks service name, management protocol version 1 and exact instanceId. The receipt PID is informational, not the authority for an OS kill; source contains no such kill path.",
-          "focus": [{"start": 114, "end": 124}]
+          "start": 94, "end": 112, "title": "Validate receipt identity and replace it through a sibling temporary file",
+          "explanation": "An absent receipt returns None. Existing JSON must have schemaVersion equal to 1 and a canonical lowercase UUID-hex instanceId; intended read/parse/shape errors become RuntimeFailure. This reader is not an exact-key or strict-schema-type validator and does not yet validate the PID or creation-time fields. Those are checked when dead-record recovery needs them. write_record writes a same-directory .tmp and replaces RECORD, avoiding a directly truncated final receipt; it does not claim fsync durability.",
+          "focus": [{"start": 99, "end": 110}]
         },
         {
-          "start": 125, "end": 161, "title": "Check capabilities and stop only confirmed idle instances",
-          "explanation": "supports_current_audio requires an actual integer 2 in a list, rejecting True/2.0 substitutes. supports_current_engine compares the freshly computed configuration/source fingerprint. validate_start verifies required model files and imports faster_whisper for hybrid mode; failures preserve the old service and offer explicit provisioning, never fallback. stop_owned requires active to be exactly False, sends authenticated POST /v1/shutdown with the receipt instance, checks status=stopping, and waits up to 12 seconds for the fixed port to close. Only then does it unlink the receipt. Failure retains the receipt and never terminates a PID.",
-          "focus": [{"start": 145, "end": 153}]
+          "start": 113, "end": 141, "title": "Inspect exact Windows creation FILETIME without signalling a PID",
+          "explanation": "process_identity declares ctypes signatures for OpenProcess, GetProcessTimes and CloseHandle, requesting only PROCESS_QUERY_LIMITED_INFORMATION. OpenProcess error 87 or a nonzero exit FILETIME returns None; other access/query failures refuse recovery. A live process's creation time is assembled from both DWORDs into an exact integer and returned as a decimal string, avoiding floating-point loss. The handle always closes in finally. Inspection never opens termination rights or signals a process, so PID reuse cannot turn cleanup into an unrelated-process kill.",
+          "focus": [{"start": 125, "end": 136}, {"start": 137, "end": 139}]
         },
         {
-          "start": 162, "end": 183, "title": "Decide reuse versus verified idle upgrade",
-          "explanation": "start reads the token and acquires the lifecycle lock before loading selection/receipt. A reachable listener must be owned and ready. If both speech protocol and fingerprint match, it is reused even if capture is active. A stale runtime must report active exactly False before validation; validating prerequisites precedes stopping it so a missing new model does not destroy a healthy old idle instance. If no port is reachable but a receipt remains, startup refuses to overwrite it or create a second process. After any accepted upgrade, validation runs again before spawn.",
-          "focus": [{"start": 171, "end": 181}]
+          "start": 142, "end": 154, "title": "Remove only receipts whose recorded process is provably gone",
+          "explanation": "Recovery requires a real int PID in the unsigned 32-bit positive range and, if supplied, a nonzero decimal creation-time string of at most 20 digits. Malformed/incomplete identities are retained. A matching live identity is retained; a legacy PID-only receipt is also retained whenever that PID exists. Only a confirmed absent/exited process or a different creation time permits RECORD.unlink. Callers reach this helper under the lifecycle lock when no listener is found. It deletes the stale receipt, not the lock, token, user data or any process.",
+          "focus": [{"start": 143, "end": 152}]
         },
         {
-          "start": 184, "end": 208, "title": "Write ownership before a detached, offline-configured launch",
-          "explanation": "A new random UUID receipt with pid=None is written before Popen so even ambiguous startup leaves an ownership trail. The child receives the explicit token/model paths, literal-loopback host, instance identity, disabled bytecode, bounded BLAS/OMP settings, offline Hugging Face/Transformers flags, and disabled telemetry/implicit tokens. It runs the same Python executable with server.py, repository cwd, null stdin and stdout/stderr in a replaced generic log. Windows DETACHED_PROCESS plus CREATE_NEW_PROCESS_GROUP makes it independent of the launcher. These operations start a headless service, not audio capture; they are described, not executed for this documentation.",
-          "focus": [{"start": 189, "end": 200}, {"start": 202, "end": 208}]
+          "start": 155, "end": 185, "title": "Authenticate instance ownership and validate replacement prerequisites",
+          "explanation": "owned_info refuses an untracked listener, authenticates /v1/runtime, then checks the service label, management protocol 1 and receipt instanceId. Current speech support requires an actual integer 2 in a list; engine reuse requires the current configuration/source fingerprint. validate_start verifies selected model files and imports faster_whisper for hybrid mode. Failure produces explicit setup guidance, not an automatic download or fallback. start invokes this validation before shutting down an old idle runtime, so missing replacement prerequisites do not destroy the usable instance.",
+          "focus": [{"start": 155, "end": 165}, {"start": 177, "end": 183}]
         },
         {
-          "start": 209, "end": 228, "title": "Attest startup rather than equating process creation with readiness",
-          "explanation": "The manager waits up to 45 seconds, first rejecting a child that already exited. Once the fixed port listens, owned_info must match the prewritten instance; the reported pid is persisted before readiness, protocol and fingerprint assertions. Unready models, outdated protocol and unexpected selected configuration each produce an explicit failure with no fallback. Timeout retains the instance receipt because slow/hung initialization is neither a successful startup nor permission to spawn again. The observed runtime PID is not compared with Popen.pid here.",
-          "focus": [{"start": 213, "end": 224}]
+          "start": 186, "end": 202, "title": "Request authenticated idle shutdown rather than terminating a process",
+          "explanation": "stop_owned requires active to be exactly False, sends POST /v1/shutdown with the token and instance header, and requires status=stopping. It waits up to 12 seconds for the fixed port to close, retaining the receipt if shutdown is refused or the listener remains. Only confirmed port closure permits unlinking it. Shutdown uses the service's own authenticated path; there is no Popen terminate, taskkill or arbitrary PID-kill fallback.",
+          "focus": [{"start": 186, "end": 194}, {"start": 195, "end": 200}]
         },
         {
-          "start": 229, "end": 254, "title": "Expose conservative stop and bounded status",
-          "explanation": "stop refuses to discard a receipt for an unreachable service, reports absence only when neither listener nor receipt exists, and otherwise delegates authenticated ownership and idle shutdown. status holds the same lifecycle lock, reports no listener without attempting receipt cleanup, and prints only selected runtime metadata: readiness, activity, PID, engine/model, fingerprint, diagnostics status and counters. It does not expose the token or model filesystem path.",
-          "focus": [{"start": 244, "end": 252}]
+          "start": 203, "end": 224, "title": "Reuse a matching instance or recover a stale receipt before spawning",
+          "explanation": "start reads the token, acquires the byte lock and loads configuration/receipt. A listening owned instance must be ready. Matching protocol and fingerprint allow reuse even if capture is active; a stale instance must be explicitly idle before prevalidation and graceful shutdown. Without a listener, a remaining receipt now goes through clear_dead_record instead of being rejected unconditionally, enabling reboot/PID-reuse recovery while still refusing ambiguous live processes. Replacement prerequisites are validated again before spawn.",
+          "focus": [{"start": 208, "end": 219}, {"start": 221, "end": 224}]
         },
         {
-          "start": 255, "end": 272, "title": "Dispatch only explicit lifecycle verbs with safe failures",
+          "start": 225, "end": 253, "title": "Persist child PID before creation-time inspection can fail",
+          "explanation": "A new instance receipt with pid=None is written before launch. The inherited environment preserves workspace/MODELS_ROOT and adds token/Vosk paths, loopback host, instance ID, offline hub flags and bounded BLAS/OMP settings. The child uses the same executable with -B -X utf8 and package server.py, writable workspace cwd, null stdin and a replaced generic log; detached/new-process-group flags separate it from the launcher. Unlike the launcher's manager argv, this child argv does not explicitly repeat -I. Popen.pid is written immediately, before process_identity; creation time is added in a second write. Thus inspection failure leaves a recoverable PID-only receipt, which can later be removed only on proven absence.",
+          "focus": [{"start": 243, "end": 253}]
+        },
+        {
+          "start": 254, "end": 275, "title": "Require the authenticated ready process to be the launched child",
+          "explanation": "For up to 45 seconds, startup rejects an exited child and polls the loopback listener. owned_info must authenticate the instance, and the returned PID must equal Popen.pid rather than being adopted as a replacement identity. Readiness, speech protocol and configuration fingerprint are independently required. Slow initialization or any mismatch fails without accepting fallback or killing the child; the receipt remains for conservative later cleanup. Reporting ready starts no audio device: capture still requires an explicit application action.",
+          "focus": [{"start": 255, "end": 266}, {"start": 267, "end": 273}]
+        },
+        {
+          "start": 276, "end": 300, "title": "Recover proven-dead receipts on stop but keep status observational",
+          "explanation": "stop reads the token and locks lifecycle operations. With no listener it applies the same proven-dead recovery if a receipt exists, then reports absence; ambiguous identity failures still retain it. With a listener it authenticates ownership and requests idle shutdown. status holds the same lock but does not clean stale receipts when no port listens. Its listening JSON contains only selected readiness, activity, PID, engine/model, fingerprint, diagnostics and counters, not credentials or model paths.",
+          "focus": [{"start": 276, "end": 287}, {"start": 290, "end": 298}]
+        },
+        {
+          "start": 301, "end": 318, "title": "Dispatch only explicit lifecycle verbs with safe failures",
           "explanation": "The CLI accepts exactly one of start, stop or status; bad invocation exits 64. Authored RuntimeFailure messages exit 1, and OSError/ValueError receive a fixed generic workspace/setup message instead of raw paths or exception strings. Success exits 0. This catch list is not a blanket guarantee that all conceivable exceptions are sanitized; it covers the intended lifecycle failure classes. The main guard is the only CLI dispatch, so importing manage in tests does not spawn a service.",
-          "focus": [{"start": 259, "end": 268}]
+          "focus": [{"start": 301, "end": 312}]
         }
       ]
     },
@@ -197,57 +212,72 @@
     },
     {
       "path": "services/transcription/provision_whisper.py",
-      "sourceSha256": "526507c4d37beede2d8ce3504cf29397a288aaaf4d017066205f8a64fe22147e",
-      "role": "Provides read-only Whisper verification helpers and an explicitly invoked pinned-file provisioning command, with no automatic inference download.",
-      "entryPoints": ["model_spec", "valid_file", "verify_whisper", "provision", "main"],
+      "sourceSha256": "34fcea0fa45cb63698b24874c5198121c813cb4b3971845aae5b85ccc6f9e2ad",
+      "role": "Resolves user-before-bundled models, exposes read-only pinned verification, and provisions explicitly only into the writable user workspace.",
+      "entryPoints": ["ROOT", "MODELS_ROOT", "model_spec", "model_directory", "valid_file", "verify_whisper", "provision", "main"],
       "blocks": [
         {
-          "start": 1, "end": 37, "title": "Read pinned specifications and verify exact local contents",
-          "explanation": "Despite the opening docstring's 'never imported' wording, accurate.py and configuration.py do import this module's verification/spec helpers. That import does not invoke provision or perform network I/O. model_spec reads the committed model entry. valid_file rejects symlinks including ancestors, requires the pinned byte size, then streams SHA-256. verify_whisper requires a real directory and exactly the four direct child names in the manifest; unexpected children and invalid files fail with model_unavailable. ROOT is derived from this file, not the runtime workspace environment override.",
-          "focus": [{"start": 19, "end": 25}, {"start": 28, "end": 35}]
+          "start": 1, "end": 27, "title": "Resolve workspace and prefer an existing user model without creating data",
+          "explanation": "Despite the docstring's 'never imported' wording, runtime configuration and accurate.py import these read-only helpers. ROOT resolves PHANTOM_TRANSCRIPTION_WORKSPACE or the source-derived repository; MODELS_ROOT independently resolves its override or ROOT/.local/models. model_spec reads the adjacent committed manifest. model_directory returns an existing user .local/models/name entry before the installed model root. It does not verify that entry or silently bypass a corrupt override; callers subsequently apply the pinned verifier. Imports and path selection create no directories and perform no downloads.",
+          "focus": [{"start": 12, "end": 20}, {"start": 23, "end": 25}]
         },
         {
-          "start": 38, "end": 57, "title": "Prefer verified installed or benchmark-cached bytes",
-          "explanation": "provision selects repository-local target and speech-bench cache directories and creates the target. Valid destination files are skipped. An existing invalid destination is not overwritten: explicit removal is required for repair. Each missing file uses a .partial path opened exclusively with xb, tracking whether this invocation created it. A valid cached file can be copied without --download, allowing reuse of already pinned public model bytes. Invalid caches do not count as trusted input; the following branch decides whether network download is authorized.",
-          "focus": [{"start": 43, "end": 54}]
+          "start": 28, "end": 46, "title": "Require the exact Whisper file set, sizes and hashes in either location",
+          "explanation": "valid_file rejects symlinks on a file or any ancestor, requires a regular file of the declared size and streams SHA-256. verify_whisper requires a nonsymlink directory whose direct child-name set exactly equals the selected manifest, then validates every file. Missing, extra or changed contents yield model_unavailable. The same checks apply to a user override and a bundled directory; neither a preferred location nor the installed origin substitutes for content verification.",
+          "focus": [{"start": 28, "end": 34}, {"start": 37, "end": 44}]
         },
         {
-          "start": 58, "end": 82, "title": "Bound and verify an explicit revision-pinned public download",
+          "start": 47, "end": 65, "title": "Provision exclusively into user storage and reuse only verified cached bytes",
+          "explanation": "provision deliberately constructs its target from ROOT/.local/models, not MODELS_ROOT or model_directory: explicit repair/download must never write into the package-owned model directory. Its speech-bench cache is also under the user workspace. Valid targets are skipped; existing invalid targets require explicit removal. Missing files use exclusive .partial creation and a created flag, allowing a verified cache copy without --download while preventing this invocation from deleting a preexisting partial it did not create.",
+          "focus": [{"start": 47, "end": 58}, {"start": 60, "end": 65}]
+        },
+        {
+          "start": 66, "end": 92, "title": "Bound and verify an explicit revision-pinned public download",
           "explanation": "Only the preceding elif download branch reaches the URL built from repository, immutable revision and filename. The request supplies an application User-Agent, no model-service credential or audio/prompt. It uses ordinary urllib behavior, not manage.py's no-proxy/no-redirect opener, so this is not a claim of network isolation. Reads are at most 1 MiB, enforce the exact declared byte count, reject early EOF and one extra byte, then verify the partial's pinned size/hash before replacement. finally deletes only partials created by this call. Complete target verification precedes the metadata-only verified receipt. No-download missing bytes produce an explicit setup error.",
-          "focus": [{"start": 63, "end": 71}, {"start": 74, "end": 79}]
+          "focus": [{"start": 69, "end": 80}, {"start": 83, "end": 90}]
         },
         {
-          "start": 83, "end": 98, "title": "Make provisioning an explicit CLI action",
+          "start": 93, "end": 107, "title": "Make provisioning an explicit CLI action",
           "explanation": "argparse restricts --model to base.en/small.en with small.en default; --download is opt-in. main calls provision and returns 1 on OSError/ValueError, printing that setup exception string. Unlike service inference error handling, this explicit setup command does not sanitize all such messages into a fixed protocol error. Importing the module does not run main. scripts/Initialize-Transcription.ps1 invokes this command only for selected hybrid mode and only passes --download when the user selected DownloadModel.",
-          "focus": [{"start": 84, "end": 94}]
+          "focus": [{"start": 93, "end": 103}]
         }
       ]
     },
     {
       "path": "services/transcription/recognizer.py",
-      "sourceSha256": "ff50d28182f5073093b27390118f0ad869f74dfbe3c34b49a12e103e1967fd07",
-      "role": "Verifies the local Vosk model and adapts independent native recognizers to the service's Recognition value and source-relative timing.",
+      "sourceSha256": "84ce70afced72e24eb90e5a3d210a3089a9ee9d00fcaa23096c9fcf486cf63da",
+      "role": "Verifies Vosk assets, adapts Unicode Windows model startup without patching Vosk, and maintains independent decoder state and source-relative timing.",
       "entryPoints": ["Recognition", "verify_model", "VoskFactory", "VoskRecognizer.accept", "VoskRecognizer.finish"],
       "blocks": [
         {
-          "start": 1, "end": 21, "title": "Define the shared recognition value and sample-rate unit",
-          "explanation": "SAMPLE_RATE fixes 16000 samples per second and MODEL_MANIFEST points beside the module. Frozen Recognition carries text, provisional/final flag and seconds, defaulting to an empty-time provisional result. It is a transport-neutral dataclass, not a validating schema: server.Session._publish and accurate.WhisperFinalizer enforce the relevant output constraints later. Imports only supply hashing/JSON/time validation and paths; Vosk is imported lazily after verification.",
-          "focus": [{"start": 10, "end": 19}]
+          "start": 1, "end": 24, "title": "Define recognition values and serialize the Unicode loading workaround",
+          "explanation": "SAMPLE_RATE fixes 16000 samples per second, MODEL_MANIFEST is adjacent to this module and MODEL_LOAD_LOCK is a process-local thread lock for the temporary-CWD loading branch. Frozen Recognition carries text, provisional/final flag and seconds; it is not itself a validating transport schema. os and threading support Windows path adaptation, while Vosk remains a lazy import after model verification. No model is loaded merely by importing this module.",
+          "focus": [{"start": 12, "end": 22}]
         },
         {
-          "start": 22, "end": 40, "title": "Fail closed on missing, extra, linked or altered model files",
+          "start": 25, "end": 43, "title": "Fail closed on missing, extra, linked or altered model files",
           "explanation": "verify_model reads the committed files map, requires a nonsymlink directory, enumerates recursively and rejects any symlink entry. Its actual regular-file set must equal the manifest set, so missing and extra files fail before per-file hashing. Each expected target and every ancestor is checked for links before SHA-256 verification. Extra empty directories are not part of the regular-file equality check. No missing asset triggers download, and these integrity checks are not publisher signature verification.",
-          "focus": [{"start": 29, "end": 38}]
+          "focus": [{"start": 29, "end": 40}]
         },
         {
-          "start": 41, "end": 68, "title": "Share one loaded model while allocating per-source decoder state",
-          "explanation": "VoskFactory verifies first, imports Vosk, suppresses its own logging and passes model_path explicitly; language/name discovery is deliberately avoided because it may download. Calling the factory constructs a VoskRecognizer sharing that model object. Each recognizer separately owns total samples, current native-decoder offset and last final end. _new_decoder creates a KaldiRecognizer at 16 kHz, requests final word timestamps and disables partial-word detail. No acoustic mixing or speaker identification occurs here.",
-          "focus": [{"start": 41, "end": 52}, {"start": 56, "end": 67}]
+          "start": 44, "end": 68, "title": "Load Unicode Windows paths through a serialized wide-character CWD",
+          "explanation": "VoskFactory verifies the selected model before importing unmodified Vosk and disabling its logging. Explicit model_path avoids language/name discovery downloads. For a non-ASCII path on Windows only, the factory locks MODEL_LOAD_LOCK, saves the CWD, uses Python's Windows wide-character chdir, and passes the ASCII path '.' to Vosk's native loader. finally restores the prior CWD even when loading fails. Other paths use the explicit string directly. The lock serializes this workaround, not all process filesystem activity; server.production_app awaits the factory load before serving requests. Calling the factory creates per-source recognizers sharing the loaded model.",
+          "focus": [{"start": 49, "end": 60}, {"start": 61, "end": 66}]
         },
         {
-          "start": 69, "end": 96, "title": "Clamp absolute times and bound continuous native history",
-          "explanation": "_final parses Vosk JSON, offsets first/last word times into the source clock, or uses last_end/current elapsed for no-word results. Nonfinite times fail; start and end are clamped monotonically within submitted PCM duration before updating last_end. accept adds PCM samples before native decoding. After 30 seconds since the current decoder offset, it uses Result or FinalResult, advances the offset and replaces that decoder; otherwise native endpoints return finals and PartialResult supplies provisional text. finish flushes the current decoder. This adapter relies on its callers for PCM framing and does not itself enforce one-shot finish; HybridRecognizer adds that separate lifecycle discipline.",
-          "focus": [{"start": 73, "end": 80}, {"start": 82, "end": 93}]
+          "start": 69, "end": 82, "title": "Keep mutable decoder history independent for each source",
+          "explanation": "Each VoskRecognizer retains the shared loaded model and recognizer class but owns its sample counter, decoder offset and last final end. _new_decoder creates a fresh KaldiRecognizer at 16 kHz, enables final word timestamps and disables partial-word detail. These state variables belong to one input source; sharing the model does not mix PCM, decoder history or speaker identities.",
+          "focus": [{"start": 70, "end": 81}]
+        },
+        {
+          "start": 83, "end": 95, "title": "Clamp native word timing onto the submitted source clock",
+          "explanation": "_final parses Vosk JSON, offsets the first/last word times into the source's absolute clock, or uses last_end/current elapsed when no words are available. Nonfinite values fail; start and end are clamped monotonically within submitted PCM duration before updating last_end and returning a final Recognition. This bounds reported time but does not validate every aspect of the native JSON text; service publication applies its own output checks.",
+          "focus": [{"start": 84, "end": 94}]
+        },
+        {
+          "start": 96, "end": 110, "title": "Rotate continuous native history and explicitly flush the tail",
+          "explanation": "accept accounts for PCM samples before calling AcceptWaveform. At 30 seconds since the current decoder offset it obtains Result or FinalResult, advances the offset and replaces the decoder so continuous speech does not retain unbounded native history. Earlier endpoints return finals, otherwise PartialResult supplies provisional text. finish flushes the current decoder. PCM framing and one-shot finish are caller responsibilities; HybridRecognizer adds those guards rather than this adapter silently inventing them.",
+          "focus": [{"start": 96, "end": 107}]
         }
       ]
     },

@@ -446,7 +446,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Answers.cs",
-      "sourceSha256": "a65926885a6514bf9c4cde4679d67d1c9b28f03ad7c76b2e84a043cce026171b",
+      "sourceSha256": "fc2eda79ae56baf70d608416ad6baa5ca257629de5ae5925a72e2c21d4efb583",
       "role": "Binds explicit frozen questions to one bounded answer stream, coalesces UI rendering, and preserves incomplete text and identity through cancellation and failure.",
       "entryPoints": [
         "MainWindow.InitializeAnswers",
@@ -495,113 +495,118 @@
         },
         {
           "start": 103,
-          "end": 136,
+          "end": 124,
           "title": "Derive action availability from state rather than captions",
-          "explanation": "Controls reflect both answer-task and provider lifecycle state. Notices disclose cloud versus offline-local inference; preparation has its own cancel caption. Ask requires protection, no file/answer operation, provider readiness, nonblank draft and no pending clarification reply. Captions distinguish Freeze locally, Ask provider and Interpret question. Clarification controls are updated last so reply actions share the same current guards.",
+          "explanation": "Controls reflect both answer-task and provider lifecycle state. Notices disclose cloud versus offline-local inference. Cancellation is available during streaming or unfinished provider preparation, while copying requires nonempty run text. UpdateAnswerActionLabels supplies compact or full captions and full accessible names without changing these enabled-state guards. Configuration controls remain locked by their existing answer/provider-lifetime checks rather than by the text on their buttons.",
           "focus": [
             {
               "start": 121,
-              "end": 131
+              "end": 124
             }
           ]
         },
         {
-          "start": 137,
-          "end": 159,
+          "start": 125, "end": 135, "title": "Block selection-mode submission and follow the asynchronous editor target",
+          "explanation": "Ask requires protection, no file/answer operation, provider readiness, nonblank draft, no pending clarification reply and now !KeyboardSelecting. Thus Select/Search cannot use the button as a shortcut around review. Captions distinguish Freeze locally, Ask provider and Interpret question; optional clarification adds its bounded-history notice. UpdateClarificationControls runs before RefreshKeyboardEditorTarget, so a completed interpretation can make the newly enabled reply editor the modal Edit target instead of leaving focus attached to a hidden original-question control. This refresh does not itself submit a request.",
+          "focus": [{"start": 125, "end": 133}]
+        },
+        {
+          "start": 136,
+          "end": 158,
           "title": "Keep local freezing separate from starting a provider run",
           "explanation": "SnapshotOnly logs a local freeze, clears any old answer, labels the snapshot unsent and returns. Otherwise a new AnswerRun owns the frozen snapshot and optional clarification metadata, with a fresh request ID used to associate clarification acceptance. Monotonic timing and first-text flags reset per run. RecordContent is an opt-in diagnostics call, not unconditional question logging; the related capture ID comes from source provenance.",
           "focus": [
             {
-              "start": 139,
-              "end": 149
+              "start": 138,
+              "end": 148
             }
           ]
         },
         {
-          "start": 160,
-          "end": 177,
+          "start": 159,
+          "end": 176,
           "title": "Publish run identity before starting asynchronous streaming",
           "explanation": "answerRun is assigned before RunAnswerAsync can yield events. The UI reveals an answer panel, labels exactly what was submitted, replaces the old cancellation source, starts the render timer and stores the new task. Status distinguishes interpretation from solution; EnsureQuestionReadingVisible closes source/setup panels. This order makes incoming work refer to the already-current run and does not alter the underlying draft.",
           "focus": [
             {
-              "start": 160,
-              "end": 169
+              "start": 159,
+              "end": 168
             }
           ]
         },
         {
-          "start": 178,
-          "end": 211,
+          "start": 177,
+          "end": 210,
           "title": "Consume a bounded stream and validate before accepting completion",
           "explanation": "A linked token adds a 120-second UI deadline. The injected diagnostic provider wins; otherwise Agency must be warm, while other configured modes construct CopilotCliAnswerProvider. Each event is checked for cancellation and current run identity/Streaming state before AnswerRun.Apply enforces request and sequence rules. After enumeration ends, cancellation, clarification capacity and explicit AnswerRun completion are checked in that order. Only the current run can update clarification/status; diagnostics separately record received text and completion.",
           "focus": [
             {
-              "start": 187,
-              "end": 195
+              "start": 186,
+              "end": 194
             },
             {
-              "start": 203,
-              "end": 210
+              "start": 202,
+              "end": 209
             }
           ]
         },
         {
-          "start": 212,
-          "end": 247,
+          "start": 211,
+          "end": 246,
           "title": "Distinguish user cancellation, timeout and provider failure",
           "explanation": "A cancelled caller token produces Cancelled; a deadline without caller cancellation produces Failed with a 120-second incomplete-text notice. Provider exceptions use their safe message, selected infrastructure failures use a generic one, and neither catch retries. Noncompleted Agency runs clear readiness. The current run's timer stops and renders once more; control reevaluation is queued to the next dispatcher turn because this task is still finishing inside finally.",
           "focus": [
             {
-              "start": 212,
-              "end": 220
+              "start": 211,
+              "end": 219
             },
             {
-              "start": 235,
-              "end": 245
+              "start": 234,
+              "end": 244
             }
           ]
         },
         {
-          "start": 248,
-          "end": 271,
+          "start": 247,
+          "end": 270,
           "title": "Render the current answer without claiming pixels were observed",
           "explanation": "The run's text still updates and streams while the workspace is detached. FirstAnswerVisible is logged only when AnswerText.IsVisible, not merely when the outer covered window is visible. The visibility check is outside the text-changed branch so uncovering an already-completed answer records its first visible presentation. This metric remains a visible-control assignment observation, not independently measured rendered or recipient pixels.",
           "focus": [
             {
-              "start": 255,
-              "end": 266
+              "start": 254,
+              "end": 265
             }
           ]
         },
         {
-          "start": 272,
-          "end": 299,
+          "start": 271,
+          "end": 298,
           "title": "Make terminal cancellation immediate but await cleanup separately",
           "explanation": "CancelAnswer logs only a streaming cancellation, transitions the run and cancels its token before rendering the preserved partial text. StopAnswerAsync then awaits answerTask, stops rendering, disposes the token and awaits Agency shutdown. The explicit cancel button records whether work was busy before cancelling: active work schedules reconfiguration, whereas preparation-only cancellation stops Agency without that path.",
           "focus": [
             {
-              "start": 274,
-              "end": 279
+              "start": 273,
+              "end": 278
             },
             {
-              "start": 284,
-              "end": 290
+              "start": 283,
+              "end": 289
             }
           ]
         },
         {
-          "start": 300,
-          "end": 329,
+          "start": 299,
+          "end": 328,
           "title": "Copy explicitly and clear without reviving old callbacks",
           "explanation": "Copy refuses empty text and prefixes any noncompleted run with Incomplete answer; clipboard failure leaves memory intact. Clear cancels first, schedules provider reconfiguration, then nulls answerRun, clears/hides the pane, stops the timer and resets clarification. RunAnswerAsync's reference checks prevent an old stream from becoming the visible answer after this nulling, while AnswerBusy still waits for its task to finish.",
           "focus": [
             {
-              "start": 307,
-              "end": 316
+              "start": 306,
+              "end": 315
             },
             {
-              "start": 319,
-              "end": 328
+              "start": 318,
+              "end": 327
             }
           ]
         }
@@ -864,7 +869,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Layout.cs",
-      "sourceSha256": "b8ffb4ed00be59065a7c31317cc42d050bc61d8ef9683799aeba697f3f45858a",
+      "sourceSha256": "8d0d3481d995bb8ac7c32fd3e37c418e27cf82950caa5b2087c9ab9b999c05c5",
       "role": "Fits the single window to monitor work area and allocates readable transcript/question/answer space without wrapping the workspace in an outer scrolling surface.",
       "entryPoints": [
         "MainWindow.ClampWindowToWorkArea",
@@ -898,81 +903,82 @@
         },
         {
           "start": 56,
-          "end": 92,
-          "title": "Allocate wide columns or a constrained stacked reader",
-          "explanation": "After readiness guards, width selects WorkspaceLayout's900-unit columns threshold. Short workspace is height below780or transcript area below500. Narrow short layouts may replace transcript space with source tools or clarification replies. PartialText now uses10.5units in compact Q/A and13.5otherwise, exactly75%of its former14/18sizes. Final transcript text is15units in XAML. AnswerText remains9compact/10normal and question typography is unchanged. Row-padding equality avoids redundant resource replacement. Audio setup hides the transcript while its full-area card panel is open. Cover and host-switching states skip layout mutation of the detached workspace; normal layout is recalculated after uncovering.",
-          "focus": [
-            {
-              "start": 62,
-              "end": 73
-            },
-            {
-              "start": 76,
-              "end": 86
-            }
-          ]
+          "end": 73,
+          "title": "Borrow compact reading space without invoking close or cancellation",
+          "explanation": "Readiness, cover, cover-switching and keyboard-mode-switching guards avoid reentrant layout of a transitioning workspace. Width selects WorkspaceLayout's900-unit columns threshold; short means window height below780or transcript area below500. questionExpanded retains user intent independently of actual visibility: narrow short Select/Search temporarily hides Q/A without calling SetQuestionExpanded(false), so an answer is not cancelled merely to show selection rows. In the same compact geometry, source tools, a clarification reply, another active keyboard mode or an explicitly chosen answer size>=14can replace transcript space. Audio setup also hides the transcript. These are layout choices, not capture-stop or submission actions.",
+          "focus": [{"start": 60, "end": 71}]
         },
         {
-          "start": 93,
-          "end": 119,
+          "start": 74, "end": 92, "title": "Allocate columns, partial rows and small-header space",
+          "explanation": "Wide Q/A uses a1.15-star question column beside the transcript; narrow Q/A moves below it and caps transcript height at240with a20/25percent share unless tools replace that space. Partial height, font and padding shrink only for the compact open-Q/A case. PartialText remains10.5compact/13.5otherwise, and final text remains15in XAML. Row-padding equality avoids redundant resource replacement. At widths below620, input/theme labels are hidden and background opacity's slider narrows; this does not change transcript records or the selected source.",
+          "focus": [{"start": 79, "end": 89}]
+        },
+        {
+          "start": 93, "end": 96, "title": "Preserve a chosen answer size during every layout pass",
+          "explanation": "ApplyAnswerFontSize receives the automatic9compact/10normal default but retains any explicit session choice, rather than unconditionally overwriting AnswerText.FontSize on resize. Padding still follows the compact layout, and action captions are recalculated for the available question-panel width. The shared font helper prevents its slider synchronization from becoming another user change; neither call restarts rendering work or resubmits an answer.",
+          "focus": [{"start": 93, "end": 95}]
+        },
+        {
+          "start": 97,
+          "end": 123,
           "title": "Keep submitted text readable without crowding a clarification reply",
           "explanation": "A short workspace hides the submitted snapshot while awaiting a reply, but does not erase lastQuestionSnapshot. Otherwise short layouts pair draft and snapshot in columns; tall layouts allocate a separate snapshot row. The draft row receives extra weight for replies. Visibility changes trigger layout recalculation. EnsureQuestionReadingVisible closes the chooser and provider details before recalculating, keeping controls inside the same visual tree.",
           "focus": [
             {
-              "start": 93,
-              "end": 101
+              "start": 97,
+              "end": 105
             },
             {
-              "start": 104,
-              "end": 106
+              "start": 108,
+              "end": 110
             }
           ]
         },
         {
-          "start": 120,
-          "end": 150,
+          "start": 124,
+          "end": 154,
           "title": "Mutually exclude source and provider tools, with inline protection details",
           "explanation": "Source expansion hides provider setup and updates both captions. Provider toggling first collapses sources and then applies its own new state. Each calls UpdateWorkspaceLayout because tool height changes reading allocation. Protection Details independently toggles an inline panel and caption rather than creating a popup whose protection would need separate treatment.",
           "focus": [
             {
-              "start": 123,
-              "end": 132
+              "start": 127,
+              "end": 136
             },
             {
-              "start": 135,
-              "end": 142
+              "start": 139,
+              "end": 146
             }
           ]
         },
         {
-          "start": 151,
-          "end": 176,
+          "start": 155,
+          "end": 180,
           "title": "Define the exact synthetic notion of reading reachability",
           "explanation": "The helper raises minimum height for TextBox line height/padding/borders and for transcript ListBox row padding. It rejects hidden, narrower-than-24 or too-short controls, then checks window coordinates and the lower boundary at NotesToggleButton, with one-unit tolerance. HasOuterReadingScroll walks visual ancestors for ScrollViewer. These geometric predicates do not inspect glyph contrast, actual occlusion by another app or screen-reader usability.",
           "focus": [
             {
-              "start": 160,
-              "end": 166
+              "start": 164,
+              "end": 170
             },
             {
-              "start": 169,
-              "end": 175
+              "start": 173,
+              "end": 179
             }
           ]
         },
         {
-          "start": 177,
-          "end": 195,
+          "start": 181,
+          "end": 199,
           "title": "Declare monitor structures and native lookup signatures",
           "explanation": "Sequential layouts match the native rectangle and monitor-information fields: size, full monitor/work rectangles and flags. The caller initializes Size before GetMonitorInfoW. Return-value Bool marshaling and MonitorFromWindow/GetMonitorInfo imports are the interop boundary; this code does not enumerate every monitor or persist placement across application restarts.",
           "focus": [
             {
-              "start": 181,
-              "end": 187
+              "start": 185,
+              "end": 191
             },
             {
-              "start": 189,
-              "end": 194
+              "start": 193,
+              "end": 198
             }
           ]
         }
@@ -1088,7 +1094,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Questions.cs",
-      "sourceSha256": "d3afa0686c5af5fa12a588061da04abe2d0b84768f52a187792820fc031e9601",
+      "sourceSha256": "02ac6ea2a50071181dc5946fd4bbda3ca0c8c275c010ab39136537747a55ba90",
       "role": "Owns the live structured question model, local draft/snapshot and independent typing transition, including the manual chooser path and explicit Ask/copy/clear actions.",
       "entryPoints": [
         "MainWindow.InitializeQuestionView",
@@ -1099,149 +1105,155 @@
       "blocks": [
         {
           "start": 1,
-          "end": 35,
+          "end": 36,
           "title": "Start with a local draft and a separately identified transcript session",
-          "explanation": "questionTranscript and questionDraft are independent of display/export TranscriptBuffer. The chooser defaults to Mic but selects nothing automatically. PassiveWindow means presenting AND not questionEditing; HasQuestionContent also counts a snapshot or any answer run for exit warnings. Initialization creates a session, binds main transcript rows, enables rendering/selection synchronization and expands Q/A. It does not freeze or send a question.",
+          "explanation": "questionTranscript and questionDraft are independent of display/export TranscriptBuffer. The chooser defaults to Mic but selects nothing automatically. PassiveWindow requires presenting, no questionEditing and no active keyboard controller; modal navigation can take deliberate focus without enabling Notes editing. questionExpanded stores Q/A intent separately from layout visibility. HasQuestionContent also counts a snapshot or any answer run for exit warnings. Initialization creates a session, binds main transcript rows, enables rendering/selection synchronization and expands Q/A. It does not freeze or send a question.",
           "focus": [
             {
-              "start": 23,
-              "end": 34
+              "start": 24,
+              "end": 35
             }
           ]
         },
         {
-          "start": 36,
-          "end": 67,
+          "start": 37,
+          "end": 69,
           "title": "Expand Q/A without confusing visibility with activity",
-          "explanation": "Collapsing Q/A cancels the current answer and starts Agency shutdown; if typing was enabled, it returns to passive question mode. Expanding closes Notes/audio setup, keeps partial text visible, updates layout and requests eligible provider preparation. This method does not stop transcription. ResizeQuestionPanel delegates to the shared workspace allocator rather than maintaining an unrelated size policy.",
+          "explanation": "The toggle reads questionExpanded, not the panel's current Visibility, and SetQuestionExpanded stores that intent before side effects. Explicitly collapsing Q/A cancels the current answer and starts Agency shutdown; if typing was enabled, it leaves typing. Expanding closes Notes/audio setup, keeps partial text visible, updates layout and requests eligible provider preparation. This method does not stop transcription. ResizeQuestionPanel delegates to the shared allocator, which may temporarily hide Q/A during compact selection without changing questionExpanded or taking this cancel/shutdown path.",
           "focus": [
             {
-              "start": 39,
-              "end": 50
+              "start": 40,
+              "end": 51
             },
             {
-              "start": 53,
-              "end": 59
+              "start": 55,
+              "end": 61
             }
           ]
         },
         {
-          "start": 68,
-          "end": 102,
+          "start": 70,
+          "end": 104,
           "title": "Filter the chooser by structured source and preserve matching keys",
           "explanation": "Mic/Computer/All set a nullable AudioSource filter; RefreshQuestionSegments enumerates nonempty structured records, remembers currently selected keys and restores those still in the filtered view. Button borders indicate the filter. In passive mode a preview row click toggles selection and marks the event handled instead of relying on WPF focus. This chooser click alone does not populate the draft; Use selected is separate.",
           "focus": [
             {
-              "start": 82,
-              "end": 91
+              "start": 84,
+              "end": 93
             },
             {
-              "start": 94,
-              "end": 101
+              "start": 96,
+              "end": 103
             }
           ]
         },
         {
-          "start": 103,
-          "end": 131,
+          "start": 105,
+          "end": 133,
           "title": "Make manual chooser replacement deliberate and atomic",
           "explanation": "Clarification locks reject replacement; no selected keys preserves the existing draft. Otherwise selected keys filter the store in its order and QuestionDraft.ReplaceSelection validates/copies the complete set before rendering. This explicit replacement path does not include the direct-click UserEdited guard: Use selected can deliberately replace corrections. It also lacks the direct handler's protection/fileBusy checks, so those must not be advertised as identical code-level guards.",
           "focus": [
             {
-              "start": 110,
-              "end": 121
+              "start": 112,
+              "end": 123
             }
           ]
         },
         {
-          "start": 132,
-          "end": 153,
+          "start": 134,
+          "end": 155,
           "title": "Refresh only the selected question as recognition changes",
           "explanation": "AudioSource defaults to Computer for missing source metadata. Partials/finals enter StructuredTranscriptStore with the already-checked capture GUID, source, protocol identity and timing. Unless clarification locks the original, QuestionDraft.Refresh upgrades selected nonfinal keys only and never overwrites a user-edited draft. Draft-capacity failure reports preservation but still refreshes chooser and display; it is distinct from invalid transcript failure handled by ReceiveTranscript.",
           "focus": [
             {
-              "start": 134,
-              "end": 145
+              "start": 136,
+              "end": 147
             }
           ]
         },
         {
-          "start": 154,
-          "end": 190,
+          "start": 156, "end": 164,
+          "title": "Route typing changes through the active modal controller",
+          "explanation": "The existing Type/edit button still requests the inverse of questionEditing, but an active controller now routes that request to Edit or Control through SetKeyboardMode and returns. switchingKeyboardMode prevents recursively redirecting the controller's own updates. This keeps modal focus, prompts, selection-filter cleanup and mode labels coordinated rather than changing questionEditing underneath an unrelated keyboard mode. The legacy independent typing path remains below for callers outside keyboard control.",
+          "focus": [{"start": 158, "end": 164}]
+        },
+        {
+          "start": 165,
+          "end": 197,
           "title": "Take question keyboard focus without the global Notes transition",
           "explanation": "Entering typing requires no file operation and valid protection; repeated state is a no-op. With protection, it hides first, changes questionEditing, updates focus/IME controls and reapplies protection on reveal. It never calls StopVisibleActivityAsync. Only nondiagnostic deliberate entry focuses the original or reply editor. Done typing restores PassiveWindow when still presenting. Focus changes and re-protection are real side effects even though no audio-stop or Ask occurs.",
           "focus": [
             {
-              "start": 171,
-              "end": 182
+              "start": 178,
+              "end": 189
             }
           ]
         },
         {
-          "start": 191,
-          "end": 206,
+          "start": 198,
+          "end": 213,
           "title": "Derive original-editor permissions and copy semantics",
           "explanation": "The original editor is writable/focusable only during questionEditing and outside a clarification lock; IME follows that exact focusability. The edit action changes caption to Type reply while waiting and stays disabled during an initial locked interpretation. Copy targets original draft text, so its caption becomes Copy original while waiting. UpdateAnswerControls refines the provisional Ask-enabled state using provider/busy/clarification rules.",
           "focus": [
             {
-              "start": 195,
-              "end": 204
+              "start": 202,
+              "end": 211
             }
           ]
         },
         {
-          "start": 207,
-          "end": 238,
+          "start": 214,
+          "end": 245,
           "title": "Protect the original from locked edits and reject oversized paste",
           "explanation": "Programmatic rendering is ignored. A clarification lock immediately re-renders the original instead of accepting changed text. Otherwise QuestionDraft.EditText validates before mutation and RenderQuestionDraft restores prior state on failure, not truncated input. Paste requires typing mode and UnicodeText, and computes post-selection replacement length in long arithmetic against the 8192 UTF-16-unit bound. Actual TextChanged remains the backstop for locked or other input paths.",
           "focus": [
             {
-              "start": 211,
-              "end": 220
+              "start": 218,
+              "end": 227
             },
             {
-              "start": 229,
-              "end": 236
+              "start": 236,
+              "end": 243
             }
           ]
         },
         {
-          "start": 239,
-          "end": 257,
+          "start": 246,
+          "end": 264,
           "title": "Render model text with provenance while suppressing recursion",
           "explanation": "renderingQuestion guards model-to-control TextChanged recursion. Text is assigned only if it differs; provenance reports revision, UTF-16 length, provisional state, user-edit protection and explicit source count. Controls and direct transcript highlights are then synchronized to the model. The finally always clears the rendering flag, including when downstream updates throw.",
           "focus": [
             {
-              "start": 244,
-              "end": 255
+              "start": 251,
+              "end": 262
             }
           ]
         },
         {
-          "start": 258,
-          "end": 299,
+          "start": 265,
+          "end": 306,
           "title": "Freeze once only after Ask preconditions succeed",
           "explanation": "Waiting-for-reply blocks a duplicate original Ask; an active answer or unready provider blocks before snapshot creation; protection/fileBusy are checked next. Freeze captures current draft text/provenance, increments the diagnostic counter and displays that immutable text. It calls BeginQuestionClarification only for opted-in provider use, otherwise StartAnswer (whose SnapshotOnly branch sends nothing). Known input/provider validation failures report inline without silently retrying.",
           "focus": [
             {
-              "start": 279,
-              "end": 288
+              "start": 286,
+              "end": 295
             }
           ]
         },
         {
-          "start": 300,
-          "end": 331,
+          "start": 307,
+          "end": 338,
           "title": "Copy only the draft and clear question state independently",
           "explanation": "Copy rejects an empty draft, writes only questionDraft.Text to the clipboard and reports ExternalException without loss; reply text is not substituted. Clear first cancels/clears answer and clarification, then creates fresh draft state, drops last snapshot, empties its panel and chooser selections, and re-renders direct highlights. Transcript and note stores are deliberately untouched; clipboard copying is explicit but outside capture-affinity protection.",
           "focus": [
             {
-              "start": 307,
-              "end": 317
+              "start": 314,
+              "end": 324
             },
             {
-              "start": 320,
-              "end": 329
+              "start": 327,
+              "end": 336
             }
           ]
         }
@@ -1249,8 +1261,8 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-      "sourceSha256": "6639643e434d445af7e486a04a1a64f3858731dad127c7e43a7f1db04879c723",
-      "role": "Connects whole displayed transcript rows to immutable structured identities for direct multi-click question composition without parsing display labels.",
+      "sourceSha256": "873cc9bc409c28d522f530ec36767d61bf2c5ab4541eacf69f9a53e1973c16f3",
+      "role": "Connects displayed transcript rows to structured identities and shares guarded composition between direct clicks and keyboard toggles without parsing labels.",
       "entryPoints": [
         "MainWindow.AppendFinalTranscriptRow",
         "MainWindow.RefreshTranscriptPartials",
@@ -1273,7 +1285,7 @@
           "start": 22,
           "end": 48,
           "title": "Append only new final display text and archive unfinished rows",
-          "explanation": "Unchanged TranscriptBuffer length means no row is added, covering empty/duplicate finals. A new row pairs the newly appended display slice (minus the trailing platform newline) with the current session's matching final structured segment. Scrolling follows only if already within one unit of the end. At a new session, partial rows are paired with their closed structured revisions and labelled unfinished; a null-segment separator is display-only.",
+          "explanation": "Unchanged TranscriptBuffer length means no row is added, covering empty/duplicate finals. A new row pairs the newly appended display slice (minus the trailing platform newline) with the current session's matching final structured segment. Scrolling follows only if already within one unit of the end and not in keyboard Select/Search, preventing new speech from moving the navigation viewport. At a new session, partial rows are paired with their closed structured revisions and labelled unfinished; a null-segment separator is display-only.",
           "focus": [
             {
               "start": 24,
@@ -1287,61 +1299,61 @@
         },
         {
           "start": 49,
-          "end": 83,
+          "end": 84,
           "title": "Rebuild partial rows and reconcile selection by identity",
-          "explanation": "Active nonempty partials are sorted by AudioSource and displayed with source labels, but retain the structured segment alongside the label. ItemsSource replacement is guarded against selection recursion. SyncTranscriptSelection projects draft keys into both lists, clearing/readding highlights under the same guard. A selected partial can therefore become a final with the same key without losing its selection merely because the row object changed.",
+          "explanation": "Active nonempty partials are sorted by AudioSource and displayed with source labels, but retain the structured segment alongside the label. ItemsSource replacement is guarded against selection recursion. RefreshKeyboardTranscriptView reapplies any active source/search filter to the replaced view and retags its identity cursor. SyncTranscriptSelection projects draft keys into both lists, clearing/readding highlights under the same guard. A selected partial can therefore become a final with the same key without losing its selection merely because the row object changed; hidden filtered selections remain copied in the draft.",
           "focus": [
             {
               "start": 54,
-              "end": 62
+              "end": 63
             },
             {
-              "start": 73,
-              "end": 81
+              "start": 74,
+              "end": 82
             }
           ]
         },
         {
-          "start": 84,
-          "end": 111,
+          "start": 85,
+          "end": 115,
           "title": "Toggle whole rows and roll back disallowed edits",
-          "explanation": "A realized enabled row consumes the preview click and toggles IsSelected, with no Ctrl requirement. SelectionChanged ignores rendering recursion, then rejects missing protection, fileBusy, a manually edited draft or a clarification lock. It can open Q/A to explain the refusal, but restores highlights from the unchanged model. Direct clicks are not promised passive: the successful branch below explicitly enters question typing.",
+          "explanation": "A realized enabled row consumes the preview click and toggles IsSelected, with no Ctrl requirement. SelectionChanged ignores rendering recursion, then rejects missing protection, fileBusy, a manually edited draft or a clarification lock. It can open Q/A to explain the refusal, but restores highlights from the unchanged model. Allowed changes delegate their removed/added rows to ApplyTranscriptSelection, which is also used by keyboard Space after its own eligibility guard. Direct clicks outside keyboard selection still enter independent typing; shared composition no longer forces that transition while Select/Search is active.",
           "focus": [
             {
-              "start": 86,
-              "end": 90
+              "start": 87,
+              "end": 91
             },
             {
-              "start": 104,
-              "end": 110
+              "start": 105,
+              "end": 111
             }
           ]
         },
         {
-          "start": 112,
-          "end": 143,
+          "start": 116,
+          "end": 149,
           "title": "Compose selected raw segments in view order, not click order",
-          "explanation": "The key dictionary starts from copied draft entries, then applies removals/additions. Main rows followed by current partial rows determine visible ordering; selected entries outside the view are retained before those rows. ReplaceSelection atomically enforces one session, 256 keys and 8192 UTF-16 units. Success renders, opens Q/A, closes tools, enters independent typing and synchronizes the smaller chooser. Failure restores highlights and preserves the draft; no Freeze or provider call occurs here.",
+          "explanation": "The shared helper starts its key dictionary from copied draft entries, then applies removed/added row enumerables supplied by the guarded click or keyboard path. Main rows followed by current partial rows determine display ordering; selected copies absent from those collections are retained before them. ReplaceSelection atomically enforces one session,256keys and8192UTF-16units. Success renders, opens Q/A and closes tools, but enters independent typing only outside keyboard Select/Search; Space can therefore toggle multiple rows without leaving navigation. The smaller chooser is synchronized and the status requires review before Ask. Failure restores highlights and preserves the draft; no Freeze or provider call occurs here.",
           "focus": [
             {
-              "start": 119,
-              "end": 130
+              "start": 125,
+              "end": 136
             },
             {
-              "start": 137,
-              "end": 141
+              "start": 143,
+              "end": 147
             }
           ]
         },
         {
-          "start": 144,
-          "end": 153,
+          "start": 150,
+          "end": 159,
           "title": "Locate the actual list scroll viewer in the visual tree",
           "explanation": "The recursive helper returns the first ScrollViewer at or beneath a visual, stopping on a match. AppendFinalTranscriptRow uses it to preserve a user reading earlier history; synthetic tests use it to inspect scroll offsets. It searches rendered WPF children, not files, text or semantic transcript content, and returns null when no such viewer exists.",
           "focus": [
             {
-              "start": 144,
-              "end": 151
+              "start": 150,
+              "end": 157
             }
           ]
         }
@@ -1444,7 +1456,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.xaml",
-      "sourceSha256": "cbd33a5c07e0a13db7d997361fc59341bc16e1399cbc6e11e8bb801358c133c3",
+      "sourceSha256": "3c9e1717f63c4bc8bf86f4a1358d17a59f923ea586c1af0488e272addeff25d0",
       "role": "Defines the one native WPF workspace, inline tools and independent reading surfaces; its resource bindings and event wires are part of the capture, focus and explicit-action design.",
       "entryPoints": [
         "MainWindow.InitializeComponent",
@@ -1457,7 +1469,7 @@
           "start": 1,
           "end": 11,
           "title": "Declare one layered native surface and its local resources",
-          "explanation": "The existing Window remains transparent, tool-window-style, nonactivating by default and responsible for its caption, resize and lifecycle events. Window.Resources now begins with device-card templates; no new native popup or browser surface is introduced.",
+          "explanation": "The existing Window remains transparent, tool-window-style, nonactivating by default and responsible for its caption, resize and lifecycle events. PreviewKeyDown routes only this window's input, and Deactivated now delegates to KeyboardWindow_Deactivated so an external focus change can disarm local command mode. Window.Resources begins with device-card templates; no new native popup, global letter hook or browser surface is introduced.",
           "focus": [
             {
               "start": 1,
@@ -1467,9 +1479,9 @@
         },
         {
           "start": 12,
-          "end": 49,
+          "end": 52,
           "title": "Render each device as a selectable card",
-          "explanation": "The ListBoxItem style inherits dynamic focusability and supplies a bounded default card, margin and padding. The automation name binds the full friendly name. A radio dot and accent outline indicate selection; hover/focus and disabled states are local template changes. The control still owns the original RenderDevice or MicrophoneDevice record, so styling never replaces the endpoint ID.",
+          "explanation": "The ListBoxItem style inherits dynamic focusability and supplies a bounded default card, margin and padding. The automation name binds the full friendly name. A radio dot and accent outline indicate selection; hover/focus and disabled states are local template changes. Tag=KeyboardCursor adds a heading-colored outline independently of IsSelected, allowing navigation to show a different candidate without changing the selected radio dot. The control still owns the original RenderDevice or MicrophoneDevice record, so styling never replaces the endpoint ID.",
           "focus": [
             {
               "start": 12,
@@ -1482,338 +1494,348 @@
           ]
         },
         {
-          "start": 50,
-          "end": 68,
+          "start": 53,
+          "end": 71,
           "title": "Remove scrolling from the device control itself",
           "explanation": "The list uses a nonvirtualizing WrapPanel and an ItemsPresenter inside a clipped Border, with no ScrollViewer in its template. Both scrollbar properties are explicitly disabled. Friendly names wrap and can ellipsize in an exceptionally constrained card; only presentation is abbreviated. Page changes collapse off-page containers rather than replacing ItemsSource or clearing SelectedItem.",
           "focus": [
             {
-              "start": 50,
-              "end": 60
+              "start": 53,
+              "end": 63
             },
             {
-              "start": 61,
-              "end": 68
+              "start": 64,
+              "end": 71
             }
           ]
         },
         {
-          "start": 69,
-          "end": 73,
+          "start": 72,
+          "end": 76,
           "title": "Retain the separate transcript row template",
           "explanation": "TranscriptRowPadding and the raw DisplayText template remain independent of device cards. This template renders already-associated transcript rows with high-contrast text; device paging does not modify transcript selection or parse its source labels.",
           "focus": [
             {
-              "start": 69,
-              "end": 73
+              "start": 72,
+              "end": 76
             }
           ]
         },
         {
-          "start": 74,
-          "end": 105,
+          "start": 77,
+          "end": 111,
           "title": "Show direct selection without painting over translucent reading space",
-          "explanation": "The keyed row style uses dynamic focus/padding and a permanently transparent background. Hover, selection and keyboard focus change only outline brushes, with a three-unit leading edge. IsSelectable=False disables separator rows through a data trigger. This intentionally differs from App.xaml's general chooser style, whose selection fills a background; direct rows retain solid high-contrast text over the shared tint.",
+          "explanation": "The keyed row style uses dynamic focus/padding and a permanently transparent background. Hover, selection and keyboard focus change only outline brushes, with a three-unit leading edge. The new KeyboardCursor tag also uses ThemeHeading without setting IsSelected: modal navigation is independent of the copied draft selection and does not move the OS pointer. IsSelectable=False disables separator rows through a data trigger. This intentionally differs from App.xaml's general chooser style, whose selection fills a background; direct rows retain solid high-contrast text over the shared tint.",
           "focus": [
             {
-              "start": 86,
-              "end": 94
+              "start": 89,
+              "end": 100
             },
             {
-              "start": 99,
-              "end": 102
+              "start": 105,
+              "end": 108
             }
           ]
         },
         {
-          "start": 106,
-          "end": 141,
+          "start": 112,
+          "end": 149,
           "title": "Retain native caption/resize regions and clickable header actions",
-          "explanation": "The caption retains native drag/resize behavior and client-hit-testable actions. The title reserves46units on the left for the separate32-unit book icon; the normal right-side action cluster returns to a five-unit margin. WorkspaceHost still detaches the main visual/logical content without removing the mask toggle.",
+          "explanation": "The caption retains native drag/resize behavior and client-hit-testable actions. The title reserves46units on the left for the separate32-unit book icon; the right-side action cluster uses a five-unit margin. Keys now calls the dedicated keyboard-control toggle, distinct from the existing global Notes Edit action, and remains a pointer-accessible fallback when the activation hotkey is disabled or unavailable. Its initial accessibility label is replaced from validated shortcut settings at initialization. WorkspaceHost still detaches the main visual/logical content without removing the separate mask toggle.",
           "focus": [
             {
-              "start": 106,
-              "end": 110
+              "start": 112,
+              "end": 116
             },
             {
-              "start": 129,
-              "end": 139
+              "start": 135,
+              "end": 146
             }
           ]
         },
         {
-          "start": 142,
-          "end": 167,
+          "start": 150,
+          "end": 175,
           "title": "Expose semantic themes and bounded background tint",
           "explanation": "Theme buttons use separate icon/label/current-name elements updated by ApplyTheme. The slider starts at 55, bounds values to 10..100, snaps in five-point steps and binds its numeric readout. ValueChanged targets only BackgroundOpacity_ValueChanged, which changes WindowSurface's brush alpha. The toolbar's ThemeSurface remains opaque and the slider remains pointer-usable in Present mode.",
           "focus": [
             {
-              "start": 156,
-              "end": 164
+              "start": 165,
+              "end": 173
             }
           ]
         },
         {
-          "start": 168,
-          "end": 183,
+          "start": 176, "end": 194, "title": "Keep modal prompts and focus inside the protected window",
+          "explanation": "KeyboardBar starts collapsed below the existing theme/opacity row. A focusable Border serves as the nontext command focus sink; its mode label and adjacent wrapping hints describe the armed state without creating another HWND. The same initially collapsed TextBox hosts either a built-in command or local transcript search, with MaxLength128and an explicit Enter-confirm accessibility name. TextChanged updates suggestions only in Command mode; key routing decides when Enter searches or executes. The UI length limit complements Core validation rather than making arbitrary text executable, and ordinary Edit-mode typing uses the separate question/reply editors.",
+          "focus": [{"start": 181, "end": 190}]
+        },
+        {
+          "start": 195,
+          "end": 210,
           "title": "Keep unsaved-content decisions inside the existing surface",
           "explanation": "ConfirmPanel starts collapsed and offers save notes, export transcript, explicit discard and cancel with an Edit/copy hint. It is an inline Border using warning colors, not a modal secondary WPF window. RequestActionAsync decides when it appears; the separate confirmation handlers decide whether saving/exporting actually clears all relevant dirty categories before continuing.",
           "focus": [
             {
-              "start": 172,
-              "end": 181
+              "start": 199,
+              "end": 208
             }
           ]
         },
         {
-          "start": 184,
-          "end": 231,
+          "start": 211,
+          "end": 258,
           "title": "Separate capture actions from input-mode choice and meters",
           "explanation": "Start/Stop, setup, export and Q/A visibility have distinct event handlers. Computer/Mic/Both buttons choose mode but do not start capture. Two 0..1 ProgressBars identify PC and Mic independently; the heading and labels are presentation, not audio source parsing. Stop/export begin disabled, while UpdateAudioControls derives runtime availability from protection and lifecycle flags. A12-unit red ellipse beside the heading uses ThemeError with a solid high-contrast outline. Hidden reserves its space while stopped, avoiding action-row movement. It is noninteractive and has an accessible recording-state name; visibility comes from actual transcription running state, not selected input mode.",
           "focus": [
             {
-              "start": 186,
-              "end": 197
+              "start": 213,
+              "end": 224
             },
             {
-              "start": 220,
-              "end": 228
+              "start": 247,
+              "end": 255
             }
           ]
         },
         {
-          "start": 232,
-          "end": 234,
+          "start": 259,
+          "end": 261,
           "title": "Keep capture status outside the setup workspace",
           "explanation": "AudioStatus remains in the top transcription control area after moving device setup into the reading region. Errors and capture state therefore stay visible while selecting devices; the closing StackPanel ends the shared heading and input-mode section.",
           "focus": [
             {
-              "start": 232,
-              "end": 234
+              "start": 259,
+              "end": 261
             }
           ]
         },
         {
-          "start": 235,
-          "end": 264,
+          "start": 262,
+          "end": 291,
           "title": "Give final transcript rows their own scroll and selection surface",
           "explanation": "TranscriptArea has named columns/rows mutated by UpdateWorkspaceLayout. Its main ListBox uses15-unit text,25%smaller than the earlier20, with Multiple selection, transparent fill, solid reading text, disabled horizontal scrolling and pixel-based virtualized vertical scrolling. Both preview clicks and SelectionChanged are wired, so pointer and other selection paths converge. The overlaid placeholder is not hit-testable and cannot intercept deliberate row selection.",
           "focus": [
             {
-              "start": 252,
-              "end": 263
+              "start": 279,
+              "end": 290
             }
           ]
         },
         {
-          "start": 265,
-          "end": 297,
+          "start": 292,
+          "end": 324,
           "title": "Keep live partials selectable and clarification opt-in",
           "explanation": "PartialText is a second Multiple ListBox with13.5-unit italic text,25%smaller than its earlier18-unit default. Responsive compact mode uses10.5instead of14. It retains its own scroll, identity-aware template/handlers and82-unit height bound before responsive adjustment. The transparent Q/A panel is initially beside transcript, with separate source/provider toggles and an unchecked ClarifyFirstToggle. No XAML trigger here submits a request.",
           "focus": [
             {
-              "start": 265,
-              "end": 273
+              "start": 292,
+              "end": 300
             },
             {
-              "start": 290,
-              "end": 296
+              "start": 317,
+              "end": 323
             }
           ]
         },
         {
-          "start": 298,
-          "end": 320,
+          "start": 325,
+          "end": 347,
           "title": "Preserve a manual source chooser distinct from direct clicks",
           "explanation": "The collapsed QuestionSourcePanel offers Mic/Computer/All filtering and a separate Use selected action. Its 76-unit Multiple ListBox shows TranscriptSegment.DisplayText, wraps text and routes passive clicks to QuestionSegments_PreviewMouseLeftButtonDown. Unlike the main transcript it has no SelectionChanged-to-draft event: selection alone is not replacement. The automation name explicitly describes this no-auto-send boundary.",
           "focus": [
             {
-              "start": 303,
-              "end": 312
+              "start": 330,
+              "end": 339
             }
           ]
         },
         {
-          "start": 321,
-          "end": 342,
+          "start": 348,
+          "end": 369,
           "title": "Disclose provider/provenance details beside explicit question actions",
           "explanation": "The collapsed details panel holds the inference-location notice, SnapshotOnly/configured/reload controls, draft provenance and run label. ClarificationContextText is a read-only, separately scrollable history display rather than the original question editor. A configured provider label wraps instead of forcing the workspace wider.",
           "focus": [
             {
-              "start": 333,
-              "end": 341
+              "start": 360,
+              "end": 368
             }
           ]
         },
         {
-          "start": 343,
-          "end": 386,
+          "start": 370,
+          "end": 413,
           "title": "Separate left editing tools from the primary Ask action",
           "explanation": "The star-width left column contains only Type/edit and Copy, with four-unit horizontal padding so their longest labels fit the minimum window while replying. An eight-unit spacer separates the right action group. Ask remains in column2,148wide/minimum44high with15-unit semibold text and ThemeAccent/ThemeActionText. Its wrapping label and border-based hover/focus/press feedback preserve mode changes and colored fill; disabled state dims the face. The final Auto column is reserved for Clear, not another send action.",
           "focus": [
             {
-              "start": 343,
-              "end": 354
-            },
-            {
-              "start": 355,
-              "end": 366
-            },
-            {
               "start": 370,
               "end": 381
+            },
+            {
+              "start": 382,
+              "end": 393
+            },
+            {
+              "start": 397,
+              "end": 408
             }
           ]
         },
         {
-          "start": 387,
-          "end": 414,
+          "start": 414,
+          "end": 441,
           "title": "Place Clear after Ask with a persistent red outline",
           "explanation": "Clear uses column3, a98-unit width and the same44-unit minimum height. Its six-unit left margin plus Ask margin provide separation. The border binds ThemeError with thickness2, giving a red outline in every theme. Hover, keyboard focus and press change only the neutral face background, so generic button accent-border triggers cannot replace the red outline. Disabled state dims the face. The original QuestionClear_Click handler is unchanged: this is relocation/styling, not a new data-loss or provider action.",
           "focus": [
             {
-              "start": 387,
-              "end": 398
+              "start": 414,
+              "end": 425
             },
             {
-              "start": 399,
-              "end": 410
+              "start": 426,
+              "end": 437
             }
           ]
         },
         {
-          "start": 415,
-          "end": 449,
+          "start": 442,
+          "end": 476,
           "title": "Give original question and clarification reply different text controls",
           "explanation": "QuestionReadingGrid starts with draft, optional snapshot and answer row weights. QuestionEditor accepts multiline text but is initially read-only/unfocusable and delegates validation to TextChanged/Pasting instead of truncating with MaxLength. The collapsed reply panel has its own editor, hint and explicit Send reply/Yes buttons. Separate storage is what allows a correction or Yes request without overwriting the original draft.",
           "focus": [
             {
-              "start": 425,
-              "end": 430
+              "start": 452,
+              "end": 457
             },
             {
-              "start": 439,
-              "end": 448
+              "start": 466,
+              "end": 475
             }
           ]
         },
         {
-          "start": 450,
-          "end": 474,
+          "start": 477,
+          "end": 501,
           "title": "Display immutable submitted text separately from mutable input",
           "explanation": "QuestionSnapshotPanel starts collapsed, participates in layout on visibility change and contains a read-only nonfocusable multiline text box with transparent fill. Its label is changed by StartAnswer to distinguish local freeze from actual submission. A separate answer-placeholder TextBlock collapses when AnswerPanel becomes visible. Neither displayed snapshot nor placeholder is a second editable question source.",
           "focus": [
             {
-              "start": 456,
-              "end": 461
+              "start": 483,
+              "end": 488
             },
             {
-              "start": 468,
-              "end": 470
+              "start": 495,
+              "end": 497
             }
           ]
         },
         {
-          "start": 475,
-          "end": 499,
-          "title": "Keep streamed answer, actions and failure status in the same reader",
-          "explanation": "The answer grid has fixed-action and status rows around a star-sized plain-text reader. Its default FontSize is10WPF units, half the former20; responsive layout uses9instead of18when compact. Cancel and Copy remain above it while AnswerText scrolls internally with transparent fill and fully opaque high-contrast glyphs. RenderAnswer changes the heading to INTERPRETATION as needed, so that same field inherits the smaller type. QuestionStatus remains a separate bottom row for draft/request actions.",
-          "focus": [
-            {
-              "start": 482,
-              "end": 493
-            }
-          ]
+          "start": 502,
+          "end": 512,
+          "title": "Keep answer actions above a separately sized reader",
+          "explanation": "AnswerPanel still starts collapsed and spans both question columns. Auto-sized action/status rows surround a star-sized reader, preventing the complete Q/A surface from becoming one outer scrolling area. The heading and existing Cancel/Copy handlers are retained in a wrapping action row; code supplies compact captions and full accessible names. Adding font controls does not change the meaning of cancellation or turn copying into an automatic side effect.",
+          "focus": [{"start": 502, "end": 512}]
         },
         {
-          "start": 500,
-          "end": 513,
+          "start": 513, "end": 522, "title": "Offer a bounded integer answer-size control in the same action row",
+          "explanation": "AnswerFontSlider starts at10and permits8..24with integer snap ticks, small steps of one and large steps of two. Its displayed numeric value is bound directly to the slider and its accessible name explicitly includes both answers and interpretations. ValueChanged delegates to the shared session-only font helper; these XAML defaults neither persist a setting nor override a later explicit choice on resize. The surrounding WrapPanel allows the small slider/readout group to wrap rather than creating a separate popup or horizontal scroll surface.",
+          "focus": [{"start": 513, "end": 521}]
+        },
+        {
+          "start": 523, "end": 535, "title": "Retain solid text and independent answer/request status",
+          "explanation": "AnswerText remains a nonfocusable read-only plain-text control with its own vertical scrolling, transparent fill and fully opaque high-contrast glyphs. XAML's initial size10is the ordinary automatic default; layout can choose9when compact until the user explicitly chooses8..24. RenderAnswer uses this same field for interpretations, so the size control affects both without changing question or transcript fonts. AnswerStatus and QuestionStatus remain separate rows for provider and draft/request feedback. Read mode scrolls this existing reader programmatically rather than enabling answer editing.",
+          "focus": [{"start": 523, "end": 533}]
+        },
+        {
+          "start": 536,
+          "end": 549,
           "title": "Give device selection the complete reading area",
           "explanation": "The opaque inline AudioPanel spans both reading columns/rows and initially stays collapsed. It uses existing visibility coordination to close question/notes panels, not another HWND. The header explains direct selection and page-based overflow; a star-sized devices region absorbs remaining space instead of pushing controls below the window.",
           "focus": [
             {
-              "start": 500,
-              "end": 511
+              "start": 536,
+              "end": 547
             }
           ]
         },
         {
-          "start": 514,
-          "end": 554,
+          "start": 550,
+          "end": 590,
           "title": "Keep Computer and Mic identity and paging separate",
           "explanation": "Each source has its own title, Refresh action, card ListBox, explicit empty message and fixed-height previous/page/next strip. Both lists retain the passive click handler, and selection/size callbacks update page presentation. The output and microphone pager handlers cannot borrow the other source's selected object. Accessibility names identify each list and paging direction.",
           "focus": [
             {
-              "start": 520,
-              "end": 531
+              "start": 556,
+              "end": 567
             },
             {
-              "start": 540,
-              "end": 551
+              "start": 576,
+              "end": 587
             }
           ]
         },
         {
-          "start": 555,
-          "end": 571,
+          "start": 591,
+          "end": 607,
           "title": "Keep service setup available without crowding device cards",
           "explanation": "Service setup, Clear transcript and Done remain reachable beneath the cards. The token field and prior edit/privacy guidance live in a collapsed advanced section; missing-token Start opens it explicitly. The password remains session-only and disabled outside the existing Edit/idle policy. Closing setup restores the reading view without saving, clearing or automatically recording anything.",
           "focus": [
             {
-              "start": 555,
-              "end": 566
+              "start": 591,
+              "end": 602
             }
           ]
         },
         {
-          "start": 572,
-          "end": 603,
+          "start": 608,
+          "end": 639,
           "title": "Keep notes collapsed and file/find actions inside the surface",
           "explanation": "NotesToggle and generic DocumentStatus occupy a stable separator used by reachability tests. NotesSection starts collapsed with toolbar, optional inline find and a 140-unit editor row. FileToolbar starts disabled; global Edit enables it. Wrap defaults on and font/find actions are explicit. FindText and its Next/Close buttons do not create an auxiliary search dialog.",
           "focus": [
             {
-              "start": 587,
-              "end": 596
+              "start": 623,
+              "end": 632
             }
           ]
         },
         {
-          "start": 604,
-          "end": 625,
+          "start": 640,
+          "end": 661,
           "title": "Use a plain read-only-by-default note editor and hide empty status",
           "explanation": "The note TextBox accepts returns/tabs, preserves an undo limit of 100, offers both scroll directions and uses a transparent background with opaque reading text. ReadOnly and Focusable are later controlled by global Present/Edit, not question typing. Paste and TextChanged route to validation/dirty tracking. A text trigger collapses StatusText only when its string is empty, avoiding permanent blank status height.",
           "focus": [
             {
-              "start": 604,
-              "end": 611
+              "start": 640,
+              "end": 647
             },
             {
-              "start": 617,
-              "end": 622
+              "start": 653,
+              "end": 658
             }
           ]
         },
         {
-          "start": 626,
-          "end": 642,
+          "start": 662,
+          "end": 678,
           "title": "State capture limitations without claiming universal invisibility",
           "explanation": "The footer shows pending/requested protection and a recovery shortcut, plus an inline Details toggle. The initially collapsed detail text explicitly limits screen sharing, recording, pickers, cursor, accessibility and OS indicators; these are not inferred safe from native affinity. Closing elements finish the one-window visual tree. The shell's protection setup does not extend to arbitrary external file dialogs or diagnostic folders.",
           "focus": [
             {
-              "start": 626,
-              "end": 637
+              "start": 662,
+              "end": 673
             }
           ]
         },
         {
-          "start": 643,
-          "end": 662,
+          "start": 679,
+          "end": 698,
           "title": "Keep a plain book cover and one recovery action outside the workspace",
           "explanation": "The cover contains NOTEPAD IS READY and the same always-mounted icon-only toggle at the top left. A small original vector book Path replaces text captions, avoiding icon-font or image dependencies. The button's32by32target is explicitly client-hit-testable inside the caption; the title is offset to leave room. Meaningful accessible names still describe the action, but no Cover/Uncover caption is drawn. The same HWND and continuing-work lifecycle are retained.",
           "focus": [
             {
-              "start": 651,
-              "end": 660
+              "start": 687,
+              "end": 696
             }
           ]
         }
@@ -1821,7 +1843,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.xaml.cs",
-      "sourceSha256": "c0627761f2fba9ee02d6e8bf4521625d3da8a290cb20c75793cb279b775478d0",
+      "sourceSha256": "df98fedfc3f1a8f148bd12ac7735c99c925da0c5bc519830a80aec57b79eccad",
       "role": "Coordinates the window's protection, focus, notes, explicit audio lifecycle, transcript display and synthetic UI harness; other partials share this state rather than forming independent windows.",
       "entryPoints": [
         "MainWindow.MainWindow",
@@ -1846,569 +1868,575 @@
         },
         {
           "start": 50,
-          "end": 80,
+          "end": 81,
           "title": "Initialize resources before controls and marshal audio callbacks",
-          "explanation": "The public constructor delegates to diagnosticMode=false. Diagnostic mode is set before initialization so provider preparation can be suppressed. ControlsFocusable and theme brushes exist before InitializeComponent resolves dynamic resources, then diagnostics/questions/answers initialize in order. The service token comes from environment into PasswordBox. Transcript/status/fault subscriptions dispatch to WPF; a fault records metadata, stops capture, restores the fault message and zeros meters rather than silently switching inputs. Device-card collection/generator listeners are initialized after InitializeComponent, before normal device discovery.",
+          "explanation": "The public constructor delegates to diagnosticMode=false. Diagnostic mode is set before initialization so provider preparation can be suppressed. ControlsFocusable and theme brushes exist before InitializeComponent resolves dynamic resources, then diagnostics/questions/answers initialize before the keyboard controller loads its shortcut and subscribes cursor-container refresh. The service token comes from environment into PasswordBox. Transcript/status/fault subscriptions dispatch to WPF; a fault records metadata, stops capture, restores the fault message and zeros meters rather than silently switching inputs. Device-card collection/generator listeners are initialized after InitializeComponent, before normal device discovery.",
           "focus": [
             {
               "start": 54,
               "end": 65
             },
             {
-              "start": 71,
-              "end": 79
+              "start": 72,
+              "end": 80
             }
           ]
         },
         {
-          "start": 81,
-          "end": 97,
+          "start": 82,
+          "end": 98,
           "title": "Update source-specific meters with rate-limited metadata",
           "explanation": "Each SourceLevelChanged callback chooses Mic or Computer meter, clamps the level to 0..1 and records at most one diagnostic per source per elapsed second. The recorded integer is normalized level times 10000, not PCM samples or transcript content. Construction then enumerates devices and derives control state; enumeration is not a StartAsync call and does not imply capture began.",
           "focus": [
             {
-              "start": 83,
-              "end": 92
+              "start": 84,
+              "end": 93
             }
           ]
         },
         {
-          "start": 98,
-          "end": 129,
+          "start": 99,
+          "end": 132,
           "title": "Configure the native surface before showing it",
-          "explanation": "showing brackets reconfiguration so its own display messages do not trigger invalidation. protectionReady is false until WindowProtection.Configure returns; placement/minimized state is repaired next. On first HWND setup, a hook, two hotkeys and session/power subscriptions are installed. ShowActivated follows PassiveWindow except in diagnostics. Controls update before Show, status says protection requested, then eligible Agency preparation starts. finally clears showing even if setup throws.",
+          "explanation": "showing brackets reconfiguration so its own display messages do not trigger invalidation. protectionReady is false until WindowProtection.Configure returns; placement/minimized state is repaired next. On first HWND setup, the hook and session/power subscriptions are installed, and separate helpers attempt visibility, Notes Edit and configurable keyboard-control hotkeys outside diagnostics. ShowActivated follows PassiveWindow except during diagnostics or suppressed keyboard exit activation. Controls update before Show; protection status is followed by any shortcut failure notice so it is not immediately overwritten. Eligible Agency preparation remains separate from command execution. finally clears showing even if setup throws.",
           "focus": [
             {
-              "start": 103,
-              "end": 113
+              "start": 104,
+              "end": 114
             },
             {
-              "start": 121,
-              "end": 127
+              "start": 123,
+              "end": 130
             }
           ]
         },
         {
-          "start": 130,
-          "end": 165,
+          "start": 133,
+          "end": 169,
           "title": "Provide recovery when a hotkey conflicts or protection fails",
-          "explanation": "A hotkey collision is caught independently and points to second-launch recovery; it does not abort window creation. RevealAndReset recenters before TryReveal. TryReveal reruns ShowProtected and activates only deliberate nonpassive, nondiagnostic modes. Recognized native/protection failure starts InvalidateAsync, which hides before its first await, and writes a generic local CaptureSetup notice. There is no fallback to unprotected display.",
+          "explanation": "Diagnostic rendering returns before registering either fixed recovery/edit hotkey. In normal operation a collision is caught independently and points to second-launch recovery; it does not abort window creation. RevealAndReset recenters before TryReveal. TryReveal reruns ShowProtected and activates only deliberate nonpassive, nondiagnostic modes when suppressKeyboardActivation is false, allowing modal exit to restore passive styles without immediately stealing foreground back. Recognized native/protection failure starts InvalidateAsync, which hides before its first await, and writes a generic local CaptureSetup notice. There is no fallback to unprotected display.",
           "focus": [
             {
-              "start": 150,
-              "end": 160
+              "start": 154,
+              "end": 164
             }
           ]
         },
         {
-          "start": 166,
-          "end": 205,
+          "start": 170,
+          "end": 211,
           "title": "Handle owned-window cursor, hotkey and nonactivation messages",
-          "explanation": "Dispatch queues actions only while dispatcher shutdown has not started. The HWND hook handles WM_SETCURSOR for this window with a fixed Arrow; WM_HOTKEY dispatches hide/recover or forced global Notes Edit. Passive WM_MOUSEACTIVATE returns 3 (MA_NOACTIVATE), which permits pointer interaction without ordinary activation. Display/DPI changes outside ShowProtected queue invalidation. These local messages do not control a recorder's cursor layer.",
+          "explanation": "Dispatch queues actions only while dispatcher shutdown has not started. The HWND hook handles WM_SETCURSOR for this window with a fixed Arrow. WM_HOTKEY dispatches hide/recover, forced global Notes Edit or the separate KeyboardControl toggle by registration ID; the latter does not route through the Notes transition that stops visible work. Passive WM_MOUSEACTIVATE returns3(MA_NOACTIVATE), permitting pointer interaction without ordinary activation. Display/DPI changes outside ShowProtected queue invalidation. These owned-window messages do not install a global letter hook or control a recorder's cursor layer.",
           "focus": [
             {
-              "start": 174,
-              "end": 181
+              "start": 178,
+              "end": 185
             },
             {
-              "start": 195,
-              "end": 203
+              "start": 201,
+              "end": 209
             }
           ]
         },
         {
-          "start": 206,
-          "end": 231,
+          "start": 212,
+          "end": 238,
           "title": "Hide first on observed session, power or protection invalidation",
-          "explanation": "Lock/logoff/remote-connect/disconnect and suspend/resume notifications marshal invalidation. InvalidateAsync immediately clears protectionReady and questionEditing, hides the window and cancels the answer before awaiting StopVisibleActivityAsync. Its status is stored after cleanup and requires deliberate recovery to see. These notifications cover detected transitions, not every external recorder change or a guarantee against frames already captured.",
+          "explanation": "Lock/logoff/remote-connect/disconnect and suspend/resume notifications marshal invalidation. InvalidateAsync immediately clears protectionReady, abandons keyboard control and clears questionEditing before hiding and cancelling the answer, then awaits StopVisibleActivityAsync. Abandonment drops filters/cursors and foreground-return identity without attempting to reveal or activate an invalidated surface. Its status is stored after cleanup and requires deliberate recovery to see. These notifications cover detected transitions, not every external recorder change or a guarantee against frames already captured.",
           "focus": [
             {
-              "start": 222,
-              "end": 229
+              "start": 228,
+              "end": 236
             }
           ]
         },
         {
-          "start": 232,
-          "end": 268,
+          "start": 239,
+          "end": 277,
           "title": "Distinguish Hide and global Notes Edit from question typing",
-          "explanation": "Hide clears questionEditing, hides/cancels and awaits visible-activity shutdown; recovery uses TryReveal. TogglePresentationAsync first rejects fileBusy, computes Present/Edit, hides and stops audio/answers before changing mode. Entering global Edit expands Notes and focuses NoteEditor only after successful nondiagnostic reveal. This is intentionally not SetQuestionEditing: routing question typing through this method would stop transcription.",
+          "explanation": "Real Hide abandons keyboard control, clears questionEditing, hides/cancels and awaits visible-activity shutdown; recovery uses TryReveal. TogglePresentationAsync first rejects fileBusy, computes Present/Edit, abandons the controller, hides and stops audio/answers before changing mode. Entering global Edit expands Notes and focuses NoteEditor only after successful nondiagnostic reveal. This remains distinct from both independent question typing and modal keyboard-mode switching: routing those transitions here would stop transcription. Hidden or globally switched windows do not retain an armed local letter-command mode.",
           "focus": [
             {
-              "start": 248,
-              "end": 259
-            },
-            {
-              "start": 260,
+              "start": 256,
               "end": 267
+            },
+            {
+              "start": 269,
+              "end": 276
             }
           ]
         },
         {
-          "start": 269,
-          "end": 296,
+          "start": 278,
+          "end": 305,
           "title": "Derive focus, file permissions and dirty categories",
-          "explanation": "ControlsFocusable follows !PassiveWindow, but NoteEditor writability/focus/IME follow !presenting, so question editing can focus controls while notes stay read-only. File/export controls require global Edit and no file operation. Audio/question updates refine their own controls. Thin click handlers enter asynchronous action methods. NotesDirty compares full current text to savedText; TranscriptDirty compares a nonempty export to its last explicitly saved content.",
+          "explanation": "ControlsFocusable follows !PassiveWindow, allowing deliberate modal interaction, while NoteEditor is read-only and nonfocusable whenever presenting or keyboard control is active. The Notes file toolbar additionally requires global Edit, no file operation and no active controller; transcript Export retains its existing global-Edit/no-file-operation rule. Note IME eligibility still follows !presenting, with the editor's read-only/focus guards independently preventing modal Notes typing. Audio/question updates refine their own controls. Thin click handlers enter guarded actions. NotesDirty compares full text to savedText; TranscriptDirty compares a nonempty export to its explicitly saved baseline.",
           "focus": [
             {
-              "start": 271,
-              "end": 282
+              "start": 280,
+              "end": 291
             },
             {
-              "start": 294,
-              "end": 295
+              "start": 303,
+              "end": 304
             }
           ]
         },
         {
-          "start": 297,
-          "end": 345,
+          "start": 306,
+          "end": 355,
           "title": "Queue destructive actions and preserve pending intent during IO",
-          "explanation": "New/Open require global Edit and all actions reject fileBusy. Exit first stops visible activity, then pending is set; dirty notes always prompt, while transcript/question content prompt on Exit. ExecutePendingAsync rechecks fileBusy before clearing pending or hiding confirmation. Exit permits Close; New resets file identity, BOM, saved baseline, editor and undo history; Open delegates to the file picker. A blocked replacement keeps both current note and pending action. Exit first uncovers so its existing unsaved-content confirmation remains visible, then follows the normal audio/provider shutdown path; Cover alone never invokes it.",
+          "explanation": "New/Open require global Edit and all actions reject fileBusy. Exit first leaves keyboard control with restoreForeground=false, uncovers and stops visible activity, then pending is set; it must not return focus to another application before the existing unsaved-content confirmation. Dirty notes always prompt, while transcript/question content prompt on Exit. ExecutePendingAsync rechecks fileBusy before clearing pending or hiding confirmation. Exit permits Close; New resets file identity, BOM, saved baseline, editor and undo history; Open delegates to the file picker. A blocked replacement keeps both current note and pending action. Cover alone never invokes this shutdown path.",
           "focus": [
             {
-              "start": 300,
-              "end": 311
+              "start": 309,
+              "end": 320
             },
             {
-              "start": 318,
-              "end": 329
+              "start": 328,
+              "end": 339
             }
           ]
         },
         {
-          "start": 346,
-          "end": 362,
+          "start": 356,
+          "end": 372,
           "title": "Require all exit preservation categories to be resolved",
           "explanation": "Save notes continues only after success and, for Exit, no dirty transcript or remaining question content. Export similarly requires clean notes and no remaining question content on Exit. Therefore saving one category is not permission to discard the others; even copied question state still needs an explicit clear/discard decision. Discard executes pending directly; Cancel clears pending and collapses confirmation without replacing content.",
           "focus": [
             {
-              "start": 346,
-              "end": 355
+              "start": 356,
+              "end": 365
             }
           ]
         },
         {
-          "start": 363,
-          "end": 388,
+          "start": 373,
+          "end": 398,
           "title": "Commit an opened note only after strict read succeeds",
           "explanation": "The single-file native picker is cancelable and precedes fileBusy. NoteFileStore.ReadAsync performs bounded strict UTF-8 decoding and fingerprinting; only after it returns are path/fingerprint/BOM/saved/editor fields replaced. Toggling undo clears prior-document history. Known file errors retain the existing document and give a generic 1 MiB/access hint. finally reenables controls. Native picker surfaces are explicitly outside capture-exclusion assurance.",
           "focus": [
             {
-              "start": 371,
-              "end": 380
+              "start": 381,
+              "end": 390
             }
           ]
         },
         {
-          "start": 389,
-          "end": 409,
+          "start": 399,
+          "end": 419,
           "title": "Select save destination without treating dialog cancellation as success",
           "explanation": "Save refuses Present mode and concurrent file work. Existing document path/fingerprint are reused for ordinary Save; Save as or a new document opens a generic .txt SaveFileDialog with overwrite prompt. Cancel returns false before setting fileBusy. A newly selected destination resets expected fingerprint; the following block reads an existing destination before writing so replacement can still check for intervening changes.",
           "focus": [
             {
-              "start": 398,
-              "end": 409
+              "start": 408,
+              "end": 419
             }
           ]
         },
         {
-          "start": 410,
-          "end": 436,
+          "start": 420,
+          "end": 446,
           "title": "Advance the saved baseline only after persistence completes",
           "explanation": "fileBusy disables editor changes and content snapshots the exact text being saved. Save-as/new overwrite reads the destination fingerprint, then NoteFileStore.WriteAsync verifies it around a same-directory temporary write. Successful return updates path/fingerprint/savedText. A NoteConflictException has its own Save as guidance; other known failures retain edits with an access/space/UTF-8/size message. finally always clears busy. The helper's checks are conflict detection, not an external-writer lock.",
           "focus": [
             {
-              "start": 414,
-              "end": 422
-            },
-            {
               "start": 424,
               "end": 432
+            },
+            {
+              "start": 434,
+              "end": 442
             }
           ]
         },
         {
-          "start": 437,
-          "end": 469,
+          "start": 447,
+          "end": 479,
           "title": "Keep note status generic and validate the full paste result",
           "explanation": "File failure classification covers IO/access/encoding/argument exceptions. SetFileBusy disables the editor and confirmation panel before recalculating actions. Dirty status reveals neither path nor note text and explicitly says no automatic saving. Paste obtains UnicodeText, constructs the post-selection replacement, and asks NoteFileStore.Fits to enforce strict UTF-8 bytes including any BOM; invalid/nontext/Present paste is cancelled, not truncated.",
           "focus": [
             {
-              "start": 458,
-              "end": 468
+              "start": 468,
+              "end": 478
             }
           ]
         },
         {
-          "start": 470,
-          "end": 500,
+          "start": 480,
+          "end": 510,
           "title": "Change font and root tint without fading glyphs",
           "explanation": "Note font steps by two within 12..42. Background alpha is rounded from clamped 10..100 percent times 255/100 and assigned to WindowSurface.Background using current theme RGB; Window.Opacity and reading control opacity are untouched. ApplyTheme replaces resources, updates next-theme icon/name/automation text and Plain outline, then reapplies the existing slider value so switching palettes preserves tint strength.",
           "focus": [
             {
-              "start": 472,
-              "end": 479
+              "start": 482,
+              "end": 489
             },
             {
-              "start": 484,
-              "end": 494
+              "start": 494,
+              "end": 504
             }
           ]
         },
         {
-          "start": 501,
-          "end": 546,
+          "start": 511,
+          "end": 556,
           "title": "Toggle notes without erasing them and find from current selection",
           "explanation": "Expanding Notes hides audio setup and collapses Q/A (which cancels/stops its provider); collapsing only hides Find. Wrap changes TextWrapping without changing content. Find opens the inline panel; Next rejects empty input, searches after the current selection with current-culture case-insensitive matching, wraps once to the beginning, and selects/scrolls the match or reports none. Visibility changes do not reset note text or undo state.",
           "focus": [
             {
-              "start": 501,
-              "end": 511
+              "start": 511,
+              "end": 521
             },
             {
-              "start": 533,
-              "end": 543
+              "start": 543,
+              "end": 553
             }
           ]
         },
         {
-          "start": 547,
-          "end": 573,
+          "start": 557, "end": 569,
+          "title": "Route covered and armed-mode keys before legacy file shortcuts",
+          "explanation": "Covered input first consumes hidden-workspace keys, allowing normal Tab, Alt+F4 and activation of the focused external mask toggle. It returns immediately after that cover decision. If the controller is active, the same window's preview event delegates key, modifiers and IsRepeat to HandleKeyboardKey, assigns its Boolean result to Handled and returns even when ordinary text editing is allowed through. Modal Edit can therefore retain text-control shortcuts without falling through to Notes Open/Save/New routing. No process-wide keyboard hook is involved.",
+          "focus": [{"start": 559, "end": 568}]
+        },
+        {
+          "start": 570,
+          "end": 588,
           "title": "Reserve Escape for question typing and shortcuts for global Edit",
-          "explanation": "Escape first exits independent question typing and consumes the event. Other shortcuts are ignored unless exactly Control is held and presenting is false, so question typing during Present does not gain note Open/Save/New commands. Ctrl+S/O/N/F are marked handled and routed to their existing guarded asynchronous/file/find methods rather than duplicated implementations. While covered, only Tab, focused-toggle activation and normal Alt+F4 routing remain; hidden workspace editing/file shortcuts are consumed.",
+          "explanation": "Outside the earlier covered/modal branches, Escape exits independent question typing and consumes the event. Other shortcuts are ignored unless exactly Control is held and presenting is false, so question typing during Present does not gain note Open/Save/New commands. Ctrl+S/O/N/F are marked handled and routed to their existing guarded asynchronous/file/find methods rather than duplicated implementations. This legacy path stays separate from the active controller's local command vocabulary.",
           "focus": [
             {
-              "start": 555,
-              "end": 564
+              "start": 570,
+              "end": 579
             },
             {
-              "start": 565,
-              "end": 571
+              "start": 580,
+              "end": 586
             }
           ]
         },
         {
-          "start": 574,
-          "end": 604,
+          "start": 589,
+          "end": 619,
           "title": "Refresh Computer and Mic lists independently",
           "explanation": "Existing selected device IDs are saved before enumeration. Each successful list replacement reselects the same ID or the first available item, and empty lists provide mode-specific guidance. Separate catches let one discovery succeed when the other fails; the second status can supersede the first. This refresh does not substitute an input in an active session: RefreshDevices_Click below rejects active startup/running/stopping states.",
           "focus": [
             {
-              "start": 580,
-              "end": 588
+              "start": 595,
+              "end": 603
             },
             {
-              "start": 592,
-              "end": 601
+              "start": 607,
+              "end": 616
             }
           ]
         },
         {
-          "start": 605,
-          "end": 636,
+          "start": 620,
+          "end": 651,
           "title": "Keep passive device choice local and audio tools inline",
           "explanation": "Refresh is blocked while starting, running or stopping. In Present, a click on an enabled device-row container assigns its Content directly to SelectedItem and consumes the preview event, avoiding the default focus-requiring ListBox click path. Audio setup toggles inline; opening it collapses Notes/Q&A but does not start audio. This is passive device choice, unlike direct transcript selection's deliberate typing transition.",
           "focus": [
             {
-              "start": 613,
-              "end": 623
+              "start": 628,
+              "end": 638
             },
             {
-              "start": 626,
-              "end": 634
+              "start": 641,
+              "end": 649
             }
           ]
         },
         {
-          "start": 637,
-          "end": 665,
+          "start": 652,
+          "end": 680,
           "title": "Reject explicit Start before disturbing session state",
           "explanation": "Duplicate Start during busy/stopping/running returns immediately. Capture mode determines which selected device objects are required; protection, every requested input and a token length of at least 32 are prerequisites. Failure exposes audio setup with an Edit/token hint. The endpoint defaults to literal IPv4 loopback and must parse as absolute before audioBusy/session changes. Stronger loopback/path validation follows inside the try; URI parsing alone is not the network policy. A missing token expands the inline Service setup section so the existing setup guidance still leads to a visible password field.",
           "focus": [
             {
-              "start": 641,
-              "end": 652
+              "start": 656,
+              "end": 667
             },
             {
-              "start": 653,
-              "end": 664
+              "start": 668,
+              "end": 679
             }
           ]
         },
         {
-          "start": 666,
-          "end": 704,
+          "start": 681,
+          "end": 719,
           "title": "Start a GUID-stamped capture with old partials archived",
           "explanation": "A local cancellation source is published so Stop can cancel startup; controls enter audioBusy before work. After ValidateEndpoint, the display buffer begins a session, a new capture GUID/timestamp is recorded, the structured store closes old partials and ArchiveTranscriptPartials materializes their history rows. StartAsync receives only selected device IDs, endpoint, token and that GUID. Known failures show generic startup guidance; finally clears the published token reference/busy flag before the using scope disposes it. Preparation is not rolled back into the old session.",
           "focus": [
             {
-              "start": 672,
-              "end": 683
+              "start": 687,
+              "end": 698
             },
             {
-              "start": 690,
-              "end": 701
+              "start": 705,
+              "end": 716
             }
           ]
         },
         {
-          "start": 705,
-          "end": 746,
+          "start": 720,
+          "end": 761,
           "title": "Disable source changes throughout startup and stopping",
           "explanation": "Start requires idle plus protection; Stop is available while starting or running but disabled during stop. Both device lists and mode buttons use a shared idle predicate. Mode determines visible/enabled sections and label/border, while token entry additionally requires global Edit. SetCaptureMode repeats the busy guards, so directly invoking its handler cannot bypass disabled buttons; successful mode changes only reset meters and controls, never open inputs. UpdateRecordingIndicator reads transcriber.IsRunning on every controls refresh, so starting/buffering alone does not light the red icon and stopped/faulted state hides it.",
           "focus": [
             {
-              "start": 707,
-              "end": 718
+              "start": 722,
+              "end": 733
             },
             {
-              "start": 730,
-              "end": 740
+              "start": 745,
+              "end": 755
             }
           ]
         },
         {
-          "start": 747,
-          "end": 780,
+          "start": 762,
+          "end": 795,
           "title": "Coalesce repeated stops and cancel startup before waiting",
           "explanation": "StopTranscriptionAsync returns the existing incomplete audioStopTask. Otherwise it sets audioStopping and disables changes, cancels any pending start token, then stores StopTranscriptionCoreAsync. The core awaits transcriber.StopAsync and records elapsed capture time; recognized connection/device failures warn that unfinished tail text may be missing. finally clears stopping, zeros both meters and recalculates controls, independent of whether stop reported an error.",
           "focus": [
             {
-              "start": 748,
-              "end": 756
+              "start": 763,
+              "end": 771
             },
             {
-              "start": 767,
-              "end": 777
+              "start": 782,
+              "end": 792
             }
           ]
         },
         {
-          "start": 781,
-          "end": 811,
+          "start": 796,
+          "end": 826,
           "title": "Reject stale capture callbacks before mutating either transcript",
           "explanation": "A production event without CaptureSessionId becomes Guid.Empty; only diagnostics may borrow the current session for synthetic events. A mismatched GUID returns before logs or data updates. Accepted partial/final events update display/export buffer, then structured question state, then final/partial UI rows and placeholder. Finals require segment IDs. Known invalid data or capacity failures stop transcription and retain memory for export. Updates across the two stores are sequential, not a multi-store transaction.",
           "focus": [
             {
-              "start": 783,
-              "end": 793
+              "start": 798,
+              "end": 808
             },
             {
-              "start": 799,
-              "end": 808
+              "start": 814,
+              "end": 823
             }
           ]
         },
         {
-          "start": 812,
-          "end": 850,
+          "start": 827,
+          "end": 865,
           "title": "Export one transcript snapshot without autosaving audio",
           "explanation": "Export requires global Edit, no file work and content; the native .txt picker is explicitly cancelable. Once busy, transcript.ExportText snapshots finals plus any unfinished labels. Existing destination fingerprint is read before bounded NoteFileStore.WriteAsync; only success advances exportedTranscript. Capture is not stopped by export, so later transcript changes can make it dirty again. Failure keeps in-memory text, and finally releases fileBusy. This exports text, not PCM.",
           "focus": [
             {
-              "start": 832,
-              "end": 841
+              "start": 847,
+              "end": 856
             },
             {
-              "start": 843,
-              "end": 848
+              "start": 858,
+              "end": 863
             }
           ]
         },
         {
-          "start": 851,
-          "end": 873,
+          "start": 866,
+          "end": 888,
           "title": "Clear transcript only after full stop and saved export",
           "explanation": "Running, startup-busy and stopping states all reject Clear. Dirty transcript also rejects it with export-or-discard-at-exit guidance. Success clears display and structured stores, chooser and export baseline, then clears main rows under a selection-recursion guard and refreshes partials/placeholder. It intentionally does not call questionDraft.Clear: copied question text can outlive clearing the source transcript.",
           "focus": [
             {
-              "start": 853,
-              "end": 864
+              "start": 868,
+              "end": 879
             },
             {
-              "start": 867,
-              "end": 871
+              "start": 882,
+              "end": 886
             }
           ]
         },
         {
-          "start": 874,
-          "end": 904,
+          "start": 889,
+          "end": 919,
           "title": "Serialize close requests and release window-owned subscriptions",
           "explanation": "Until allowClose is explicitly granted, WPF Closing is cancelled and at most one queued async Exit request proceeds. Its finally clears the queue guard even when a prompt keeps the window open. Closed unsubscribes system events, removes the HWND hook, unregisters hotkeys, stops diagnostic health and sets answerProviderClosing before awaiting visible-activity and transcriber disposal. Application.Shutdown is explicit after cleanup; this differs from Hide.",
           "focus": [
             {
-              "start": 876,
-              "end": 886
+              "start": 891,
+              "end": 901
             },
             {
-              "start": 896,
-              "end": 902
+              "start": 911,
+              "end": 917
             }
           ]
         },
         {
-          "start": 905,
-          "end": 943,
+          "start": 920,
+          "end": 958,
           "title": "Set up a synthetic UI harness without enabling inference",
           "explanation": "RunUiSmokeAsync creates its output directory, forces diagnostic rendering and invalid SnapshotOnly provider state, then reveals through the normal protection path. It measures foreground/native passive state, Start availability, default notes collapse and Both selection. The token is cleared and endpoint counts recorded. Documentation mode replaces displayed device names with synthetic fixtures; constructor enumeration already happened, but no capture start is implied.",
           "focus": [
             {
-              "start": 929,
-              "end": 940
+              "start": 944,
+              "end": 955
             }
           ]
         },
         {
-          "start": 944,
-          "end": 961,
+          "start": 959,
+          "end": 976,
           "title": "Populate synthetic source rows and inspect local cursor/nonactivation",
           "explanation": "Fixed notes plus Computer/Mic finals and partials exercise the real ReceiveTranscript path using diagnostic session fallback. Source labels must appear in both row collections. After rendering, transcript-primary geometry is checked. Native WM_MOUSEACTIVATE and WM_SETCURSOR messages verify MA_NOACTIVATE and Arrow policy along with control cursor properties. These messages cannot establish that a remote recorder includes or excludes the cursor.",
           "focus": [
             {
-              "start": 949,
-              "end": 955
+              "start": 964,
+              "end": 970
             },
             {
-              "start": 956,
-              "end": 961
+              "start": 971,
+              "end": 976
             }
           ]
         },
         {
-          "start": 962,
-          "end": 989,
+          "start": 977,
+          "end": 1004,
           "title": "Check theme bindings and preserve original content/handle baselines",
           "explanation": "The harness snapshots note/export/HWND and iterates every UiTheme, checking actual dynamic resource colors and note/transcript reading brushes against ThemePalette. It renders each theme, tests Plain-to-dark-to-light button transitions/icons, restores DeepSeaFoam and renders audio setup. These are specific brush/state assertions; they do not compute all contrast ratios over arbitrary backgrounds.",
           "focus": [
             {
-              "start": 969,
-              "end": 978
+              "start": 984,
+              "end": 993
             },
             {
-              "start": 980,
-              "end": 985
+              "start": 995,
+              "end": 1000
             }
           ]
         },
         {
-          "start": 990,
-          "end": 1032,
+          "start": 1005,
+          "end": 1047,
           "title": "Exercise passive Computer and Mic device-row clicks",
           "explanation": "Two synthetic devices replace each real enumerated ItemsSource temporarily. After layout, a preview mouse event on the second container must change selection without making the row focusable or changing foreground/Keyboard.FocusedElement. Original list and selection are restored after each source. This tests the shared passive handler against actual realized WPF containers, not device capture or real pointer automation.",
           "focus": [
             {
-              "start": 1000,
-              "end": 1011
+              "start": 1015,
+              "end": 1026
             },
             {
-              "start": 1027,
-              "end": 1032
+              "start": 1042,
+              "end": 1047
             }
           ]
         },
         {
-          "start": 1033,
-          "end": 1056,
+          "start": 1048,
+          "end": 1071,
           "title": "Use busy/stopping negative controls before any audio can start",
           "explanation": "Computer and Mic modes must enable/hide the corresponding device sections. With audioBusy=true, attempting a mode change must retain Both. With audioStopping=true, invoking Start, mode change and Clear must leave the export unchanged and Start/mode controls disabled. These flags deliberately simulate transitional states; the assertions do not require or prove WASAPI startup/shutdown behavior.",
           "focus": [
             {
-              "start": 1046,
-              "end": 1055
+              "start": 1061,
+              "end": 1070
             }
           ]
         },
         {
-          "start": 1057,
-          "end": 1076,
+          "start": 1072,
+          "end": 1091,
           "title": "Sample low/full root alpha and check solid foregrounds",
           "explanation": "The fixture renders at 10% and 100%, converts a transcript background point through current DPI and reads one Pbgra32 pixel alpha. It requires a nonzero low alpha below 60, opaque alpha 255, full control/window opacity, opaque foreground brushes and unchanged HWND. Reset to 55 follows sampling. A local RenderTargetBitmap is evidence about the WPF visual tree only, not screen-capture exclusion.",
           "focus": [
             {
-              "start": 1065,
-              "end": 1076
+              "start": 1080,
+              "end": 1091
             }
           ]
         },
         {
-          "start": 1077,
-          "end": 1102,
+          "start": 1092,
+          "end": 1117,
           "title": "Exercise notes expansion, internal scrolling and native hit regions",
           "explanation": "Notes expansion must keep presenting true. One hundred synthetic transcript rows drive an internal vertical scroll, then the real row collection/highlights are restored under the render-selection guard. A long unwrapped note tests horizontal scrolling before text/wrap restoration. WM_NCHITTEST samples must return caption=2, left resize=10 and client=1 at the editor, separating drag/resize from text interaction.",
           "focus": [
             {
-              "start": 1081,
-              "end": 1090
+              "start": 1096,
+              "end": 1105
             },
             {
-              "start": 1097,
-              "end": 1102
+              "start": 1112,
+              "end": 1117
             }
           ]
         },
         {
-          "start": 1103,
-          "end": 1120,
+          "start": 1118,
+          "end": 1135,
           "title": "Check global mode permissions and block busy document replacement",
           "explanation": "The real presentation toggle must enable note editing on request and restore read-only/nonfocusable Present while leaving the tint slider enabled. Repeated mode/Notes visibility transitions must preserve notes/export. Setting fileBusy and pending New then executing must leave both note and pending action intact. Finally minimizing and RevealAndReset must restore a normal visible-state window after protection reapplication.",
           "focus": [
             {
-              "start": 1111,
-              "end": 1120
+              "start": 1126,
+              "end": 1135
             }
           ]
         },
         {
-          "start": 1121,
-          "end": 1140,
+          "start": 1136,
+          "end": 1155,
           "title": "Force URI rejection before transport or device work",
           "explanation": "The diagnostic substitutes a Computer device and synthetic 64-character token so missing-input/token guards do not mask the URI branch. It temporarily sets an invalid URI, invokes Start_Click and throws unless the inline invalid-address status appears. finally restores environment, clears the token, restores device items/selection and returns to Both. This tests early validation only, not endpoint connectivity.",
           "focus": [
             {
-              "start": 1124,
-              "end": 1131
+              "start": 1139,
+              "end": 1146
             },
             {
-              "start": 1133,
-              "end": 1139
+              "start": 1148,
+              "end": 1154
             }
           ]
         },
         {
-          "start": 1141,
-          "end": 1188,
+          "start": 1156,
+          "end": 1204,
           "title": "Combine synthetic subdiagnostics and close even on failure",
-          "explanation": "Question, answer, clarification and recording-indicator diagnostics are awaited; each throws on failed assertions before final receipt generation. The outer passed expression combines shell/layout/theme/guard checks, tool-window style and no running capture. result.json includes individual booleans, API readback, discovered counts, fixture mode and an explicit no-real-audio/no-remote-cursor-guarantee limitation. Return is zero or two; finally grants close regardless of success. Recorded invalidUriRejected=true is justified by the preceding throw-on-failure branch. The audio-device-card diagnostic is also awaited, including paging/selection, busy locks, empty state and compact Service setup. The cover diagnostic additionally checks continued fake streaming/transcript callbacks, detached fresh automation traversal, cached-reference limits and workspace restoration.",
+          "explanation": "Question, answer, clarification and recording-indicator diagnostics are awaited; each throws on failed assertions before final receipt generation. The outer passed expression combines shell/layout/theme/guard checks, tool-window style and no running capture. result.json includes individual booleans, API readback, discovered counts, fixture mode and an explicit no-real-audio/no-remote-cursor-guarantee limitation. Return is zero or two; finally grants close regardless of success. Recorded invalidUriRejected=true is justified by the preceding throw-on-failure branch. Audio-device-card checks cover paging/selection, busy locks, empty state and compact Service setup. Cover checks include continued fake work and fresh-tree versus cached accessibility limits. The newly awaited keyboard diagnostic then checks modal routing, identity selection, explicit submission, font/device behavior and recovery; its result is included as keyboardChecks, and failure throws before the outer receipt rather than being silently ignored by its older aggregate expression.",
           "focus": [
             {
-              "start": 1141,
-              "end": 1148
+              "start": 1156,
+              "end": 1164
             },
             {
-              "start": 1149,
-              "end": 1158
+              "start": 1165,
+              "end": 1174
             },
             {
-              "start": 1176,
-              "end": 1186
+              "start": 1192,
+              "end": 1202
             }
           ]
         },
         {
-          "start": 1189,
-          "end": 1216,
+          "start": 1205,
+          "end": 1232,
           "title": "Render WPF content locally and pack native hit-test coordinates",
           "explanation": "RenderDiagnosticAsync updates layout, yields to Render priority, scales dimensions by actual DPI and renders the window into Pbgra32 before PNG encoding to the requested file. It is not a screenshot of the user's desktop. HitTestDiagnostic converts a WPF point to screen pixels and packs signed-coordinate low/high 16-bit fields for WM_NCHITTEST; SendMessage/GetForegroundWindow declarations support the synthetic native assertions.",
           "focus": [
             {
-              "start": 1191,
-              "end": 1202
+              "start": 1207,
+              "end": 1218
             },
             {
-              "start": 1205,
-              "end": 1209
+              "start": 1221,
+              "end": 1225
             }
           ]
         }
@@ -2528,8 +2556,8 @@
     },
     {
       "path": "src/PhantomFudge.App/Native/WindowHotkeys.cs",
-      "sourceSha256": "511ba5495489d6782ad85ca34588f52c9abee128303c504a4a247c85b39d6c00",
-      "role": "Registers and releases only this window's explicit Ctrl+Alt recovery/edit hotkeys, without installing a keystroke hook.",
+      "sourceSha256": "c14082309356690485c0c17ccad28b10931ac80065f94ae7412cfcc2043ff365",
+      "role": "Registers and releases this window's explicit Ctrl+Alt recovery, Notes Edit and configurable keyboard-control hotkeys without a keystroke hook.",
       "entryPoints": [
         "WindowHotkeys.Register",
         "WindowHotkeys.Dispose"
@@ -2537,25 +2565,25 @@
       "blocks": [
         {
           "start": 1,
-          "end": 19,
+          "end": 20,
           "title": "Record only successfully registered hotkey IDs",
-          "explanation": "The primary constructor captures the HWND. Visibility and editing IDs are separate from virtual keys supplied by MainWindow (Space and E). Register combines Control, Alt and NoRepeat bits; native failure throws immediately with last error, and only success appends the ID for cleanup. MainWindow catches collisions and leaves second-launch recovery available.",
+          "explanation": "The primary constructor captures the HWND. IDs1,2and3 identify visibility, global Notes Edit and keyboard control separately from their virtual keys. MainWindow supplies Space/E for recovery/edit and the validated configured key for control. Register always combines Control, Alt and NoRepeat bits; it neither installs a global letter hook nor allows arbitrary modifier policy. Native failure throws immediately with last error, and only success appends the ID for cleanup. The caller handles conflicts, retaining the Keys button and second-launch recovery rather than claiming registration always succeeds.",
           "focus": [
             {
-              "start": 12,
-              "end": 18
+              "start": 13,
+              "end": 19
             }
           ]
         },
         {
-          "start": 20,
-          "end": 34,
+          "start": 21,
+          "end": 35,
           "title": "Attempt every unregister and keep cleanup diagnostics generic",
           "explanation": "Dispose walks successfully registered IDs and calls UnregisterHotKey on the captured handle. A failed unregister emits a generic Trace warning but does not prevent later IDs being attempted; clearing the list makes another Dispose harmless. Both interop declarations preserve last error and marshal Win32 BOOL; only registration uses last error to throw.",
           "focus": [
             {
-              "start": 20,
-              "end": 25
+              "start": 21,
+              "end": 26
             }
           ]
         }
@@ -2760,7 +2788,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs",
-      "sourceSha256": "16af7fc2dd04f4203c5b66d98b202d4566aca04701676d58091ae1eb6833de56",
+      "sourceSha256": "2504129f93301b2838d44805ab3bce9799ff4b94511118ad318f5c8055f5f1ea",
       "role": "Coordinates measured card rows and source-independent overflow pages while preserving endpoint selection.",
       "entryPoints": [
         "MainWindow.InitializeAudioDeviceCards",
@@ -2788,7 +2816,7 @@
           "start": 38,
           "end": 67,
           "title": "Coordinate the setup workspace and selected-page reveal",
-          "explanation": "Only a true visible transition closes Notes and Q/A and asks each list to reveal its selection. A parent hide does not recursively reenter the question-edit transition. Service setup toggles inline, while size and selection changes request a reflow. A selection marks only that source's page for reveal; no input is opened by any of these handlers. While Cover swaps hosts, visibility callbacks do not close Q/A or cancel provider activity; the normal explicit audio-setup transition retains its existing behavior.",
+          "explanation": "Only a true visible transition outside cover and keyboard-mode switching closes Notes and Q/A and asks each list to reveal its selection. A parent hide does not recursively reenter the question-edit transition. Service setup toggles inline, while size and selection changes request a reflow. A selection marks only that source's page for reveal; no input is opened by any of these handlers. Cover host swaps and the controller's protected hide/reveal must not accidentally take the Q/A close/cancel path. Normal explicit audio-setup opening retains that path; the switching guards are not a general cancellation bypass.",
           "focus": [
             {
               "start": 39,
@@ -2955,7 +2983,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Cover.cs",
-      "sourceSha256": "09e1b8b914f6181884e81f2259241cd6a342eddeddae2adfe7921ac9b49c18bf",
+      "sourceSha256": "bbeb31f94c6ae386dd282c93a7691ea7e484355e6451a4ce7f4112d1fd9a2533",
       "role": "Swaps the workspace for a plain cover without stopping ongoing transcription or answers, while narrowing fresh UI Automation traversal.",
       "entryPoints": [
         "MainWindow.InitializeCover",
@@ -2977,45 +3005,41 @@
         },
         {
           "start": 22,
-          "end": 47,
-          "title": "Refuse unsafe transitions and detach the real workspace",
-          "explanation": "Repeated/reentrant state changes return. Entering cover is refused while file I/O, unsaved confirmation or protection recovery is pending, preserving actionable UI. The code captures workspace focus, clears keyboard/logical focus, disables the workspace and removes it from its host before attaching CoverView. The named controls and data remain alive for asynchronous updates. No stop, cancel, Hide or provider reconfiguration method is called.",
-          "focus": [
-            {
-              "start": 24,
-              "end": 35
-            },
-            {
-              "start": 36,
-              "end": 46
-            }
-          ]
+          "end": 32,
+          "title": "Refuse unsafe cover entry and disarm local commands",
+          "explanation": "Repeated/reentrant state changes return. Entering cover is refused while file I/O, unsaved confirmation or protection recovery is pending, preserving actionable UI. If keyboard control is active, LeaveKeyboardControl runs before the cover-switching guard is set, restoring passive interaction and attempting the controller's foreground return. That mode transition can temporarily hide/reprotect/reveal the window, but it does not invoke the real Hide action's audio/provider shutdown. Covered content must not remain in an armed local command mode.",
+          "focus": [{"start": 24, "end": 32}]
         },
         {
-          "start": 48,
-          "end": 67,
+          "start": 33, "end": 48, "title": "Detach the actual workspace while retaining its ongoing work",
+          "explanation": "Inside the guarded transition, cover entry remembers focus only when it belongs to WorkspaceRoot, clears keyboard/logical focus, disables the workspace and detaches it before attaching CoverView. This is not a paint-only overlay: the normal visual/logical host is empty while covered. Named controls, models and asynchronous audio/answer work remain alive. The swap itself issues no stop, cancel, provider reconfiguration or new request; disarming keyboard mode was handled before entering this branch.",
+          "focus": [{"start": 37, "end": 47}]
+        },
+        {
+          "start": 49,
+          "end": 68,
           "title": "Restore the visual tree and rebuild the window's automation children",
           "explanation": "Uncover removes CoverView and restores/enables WorkspaceRoot. The icon remains unchanged; a two-unit border marks covered state and accessible names describe showing the notepad or restoring the workspace without visible text captions. ResetChildrenCache synchronously rebuilds the window peer children, then invalidates peer state. Cached references and retained memory remain outside this fresh-tree improvement. finally releases the transition guard.",
           "focus": [
             {
-              "start": 50,
-              "end": 60
+              "start": 51,
+              "end": 61
             },
             {
-              "start": 61,
-              "end": 67
+              "start": 62,
+              "end": 68
             }
           ]
         },
         {
-          "start": 68,
-          "end": 78,
+          "start": 69,
+          "end": 79,
           "title": "Resume layout and visible timing without restarting work",
           "explanation": "After the transition guard is cleared, uncover recalculates layout, queues existing device-card layout and renders the latest answer. Prior keyboard focus is restored only if the element is still visible, enabled and focusable, and never during synthetic rendering. Nothing restarts audio or resubmits a question; text received while covered is already in the retained controls/models.",
           "focus": [
             {
-              "start": 68,
-              "end": 76
+              "start": 69,
+              "end": 77
             }
           ]
         }
@@ -3143,6 +3167,246 @@
             }
           ]
         }
+      ]
+    },
+        {
+          "path": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
+          "sourceSha256": "0df77850de4d0cb982dc2558149a37742116ad0a723c679e7a91b30be78a5b1d",
+          "role": "Keeps an explicit session-only answer font choice stable across responsive layout and gives compact action captions full accessible names.",
+          "entryPoints": ["MainWindow.AnswerFontSlider_ValueChanged", "MainWindow.SetAnswerFontSize", "MainWindow.ApplyAnswerFontSize", "MainWindow.AdjustAnswerFont", "MainWindow.UpdateAnswerActionLabels"],
+          "blocks": [
+            {
+              "start": 1, "end": 18, "title": "Distinguish an unset preference from a user-selected size",
+              "explanation": "The nullable chosenAnswerFontSize starts unset, allowing layout to supply its automatic size until the user chooses. Slider events are ignored before answerViewReady and while the code itself is synchronizing the slider; otherwise the double value is rounded to an integer and sent through the shared setter. This state belongs to this window instance, with no settings-file persistence. Only answer/interpretation typography is controlled here, not transcript, question or Notes font sizes.",
+              "focus": [{"start": 9, "end": 16}]
+            },
+            {
+              "start": 19, "end": 27, "title": "Validate before committing a session preference",
+              "explanation": "SetAnswerFontSize rejects values outside KeyboardCommands' inclusive 8..24 bounds before changing the stored choice. An accepted value becomes the preference, updates the text/slider pair and recalculates workspace layout so a larger reader can receive space. Invalid direct callers receive ArgumentOutOfRangeException instead of silent clamping. Commands already validate their numeric payload in Core; this second guard protects the UI setter independently.",
+              "focus": [{"start": 19, "end": 25}]
+            },
+            {
+              "start": 28, "end": 44, "title": "Apply responsive defaults without overwriting explicit choices",
+              "explanation": "ApplyAnswerFontSize chooses the stored preference over the caller's automatic size, writes AnswerText.FontSize and updates the slider only if it differs. updatingAnswerFont suppresses the resulting ValueChanged callback and is reset in finally, preventing a programmatic compact-layout default from becoming a user preference. AdjustAnswerFont starts from the currently displayed size, adds the requested delta and clamps to the same 8..24 endpoints before committing through the setter. Resize therefore preserves a chosen size while untouched windows can retain their 9/10 automatic policy.",
+              "focus": [{"start": 30, "end": 38}]
+            },
+            {
+              "start": 45, "end": 57, "title": "Shorten captions without losing action meaning",
+              "explanation": "After readiness, a QuestionPanel width below 560 selects shorter Cancel/Copy captions. Provider preparation counts separately from an active answer: only unfinished preparation without AnswerBusy uses the preparation wording. The request's unconfirmed clarification flag distinguishes copying an interpretation from an answer. AutomationProperties always carries the full action name even when the visible caption is shortened. These assignments change labels only; enabled-state, cancellation and clipboard behavior remain in the existing answer handlers.",
+              "focus": [{"start": 49, "end": 55}]
+            }
+          ]
+        },
+        {
+          "path": "src/PhantomFudge.App/MainWindow.KeyboardDevices.cs",
+          "sourceSha256": "1620895fd8f773e0e7e848aaf3bae26fd27e562b0cc53758ba676d604c12b917",
+          "role": "Moves an independent keyboard cursor across existing device cards and pages, committing an endpoint only on explicit Space while capture is idle.",
+          "entryPoints": ["MainWindow.BeginKeyboardDevices", "MainWindow.ClearKeyboardDeviceCursor", "MainWindow.RevealKeyboardDeviceCursor", "MainWindow.HandleKeyboardDeviceKey"],
+          "blocks": [
+            {
+              "start": 1, "end": 18, "title": "Start navigation from the selected endpoint without selecting another",
+              "explanation": "keyboardDeviceList and keyboardDeviceTarget represent navigation, not the actual capture selection. Microphone-only mode starts on MicrophoneDevices; Computer and Both start on OutputDevices. The target is the list's existing SelectedItem or, when none is selected, its first item. BeginKeyboardDevices then reveals that target without assigning SelectedItem, opening an audio endpoint or issuing Start. An empty list leaves a null target for the explicit empty-state path.",
+              "focus": [{"start": 9, "end": 16}]
+            },
+            {
+              "start": 19, "end": 41, "title": "Reveal the cursor page independently of the selected card",
+              "explanation": "ClearKeyboardDeviceCursor removes tags from realized containers in both source lists. Reveal acts only in Devices mode with a current list; an absent target produces an inline no-device hint. For a valid target it disables selected-card page snapping, sets the page index from target index and page capacity, runs the existing measured card layout, and tags the realized target KeyboardCursor. The hint reports source and one-based cursor position. Container styling shows this navigation border without rewriting endpoint identity or claiming that the target is selected.",
+              "focus": [{"start": 29, "end": 39}]
+            },
+            {
+              "start": 42, "end": 55, "title": "Refuse navigation during capture and switch source only in Both mode",
+              "explanation": "Startup, stopping, running capture or a disabled/missing list consumes the key with a stop-first hint before any target or selection change. Tab switches the navigation list only when captureMode is Both, starting from that source's selected item or first available item; it does not change captureMode. Empty lists are handled before indexing. These are runtime guards in addition to the command that enters Devices mode, so a later capture-state change cannot leave browsing enabled.",
+              "focus": [{"start": 44, "end": 53}]
+            },
+            {
+              "start": 56, "end": 73, "title": "Clamp row, card and page motion; reserve selection for nonrepeated Space",
+              "explanation": "The column estimate uses the same 190-unit target as card layout. J/Down and K/Up move by a row, left/right by one card, and bracket/Page keys by the current page size. Long arithmetic before clamping avoids overflow from a large page capacity; the nonempty-list guard makes the final index valid. Only Space with repeated=false assigns SelectedItem. Movement and repeated Space merely update/reveal the cursor, preserving the chosen endpoint and never starting transcription. Unrecognized keys are consumed with zero movement in this modal handler.",
+              "focus": [{"start": 63, "end": 71}]
+            }
+          ]
+        },
+        {
+          "path": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
+          "sourceSha256": "4b602ca839b850c10c3163c985259c11ef3d0a72ada749596976f2159041343f",
+          "role": "Navigates and filters transcript rows by structured identity while keeping the cursor, copied question selection and explicit submission separate.",
+          "entryPoints": ["MainWindow.BeginKeyboardSelection", "MainWindow.RefreshKeyboardTranscriptView", "MainWindow.ResetKeyboardSelectionView", "MainWindow.FindKeyboardTranscript", "MainWindow.HandleKeyboardSelectionKey"],
+          "blocks": [
+            {
+              "start": 1, "end": 28, "title": "Enter selection with an identity cursor, not an implicit selection",
+              "explanation": "The cursor stores TranscriptSegmentKey, independently of the copied draft entries. A source filter, local search string and pending first-g flag are separate navigation state. Begin first checks eligibility, resets filters and the g sequence, opens Q/A and its reading view, then enters Select and points at the last matching row. Refresh/reveal updates presentation only; no row is automatically copied, frozen or submitted. The last row may be a live partial because the row sequence appends current partials after retained finals.",
+              "focus": [{"start": 15, "end": 26}]
+            },
+            {
+              "start": 29, "end": 49, "title": "Protect edited drafts and filter raw segment text",
+              "explanation": "CanKeyboardSelect requires protection, no file operation, no user-edited draft and no clarification lock; distinct inline hints explain the refusal instead of replacing the user's text. MatchesKeyboardTranscript requires a real Segment, compares the structured source when filtered, and searches segment.Text with OrdinalIgnoreCase. Labels and session separators are not parsed as content or identity. KeyboardTranscriptRows materializes final/history rows followed by live partials, while the hint counts all copied draft entries, including any currently hidden by the filter.",
+              "focus": [{"start": 30, "end": 37}, {"start": 40, "end": 45}]
+            },
+            {
+              "start": 50, "end": 79, "title": "Filter collection views without changing transcript storage or copied selection",
+              "explanation": "Refresh installs the same predicate on both list collection views only while Select/Search is active and the question view is ready. renderingTranscriptSelection suppresses SelectionChanged mutations while filtering hides rows; finally releases the guard, then SyncTranscriptSelection projects retained draft keys into the visible lists and the cursor is retagged. Reset removes both filters under that same guard and reconciles highlights again. Neither operation deletes transcript records or drops selected copies just because they are temporarily outside the view.",
+              "focus": [{"start": 53, "end": 64}]
+            },
+            {
+              "start": 80, "end": 97, "title": "Keep cursor styling and scrolling separate from selected rows",
+              "explanation": "UpdateKeyboardTranscriptCursor tags only realized items whose full segment key matches the cursor while Select/Search is active; other tags are cleared. This does not set IsSelected or transfer WPF keyboard focus. Reveal finds the same key in each current list view, requests ScrollIntoView and updates the hint. Recognition refresh can therefore retag a replacement partial/final row without selecting the newest incoming line; explicit navigation is what requests reveal/scroll here.",
+              "focus": [{"start": 81, "end": 86}, {"start": 89, "end": 95}]
+            },
+            {
+              "start": 98, "end": 109, "title": "Apply local search while retaining a still-visible cursor",
+              "explanation": "Find trims the search string, returns from Search to Select and refreshes the view. If the old key still matches, it remains the cursor; otherwise the first matching key, or null for no matches, replaces it. The empty-result hint explains clearing the search with an empty submission. Search changes neither copied draft entries nor provider input: it is a local case-insensitive substring filter over the retained structured rows, combined with the current source filter.",
+              "focus": [{"start": 100, "end": 107}]
+            },
+            {
+              "start": 110, "end": 141, "title": "Review with Enter and toggle copies only with explicit nonrepeated Space",
+              "explanation": "The handler computes the current visible-row index and tracks adjacent unmodified g presses without counting held-key repeats as a fresh first g. Slash/F3 opens search; nonrepeated Enter enters Edit for review, not submission. Number keys change the source filter and rerun the existing search without clearing copied selections. Empty rows return a hint before indexing. Space ignores repeats, missing cursor and failed eligibility, then calls the shared ApplyTranscriptSelection with exactly one add or removal according to the draft's key membership. This preserves Core's one-session/count/text guards and does not freeze or call a provider.",
+              "focus": [{"start": 132, "end": 140}]
+            },
+            {
+              "start": 142, "end": 161, "title": "Move within bounded visible rows without chasing incoming speech",
+              "explanation": "J/Down and K/Up move one row, Page keys move five, Home/End choose endpoints, Shift+G chooses the latest visible row and the completed gg sequence chooses the first. Arithmetic is clamped to the already-checked nonempty row set. Only a nonnegative resulting index publishes a new structured cursor key and reveals it; other keys are consumed without creating a selection. Repeated navigation is permitted, unlike Space or submission. Incoming callbacks do not invoke this navigation switch, so a stable existing cursor does not automatically advance with new speech.",
+              "focus": [{"start": 142, "end": 152}]
+            }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+      "sourceSha256": "0ab1fd4ea460238d61f9fbe524ac5dc164bad914e2a186112c4b710b9e7aec82",
+      "role": "Coordinates deliberate window-local keyboard modes, guarded command dispatch and best-effort foreground return without using the global Notes editing shutdown transition.",
+      "entryPoints": ["MainWindow.InitializeKeyboardControls", "MainWindow.LoadKeyboardShortcut", "MainWindow.RegisterKeyboardControlHotkey", "MainWindow.ToggleKeyboardControl", "MainWindow.SetKeyboardMode", "MainWindow.RefreshKeyboardEditorTarget", "MainWindow.LeaveKeyboardControl", "MainWindow.AbandonKeyboardControl", "MainWindow.HandleKeyboardKey", "MainWindow.ExecuteKeyboardCommandAsync"],
+      "blocks": [
+    {
+      "start": 1, "end": 37, "title": "Separate armed mode, copied-row navigation and native transition state",
+      "explanation": "The controller distinguishes Inactive, Control, Select, Edit, Read, Command, Search, Devices and Help rather than interpreting letters whenever the window exists. KeyboardSelecting includes Search so entering its text prompt retains selection-layout and submission restrictions. Foreground HWND/PID, last eligible editor, prior prompt mode and three transition/action flags serve different purposes; none is an audio/provider lifetime token. Initialization loads shortcut settings, listens for both transcript lists' generated containers to retag their cursor and initializes a hidden or active bar. It does not register the native shortcut until the main HWND exists.",
+      "focus": [{"start": 16, "end": 26}, {"start": 27, "end": 35}]
+    },
+    {
+      "start": 38, "end": 63, "title": "Disable only the activation shortcut when configuration or registration fails",
+      "explanation": "LoadKeyboardShortcut accepts an injected loader for synthetic failure cases; production uses the Core loader and its validated allowlist. IOException, InvalidDataException, unauthorized access, argument and JSON failures all replace settings with a disabled shortcut and a generic Keys-button notice rather than aborting window construction. Accessible naming reflects the resulting configured chord or disabled state. Registration is skipped in diagnostics and for disabled settings; a Win32 collision records a separate fallback notice without disabling local Keys interaction. Registration uses the settings' validated VirtualKey rather than parsing arbitrary key names in WPF.",
+      "focus": [{"start": 40, "end": 50}, {"start": 53, "end": 61}]
+    },
+    {
+      "start": 64, "end": 86, "title": "Enter only after protected recovery and retain a bounded foreground-return target",
+      "explanation": "The Keys click and native hotkey share one toggle. An already active mode leaves immediately; a file operation or pending confirmation refuses new entry. The previous foreground HWND is captured before TryReveal can activate the app, but entry still stops if protection is unavailable. Successful recovery uncovers the workspace and records only an other-window handle plus its process ID, then enters Control and surfaces any shortcut notice. This is deliberately not TogglePresentationAsync: it does not request audio shutdown, answer cancellation or global Notes editability.",
+      "focus": [{"start": 69, "end": 80}]
+    },
+    {
+      "start": 87, "end": 125, "title": "Change local modes without equating temporary hiding with stopped work",
+      "explanation": "Edit entry rejects file work, absent protection and a clarification-locked original question unless a reply is awaited. switchingKeyboardMode brackets Hide/reprotect/reveal when the old passive policy differs from the requested mode, preventing deactivation/visibility callbacks from treating that internal transition as a user shutdown. Leaving Select/Search restores the unfiltered view; remaining inside refreshes it, and non-Devices modes clear candidate tags. Controls/bar update before reveal, the flag clears in finally, and layout/editor/device setup follows. Nondiagnostic focus then targets the prompt, eligible editor or inert command sink; no branch here invokes Ask, Stop or provider cancellation.",
+      "focus": [{"start": 89, "end": 100}, {"start": 101, "end": 112}]
+    },
+    {
+      "start": 126, "end": 140, "title": "Recover an asynchronously replaced Edit target without reclaiming external foreground",
+      "explanation": "Outside Edit the remembered target is cleared. Inside Edit, AwaitingClarificationReply chooses the reply or original editor and its visible label, but a hidden, disabled, nonfocusable or read-only candidate becomes null. Refresh records identity even in diagnostics; actual Focus requires a changed nonnull target, no internal mode/cover transition, valid protection and a visible active window. This repairs the asynchronous interpretation-to-reply transition while refusing to steal focus back after the user switched applications. UpdateAnswerControls invokes it after clarification controls have been updated.",
+      "focus": [{"start": 129, "end": 138}]
+    },
+    {
+      "start": 141, "end": 158, "title": "Restore passive policy before a best-effort foreground handoff",
+      "explanation": "Leave is idempotent when inactive. It saves the old return identity, suppresses activation while SetKeyboardMode restores Inactive, clears stored identity and keyboard focus, and can explicitly skip foreground restoration for deactivation/exit or diagnostics. Otherwise it compares the current process ID for the saved HWND, checks IsWindow and attempts SetForegroundWindow. Failure reports that the user may need to switch manually; neither Windows foreground permission nor universal handle-identity safety is promised. The suppression flag is restored in finally even if the mode transition fails.",
+      "focus": [{"start": 146, "end": 156}]
+    },
+    {
+      "start": 159, "end": 176, "title": "Abandon stale armed state without revealing an invalidated or hidden surface",
+      "explanation": "Abandon directly clears active mode, independent question editing and foreground identity, then restores transcript filtering/device tags and the bar. Unlike Leave it does not perform a protected reveal or foreground transfer; callers use it for real Hide, global Notes transitions or invalidation before their own shutdown path. A genuine nondiagnostic window deactivation instead calls Leave without foreground restoration, unless mode/cover code caused the event itself. This prevents local letter commands from staying armed after switching to another application without making ordinary deactivation an audio-stop action.",
+      "focus": [{"start": 159, "end": 169}, {"start": 171, "end": 174}]
+    },
+    {
+      "start": 177, "end": 217, "title": "Display modal affordances and curated suggestions without executing prompt text",
+      "explanation": "The bar exists only while active; its TextBox appears only for Command/Search, and Edit labels distinguish original question from clarification reply. Hints describe each mode's actual review, navigation and explicit-submit path. Opening a prompt remembers the prior mode, changes mode and clears old text. Only Command TextChanged calls Core Suggest; no matches or an argument error becomes a local hint, while search typing remains inert until confirmation. Suggestions and help are built-in vocabulary, not model completions or shell dispatch. The stored prior mode later gives Command Escape its cancellation destination.",
+      "focus": [{"start": 179, "end": 190}, {"start": 206, "end": 215}]
+    },
+    {
+      "start": 218, "end": 256, "title": "Prioritize native Alt handling, bounded Escape and explicit prompt confirmation",
+      "explanation": "Inactive handling returns false immediately, and Alt combinations are left to normal window behavior. Escape is consumed but only a fresh press transitions: Control leaves, Search returns to Select, Command restores its prior mode, Devices closes setup, and other modes return to Control. Command/Search Enter is likewise nonrepeated and confirms the current prompt rather than falling into question submission. Command Tab inserts only the first curated suggestion and moves the caret; it never executes it. Other prompt keys return false for ordinary TextBox editing, with Core argument errors shown locally.",
+      "focus": [{"start": 220, "end": 230}, {"start": 234, "end": 243}]
+    },
+    {
+      "start": 257, "end": 273, "title": "Require review before sending while preserving literal Edit input",
+      "explanation": "After prompt handling, exact Ctrl+Enter is consumed and acts only on a nonrepeat: selecting asks for Enter review, while Control/Edit use the existing question/reply submission path. Other modes do not submit. Edit then returns false for all remaining input, preserving newline, letters and text-control paste instead of interpreting command keys. Outside Edit, other Control/Windows combinations are consumed; colon/F2 opens commands and F1/Shift-question opens Help once. Select and Devices dispatch to their own cursor handlers only after these global-in-the-window escape/submit/help rules.",
+      "focus": [{"start": 257, "end": 267}]
+    },
+    {
+      "start": 274, "end": 300, "title": "Allow repeatable reading motion but not repeatable mode actions",
+      "explanation": "Read delegates J/K/arrows, page and endpoint keys to the existing answer TextBox and adjusts its bounded font with plus/minus. All Read input is consumed here, including keys with no reading action, and repeat is intentionally allowed for scrolling/size changes. For the remaining modes, a held-key repeat returns before V/I/A/M can transition. Fresh V starts guarded transcript selection; I/A expand the existing Q/A reader before Edit/Read; M uses the explicit mask path. No case synthesizes pointer movement, selects transcript text implicitly or invokes a provider merely to enter a mode.",
+      "focus": [{"start": 276, "end": 287}, {"start": 289, "end": 298}]
+    },
+    {
+      "start": 301, "end": 319, "title": "Reuse guarded submission and reject invalid command text before leaving the prompt",
+      "explanation": "Question submission selects the clarification-reply handler only when a reply is awaited; otherwise it calls the existing Ask handler and displays its status. Command submission first parses the entire prompt with the Core grammar. An ArgumentException leaves the mode and text in place for correction and shows the validation message, so shell-shaped or otherwise unsupported input has no dispatch side effect. Only a valid typed KeyboardCommand returns to Control and reaches ExecuteKeyboardCommandAsync. The controller does not duplicate snapshot creation or provider-request construction.",
+      "focus": [{"start": 308, "end": 317}]
+    },
+    {
+      "start": 320, "end": 345, "title": "Guard shared command dispatch and require idle devices or clarification state",
+      "explanation": "Commands reject reentrant dispatch, file activity, pending confirmation and unavailable protection before setting keyboardActionBusy. Start delegates to the existing async-void click handler, whereas Stop awaits shutdown; the flag therefore protects this dispatch scope, not the full lifetime of every downstream operation. Source changes reuse SetCaptureMode's guards. Devices additionally refuses audio startup/stopping/running or an answer in progress before exposing setup; Clarify refuses an active answer before changing its toggle. Confirm likewise delegates to the established clarification handler, preserving its own state validation rather than creating a second confirmation implementation.",
+      "focus": [{"start": 322, "end": 332}, {"start": 337, "end": 345}]
+    },
+    {
+      "start": 346, "end": 363, "title": "Delegate only typed built-ins and release the dispatch guard on every exit",
+      "explanation": "The remainder of the switch handles validated numeric font/opacity values, three semantic theme aliases and explicit copy/clear/cancel/ask/mask/help actions. Clipboard access occurs only through the existing Copy handlers when those commands are deliberately executed; merely typing or completing a suggestion does not copy. Existing question/answer handlers remain responsible for their own busy/content guards and report their statuses. Unknown enum values throw instead of becoming arbitrary execution, and finally resets keyboardActionBusy even when a delegated action fails. The parser, not this dispatch switch, supplies valid argument/value shapes.",
+      "focus": [{"start": 346, "end": 357}]
+    },
+    {
+      "start": 364, "end": 378, "title": "Disarm before masking and constrain native interop to foreground identity",
+      "explanation": "MaskFromKeyboard leaves the controller before applying the existing cover behavior, so detaching the workspace cannot retain armed letter commands. Cover continues to own its separate visual/accessibility and background-work semantics. The three declarations support only best-effort foreground transfer, HWND validity and owning-process comparison; there is no cursor-warping API or global key hook here. Native return values are checked by Leave rather than interpreted as a guarantee that another application's presentation has regained focus.",
+      "focus": [{"start": 364, "end": 367}, {"start": 370, "end": 377}]
+    }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs",
+      "sourceSha256": "fc70d2843dc0c4b204506d0a3a7a9897f670812e77ca96ae3b8ca777e0632db8",
+      "role": "Exercises keyboard-mode routing, draft identity, asynchronous edit targets and answer/device layout using injected failures, synthetic transcript rows and fake providers rather than real input or inference.",
+      "entryPoints": ["MainWindow.RunKeyboardDiagnosticAsync", "MainWindow.RunKeyboardDevicesDiagnosticAsync"],
+      "blocks": [
+    {
+      "start": 1, "end": 30, "title": "Inject configuration failures without touching the user's shortcut file",
+      "explanation": "The fixture captures the original dimensions and accumulates named Boolean checks. Injected InvalidDataException, JsonException, unauthorized-access and argument failures must all leave the shortcut disabled with a fallback notice, covering the non-IOException invalid-data case explicitly. A default settings object then restores fixture state without rewriting keyboard.json. The UI is labeled synthetic and normal diagnostic initialization suppresses native hotkey registration. This verifies the load-failure boundary through its factory seam, not real disk permissions or operating-system shortcut collisions.",
+      "focus": [{"start": 21, "end": 30}]
+    },
+    {
+      "start": 31, "end": 58, "title": "Prove activation and stable selected partials with a synthetic cancellation sentinel",
+      "explanation": "A computer final and microphone partial enter the current transcript session before a disposable token marks synthetic audio startup busy. Direct activation must remove native no-activate style while keeping Notes read-only. A constructed WPF preview V event exercises the window-local router, and fresh then repeated Space must yield exactly one selected row with Ask disabled and no Edit transition. Finalizing the microphone partial must preserve the full cursor key and update that selected draft row to final; adding the computer row must compose both sources in transcript order. No capture source is opened by these assignments.",
+      "focus": [{"start": 40, "end": 51}, {"start": 52, "end": 58}]
+    },
+    {
+      "start": 59, "end": 92, "title": "Check filtered cursor stability and compact review without creating a snapshot",
+      "explanation": "Incoming unselected speech must not move the cursor or change two copied selections. Mic-only filtering hides computer rows without deleting their copied membership; local text search narrows to the finalized partial while leaving questionSnapshotCount unchanged. gg/Shift+G test endpoints. At minimum dimensions Select must borrow the reader, retain questionExpanded intent and leave the synthetic audio token uncancelled. Ctrl+Enter remains review-gated; plain Enter changes to Edit, restores all transcript rows and still creates no snapshot. Literal letters, newline and Ctrl+V must return unhandled for the editor rather than execute commands.",
+      "focus": [{"start": 62, "end": 70}, {"start": 85, "end": 92}]
+    },
+    {
+      "start": 93, "end": 117, "title": "Submit exact text once and keep malformed commands local during fake streaming",
+      "explanation": "The editor receives an exact CRLF-containing draft, and an injected SyntheticCoveredAnswer replaces any live provider. Fresh and repeated Ctrl+Enter must create only one new snapshot and pass the exact text into its recorded run. After leaving Edit, Read plus and a typed font14command must synchronize answer font and slider. A shell-shaped start string must remain in Command mode, leave capture stopped and preserve the already-streaming fake run. The screenshot records the command surface before execution; it is not evidence of an actual keyboard hook or model request.",
+      "focus": [{"start": 93, "end": 103}, {"start": 108, "end": 117}]
+    },
+    {
+      "start": 118, "end": 126, "title": "Separate masking from cancellation using a releasable fake answer",
+      "explanation": "After escaping the invalid prompt, M must cover and disarm into passive policy. Calling the activation toggle again must uncover into Control; the check name hotkeyUnmasks describes the shared entry point, not a real registered-hotkey event. Releasing the fake provider must complete its known answer text while audioBusy remains set, the synthetic startup token is uncancelled and the transcript session is unchanged. This proves that these local transitions preserve the fixture's work state without claiming any real capture or external foreground behavior.",
+      "focus": [{"start": 118, "end": 126}]
+    },
+    {
+      "start": 127, "end": 160, "title": "Verify explicit maximum font survives responsive and passive layouts",
+      "explanation": "The fixture sets the slider to24and checks minimum,900x600and1240x760viewports after layout settles. Answer text, font slider and Ask must remain reachable, with per-size layout receipts and a minimum-window screenshot. Leaving modal control at minimum size must retain both the chosen font and reachable reader in passive mode, then reentry resumes Read. Plus at24and minus at8must clamp rather than exceed the range. These checks exercise explicit font persistence across responsive mode changes; they do not establish readability on every display scale or measure real user typography.",
+      "focus": [{"start": 130, "end": 141}, {"start": 153, "end": 160}]
+    },
+    {
+      "start": 161, "end": 194, "title": "Protect edited drafts and follow asynchronous clarification editor replacement",
+      "explanation": "Attempting selection after manual editing must leave Control and the exact draft intact. Synthetic audio-busy state is cleared before the separate device fixture. A fake clarification provider then receives a question and, after asynchronous interpretation plus dispatcher settling, Edit must target the reply editor with EDIT REPLY. Awaiting answerTask alone can precede the interaction refresh queued by RunAnswerAsync's finally; ApplicationIdle waits for that UI turn instead of manually changing mode to repair the target. Fresh/repeated correction submission must record one unconfirmed request with exact reply text; a subsequent yes must record the confirmed third request. After the async transition settles again, the stored target and label must return to the original question editor. These are target-identity assertions in diagnostic mode, not real foreground-focus qualification.",
+      "focus": [{"start": 175, "end": 186}, {"start": 187, "end": 194}]
+    },
+    {
+      "start": 195, "end": 215, "title": "Restore fixture state and fail the receipt when any named assertion is false",
+      "explanation": "Escape from Control must restore inactive/passive state and the native no-activate bit; inactive V must remain unhandled. Normal completion restores dimensions, clears the explicit font/draft, removes the injected provider and returns answer configuration to snapshot-only before writing keyboard-controls.json. The aggregate uses every named Boolean and throws with the receipt when any is false. Its explicit limitation excludes real shortcut collisions and cross-application foreground return, and reports no captured audio or model calls. Main-fixture cleanup is on this normal path rather than a finally; the enclosing diagnostic harness closes the window if an earlier assertion or operation throws.",
+      "focus": [{"start": 195, "end": 205}, {"start": 209, "end": 214}]
+    },
+    {
+      "start": 216, "end": 249, "title": "Navigate synthetic paged devices without selecting or starting capture implicitly",
+      "explanation": "The helper saves both ItemsSource objects and selections, substitutes thirty fake output records and one fake microphone, and enters Devices through the parsed built-in command. Right must move the candidate while selected output stays0; only Space changes it to1. Paging must preserve that selection and fit without scrolling, while Tab changes the active source list. The busy-state branch receives Space on the sole, already-selected microphone: its assertion checks unchanged selection and stopped capture, not rejection of a different endpoint candidate. Escape must hide setup and return Control. No endpoint IDs are opened, and these exact assertions should not be read as hardware or native key-delivery tests.",
+      "focus": [{"start": 225, "end": 236}, {"start": 237, "end": 248}]
+    },
+    {
+      "start": 250, "end": 261, "title": "Restore real device list references even if a synthetic device check fails",
+      "explanation": "Unlike the main fixture's normal cleanup path, the device helper uses finally around all substitutions and navigation. It clears its artificial audioBusy flag, restores the original list objects and selected records, and collapses the setup panel even if settling, a command or a check throws. Restoring object references preserves real endpoint identity rather than reconstructing selection from a friendly name. The helper assumes the caller intentionally cleared busy state before entry; it is not a general live-capture state checkpoint.",
+      "focus": [{"start": 251, "end": 259}]
+    }
       ]
     }
   ]

@@ -1,0 +1,32 @@
+PHANTOM FUDGE - UNSIGNED WINDOWS 11 x64 PREVIEW
+
+This installs the native app, .NET runtime, private Python runtime and pinned
+English speech models for the current Windows user. No administrator account,
+developer tools or Docker is required. Installation itself does not start audio,
+sign into an answer provider or send a question.
+
+This build targets Windows 11 on an x64 processor. Windows on ARM, Windows 10,
+macOS and Linux are not qualified or supported by this installer.
+An unsigned installer may produce SmartScreen or enterprise-policy warnings.
+Do not disable protection or bypass your organization's installation policy.
+
+UPDATE: Save/copy needed text and close the app with X, not Hide. Run a newer
+installer. The installer refuses downgrade and never force-closes the app.
+Only its authenticated idle speech service may be stopped for maintenance.
+
+UNINSTALL: Windows Settings > Apps > Installed apps > Phantom Fudge > Uninstall.
+Application/runtime/model files and registered shortcuts are removed.
+Your explicitly saved notes and exports are not deleted. Per-user settings and
+diagnostics under LOCALAPPDATA\PhantomFudge are retained for reinstall.
+Remove that data folder yourself only if you intentionally want to discard it.
+
+Finish and close Setup, then launch using the Phantom Fudge Start-menu shortcut.
+Setup never launches the app. Transcription still requires explicit Start.
+Optional answers require a separately installed/configured supported provider;
+no provider login, credentials or proprietary CLI is bundled.
+
+Capture exclusion is not universal invisibility, process hiding or a security
+boundary. Actual meeting-software compatibility and user comfort remain subject
+to qualification. Preserve third-party licenses shipped with the application.
+Setup and launcher status/error windows are ordinary visible UI, not capture
+excluded. Install, configure and launch before sharing your screen.

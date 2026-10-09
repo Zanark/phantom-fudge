@@ -206,3 +206,163 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
 - 2026-10-09 16:09 -56masktoggle: vectorbookicon,32x32toplefttarget,no visibleCover/Uncover
   captions. Accessibleactionnamesandmask-borderstateretained.161613UIpassesplacement/content/
   hit-testingandpriorguards; headerdragprobe movedofftheicon. Slider/cursor-choiceworkstillpending.
+- 2026-10-09 19:36 -57approved keyboard-first controls and answer-size slider. Source introduces
+  Ctrl+Alt+K/Keys, local modal selection/review/submit, literal Edit, deterministic commands and
+  explicit device navigation. Escape returns through Control with best-effort previous-app focus;
+  Mask disarms while capture/answers continue. Ordinary modes preserve work; :devices refuses
+  busy audio/answers and closes Q/A when allowed. :stop is audio-only; :cancel is answer/preparation-only.
+  Shortcut JSON permits A-Z except E/F1-F11, rejects F12, fixes Ctrl+Alt+NoRepeat and retains Keys
+  on invalid settings/conflict. Answer size8-24is session-only, surviving resize but not restart.
+  Canonical public guide, book registration and scoped chapter/status/navigation/TODO notes authored.
+  Integrated build/fixture/images, reviewed annotations/citation migration and full book validation
+  remain pending implementation owner;57IN_PROGRESS. No cursor manipulation, real audio/model calls,
+  source launch, generated-output edits, commit/push or new ZIP in the documentation slice.
+- 2026-10-09 20:28 -57progress: implementation owner reports297Core tests passed, including
+  F1-F11/F12 correction, and earlier synthetic lifecycle/selection/clarification/device checks passed.
+  Font24at470x560required compact space borrowing: Select/Search temporarily hide Q/A, retaining
+  its desired expansion, then restore it without close/cancel; other compact keyboard modes and
+  chosenfont14+visible answers prioritize Q/A. Wide columns/content/audio/provider lifetimes remain
+  unchanged. Guide and evidence notes updated; latest compact-font rerun and book completion pending.
+- 2026-10-09 20:32 -57first integrated pass202234reported complete:33keyboard checks and the old
+  UI fixture passed, Core297and docs-tool18passed;23WPF/10READMEimages imported. Documentation
+  review inspected all three new keyboard images. Subsequent code review identified uncaught
+  InvalidDataException in config loading; implementation owner will fix/rerun before final.
+  Citation migration remains analysis-only, with existing citation values unchanged.57IN_PROGRESS
+  until final correction, source-atlas and full book handoff; authored writer releases its files.
+- 2026-10-09 20:36 -57runtime frozen after final exporter/full UI pass. Config InvalidDataException
+  now follows disabled-shortcut/Keys fallback. Edit remains armed after submit; natural dispatcher
+  checks verify async reply/original targets without forced SetMode, limited to visible editable
+  fields and foreground-only focus. Compact Select and passive font24fit checks pass;23WPF/
+  10READMEimages current. New Keyboard/KeyboardDiagnostics citations refreshed to frozen source,
+  preexisting-source citations unchanged. Writer releases for one-shot migration/full atlas/book;
+  57IN_PROGRESS. External shortcut/foreground comfort unqualified; no model/audio call by docs.
+- 2026-10-09 -57DONE locally: final203556fixture passed38keyboard assertions plus prior regressions;
+  Core297/docs-tool18passed. Reviewed359citation ranges across32documents once.23WPF/10README
+  images and complete177-file source atlas accompany the refreshed35-chapter/71-diagram handbook.
+  HTML/PDF, source search, new chapter illustrations and1440/768/390reader widths inspected.
+  Source-only handoff; no new ZIP, user-app restart, real audio/model, cursor manipulation or push.
+  Owner comfort and actual hotkey/foreground/recorder qualification remain separate.
+- 2026-10-09 21:52 -58owner-authorized unattended installer/prerelease and README/TODO/book work.
+  Scope is Windows11 x64, v0.2.0-preview.1/Windows0.2.0.1, unsigned and private-repository visibility
+  unchanged. Per-user Inno/native launcher/bundled Python+verified speech models, no developer-tool
+  prerequisites for installed users, explicit Start for capture and no bundled provider/login.
+  Update/uninstall require closed app and authenticated owned idle-runtime maintenance, never
+  force-close/foreign process termination. External user settings/diagnostics/notes/exports retained.
+  Initial source-grounded INSTALLATION chapter, book registration, README/download-planned CTA,
+  scoped handbook10/16/19/operations, preview/legacy distinction, licensing and public tracking authored.
+  Runtime source/tests, artifacts/lifecycle evidence, citation integration, atlas/book and publication
+  remain pending. Existing23WPF/10READMEimages retained; no fabricated installer screen or test result.
+- 2026-10-09 22:30 -58packaging review: compact install-manifest.json separated from complete
+  payload-files.json (no self-hash); hiddenfiles/dirs and reparse/private-path checks added.
+  Repair/update moving to fresh Setup-extracted helper, numeric registry-version fallback for
+  damaged file. Native helper integration and passing repair evidence still pending. Test fixture
+  uses randomisolatedAppId/path and simulatedolderrecord; no genuineoldbinary/cleanVMqualification.
+  Guide/chapter/status/tracking updated without promoting source definitions to passing results.
+- 2026-10-09 22:36 -58component reports: launcher23tests/self-test9booleans and runtime57manager/
+  path/hybridmocktests pass. Fresh embeddedCPython3.13.14; disclosed faster-whisperPCM-only patch
+  and CTranslate2sameversion4.6.0CPU-Ruyrebuild (+phantomfudge1variants), no GPU/Intel/PyAV runtime.
+  Native ABI/import build stillpending; historical dev-build performance not inherited. Manager
+  confirms dead/recycledprocessidentity beforestale-receiptcleanup; live/unknownownership refuses.
+  Native maintenance uses authenticatedHTTP, not a Pythonmaintenanceverb. Source docs updated;
+  parent owns final integration, one-shot oldcitationmigration, artifact/edition/publication gates.
+- 2026-10-09 22:43 -58packager reports officialInno6.7.3download signatureValid(PyrsysB.V.) and
+  pinnedSHA9c73c3bae7ed48d44112a0f48e66742c00090bdb5bef71d9d3c056c66e97b732.
+  No signingidentity forourSetup; privatevisibilityunchanged. Runtime/PCM-only recipe remains
+  provisional pendingfinaloutput/licensing. Freshhelperrepair stilluntested; fixture exclusions
+  and simulatedolderrecord remain evidence limits, not beginner installation prerequisites.
+- 2026-10-09 22:45 -58native launcher frozen:46targetedtests, selfcontainedpublish, exactEXEselftest
+  pass. --validate-install syntheticlayout=0, oversized/corruptmanifest=65, no app/service/audio/
+  model startup. --maintenance [root] nativeHTTP doesnotrequireoldPython/compactmanifest, but
+  requiresownedmarker; sameuserfixeddata/byte-lock/instance+PID+idle/creationFILETIME guards.
+  Freshhelper isfullselfcontaineddirectory. Newlauncher citations refreshed; parentmigration ofold
+  sources untouched. FullSetuprepair/runtimeABI/license/lifecycle/edition/publicationstillpending.
+- 2026-10-09 22:52 -58finalcontract-alignedlauncher rerun reports46tests/publish/exactEXEselftest
+  PASS. Prefix-I-B-Xutf8, fresh32-bytehex64token and180sdeadline aligned; existingvalidBase64URL
+  tokens preserved. Reference constants/citations refreshed; no additional installer qualification.
+- 2026-10-09 22:54 -58intermediate runtimev3 reported2799files/749352236bytes, Pythonimports/
+  dependencyclosure/CPUint8/modelhash checksPASS, noservice/inference. NOT FOR PACKAGING: final
+  user-modelprecedence and user-onlyprovisioning amendment awaitingoffline rebuild. Hash-locked
+  publicwheels cameviaTsinghuamirror afterofficialCDNTLSfailure; provenance/nativeVosknotices disclosed.
+  No new performance/VM/installer/license-approval claim. Preservedusermodeldir documented.
+- 2026-10-09 23:00 -58finalruntime .local\installer-runtime-stage readyforparentassembly:
+  2801files/749919714bytes;manifestSHA1f8d8396f4b2538138632f1b72251bda0ec46073a937a9d0ff99f4a60c8012f7.
+  Offlineembeddedimports/dependencyclosure/CPUint8/modelhashes, inventory, spaces+Unicode relocation
+  and70regressiontestsPASSreported. Writerverifiedmanifestidentity/counts/recordedresults only.
+  Runtime/launcher new-source citationsrefreshed; oldbaselinecitationsuntouched. No realservice/
+  audio/modelload/inference/.NETbuild/install/uninstall/cleanVM evidence; performance gatesremainopen.
+- 2026-10-09 23:15 -58superseding recoveryruntime: .local\installer-runtime-stage-recovery,
+  2801files/749919744bytes; manifestSHAda6ea2fb1d16eac97bddc1b4e9bba4c16841a3560bebc4162c7ee47896e70d3d.
+  72tests/offline/hash/Unicode-relocationPASSreported. PersistchildPIDbeforecreationquery; confirm
+  dead/recycledidentity beforeautomaticstartupreceiptcleanup, PID-onlyrequiresabsence. No actual
+  reboot/service/inference. Earlierstage superseded. Launcherpartial-token/receipt refreezeawaited;
+  nativefresh-rootHTTP remainscomplete. Writerverifiedmanifestidentity, notbuild/test rerun.
+- 2026-10-09 23:25 -58finalnative recoveryfreeze:50targetedtests/publish/exactselftestPASSreported;
+  writerreadexit0/all9receipt andmatched14source/atlashashes,1728lines/54blocks/max62/focus12.
+  Partialownership table and PID-onlyprovenabsence documented; old46checkpoint remainshistorical.
+  Newsourcecitations refreshed; no app/service/audio/inference executed. Fullinstaller/VM,
+  finalrecipe/preexistingmigration/editions/private publication stillpending.
+- 2026-10-09 23:40 -58BLOCKED after runtime owner reports authorized syntheticPCM computation
+  (Vosk, productionWhisperfinal/VAD, forcedCT2encoder/decoder) succeeded but Ruy child hungat
+  processexit, exceeding120/240seconddeadlines. No capture/service/externalaudio/modelAPI.
+  Both installer-runtime-stage and installer-runtime-stage-recovery HELD/DO NOT SHIP.
+  Earlieroffline/import/hash/72tests remainhistorical; inference-to-clean-exit replacement evidence
+  required beforeparentresumesinstalleracceptance/publication. Cleanup/backend investigation ongoing.
+  Launcher23:39Program installer-maintenance gate/refreeze alsopending; nativeHTTP unchanged.
+  Publicentrypoints/status/TODO/guide updated fromreported evidence, not an independentprobe.
+- 2026-10-09 23:54 -58launcher gate production source frozen,51targetedtests/publishPASSreported.
+  Writerread Program/contract/randommutex test: pre-coordination and post-startupmutex checks,
+  detectedgate exits70withgenericstatus/noWPF/nochild; maintenance/validate bypass. Installation
+  diagram, affectedhandbookbehavior andnewProgramcitationsrefreshed. Exactselftest/annotations/
+  handoffstillpending; runtimeprocess-exitBLOCKERandheldpayloads unchanged. No build/testrerun.
+  AuthoredvalidationPASS:127links/103launcher-testcitationbounds/JSON/frontmatter/whitespace;
+  bothinstallationdiagrams parsed/rendered locally/networkblocked/nooutputfiles.
+- 2026-10-10 00:05 -58finalnativegate receiptsverified:51targetedtests/publishPASSreported; selftest
+  exit0/all9true at2026-10-09T18:07:25.8502546Z(23:37:25IST). WriterhashmatchedpublishedEXE/DLL,
+  all14sourcefiles andatlascontiguous1768lines/56blocks/max62/focus12;noduplicateownership.
+  No build/testrerun; fullatlas/handbookandSetupgate-lifetime/lifecycle acceptance stillpending.
+  Closedlauncherreceipt item only. Runtimeprocess-exitBLOCKERandbothheldpayloads unchanged.
+- 2026-10-10 00:09 -58parentreports actualInno CreateMutex forSetup/Uninstall lifetime; sourcecreation
+  inspected, isolatedlifecycleRUNNING/no completedreceipt. Packaged-ui-1 overall/priorgroups/38keyboard
+  receipts inspectedPASS/noaudio/modelrequests. Secondreview reportsVoskUnicode/narrowstat/ACP1252,
+  while actualPCM child stilltimesoutafter successJSON. Runtimeownerfixingboth; requireactualUnicode
+  HybridFactory+naturalexit beforepublication. Finalcheckfound4laternative startup-handoff source/atlas
+  mismatches; ownernotified,51-testcheckpoint retainedashistory/newfreeze+verification+citespending.
+  Conciseguideevidencetable/authoredfilesreleasedforparentcompletion.
+- 2026-10-10 00:37 -58final authored integration: readfrozen runtime/launcherhandoffs and currentsource.
+  Reported55native tests/10exactselfchecks;78runtimefocused plus realgeneratedPCM HybridFactory/
+  productionVAD/forcedWhisper decode andnaturalexit, repeatedafterUnicode relocation. Only final
+  installer-runtime-delivery approvedcomponentinput:2808files/765369480bytes, manifestSHA
+  a2b9cfefb0e3b7e3961fdc473b4f23ace4ed2ad78d35e9b0aa65ddd97c262de4.
+  CT2 4.6.0+phantomfudge2 oneDNN3.1.1/MicrosoftOpenMPvcomp140; FWPCMprivateversion unchanged.
+  Vosk unmodified; firstparty startupwide-CWDadapter fixesUnicode. OldRuy stages remainrejected.
+  Native guard persists untilappmutex/provenexit;30sec76Pending notSuccess, Closehides incldispatcher
+  shutdownprotection. InteractiveClose notdriven. Parentlifecycle2PASS11checks/3670files OLD-runtime
+  fixture, notfinalcandidate. Setupneverlaunches; finish/close thenStart and ordinaryvisibleUIwarning.
+  58IN_PROGRESS; finalpayload/review/lifecycle, baselinecitationmigration, annotations/editions and
+  privatepublication remainparent-owned. No writerbuild/test/hash rerun, actualcapture/providerrequest/
+  cleanVM or newbackendperformanceclaim. book.jsonedition/catalogueprompt changed; annotations untouched.
+  AuthorcheckPASS:18files/283links/256scopedciteranges/JSON/frontmatter/whitespace;10diagrams rendered
+  locally/inmemory/networkblocked/nooutputs. Fourbaseline configuration.py61-70 cites leftforparent.
+- 2026-10-10 00:55 -58candidate2 full Build-Installer PASS parent-reported, current runtime/native and
+  mandatory realPCM/cleanexit. Inspected lifecycle3 receipt:11checks/3682files PASS with currenthost/
+  randomAppId/no-shortcuts/simulatedversion limits, no captured audio/provider requests. Scoped
+  Unicode/startup/backend review reports no significantissues; not an independent PCM run.
+  Authored current prose now reflects passing candidate evidence; clean committed release build/
+  provenance/editions/publication pending. Runtime-atlas owner has missingruntime annotations;
+  parent retains domain/packaging/bookcatalogue annotations/migration. No source/generated/annotation edits.
+- 2026-10-10 01:03 - Frozen runtime now enforces PEclosure/DLL-path gate. Parent reports92speechPE/
+  5bundledCRTpaths +separate861App/LauncherPEstaticclosure PASS; functionalDLLs unchangedvs candidate2.
+  Refreshed new-source citations and licensing/provenance limits; lifecycle3 remains11checks/3682files.
+  No cleanVM claim or writer test execution. Finalbuild must run strongergate; annotations/editions/
+  finalmanifest/privatepublication remain with their owners.
+- 2026-10-10 01:11 - Parent's same-five-module combinedPython run85PASS includes7newPEauditor cases;
+  native55PASS again. Owner final installer-runtime-dll-qualified offline rebuild passed stronger
+  PE/DLL-path/realPCM/Unicode/normalexit gates:2810files/765576675bytes; manifestSHA
+  c62093e8f8375471aacddff7656bfb69936aa8b6fc258865c92f5dd593355e16.
+  92speechPE/matchinghashes/5bundledCRTpaths, separate861App/Launcher static and lifecycle3 11/3682PASS.
+  Current public prose reconciled; historical78 checkpoint retained. Final clean assetbuild/publication
+  pending, not runtime gate execution. No writer tests or source/annotation/generated changes.
+- 2026-10-10 01:31 - Candidate3 final build gates PASS; runtime bytes match corrected lifecycle3
+  fixture except notices/provenance. Packaged native10selfchecks and UI/38keyboard checks PASS.
+  Atlas203files/30897lines/1232blocks; book36chapters/73diagrams. Citation migration applied once,
+  120ranges/18docs/7reviewed endpoints.19documentation-tool cases PASS. Clean assets/publication next.

@@ -11,7 +11,7 @@ const output = path.join(root, 'docs', 'source-atlas');
 const rootInputs = new Set(['.dockerignore', '.gitignore', 'Directory.Build.props', 'PhantomFudge.slnx',
   'compose.yaml', 'global.json', 'docs/handbook/book.json', 'docs/handbook/catalogue.json']);
 const extensions = new Set(['.cs', '.xaml', '.py', '.mjs', '.js', '.ps1', '.json', '.yaml', '.yml',
-  '.toml', '.props', '.csproj', '.slnx', '.html', '.css']);
+  '.toml', '.props', '.csproj', '.slnx', '.html', '.css', '.iss', '.manifest']);
 const relative = file => path.relative(root, file).replaceAll(path.sep, '/');
 export const escapeHtml = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
   .replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
@@ -22,6 +22,12 @@ export function physicalLines(text) {
   const lines = text.replace(/^\uFEFF/, '').replace(/\r\n|\r/g, '\n').split('\n');
   if (lines.at(-1) === '') lines.pop();
   return lines;
+}
+
+export function atlasChapterLink(chapter) {
+  if (typeof chapter !== 'string' || !/^docs\/(?:handbook\/)?[A-Za-z0-9_-]+\.md$/.test(chapter))
+    throw new Error('Atlas groups require a public documentation chapter.');
+  return path.posix.relative('docs/source-atlas', chapter);
 }
 
 export function sourceKind(file) {
@@ -132,8 +138,7 @@ async function loadAtlas() {
     text(group.id, 'Group ID');
     text(group.title, 'Group title');
     if (!Array.isArray(group.files) || !group.files.length) throw new Error('An atlas group must explain source files.');
-    if (typeof group.chapter !== 'string' || !/^docs\/handbook\/[^/]+\.md$/.test(group.chapter))
-      throw new Error('Atlas groups require a public handbook chapter.');
+    atlasChapterLink(group.chapter);
     inputs[group.chapter] = hash(await readPublic(group.chapter));
     for (const item of group.files) {
       if (!expected.has(item.path) || seen.has(item.path)) throw new Error(`Unexpected or duplicate annotated source: ${item.path}`);
@@ -171,7 +176,7 @@ function renderFile(file) {
     `<h2>${escapeHtml(file.path)}</h2><p class="role">${escapeHtml(file.role)}</p>` +
     `<p class="metadata">${file.lines.length} physical lines; ${file.blocks.length} authored blocks. ` +
     `Entry points/readers: ${file.entryPoints.map(escapeHtml).join(', ')}. ` +
-    `<a href="../handbook/${escapeHtml(path.posix.basename(file.chapter))}">Deep walkthrough</a></p>` +
+    `<a href="${escapeHtml(atlasChapterLink(file.chapter))}">Deep walkthrough</a></p>` +
     `<details class="full-source"><summary>Open complete line-numbered source (${file.lines.length} lines)</summary>` +
     `<div class="source-code">${sourceRows(file, 1, file.lines.length, true)}</div></details>` +
     blocks + '<p class="top-link"><a href="#top">Back to index</a></p></article>';
@@ -310,7 +315,7 @@ export async function main(args = process.argv.slice(2)) {
       'External packages, runtime credentials, model weights, build outputs, private context and live device/provider behavior are outside this source walkthrough. ' +
       'Lockfiles and generated evidence receipts are indexed as such. PowerShell `.txt` mirrors are byte-checked against their annotated `.ps1` source.\n\n' +
       '## Source groups\n\n' + atlas.groups.map(group =>
-        `- [${group.title}](../handbook/${path.posix.basename(group.chapter)}): ${group.files} files.`).join('\n') +
+        `- [${group.title}](${atlasChapterLink(group.chapter)}): ${group.files} files.`).join('\n') +
       '\n\n## Maintenance\n\nUpdate the relevant authored JSON in `annotations` after reading changed source, including its source hash and line partitions. ' +
       'Then run `node .\\tools\\Docs\\source-atlas.mjs`, followed by `scripts\\Build-Handbook.ps1`. ' +
       '`node .\\tools\\Docs\\source-atlas.mjs --check` rejects stale source, gaps, missing files, mirror drift or an HTML-only edition. ' +

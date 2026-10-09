@@ -1,0 +1,271 @@
+# Windows installer and private prerelease delivery
+
+Status: IN_PROGRESS
+Milestone: Windows11 x64 install/update/uninstall with maintained public documentation
+Dependencies: 22_NATIVE_PYTHON_RUNTIME.todo, 57_KEYBOARD_CONTROLS.todo
+
+Current (2026-10-10 01:11 IST): parent confirms55native tests passing again and85runtime focused
+tests across the same five modules, including7newPEauditor cases.10exact-EXE selfchecks previously passed.
+Final offline rebuild/strongergate/realPCM/Unicode/naturalexit PASS; use installer-runtime-dll-qualified.
+Earlier Ruy exit/Unicode blockers are resolved in that replacement; old stages remain rejected.
+Native startup-handoff freeze supersedes the51-test/nine-check checkpoint and four-file drift report.
+Parent candidate2 full build passed with currentruntime/native and mandatory realPCM/cleanexit.
+Inspected lifecycle3 receipt passes11checks/3682files, currenthost/randomAppId/no-shortcuts/simulatedversion.
+Stronger runtime PE/DLL-path gate has passed on the final qualified component; no runtime gate is outstanding.
+Clean committed release build, final provenance/checksums, source-atlas/book editions and publication pending.
+No real capture/provider request/cleanVM or new-backend performance qualification is claimed.
+
+## Purpose
+
+Implement the October9 21:52 request for unattended README/TODO/book updates and a downloadable
+installer/prerelease. This authorizes this delivery work, not repository visibility changes,
+universal OS/hardware support, a project license, signing, or promotion to a qualified release.
+Workstreams14/17retain the broader release/qualification gates; this is an explicitly unqualified
+preview candidate.
+
+## Scope
+
+- Windows11 x64 only; Windows10, ARM, macOS and Linux unsupported.
+- v0.2.0-preview.1 prerelease / Windows file version0.2.0.1; unsigned.
+- Private repository/release visibility unchanged; download access requires repository permission.
+- Inno Setup6.7.3, per-user lowest privileges, stable AppId, native Start-menu launcher.
+- Bundled .NET/Python runtime and verified English Vosk/Whisper small.en assets; no end-user
+  PowerShell7, system Python, .NET SDK, Docker or automatic model download requirement.
+- Setup never launches the app: finish/close, then open from Start. Launch may prepare an idle
+  speech service; actual audio capture still requires Start. Setup/launcher status/error UI is
+  ordinary-visible, not capture-excluded; install/launch before sharing.
+- No provider CLI/model or automatic account/login setup; new profiles retain SnapshotOnly.
+  Existing answer/keyboard configuration remains at the same user-profile paths.
+- Update rejects downgrades/unrecognized nonempty destinations. Maintenance refuses an open app
+  and stops only the authenticated owned idle InstalledRuntime service; no force-close or foreign kill.
+- Uninstall removes the installed app/runtime/models/shortcuts. External settings/diagnostics,
+  runtime ownership data and saved notes/exports remain for reinstall. Manual reset is separate.
+- Program directories are managed/replaced; personal content must live outside them.
+- Source/legacy ZIP workflows remain distinct. No startup/taskbar-stealth/system policy changes.
+
+## Tasks and evidence gates
+
+- [x] Author INSTALLATION.md with actual user procedures, source references and two accessible diagrams.
+- [x] Register the guide in book/catalogue and update README, docs navigation, preview/package distinction,
+  handbook10/16/19/operations, licensing notices and current-state documentation.
+- [x] Complete runtime bundler/path amendments and native launcher source with bounded component tests.
+- [x] Record the23:15 recovery-runtime checkpoint: offline import/dependency/model-hash, inventory,
+  relocated-path checks and72regression tests. Its assembly-ready status was withdrawn at23:40.
+- [x] Record earlier native launcher checkpoint with46targeted tests, self-contained publish, exact-EXE self-test and
+  synthetic headless layout/oversized/corrupt-manifest checks; full package acceptance remains separate.
+- [x] Refreeze launcher after partial token/receipt and PID-only recovery hardening:50targeted
+  tests, self-contained publish, exact-EXE self-test and refreshed per-file atlas/citations at23:25.
+- [x] Record October10 00:37 owner handoff resolving runtime exit/Unicode blockers:78focused tests plus real
+  HybridFactory/VAD/forcedWhisper inference and natural exit after Unicode relocation; new oneDNN
+  delivery only. Documentation read handoff/source; it did not independently rerun those probes.
+- [x] Record final-source parent combined85Python/55native PASS and DLL-qualified offline rebuild PASS,
+  including PE/import/inference path gates and exact final payload Unicode/normal-exit qualification.
+- [x] Implement normal/notes-only installer-maintenance gate:23:54source freeze,51targeted tests and
+  self-contained publish reported; reviewed gate/mode test and refreshed Program.cs citations/diagram.
+- [x] Obtain the earlier51-test launcher receipts:publishPASS reported; exactselftest exit0/all9true,
+  EXE/DLL hashes and14source hashes verified;1768lines/56blocks/max62/focus12, no duplicate ownership.
+- [x] Inspect packaged-desktop UI smoke receipts: overall/prior regression groups and38keyboard
+  checks pass; no audio capture/model requests. This is not installed speech acceptance.
+- [x] Record parent candidate2 full Build-Installer PASS with currentruntime/native and mandatory
+  real generated-PCM inference/cleanexit. This is not a clean committed final release build.
+- [x] Inspect lifecycle3 receipt:11checks/3682inventoriedfiles PASS for install/layout/hash/maintenance,
+  repair/damagedlauncher, simulated-version upgrade/downgrade, uninstall/retention/foreign destination.
+- [ ] Build clean committed unsigned release artifacts and record final payload/version/checksum/license inventory.
+- [x] Retain explicit qualification limits for actual native/notes-only installed speech startup,
+  runtime ownership/concurrency, shortcut UX and real old-binary migration; lifecycle3 does not drive them.
+- [ ] Verify Setup/Uninstall holds Local\PhantomFudge-Installer-Maintenance from before native
+  maintenance through replacement/deletion until exit: CreateMutex is implemented in bothinitializers;
+  separate concurrency acceptance remains parent-owned; lifecycle3 does not drive concurrent launches.
+- [x] Record parent lifecycle2:11checks/3670inventoriedfiles PASS, including fresh-helper damaged
+  launcher/version repair and retained external sentinel. OLD-runtime fixture, not final payload,
+  real old-binary upgrade, shortcut UX or clean-VM qualification.
+- [x] Refresh native launcher citations against the51-test source checkpoint.
+- [x] Read final55-test/10-selfcheck native handoff and current startup-handoff source; report resolves
+  prior four-file drift. Mutex remains until appmutex/provenexit;30seconds writes76Pending,
+  pendingClose hides and preserves guard including dispatchershutdown. InteractiveClose NOT driven.
+- [x] Freeze remaining installer/runtime citations; migrate existing citations once from baseline.
+- [x] Complete authored source annotations, HTML/PDF editions and rendered/freshness review.
+- [ ] Publish only the approved private-repository prerelease; verify release URL/assets/hashes.
+- [ ] Replace planned-asset wording only after publication evidence; deliver exact limits and links.
+
+## Current evidence
+
+- October10 01:31: candidate3 full build passes final PE/load-path/realPCM/clean-exit gates.
+  Functional speech bytes match candidate2; changes are notices/provenance. Packaged launcher
+  selfchecks10/10 and desktop synthetic UI/38keyboard checks pass. No real capture/provider.
+  Atlas203files/30897physical/1232blocks; book36chapters/73diagrams.19docs-tool tests pass.
+  Citation migration APPLIED ONCE:120ranges/18docs/7reviewed changed endpoints. Never rerun.
+
+- Final DLL-qualified runtime: .local\installer-runtime-dll-qualified,2810files/765576675bytes including manifest;
+  manifestSHA256 c62093e8f8375471aacddff7656bfb69936aa8b6fc258865c92f5dd593355e16 (owner-reported, not Setup hash).
+  CT2 4.6.0+phantomfudge2 / oneDNN3.1.1 / MicrosoftOpenMP vcomp140; FW1.2.1+phantomfudge1 PCM-only
+  unchanged. Vosk package unmodified; recognizer.py startup-wide-CWD adapter handlesUnicode.
+  Build-Installer requires --verify-synthetic-pcm; installed metadata closure is not inference proof.
+  Supersedes installer-runtime-delivery; package/native/model/service bytes unchanged, only notices/
+  copiedlock/manifest changed. This is not candidate2's whole payload or the final Setup fingerprint.
+- Parent reports92speechPE/hashclosure +5actual bundledCRTpaths PASS, plus separate861App/LauncherPE
+  staticclosure PASS. tools\Installer\runtime_audit.py enforces declared normal/delay/forwarder
+  dependency names; shared DLL_PROBE checks actual CRT locations. Functional DLLs unchangedvs
+  candidate2; final offline runtime rebuild executed stronger gate successfully.85focused/55native
+  tests parent-confirmed; clean committed assetbuild stillpending. No cleanVM/dynamic-path completeness claim.
+- Final native handoff:55focusedtests, publish, exactEXE10checksPASS;14files/1955lines/64blocks reported.
+  Documentation read final-handoff.txt/handoff.json and source, with no build/test/hash rerun.
+- Source recipe/configuration: tools\Installer\PhantomFudge.iss, release.json and scripts\Build-Installer.ps1.
+- Native launcher: src\PhantomFudge.Launcher; source inspection includes --notes-only and --maintenance.
+- Canonical procedure: docs\INSTALLATION.md. Current runtime/launcher/installer procedure references
+  refreshed; one-shot preexisting-source migration remains parent-owned.
+- Initial authored-doc check:221local links resolve;39new-guide citation occurrences reference14
+  existing source files with valid line bounds; book/catalogue JSON and quoted frontmatter pass.
+  Both new accessible Mermaid diagrams parse/render locally in memory, network blocked and no
+  generated files written. These checks are not installer/runtime tests or final source freshness.
+- Existing desktop UI is unchanged by packaging. Reuse23synthetic WPF images/10READMEderivatives;
+  they are not installer screenshots. No installer UI image or installation result is fabricated.
+- Planned release: https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1
+- Candidate2 full build PASS parent-reported; lifecycle3 result inspected at
+  .local\installer-release\lifecycle-3\result.json:11checks/3682files PASS. No captured audio or
+  modelrequests in the lifecycle fixture; generated-PCM inference belongs to the separate build gate.
+  Scoped Unicode/startup/backend review reports no significantissues, not independently rerun PCM.
+  Clean committed release build/finalprovenance/editions/publication remain pending.
+- October10 00:37 authored validation:18files,283local links and256scoped citation occurrences have valid
+  targets/ranges; JSON/frontmatter/whitespace pass.10existing diagrams across INSTALLATION and
+  chapters10/16/19/27 parsed/rendered locally in memory with external requests blocked/no outputs.
+  Four old configuration.py:61-70 references remain for parent's reserved baseline migration;
+  range/link checks do not establish full semantic freshness or a generated-edition pass.
+
+## Historical checkpoints (superseded, not current release inputs)
+
+-22:30review refinements: compact install-manifest.json plus complete payload-files.json inventory
+  (excluding its own self-hash); hidden-entry/reparse/private-data checks and exact inventory fixture.
+  Fresh maintenance helper/registry-version fallback integration remains pending.
+- Test-Installer.ps1 uses an isolated random AppId/path and simulated older version record, not a
+  genuine older binary or clean VM. Shortcuts and post-install launch are omitted. Test definitions
+  do not establish a passing run; no broad upgrade/platform qualification may be inferred.
+-22:35launcher owner reports23tests and nine self-test booleans passing; receipt:
+  .local\installer-release\launcher-build\self-test.json. Not installed-copy/fresh-helper acceptance.
+-22:36runtime owner reports57manager/path/hybrid mock tests passing. Bundle build/native ABI/import
+  validation still pending. CPython3.13.14; faster-whisper1.2.1+phantomfudge1 PCM-only patch and
+  CTranslate2 4.6.0+phantomfudge1 CPU-Ruy rebuild disclosed; no PyAV/FFmpeg/CUDA/cuDNN/Intel binaries.
+  Do not inherit developer-build performance/accuracy claims. User token/config/model data retained.
+-22:43packager reports official Inno6.7.3download AuthenticodeValid(PyrsysB.V.) and pinnedSHA
+  9c73c3bae7ed48d44112a0f48e66742c00090bdb5bef71d9d3c056c66e97b732.
+  This is compiler provenance, not our Setup signature; no application signing identity supplied.
+  Runtime recipe/PCM-only variants still await final output and licensing review. Fresh-helper
+  same-version repair is untested; /DInstallerTest=1 omits normal shortcuts/post-install launch.
+-22:45final launcher freeze:46targetedtestsPASS, selfcontainedpublishPASS, exactEXEself-testPASS.
+  Headless --validate-install returns0for syntheticvalidlayout and65for oversized/corruptcompactmetadata.
+  Receipts: .local\installer-release\launcher-build\self-test.json and headless-validation.json.
+  No app/service/audio/modelstartup. Freshbootstrap is full launcher directory, not singlefile.
+  --maintenance [root] requires marker but no oldPython/compactmanifest; nativeHTTP/byte-lock/
+  authenticatedinstance+PID+idle/creationFILETIME checks retained. FullSetuprepair stilluntested.
+- Frozen launcher citations reviewed; old preexisting-source values left for one-shot parent migration.
+-22:52finalcontract-alignedrerun:46tests/selfcontainedpublish/exactEXEself-test(all9booleans)PASS
+  reported. Prefix-I-B-Xutf8, token32bytes/lowercasehex64, deadline180s; priorvalidBase64URL tokens
+  preserved by targetedtest. Refreshed receipts in same launcher-build directory; fullSetup stilluntested.
+-22:54runtime owner reports intermediatev3:2799files/749352236bytes; embeddedPythonimports,
+  dependencyclosure, CPUint8support andallmodelhashesPASS; no service/inference. DO NOT PACKAGEv3.
+  Finaluser-modelprecedence/provisioning amendment and offline rebuiltpayload stillpending.
+  User.local\models\<pinnedname> overridesbundledonlywhenpresent; samepinnedverification;
+  explicitprovisioningwritesuserdironly. PublicTsinghuaPyPImirror deliveredexacthash-lockedwheels
+  afterofficialCDNTLSfailure, disclosedinmanifest. Vosk native notices added; finallicense reviewpending.
+-23:00final runtime handoff: .local\installer-runtime-stage,2801files/749919714bytes includingmanifest.
+  speech-runtime-manifest.json SHA256:
+  1f8d8396f4b2538138632f1b72251bda0ec46073a937a9d0ff99f4a60c8012f7.
+  Fullyofflineimports/dependencyclosure/CPUint8/modelhashesPASS; independentinventory verification,
+  relocatedspaces+Unicode probe and70regressiontestsPASS reported. Docs independentlyreadmanifest/
+  verifiedmanifestSHA/counts/recordedresults only. v1/v2/v3scratchpayloadsdeleted; finalstageREADY.
+  Runtime/launcher citations refreshed. No service/audio/modelload/inference/.NETbuild/install/
+  uninstall/cleanVM result inferred. Engineeringprovenance/notices, notlegalcertification.
+-23:15LATEST runtime .local\installer-runtime-stage-recovery supersedesinstaller-runtime-stage.
+  2801files/749919744bytes; manifestSHA:
+  da6ea2fb1d16eac97bddc1b4e9bba4c16841a3560bebc4162c7ee47896e70d3d.
+  72tests/rebuilt-offline/hash/Unicode-relocationPASS reported; writerconfirmedmanifestidentity/
+  totals/recordedprobe results. ChildPIDpersistedbeforecreation-query; PID-onlycleanup requires
+  confirmedabsence. Reboot/PIDreuse start-path regressions mocked; normalconfirmedstalerecovery
+  doesnotrequiremanualrepair. No realreboot/service/inference. Launcherpartial-state refreezeheld.
+-23:25launcher finalrecoveryfreeze:50targetedtests/publish/exactEXEselftestPASS reported.
+  Writerreadfreshhandoff/selftest(exit0/all9,UTC17:54:20.8682469) andmatched14atlas/sourcehashes,
+  1728lines/54blocks/max62/focus12; no duplicateownership perreceipt. No build/test rerun bywriter.
+  Neitherfile=>success/noprobe; receipt-only=>refuse; token-only=>privatevalidation+unauthTCPprobe,
+  onlyconnectionrefused=>success. PID-onlycleanup requiresprovenabsence; livelegacy needsauth,
+  uninspectablefailsclosed. Sourcecitationsrefreshed; fullSetup/VM/inference remainseparate.
+-23:39launcher owner holds Program.cs freeze for named installer-maintenance mutex gate before
+  normal/notes-only reveal/start; maintenance/validate bypass. New implementation/tests/publish pending.
+-23:40runtime owner reports authorized local syntheticPCM: realVosk, productionWhisperfinal/VAD and
+  forcedCT2encoder/decoder completed; Ruy child thenhungatprocessexit, timedout120/240seconds.
+  No capture/service/externalaudio/modelAPI used. Both installer-runtime-stage and stage-recovery
+  HELD/DO NOT SHIP; priorimport/hash/72test evidence notrescinded but insufficient for acceptance.
+  Cleanup/backend investigation inprogress; exactprobereceipts/replacementmanifest pending.
+  Writerrecordsreportonly; no inference/test run. Packagepatch-provenance amendments awaitfreeze.
+
+## Qualification and privacy boundaries
+
+SmartScreen and organizational policy may block unsigned code; no disabling/bypass instructions.
+No real notes/audio, user-instance termination or provider authentication was used for these final
+component checks. Local model inference used generated PCM only; documentation did not execute it.
+Captured-recipient compatibility stays NOT_TESTED
+until its separate evidence exists. Docker remains optional final-stage workstream20.
+Bundled dependency licenses do not select a license for Phantom Fudge.
+
+## Completion log
+
+- 2026-10-09 21:52 - Owner requested unattended installer/release and README/TODO/book work.
+  Private visibility, Windows11 x64 scope, unsigned preview and explicit retention boundaries adopted.
+- 2026-10-09 - Initial public guide/navigation/chapter/tracking pass authored from in-progress source.
+  Source inspection is not a build, installed-copy test or release publication; status remains IN_PROGRESS.
+- 2026-10-09 22:30 - Packaging review separates bounded launcher metadata from full inventory,
+  strengthens hidden/reparse inspection and defines fresh-helper damaged-install repair.
+  Public docs preserve pending integration and isolated/simulated fixture limits.
+- 2026-10-09 22:36 - Recorded bounded component-test reports and disclosed runtime modifications.
+  Build/native ABI/import, fresh-helper and installer integration evidence remain pending.
+- 2026-10-09 22:43 - Recorded official compiler provenance separately from unsigned app packaging;
+  kept runtime/license and fresh-helper repair claims provisional and fixture limits explicit.
+- 2026-10-09 22:45 - Native helper source/publish freeze with46tests and exact-executable headless
+  checks recorded; new launcher citations refreshed. Full installer/runtime/license gates stay open.
+- 2026-10-09 23:00 - Final offline runtime stage accepted for parent assembly; manifest identity,
+  70regressiontests, inventory and relocated-path checks recorded with strict no-inference limits.
+  Runtime/launcher source citations refreshed; installer lifecycle/editions/publication remain pending.
+- 2026-10-09 23:25 - Latest launcher50/recoveryruntime72checkpoints documented; partial-state
+  maintenance and automaticprovenstalerecovery clarified. Frozen new-source citations refreshed;
+  installer-recipe/preexisting-source migration, fullpackage tests, editions/publication stillpending.
+- 2026-10-09 23:40 - Reopened runtime delivery gate after reported real synthetic computation
+  exposed a process-exit hang.58BLOCKED; both stages held. Priorcomponent passes preserved as
+  dated evidence, not shipping approval. Launcher Program gate/refreeze also remains pending.
+- 2026-10-09 23:54 - Launcher production source refrozen:51targetedtests/publishPASS reported.
+  Writerreviewed pre-coordination and post-startupmutex gate checks; detectedgate exits70/noWPF/
+  nochild, maintenance/validate bypass. Testusesrandommutex, notproductiongate. Authoredbehavior/
+  diagram/Program citationsupdated; exactselftest/atlas/handoffpending. Runtimeblockerunchanged.
+  AuthoredcheckPASS:11files,127local links,103launcher/test citation bounds, catalogueJSON/frontmatter
+  andwhitespace. Bothinstallationdiagrams parsed/rendered locally withnetworkblocked; nooutputfiles.
+- 2026-10-10 00:05 - Final launcher handoff inspected:51targetedtests/publishPASS reported,
+  exactselftest exit0/all9 at2026-10-09T18:07:25.8502546Z(23:37:25IST). Writerverified bothpublished
+  EXE/DLL hashes,14source/annotationhashes,1768physical lines/56contiguousblocks/max62/focus12,
+  noduplicateownership. No tests/builds rerun or fullatlasbuild. Launcherreceiptsclosed; realSetupgate
+  lifetime andinstalledlifecycle pending. Runtimeprocess-exitBLOCKERandbothheldstages unchanged.
+- 2026-10-10 00:09 - Parentconfirms actualInno gate creation/lifetime; isolatedlifecycleRUNNING,
+  receiptpending. Packaged-ui-1 overall/priorgroups/38keyboard receiptsinspectedPASS, noaudio/modelrequests.
+  Parent's actualPCM run timesout120secondsafter successJSON; secondreview reportsVoskUnicodepath/
+  narrowstat/ACP1252. Runtimeownerfixingboth; realUnicodeHybridFactory+naturalexit required.
+  Guidekeptto conciseevidencetable/userprocedure. Finalcheckthenfound4newnative source/atlas mismatches:
+  ChildProcesses/LauncherStatus/Program/InstalledLauncherTests. Ownernotified;51-testcheckpoint historical,
+  newfreeze/verification/citationspending. ReleaseBLOCKED; authoredfilesreleasedforparentcompletion.
+- 2026-10-10 00:37 - Resumed final authored integration from frozen handoffs:55native/10selfchecks,
+  78runtimefocused plus realUnicodeHybridFactory/VAD/forcedWhisper/naturalexitPASS reported.
+  oneDNN3.1.1/MicrosoftOpenMP replaces rejectedRuy; Vosk package unchanged/startupadapter fixespaths.
+  Parent lifecycle2old-runtime11checks/3670filesPASS is notfinalacceptance.58returnsIN_PROGRESS.
+  Setup never launches; visibleUI/sharing warning and76Pending guardedhandoff documented.
+  Current prose/citations updated; parent owns finalcandidate, baseline migration, annotations,
+  generatededitions and privatepublication. No newtests/builds/realcapture/provider request/cleanVM.
+- 2026-10-10 00:55 - Current candidate2 build PASS, including mandatory realPCM/cleanexit; lifecycle3
+  receipt inspectedPASS11checks/3682files. Replaced current old-runtime-only/candidate-pending prose,
+  preserving prior history and currenthost/randomAppId/no-shortcuts/simulatedversion/noaudio/provider/
+  cleanVM limits. Clean committed release build/provenance/editions/publication remain pending.
+  Runtime-atlas owner exclusively handles missingruntime annotations; parent handles domain/
+  packaging/bookcatalogue annotations and migration. Authored files returned frozen; no builds rerun.
+- 2026-10-10 01:03 - Read frozen bundle_runtime.py/runtime_audit.py/runtime-lock/PCMtest and refreshed
+  new-source citations, with92speechPE/5CRTpaths +861App/Launcher staticPASS parent-reported.
+  Lifecycle3 still11checks/3682files; no runtime/installer tests rerun. Finalbuild uses strongergate;
+  sourceannotations belong to runtime-atlas, finalmanifest/editions/publication to parent.
+- 2026-10-10 01:11 - Parent combined85Python/55native PASS;7newPEauditor cases supersede78 count.
+  Final DLL-qualified offline rebuild,92PE/hash/5actualCRTpaths, realPCM/Unicode/normalexit PASS;
+  separate861App/LauncherPEstaticclosure and lifecycle3 11checks/3682files unchanged.
+  Updated current component identity; runtime gates complete, final clean assetbuild/publication pending.

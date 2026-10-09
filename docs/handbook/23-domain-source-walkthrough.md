@@ -10,7 +10,27 @@ outline: deep
 
 Recognition can revise an utterance after a person selects it. A bounded history can evict that utterance. A person can correct its wording, and another process can change a note file while it is open. The domain layer keeps these events from silently becoming permission to replace a selected question, discard export history or overwrite an observed external edit. Its mechanisms are explicit identity, staged updates, copied values and operation-specific limits—not one universal “immutable state” abstraction. (src/PhantomFudge.Core/StructuredTranscriptStore.cs:37) (src/PhantomFudge.Core/QuestionDraft.cs:18) (src/PhantomFudge.Core/NoteFileStore.cs:47)
 
-This chapter accompanies authored annotations for **22 files / 2,814 physical lines**: eleven Core files and eleven test/project files. Use the [source atlas](../source-atlas/index.html) for complete source and focused excerpts, and the [atlas guide](../source-atlas/README.md) for navigation. Provider internals are a separate ownership boundary; here, the question chain ends at a local snapshot or the application's explicit handoff.
+The earlier reviewed annotation snapshot covered **22 files / 2,814 physical lines**: eleven Core
+files and eleven test/project files. Those counts do not claim coverage of the new keyboard files.
+Use the [source atlas](../source-atlas/index.html) and its current coverage ledger for complete source
+and focused excerpts, and the [atlas guide](../source-atlas/README.md) for navigation. Provider
+internals are separate; here, the question chain ends at a local snapshot or explicit handoff.
+
+### Current increment: typed commands and bounded shortcut configuration
+
+`KeyboardCommands.Parse` maps a finite token grammar to `KeyboardCommandKind`; it rejects unknown
+commands and out-of-range font/opacity values before desktop dispatch. Suggestions are ordered
+prefix matches over a fixed list, not model interpretation. `KeyboardShortcutConfiguration.Load`
+accepts exactly three schema properties in a bounded UTF-8 JSON object; missing files use K, while
+invalid settings propagate to the UI's disabled-shortcut/Keys fallback. The key whitelist is
+A–Z except E and F1–F11; F12 is rejected. No command opens a shell, and the configuration does
+not add global bare-letter bindings or persist answer font choices.
+(src/PhantomFudge.Core/KeyboardCommands.cs:15-86;
+src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs:7-28,31-114.)
+
+Read the [canonical keyboard/configuration guide](../KEYBOARD-CONTROLS.md) for exact JSON and
+user-facing lifecycle boundaries. Core297and the final exporter/full UI pass are recorded there,
+including the corrected configuration-error fallback. The source atlas and handbook include these files.
 
 ## 1. Follow the data, not the rendered labels
 
@@ -49,7 +69,7 @@ flowchart TD
     style File fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
 ```
 
-The application rejects callbacks whose capture GUID differs from the current question transcript session, updates the export buffer, then updates structured state and refreshes the selected draft. These are sequential operations, **not a transaction across both stores**: a structured-store failure can occur after the export buffer accepted an event. The outer handler stops transcription on the covered data/capacity errors. (src/PhantomFudge.App/MainWindow.xaml.cs:781) (src/PhantomFudge.App/MainWindow.Questions.cs:132)
+The application rejects callbacks whose capture GUID differs from the current question transcript session, updates the export buffer, then updates structured state and refreshes the selected draft. These are sequential operations, **not a transaction across both stores**: a structured-store failure can occur after the export buffer accepted an event. The outer handler stops transcription on the covered data/capacity errors. (src/PhantomFudge.App/MainWindow.xaml.cs:796) (src/PhantomFudge.App/MainWindow.Questions.cs:134)
 
 ### Four identity fields, two kinds of revision
 
@@ -57,7 +77,7 @@ The application rejects callbacks whose capture GUID differs from the current qu
 
 The store preserves a key from partial through final, increments revision for changed text and for finalization, and does not increment it for an identical partial. Local IDs survive `Clear` within that store instance. Final IDs instead reset on `BeginSession` and use one session-global high-water mark across inputs. Even an empty final advances that mark, so duplicate tracking does not grow with an empty-final flood. This deliberately assumes ordered global final delivery; it is not an out-of-order reconciliation algorithm. (src/PhantomFudge.Core/StructuredTranscriptStore.cs:47) (src/PhantomFudge.Core/StructuredTranscriptStore.cs:73) (src/PhantomFudge.Core/StructuredTranscriptStore.cs:97)
 
-A new epoch closes only that input's active partial. A new session closes all active partials. Closing means inactive **and still nonfinal**, with no invented final ID. The short session suffix in `DisplayText` is only a visual aid; full-key equality remains authoritative. Session reuse checks cover the current GUID and retained history, not every GUID ever evicted. The desktop ingestion calls currently use the store's default epoch zero. (src/PhantomFudge.Core/StructuredTranscriptStore.cs:24) (src/PhantomFudge.Core/StructuredTranscriptStore.cs:123) (src/PhantomFudge.Core/TranscriptSegment.cs:60) (src/PhantomFudge.App/MainWindow.Questions.cs:135)
+A new epoch closes only that input's active partial. A new session closes all active partials. Closing means inactive **and still nonfinal**, with no invented final ID. The short session suffix in `DisplayText` is only a visual aid; full-key equality remains authoritative. Session reuse checks cover the current GUID and retained history, not every GUID ever evicted. The desktop ingestion calls currently use the store's default epoch zero. (src/PhantomFudge.Core/StructuredTranscriptStore.cs:24) (src/PhantomFudge.Core/StructuredTranscriptStore.cs:123) (src/PhantomFudge.Core/TranscriptSegment.cs:60) (src/PhantomFudge.App/MainWindow.Questions.cs:137)
 
 ## 2. Two transcript stores intentionally disagree about overflow
 
@@ -114,7 +134,7 @@ An oversized refresh fails before changing text, provenance or revision. An empt
 
 ### Entry to terminal: an explicit Ask
 
-`QuestionAsk_Click` checks reply/busy/provider/protection/file-operation conditions, freezes the current draft, displays `ExactText`, then chooses clarification or ordinary answer handoff. `StartAnswer` returns after local snapshot handling when providers are disabled. `Freeze` itself never sends. Clarify-first starts false; normal Ask supplies no clarification argument/history. Opt-in clarification requires an explicit Yes or correction submission, and a written correction is not silently discarded by the confirm button. Azure is not connected by this local snapshot path. (src/PhantomFudge.App/MainWindow.Questions.cs:258) (src/PhantomFudge.App/MainWindow.Answers.cs:137) (src/PhantomFudge.App/MainWindow.Clarification.cs:11) (src/PhantomFudge.App/MainWindow.Clarification.cs:114)
+`QuestionAsk_Click` checks reply/busy/provider/protection/file-operation conditions, freezes the current draft, displays `ExactText`, then chooses clarification or ordinary answer handoff. `StartAnswer` returns after local snapshot handling when providers are disabled. `Freeze` itself never sends. Clarify-first starts false; normal Ask supplies no clarification argument/history. Opt-in clarification requires an explicit Yes or correction submission, and a written correction is not silently discarded by the confirm button. Azure is not connected by this local snapshot path. (src/PhantomFudge.App/MainWindow.Questions.cs:265) (src/PhantomFudge.App/MainWindow.Answers.cs:136) (src/PhantomFudge.App/MainWindow.Clarification.cs:11) (src/PhantomFudge.App/MainWindow.Clarification.cs:114)
 
 An edited snapshot can contain corrected `ExactText` and original, uncorrected ASR in `SourceRefs`. That is intentional local provenance, not permission to send the whole snapshot. It can also remain `WasProvisional=true` after correction because that flag describes selected recognition. (src/PhantomFudge.Core/QuestionSnapshot.cs:8) (tests/PhantomFudge.Core.Tests/QuestionSnapshotTests.cs:101)
 
@@ -166,7 +186,7 @@ Each ordering point is visible in `WriteAsync`; none is an automatic save trigge
 
 A null fingerprint means **create-only**. A nonnull fingerprint means the file must still exist and match; deletion is a conflict, not permission to recreate. The second check narrows a race but does not close the check-to-move interval, and cleanup can itself throw. This is neither filesystem compare-and-swap nor a claim of power-loss-proof publication. SHA-256 here is a content-change detector, not encryption or an authorization credential. (src/PhantomFudge.Core/NoteFileStore.cs:71) (src/PhantomFudge.Core/NoteFileStore.cs:83)
 
-The application captures editor content, calls this service, and updates saved state only on success. Its conflict/error handlers retain edits; transcript export uses the same store after an explicit export action. Native dialogs and files on disk are outside screen-capture exclusion. (src/PhantomFudge.App/MainWindow.xaml.cs:389) (src/PhantomFudge.App/MainWindow.xaml.cs:813)
+The application captures editor content, calls this service, and updates saved state only on success. Its conflict/error handlers retain edits; transcript export uses the same store after an explicit export action. Native dialogs and files on disk are outside screen-capture exclusion. (src/PhantomFudge.App/MainWindow.xaml.cs:399) (src/PhantomFudge.App/MainWindow.xaml.cs:828)
 
 ## 6. Diagnostics: keep latency bounded and failure visible
 

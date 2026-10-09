@@ -8,20 +8,20 @@ outline: deep
 
 ## Overview: persistence is a deliberate boundary
 
-Seeing text, retaining it in memory, and saving it are three different events. Phantom Fudge keeps one editable note and an in-memory transcript; neither is automatically a file. The note tracks its last successful saved value. The transcript tracks its last explicitly exported value. These distinctions let the UI warn about unsaved work without silently persisting meeting content. They also mean a crash can lose unexported text: the preview does not implement automatic recovery. (src\PhantomFudge.App\MainWindow.xaml.cs:24-32,294-313,414-421,833-840; docs\IMPLEMENTATION-STATUS.md:251-256,312-313)
+Seeing text, retaining it in memory, and saving it are three different events. Phantom Fudge keeps one editable note and an in-memory transcript; neither is automatically a file. The note tracks its last successful saved value. The transcript tracks its last explicitly exported value. These distinctions let the UI warn about unsaved work without silently persisting meeting content. They also mean a crash can lose unexported text: the preview does not implement automatic recovery. (src\PhantomFudge.App\MainWindow.xaml.cs:24-32,303-323,424-431,848-855; docs\IMPLEMENTATION-STATUS.md:304-309,365-366)
 
-Capture exclusion does not extend to a `.txt` file, the clipboard, a native file dialog, or process memory. File storage is therefore designed for bounded input and accidental-overwrite resistance, not advertised as a secure vault. Saving to a user-selected location is an explicit act with the ordinary privacy properties of that location. (src\PhantomFudge.App\MainWindow.xaml.cs:380,421; docs\PRODUCT.md:184-200)
+Capture exclusion does not extend to a `.txt` file, the clipboard, a native file dialog, or process memory. File storage is therefore designed for bounded input and accidental-overwrite resistance, not advertised as a secure vault. Saving to a user-selected location is an explicit act with the ordinary privacy properties of that location. (src\PhantomFudge.App\MainWindow.xaml.cs:390,431; docs\PRODUCT.md:184-200)
 
 **Newcomer path:** start with the transcript example, then follow Save. **Principal-engineer path:** inspect session-local ID reset, snapshot comparisons, byte bounds, and the remaining check-to-replace race. [Chapter 11](11-state-machines-and-failure-containment.md) explains why session reset must wait for final draining.
 
 ## Architecture: separate content lifetimes, one file primitive
 
-Notes use the WPF text editor as their current text surface. `TranscriptBuffer` separately owns accumulated final text and source-specific unfinished text. Both explicit note saves and transcript exports use `NoteFileStore`; no recognizer callback writes a document file. (src\PhantomFudge.App\MainWindow.xaml.cs:294-295,389-434,781-848)
+Notes use the WPF text editor as their current text surface. `TranscriptBuffer` separately owns accumulated final text and source-specific unfinished text. Both explicit note saves and transcript exports use `NoteFileStore`; no recognizer callback writes a document file. (src\PhantomFudge.App\MainWindow.xaml.cs:303-304,399-444,796-863)
 
 Main transcript rows also retain immutable segment references for direct selection. This lets a
 reader choose older visible text after the smaller structured chooser evicts it, without parsing
 the formatted export or changing its capacity/format. Selecting a row creates or revises a local
-draft, not a saved document. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-63,112-125.)
+draft, not a saved document. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-64,118-131.)
 
 ```mermaid
 ---
@@ -68,13 +68,13 @@ flowchart TB
 | `TranscriptBuffer.MaximumCharacters` | 250,000 .NET character units for accumulated final/session text; partials are separately bounded. (src\PhantomFudge.Core\TranscriptBuffer.cs:8-10,23-45,63-66) |
 | `TranscriptEvent` | Type, text, optional ID/timestamps/source; an event, not a speaker identity. (src\PhantomFudge.App\Audio\TranscriptEvent.cs:9-15) |
 | `AudioSourceNames` | Wire names `computer`/`microphone`; display names `Computer`/`Mic`. (src\PhantomFudge.Core\AudioSource.cs:16-30) |
-| `savedText` / `exportedTranscript` | Successful persistence baselines used for equality-based dirty checks. (src\PhantomFudge.App\MainWindow.xaml.cs:28-29,294-295) |
+| `savedText` / `exportedTranscript` | Successful persistence baselines used for equality-based dirty checks. (src\PhantomFudge.App\MainWindow.xaml.cs:28-29,303-304) |
 
-These units must not be conflated. A C# string length counts UTF-16 code units, not UTF-8 bytes or human-perceived characters. `Fits` asks the strict encoder for its actual byte count, including BOM allowance; unpaired surrogates fail rather than becoming replacement characters. The paste handler checks the *resulting note after selection replacement*, while saving checks again. This is not a universal keystroke-by-keystroke size limiter on the editor. (src\PhantomFudge.Core\NoteFileStore.cs:13-24; src\PhantomFudge.App\MainWindow.xaml.cs:458-466; src\PhantomFudge.App\MainWindow.xaml:604-611)
+These units must not be conflated. A C# string length counts UTF-16 code units, not UTF-8 bytes or human-perceived characters. `Fits` asks the strict encoder for its actual byte count, including BOM allowance; unpaired surrogates fail rather than becoming replacement characters. The paste handler checks the *resulting note after selection replacement*, while saving checks again. This is not a universal keystroke-by-keystroke size limiter on the editor. (src\PhantomFudge.Core\NoteFileStore.cs:13-24; src\PhantomFudge.App\MainWindow.xaml.cs:468-476; src\PhantomFudge.App\MainWindow.xaml:640-647)
 
 ## Data flow: recognition becomes a readable history
 
-Transport events are dispatched to the UI thread and handled by `ReceiveTranscript`. A partial calls `SetPartial`; a final calls `AddFinal`. The UI updates structured question state and the visible rows, then hides the placeholder when content exists. Invalid data or a full transcript stops transcription and preserves the existing buffer for export. (src\PhantomFudge.App\MainWindow.xaml.cs:65,166-170,781-809.) `AppendFinalTranscriptRow` follows a new final only when the scrollbar was already at the end; otherwise choosing older history does not jump to the latest speech. Partial rows refresh independently. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:22-63.)
+Transport events are dispatched to the UI thread and handled by `ReceiveTranscript`. A partial calls `SetPartial`; a final calls `AddFinal`. The UI updates structured question state and the visible rows, then hides the placeholder when content exists. Invalid data or a full transcript stops transcription and preserves the existing buffer for export. (src\PhantomFudge.App\MainWindow.xaml.cs:66,170-174,796-824.) `AppendFinalTranscriptRow` follows a new final only when the scrollbar was already at the end; otherwise choosing older history does not jump to the latest speech. Partial rows refresh independently. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:22-64.)
 
 Partials replace a dictionary entry rather than append to history. Keys distinguish Computer and Mic; a legacy unspecified source has its own key. Display ordering is by source key, not arrival time. A final removes only its source's partial. This prevents a Computer sentence from erasing a simultaneously unfinished dictated question. (src\PhantomFudge.Core\TranscriptBuffer.cs:14-19,41-46,69-71,87-96)
 
@@ -123,23 +123,23 @@ The expected fingerprint carries two meanings:
 - **Null:** the caller expects a new path. An existing file is a conflict, and the move must not overwrite.
 - **Non-null:** the caller expects particular existing bytes. Missing or changed bytes are a conflict.
 
-For Save As over an existing file, the UI first obtains that file's current fingerprint after the user's dialog decision. A later conflict reports that edits remain in memory and recommends Save As, without silently choosing whose version wins. (src\PhantomFudge.Core\NoteFileStore.cs:83-95; src\PhantomFudge.App\MainWindow.xaml.cs:398-428)
+For Save As over an existing file, the UI first obtains that file's current fingerprint after the user's dialog decision. A later conflict reports that edits remain in memory and recommends Save As, without silently choosing whose version wins. (src\PhantomFudge.Core\NoteFileStore.cs:83-95; src\PhantomFudge.App\MainWindow.xaml.cs:408-438)
 
 The tradeoff is optimistic coordination. A writer can still change the destination between the final verification and move. The code provides no cross-process compare-and-swap primitive, secure erasure, encryption, directory durability guarantee, or universal network-filesystem atomicity. Temporary cleanup can itself fail. These limitations matter when interpreting “atomic save”: staged replacement avoids many partial-write failures but does not make every concurrent or catastrophic failure impossible. (src\PhantomFudge.Core\NoteFileStore.cs:60-95; TODO\08_LOCAL_STORAGE.todo:15-34)
 
 ### UI snapshots and unsaved decisions
 
-`SetFileBusy` disables the note editor and confirmation panel and updates command availability. `SaveNoteAsync` captures `NoteEditor.Text` into `content`; only a successful write changes `savedText`, path, and fingerprint. Open updates the editor only after a successful read and resets undo history. Failures retain the current note. (src\PhantomFudge.App\MainWindow.xaml.cs:363-446)
+`SetFileBusy` disables the note editor and confirmation panel and updates command availability. `SaveNoteAsync` captures `NoteEditor.Text` into `content`; only a successful write changes `savedText`, path, and fingerprint. Open updates the editor only after a successful read and resets undo history. Failures retain the current note. (src\PhantomFudge.App\MainWindow.xaml.cs:373-456)
 
-Export similarly snapshots `transcript.ExportText()` and records that exact value after success. Unlike the note editor, recognition callbacks can continue while an export is awaiting I/O in Edit mode. If new transcript content arrives, it differs from `exportedTranscript`, so it remains dirty rather than being falsely marked saved. Exports are BOM-free and include unfinished-recognition labels; they do not save raw audio. (src\PhantomFudge.App\MainWindow.xaml.cs:294-295,781-804,813-848)
+Export similarly snapshots `transcript.ExportText()` and records that exact value after success. Unlike the note editor, recognition callbacks can continue while an export is awaiting I/O in Edit mode. If new transcript content arrives, it differs from `exportedTranscript`, so it remains dirty rather than being falsely marked saved. Exports are BOM-free and include unfinished-recognition labels; they do not save raw audio. (src\PhantomFudge.App\MainWindow.xaml.cs:303-304,796-819,828-863)
 
-Exit awaits Stop before checking transcript dirtiness. New/Open concern note dirtiness; Exit considers both. The inline confirmation offers save, export, discard, or cancel. Saving notes alone cannot finish Exit while the transcript remains dirty, and exporting alone cannot proceed while notes remain dirty. In Present, save/export are refused until deliberate Edit. Clear is also refused while running, starting, or stopping, and while transcript content is unexported. (src\PhantomFudge.App\MainWindow.xaml.cs:297-361,389-395,813-819,851-871)
+Exit awaits Stop before checking transcript dirtiness. New/Open concern note dirtiness; Exit considers both. The inline confirmation offers save, export, discard, or cancel. Saving notes alone cannot finish Exit while the transcript remains dirty, and exporting alone cannot proceed while notes remain dirty. In Present, save/export are refused until deliberate Edit. Clear is also refused while running, starting, or stopping, and while transcript content is unexported. (src\PhantomFudge.App\MainWindow.xaml.cs:306-371,399-405,828-834,866-886)
 
 ### Preserve content; reset the right metadata
 
-New deliberately resets the note path, fingerprint, BOM flag, saved baseline, and editor text. It then toggles undo off and on so a new document does not inherit the previous document's undo history. Open performs an equivalent undo reset only after decoding succeeds. In contrast, collapse, theme, wrapping, and font-size changes do not represent document replacement. Keeping those categories separate prevents a visual operation from accidentally becoming a data-loss operation. (src\PhantomFudge.App\MainWindow.xaml.cs:331-340,371-379,470-471,482-517)
+New deliberately resets the note path, fingerprint, BOM flag, saved baseline, and editor text. It then toggles undo off and on so a new document does not inherit the previous document's undo history. Open performs an equivalent undo reset only after decoding succeeds. In contrast, collapse, theme, wrapping, and font-size changes do not represent document replacement. Keeping those categories separate prevents a visual operation from accidentally becoming a data-loss operation. (src\PhantomFudge.App\MainWindow.xaml.cs:341-350,381-389,480-481,492-527)
 
-Dirty tracking is equality-based rather than a permanently latched “was edited” bit: returning the note to `savedText` makes it clean again. That answers whether the current in-memory text differs from the last successful save; it does **not** answer whether an external program has since edited the disk file. The fingerprint comparison answers that second question when a save is attempted. This separation explains why the UI can show a locally clean note while a later Save reports an external conflict. (src\PhantomFudge.App\MainWindow.xaml.cs:294,414-428,454-456; src\PhantomFudge.Core\NoteFileStore.cs:83-95)
+Dirty tracking is equality-based rather than a permanently latched “was edited” bit: returning the note to `savedText` makes it clean again. That answers whether the current in-memory text differs from the last successful save; it does **not** answer whether an external program has since edited the disk file. The fingerprint comparison answers that second question when a save is attempted. This separation explains why the UI can show a locally clean note while a later Save reports an external conflict. (src\PhantomFudge.App\MainWindow.xaml.cs:303,424-438,464-466; src\PhantomFudge.Core\NoteFileStore.cs:83-95)
 
 ## Worked examples and Python comparison
 
@@ -188,7 +188,7 @@ The C# `Dictionary` provides source-keyed replacement, `StringBuilder` accumulat
 **Exercise:** Does collapsing Notes save or discard them?  
 **Answer:** Neither. The handler changes visibility; persistence remains explicit.
 
-The answers follow `ReadAsync`, `AudioSourceNames.DisplayName`, and `SetNotesExpanded`, respectively. (src\PhantomFudge.Core\NoteFileStore.cs:41-44; src\PhantomFudge.Core\AudioSource.cs:25-30; src\PhantomFudge.App\MainWindow.xaml.cs:501-511)
+The answers follow `ReadAsync`, `AudioSourceNames.DisplayName`, and `SetNotesExpanded`, respectively. (src\PhantomFudge.Core\NoteFileStore.cs:41-44; src\PhantomFudge.Core\AudioSource.cs:25-30; src\PhantomFudge.App\MainWindow.xaml.cs:511-521)
 
 ## A separate local question is not a saved transcript
 
@@ -211,7 +211,7 @@ segment. Main-history rows survive chooser eviction until transcript clearing; a
 still obeys `TranscriptBuffer`'s250000-character final/session bound, with live partials separately
 bounded. `ArchiveTranscriptPartials` preserves unfinished identity when a session ends; separators
 carry no segment and cannot be selected. This is retained visible history, not unlimited storage
-or permission to mix capture sessions. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-63;
+or permission to mix capture sessions. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-64;
 [`TranscriptBuffer`](../../src/PhantomFudge.Core/TranscriptBuffer.cs).)
 
 Ordinary clicks toggle several whole segments, including wrapped/multiline text. The handler combines
@@ -220,7 +220,7 @@ the manual **Choose source → Mic / Computer / All → Use selected** path does
 capture session,256entries and8192UTF-16 units including newlines before committing. Direct clicks
 add a user-edit guard: once corrections exist, retain draft/highlights and show inline status until
 **Clear question**, instead of silently replacing them. Selection itself never calls Ask or Freeze.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:84-141;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:85-147;
 [`QuestionDraft.ReplaceSelection`](../../src/PhantomFudge.Core/QuestionDraft.cs);
 [`UseQuestionSelection_Click`](../../src/PhantomFudge.App/MainWindow.Questions.cs).)
 
@@ -228,7 +228,7 @@ Selection highlights follow stable keys through partial revisions and finalizati
 editing. Clearing a stopped/exported transcript clears visible rows without erasing copied draft
 text; **Clear question** instead resets the draft/highlights and last displayed snapshot. Neither
 mutates a previously created snapshot object. The diagnostic exercises these lifetimes without
-opening audio or invoking a model. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:65-82;
+opening audio or invoking a model. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:66-83;
 src/PhantomFudge.App/MainWindow.TranscriptSelectionDiagnostics.cs:55-124.)
 
 `QuestionSnapshot` is an immutable in-memory object. It is neither a note save nor a transcript export,

@@ -1,0 +1,424 @@
+{
+  "schemaVersion": 1,
+  "id": "installer-runtime",
+  "title": "Installed speech runtime: public inputs, disclosed transformations and bounded verification",
+  "chapter": "docs/INSTALLATION.md",
+  "files": [
+    {
+      "path": "tools/Installer/bundle_runtime.py",
+      "sourceSha256": "776de36307d68159ade74a88ad6d1e558c4b480b727102b2891a38180c7b4b56",
+      "role": "Builds an embedded Windows CPU speech payload from pinned public inputs, discloses private package transformations, and separately verifies native closure, imports and optional real synthetic inference.",
+      "entryPoints": ["main", "bundle", "build_cpu_library", "patch_whisper", "patch_ctranslate", "copy_crt", "validate_imports", "validate_synthetic_pcm"],
+      "blocks": [
+        {
+          "start": 1, "end": 46, "title": "Declare a narrow payload surface and private package identities",
+          "explanation": "ROOT and SERVICE are source-relative build inputs, not the installed user's workspace. SERVICE_FILES names eleven public service/configuration inputs explicitly instead of copying a developer environment recursively. ALLOWED_HOSTS limits initial public input URLs. FW_VERSION 1.2.1+phantomfudge1 and CT2_VERSION 4.6.0+phantomfudge2 deliberately distinguish modified distributions from upstream; CPU_RECIPE_VERSION 4 invalidates incompatible native cache receipts. runpy loads the adjacent first-party auditor's definitions and DLL_PROBE string, not the embedded runtime or a service. The module imports build utilities; main alone starts assembly.",
+          "focus": [{"start": 28, "end": 35}, {"start": 42, "end": 45}]
+        },
+        {
+          "start": 47, "end": 76, "title": "Hash plain files and validate public HTTPS requests",
+          "explanation": "digest streams raw file SHA-256. plain_file requires a regular file and rejects symbolic links or Windows junctions on it and its ancestors; verified optionally also checks size. public_response permits only HTTPS, allowlisted hostnames and no username, then uses a fixed User-Agent and ordinary urlopen with four attempts and exponential waits for URL/timeout errors. This retains normal TLS verification. It validates the supplied URL, not every urllib redirect hop, and is not a general socket sandbox or proof that all inherited proxy settings are absent.",
+          "focus": [{"start": 53, "end": 60}, {"start": 63, "end": 74}]
+        },
+        {
+          "start": 77, "end": 107, "title": "Reuse verified cache entries or commit one bounded verified download",
+          "explanation": "An existing cache file is reused only if its type, optional size and digest match; a corrupt entry fails rather than being silently overwritten. Offline mode refuses absent inputs before network access. New downloads use a random exclusive .partial file, a 180-second request timeout and at most one byte beyond the declared size or 200-MB default cap. Reaching that extra byte fails. Hash/size verification precedes replacement of the cache name, and finally removes the partial. The bound protects input acquisition; it is not a ZIP decompression bound.",
+          "focus": [{"start": 77, "end": 86}, {"start": 98, "end": 105}]
+        },
+        {
+          "start": 108, "end": 128, "title": "Match exact PyPI artifacts before allowing a same-hash mirror fallback",
+          "explanation": "pypi_input uses the reviewed filename as its cache key. Cached/offline requests delegate directly to verified download logic. Otherwise bounded PyPI version JSON must contain exactly one matching filename and the same expected SHA-256. The official artifact is fetched with its published size; only URLError on files.pythonhosted.org permits replacing that host with the public Tsinghua mirror. Filename, expected digest and size remain unchanged, so fallback does not select another release or weaken integrity. Other errors propagate.",
+          "focus": [{"start": 108, "end": 119}, {"start": 120, "end": 126}]
+        },
+        {
+          "start": 129, "end": 172, "title": "Extract only safe archive paths and wheel library schemes",
+          "explanation": "archive_path rejects absolute paths, backslashes, colons/alternate streams, empty or dot traversal components, trailing spaces/dots and Windows device aliases. extract_zip rejects linked targets/ancestors and ZIP symlink entries, and stripping a source archive root requires exactly one root. Wheel .data entries are installed only for purelib/platlib; console-script and other schemes are omitted. Parent links are checked again as destinations are created; existing files are refused and new files use exclusive creation. These checks prevent ordinary traversal/overwrite surprises but do not claim a transactional extraction or complete adversarial filesystem race protection.",
+          "focus": [{"start": 129, "end": 136}, {"start": 153, "end": 164}]
+        },
+        {
+          "start": 173, "end": 195, "title": "Record payload bytes and isolate known build configuration",
+          "explanation": "write_json creates parents and writes indented UTF-8 JSON with a final newline. file_manifest sorts recursively discovered files and maps relative POSIX paths to byte counts and raw digests. build_environment copies the host environment, removes named Phantom/Python/hub/pip/CT2 variables and common provider tokens, then redirects temporary files into build work and disables bytecode/pip prompts/version checks. This is a targeted scrub, not a complete environment allowlist; no existing virtual environment, user config or credential directory is copied into the payload by these helpers.",
+          "focus": [{"start": 178, "end": 181}, {"start": 184, "end": 192}]
+        },
+        {
+          "start": 196, "end": 223, "title": "Bound build commands and find build-host Visual Studio tooling",
+          "explanation": "run logs the Windows command representation, launches an argument list with null stdin and combined output, waits at most 1800 seconds and raises on nonzero status. visual_studio accepts an explicit installation or queries vswhere for the latest installation with x64 C++ tools, then requires its bundled CMake executable. These are builder prerequisites only; target machines receive binaries rather than requiring Visual Studio, pip or a compiler. The runner does not execute a service or audio capture.",
+          "focus": [{"start": 196, "end": 204}, {"start": 211, "end": 221}]
+        },
+        {
+          "start": 224, "end": 248, "title": "Reuse a native build only when its reviewed recipe and DLL still match",
+          "explanation": "The native cache separates source, build, install prefix and receipt. Reuse requires the receipt's cpuSources plus recipeVersion to equal current inputs and the installed ctranslate2.dll to pass its saved hash. Otherwise source/build trees are replaced from exact revision ZIPs, each downloaded and verified before root-stripped extraction into its declared destination. Tool discovery, a scrubbed build environment and a dedicated log precede a fresh oneDNN build directory. This receipt records input/output identity, not a claim of bit-reproducible compiler output across different build hosts.",
+          "focus": [{"start": 224, "end": 234}, {"start": 237, "end": 248}]
+        },
+        {
+          "start": 249, "end": 284, "title": "Build oneDNN and CTranslate2 for CPU with Microsoft OpenMP",
+          "explanation": "oneDNN 3.1.1 is built static in Release for x64 with inference convolution/reorder primitives, no examples/tests/graph, OMP CPU runtime and no GPU runtime. CTranslate2 links that dnnl.lib, disables CUDA, cuDNN, MKL, OpenBLAS and Ruy, and selects compiler OpenMP with OPENMP_RUNTIME=COMP rather than proprietary Intel OpenMP. Both builds use four parallel jobs. The receipt preserves CMake option arrays, CPU DLL and static-library hashes, backend identity and explicit GPU/Intel-runtime exclusions. These flags describe this replacement native backend, not an unmodified upstream wheel or a recognition-quality result.",
+          "focus": [{"start": 249, "end": 260}, {"start": 263, "end": 274}, {"start": 276, "end": 282}]
+        },
+        {
+          "start": 285, "end": 309, "title": "Build the pinned srt source distribution without dependency resolution",
+          "explanation": "srt 3.5.3 comes from its exact locked public source artifact. A saved wheel is reused only when its receipt matches the source hash and the wheel passes its own digest. Otherwise the build-host interpreter runs isolated pip wheel with no dependencies, build isolation, cache or index; host build tooling must already exist. Exactly one expected wheel is required, and its filename/digest, source digest and builder Python version are recorded. The generated wheel hash is build evidence, not a substituted upstream wheel hash.",
+          "focus": [{"start": 292, "end": 303}, {"start": 304, "end": 307}]
+        },
+        {
+          "start": 310, "end": 331, "title": "Rename modified distributions instead of falsifying upstream metadata",
+          "explanation": "replace_once refuses zero or multiple matches, turning source drift into an explicit review failure. patch_package renames the dist-info directory to the private version, changes METADATA's version, applies a caller-specific dependency transformation and updates package version.py. It deletes the now-invalid RECORD for later regeneration. The filesystem directory, import-visible version and metadata identity must all describe the changed package; merely changing a manifest label would leave misleading installed inventory.",
+          "focus": [{"start": 316, "end": 327}]
+        },
+        {
+          "start": 332, "end": 366, "title": "Remove encoded-media decoding while preserving reviewed NumPy inference source",
+          "explanation": "patch_whisper verifies upstream audio.py, the four unchanged transcribe/feature/VAD/init files and the exact pad_or_trim suffix hash before modification. It replaces audio.py with a disclosed NumPy-only module whose decode_audio raises a PCM-only RuntimeError, retaining pad_or_trim verbatim. The resampler marker and eager av import must match the reviewed source first. patch_package assigns 1.2.1+phantomfudge1 and removes only Requires-Dist: av>=11. Returned disclosure includes before/after hashes, unchanged-path hashes and the lock's license rationale. This is an intentional source/API and dependency-graph transformation, not a claim that the whole upstream package is intact.",
+          "focus": [{"start": 332, "end": 343}, {"start": 346, "end": 357}]
+        },
+        {
+          "start": 367, "end": 392, "title": "Replace wheel DLLs and regenerate truthful private-package RECORDs",
+          "explanation": "patch_ctranslate records hashes of every DLL directly inside ctranslate2, removes those DLLs and installs the built CPU-only ctranslate2.dll while retaining the same-version public Python binding. The private 4.6.0+phantomfudge2 metadata and returned disclosure identify the replacement and removed inputs. regenerate_record walks each modified package and its renamed dist-info, writes URL-safe unpadded SHA-256 digests and sizes, then adds an unhashed RECORD row. RECORD therefore describes installed bytes rather than retaining hashes for removed GPU/Intel libraries or changed Python source.",
+          "focus": [{"start": 367, "end": 376}, {"start": 379, "end": 390}]
+        },
+        {
+          "start": 393, "end": 411, "title": "Copy only model-manifest members, never neighboring private files",
+          "explanation": "copy_models selects the committed Vosk model and Whisper small.en, not base.en or arbitrary source directories. Each manifest-relative path is validated, then its source must be a plain file with the expected SHA-256 and, for Whisper, byte count. Only those individual files are copied; tokens, benchmark artifacts, personal neighbors and extra directory contents are not recursively included. Returned model provenance records public source/revision and license labels. Runtime verification still checks complete selected model contents after installation.",
+          "focus": [{"start": 393, "end": 404}]
+        },
+        {
+          "start": 412, "end": 426, "title": "Select only hash-locked official x64 redistributable DLLs",
+          "explanation": "copy_crt uses the locked Visual Studio VC/Redist/MSVC directory, never arbitrary System32 or debug_nonredist files. DLL names must match a narrow lowercase pattern; vcomp140.dll comes from Microsoft.VC143.OpenMP, the others from Microsoft.VC143.CRT. Every candidate must pass plain-file and hash verification before any signature process or copy occurs. The auditor's REQUIRED_CRT subset must be present. This supplies the Microsoft compiler OpenMP dependency of the CPU backend alongside the C++ runtime.",
+          "focus": [{"start": 417, "end": 426}]
+        },
+        {
+          "start": 427, "end": 464, "title": "Verify Microsoft signatures before app-local CRT publication",
+          "explanation": "An encoded UTF-16LE PowerShell command verifies every candidate has Valid Authenticode status and a Microsoft Corporation signer, returning name/status/signer/thumbprint JSON. Windows PowerShell is selected from SystemRoot, with PSModulePath restricted to that shell's Modules directory to avoid inherited module-path incompatibility; execution is noninteractive with a 120-second bound. Nonzero exit reports only the last 2500 stderr characters. The exact signature-name set must equal the lock before copying beside python.exe. Provenance preserves source-relative names, hashes, signature evidence, redistribution-license requirements and the need to service app-local CRTs through app updates.",
+          "focus": [{"start": 428, "end": 437}, {"start": 438, "end": 449}]
+        },
+        {
+          "start": 465, "end": 489, "title": "Retain patch rationale and exact public notice inputs",
+          "explanation": "collect_notices writes PACKAGE-PATCHES.json from the reviewed lock and extracts the half-float license prefix only if its expected separator, permission wording and size bound match. Each additional notice is obtained through the same pinned public download/cache path. The official Visual Studio DOCX is preserved and also parsed into a convenience text copy; expected redistribution headings must be present, and the text names the authoritative adjacent DOCX, public URL and hash. This is provenance retention, not independent legal certification.",
+          "focus": [{"start": 465, "end": 475}, {"start": 480, "end": 489}]
+        },
+        {
+          "start": 490, "end": 537, "title": "Collect native/package notices and state redistribution limits explicitly",
+          "explanation": "License-like files from native source and installed dist-info trees are copied with relative structure, and ONNX Runtime's LICENSE/ThirdPartyNotices are retained separately. The generated summary distinguishes modified installed metadata closure from intact-upstream or inference evidence, identifies the PCM-only omission and oneDNN/Microsoft OpenMP backend, and retains Vosk's GCC exception/MinGW/Kaldi/OpenFst/OpenBLAS-related notice obligations. It expressly avoids claiming reproducible Vosk compilation from supplemental notice revisions. Microsoft DLLs retain their own terms and app-local servicing obligations; Windows inbox/UCRT dependencies are distinct from VC140, and internal provider binaries/profiles are not runtime payload inputs.",
+          "focus": [{"start": 490, "end": 501}, {"start": 511, "end": 522}, {"start": 527, "end": 535}]
+        },
+        {
+          "start": 538, "end": 561, "title": "Probe embedded imports and model bytes under explicit installed paths",
+          "explanation": "validate_imports selects payload python.exe, a cache-local workspace, and a scrubbed environment with PATH restricted to payload Python and Windows System32, offline hub flags and one-thread BLAS/OMP settings. The injected DLL_PROBE runs before package imports. The child asserts isolated/no-bytecode Python, absence of av, CPU int8 support and common configuration/manage/provisioner ROOT, then verifies selected models using real pinned hashes. These are import/configuration/model-integrity checks, not model execution or a clean-machine test.",
+          "focus": [{"start": 543, "end": 554}, {"start": 555, "end": 561}]
+        },
+        {
+          "start": 562, "end": 596, "title": "Report closure of the modified installed graph without claiming inference",
+          "explanation": "The child walks installed distributions' Requires-Dist metadata, evaluates markers for the empty extra, and requires installed versions to satisfy each active dependency. It also verifies encoded-file decoding raises. JSON explicitly labels dependencyClosureScope as installed modified distribution metadata only, sets upstreamDependencyGraphIntact=false and inference=false, and includes loaded-DLL evidence and supported CPU types. The embedded process runs -I -B -X utf8 with a 180-second timeout; failure saves stderr to a build-cache log. Success parses the final stdout line, not human progress text. Metadata closure does not imply the removed PyAV dependency remains satisfied upstream.",
+          "focus": [{"start": 563, "end": 574}, {"start": 581, "end": 590}]
+        },
+        {
+          "start": 597, "end": 611, "title": "Invoke a separate opt-in real PCM and clean-exit test",
+          "explanation": "validate_synthetic_pcm launches test_packaged_pcm_runtime.py with the build-host interpreter in isolated/no-bytecode mode and an explicit payload environment variable. The wrapper is bounded to 180 seconds; the test itself launches the embedded child with its stricter environment and 120-second bound. Nonzero status writes stdout/stderr to a dedicated cache log and fails assembly. Successful final-line JSON is augmented with the exact test source hash, tying execution counters to reviewed test code rather than inferring them from imports.",
+          "focus": [{"start": 597, "end": 608}]
+        },
+        {
+          "start": 612, "end": 635, "title": "Refuse incompatible builders, unsafe output reuse and requirement drift",
+          "explanation": "bundle requires Windows, CPython 3.13 and a 64-bit pointer size. Resolved output/cache paths must remain under this repository, be separate non-nested subdirectories, and output must be empty. Source requirements are normalized into exact name/version pairs, stripping environment-marker suffixes, then compared with all locked wheels plus srt and the explicitly source-only av 19.0.0 pin. A changed service requirement fails pending lock review. The av comparison acknowledges the development source dependency while later payload rewriting discloses its intentional installed omission.",
+          "focus": [{"start": 613, "end": 624}, {"start": 625, "end": 635}]
+        },
+        {
+          "start": 636, "end": 658, "title": "Assemble embedded Python and patched wheels without a developer venv",
+          "explanation": "Assembly first builds/reuses the reviewed native CPU backend, then verifies and extracts the official embeddable CPython ZIP. Three workers obtain the exact locked wheels; srt is built from its pinned source. Wheels are extracted into a fresh site-packages, both intentional package patches are applied and their RECORDs regenerated. python313._pth explicitly lists the standard-library ZIP, executable directory, site-packages and package service directory plus import site. This makes installed service imports available under isolated Python without copying a development virtual environment or depending on its paths.",
+          "focus": [{"start": 636, "end": 647}, {"start": 648, "end": 658}]
+        },
+        {
+          "start": 659, "end": 676, "title": "Transform installed requirements and retain public model/license provenance",
+          "explanation": "Only SERVICE_FILES are copied into the package service directory. Its requirements.txt is intentionally changed: av is removed, faster-whisper becomes 1.2.1+phantomfudge1 and ctranslate2 becomes 4.6.0+phantomfudge2; source requirements remain untouched. Since configuration.metadata hashes this file, installed fingerprints reflect the private variants. Model allowlist copying, locked/signed app-local CRT copying and notice collection follow; Python's license and the reviewed lock are retained. A DLL-name screening guard rejects known cuDNN/cuBLAS, Intel OpenMP, x264/x265 and avcodec names; the later PE audit supplies stronger dependency evidence than names alone.",
+          "focus": [{"start": 659, "end": 670}, {"start": 671, "end": 676}]
+        },
+        {
+          "start": 677, "end": 699, "title": "Keep native closure, inference execution and complete payload inventory distinct",
+          "explanation": "Every shipped PE dependency is audited before embedded import/hash probing; nativeDependencyClosure is retained beside that separate probe evidence. Only --verify-synthetic-pcm runs real generated-PCM validation and changes inference to true with a no-capture/no-service input label. The runtime manifest records lock, builder and auditor hashes; upstream wheel identities; srt/native builds; private package transformations; models; CRTs; validation; and actual payload file hashes/sizes. file_manifest runs before the manifest is written, intentionally excluding its own self-hash. Counts printed here therefore count manifest members, not the newly written manifest itself. This is a speech component manifest, not installer lifecycle acceptance.",
+          "focus": [{"start": 677, "end": 688}, {"start": 689, "end": 697}]
+        },
+        {
+          "start": 700, "end": 720, "title": "Expose explicit build options and keep synthetic inference mandatory in release callers",
+          "explanation": "The CLI requires a new output directory, defaults cache/models to repository .local public-input locations, and accepts build-host Visual Studio and offline mode. --verify-synthetic-pcm is opt-in at this general bundler layer; scripts/Build-Installer.ps1 includes it unconditionally in bundleArguments, making real PCM/clean-exit evidence a release-builder gate rather than an import-closure assumption. Expected filesystem/value/runtime/subprocess failures print to stderr and return 1; success returns 0. The main guard prevents accidental bundle execution on test imports.",
+          "focus": [{"start": 700, "end": 711}, {"start": 712, "end": 720}]
+        }
+      ]
+    },
+    {
+      "path": "tools/Installer/runtime-lock.json",
+      "sourceSha256": "4271b71567064386dfad426e5e1fbae4bb7d706b186a9e7cb034d4b5a63ebdc3",
+      "role": "First-party reviewed runtime input policy: exact public artifact hashes, native source revisions, Microsoft redistributables and disclosed PCM-only package changes.",
+      "entryPoints": ["bundle_runtime.bundle", "bundle_runtime.build_cpu_library", "bundle_runtime.patch_whisper", "bundle_runtime.copy_crt", "bundle_runtime.collect_notices"],
+      "blocks": [
+        {
+          "start": 1, "end": 27, "title": "Pin embedded CPython and official Microsoft CRT/OpenMP inputs",
+          "explanation": "The target is cp313-win_amd64. python pins CPython 3.13.14's official embeddable AMD64 ZIP by filename, URL, SHA-256 and byte count. vcRuntime separately records the official VS2022 redistributable directory/file versions and eleven exact DLL hashes, including vcomp140 for Microsoft compiler OpenMP. bundle_runtime verifies these files and their signatures before copying. Despite its name, this JSON is authored first-party policy in the compiler's annotated inventory, not one of the special package-lock.json/packages.lock.json generated-lock exclusions.",
+          "focus": [{"start": 2, "end": 13}, {"start": 20, "end": 27}]
+        },
+        {
+          "start": 28, "end": 52, "title": "Disclose the changed faster-whisper API, identity and license-review boundary",
+          "explanation": "excludedPackages explains why the installed PCM-array adapter omits av. The fasterWhisper patch pins upstream 1.2.1, declares installed 1.2.1+phantomfudge1 and hashes audio.py, pad_or_trim and four unchanged inference-path files independently. Encoded-file decoding and eager PyAV import are removed, not the NumPy transcription/feature/VAD path. The reason identifies unresolved review of unused PyAV19 x264/x265 components after a vendor classification patch; licenseBoundary explicitly does not claim PyAV can never be redistributed. Evidence URLs and the MIT/upstream-versus-modified distinction accompany the transformation rather than disguising it as an intact dependency graph.",
+          "focus": [{"start": 32, "end": 43}, {"start": 44, "end": 50}]
+        },
+        {
+          "start": 53, "end": 72, "title": "Lock protocol/Vosk supporting wheels by artifact, not version alone",
+          "explanation": "Each wheels row is name, version, exact wheel filename and SHA-256 for pypi_input. This portion covers aiohttp/Vosk and their supporting async, CFFI, HTTP/text/progress and WebSocket packages; platform wheels select Windows AMD64/CPython 3.13 where applicable, while pure Python artifacts retain their upstream tags. Vosk 0.3.45 is taken from its unmodified hash-pinned Windows wheel. The lock establishes chosen bytes, not a reproducible build of that wheel's native dependencies or proof that importing every package exercises inference.",
+          "focus": [{"start": 53, "end": 64}]
+        },
+        {
+          "start": 73, "end": 93, "title": "Separate upstream inference wheels from installed private variants and built srt",
+          "explanation": "These rows pin upstream faster-whisper 1.2.1 and CTranslate2 4.6.0 as patch inputs, followed by NumPy, ONNX Runtime, tokenizers, hub and supporting metadata/model packages. There are 33 wheel rows overall and no av wheel. srt 3.5.3 is pinned separately as a source tarball; its built wheel receives an output receipt. The installed distribution versions and RECORDs differ intentionally from the upstream rows after bundling, so upstream artifact inventory must not be interpreted as the final installed dependency graph.",
+          "focus": [{"start": 73, "end": 84}, {"start": 88, "end": 93}]
+        },
+        {
+          "start": 94, "end": 112, "title": "Retain hash-identified supplemental redistribution notices",
+          "explanation": "Every notice has an output filename, public URL and exact SHA-256 consumed by collect_notices. The list includes the authoritative Microsoft license DOCX; Vosk, Whisper and Silero notices; tokenizers/FlatBuffers; GPL3 with GCC Runtime Library Exception; Kaldi/OpenFst/OpenBLAS/CLAPACK/libf2c/MinGW; and binding-header notices. These supplement licenses retained inside source and wheel trees. A pinned notice revision is documentation provenance, not an assertion that upstream Vosk was reproducibly compiled from that revision or that legal compliance is independently certified.",
+          "focus": [{"start": 95, "end": 106}]
+        },
+        {
+          "start": 113, "end": 137, "title": "Reconstruct the reviewed CTranslate2 source tree from exact revisions",
+          "explanation": "cpuSources identifies immutable repository revisions, cached ZIP filenames, hashes and extraction destinations for CTranslate2, cpu_features and spdlog. The main archive is extracted at the source root; dependency archives populate the expected third_party directories. build_cpu_library includes this entire structure in its cache input identity and verifies every ZIP before extraction. These source inputs support a new CPU DLL alongside the same-version wheel binding; the result is not simply the upstream wheel's native binary relabelled.",
+          "focus": [{"start": 114, "end": 125}, {"start": 130, "end": 137}]
+        },
+        {
+          "start": 138, "end": 148, "title": "Pin oneDNN 3.1.1 for the replacement CPU backend",
+          "explanation": "The final native source entry selects oneDNN 3.1.1 by exact Git revision, ZIP hash and third_party/oneDNN destination. The bundler's recipe, rather than this data row alone, chooses a static inference build with Microsoft compiler OpenMP and disables GPU/MKL/Ruy paths in CTranslate2. Keeping the backend source revision in the lock makes cache invalidation and manifest provenance explicit; neither the version label nor the hash demonstrates actual encoder/decoder execution, which the synthetic PCM probe checks separately.",
+          "focus": [{"start": 138, "end": 148}]
+        }
+      ]
+    },
+    {
+      "path": "tools/Installer/runtime-contract.json",
+      "sourceSha256": "b5ea3d2c2b80ef140b26f48b616e0f9122b4ee09d003cffe211e7f01dd237c99",
+      "role": "Public launcher-to-runtime contract separating package paths, writable user state, isolated manager arguments, token handling and conservative lifecycle policies.",
+      "entryPoints": ["installed native launcher integration", "manage.py start|stop|status", "configuration.DEFAULT", "provision_whisper.model_directory"],
+      "blocks": [
+        {
+          "start": 1, "end": 14, "title": "Separate installed binaries/models from writable per-user state",
+          "explanation": "The declared platform is Windows 11 x64, with relative embedded Python, manager and application paths. Writable state belongs under LocalAppData/PhantomFudge/InstalledRuntime/.local, including token, configuration and optional user models. Existing per-user pinned-name model entries take precedence, but selected files still require the same manifest validation; explicit provisioning writes only there. managerArgumentPrefix is the argument array -I -B -X utf8, followed by manager path and one of three commands, not a shell-concatenated command line.",
+          "focus": [{"start": 4, "end": 14}]
+        },
+        {
+          "start": 15, "end": 27, "title": "Use exit codes and explicit child environments rather than output parsing",
+          "explanation": "Manager exit codes distinguish completed operation (0), refusal/failure (1) and invalid command (64); successful status may still mean not listening. The manager receives absolute workspace and package-model roots. The application receives its locally read token and literal loopback WebSocket URI in environment, never a token command argument. These are integration requirements, not evidence that this JSON itself starts processes, provisions credentials or opens capture.",
+          "focus": [{"start": 15, "end": 26}]
+        },
+        {
+          "start": 28, "end": 41, "title": "Require local token creation and preserve native inference defaults",
+          "explanation": "Token provisioning specifies 32 random bytes encoded as 64 lowercase ASCII hex characters without BOM, exclusive CreateNew, owner-SID-only DACL and validation/retention of an existing token. The accepted URL-safe 32..512-character pattern remains broader than newly generated hex to preserve compatible existing values. Shipping/logging tokens, implicit rotation and provider-credential copying are forbidden by this contract. The absent-config default matches configuration.DEFAULT: schema 1, hybrid-whisper, small.en, four threads and technical vocabulary.",
+          "focus": [{"start": 28, "end": 39}]
+        },
+        {
+          "start": 42, "end": 44, "title": "Keep launcher output and timeout handling conservative",
+          "explanation": "Output is human-readable except listening-status JSON, so callers use exit codes rather than English string matching. The 180-second launcher startup allowance is distinct from manage.py's internal lock/load waits. Timeout grants no permission to kill a detached service or delete its receipt: an ambiguous slow initializer must retain its ownership trail for later authenticated or proven-dead cleanup.",
+          "focus": [{"start": 42, "end": 44}]
+        },
+        {
+          "start": 45, "end": 55, "title": "Define native maintenance independently of damaged or missing old Python",
+          "explanation": "launcherMaintenance declares a native --maintenance argument plus existing install root, explicitly requiring neither Python nor old runtime binaries. It does require an installed ownership marker and a stopped application. Maintenance authenticates native loopback runtime/shutdown HTTP using the current user's existing token/receipt under the shared byte-range lock, not a Python maintenance verb. Its stale receipt may be removed only if unchanged and Windows proves absence or changed creation identity; ambiguous live ownership fails closed without PID killing. Only exit 0 authorizes replacement/uninstall; every nonzero result blocks it and user data is preserved either way.",
+          "focus": [{"start": 45, "end": 55}]
+        },
+        {
+          "start": 56, "end": 59, "title": "Preserve user state and keep installation distinct from capture/provider setup",
+          "explanation": "The remaining policy fields require refusal of active/foreign services and retention of InstalledRuntime and all user data during ordinary uninstall, with no default purge. Starting an idle service must never open an audio endpoint; capture requires explicit application Start. Redistribution excludes internal Agency/provider binaries, authentication material, personal configuration and caches. These fields define integration obligations, not execution evidence or an installer lifecycle test result.",
+          "focus": [{"start": 56, "end": 59}]
+        }
+      ]
+    },
+    {
+      "path": "tools/Installer/runtime_audit.py",
+      "sourceSha256": "67e9ae694242e82186cee16bb81f6b9ed75eaab9c3b3631f82c6f980b4c6f4f2",
+      "role": "Checks static shipped-PE dependency closure and supplies an embedded-child loaded-module probe without treating the developer machine's global VC runtime as payload evidence.",
+      "entryPoints": ["pe_dependencies", "audit_pe_closure", "DLL_PROBE", "_dll_snapshot", "_dll_evidence"],
+      "blocks": [
+        {
+          "start": 1, "end": 31, "title": "Distinguish reviewed Windows inbox dependencies from required bundled CRTs",
+          "explanation": "WINDOWS_IMPORTS is an explicit reviewed Windows 11 DLL/API-set allowlist, not a search of files that happen to exist in the build host's System32. REQUIRED_CRT separately requires msvcp140, msvcp140_1, vcruntime140, vcruntime140_1 and vcomp140 beside embedded Python. This distinction prevents successful development-machine imports from hiding a missing redistributable or Microsoft OpenMP dependency. Importing the module defines helpers and the later probe string; it does not load candidate native payload code.",
+          "focus": [{"start": 9, "end": 20}, {"start": 27, "end": 29}]
+        },
+        {
+          "start": 32, "end": 61, "title": "Read bounded PE headers and file-backed section ranges",
+          "explanation": "pe_dependencies reads bytes without executing them. Its unpack helper rejects out-of-file offsets before struct decoding. DOS/PE signatures, PE32 or PE32+ optional-header magic, machine, data-directory count, image base and header size are decoded explicitly. Section mappings retain virtual address, raw size and raw file offset, not virtual zero-fill size, so later dependency reads must resolve to bytes actually present in the file. This is a focused dependency parser, not full Windows loader emulation or signature verification.",
+          "focus": [{"start": 36, "end": 47}, {"start": 49, "end": 60}]
+        },
+        {
+          "start": 62, "end": 88, "title": "Resolve dependency addresses and bounded ASCII strings",
+          "explanation": "offset accepts only header or section-backed RVAs whose requested size fits both the declared file-backed range and actual file. Unmapped addresses fail. text searches at most 4096 bytes for NUL and requires ASCII. directory returns absent entries only when the requested index exceeds the declared count; otherwise its entry must fit the optional-header directory table. These helpers keep malformed dependency structures from silently becoming an empty or trusted dependency list.",
+          "focus": [{"start": 62, "end": 73}, {"start": 82, "end": 87}]
+        },
+        {
+          "start": 89, "end": 105, "title": "Read ordinary and delay imports with explicit termination",
+          "explanation": "The parser walks normal import descriptors (directory 1, width 20) and delay descriptors (directory 13, width 32), rejecting table sizes below one entry or over ten million bytes. All-zero descriptors terminate the table; exhausting its declared size without termination fails. Normal imports read their name RVA, while delay imports convert absolute addresses using image_base when the RVA attribute is absent. Names are lowercased before later deduplication, ensuring delay-loaded dependencies are not omitted from closure evidence.",
+          "focus": [{"start": 94, "end": 105}]
+        },
+        {
+          "start": 106, "end": 125, "title": "Include export-forwarder DLLs and reject malformed dependency names",
+          "explanation": "Export address-table entries pointing inside the export-directory range are interpreted as forwarder strings, with a one-million-function bound. Splitting at the final dot separates the DLL/module from its forwarded symbol; .dll is supplied when omitted. Ordinary, delay and forwarder lists are each deduplicated/sorted and constrained to a narrow DLL-name pattern. A forwarded symbol is not resolved or called here: the audit tracks the DLL name required by that forwarder, keeping its scope explicit.",
+          "focus": [{"start": 108, "end": 119}, {"start": 119, "end": 123}]
+        },
+        {
+          "start": 126, "end": 168, "title": "Resolve all shipped native dependencies only within approved locations",
+          "explanation": "audit_pe_closure recursively inventories .dll, .pyd and .exe files, rejecting an empty runtime and non-x64 native files except unused setuptools executable templates. For each normal/delay/forwarder name, an exact Windows allowlist match is classified inbox; otherwise it must exist beside the importing file or python.exe, with numpy.libs additionally allowed only for NumPy importers. An unrelated package directory or global System32 VC DLL cannot satisfy closure. Each PE gets its own hash and resolution map, and required root CRTs must exist. Returned evidence explicitly is not a clean-VM test and identifies inventoried-but-uninvoked templates.",
+          "focus": [{"start": 133, "end": 144}, {"start": 145, "end": 156}, {"start": 157, "end": 166}]
+        },
+        {
+          "start": 169, "end": 189, "title": "Set native DLL search policy before embedded package imports",
+          "explanation": "DLL_PROBE is source text prefixed to import and PCM child programs, not code executed by reading this module. It resolves the payload executable root, Windows directory and narrowly scoped Defender platform directory, then calls SetDefaultDllDirectories with LOAD_LIBRARY_SEARCH_DEFAULT_DIRS. Failure aborts the probe. Typed kernel32 declarations support current-process module enumeration and wide-character module filenames, avoiding PATH/current-directory search as an implicit dependency source while remaining compatible with registered package DLL directories.",
+          "focus": [{"start": 177, "end": 188}]
+        },
+        {
+          "start": 190, "end": 221, "title": "Classify loaded modules without accepting external VC runtime rescue",
+          "explanation": "_dll_snapshot enumerates at most 2048 module handles and requires each wide-character path to fit its 32768-character buffer. Payload-relative modules are retained by basename/path. A narrow numeric-version MpOAV.dll path under Windows Defender Platform is classified separately as OS antivirus injection, never copied into the installer. Outside payload, VC/OpenMP-style basenames fail even in system directories; other modules must resolve under Windows System32 or WinSxS. An initial snapshot validates pre-import state. This observes loaded-module paths, not every future dynamic load or arbitrary security-provider compatibility.",
+          "focus": [{"start": 190, "end": 201}, {"start": 205, "end": 216}]
+        },
+        {
+          "start": 222, "end": 234, "title": "Require actual app-local CRT loads and report the remaining evidence boundary",
+          "explanation": "_dll_evidence takes a post-exercise snapshot, requires all five core VC/OpenMP modules to have loaded from the payload, and specifically requires each beside python.exe rather than merely somewhere in site-packages. It records passed/search policy and vcRuntimeOutsidePayload=false while explicitly setting cleanWindowsVmTested=false. This complements static PE closure with observed imports/inference loads; neither check is labelled a clean Windows installation or broad platform qualification.",
+          "focus": [{"start": 222, "end": 233}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/tests/test_installed_runtime.py",
+      "sourceSha256": "380c133967c1bb856f8e17922a47daeec91e4988f618d374e7899c63c495d384",
+      "role": "Tests installed workspace/model resolution, Unicode Vosk startup adaptation and conservative process-receipt recovery without launching a real service or inference.",
+      "entryPoints": ["InstalledPathTests", "InstalledPathTests.inspect_paths", "DeadReceiptTests"],
+      "blocks": [
+        {
+          "start": 1, "end": 46, "title": "Probe fresh imports with isolated workspace fixtures",
+          "explanation": "The tests import service modules explicitly and create a unique ignored repository-local fixture tree, deleting it in tearDown. inspect_paths removes inherited PHANTOM_TRANSCRIPTION_* variables, supplies the test's overrides, and invokes a fresh -I -B interpreter with a 30-second timeout. Its small program inserts only the service path and imports configuration/manage/provisioner/server to report roots and selected paths. Fresh process imports matter because these module constants are resolved once at import time. The probe does not call server.main, load models or create a service listener.",
+          "focus": [{"start": 32, "end": 43}]
+        },
+        {
+          "start": 47, "end": 81, "title": "Verify common installed roots, source defaults and user-model precedence",
+          "explanation": "A workspace with spaces and U+00E9 plus a separate immutable-model directory must produce identical roots across all four components, package model paths and user-local configuration/receipt paths without creating the workspace. Other cases assert source mode stays repository-relative regardless of cwd, a workspace alone defaults models under its own .local, and missing configuration returns defaults without creating a file. An existing user model directory wins over bundled models; this path-selection test intentionally does not claim that its empty directory passes model verification.",
+          "focus": [{"start": 48, "end": 58}, {"start": 70, "end": 80}]
+        },
+        {
+          "start": 82, "end": 98, "title": "Keep provisioning out of package storage and create nested lock state",
+          "explanation": "A synthetic zero-file model specification patches ROOT and MODELS_ROOT separately, then invokes provision without downloads. Its verified receipt and untouched bundled directory prove target construction uses user storage, not installed models. A separate test enters the real Windows lifecycle lock under a nested InstalledRuntime/.local fixture and checks directory creation. These are path/lifecycle mechanics, not downloaded-model validity or multi-process contention stress tests.",
+          "focus": [{"start": 82, "end": 92}, {"start": 94, "end": 97}]
+        },
+        {
+          "start": 99, "end": 128, "title": "Assert the Unicode CWD workaround restores process state on success and failure",
+          "explanation": "Windows-only tests create a non-ASCII model directory, patch verification and substitute a fake vosk module. The successful Model callback asserts model_path is exactly '.' and the current directory is the Unicode model path, then the test checks the returned model and restored original CWD. The error case makes native Model raise and still requires CWD restoration. These tests verify adapter control flow without modifying Vosk or proving its real native Unicode loading; the packaged PCM test supplies a separate real-runtime exercise when explicitly invoked.",
+          "focus": [{"start": 106, "end": 115}, {"start": 118, "end": 127}]
+        },
+        {
+          "start": 129, "end": 159, "title": "Observe the PID on disk before creation-time inspection",
+          "explanation": "A fake child with PID 1234 and mocked port/ownership/model checks drives manage.start without spawning. The process_identity callback reads the actual fixture receipt during inspection and asserts the PID is already persisted, catching the ordering bug where an inspection error could lose child identity. Final receipt PID/creation time, -B -X utf8 child argument prefix and writable workspace cwd are checked. Only process and service operations are mocked; receipt writes are real fixture I/O.",
+          "focus": [{"start": 129, "end": 138}, {"start": 148, "end": 158}]
+        },
+        {
+          "start": 160, "end": 184, "title": "Retain a recoverable PID when process identity inspection fails",
+          "explanation": "The test injects RuntimeFailure from process_identity after a fake Popen succeeds. start must fail but leave a receipt containing PID 1234 and no processCreatedAt, preserving ownership evidence instead of reverting to pid=None. A later mocked probe proves that PID absent, allowing clear_dead_record to delete only the receipt. This explicitly covers inspection-failure recovery; it does not authorize deletion of PID-only records when the process is still alive.",
+          "focus": [{"start": 172, "end": 182}]
+        },
+        {
+          "start": 185, "end": 218, "title": "Advance after reboot or PID reuse but preserve a matching live identity",
+          "explanation": "DeadReceiptTests simulates no listener and either an absent process or a different creation time. start must unlink the stale receipt and reach ordinary model validation; an injected validation stop verifies no child is spawned by the test. Direct helper cases assert the requested PID is inspected and the receipt removed for absent/recycled identity. A matching live identity raises and never unlinks. These mocked branches test decision logic rather than rebooting Windows or terminating any process.",
+          "focus": [{"start": 192, "end": 203}, {"start": 205, "end": 211}, {"start": 213, "end": 218}]
+        },
+        {
+          "start": 219, "end": 252, "title": "Fail closed for legacy live, malformed or inaccessible identities",
+          "explanation": "A legacy PID-only record is removable only when the probe returns None; any live creation time retains it. Empty, null, Boolean, negative, oversized-PID and malformed-time cases must fail before process inspection or unlink. Access-denied RuntimeFailure also retains the receipt. The final Windows-only test uses the test process's own PID and checks repeated exact decimal creation identities are stable, exercising read-only FILETIME inspection without signalling another process or opening a service.",
+          "focus": [{"start": 220, "end": 229}, {"start": 231, "end": 242}, {"start": 248, "end": 252}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/tests/test_packaged_pcm_runtime.py",
+      "sourceSha256": "539738de56061bdfa9200e8a7f5992971d866e5c644e67b49d6b679d292713b7",
+      "role": "Opt-in packaged-runtime smoke test exercising real Vosk, production Silero finalization and forced Whisper encoder/decoder calls with generated PCM and bounded natural child exit.",
+      "entryPoints": ["PROGRAM", "PackagedPcmTests.test_real_hybrid_final_and_forced_native_whisper_decode_without_capture", "unittest.main"],
+      "blocks": [
+        {
+          "start": 1, "end": 29, "title": "Bind the smoke program to the exact embedded payload and private versions",
+          "explanation": "PROGRAM prefixes the first-party auditor's DLL_PROBE before importing native inference packages and actual HybridFactory/FinalSpan. The embedded program asserts sys.executable is the selected payload python.exe, Python is isolated with bytecode disabled, and CTranslate2/faster-whisper/NumPy/ONNX/Vosk module files reside under that payload. av must be absent and metadata must report both exact private versions. This prevents a successful development-venv import from masquerading as installed runtime execution.",
+          "focus": [{"start": 14, "end": 25}, {"start": 26, "end": 28}]
+        },
+        {
+          "start": 30, "end": 50, "title": "Forbid Python sockets and feed real Vosk only generated in-memory samples",
+          "explanation": "socket.socket and create_connection are replaced by raising functions before factory/model construction; this guards Python socket creation during the test, not an OS-wide native network sandbox. A repeating 45-second faulthandler timer and flushed phase markers aid timeout diagnosis. The real factory uses default model/thread/vocabulary selection. One second of two deterministic sine tones is converted to little-endian PCM16 and passed to the actual hybrid provisional decoder, then finished. Collected FinalSpans must concatenate to the exact original PCM, proving the fixture did not lose or replay sample ownership.",
+          "focus": [{"start": 30, "end": 41}, {"start": 43, "end": 50}]
+        },
+        {
+          "start": 51, "end": 64, "title": "Count real Silero execution on the unmodified production finalization path",
+          "explanation": "The InferenceSession.run wrapper counts calls but delegates each one to the real ONNX method. factory.finalize processes the actual spans with production WhisperFinalizer/VAD settings. All outputs must be final Recognition values with string text and at least one ONNX VAD invocation must occur. Generated tones can legitimately be rejected as non-speech, so this production-path result alone does not demonstrate that the native Whisper encoder and decoder executed; the next independent probe forces them.",
+          "focus": [{"start": 54, "end": 63}]
+        },
+        {
+          "start": 65, "end": 98, "title": "Force native Whisper computation and distinguish execution from speech quality",
+          "explanation": "The already loaded real model is wrapped at encode and generate_with_fallback with delegation, then transcribes the generated float array with VAD disabled, beam 1, no previous-text conditioning and at most two new tokens. Iterating segments forces lazy computation; both counters must be positive. Encoded filename input must instead raise the PCM-only error. The final JSON records Vosk/production-final/VAD/encoder/decoder evidence, generated duration, no capture/service/Python sockets, modified dependency graph and loaded-DLL paths, explicitly setting recognitionQualityAssessed=false. It cancels the traceback timer but does not forcibly exit Python to conceal shutdown hangs.",
+          "focus": [{"start": 68, "end": 79}, {"start": 88, "end": 97}]
+        },
+        {
+          "start": 99, "end": 125, "title": "Require explicit opt-in and isolate the child's user and model locations",
+          "explanation": "The test class skips unless PHANTOM_PACKAGED_RUNTIME is set. It resolves payload Python and creates a unique ignored repository-local workspace. Rather than inheriting the user's environment, the child receives a small explicit map: Windows locations, payload/System32 PATH, workspace temp/profile/AppData/hub paths, package model root, offline/no-token/no-telemetry flags and one-thread BLAS/OMP settings. This prevents the test from reading ordinary user caches/configuration through default environment locations; it is not a claim that the Windows process has an OS sandbox.",
+          "focus": [{"start": 101, "end": 112}, {"start": 113, "end": 124}]
+        },
+        {
+          "start": 126, "end": 144, "title": "Require natural embedded-child completion within a bounded deadline",
+          "explanation": "subprocess.run invokes embedded Python with -I -B -X utf8 and PROGRAM, null stdin and captured output. It must return within 120 seconds with status zero; a timeout becomes a failing test with phase/trace information, not success after forced termination. Positive final JSON alone is insufficient until the child has exited. The outer test reasserts production-final and encoder/decoder counters, prints evidence for the bundler, and removes only its fixture workspace in finally. unittest.main supports the bundler's direct script invocation. This test code does not assert clean-VM compatibility or useful transcription accuracy.",
+          "focus": [{"start": 126, "end": 137}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/tests/test_runtime_bundle.py",
+      "sourceSha256": "92dbb0b3cd99cfb39617c50bd6d52e68428760a0367c48a29ee136cc5abac6ff",
+      "role": "Synthetic packaging regression tests covering safe input extraction, honest PCM-only transformations, model/service allowlists and static native dependency/CRT rejection cases.",
+      "entryPoints": ["BundleTests", "BundleTests.archive", "BundleTests.pe", "BundleTests.add_fixture_crt"],
+      "blocks": [
+        {
+          "start": 1, "end": 45, "title": "Load builder helpers without bundling and constrain archive path semantics",
+          "explanation": "importlib loads bundle_runtime directly from its repository path, relying on its main guard to avoid assembly, downloads or service execution. Each test gets a unique ignored fixture directory and recursive teardown. The first cases reject empty/dot/traversal/absolute/Windows-drive/backslash/alternate-stream/trailing-space/device-name paths while accepting a normal nested public model path. archive creates small ZIPs from supplied synthetic entries, not copied user inputs.",
+          "focus": [{"start": 17, "end": 28}, {"start": 31, "end": 38}]
+        },
+        {
+          "start": 46, "end": 79, "title": "Reject linked or overwriting archives and omit wheel console scripts",
+          "explanation": "A synthetic ZIP entry with Unix symlink mode must be rejected. A root-stripped source archive with two top-level roots must fail before creating target output. Existing file content must survive an attempted overwrite. The wheel fixture maps .data/purelib into site-packages while skipping .data/scripts, preserving ordinary dist-info metadata. These tests exercise archive policy with inert text entries, not arbitrary archive execution or a complete hostile-filesystem race suite.",
+          "focus": [{"start": 47, "end": 58}, {"start": 71, "end": 78}]
+        },
+        {
+          "start": 80, "end": 105, "title": "Make cache/offline/URL rejection observable without network access",
+          "explanation": "A valid cached public fixture must be returned without invoking mocked urlopen. Missing offline input and tampered existing cache must both fail, also without network calls. File URLs, plaintext HTTP, unlisted hosts and credential-bearing URLs are rejected before urlopen. This verifies control flow at the network boundary using mocks; no public download, mirror availability or TLS behavior is exercised by these cases.",
+          "focus": [{"start": 80, "end": 86}, {"start": 98, "end": 104}]
+        },
+        {
+          "start": 106, "end": 126, "title": "Prove model copying follows manifest members rather than directory neighbors",
+          "explanation": "Two synthetic model trees contain one hashed public model.bin each plus unrelated personal-named fixtures, with a token-named sibling at the root. Patched Vosk/Whisper manifests declare only the public bytes and Whisper size. copy_models must produce exactly the two manifest-listed files. This guards the public-model allowlist against accidental recursive copying of neighboring private data; it does not load an acoustic model or use actual personal content.",
+          "focus": [{"start": 110, "end": 121}, {"start": 122, "end": 125}]
+        },
+        {
+          "start": 127, "end": 160, "title": "Check private version, removed dependency, preserved helper and rewritten RECORD",
+          "explanation": "A minimal faster_whisper package fixture supplies the expected upstream version, av dependency, resampler marker and pad_or_trim suffix with matching hashes. After patch_whisper/regenerate_record, METADATA must report the private version and omit Requires-Dist av. Executing only the generated synthetic audio module proves pad_or_trim retains its object behavior and decode_audio raises a PCM error. Every RECORD path must exist and before/after audio hashes must differ. This tests intentional transformation mechanics; it does not claim real Whisper inference from the stub helper.",
+          "focus": [{"start": 139, "end": 150}, {"start": 151, "end": 159}]
+        },
+        {
+          "start": 161, "end": 189, "title": "Verify reviewed upstream source preservation only when the public cache exists",
+          "explanation": "The actual locked faster-whisper wheel is used only if already cached; otherwise this case skips without fetching it. Its artifact hash is checked before extraction and patching. The test compares the entire original/patched pad_or_trim suffix, rehashes unchanged inference-path files, checks original audio provenance and absence of the av import, then verifies a second patch refuses the already changed source hash. The neighboring allowlist test requires unique bare filenames, excludes token/config/venv names and checks all service inputs exist. Neither test runs the native models.",
+          "focus": [{"start": 161, "end": 172}, {"start": 173, "end": 184}]
+        },
+        {
+          "start": 190, "end": 236, "title": "Build inert PE fixtures with controlled imports, delay imports and forwarders",
+          "explanation": "pe constructs a small bytearray with DOS/PE signatures, an AMD64-default PE32+ header, one raw .rdata section and explicit directory/RVA mappings. A bounded string helper places ASCII names; optional delay descriptors and export-forwarder strings are added at known offsets. The fixture is written to the test tree but never loaded as executable code. add_fixture_crt creates one such inert PE for each required root CRT, enabling dependency graph tests without copying or executing the host's actual redistributables.",
+          "focus": [{"start": 190, "end": 201}, {"start": 216, "end": 227}, {"start": 228, "end": 235}]
+        },
+        {
+          "start": 237, "end": 255, "title": "Require delay/forwarder discovery and reject truncated or unterminated PE tables",
+          "explanation": "A fixture importing MSVCP140, delay-loading SHELL32 and forwarding into python313 must yield three separate lowercased dependency lists. Another fixture is truncated to 200 bytes and must fail the parser's bounds check. Restoring bytes but shortening the declared import table so it lacks a terminating descriptor must fail as unterminated. These assertions target parser coverage and fail-closed behavior rather than asking Windows to load the malformed files.",
+          "focus": [{"start": 237, "end": 243}, {"start": 245, "end": 254}]
+        },
+        {
+          "start": 256, "end": 280, "title": "Reject global or unrelated-package substitutes for missing local dependencies",
+          "explanation": "With required fixture CRTs present, a consumer's MSVCP140 import must resolve beside the runtime and reviewed SHELL32 to Windows inbox; evidence must state System32 was not used for non-inbox resolution. Removing local msvcp140 must fail regardless of the host's actual VC installation. A DLL in an unrelated package directory cannot satisfy the root consumer, nor can an unknown developer-only dependency. The tests exercise static closure rules with fixtures, not the separate live loaded-module probe.",
+          "focus": [{"start": 256, "end": 267}, {"start": 271, "end": 279}]
+        },
+        {
+          "start": 281, "end": 299, "title": "Distinguish inert cross-platform templates and refuse unpinned CRTs before subprocess work",
+          "explanation": "An ARM64 DLL fails the x64 runtime gate, whereas an unused setuptools cli-arm64.exe template remains inventoried and is accepted without invocation. The final test supplies a fake Visual Studio root against the real reviewed CRT lock: missing/unpinned input must fail before any copy or signature subprocess. Empty output and mocked subprocess.run not-called assertions enforce that ordering. This is not a successful Microsoft-signature verification or real package build test.",
+          "focus": [{"start": 281, "end": 288}, {"start": 290, "end": 299}]
+        }
+      ]
+    }
+  ]
+}

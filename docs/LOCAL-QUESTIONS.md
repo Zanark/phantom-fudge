@@ -42,7 +42,7 @@ until its existing question/provider guards allow the action.
 
 The shared `TranscriptRows_SelectionChanged` path also handles native ListBox keyboard/automation
 selection. It validates the selection before replacing the draft, so a failed addition does not
-discard the existing question. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:84-141.)
+discard the existing question. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:85-147.)
 Control labels and independent focus are defined by
 [`InitializeQuestionView` / `SetQuestionEditing`](../src/PhantomFudge.App/MainWindow.Questions.cs),
 [`UpdateAnswerControls`](../src/PhantomFudge.App/MainWindow.Answers.cs) and
@@ -90,7 +90,7 @@ deselection. The inline status says: **“Edited question retained. Clear questi
 different set of lines.”** Existing highlights are restored. This prevents a later click from
 destroying corrections; it is not a popup or rehearsal prompt. Copy anything you need, then use
 **Clear question** to start a different selection. Merely entering editing mode does not lock
-selection—changing the text does. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:93-111;
+selection—changing the text does. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:94-112;
 [`QuestionDraft.EditText`](../src/PhantomFudge.Core/QuestionDraft.cs).)
 
 The manual alternative remains **Choose source → Mic / Computer / All → Use selected**. Mic is
@@ -114,7 +114,7 @@ the dispatcher; a late callback from a previous capture cannot enter the next se
 Display labels are for reading, never parsed to choose content. Selecting only Mic rows does not
 include Computer text, earlier unselected Mic segments, notes, clipboard history or chats.
 Explicitly selecting rows from both sources combines only those rows.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:112-125;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:118-131;
 [`TranscriptSegment`](../src/PhantomFudge.Core/TranscriptSegment.cs).)
 
 Selected partials keep their identity/highlight through revisions and finalization until you edit
@@ -130,7 +130,7 @@ the main transcript remain selectable**: that view retains structured row identi
 of chooser eviction. Archived unfinished partials are selectable and still provisional; session
 separator rows are not selectable. New finals follow the scrollbar only when it was already at
 the end, so reading older history does not continually jump to the newest speech.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-82,119-141.)
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-83,125-147.)
 
 Clearing an exported, stopped transcript removes its rows but does not silently erase the separately
 copied draft. **Clear question** is the separate reset for the draft/highlights and last displayed
@@ -164,7 +164,7 @@ The separate limits are implemented by [`QuestionDraft`](../src/PhantomFudge.Cor
 [`StructuredTranscriptStore`](../src/PhantomFudge.Core/StructuredTranscriptStore.cs) and
 [`TranscriptBuffer`](../src/PhantomFudge.Core/TranscriptBuffer.cs); direct rows retain their own
 segment reference rather than parsing the export string.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-63.)
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-64.)
 
 ```mermaid
 ---

@@ -1,0 +1,57 @@
+# Keyboard-first controls and session answer size
+
+Status: DONE
+Milestone: Explicit keyboard interaction and answer readability
+Dependencies: 44_TRANSCRIPT_CLICK_SELECTION.todo, 47_ANSWER_FONT_SIZE.todo, 51_AUDIO_DEVICE_CARDS.todo, 56_MASK_ICON_POSITION.todo
+
+## Purpose
+
+Implement the October9 19:36 approval so the owner can try keyboard-first comfort, without
+cursor locking/hiding/warping, global letter capture or automatic recording/submission.
+
+## Completed scope
+
+- [x] Ctrl+Alt+K / Keys activation; local Control, Select, Edit, Read, Command, Search, Devices and Help.
+- [x] Stable segment cursor, j/k/arrows, Space multi-toggle, G/gg, source filters and local search.
+  Enter reviews; Ctrl+Enter explicitly submits once. Manual corrections and clarification locks survive.
+- [x] Literal Edit with Enter newlines, clipboard shortcuts and normal typing. Async interpretation
+  follows the visible editable reply/original target only while this app remains foreground.
+- [x] Escape backs out through Control and attempts PID-checked previous-window focus restoration.
+  Mask disarms while existing audio and answers continue; ordinary modes do not cancel work.
+- [x] Finite typed commands, bounded arguments and safe errors; no shell/model command interpretation.
+  Device arrows/pages navigate independently; Space selects; capture locks and source identity remain.
+- [x] Strict restart-loaded shortcut JSON, A-Z except E or F1-F11, fixed Ctrl+Alt+NoRepeat.
+  Invalid settings disable only the shortcut with a visible notice; Keys remains the fallback.
+- [x] Answer/interpretation Size slider8-24, Read +/- and :font. User choice survives resize for this
+  session only; automatic9compact/10normal defaults remain until explicitly chosen.
+- [x] Compact Select/Search borrows transcript reading space; other compact modes/large fonts prioritize
+  Q/A without invoking close/cancel. Existing wide columns and background activity are preserved.
+- [x] Reviewed code corrections, synthetic regressions, current images, source explanations,
+  one-shot citations, full source-atlas/handbook HTML/PDF and bounded local handoff.
+
+## Evidence
+
+-297targeted Core parser/configuration cases;18existing documentation-tool cases.
+- Final synthetic WPF fixture203556:38keyboard assertions plus existing question, answer,
+  clarification, cover, device-card, recording-indicator and native-window regressions passed.
+-23synthetic WPF images/10READMEderivatives; three new keyboard illustrations inspected.
+-177first-party files,26576physical lines,1072authored atlas blocks. Complete physical assignment
+  is not proof that every semantic question has been exhaustively explained.
+-359citation ranges migrated once across32documents; four changed endpoints reviewed.
+- Full atlas and handbook editions built; new chapter, PDF pages, atlas search and browser widths
+  1440/768/390 inspected. Exact generated counts/hashes belong to their manifests.
+
+## Qualification boundaries
+
+No real audio/model request, cursor operation, new ZIP, app restart, commit or push.
+Actual shortcut collisions, foreground return, non-US layouts, accessibility, owner comfort and
+recipient capture/cursor behavior remain unqualified. Synthetic device-busy evidence is bounded;
+it is not a hardware-device qualification. Docker remains the separate optional final-stage task.
+
+## Completion log
+
+- 2026-10-09 19:36 - Owner approved implementation to try comfort.
+- 2026-10-09 20:32 - First integrated pass; compact font-space correction included.
+- 2026-10-09 20:36 - Final runtime pass after schema-exception and async editor-target corrections.
+- 2026-10-09 - Completed authored documentation, reviewed one-shot migration, source atlas,
+  illustrated handbook and source-only handoff. Owner/platform qualification remains separate.

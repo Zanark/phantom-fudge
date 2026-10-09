@@ -120,18 +120,17 @@ public partial class MainWindow
                 : $"Ask uses the local model at {configuredAnswerSettings.LocalEndpoint}. CLI offline mode; no GitHub model fallback.";
         AnswerCancelButton.IsEnabled = (AnswerBusy && answerRun?.State == AnswerRunState.Streaming) ||
             agencyPreparation is { IsCompleted: false };
-        AnswerCancelButton.Content = agencyPreparation is { IsCompleted: false } && !AnswerBusy
-            ? "Cancel preparation" : "Cancel answer";
         AnswerCopyButton.IsEnabled = answerRun?.Text.Length > 0;
-        AnswerCopyButton.Content = answerRun?.Request.Clarification is { Confirmed: false } ? "Copy interpretation" : "Copy answer";
+        UpdateAnswerActionLabels();
         QuestionAskButton.IsEnabled = protectionReady && !fileBusy && !AnswerBusy && ProviderCanAnswer &&
-            !AwaitingClarificationReply && !string.IsNullOrWhiteSpace(questionDraft.Text);
+            !AwaitingClarificationReply && !KeyboardSelecting && !string.IsNullOrWhiteSpace(questionDraft.Text);
         QuestionAskButton.Content = useAnswerProvider
             ? AwaitingClarificationReply ? "Reply below" : clarifyFirst ? "Interpret question" : "Ask provider"
             : "Freeze locally";
         if (clarifyFirst && useAnswerProvider)
             AnswerProviderNotice.Text += " Clarify first adds a fixed instruction; explicit replies include this clarification history only.";
         UpdateClarificationControls();
+        RefreshKeyboardEditorTarget();
     }
 
     private void StartAnswer(QuestionSnapshot snapshot, AnswerClarification? clarification = null)

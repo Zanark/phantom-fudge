@@ -11,6 +11,29 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Current state
 
+- Owner21:52requested installer/release and maintained README/TODO/book work;58is IN_PROGRESS.
+  Targetv0.2.0-preview.1 is an unsigned Windows11 x64 prerelease, not a qualified release.
+  Repository/release remain private; clean committed release build/publication pending. See docs\INSTALLATION.md.
+  Parent confirms55native tests again and85runtimefocused tests;10exactselfchecks previously passed. Real
+  UnicodeHybridFactory/productionVAD/forcedWhisper inference/naturalexit. ReplacementoneDNN3.1.1/
+  MicrosoftOpenMP runtime resolves formerexit/Unicodeblockers; oldRuy stages remainrejected.
+  Native pending76holds mutexuntilappmutex/provenexit; Closehides withguardretained, including
+  dispatchershutdown. InteractiveClose notdriven. Setupneverlaunches; finish/close thenStart.
+  Packaged-desktopUI receipts pass priorregressiongroups/38keyboard; noaudio/modelrequests.
+  Parent candidate2 full build PASS with currentruntime/native and mandatory realPCM/cleanexit;
+  inspected lifecycle3 PASS11checks/3682files, currenthost/randomAppId/no-shortcuts/simulatedversion.
+  No actualcapture/provider request/cleanVM; priorperformance notnewbackendqualification.
+  Latest Unicode/startup/backend review reports no significant issues, not independent PCM execution.
+  Parent reports92speechPE/5bundledCRTpaths and separate861App/LauncherPEstaticclosure PASS.
+  Final installer-runtime-dll-qualified offline rebuild passed strongergate/Unicode/PCM/normalexit;
+  functionalDLLs unchangedvs candidate2. No runtime gate outstanding; final clean assetbuild remains.
+  Clean committed release build, finalprovenance/editions and publication remainparent-owned;
+  runtime-atlas owner handles runtime annotations, parent handles domain/packaging/book and migration.
+- Owner19:36approved keyboard-first controls and the answer-size slider; workstream57is DONE locally.
+  Final203556UI fixture passed38keyboard checks and old regressions; Core297/docs-tool18passed.
+  Current23WPF/10READMEimages, reviewed citations and full atlas/book accompany the source.
+  No pointer manipulation,
+  global letters or new ZIP; external hotkey/foreground comfort remains unqualified.
 - Implementation authorized October 8. Local experimental implementation is now in progress.
 - User approved Windows 11 first with Teams, Zoom, Google Meet, and OBS qualified separately.
 - WPF/C#/.NET10 now uses owner-requested background translucency; four-product qualification still blocks release.
@@ -32,6 +55,15 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Next action
 
+Complete58's clean committed release build, final provenance/checksums and source/book editions,
+then verify private publication. Candidate2 and lifecycle3 passed their bounded current-host gates;
+that is not a clean-VM, shortcut, genuine old-binary migration or published-release claim.
+Do not mark the planned release link as downloadable before verified assets exist.
+The new installer retains external user data and needs no end-user PowerShell7/system Python.
+
+57remains available from updated source using docs\KEYBOARD-CONTROLS.md. Owner comfort, actual shortcut
+collisions, foreground return and recorder qualification remain separate; no model probe is implied.
+
 Use docs\PREVIEW-GUIDE.md for native C# plus Python operation without Docker. Runtime22 and comparison23
 are complete; remaining work is product/hardware/UX qualification and measured streaming improvement.
 Docker20 comes only after
@@ -39,7 +71,8 @@ native release17 and does not block the app or its transcription feature.
 Local28and installed-provider39 were delivered in historical preview235421. The October9
 quality correction40-43 adds readable columns, hybrid local ASR, prepared standalone Agency answers
 and bounded diagnostics. The045022ZIP is now historical and does not include click selection44.
-The latest selection increment is source-only via scripts\Run-PhantomFudge.ps1, with no new ZIP planned.
+The later UI increments are currently available via scripts\Run-PhantomFudge.ps1. The earlier
+no-new-ZIP plan is superseded by58; historical packages remain immutable and stale.
 44/45source, citation migration, handbook/illustration review and local handoff are complete. Source/UI
 validation passes20direct-selection checks; targeted Core118passes and16WPF/5READMEimages are refreshed.
 After44/45, substantive scope remains29Mic commit plus broad latency/quality and owner/recorder qualification;
@@ -117,6 +150,8 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 | 54 | 54_README_WORKFLOW_GALLERY.todo | DONE | Six-stage visual workflow using current synthetic images |
 | 55 | 55_CURRENT_WORKFLOW_DOCUMENTATION.todo | DONE | Consolidated illustrated workflow and current-source documentation |
 | 56 | 56_MASK_ICON_POSITION.todo | DONE | Icon-only top-left mask toggle; same background-work behavior |
+| 57 | 57_KEYBOARD_CONTROLS.todo | DONE | Modal controls/session answer size; bounded synthetic evidence and maintained book |
+| 58 | 58_INSTALLER_RELEASE.todo | IN_PROGRESS | Candidate2/lifecycle3 pass; clean committed release build/editions/private publication pending |
 
 ## Dependency map
 
@@ -154,6 +189,8 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 28 + 40 -> 44 (direct multi-line transcript selection; source-only increment)
 28 + 39 + 42 -> 45 (optional interpretation and explicit confirmation; direct answers remain default)
 38 + 44 + 45 -> 46 (annotated source reference; documentation/tooling only)
+44 + 47 + 51 + 56 -> 57 (keyboard selection/control, device navigation and session answer size)
+22 + 57 -> 58 (explicitly unqualified Windows11 x64 installer/private prerelease; not a substitute for13/17)
 ```
 
 Numbers are stable IDs, not a strictly numeric execution order: 14 intentionally precedes 13.
@@ -233,3 +270,57 @@ under Build-Handbook.ps1 -Check; generated outputs do not authorize publication.
 - 2026-10-09 10:30 evidence handoff - Final20direct-selection checks and existing UI guards pass;
   targeted Core118PASS,16WPF/5READMEimages refreshed. Runtime frozen; citation/book review and
   final handoff remain for44. No new ZIP or live model/audio run.
+- 2026-10-09 19:36 - Approved57keyboard-first/answer-size increment. Canonical guide and public
+  navigation/tracking authored against current source; integrated fixture/images/citations/book
+  still pending. Core whitelist corrected to A-Z except E/F1-F11, with F12 rejected.
+- 2026-10-09 20:28 -57Core297and earlier synthetic lifecycle/selection/clarification/device checks
+  reported passing; subsequent compact-font layout fix still awaits rerun. Canonical guide now
+  explains temporary panel visibility versus explicit Q/A close/cancel. Overall status unchanged.
+- 2026-10-09 20:32 -57first integrated202234pass:33keyboard plus old UI,297Core,18docs-tool tests;
+  23WPF/10READMEimages imported. Subsequent config exception correction/rerun and full book/atlas
+  remain parent-owned; no citation migration applied by the authored-doc writer.
+- 2026-10-09 20:36 -57runtime freeze/final exporter passed all UI including new config/async Edit/
+  compact/passive-font checks;23WPF/10READMEimages current. Writer releases final public prose and
+  refreshed new-file citations; parent owns one-shot preexisting-source migration and atlas/book.
+- 2026-10-09 -57DONE: final38keyboard assertions, maintained images/source explanations, reviewed
+  one-shot citations and full atlas/book handoff complete. Try the updated source; no new ZIP.
+- 2026-10-09 21:52 - Added58for owner-authorized unattended installer/prerelease and documentation.
+  Native launcher, per-user runtime, guarded update/uninstall and retained-data contract in progress.
+  Planned release is private, unsigned and unqualified; initial public guide/book registration and
+  TODO/ledger authored without claiming a completed build, installation or publication.
+- 2026-10-09 23:00 -58runtime/launcher component freezes recorded:46launcher and70runtime tests,
+  offline imports/dependency/model hashes, exact runtime inventory and spaces+Unicode relocation.
+  Final runtime stage is ready for installer assembly. Source references refreshed; no service,
+  inference, clean-VM or full-Setup result inferred. Lifecycle/editions/private publication pending.
+- 2026-10-09 23:25 -58latestnative50/runtime72component checkpoints recorded, including partial-state
+  maintenance and recovery-stage supersession. Source hashes/citations checked; fullinstaller/VM/
+  inference notclaimed. Parent owns finalrecipe/migration/editions/private prerelease handoff.
+- 2026-10-09 23:40 -58BLOCKED: runtime owner reports successful synthetic inference followed by
+  child exit hang at120/240seconds. Both stages held; clean-exit replacement required before shipping.
+  Launcher installer gate/refreeze pending. Earlier50/72checkpoints remain historical, not approval.
+- 2026-10-09 23:54 - Launcher gate production source frozen;51targetedtests/publishPASS reported.
+  Sourcechecked, authoredbehavior/diagram/citationsrefreshed; exactselftest/atlas/handoffpending.
+  58remainsBLOCKEDbyruntimeexit; neitherheldstage approvedforshipping.
+- 2026-10-10 00:05 - Launcher finalreceiptsverified:51tests/publishreported; exactselftestexit0/all9,
+  EXE/DLLhashes and14sourcehashes/1768lines/56blocks match. FullSetuplifetime/lifecyclepending;
+  runtimeprocess-exitBLOCKERandDO NOT SHIPbothstages unchanged.
+- 2026-10-10 00:09 - ActualInno gateimplemented/fullisolatedlifecycleRUNNING, receiptpending;
+  packagedUI priorgroups/38keyboardPASS/noaudio verified. Runtimeexit+VoskUnicode blockers unresolved;
+  realUnicodeHybridFactory+naturalexit required. Finalcheckfound4newnative source/atlas mismatches;
+  ownernotified/newfreeze+verification+citationspending. Authoredownershipreleased.
+- 2026-10-10 00:37 -58IN_PROGRESS: final55native/10selfcheck and78runtimefocused/realUnicodehybrid/
+  naturalexit handoffs read; earlierRuyblockers resolved in oneDNNdelivery only. Parentold-runtime
+  lifecycle2PASS11checks/3670files doesnotqualifyfinalcandidate. Setupneverlaunches; guardedpending
+  UI documented. Finalpayload/review/editions/publication remainparent-owned; no newexecution bywriter.
+- 2026-10-10 00:55 - Parent candidate2 full Build-Installer PASS with current runtime/native and
+  mandatory realPCM/cleanexit. Inspected lifecycle3 result:11checks/3682files PASS, currenthost/
+  randomAppId/no-shortcuts/simulatedversion only. Scoped Unicode/startup/backend review reports no
+  significantissues, not independent PCM. Current authored prose updated; clean committed release
+  build/provenance/editions/publication pending. Runtime-atlas owner has runtimeannotations;
+  parent retains domain/packaging/book annotations and migration. No writer execution or new counts awaited.
+- 2026-10-10 01:03 - Stronger runtime PE/DLL-path gate implemented/frozen;92speechPE/5actualCRTpaths
+  and separate861App/LauncherPEstaticclosure PASS parent-reported, notcleanVM. Refreshed new-source
+  citations; lifecycle3 unchanged. Final clean committed build/provenance/editions/publication pending.
+- 2026-10-10 01:11 - Parent85Python/55native PASS supersedes78runtime count. DLL-qualified runtime
+  rebuild/PE/load-path/realPCM/Unicode/exit gates passed; lifecycle3 11/3682 and861App/Launcher static
+  pass retained. Current docs updated; final clean assetbuild/privatepublication remain pending.

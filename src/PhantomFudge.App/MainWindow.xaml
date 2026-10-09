@@ -7,7 +7,7 @@
         Background="Transparent" Foreground="{DynamicResource ThemeText}" Topmost="True"
         ShowActivated="False" Cursor="Arrow" ForceCursor="True"
         WindowStartupLocation="Manual" PreviewKeyDown="Window_PreviewKeyDown"
-        SizeChanged="Workspace_SizeChanged" Closing="Window_Closing" Closed="Window_Closed">
+        SizeChanged="Workspace_SizeChanged" Deactivated="KeyboardWindow_Deactivated" Closing="Window_Closing" Closed="Window_Closed">
     <Window.Resources>
         <Style x:Key="AudioDeviceCard" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
             <Setter Property="Width" Value="180" />
@@ -37,6 +37,9 @@
                                 <Setter TargetName="DeviceCardFace" Property="Background" Value="{DynamicResource ThemeHover}" />
                             </Trigger>
                             <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="DeviceCardFace" Property="BorderBrush" Value="{DynamicResource ThemeHeading}" />
+                            </Trigger>
+                            <Trigger Property="Tag" Value="KeyboardCursor">
                                 <Setter TargetName="DeviceCardFace" Property="BorderBrush" Value="{DynamicResource ThemeHeading}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
@@ -89,6 +92,9 @@
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeAccent}" />
                             </Trigger>
+                            <Trigger Property="Tag" Value="KeyboardCursor">
+                                <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeHeading}" />
+                            </Trigger>
                             <Trigger Property="IsKeyboardFocused" Value="True">
                                 <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeHeading}" />
                             </Trigger>
@@ -133,6 +139,8 @@
                             shell:WindowChrome.IsHitTestVisibleInChrome="True">
                     <Button x:Name="DiagnosticsButton" Content="Diagnostics" Click="Diagnostics_Click"
                             AutomationProperties.Name="Open local diagnostic log folder" />
+                    <Button x:Name="KeyboardToggleButton" Content="Keys" Click="KeyboardToggle_Click"
+                            AutomationProperties.Name="Enter keyboard control with Control Alt K" />
                     <Button x:Name="ModeButton" Content="Edit" Click="Mode_Click"
                             AutomationProperties.Name="Switch editing or presentation mode" />
                     <Button Content="Hide" Click="Hide_Click" AutomationProperties.Name="Hide window" />
@@ -140,6 +148,7 @@
                 </StackPanel>
             </Grid>
             <Border Grid.Row="1" Background="{DynamicResource ThemeSurface}" Padding="8,3">
+                <StackPanel>
                 <WrapPanel>
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="ThemeToggleButton" Click="ThemeToggle_Click">
@@ -164,6 +173,24 @@
                                    VerticalAlignment="Center" FontSize="11" Width="36" />
                     </StackPanel>
                 </WrapPanel>
+                <Border x:Name="KeyboardBar" Visibility="Collapsed" BorderBrush="{DynamicResource ThemeAccent}"
+                        BorderThickness="1" Padding="5" Margin="2,3,2,1">
+                    <Grid>
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                        <Border x:Name="KeyboardFocusSink" Focusable="True" Padding="3" Margin="0,0,8,0"
+                                AutomationProperties.Name="Keyboard control command focus">
+                            <TextBlock x:Name="KeyboardModeLabel" Text="CONTROL" FontWeight="SemiBold" FontSize="11"
+                                       Foreground="{DynamicResource ThemeHeading}" />
+                        </Border>
+                        <TextBlock x:Name="KeyboardHints" Grid.Column="1" FontSize="11" TextWrapping="Wrap"
+                                   VerticalAlignment="Center" Foreground="{DynamicResource ThemeText}" />
+                        <TextBox x:Name="KeyboardPrompt" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Collapsed"
+                                 MaxLength="128" Padding="4" FontSize="13" Margin="0,3,0,0" TextChanged="KeyboardPrompt_TextChanged"
+                                 AutomationProperties.Name="Built-in command or local transcript search; Enter confirms" />
+                    </Grid>
+                </Border>
+                </StackPanel>
             </Border>
             <Border x:Name="ConfirmPanel" Grid.Row="2" Margin="10,4" Visibility="Collapsed"
                     Background="{DynamicResource ThemeSurface}" BorderBrush="{DynamicResource ThemeWarning}"
@@ -483,6 +510,15 @@
                                                Foreground="{DynamicResource ThemeHeading}" />
                                     <Button x:Name="AnswerCancelButton" Content="Cancel answer" Click="AnswerCancel_Click" />
                                     <Button x:Name="AnswerCopyButton" Content="Copy answer" Click="AnswerCopy_Click" />
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="6,0,0,0">
+                                        <TextBlock Text="Size" FontSize="11" VerticalAlignment="Center" />
+                                        <Slider x:Name="AnswerFontSlider" Minimum="8" Maximum="24" Value="10"
+                                                Width="86" Margin="5,0" TickFrequency="1" SmallChange="1" LargeChange="2"
+                                                IsSnapToTickEnabled="True" ValueChanged="AnswerFontSlider_ValueChanged"
+                                                AutomationProperties.Name="Answer and interpretation font size" />
+                                        <TextBlock Width="22" FontSize="11" VerticalAlignment="Center"
+                                                   Text="{Binding Value, ElementName=AnswerFontSlider, StringFormat={}{0:0}}" />
+                                    </StackPanel>
                                 </WrapPanel>
                                 <TextBox x:Name="AnswerText" Grid.Row="1" IsReadOnly="True" Focusable="False"
                                          TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"

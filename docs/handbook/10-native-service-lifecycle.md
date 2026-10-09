@@ -1,6 +1,6 @@
 ---
 title: "10. Native service lifecycle: readiness without accidental capture"
-description: "Trace verified hybrid provisioning, current-user credentials, UUID ownership, fingerprint-aware idle upgrades, diagnostic status, and authenticated shutdown."
+description: "Trace installed startup handoff, explicit capture, verified hybrid provisioning, owned idle upgrades and authenticated shutdown."
 outline: deep
 ---
 
@@ -8,11 +8,98 @@ outline: deep
 
 ## Why process ownership is a protocol problem
 
-“Something is listening on port 8765” is insufficient evidence that Phantom Fudge may reuse or stop it. The listener could belong to another checkout, lack the installed client's speech version, run the wrong recognition configuration, or be transcribing an active session. `manage.py` treats a local service as owned only after combining a workspace receipt, authenticated runtime response, expected service identity, management version, and matching instance UUID. It does not convert a discovered PID into permission to terminate a process. (`services\transcription\manage.py:95-124`, `read_record`, `owned_info`; `services\transcription\manage.py:145-159`, `stop_owned`.)
+“Something is listening on port 8765” is insufficient evidence that Phantom Fudge may reuse or stop it. The listener could belong to another checkout, lack the installed client's speech version, run the wrong recognition configuration, or be transcribing an active session. `manage.py` treats a local service as owned only after combining a workspace receipt, authenticated runtime response, expected service identity, management version, and matching instance UUID. It does not convert a discovered PID into permission to terminate a process. (`services\transcription\manage.py:94-165`, `read_record`, `owned_info`; `services\transcription\manage.py:186-200`, `stop_owned`.)
 
-The second boundary is **ready service versus recording application**. Initialization provisions dependencies and weights. Start makes an idle recognizer service available. The application still requires explicit Start before endpoint acquisition, and transport readiness precedes native capture. Keeping these operations distinct makes a launcher convenient without turning it into an automatic recorder. (`scripts\Initialize-Transcription.ps1:119-165`, Python setup; `scripts\Start-Transcription.ps1:8-15`, native start; `src\PhantomFudge.App\MainWindow.xaml.cs:637-685`, `Start_Click`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:102-115`, `StartCoreAsync`.)
+The second boundary is **ready service versus recording application**. Initialization provisions dependencies and weights. Start makes an idle recognizer service available. The application still requires explicit Start before endpoint acquisition, and transport readiness precedes native capture. Keeping these operations distinct makes a launcher convenient without turning it into an automatic recorder. (`scripts\Initialize-Transcription.ps1:119-165`, Python setup; `scripts\Start-Transcription.ps1:8-15`, native start; `src\PhantomFudge.App\MainWindow.xaml.cs:652-700`, `Start_Click`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:102-115`, `StartCoreAsync`.)
 
-## The reader's journey: provision, launch, select, stop
+## Installed preview: a different entry point, the same capture boundary
+
+The planned v0.2.0-preview.1 Windows11 x64 installer replaces end-user PowerShell/Python setup
+with a native Start-menu launcher and a bundled runtime/model payload. Candidate2 built and
+lifecycle3 passed bounded current-host checks; the clean committed release build and publication
+remain **pending**. Follow
+[Installation](../INSTALLATION.md) for the short procedure and
+[implementation status](../IMPLEMENTATION-STATUS.md) for evidence.
+(scripts/Build-Installer.ps1:30-44)
+(tools/Installer/PhantomFudge.iss:23-30,62-76)
+
+`Program.Main` first refuses normal/notes-only launch when the installer-maintenance gate is
+present, before revealing an existing same-user app or touching files/service state. Fresh launch
+rechecks the gate after acquiring its startup mutex; detection exits70 through generic status,
+without creating WPF UI or child processes. Maintenance and validation bypass this gate so Setup
+can still perform its own checks. A fresh normal launch starts the manager through the installed Python interpreter,
+with fixed arguments and offline environment values, then opens the app. `--notes-only` skips
+speech preparation; it neither shuts down a separate service nor disables providers.
+Installed mutable runtime data belongs to
+`%LOCALAPPDATA%\PhantomFudge\InstalledRuntime\.local`, outside the replaceable program tree.
+(src/PhantomFudge.Launcher/Program.cs:25-78,127-213)
+(src/PhantomFudge.Launcher/LauncherContract.cs:152-165)
+(src/PhantomFudge.Launcher/LauncherStatus.cs:15,34)
+(src/PhantomFudge.Launcher/ChildProcesses.cs:48-105)
+(src/PhantomFudge.Launcher/LauncherContract.cs:56-84)
+
+Setup never starts the app: finish and close it, then launch from Start. Setup/launcher progress
+and errors are ordinary visible UI, not covered by the notes HWND's capture-exclusion request.
+Launch before sharing. Once the app child starts, the launcher keeps its operation mutex until
+the main-instance mutex appears or that child is proven exited. After30seconds, status76 means
+**pending**, not success; Close hides progress while monitoring continues, including a guard
+retained through early dispatcher shutdown. This prevents maintenance from replacing an
+initializing app merely because a timer elapsed.
+(tools/Installer/PhantomFudge.iss:14-76)
+(src/PhantomFudge.Launcher/LauncherWindow.cs:18-57)
+(src/PhantomFudge.Launcher/ChildProcesses.cs:12-42)
+(src/PhantomFudge.Launcher/Program.cs:108-118,186-227)
+
+Maintenance refuses an open app or concurrent launcher operation, takes the shared runtime lock
+and uses authenticated loopback shutdown only after matching the installed ownership receipt.
+It does not require a Python `maintenance` verb or working old Python binaries. Update/repair uses
+a fresh helper directory extracted from Setup so damaged old launcher files do not prevent repair;
+the explicit-root native path requires the installation marker but not a healthy compact manifest.
+Uninstall invokes
+the installed launcher. Neither path may stop another
+source workspace's listener. The installer keeps external settings/diagnostics and saved
+notes/exports for reinstall; it is not a data wipe. Candidate2's lifecycle3 receipt passes 11 checks
+against 3,682 inventoried files, including repair/uninstall and retained external data. This
+random-AppId/path fixture omits shortcuts and does not start the app or speech service; its
+simulated older-version record is not a genuine old-binary upgrade or clean-VM test.
+(src/PhantomFudge.Launcher/Program.cs:50-58,94-100)
+(src/PhantomFudge.Launcher/LauncherContract.cs:87-105)
+(src/PhantomFudge.Launcher/MaintenanceOperation.cs:48-118)
+(src/PhantomFudge.Launcher/OwnedServiceClient.cs:20-58)
+(tools/Installer/PhantomFudge.iss:143-161)
+(scripts/Test-Installer.ps1:15-18,31-84,96-104)
+
+Partial ownership does not authorize shutdown. A retained token alone permits only a credential-free
+port-presence check; a receipt without its token refuses. No token and no receipt is the untouched
+case and does not probe another workspace's listener. See the
+[installed reference](19-api-configuration-reference.md#installed-launcher-reference) for the exact cases.
+(src/PhantomFudge.Launcher/MaintenanceOperation.cs:52-75,121-134)
+
+The installed model contract keeps explicit provisioning in the mutable user's
+`.local\models` directory. An existing pinned-name user model takes precedence over the bundled
+weights and must pass the same manifest verification; only absence selects the bundled path.
+This prevents update/uninstall from overwriting deliberate user model data. Targeted path tests
+cover precedence and user-only provisioning without inference.
+(tools/Installer/runtime-contract.json:7-12,20-22)
+(services/transcription/tests/test_installed_runtime.py:74-91)
+
+Normal startup also recovers confirmed stale ownership after reboot or PID reuse; it is not a
+manual-repair-only path. The child PID is persisted before querying its creation time, so an
+inspection failure cannot discard the known PID. A PID-only record can later be cleared only
+after proving that process absent; live/ambiguous initializers remain protected. Regression tests
+call the actual manager start path with mocked process/port observations, not a real reboot or
+speech service.
+(services/transcription/tests/test_installed_runtime.py:98-198)
+
+The parent confirms85 focused runtime tests, superseding78; the final offline rebuild passes real generated-PCM hybrid inference,
+including production VAD, a forced Whisper encoder/decoder pass and natural exit after Unicode
+relocation. Vosk remains unmodified; `VoskFactory` uses a locked, temporary working-directory
+adapter for Windows non-ASCII model paths. These checks resolve the earlier runtime blockers,
+not captured-speech quality, clean-VM or new-backend performance qualification.
+(services/transcription/recognizer.py:47-77)
+(services/transcription/tests/test_packaged_pcm_runtime.py:35-97,126-138)
+
+## Source/legacy journey: provision, launch, select, stop
 
 | Entry point | Supported switches | What it changes |
 | --- | --- | --- |
@@ -22,7 +109,7 @@ The second boundary is **ready service versus recording application**. Initializ
 | `Stop-Transcription.ps1` | `-Docker` | Default: authenticated native manager stop; optional Docker branch is separate. |
 | `manage.py` | `start`, `stop`, `status` | Serialized native runtime lifecycle and status inspection. |
 
-These are source-supported interfaces, not commands executed while writing this chapter. (`scripts\Initialize-Transcription.ps1:1-11`, parameters; `scripts\Start-Transcription.ps1:1-15`, native branch; `scripts\Run-PhantomFudge.ps1:1-55`, launcher; `scripts\Stop-Transcription.ps1:1-22`, stop branches; `services\transcription\manage.py:255-268`, `main`.)
+These are source-supported interfaces, not commands executed while writing this chapter. (`scripts\Initialize-Transcription.ps1:1-11`, parameters; `scripts\Start-Transcription.ps1:1-15`, native branch; `scripts\Run-PhantomFudge.ps1:1-55`, launcher; `scripts\Stop-Transcription.ps1:1-22`, stop branches; `services\transcription\manage.py:301-314`, `main`.)
 
 ```mermaid
 ---
@@ -64,27 +151,27 @@ flowchart TB
     linkStyle default stroke:#8b949e
 ```
 
-The diagram's shutdown edge is deliberate: managed shutdown rejects an active speech session. Service readiness can also be reused without traversing provisioning again. (`services\transcription\server.py:247-260`, `managed_shutdown`; `services\transcription\manage.py:162-179`, `start`.)
+The diagram's shutdown edge is deliberate: managed shutdown rejects an active speech session. Service readiness can also be reused without traversing provisioning again. (`services\transcription\server.py:247-260`, `managed_shutdown`; `services\transcription\manage.py:203-220`, `start`.)
 
 ## Provisioning without hidden repair
 
 Initialization creates a token only if one is absent, using 32 cryptographically random bytes rendered as lowercase hexadecimal. That is 256 generated bits represented by 64 ASCII characters—not a hard-coded credential. Exclusive file creation prevents an existing token from being overwritten through this path. On Windows, the script replaces the token file's DACL with a current-user full-control rule and disables inherited permissions, without changing ownership/audit sections that could require elevation. (`scripts\Initialize-Transcription.ps1:42-76`, token generation and ACL setup.)
 
-Existing token content must match the accepted 32–512-character URL-safe pattern. The setup script does not silently rotate invalid credentials; it requests explicit repair. The manager reads and validates the token, while the server prefers the configured token file over an environment token. These are source-defined storage operations; this chapter neither reads nor cites a user's generated token. (`scripts\Initialize-Transcription.ps1:74-76`, validation; `services\transcription\manage.py:35-42`, `token`; `services\transcription\server.py:75-85`, `load_token`.)
+Existing token content must match the accepted 32–512-character URL-safe pattern. The setup script does not silently rotate invalid credentials; it requests explicit repair. The manager reads and validates the token, while the server prefers the configured token file over an environment token. These are source-defined storage operations; this chapter neither reads nor cites a user's generated token. (`scripts\Initialize-Transcription.ps1:74-76`, validation; `services\transcription\manage.py:34-41`, `token`; `services\transcription\server.py:75-85`, `load_token`.)
 
-Model provisioning is similarly explicit. The provisional Vosk manifest specifies a 41,205,931-byte English archive and observed SHA-256 identity. Setup checks byte count and checksum before extraction, rejects unexpected extracted content, and refuses to overwrite a failed existing model directory. Runtime performs its own manifest verification; a setup receipt is not a substitute for checking the bytes currently present. That archive size does not describe the additional Whisper weights. (`services\transcription\model.json:2-10`, model metadata; `scripts\Initialize-Transcription.ps1:26-39`, `Test-Model`; `scripts\Initialize-Transcription.ps1:78-118`, archive/receipt path; `services\transcription\recognizer.py:22-43`, `verify_model`, `VoskFactory`.)
+Model provisioning is similarly explicit. The provisional Vosk manifest specifies a 41,205,931-byte English archive and observed SHA-256 identity. Setup checks byte count and checksum before extraction, rejects unexpected extracted content, and refuses to overwrite a failed existing model directory. Runtime performs its own manifest verification; a setup receipt is not a substitute for checking the bytes currently present. That archive size does not describe the additional Whisper weights. (`services\transcription\model.json:2-10`, model metadata; `scripts\Initialize-Transcription.ps1:26-39`, `Test-Model`; `scripts\Initialize-Transcription.ps1:78-118`, archive/receipt path; `services\transcription\recognizer.py:25-46`, `verify_model`, `VoskFactory`.)
 
-Hybrid adds a separately pinned Whisper model. `provision_whisper` accepts `small.en` or `base.en`, verifies the exact file set, lengths, hashes, and nonsymlink paths, and can reuse a verified benchmark cache. Missing bytes are downloaded only with explicit `--download`; invalid existing files cause a repair error. Exclusive `.partial` creation and verification precede replacement, and cleanup removes only a partial created by that invocation. This is explicit setup, not background request-time repair. (`services\transcription\provision_whisper.py:15-35`, manifest/verification; `services\transcription\provision_whisper.py:38-98`, `provision`, CLI.)
+Hybrid adds a separately pinned Whisper model. `provision_whisper` accepts `small.en` or `base.en`, verifies the exact file set, lengths, hashes, and nonsymlink paths, and can reuse a verified benchmark cache. Missing bytes are downloaded only with explicit `--download`; invalid existing files cause a repair error. Exclusive `.partial` creation and verification precede replacement, and cleanup removes only a partial created by that invocation. This is explicit setup, not background request-time repair. (`services\transcription\provision_whisper.py:19-44`, manifest/verification; `services\transcription\provision_whisper.py:47-107`, `provision`, CLI.)
 
 Python setup creates a virtual environment if necessary, hashes the maintained requirements file, and decides whether restore is needed from that receipt and an import check. Restore runs pinned installation followed by `pip check`; successful setup does not itself start the service. A requirements hash receipt is a restore optimization, not a claim that every installed wheel is cryptographically attested on each launch. (`scripts\Initialize-Transcription.ps1:119-165`, environment provisioning; `services\transcription\requirements.txt:1-20`, dependency pins.)
 
 ## Serializing the launcher without trusting process names
 
-`lifecycle_lock` is Windows-specific. It opens a workspace lock file, ensures at least one byte exists, and repeatedly attempts a nonblocking `msvcrt` lock on that byte. The acquisition deadline is 50 seconds with 100 ms polling. Start, Stop, and Status share this lock, so competing manager invocations cannot simultaneously rewrite the ownership receipt. This serializes cooperating managers for the workspace; it is not an operating-system-wide monopoly on the port. (`services\transcription\manage.py:67-92`, `lifecycle_lock`; `services\transcription\manage.py:162-166`, `start`; `services\transcription\manage.py:230-249`, `stop`, `status`.)
+`lifecycle_lock` is Windows-specific. It opens a workspace lock file, ensures at least one byte exists, and repeatedly attempts a nonblocking `msvcrt` lock on that byte. The acquisition deadline is 50 seconds with 100 ms polling. Start, Stop, and Status share this lock, so competing manager invocations cannot simultaneously rewrite the ownership receipt. This serializes cooperating managers for the workspace; it is not an operating-system-wide monopoly on the port. (`services\transcription\manage.py:66-91`, `lifecycle_lock`; `services\transcription\manage.py:203-207`, `start`; `services\transcription\manage.py:276-295`, `stop`, `status`.)
 
-The receipt contains schema version 1, an instance UUID in canonical hexadecimal form, and a PID field. `write_record` writes a temporary sibling and replaces the receipt. `owned_info` authenticates the listener and compares service name, management version 1, and instance UUID. Crucially, it does **not** use the receipt PID as ownership proof or a kill target: process IDs can be reused, whereas the authenticated instance value participates in the shutdown contract. (`services\transcription\manage.py:95-124`, receipt/ownership methods; `services\transcription\manage.py:185-187`, initial receipt; `services\transcription\manage.py:214-216`, PID update.)
+The receipt contains schema version 1, an instance UUID in canonical hexadecimal form, and a PID field. `write_record` writes a temporary sibling and replaces the receipt. `owned_info` authenticates the listener and compares service name, management version 1, and instance UUID. Crucially, it does **not** use the receipt PID as ownership proof or a kill target: process IDs can be reused, whereas the authenticated instance value participates in the shutdown contract. (`services\transcription\manage.py:94-165`, receipt/ownership methods; `services\transcription\manage.py:226-228`, initial receipt; `services\transcription\manage.py:259-262`, PID update.)
 
-Management requests use literal `http://127.0.0.1:8765`, a two-second timeout, no proxy, and a redirect handler that fails rather than forwarding credentials. Reading 4,097 bytes detects whether a response exceeds the 4,096-byte allowed payload. Parsing also requires a JSON object. These are bounded control-plane responses, not transcript downloads. (`services\transcription\manage.py:23-32`, base URL and `NoRedirects`; `services\transcription\manage.py:45-58`, `request`.)
+Management requests use literal `http://127.0.0.1:8765`, a two-second timeout, no proxy, and a redirect handler that fails rather than forwarding credentials. Reading 4,097 bytes detects whether a response exceeds the 4,096-byte allowed payload. Parsing also requires a JSON object. These are bounded control-plane responses, not transcript downloads. (`services\transcription\manage.py:22-31`, base URL and `NoRedirects`; `services\transcription\manage.py:44-57`, `request`.)
 
 ## Fingerprint-aware reuse and verified idle replacement
 
@@ -98,9 +185,9 @@ Management requests use literal `http://127.0.0.1:8765`, a two-second timeout, n
 | Owned, ready, stale capability/fingerprint, active or ambiguous | Refuse restart; ask the user to stop transcription. |
 | Owned idle stale instance, replacement model missing/invalid | Leave the existing service running; require explicit provisioning, never legacy fallback. |
 
-Ownership, speech capability, and engine identity are separate tests. `supports_current_audio` looks for integer `2`, while `supports_current_engine` compares `configFingerprint`. Management `protocolVersion: 1` remains current. Requiring `active is False` is stricter than accepting a missing or false-like field; `validate_start` checks both model families and the hybrid dependency before taking a healthy old idle instance down. (`services\transcription\manage.py:114-179`, ownership/capability/start chain; `services\transcription\server.py:218-244`, `runtime_info`; `services\transcription\configuration.py:61-70`, `verify_config`.)
+Ownership, speech capability, and engine identity are separate tests. `supports_current_audio` looks for integer `2`, while `supports_current_engine` compares `configFingerprint`. Management `protocolVersion: 1` remains current. Requiring `active is False` is stricter than accepting a missing or false-like field; `validate_start` checks both model families and the hybrid dependency before taking a healthy old idle instance down. (`services\transcription\manage.py:155-220`, ownership/capability/start chain; `services\transcription\server.py:218-244`, `runtime_info`; `services\transcription\configuration.py:60-69`, `verify_config`.)
 
-The fingerprint is more than the string `small.en`. `metadata` includes pipeline version, engine, pinned model revision, compute type, thread count, vocabulary identity, and a digest of its named runtime/dependency/manifest files. Technical vocabulary contributes its own digest. Sorted compact JSON makes the identity deterministic. Thus a ready v2 Vosk listener can still be stale, as can a hybrid listener with old code or vocabulary. This is not an attestation of every checkout file or installed wheel. (`services\transcription\configuration.py:39-58`, `metadata`.)
+The fingerprint is more than the string `small.en`. `metadata` includes pipeline version, engine, pinned model revision, compute type, thread count, vocabulary identity, and a digest of its named runtime/dependency/manifest files. Technical vocabulary contributes its own digest. Sorted compact JSON makes the identity deterministic. Thus a ready v2 Vosk listener can still be stale, as can a hybrid listener with old code or vocabulary. This is not an attestation of every checkout file or installed wheel. (`services\transcription\configuration.py:38-57`, `metadata`.)
 
 The following JavaScript-shaped pseudocode translates the manager's Python decisions:
 
@@ -117,7 +204,10 @@ function startNative() {
       if (info.active !== false) throw new StopCaptureFirst();
       verifyModelsAndDependency(config); // Before touching the old service.
       shutdownOwnedAndWaitForPort(credential, receipt);
-    } else if (receipt !== null) throw new UnreachableOwnedInstance();
+    } else if (receipt !== null) {
+      clearOnlyConfirmedDeadOrRecycledProcessReceipt();
+      // Live, uninspectable or incomplete ownership still refuses.
+    }
     verifyModelsAndDependency(config);
     const instance = newUuidHex();
     writeReceiptBeforeSpawn(instance);
@@ -127,11 +217,11 @@ function startNative() {
 }
 ```
 
-The real manager keeps its receipt after a slow or failed startup instead of claiming success or killing a process by name. This favors conservative refusal over an aggressive “self-healing” action with uncertain ownership. (`services\transcription\manage.py:183-227`, `start`.)
+The real manager keeps its receipt after a slow or failed startup instead of claiming success or killing a process by name. On a later operation with no listener, it may remove a receipt only after process inspection establishes that the recorded process is dead or its PID has been reused. Live or uncertain ownership still refuses. (`services\transcription\manage.py:224-273`, `start`.)
 
 ## The cold-start chain
 
-After verifying the selected configuration's models and dependency, `start` generates a fresh instance UUID and writes the receipt before spawning. An existing receipt with no reachable service instead causes refusal: it is not permission to overwrite ownership evidence and launch a second process. The service uses the current Python interpreter, detached process/new process group, no stdin, closed inherited descriptors, and a generic local log. The manager polls for up to 45 seconds; readiness requires authenticated instance identity, speech v2, and the selected fingerprint, not merely a listening socket. (`services\transcription\manage.py:183-227`, `start`; `services\transcription\configuration.py:61-70`, model verification.)
+After verifying the selected configuration's models and dependency, `start` generates a fresh instance UUID and writes the receipt before spawning. An existing receipt with no reachable service requires process-identity inspection: confirmed death or PID reuse permits cleanup, while a live/unknown instance or insufficient ownership data refuses a second startup. The service uses the current Python interpreter, detached process/new process group, no stdin, closed inherited descriptors, and a generic local log. The manager polls for up to 45 seconds; readiness requires authenticated instance identity, speech v2, and the selected fingerprint, not merely a listening socket. (`services\transcription\manage.py:224-273`, `start`; `services\transcription\configuration.py:60-69`, model verification.)
 
 ```mermaid
 ---
@@ -179,28 +269,29 @@ sequenceDiagram
 | `PHANTOM_TRANSCRIPTION_INSTANCE` | Managed service instance UUID; enables matching-instance shutdown. |
 | `PHANTOM_TRANSCRIPTION_URI` | Launcher supplies the app's literal-loopback speech URI. |
 | `OPENBLAS_NUM_THREADS`, `OMP_NUM_THREADS` | Manager sets both to `1`. |
-| `PHANTOM_TRANSCRIPTION_WORKSPACE` | Configuration/model root override; not a replacement for authenticated native receipt ownership. |
+| `PHANTOM_TRANSCRIPTION_WORKSPACE` | Mutable configuration/receipt workspace override; not a replacement for authenticated native receipt ownership. |
+| `PHANTOM_TRANSCRIPTION_MODELS_ROOT` | Separate installed model root; avoids storing shipped weights inside mutable user data. |
 | `PHANTOM_TRANSCRIPTION_ENGINE` | Explicit engine override, validated as `hybrid-whisper` or `vosk`. |
 | `.local\transcription-config.json` | Schema 1; defaults: hybrid-whisper, small.en, four threads, technical vocabulary. |
 | Offline model flags | Manager sets Hub/Transformers offline mode and disables Hub telemetry/implicit token use. |
 
-The server binds port 8765; there is no production port environment setting in `main`. Config permits integer thread counts 1–8, model `small.en`/`base.en`, and vocabulary `technical`/`none`; initialization writes four threads rather than exposing a thread-count switch. Unknown config keys fail. The local file path describes the interface, not a file inspected or copied into this chapter. Token values are omitted. (`services\transcription\server.py:75-85`, `load_token`; `services\transcription\server.py:695-712`, `main`; `services\transcription\manage.py:188-201`, environment; `scripts\Run-PhantomFudge.ps1:43-55`, app environment; `services\transcription\configuration.py:11-36`, validated configuration.)
+The server binds port 8765; there is no production port environment setting in `main`. Config permits integer thread counts 1–8, model `small.en`/`base.en`, and vocabulary `technical`/`none`; initialization writes four threads rather than exposing a thread-count switch. Unknown config keys fail. The local file path describes the interface, not a file inspected or copied into this chapter. Token values are omitted. (`services\transcription\server.py:75-85`, `load_token`; `services\transcription\server.py:695-712`, `main`; `services\transcription\manage.py:229-242`, environment; `scripts\Run-PhantomFudge.ps1:43-55`, app environment; `services\transcription\configuration.py:8-35`, validated configuration.)
 
 Runtime status also distinguishes recognition readiness from diagnostic availability. Metadata-only JSONL rotates at 1 MiB plus three backups and contains allowlisted events/counters, never speech text or audio. A write failure sets logging unavailable rather than claiming successful persistence; the generic startup log is a different artifact. The schema is explained by the public [service README](../../services/transcription/README.md), not by copying any generated log. (`services\transcription\diagnostics.py:12-43`, schema/failure state; `services\transcription\diagnostics.py:45-77`, `emit`.)
 
 ## Shutdown: authority and idleness are rechecked
 
-The manager first requires explicit idle state, then posts `/v1/shutdown` with Bearer authentication and `X-Phantom-Instance`. The server independently rejects browser origins, bad auth, queries/bodies, missing management ownership, mismatched UUIDs, and active transcription. That second active check closes the gap between the manager's earlier runtime query and the actual shutdown request. (`services\transcription\manage.py:145-153`, `stop_owned`; `services\transcription\server.py:247-257`, `managed_shutdown`.)
+The manager first requires explicit idle state, then posts `/v1/shutdown` with Bearer authentication and `X-Phantom-Instance`. The server independently rejects browser origins, bad auth, queries/bodies, missing management ownership, mismatched UUIDs, and active transcription. That second active check closes the gap between the manager's earlier runtime query and the actual shutdown request. (`services\transcription\manage.py:186-194`, `stop_owned`; `services\transcription\server.py:247-257`, `managed_shutdown`.)
 
-On acceptance, the server marks itself stopping immediately, schedules managed exit after 0.2 seconds, and responds `{"status":"stopping"}`. The manager then waits up to 12 seconds for the port to become unused, removing the receipt only after that observation. If the port remains occupied, the receipt remains and the operation fails. No arbitrary OS termination is used as a timeout fallback. (`services\transcription\server.py:258-260`, `managed_shutdown`; `services\transcription\manage.py:152-159`, `stop_owned`.)
+On acceptance, the server marks itself stopping immediately, schedules managed exit after 0.2 seconds, and responds `{"status":"stopping"}`. The manager then waits up to 12 seconds for the port to become unused, removing the receipt only after that observation. If the port remains occupied, the receipt remains and the operation fails. No arbitrary OS termination is used as a timeout fallback. (`services\transcription\server.py:258-260`, `managed_shutdown`; `services\transcription\manage.py:193-200`, `stop_owned`.)
 
-The timeouts are per phase, not one promised shutdown duration: management HTTP has a two-second timeout, listener disappearance has a twelve-second polling budget, and lock acquisition has its own fifty-second budget. Likewise, a receipt with no reachable listener is not silently erased by `stop`; the manager refuses to infer which process, if any, still owns outstanding startup work. (`services\transcription\manage.py:51-52`, `request`; `services\transcription\manage.py:78-87`, lock wait; `services\transcription\manage.py:154-159`, listener wait; `services\transcription\manage.py:230-241`, `stop`.)
+The timeouts are per phase, not one promised shutdown duration: management HTTP has a two-second timeout, listener disappearance has a twelve-second polling budget, and lock acquisition has its own fifty-second budget. A receipt with no reachable listener is not erased merely because the port is closed: `stop` requires evidence of a dead or recycled recorded process before cleanup, and preserves live/unknown ownership. (`services\transcription\manage.py:50-51`, `request`; `services\transcription\manage.py:77-86`, lock wait; `services\transcription\manage.py:195-200`, listener wait; `services\transcription\manage.py:276-287`, `stop`.)
 
 ## Application launch and deployment tradeoffs
 
 `Run-PhantomFudge.ps1` first recognizes an existing app at the expected executable path and requests reveal without building or restarting the service. Otherwise it builds a source checkout unless `-NoBuild`, skips build for a packaged executable, optionally starts the service, and launches the app with token/URI environment configuration. `-NotesOnly` skips service startup; it is not a separate microphone implementation. (`scripts\Run-PhantomFudge.ps1:10-55`, launcher.)
 
-Native Python is the normal path. `-Docker` is explicit, optional, and last—not a prerequisite or the evidence for this hybrid upgrade. The maintained [Dockerfile](../../services/transcription/Dockerfile) explicitly selects legacy Vosk and copies named helper modules; [Compose](../../compose.yaml) remains a separate deployment recipe. It was not executed for this update, and hybrid readiness must not be inferred from it. The start wrapper requires an existing engine rather than installing Docker. This speech service continues to advertise v1/v2; its readiness is distinct from the application's separate Ask/provider lifecycle and does not measure answer latency. (`scripts\Start-Transcription.ps1:8-36`, native/Docker branches; `services\transcription\server.py:218-244`, `runtime_info`; `services\transcription\manage.py:127-129`, `supports_current_audio`.)
+Native Python is the normal path. `-Docker` is explicit, optional, and last—not a prerequisite or the evidence for this hybrid upgrade. The maintained [Dockerfile](../../services/transcription/Dockerfile) explicitly selects legacy Vosk and copies named helper modules; [Compose](../../compose.yaml) remains a separate deployment recipe. It was not executed for this update, and hybrid readiness must not be inferred from it. The start wrapper requires an existing engine rather than installing Docker. This speech service continues to advertise v1/v2; its readiness is distinct from the application's separate Ask/provider lifecycle and does not measure answer latency. (`scripts\Start-Transcription.ps1:8-36`, native/Docker branches; `services\transcription\server.py:218-244`, `runtime_info`; `services\transcription\manage.py:168-170`, `supports_current_audio`.)
 
 ## Evidence and operational checkpoints
 

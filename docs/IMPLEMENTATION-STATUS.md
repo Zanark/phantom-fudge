@@ -1,6 +1,17 @@
-# Implementation status - 2026-10-09
+# Implementation status - 2026-10-10
 
-**Local development preview, not a qualified/public release.**
+**Unqualified Windows preview. Candidate2 build and lifecycle3 checks passed. A clean committed
+release build and private prerelease publication remain pending; no published final asset is claimed.**
+
+**Latest integration — October10 01:11:** the parent reports a successful full candidate2 build
+with the current runtime/native launcher and mandatory real-PCM/clean-exit gate. The inspected
+lifecycle3 receipt passes all 11 checks against 3,682 inventoried files. This supersedes the
+old-runtime-only lifecycle2 evidence, not the current-host/random-AppId/no-shortcuts/simulated-version
+limits. Earlier Ruy failures remain historical; those stages must not ship.
+The final offline runtime rebuild has passed the stronger PE/DLL-path and real-PCM/clean-exit gates.
+The parent confirms85focused Python tests, including seven new PE-auditor cases, and55native tests
+passing again. Runtime qualification is complete within the scopes below; the clean committed
+final release asset build remains pending.
 
 ## Current source summary
 
@@ -11,12 +22,14 @@ newer features.
 
 | Current feature | Source behavior and boundary | Guide |
 | --- | --- | --- |
+| Installer / native launcher | Candidate2 build/lifecycle3 passed bounded checks; clean committed release build/publication pending | [Installation](INSTALLATION.md) |
 | Audio device cards | No list scrollbars; explicit overflow pages retain selected endpoint identity | [Setup](CURRENT-WORKFLOW.md#1-choose-audio-device-cards) |
 | Red recording dot | Follows active transcription, not startup or input-mode selection; no audio-file save implied | [Capture state](CURRENT-WORKFLOW.md#2-start-transcription-and-watch-the-red-dot) |
 | Multi-line question selection | Whole Mic/Computer segments, raw text in display order, no automatic Ask | [Local questions](LOCAL-QUESTIONS.md) |
 | Clarify first | Off by default; separate original/reply, explicit correction or Yes, bounded history | [Clarification](QUESTION-CLARIFICATION.md) |
 | Ask and Clear | Large accent Ask, red-bordered Clear immediately after it; existing guards retained | [Current controls](CURRENT-WORKFLOW.md#components-know-the-controls-before-sending) |
-| Reading sizes | Final transcript15; partial13.5/10.5; answer10/9; question18, in WPF units | [Typography](CURRENT-WORKFLOW.md#current-sizes-themes-and-visible-status) |
+| Reading sizes | Final transcript15; partial13.5/10.5; answer10/9 until a session choice8–24; question18, in WPF units | [Typography](CURRENT-WORKFLOW.md#current-sizes-themes-and-visible-status) |
+| Keyboard controls / answer Size | Implemented; explicit local modes and session size8-24; source-only delivery, external focus/comfort qualification remains | [Canonical keyboard guide](KEYBOARD-CONTROLS.md) |
 | Cover / Uncover | NOTEPAD IS READY; already-started transcription/answers continue on the same HWND | [Cover/privacy](COVER-AND-PRIVACY.md) |
 | Privacy requests | Existing capture affinity/tool-window plus accepted Peek request; cached peer still reads retained text | [Feasibility matrix](COVER-AND-PRIVACY.md#feasible-measures-in-practical-order) |
 | Diagnostics | Metadata by default; conversation bodies only through explicit Text opt-in | [Local diagnostics](DIAGNOSTICS.md) |
@@ -24,9 +37,11 @@ newer features.
 **Delivery is current source**, through `scripts\Run-PhantomFudge.ps1`. Save/copy required text and
 close an older instance with X before loading new code. The immutable045022ZIP predates the later
 selection/clarification/action/font/card/cover changes; it is not a package of the current workspace.
-No new ZIP, signed release or public publication is claimed.
+Workstream58now targets a new installer and self-contained portable payload. Current candidate
+checks passed, but the clean committed release build and publication remain pending; the repository
+remains private.
 
-**Current evidence:** the final140313synthetic UI fixture covers the current combined interface,
+**Earlier evidence, not a keyboard-increment pass:** the140313synthetic UI fixture covers the then-current combined interface,
 including15cover assertions, source selection, cards, font/layout/action, clarification and alpha
 guards. It uses fake provider output and synthetic transcript/device data, not real recording.
 Peek setter acceptance and affinity readback17 are local API observations. External UIA clients,
@@ -34,10 +49,509 @@ recipient captures, actual microphone quality and broad latency distributions re
 Earlier provider/speech benchmarks retain their original scope and failures; they were not rerun
 for documentation.
 
-The [20-image WPF manifest](handbook/assets/screenshots/manifest.json),
-[10-image derivative manifest](assets/readme/manifest.json), [source-atlas ledger](source-atlas/coverage.json)
-and [handbook manifest](handbook/manifest.json) carry current provenance. Images are separate
+The [WPF image manifest](handbook/assets/screenshots/manifest.json),
+[README derivative manifest](assets/readme/manifest.json), [source-atlas ledger](source-atlas/coverage.json)
+and [handbook manifest](handbook/manifest.json) carry their recorded provenance. The keyboard increment
+includes23WPF images and10README derivatives plus refreshed atlas/book editions. Images are separate
 synthetic examples, not a continuous meeting or capture-exclusion proof.
+
+## October10 01:11: final runtime gates pass; clean release asset build remains pending
+
+Documentation read the frozen component handoffs, lifecycle3 result and implementation paths below.
+The latest combined test, candidate2 and dependency-audit results were supplied by the parent;
+the final runtime rebuild/identity was supplied by its owner. Documentation did not rerun builds,
+tests or binary/hash verification. These are distinct evidence scopes:
+
+| Scope | Latest reported result | What it does not prove |
+| --- | --- | --- |
+| Native launcher | Parent rerun confirms55 targeted helper tests; self-contained publish and10 exact-EXE self-checks previously passed; final handoff records14files/1,955lines/64annotation blocks | No interactive WPF Close, real installed app/service or capture test |
+| Speech runtime | Parent's combined five-module run passes85 focused tests, superseding78; final offline rebuild passes dependency/import/model/inventory checks, real generated-PCM hybrid/VAD/forced Whisper execution and natural exit; Unicode relocation also passes | No audio-device capture, actual service, external provider request, clean VM or recognition-quality/performance qualification |
+| Packaged desktop | Earlier UI-smoke receipt passes seven groups and38keyboard checks, with no recording/audio/model requests | Not installed speech or external hotkey/recorder qualification |
+| Candidate2 build | Parent-executed full `Build-Installer` with current runtime/native launcher passed, including mandatory real synthetic PCM and clean process exit | Not a clean committed final release build or captured-audio test |
+| Inno lifecycle3 | Inspected receipt: all 11 checks pass against 3,682 inventoried files from candidate2 | Current host, random AppId/path, no shortcuts, simulated version record; not genuine older-binary upgrade or clean VM |
+| Scoped runtime review | No significant issues reported in the new Unicode/startup/backend scope | Code review, not an independent PCM run or general qualification |
+| Speech native dependencies | Parent confirms92 PE dependency records match payload hashes and five actual CRT/OpenMP paths are bundled; owner also reports independent dumpbin comparison and rejection of a global-VC negative child | Current-host declared dependency closure plus observed paths, not a clean VM |
+| App/launcher dependencies | Parent reports a separate static closure PASS across 861 PE files | Not an app/launcher loaded-module-path or clean-VM test |
+| Final release | Clean committed release build, final inventories/checksums/provenance, generated editions and publication pending | No downloadable final installer yet |
+
+### Runtime replacement and its provenance
+
+The final DLL-qualified component is `.local\installer-runtime-dll-qualified`:
+**2,810files / 765,576,675bytes**, including its manifest. Owner-reported
+`speech-runtime-manifest.json` SHA-256:
+`c62093e8f8375471aacddff7656bfb69936aa8b6fc258865c92f5dd593355e16`.
+It supersedes `.local\installer-runtime-delivery` for release evidence. The owner reports unchanged
+package/native/model/service bytes, with changes confined to notices, the copied lock and manifest.
+This is the qualified runtime component identity, **not candidate2's full payload or a final Setup hash**.
+The clean committed release build still determines the final installer inventories and checksums.
+
+The private CPU package is `CTranslate2 4.6.0+phantomfudge2`, built with oneDNN3.1.1 and
+Microsoft compiler OpenMP (`vcomp140.dll`), without CUDA/cuDNN/proprietary Intel OpenMP.
+`faster-whisper 1.2.1+phantomfudge1` remains the disclosed PCM-only variant. Its upstream wheel,
+`audio.py`, unchanged transcription/features/VAD sources and padding helper are hash-bound.
+Installed metadata closure explicitly describes the modified graph, not unchanged upstream
+dependencies or execution proof. Notices preserve the PyAV codec-review rationale without
+claiming that PyAV is inherently nonredistributable.
+(tools/Installer/bundle_runtime.py:42-43,246-282,332-376,465-535,581-586)
+(tools/Installer/runtime-lock.json:31-51)
+
+Vosk's native package is unmodified. `VoskFactory` verifies its model, then handles a Windows
+non-ASCII path with a serialized temporary working-directory change and restores it in `finally`.
+The synthetic test creates the actual `HybridFactory`, processes generated numerical PCM through
+Vosk and the production finalizer/VAD, and forces a separate Whisper encoder/decoder pass so VAD
+cannot skip native computation. A success JSON line is insufficient: the child must exit0 before
+the deadline. `Build-Installer.ps1` requires `--verify-synthetic-pcm`.
+(services/transcription/recognizer.py:25-63)
+(services/transcription/tests/test_packaged_pcm_runtime.py:35-97,126-138)
+(tools/Installer/bundle_runtime.py:597-609,682-694)
+(scripts/Build-Installer.ps1:30-34)
+
+The rejected Ruy stages and their120/240-second exit hangs remain in the history below. The new
+pass does not inherit historical development-build latency/accuracy results, prove meaningful
+recognition of generated tones, or complete captured-speech/clean-machine qualification.
+
+### Native dependency gate, not a clean-machine certificate
+
+Restricting `PATH` alone cannot prove that a developer machine's globally installed VC runtime
+is unnecessary. `bundle` now always calls `audit_pe_closure` before the import probe. The auditor
+reads ordinary imports, delay imports and export-forwarder DLL names, records each PE hash and
+requires each non-inbox dependency in the payload's supported search locations. Only an explicit
+reviewed Windows11 inbox list is exempt; arbitrary files present in the host's System32 do not
+satisfy this static check.
+(tools/Installer/bundle_runtime.py:677-694)
+(tools/Installer/runtime_audit.py:9-29,32-166)
+
+The shared `DLL_PROBE` selects `LOAD_LIBRARY_SEARCH_DEFAULT_DIRS` and enumerates loaded module
+paths. It rejects VC runtime DLLs outside the payload and requires `msvcp140.dll`,
+`msvcp140_1.dll`, `vcruntime140.dll`, `vcruntime140_1.dll` and `vcomp140.dll` beside bundled
+`python.exe`. Both the import probe and generated-PCM test collect this evidence. Windows
+Defender's recognized injection is reported separately, not redistributed as a dependency.
+(tools/Installer/runtime_audit.py:169-234)
+(tools/Installer/bundle_runtime.py:538-594)
+(services/transcription/tests/test_packaged_pcm_runtime.py:14,88-97)
+
+The parent confirms the 92-file speech audit matches payload hashes, all five observed CRT/OpenMP
+paths are bundled and the separate 861-file app/launcher static audit passes. The final offline
+runtime rebuild has now executed the stronger gate successfully, including real PCM and normal
+exit after Unicode relocation. Its manifest records `validation.nativeDependencyClosure`,
+`validation.dllLoadProbe` and `validation.syntheticPcm.dllLoadProbe`.
+(tools/Installer/bundle_runtime.py:677-694)
+
+Functional DLL bytes are reported unchanged from candidate2. These results do not retroactively
+change candidate2's build receipt, exhaust every dynamic loading path, certify licensing entitlement
+or establish clean-VM qualification. Runtime gate execution is no longer outstanding; the clean
+committed final release asset build remains separate and pending.
+
+### Startup and installer integration
+
+The final native handoff supersedes the51-test/nine-self-check checkpoint and the subsequent
+four-file annotation-drift report. It reports current source/publish/annotation evidence and10
+exact-EXE checks at `2026-10-09T18:44:44.9210386Z`. No additional receipt recheck was performed
+for this prose integration.
+
+Startup retains the launcher mutex until the app's main-instance mutex appears or the exact
+child is proven exited. After30seconds, **AppStartPending76 is not Success or an automatic exit**.
+Pending Close hides progress without releasing the guard; a synchronous watcher preserves it
+through early dispatcher shutdown. Confirmed child exit before readiness is AppStartFailed67,
+even for child exit0. The new tests use random mutexes and a delayed synthetic child; interactive
+WPF Close remains untested.
+(src/PhantomFudge.Launcher/ChildProcesses.cs:12-42)
+(src/PhantomFudge.Launcher/Program.cs:108-118,186-227,321-354)
+(src/PhantomFudge.Launcher/LauncherStatus.cs:20,31,39)
+
+Setup has **no launch action**: finish and close it, then open the app from Start. Setup and
+launcher status/error windows are ordinary visible UI, not capture-excluded; install and launch
+before sharing. Setup/Uninstall creates the maintenance gate, and normal/notes-only launch checks
+it before reveal and again after acquiring the startup mutex.
+(tools/Installer/PhantomFudge.iss:14-76,150-161)
+(src/PhantomFudge.Launcher/Program.cs:47-78)
+(src/PhantomFudge.Launcher/LauncherWindow.cs:18-57)
+
+The current lifecycle3 pass covers the fixture's install/hash/layout/maintenance, same-version
+and damaged-launcher/version repair, simulated older-version record, downgrade refusal,
+uninstall, retained external sentinel and foreign-directory refusal against candidate2. The fixture
+does not start the app/speech service or exercise genuine old binaries; its receipt records no
+captured audio and zero model requests. Candidate2's real generated-PCM inference belongs to the
+separate build gate, not this fixture. The current version fallback is `WindowsVersion`
+under `HKCU\Software\PhantomFudge\Installer\<AppId>`, **not the Windows uninstall key**.
+(scripts/Test-Installer.ps1:15-18,38-84,96-104)
+(tools/Installer/PhantomFudge.iss:51-52,123-147)
+
+A clean committed release build with final provenance/checksums, the reserved baseline citation
+migration, rebuilt HTML/PDF editions and authorized private publication remain parent-owned.
+The runtime-atlas owner handles the missing runtime annotations; the parent retains domain,
+packaging and book/catalogue annotations. Lifecycle3 does not establish concurrent-launch,
+Start-menu, actual speech-service or clean-machine qualification.
+No signing identity or project license has been supplied. See the concise
+[installation procedure](INSTALLATION.md) and [workstream58](../TODO/58_INSTALLER_RELEASE.todo).
+
+## Installer development history — October9 21:52 to October10 00:09
+
+**Historical checkpoints below retain the evidence and blockers known at each time.** They are
+superseded by the final component handoffs above, not current holds on that replacement runtime.
+Neither rejected Ruy stage becomes an approved input because the replacement passed.
+
+The owner requested unattended installer/release and README/TODO/book work. The planned version is
+[v0.2.0-preview.1](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1), Windows file
+version0.2.0.1, unsigned and Windows11 x64 only. The repository is verified private; release access
+inherits it and no visibility change is authorized. This is not a qualified release or a claim of
+compatibility with Windows10, ARM, macOS, Linux or every x64 computer.
+(tools/Installer/release.json:1-8)
+
+The source recipe uses per-user Inno Setup6.7.3 with lowest privileges, a stable AppId, Start-menu
+launch and guarded update/uninstall. It rejects downgrade/unrecognized nonempty destinations and
+does not force-close the app. The frozen native maintenance path refuses an open app and implements
+authenticated owned idle-runtime shutdown; full installer integration is still pending.
+External settings/diagnostics, installed runtime
+data and saved notes/exports are retained. Program directories are not personal-content storage.
+(tools/Installer/PhantomFudge.iss:10-71,106-159)
+(src/PhantomFudge.Launcher/Program.cs:47-100)
+
+**22:30 packaging-review refinements:** compact `install-manifest.json` is separated from
+`payload-files.json`, the full path/size/SHA-256 inventory excluding its own self-hash. Hidden
+entries and reparse points are inspected; the fixture compares payload filenames exactly and
+checks installed bytes. Repair/update is being integrated with a fresh Setup-extracted maintenance
+helper rather than a damaged installed launcher, with numeric Windows-version fallback in the
+uninstall registry. Native integration and successful repair evidence remain pending.
+(scripts/Build-Installer.ps1:48-90)
+(tools/Installer/PhantomFudge.iss:51-52,106-146)
+(scripts/Test-Installer.ps1:40-66)
+
+The test script uses a random isolated AppId and destination, omits shortcuts/automatic app launch
+and simulates an older numeric version record in the current fixture. It is not a genuine
+old-binary upgrade, clean-VM installation or hardware qualification. No passing fixture result
+is claimed from reading the script.
+(scripts/Test-Installer.ps1:15-18,31-38,67-69,89-98)
+
+The intended payload includes self-contained app/launcher, private Python, speech code and verified
+Vosk/Whisper small.en assets; end users need no PowerShell7, system Python or .NET SDK. Normal launch
+prepares an idle local service, not audio capture; `--notes-only` bypasses speech preparation.
+No provider CLI/model or login is bundled. New profiles remain SnapshotOnly and existing root
+answer/keyboard settings remain in use. Docker is still separate and last.
+(scripts/Build-Installer.ps1:25-44)
+(src/PhantomFudge.Launcher/Program.cs:117-196)
+(src/PhantomFudge.Launcher/ChildProcesses.cs:48-72)
+
+**22:35–22:36 bounded component evidence, reported by the implementation owners:**23launcher tests
+and all nine published-launcher self-test booleans pass; the self-test receipt is
+`.local\installer-release\launcher-build\self-test.json`. The runtime owner reports57targeted
+manager/path/hybrid mock tests passing. These are component/mock results, not installed-copy
+startup, fresh-helper repair, speech inference or clean-VM qualification.
+
+The in-progress runtime recipe selects pinned embedded Python3.13.14 and proposes patched
+`faster-whisper1.2.1+phantomfudge1` without encoded-file decoding/PyAV, and
+`CTranslate2 4.6.0+phantomfudge1` rebuilt CPU-only with Ruy. CUDA/cuDNN/Intel runtime binaries and
+PyAV/FFmpeg are excluded by the recipe; package modifications and notices are intended to be
+recorded in the build manifest. The service consumes in-memory PCM arrays in source, but this is
+not an unchanged full stack: older developer-build recognition timings and accuracy results do
+not qualify the proposed binaries. Final output, native ABI/import and licensing checks remain pending.
+(tools/Installer/runtime-lock.json:1-11)
+The Ruy recipe described here is historical; current source implements its oneDNN replacement.
+(tools/Installer/bundle_runtime.py:246-282,332-376,465-535,687-694)
+
+Runtime paths now separate installed weights from the mutable user workspace. Process-identity
+checks permit removal of confirmed-dead/recycled receipts while live/unknown ownership refuses.
+Native launcher maintenance uses authenticated loopback HTTP, not a new Python maintenance verb.
+User configuration/token/model data are not silently reset; integrated contract validation and
+fresh-helper repair remain pending.
+(tools/Installer/runtime-contract.json:4-24,33-45)
+(src/PhantomFudge.Launcher/MaintenanceOperation.cs:48-118)
+
+**22:43 compiler provenance, reported by the packager:** the official Inno Setup6.7.3 download
+has a valid Authenticode signature for **Pyrsys B.V.** and matches the pinned SHA-256
+`9c73c3bae7ed48d44112a0f48e66742c00090bdb5bef71d9d3c056c66e97b732`.
+This authenticates that downloaded build-tool artifact, **not Phantom Fudge Setup**. No signing
+identity has been supplied for this application's installer; it remains an unsigned preview.
+Private repository/tag/release access is unchanged.
+(tools/Installer/release.json:6-7)
+
+Fresh Setup-extracted repair with registered numeric-version fallback is still untested.
+The fixture's `/DInstallerTest=1` omits normal shortcuts/post-install launch; its older-version
+record is simulated, not backed by a built older binary. Neither compiler provenance nor
+component tests closes those installer qualification gaps.
+(scripts/Test-Installer.ps1:31-38,62-69,96-98)
+
+**22:45 launcher freeze, reported final evidence:**46targeted helper/transport tests, self-contained
+publish and the exact published EXE's self-test pass. Headless `--validate-install` returned0for
+a synthetic valid layout,65for a manifest larger than16KiB and65for corrupted metadata.
+Receipts are `.local\installer-release\launcher-build\self-test.json` and
+`.local\installer-release\launcher-build\headless-validation.json`. No app, service, audio or
+model startup was used for those checks.
+
+`--validate-install installation-root` validates the ownership marker, compact metadata and
+app/Python/manager/model-directory layout. It is not a full file-hash, ABI or model-inference test.
+`--maintenance [installation-root]` uses native authenticated HTTP, shared byte locking and
+instance/PID/idle/creation-FILETIME checks; it can operate without healthy old Python binaries
+or compact metadata, but still requires the marker. The fresh bootstrap is the complete
+self-contained launcher directory extracted by Setup, not a lone executable.
+(src/PhantomFudge.Launcher/Program.cs:25-58,94-100)
+(src/PhantomFudge.Launcher/LauncherContract.cs:14-23,79-105)
+(src/PhantomFudge.Launcher/MaintenanceOperation.cs:48-118)
+(src/PhantomFudge.Launcher/OwnedServiceClient.cs:20-84)
+(tests/PhantomFudge.Core.Tests/InstalledMaintenanceTests.cs:76-108,210-239)
+
+Launcher citations were refreshed against that source freeze. Full same-version Setup repair,
+installed runtime/ABI, exact payload/licensing and isolated installer lifecycle remain pending;
+the46helper tests do not close them. Older preexisting-source citation values remain unchanged
+until the planned one-shot migration.
+
+**22:52 final contract-aligned revalidation:** the launcher owner again reports 46 tests,
+self-contained publish and exact published EXE self-test exit 0/all nine booleans passing.
+The source now matches `runtime-contract.json`: manager prefix `-I -B -X utf8`, 32-random-byte
+lowercase-hex token generation and a 180-second launcher deadline. Existing valid Base64URL tokens
+are explicitly tested as preserved. Receipts in the same launcher-build directory were refreshed;
+native maintenance/headless-validation contracts and the untested full-Setup boundaries are unchanged.
+(src/PhantomFudge.Launcher/ChildProcesses.cs:15-28,48-71)
+(src/PhantomFudge.Launcher/LauncherContract.cs:31-36)
+(src/PhantomFudge.Launcher/Program.cs:13,228-274)
+(tests/PhantomFudge.Core.Tests/InstalledLauncherTests.cs:135-155)
+
+**22:54 intermediate runtime result, reported by the runtime owner:** payload v3 contains 2,799 files /
+749,352,236 bytes. Embedded Python 3.13.14 imports, dependency closure, CPU-int8 support and every
+pinned model hash pass. No service or inference was started. **Do not package v3:** the final
+user-model path amendment and a new offline rebuild are still being verified.
+
+The amended contract gives an existing per-user `.local\models\<pinned-name>` priority over
+bundled weights, with the same pinned verification; explicit provisioning writes only to
+that preserved user directory. Launcher argv/environment remain unchanged.
+(tools/Installer/runtime-contract.json:7-14,20-22)
+
+The official PyPI file CDN failed TLS; the runtime owner reports that the public Tsinghua mirror
+provided exactly hash-locked wheels. This provenance is disclosed in the runtime manifest.
+GPU/Intel/PyAV binaries are excluded and supplemental Vosk native-dependency notices were added.
+The intermediate import/hash pass is not final redistribution/license approval, a service/inference
+test, installer acceptance or a new performance result.
+(tools/Installer/bundle_runtime.py:108-126,505-534,674-676)
+
+**23:00 final runtime handoff, ready for installer assembly:** the runtime owner delivered
+`.local\installer-runtime-stage` with **2,801 files / 749,919,714 bytes**, including
+`speech-runtime-manifest.json`. Its SHA-256 is
+`1f8d8396f4b2538138632f1b72251bda0ec46073a937a9d0ff99f4a60c8012f7`.
+The final source includes the preserved-user-model amendment; earlier v1/v2/v3 scratch payloads
+were deleted and are not packaging inputs.
+
+This stage was subsequently superseded by the 23:15 recovery handoff below.
+
+| Evidence | Result and limit |
+| --- | --- |
+| Final fully offline rebuild | Owner reports embedded Python 3.13.14 imports, dependency closure, CPU-int8 support and every pinned model hash passing |
+| Independent runtime inventory verification | Owner reports every inventory entry matched its file length/SHA-256 |
+| Relocation | Owner reports the complete import/dependency/hash probe passing after moving the payload to a path containing spaces and U+00E9 |
+| Regression suite | Owner reports 70 combined bundler, installed-path, management and accurate-engine tests passing |
+| Documentation cross-check | Independently read the final manifest and confirmed its SHA-256, 2,800 inventoried files / 749,363,978 bytes plus the 555,736-byte manifest, package variant versions and recorded probe results; did not rerun the build or tests |
+
+The probe imports native bindings and checks available compute types and pinned bytes; it does
+**not** start a real service, open an audio endpoint, load a speech model or perform inference.
+No .NET build, install/uninstall, clean Windows VM or new recognition-performance result is implied.
+The manifest identifies runtime bytes, not the as-yet-unbuilt Setup artifact.
+Current counterparts of the import-only probe and manifest writer:
+(tools/Installer/bundle_runtime.py:538-594,687-694)
+(services/transcription/tests/test_installed_runtime.py:47-91)
+(services/transcription/tests/test_runtime_bundle.py:79-161)
+
+The exact staged runtime retains third-party notices, patch disclosures and regenerated package
+records. Mirror provenance and upstream Vosk reproducibility limits remain explicit in
+[third-party notices](THIRD-PARTY-NOTICES.md). These are engineering provenance, not legal
+certification or a selected Phantom Fudge license.
+(tools/Installer/bundle_runtime.py:316-390,465-535,687-694)
+
+**23:15 recovery hardening superseded the earlier stage; now held by the23:40 blocker:** the then-current runtime input was
+`.local\installer-runtime-stage-recovery`, **2,801 files / 749,919,744 bytes**, with manifest SHA-256
+`da6ea2fb1d16eac97bddc1b4e9bba4c16841a3560bebc4162c7ee47896e70d3d`.
+The owner reports **72 tests**, a rebuilt offline payload, every file/model hash and the
+spaced/Unicode relocation probe passing. Documentation independently confirmed this manifest
+hash, recorded probe results and totals; it did not repeat the build/tests.
+
+The manager now persists the child PID before querying creation time. If inspection fails, that
+PID remains available for later cleanup only after proving the process absent. Confirmed-dead or
+recorded-creation-time-proven PID reuse advances normal startup automatically; live or ambiguous
+initializers remain protected. The added tests exercise the real `start` function with mocked
+process/port observations, **not an actual reboot, service or inference**. Package versions and
+the CPU/PCM variant boundaries are unchanged. Do not package the superseded `installer-runtime-stage`.
+(services/transcription/tests/test_installed_runtime.py:98-198)
+
+**23:14–23:15 launcher hold, subsequently resolved:** partial token/receipt handling and PID-only
+recovery required another verification pass. The earlier 46-test checkpoint remains historical;
+native explicit-root authenticated-HTTP maintenance was already implemented and remains
+independent of old Python/app binaries. No Python maintenance verb was introduced.
+
+**23:25 final native recovery refreeze:** the launcher owner reports **50 targeted tests**,
+self-contained publish and the exact published EXE's self-test passing. Documentation independently
+read the refreshed handoff and the self-test receipt: exit 0, all nine checks true, timestamp
+`2026-10-09T17:54:20.8682469+00:00`. It did not rerun the test suite or executable.
+
+Both token and receipt absent succeeds without a listener probe. Receipt-only refuses.
+Token-only—normal after successful stop—validates the private token and uses a credential-free
+one-second TCP probe; only connection refused proves the port unused. Occupied or uncertain
+state refuses. PID-only stale cleanup requires proven process absence; live legacy state still
+requires authenticated identity, and uninspectable state remains protected.
+(src/PhantomFudge.Launcher/MaintenanceOperation.cs:52-118,121-134)
+(tests/PhantomFudge.Core.Tests/InstalledMaintenanceTests.cs:31-108,149-172)
+
+The refreshed launcher atlas reports 14 files, 1,728 physical lines and 54 contiguous authored
+blocks; maximum block/focus sizes are 62/12. Documentation independently matched all 14 source
+hashes and the line total to that annotation. This is **per-file validation**, not full
+atlas/handbook compilation. Runtime/launcher citations now target the frozen source.
+The earlier headless layout results retain their original bounded checkpoint; this new report
+does not claim an additional headless run or full Setup acceptance. Use current source for the
+parent's release-version rebuild, not an earlier copied launcher.
+
+**23:39 launcher freeze held for a separate installer gate:** the launcher owner began adding a
+check for `Local\PhantomFudge-Installer-Maintenance` before normal/notes-only reveal or startup;
+maintenance and layout validation bypass that gate. Implementation, targeted verification and
+republish were pending at that checkpoint, now superseded by the23:54 source freeze below.
+No change to native HTTP maintenance or the runtime contract is claimed from this work.
+
+**23:40 runtime publication blocker, reported by the runtime owner:** an authorized local
+synthetic-PCM probe completed real Vosk recognition, the production Whisper final/VAD path and
+forced CTranslate2 encoder/decoder computation. The Ruy-backed child then **hung during process
+exit**, exceeding 120- and 240-second test deadlines after printing success. Earlier import-only
+qualification did not expose this failure. No capture device, service or external audio/model API
+was used. This is not a clean-exit pass, accuracy benchmark or installer qualification.
+
+**Do not package or ship `.local\installer-runtime-stage` or
+`.local\installer-runtime-stage-recovery`.** Their manifest identities and earlier results above
+remain provenance, not current assembly approval. The runtime owner is investigating cleanup/backend
+behavior; a corrected exact payload and repeatable inference-to-clean-exit evidence are required
+before the parent resumes installer acceptance/publication. This documentation update records the
+owner's report, not an independently rerun probe; detailed probe receipts and any replacement
+manifest remain pending. Package-patch provenance/licensing amendments also await the new source freeze.
+
+**23:54 launcher gate source freeze:** the launcher owner reports51targeted tests and a
+self-contained publish passing. Source inspection confirms a gate check before coordination/reveal
+and a second check after acquiring the startup mutex. Detection returns70 with generic status and
+no WPF window/child startup; maintenance and layout validation bypass it. The new test uses a
+randomly named mutex and exercises presence, disposal and mode selection, not a real installer run.
+(src/PhantomFudge.Launcher/Program.cs:25-78,209-212)
+(src/PhantomFudge.Launcher/LauncherContract.cs:152-165)
+(src/PhantomFudge.Launcher/LauncherStatus.cs:15,33)
+(tests/PhantomFudge.Core.Tests/InstalledLauncherTests.cs:176-195)
+
+Launcher behavior, diagram and new-file citations were refreshed against this production source.
+The new exact-EXE self-test, annotations and handoff were pending at that checkpoint; their
+verification follows. Runtime publication remains blocked independently.
+
+**October10 00:05 launcher receipts verified:** the refreshed handoff records51targeted tests and
+self-contained publish passing. The exact-EXE self-test receipt records exit0/all nine checks true
+at `2026-10-09T18:07:25.8502546Z` (October9 23:37:25IST); this is the receipt's execution time,
+not the later documentation-verification time. Documentation matched both published EXE/DLL
+hashes to the handoff and all14source files to the launcher annotation. Contiguous coverage is
+1,768physical lines/56blocks, maximum block/focus62/12, with no duplicate source ownership.
+The receipts are `handoff.json`, `self-test.json` and `atlas-validation.json` under
+`.local\installer-release\launcher-build`.
+
+These are independently inspected receipts, hashes and bounds, not rerun tests or full
+atlas/handbook compilation. Earlier headless-layout checks remain historical; they were not
+rerun after the gate-only change. Full installer acceptance must still verify that Setup and
+Uninstall hold the exact `Local\PhantomFudge-Installer-Maintenance` gate from before native
+maintenance through replacement/deletion until installer exit. The random-mutex component test
+does not establish that integration, and this launcher checkpoint does not release either held
+runtime payload.
+(src/PhantomFudge.Launcher/Program.cs:47-78)
+(src/PhantomFudge.Launcher/LauncherContract.cs:152-165)
+(tests/PhantomFudge.Core.Tests/InstalledLauncherTests.cs:176-195)
+
+**October10 00:09 qualification update:** the parent confirms the recipe now uses
+`CreateMutex('Local\PhantomFudge-Installer-Maintenance')` for the entire Setup/Uninstall lifetime.
+Source inspection confirms creation in both initializers and the frozen native checks/bypass
+behavior; the isolated full lifecycle run is underway, with no completed receipt yet. This is
+implemented integration, not a passing lifecycle result.
+(tools/Installer/PhantomFudge.iss:72-76,150-160)
+(src/PhantomFudge.Launcher/Program.cs:25-78)
+
+The parent's packaged self-contained desktop `--ui-smoke` run at
+`.local\installer-release\packaged-ui-1` passed. Documentation inspected `result.json` and
+`keyboard-controls.json`: overall/seven named regression groups pass, all38keyboard checks are
+true, recording/audio capture are false, and model requests are zero. This confirms synthetic
+packaged-desktop behavior, not installed speech, real shortcut comfort or capture exclusion.
+
+Runtime publication remains **BLOCKED**. The parent independently reports a120-second timeout
+after successful inference JSON at native process exit, and a second review identifies Vosk
+Unicode model-path handling through narrow native path operations under ACP1252. Runtime repairs
+are underway; no fix or replacement payload is qualified here. Acceptance now explicitly requires
+the real `HybridFactory` to load both models from a Unicode path, process synthetic PCM and exit
+naturally. Import-only relocation and printed success before a hang do not satisfy this gate.
+The factory's actual composition is Vosk plus the Whisper finalizer.
+(services/transcription/accurate.py:121-129)
+
+**Final authored check found subsequent native source changes:** `ChildProcesses.cs`,
+`LauncherStatus.cs`, `Program.cs` and `InstalledLauncherTests.cs` no longer match the inspected
+launcher annotation hashes. The new application-start handoff source is therefore outside the
+verified51-test/nine-self-check checkpoint. The two installer-presence checks remain at47–48 and
+76–77, but new tests/publish/atlas validation and affected citation review must follow the next
+owner freeze. The launcher owner has been notified; no earlier receipt is claimed for these new bytes.
+(src/PhantomFudge.Launcher/ChildProcesses.cs:12-42)
+(src/PhantomFudge.Launcher/Program.cs:179-228)
+
+**Evidence pending at the00:09 checkpoint:** runtime exit/Unicode-path remediation and replacement-payload verification,
+new launcher handoff-source verification/citations,
+complete installed launcher/runtime integration, exact installer payload/license inventory and
+checksums, installer lifecycle validation, remaining installer-recipe citation refresh, source-atlas/handbook
+editions and actual GitHub prerelease publication. Source inspection and authored procedures do
+not satisfy those gates. The01:11 integration above records completed component and current-candidate
+fixture checks while retaining clean committed release-build/publication gates.
+[Workstream58](../TODO/58_INSTALLER_RELEASE.todo) owns completion status;
+the [installation chapter](INSTALLATION.md) owns the concise user procedure.
+The initial authored-doc checks found221valid local links and39new-guide citation occurrences across
+14source files with valid line bounds. Both new accessible diagrams parse/render locally; quoted
+frontmatter and book/catalogue structure pass. No generated editions were written by those checks,
+and evolving source still requires final citation review.
+
+The existing23WPF/10READMEimages still illustrate the unchanged desktop app; none is presented as an
+installer screenshot or installation test. SmartScreen/policy blocks must be respected. Third-party
+notices are bundled by the build; the owner has not chosen a project license.
+
+## October9 19:36: keyboard control and answer size — DONE locally
+
+The owner approved keyboard-first interaction rather than cursor locking/hiding/warping, plus an
+answer-size slider. Current source adds Ctrl+Alt+K / Keys activation, local Control/Select/Edit/Read/
+Command/Search/Devices/Help modes, explicit Enter review then Ctrl+Enter submission, deterministic
+built-in commands and a best-effort foreground return. Ordinary mode changes and masking preserve
+ongoing capture/provider work. `:devices` refuses busy audio/answers and otherwise opens setup,
+closing Q/A; `:stop` and `:cancel` remain different operations.
+(src/PhantomFudge.App/MainWindow.Keyboard.cs:16-28,65-175,218-368;
+src/PhantomFudge.App/MainWindow.KeyboardSelection.cs:110-159;
+src/PhantomFudge.App/MainWindow.KeyboardDevices.cs:42-71.)
+
+The shortcut schema now allows A–Z except E and F1–F11, with F12 rejected and fixed Ctrl+Alt+NoRepeat.
+Corrupt/conflicting shortcut configuration retains the Keys fallback; changes require restart.
+Answer size is 8–24 for this app session, with 9 compact /10 normal defaults until chosen; a choice
+survives resize, not restart. The [guide](KEYBOARD-CONTROLS.md) documents exact JSON and usage.
+(src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs:7-28,31-114;
+src/PhantomFudge.App/MainWindow.AnswerFont.cs:9-43.)
+
+**202234 first integrated pass, reported at20:32:** the implementation owner reports **all33keyboard
+checks and the existing UI fixture passed**, alongside **297 Core tests** (including the F12 fix)
+and **18 docs-tool tests**. The imported illustration set contains **23 WPF images /10 README
+derivatives**. The three new keyboard images were also visually inspected during documentation
+handoff: selection/current-row distinction, a command before execution, and Read with Size14.
+They are synthetic examples, not real audio/model or recipient-capture evidence.
+
+The size 24 / 470 × 560 correction is included in the first integrated pass:
+compact Select/Search temporarily hide Q/A for transcript reading, then restore
+the intended expanded state without close/cancel. Other compact keyboard modes prioritize Q/A;
+chosen size 14+ with a visible answer does so even outside keyboard control. Wide columns and
+capture/provider lifetimes are unchanged. See [compact behavior](KEYBOARD-CONTROLS.md#compact-windows-the-active-task-gets-the-reading-space).
+
+**20:36 runtime freeze and final exporter:** the implementation owner reports the full UI fixture
+passed after the review corrections. `LoadKeyboardShortcut` now catches invalid configuration,
+including `InvalidDataException`. Edit remains armed after submission; async interpretation changes
+the reply/original target only to a visible editable field, with focus retargeting limited to the
+already-active foreground app. The synthetic checks use a natural dispatcher turn, not a forced
+mode reset. Compact Select reading-space and passive size24fit assertions also passed, and the
+23WPF/10READMEimage set is current.
+(src/PhantomFudge.App/MainWindow.Keyboard.cs:38-63,127-139,301-306;
+src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs:21-28,77-81,142-148,170-193.)
+
+**Final evidence:** fixture203556passed all38keyboard assertions and existing UI regressions,
+including configuration fallback, natural-dispatcher editor recovery and minimum-size reading.
+The one-shot migration updated359citation ranges across32documents with four changed endpoints
+reviewed. All177first-party source files have authored atlas coverage; full atlas and handbook
+HTML/PDF editions were built and inspected. The new chapter has three UI images and two diagrams.
+No real audio/model call, current-user app restart, new package, commit or push occurred.
+Workstream57 is **DONE** for implementation and maintained documentation, not platform qualification.
+Real foreground return, shortcut collisions, non-US layouts, accessibility, owner UX and recipient
+capture/cursor behavior are not qualified by source inspection or synthetic test definitions.
 
 ## Historical October9 10:33: optional question interpretation
 
@@ -60,7 +574,7 @@ Current source implements whole-segment toggles without Ctrl, displayed-history-
 raw text without generated prefixes, and independent question editing without stopping transcription.
 Q/A is expanded by default. Selection opens it if needed, closes source/setup/Notes panels and takes
 deliberate focus; it does not freeze a snapshot or submit a model question.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:84-141;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:85-147;
 [`InitializeQuestionView` / `SetQuestionEditing`](../src/PhantomFudge.App/MainWindow.Questions.cs).)
 
 Edited drafts reject further direct selection with inline retained-draft status until **Clear
@@ -70,7 +584,7 @@ rows after the256-entry/64000-character chooser eviction; the unchanged250000-ch
 final/session display-buffer limit still applies. Archived unfinished rows remain provisional;
 separators are not selectable. New finals follow the scrollbar only when already at the end.
 Native ListBox keyboard/automation selection uses the same composition path.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-141;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-147;
 [`TranscriptBuffer`](../src/PhantomFudge.Core/TranscriptBuffer.cs).)
 
 All selection composition goes through `QuestionDraft.ReplaceSelection`: one capture session,

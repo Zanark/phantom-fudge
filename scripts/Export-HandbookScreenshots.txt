@@ -28,7 +28,8 @@ $names = @(
     'theme-Plain.png', 'audio-setup.png', 'notes-expanded.png',
     'background-10.png', 'background-100.png', 'present.png',
     'question-selection.png', 'question-draft.png', 'question-harbordaylight.png', 'answer-synthetic.png',
-    'answer-background-10.png', 'answer-background-100.png', 'transcript-multiselect.png', 'question-clarification.png', 'recording-active.png', 'audio-setup-cards-compact.png', 'notepad-cover.png'
+    'answer-background-10.png', 'answer-background-100.png', 'transcript-multiselect.png', 'question-clarification.png', 'recording-active.png', 'audio-setup-cards-compact.png', 'notepad-cover.png',
+    'keyboard-selection.png', 'keyboard-command.png', 'keyboard-answer-size.png'
 )
 $images = @()
 foreach ($name in $names) {
@@ -57,6 +58,10 @@ $sourceFiles = @(
     'src\PhantomFudge.App\MainWindow.RecordingIndicator.cs',
     'src\PhantomFudge.App\MainWindow.AudioDeviceCards.cs', 'src\PhantomFudge.App\MainWindow.AudioDeviceCardsDiagnostics.cs',
     'src\PhantomFudge.App\MainWindow.Cover.cs', 'src\PhantomFudge.App\MainWindow.CoverDiagnostics.cs',
+    'src\PhantomFudge.App\MainWindow.Keyboard.cs', 'src\PhantomFudge.App\MainWindow.KeyboardSelection.cs',
+    'src\PhantomFudge.App\MainWindow.KeyboardDevices.cs', 'src\PhantomFudge.App\MainWindow.KeyboardDiagnostics.cs',
+    'src\PhantomFudge.App\MainWindow.AnswerFont.cs', 'src\PhantomFudge.App\Native\WindowHotkeys.cs',
+    'src\PhantomFudge.Core\KeyboardCommands.cs', 'src\PhantomFudge.Core\KeyboardShortcutConfiguration.cs',
     'src\PhantomFudge.App\MainWindow.Answers.cs', 'src\PhantomFudge.App\MainWindow.AnswerDiagnostics.cs',
     'src\PhantomFudge.App\MainWindow.Layout.cs', 'src\PhantomFudge.App\MainWindow.AnswerLifetime.cs',
     'src\PhantomFudge.App\MainWindow.Diagnostics.cs', 'src\PhantomFudge.Core\WorkspaceLayout.cs',

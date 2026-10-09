@@ -1,0 +1,15 @@
+---
+config: {"theme":"base","flowchart":{"htmlLabels":false},"themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TD
+    accTitle: Keyboard selection requires review before submission
+    accDescr: Ctrl Alt K enters Control. The v key enters Select, movement only moves the cursor, and Space toggles a segment. Enter opens literal Edit without sending. Only explicit Ctrl Enter submits through the existing question handler.
+    Activate["Ctrl+Alt+K: Control"] -->|v| Select["Select transcript"]
+    Select -->|j or k| Cursor["Move current-row cursor"]
+    Cursor -->|Space| Toggle["Toggle whole segment"]
+    Toggle -->|Continue choosing| Select
+    Select -->|Enter| Review["Edit and review"]
+    Review -->|Enter| Newline["Insert newline, no send"]
+    Newline --> Review
+    Review -->|Ctrl+Enter| Submit["Explicit submit"]
+    Submit --> Existing["Existing snapshot or provider flow"]

@@ -140,7 +140,7 @@ question editor, then explicitly expanded the request to **multiple lines**. The
 source path uses ordinary clicks to toggle whole recognition segments without Ctrl, combines
 only selected raw text in displayed history order and opens the initially expanded Q/A editor.
 Wrapped/multiline text remains one segment; timestamp/source decoration is not question content.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-20,84-141;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-20,85-147;
 [`InitializeQuestionView`](../src/PhantomFudge.App/MainWindow.Questions.cs).)
 
 Selection closes source/setup/Notes panels and enters independent question editing, without
@@ -148,7 +148,7 @@ stopping transcription, creating a snapshot or sending a request. After a manual
 selection changes retain the draft/highlights with inline status until **Clear question**, rather
 than destroying corrections or adding a confirmation popup. The manual **Choose source → Mic /
 Computer / All → Use selected** replacement path remains available.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:93-141;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:94-147;
 [`UseQuestionSelection_Click`](../src/PhantomFudge.App/MainWindow.Questions.cs).)
 
 Older visible history remains selectable after the smaller chooser evicts its rows; archived
@@ -156,7 +156,7 @@ unfinished partials retain identity, and session separators cannot be selected. 
 scrolling only when already at the end. Both selection paths enforce one capture session,
 256entries and8192UTF-16 units including newlines atomically, with no truncation. Selected rows
 preserve transparent backgrounds, solid white/black text and a thin accent outline.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:22-82,112-141;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:22-83,118-147;
 [`QuestionDraft`](../src/PhantomFudge.Core/QuestionDraft.cs);
 [`TranscriptRowStyle`](../src/PhantomFudge.App/MainWindow.xaml).)
 

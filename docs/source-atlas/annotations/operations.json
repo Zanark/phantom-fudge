@@ -76,7 +76,7 @@
     },
     {
       "path": "scripts/Export-HandbookScreenshots.ps1",
-      "sourceSha256": "2d21f69f63ccf8d94f6aef2e1932e345f9d918aabe91920c9214737ceec4acf2",
+      "sourceSha256": "ac9ac238da02288df23c587cbb483a92224add600adb4dadf41ccbc13326cffa",
       "role": "Import allowlisted synthetic WPF visual-tree images with source provenance, not desktop or recorder evidence.",
       "entryPoints": [
         "Export-HandbookScreenshots.ps1"
@@ -96,37 +96,37 @@
         },
         {
           "start": 25,
-          "end": 50,
-          "title": "Import seventeen named images and record their dimensions",
-          "explanation": "An explicit filename list includes themes, opacity endpoints, Notes, audio setup, question selection/draft/clarification and synthetic answers. Each must exist before its own copy. PNG width and height are read from byte offsets 16..23 and reversed for BitConverter's little-endian interpretation; the code assumes fixture-produced PNGs rather than validating arbitrary image formats. Per-image SHA256, dimensions and visual-tree-fixture kind form the receipt. The loop is incremental: a missing later image can leave earlier copies, so it is not transactional.",
+          "end": 51,
+          "title": "Import twenty-three named images and record their dimensions",
+          "explanation": "The explicit list covers themes, opacity, Notes, source cards, question/clarification/answer states, the mask and three new keyboard selection, command and font illustrations. Each must exist before its own copy. PNG width and height are read from offsets 16..23 and reversed for BitConverter; this assumes fixture-produced PNGs rather than validating arbitrary formats. Per-image SHA256, dimensions and fixture kind form the receipt. The loop is incremental: a missing later image can leave earlier copies, so it is not transactional.",
           "focus": [
             {
-              "start": 36,
-              "end": 47
+              "start": 37,
+              "end": 48
             }
           ]
         },
         {
-          "start": 51,
-          "end": 72,
+          "start": 52,
+          "end": 77,
           "title": "Bind illustrations to a reviewed set of UI source files",
-          "explanation": "The source allowlist names XAML, startup/window partials, question and answer behavior, domain transcript/layout types, theme files and native protection/cursor policy. Every file is hashed under a portable forward-slash key. This records exactly these inputs, not every dependency of the renderer; an omitted future UI source would need an explicit list update. Runtime source is read for provenance, not copied into the screenshot directory.",
+          "explanation": "The allowlist now includes modal controller, selection, device navigation and synthetic diagnostics, the font partial, native hotkeys and domain command/configuration files alongside existing UI dependencies. Every listed file is hashed under a portable key. This binds images to these reviewed inputs, not every transitive renderer dependency; future UI sources require explicit additions. Runtime source is read for provenance, not copied into the image directory.",
           "focus": [
             {
-              "start": 69,
-              "end": 72
+              "start": 74,
+              "end": 77
             }
           ]
         },
         {
-          "start": 73,
-          "end": 90,
+          "start": 78,
+          "end": 95,
           "title": "Publish scoped provenance and derive README images",
           "explanation": "The manifest records schema version, UTC generation time, built PhantomFudge.dll hash, source hashes and image records. It explicitly describes RenderTargetBitmap over synthetic controls, with no recording and no real device names, speech service or cloud request claimed by the fixture. Its limitation is appearance only, not recorder compatibility. Once the manifest is written, Export-ReadmeImages.ps1 verifies selected images and creates opaque derivatives. A derivative failure can therefore occur after screenshot import and manifest creation.",
           "focus": [
             {
-              "start": 76,
-              "end": 85
+              "start": 81,
+              "end": 90
             }
           ]
         }

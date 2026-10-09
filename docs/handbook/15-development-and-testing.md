@@ -60,7 +60,7 @@ every prose edit.
 | Documentation views | `.\scripts\Export-HandbookScreenshots.ps1` | Actual UI images with synthetic labels/content and source hashes |
 
 The Core project is an xUnit test project with explicit test SDK/runner references
-(`tests\PhantomFudge.Core.Tests\PhantomFudge.Core.Tests.csproj:1-24`). The audio project is an
+(`tests\PhantomFudge.Core.Tests\PhantomFudge.Core.Tests.csproj:1-30`). The audio project is an
 **executable harness**, not another xUnit assembly; it links the actual audio sources and
 references ASP.NET Core for local test servers
 (`tests\PhantomFudge.Audio.Tests\PhantomFudge.Audio.Tests.csproj:1-13`).
@@ -123,7 +123,7 @@ cache files even when they use different final output directories. Compile once,
 The documentation fixture must never use real notes or chat content. It has its own command
 line path and validates a synthetic/no-recording result before copying images
 (`src\PhantomFudge.App\App.xaml.cs:47-59`,
-`scripts\Export-HandbookScreenshots.ps1:1-89`). A screenshot request is not authorization to
+`scripts\Export-HandbookScreenshots.ps1:1-94`). A screenshot request is not authorization to
 capture a meeting or disable display affinity.
 
 ## Failure tests worth keeping
@@ -143,7 +143,7 @@ synthetic sentence does not prove every cancellation path.
 
 Record source identity, environment, exact command, pass/failure, sample size and limitations.
 The implementation-status document is a bounded receipt, not a badge that everything is safe
-(`docs\IMPLEMENTATION-STATUS.md:1-226`).
+(`docs\IMPLEMENTATION-STATUS.md:1-279`).
 
 For capture, an in-process `RenderTargetBitmap` image proves UI appearance. A cropped GDI
 fixture proves only the sampled local path. Neither proves what a remote participant sees.
@@ -162,7 +162,7 @@ supposed to be capturable.
 
 - `global.json:1-7` — SDK pin.
 - `Directory.Build.props:1-9` — common build rules.
-- `tests\PhantomFudge.Core.Tests\PhantomFudge.Core.Tests.csproj:1-24` — xUnit runner.
+- `tests\PhantomFudge.Core.Tests\PhantomFudge.Core.Tests.csproj:1-30` — xUnit runner.
 - `tests\PhantomFudge.Audio.Tests\PhantomFudge.Audio.Tests.csproj:1-13` — executable harness.
 - `tests\PhantomFudge.Audio.Tests\Program.cs:18-71` — synthetic group execution.
 - `scripts\Initialize-Transcription.ps1:21-165` — environment/model/token setup.

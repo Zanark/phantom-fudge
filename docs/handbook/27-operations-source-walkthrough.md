@@ -20,13 +20,13 @@ This chapter accompanies **31 canonical source/config/test files, 2,671 physical
 
 The token is another commitment: create 32 random bytes only when absent, encode them as hex, write with `CreateNew`, restrict the Windows DACL to the current SID, and reject invalid existing values instead of silently rotating credentials. Clearing managed variables is not secure erasure. Setup can create this token before a later model failure, so the procedure is staged, not globally transactional. (scripts/Initialize-Transcription.ps1:42)
 
-**“No model download” does not mean “no network.”** Unless skipped, Python setup can create a venv, invoke pip and check dependencies. A requirements-file hash receipt plus three import checks decides whether restoration is needed; it is not a full installed-package integrity audit. `-SkipPythonSetup` skips that stage, not Whisper verification. Hybrid provisioning then uses the local interpreter, or host Python if absent, and forwards `--download` only when selected. The Python provisioner first accepts valid installed files or a verified benchmark cache; existing bad files require explicit repair. (scripts/Initialize-Transcription.ps1:119) (scripts/Initialize-Transcription.ps1:147) (services/transcription/provision_whisper.py:38)
+**“No model download” does not mean “no network.”** Unless skipped, Python setup can create a venv, invoke pip and check dependencies. A requirements-file hash receipt plus three import checks decides whether restoration is needed; it is not a full installed-package integrity audit. `-SkipPythonSetup` skips that stage, not Whisper verification. Hybrid provisioning then uses the local interpreter, or host Python if absent, and forwards `--download` only when selected. The Python provisioner first accepts valid installed files or a verified benchmark cache; existing bad files require explicit repair. (scripts/Initialize-Transcription.ps1:119) (scripts/Initialize-Transcription.ps1:147) (services/transcription/provision_whisper.py:47)
 
-The final configuration is written through `.new` and moved into place only after those stages succeed. Production loading checks an exact key set and validates engine, model, vocabulary and thread bounds. Selecting Vosk is explicit legacy behavior, not automatic rescue after Whisper fails. (scripts/Initialize-Transcription.ps1:157) (services/transcription/configuration.py:18)
+The final configuration is written through `.new` and moved into place only after those stages succeed. Production loading checks an exact key set and validates engine, model, vocabulary and thread bounds. Selecting Vosk is explicit legacy behavior, not automatic rescue after Whisper fails. (scripts/Initialize-Transcription.ps1:157) (services/transcription/configuration.py:17)
 
 ### Recovery precedes build and service management
 
-The diagram follows the launcher and its manager dependency; “ready” never means capture has started. (scripts/Run-PhantomFudge.ps1:17) (services/transcription/manage.py:162)
+The diagram follows the launcher and its manager dependency; “ready” never means capture has started. (scripts/Run-PhantomFudge.ps1:17) (services/transcription/manage.py:203)
 
 ```mermaid
 flowchart TD
@@ -61,7 +61,7 @@ The existing-instance branch filters by executable path and launches a recovery 
 
 For a new launch, packaged executables bypass source builds. `-NotesOnly` skips service startup; it is **not** a privacy sandbox or permanent capture prohibition. The launcher still supplies an available token and the fixed loopback URI to the child. (scripts/Run-PhantomFudge.ps1:29) (scripts/Run-PhantomFudge.ps1:43)
 
-Service ownership is stronger than “a PID exists.” `manage.py` locks lifecycle changes, combines the local receipt with authenticated service/instance identity, and checks protocol support plus a configuration fingerprint containing runtime-source hashes. An incompatible active service is refused. Replacement assets are validated **before** shutting down an owned idle service. A stale unreachable receipt is retained rather than overwritten. Shutdown uses an instance-bound authenticated request and requires `active=false`; it does not terminate an unrelated OS process. (services/transcription/manage.py:67) (services/transcription/manage.py:114) (services/transcription/manage.py:145) (services/transcription/manage.py:174) (services/transcription/configuration.py:39)
+Service ownership is stronger than “a PID exists.” `manage.py` locks lifecycle changes, combines the local receipt with authenticated service/instance identity, and checks protocol support plus a configuration fingerprint containing runtime-source hashes. An incompatible active service is refused. Replacement assets are validated **before** shutting down an owned idle service. With no listener, a stale receipt is removed only after process inspection confirms death or PID reuse; live/unknown ownership is retained rather than overwritten. Shutdown uses an instance-bound authenticated request and requires `active=false`; it does not terminate an unrelated OS process. (services/transcription/manage.py:66) (services/transcription/manage.py:155) (services/transcription/manage.py:186) (services/transcription/manage.py:215) (services/transcription/configuration.py:38)
 
 Docker is an explicit alternative branch requiring existing recipes, engine and Compose. It is neither installed nor selected as fallback. Its `compose down` path does not inherit the native manager’s idle/identity protocol, so the two stop modes should not be described as equivalent safeguards. (scripts/Start-Transcription.ps1:18) (scripts/Stop-Transcription.ps1:8)
 
@@ -84,6 +84,70 @@ The protocol probe stores only authorization presence, not its value, but record
 
 ## 3. Packaging and visual evidence are allowlisted transformations
 
+### Installer workstream58 is separate from the legacy ZIP
+
+The new [installation chapter](../INSTALLATION.md) traces `Build-Installer.ps1`, the Inno recipe
+and native launcher. It targets an unsigned Windows11 x64 prerelease with bundled speech
+runtime/models, per-user installation and guarded update/uninstall. Candidate2 built and lifecycle3
+passed; a clean committed release build and publication remain **pending**. See
+[current evidence](../IMPLEMENTATION-STATUS.md).
+Private repository access, retained external data and separate provider setup remain explicit.
+The self-contained publish/asset recipe is not a passing installer lifecycle receipt.
+(scripts/Build-Installer.ps1:30-54,56-114)
+(tools/Installer/PhantomFudge.iss:14-76,107-161)
+(src/PhantomFudge.Launcher/Program.cs:25-100)
+
+Compact launcher metadata and complete payload inventory are separate. The inventory omits its
+own self-hash; hidden-entry/reparse/private-path checks happen before it is written. The installer
+fixture uses an isolated random AppId/path, exact payload coverage/hashes and a simulated older
+version record. Lifecycle3 passes 11 checks against 3,682 inventoried files from current-runtime
+candidate2, including fresh-helper repair and headless layout validation. It omits shortcuts,
+does not start the app/service and does not establish genuine old-binary migration or clean-VM
+qualification. The build's separate real-PCM gate requires natural process exit.
+(scripts/Build-Installer.ps1:56-98)
+(scripts/Build-Installer.ps1:30-34)
+(scripts/Test-Installer.ps1:15-18,40-84,96-104)
+(src/PhantomFudge.Launcher/Program.cs:25-43,94-100)
+
+The runtime bundler pins embedded CPython3.13.14, discloses PCM-only
+`faster-whisper 1.2.1+phantomfudge1` and rebuilds `CTranslate2 4.6.0+phantomfudge2` with
+oneDNN3.1.1/Microsoft compiler OpenMP. It retains package/native notices, including the explicit
+PyAV omission rationale, rather than copying private environments or providers. Its import probe
+labels closure as modified installed metadata only. The separate `--verify-synthetic-pcm` gate,
+required by `Build-Installer.ps1`, runs real hybrid/VAD/forced Whisper computation and requires
+natural exit. The parent confirms85focused tests; the owner reports successful Unicode execution;
+the Vosk package is unmodified and a first-party working-directory adapter handles non-ASCII paths.
+Earlier Ruy stages remain rejected. Neither this generated-PCM result nor older development speech
+measurements qualifies real captured-speech accuracy, new-backend performance or a clean VM.
+(tools/Installer/runtime-lock.json:1-11)
+(tools/Installer/bundle_runtime.py:246-282,332-376,465-535,538-609,682-694)
+(scripts/Build-Installer.ps1:30-34)
+(services/transcription/recognizer.py:47-77)
+(services/transcription/tests/test_packaged_pcm_runtime.py:35-97,126-138)
+
+`bundle` now unconditionally runs `runtime_audit.audit_pe_closure` before imports, storing the
+auditor's source hash and native dependency records in the manifest. The static check resolves
+declared ordinary/delay/forwarder DLL names only against reviewed inbox names or supported bundled
+locations; the shared probe separately requires the five VC runtime DLLs beside Python. This
+closes the evidentiary gap left by merely restricting `PATH`. The parent reports 92 speech PE
+files/five actual bundled CRT paths passing and a separate 861-file app/launcher static pass.
+The final DLL-qualified runtime rebuild now passes the stronger gate; the parent also confirms85
+focused runtime tests and55native tests passing again. Candidate2's functional DLLs are unchanged;
+these are not clean-VM or comprehensive dynamic-loading results.
+(tools/Installer/bundle_runtime.py:45,677-694)
+(tools/Installer/runtime_audit.py:126-166,169-234)
+
+Setup never starts the app; users finish/close it and then launch from Start. The launcher does
+not release its operation mutex merely because a child survived a delay: it waits for the main
+app mutex or confirmed child exit, reports pending76after30seconds, and preserves the guard
+when pending Close hides progress or the dispatcher shuts down. Its status/error surface is
+ordinary visible UI, not the capture-excluded notes HWND.
+(tools/Installer/PhantomFudge.iss:14-76)
+(src/PhantomFudge.Launcher/Program.cs:108-118,186-227)
+(src/PhantomFudge.Launcher/LauncherWindow.cs:18-57)
+
+### Historical development package
+
 `Publish-Preview.ps1` creates a new timestamped, self-contained .NET `win-x64` directory, refuses collisions, and rejects nonzero publish status before compression. Supplementary content is explicit: nine guides, eight script names, eleven speech runtime/configuration files and five selected historical result files. It does not recursively copy `.local`, tokens, venvs, model caches or probe directories. Self-contained .NET does not mean Python, voices, provider executables or models are bundled. (scripts/Publish-Preview.ps1:14) (scripts/Publish-Preview.ps1:27)
 
 The script-mirror convention has an especially useful implementation:
@@ -95,7 +159,7 @@ Copy-Item -LiteralPath $source -Destination (Join-Path $scripts "$name.txt")
 
 Both outputs read the canonical `.ps1`, so packaged aliases derive from the same bytes rather than a second maintained implementation. This documentation annotates only canonical scripts; parent validation owns source-tree alias equality. ZIP hashing identifies bytes, not signing, publication or qualification. (scripts/Publish-Preview.ps1:30) (scripts/Publish-Preview.ps1:49)
 
-Image export follows another evidence boundary. The screenshot helper builds a separate fixture, waits up to 45 seconds, and requires successful non-recording documentation output before importing twenty named PNGs. It records image dimensions/hashes, selected UI-source hashes and assembly identity. The README helper requires exactly one matching source-hash record, composites ten images unscaled over fixed opaque palette backgrounds, and records both hashes. These loops are incremental, not transactional. Neither RenderTargetBitmap nor successful provenance checks establish recipient-side capture exclusion. (scripts/Export-HandbookScreenshots.ps1:12) (scripts/Export-HandbookScreenshots.ps1:26) (scripts/Export-HandbookScreenshots.ps1:73) (scripts/Export-ReadmeImages.ps1:28)
+Image export follows another evidence boundary. The screenshot helper builds a separate fixture, waits up to 45 seconds, and requires successful non-recording documentation output before importing twenty named PNGs. It records image dimensions/hashes, selected UI-source hashes and assembly identity. The README helper requires exactly one matching source-hash record, composites ten images unscaled over fixed opaque palette backgrounds, and records both hashes. These loops are incremental, not transactional. Neither RenderTargetBitmap nor successful provenance checks establish recipient-side capture exclusion. (scripts/Export-HandbookScreenshots.ps1:12) (scripts/Export-HandbookScreenshots.ps1:26) (scripts/Export-HandbookScreenshots.ps1:78) (scripts/Export-ReadmeImages.ps1:28)
 
 ## 4. Diagnostics: collection, summary, and export are different
 
@@ -149,7 +213,7 @@ flowchart TD
     style Cer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
 ```
 
-These are related measurement concepts, **not one automatic pipeline**: `quality_receipt.main` consumes named quality/stress receipts, not historical `bench` output. Direct package versions are pinned, including `num2words` because normalization affects scores; quality adds `aiohttp`. These files are not complete transitive hash locks. Historical Whisper provisioning records observed post-download hashes for a pinned revision; production provisioning instead checks its checked-in file sizes/hashes and exact file set. Neither claims publisher signatures. (tools/SpeechBench/requirements.txt:1) (tools/SpeechBench/quality-requirements.txt:1) (tools/SpeechBench/bench.py:75) (services/transcription/whisper-models.json:4) (services/transcription/provision_whisper.py:28)
+These are related measurement concepts, **not one automatic pipeline**: `quality_receipt.main` consumes named quality/stress receipts, not historical `bench` output. Direct package versions are pinned, including `num2words` because normalization affects scores; quality adds `aiohttp`. These files are not complete transitive hash locks. Historical Whisper provisioning records observed post-download hashes for a pinned revision; production provisioning instead checks its checked-in file sizes/hashes and exact file set. Neither claims publisher signatures. (tools/SpeechBench/requirements.txt:1) (tools/SpeechBench/quality-requirements.txt:1) (tools/SpeechBench/bench.py:75) (services/transcription/whisper-models.json:4) (services/transcription/provision_whisper.py:37)
 
 ### Cross-language boundary: C# callbacks to Python results
 

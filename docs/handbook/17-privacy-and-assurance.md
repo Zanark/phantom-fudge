@@ -90,7 +90,7 @@ secure memory erasure, immunity to dumps, or control over host swap/administrato
 The server uses a bounded local token, constant-time comparison, a one-active-session admission
 rule and explicit frame limits. Management operations additionally match an instance identity;
 they are not arbitrary process-control APIs (`services\transcription\server.py:71-215`,
-`services\transcription\manage.py:114-159`).
+`services\transcription\manage.py:155-200`).
 
 A malicious process running as the same user or an administrator is not contained by calling
 the service "localhost." The token and current-user boundaries reduce accidental/cross-context
@@ -183,6 +183,6 @@ bounded measured results, not evidence that an Azure deployment or universal fiv
 - `src\PhantomFudge.App\Native\CursorPolicy.cs:1-25` — standard cursor behavior.
 - `src\PhantomFudge.App\LocalFailureNotice.cs:1-30` — generic local error notice.
 - `services\transcription\server.py:71-215` — protocol/authentication boundaries.
-- `services\transcription\manage.py:114-159` — owned shutdown.
+- `services\transcription\manage.py:155-200` — owned shutdown.
 - `src\PhantomFudge.Core\NoteFileStore.cs:16-91` — local file semantics.
 - `docs\AI-ANSWER-PRIVACY.md:1-93` — proposed cloud boundary.

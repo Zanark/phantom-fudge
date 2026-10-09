@@ -1,0 +1,14 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Installation and capture are separate actions
+    accDescr: Setup installs files but never launches the app. After closing Setup, a deliberate launch checks coordination guards and prepares the idle service. Recording requires a separate explicit Start.
+    Setup["Run per-user Setup"] --> Finish["Finish and close Setup"]
+    Finish --> Launch["Open from Start"]
+    Launch --> Ready["Launcher checks guards and prepares idle service"]
+    Ready --> App["App ready: not recording"]
+    App --> Capture["Choose devices and explicitly Start"]
+    classDef stage fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    class Setup,Finish,Launch,Ready,App,Capture stage
+    linkStyle default stroke:#8b949e

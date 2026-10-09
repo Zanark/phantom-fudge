@@ -27,7 +27,7 @@ public partial class MainWindow
         var segment = questionTranscript.Segments.Single(item => item.IsFinal &&
             item.Key.CaptureSessionId == questionTranscript.SessionId && item.ProtocolSegmentId == value.SegmentId);
         var scroll = FindTranscriptScrollViewer(TranscriptText);
-        var followEnd = scroll is null || scroll.VerticalOffset >= scroll.ScrollableHeight - 1;
+        var followEnd = !KeyboardSelecting && (scroll is null || scroll.VerticalOffset >= scroll.ScrollableHeight - 1);
         var row = new TranscriptRow(rendered[previousLength..^Environment.NewLine.Length], segment);
         transcriptRows.Add(row);
         if (followEnd)
@@ -59,6 +59,7 @@ public partial class MainWindow
             PartialText.ItemsSource = partialTranscriptRows;
         }
         finally { renderingTranscriptSelection = false; }
+        RefreshKeyboardTranscriptView();
         SyncTranscriptSelection();
     }
 
@@ -109,11 +110,16 @@ public partial class MainWindow
             SyncTranscriptSelection();
             return;
         }
+        ApplyTranscriptSelection(args.RemovedItems.Cast<TranscriptRow>(), args.AddedItems.Cast<TranscriptRow>());
+    }
+
+    private void ApplyTranscriptSelection(IEnumerable<TranscriptRow> removed, IEnumerable<TranscriptRow> added)
+    {
         var selected = questionDraft.SelectedSegments.ToDictionary(item => item.Key);
-        foreach (TranscriptRow row in args.RemovedItems)
+        foreach (var row in removed)
             if (row.Segment is not null)
                 selected.Remove(row.Segment.Key);
-        foreach (TranscriptRow row in args.AddedItems)
+        foreach (var row in added)
             if (row.Segment is not null)
                 selected[row.Segment.Key] = row.Segment;
         // Use displayed history order, not click order, and retain copied entries outside the view.
@@ -126,13 +132,13 @@ public partial class MainWindow
             RenderQuestionDraft();
             SetQuestionExpanded(true);
             EnsureQuestionReadingVisible();
-            SetQuestionEditing(true);
+            if (!KeyboardSelecting) SetQuestionEditing(true);
             QuestionSegments.SelectedItems.Clear();
             var selectedKeys = questionDraft.SelectedSegments.Select(item => item.Key).ToHashSet();
             foreach (TranscriptSegment segment in QuestionSegments.Items)
                 if (selectedKeys.Contains(segment.Key))
                     QuestionSegments.SelectedItems.Add(segment);
-            QuestionStatus.Text = $"{selected.Count} line(s) copied locally. Click more lines, or edit and Ask. Nothing was sent.";
+            QuestionStatus.Text = $"{selected.Count} line(s) copied locally. Review before Ask. Nothing was sent.";
         }
         catch (Exception error) when (IsQuestionInputFailure(error))
         {

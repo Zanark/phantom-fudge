@@ -1,0 +1,14 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Maintenance preserves ownership and user data
+    accDescr: Update or uninstall requires a closed app and a safe installed-runtime maintenance result. Program files change only after the guard succeeds; external settings, diagnostics and saved documents remain.
+    Close["Save, stop capture, close app"] --> Guard["Setup or Uninstall holds maintenance guard"]
+    Guard --> Safe{"Ownership and idle checks pass?"}
+    Safe -->|No| Refuse["Refuse without force-closing"]
+    Safe -->|Yes| Change["Replace or remove program files"]
+    Change --> Retain["Keep external notes, exports and settings"]
+    classDef stage fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    class Close,Guard,Safe,Refuse,Change,Retain stage
+    linkStyle default stroke:#8b949e

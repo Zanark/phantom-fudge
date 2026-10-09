@@ -19,6 +19,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\PhantomFudge.Core\PhantomFudge.Core.csproj" />
+    <Compile Include="..\..\src\PhantomFudge.Launcher\LauncherContract.cs" Link="Launcher\LauncherContract.cs" />
+    <Compile Include="..\..\src\PhantomFudge.Launcher\ChildProcesses.cs" Link="Launcher\ChildProcesses.cs" />
+    <Compile Include="..\..\src\PhantomFudge.Launcher\LocalToken.cs" Link="Launcher\LocalToken.cs" />
+    <Compile Include="..\..\src\PhantomFudge.Launcher\MaintenanceOperation.cs" Link="Launcher\MaintenanceOperation.cs" />
+    <Compile Include="..\..\src\PhantomFudge.Launcher\OwnedServiceClient.cs" Link="Launcher\OwnedServiceClient.cs" />
+    <Compile Include="..\..\src\PhantomFudge.Launcher\ProcessIdentity.cs" Link="Launcher\ProcessIdentity.cs" />
   </ItemGroup>
 
 </Project>

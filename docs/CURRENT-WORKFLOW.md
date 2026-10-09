@@ -1,6 +1,7 @@
 ---
 title: "Current Workflow: An Illustrated Guide"
-description: "The complete current-source workflow: audio cards, recording, transcript selection, clarification, answers, cover mode and safe recovery."
+description: "The current-source workflow: audio cards, recording, question selection, keyboard controls, answer size, clarification, cover mode and recovery."
+outline: deep
 ---
 
 # Current workflow: an illustrated guide
@@ -18,11 +19,26 @@ The [source-image manifest](handbook/assets/screenshots/manifest.json) and
 [README-image manifest](assets/readme/manifest.json) record their provenance.
 Current rendering and behavior are defined by the window and its partial classes, not by the
 historical package. (src/PhantomFudge.App/MainWindow.xaml:1-10;
-src/PhantomFudge.App/MainWindow.Questions.cs:26-59;
-src/PhantomFudge.App/MainWindow.Cover.cs:22-76.)
+src/PhantomFudge.App/MainWindow.Questions.cs:27-61;
+src/PhantomFudge.App/MainWindow.Cover.cs:22-77.)
 
 Configure an [answer provider](ANSWER-PROVIDERS.md) before the AI steps. Without one, **Freeze
 locally** only captures a local question snapshot; transcription and notes remain usable.
+
+### Keyboard-first route
+
+Keyboard controls and the answer-size slider are implemented in current source. The guide,
+source atlas and handbook include the updated workflow and synthetic illustrations.
+The canonical [keyboard guide](KEYBOARD-CONTROLS.md) covers:
+**Ctrl+Alt+K → `v` → `j`/`k` → Space → Enter to review → Ctrl+Enter to submit**.
+Edit is literal typing: Enter makes a newline. Escape backs out through Control before a
+best-effort return to the previous app; `m` in Control masks and disarms without stopping work.
+There is no cursor locking/hiding/warping or global letter-key capture.
+(src/PhantomFudge.App/MainWindow.Keyboard.cs:67-85,141-175,218-306,364-368;
+src/PhantomFudge.App/MainWindow.KeyboardSelection.cs:110-159.)
+Edit remains armed after submission. Async interpretation retargets the visible editable reply/
+original field only while this app is already foreground; it does not steal focus from another app.
+(src/PhantomFudge.App/MainWindow.Keyboard.cs:127-139,301-306.)
 
 ## Architecture: what happens after each click
 
@@ -83,12 +99,17 @@ src/PhantomFudge.Core/Answers/AnswerClarification.cs:13-69.)
 | Red-bordered Clear question | Clear the question/snapshot/answer, not the transcript or notes |
 | Clarify first | Default-off interpretation and explicit correction/confirmation workflow |
 | Book icon, top left | Toggle the visual mask; already-started work continues |
+| Keys / Ctrl+Alt+K | Enter modal keyboard control; local selection, review, commands and reading |
+| Answer Size | Choose 8–24 for this session; resizing retains a choice, restarting does not |
 | Diagnostics | Open local diagnostics and reload its settings |
 
 These are distinct handlers and state checks, not alternate names for one global pause action.
-(src/PhantomFudge.App/MainWindow.Questions.cs:156-205,258-330;
+(src/PhantomFudge.App/MainWindow.Questions.cs:158-212,265-337;
 src/PhantomFudge.App/MainWindow.RecordingIndicator.cs:7-10;
-src/PhantomFudge.App/MainWindow.Cover.cs:20-76.)
+src/PhantomFudge.App/MainWindow.Cover.cs:20-77.)
+Keyboard routing and answer size are separate additions.
+(src/PhantomFudge.App/MainWindow.Keyboard.cs:177-196;
+src/PhantomFudge.App/MainWindow.AnswerFont.cs:9-43.)
 
 ## 1. Choose audio device cards
 
@@ -143,7 +164,7 @@ required. The draft follows displayed history order rather than click order. A w
 remains one selectable unit. Generated timestamps/source prefixes do not enter the question.
 Selecting rows opens the question editor and deliberately takes editing focus without stopping
 transcription or sending a request.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:84-141.)
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:85-147.)
 
 After you manually edit the draft, further direct row changes are refused so a click cannot
 destroy your corrections. Copy anything needed, then use **Clear question** before starting a
@@ -152,7 +173,7 @@ route remains an explicit replacement alternative, except while a clarification 
 One draft is limited to256selected entries from one capture session and8192UTF-16 units including
 inserted newlines. Invalid changes retain the existing text rather than truncating it.
 (src/PhantomFudge.Core/QuestionDraft.cs:8-45,48-79,105-125;
-src/PhantomFudge.App/MainWindow.Questions.cs:103-129.)
+src/PhantomFudge.App/MainWindow.Questions.cs:105-131.)
 
 ## 4. Optionally ask the model to clarify your intended question
 
@@ -187,7 +208,7 @@ exact reviewed text and starts that request. Only one answer runs at a time.
 **Cancel answer** retains visible partial text as incomplete. **Clear question** clears the
 question, last displayed snapshot and answer, but does not erase notes or the transcript.
 It does not erase previously exported files or diagnostic/provider history.
-(src/PhantomFudge.App/MainWindow.Questions.cs:258-330;
+(src/PhantomFudge.App/MainWindow.Questions.cs:265-337;
 src/PhantomFudge.Core/Answers/AnswerRun.cs:32-79.)
 
 Installed Agency uses its existing model service; it is not inherently offline inference.
@@ -204,7 +225,7 @@ Click the **top-left book icon**. Only **NOTEPAD IS READY** and the same icon re
 running continue behind it; no new capture or request is created. Uncover restores current results
 and the retained workspace. The recording dot is behind the cover, so its absence is not a stopped
 indicator. File/confirmation operations block covering rather than hiding a required decision.
-(src/PhantomFudge.App/MainWindow.Cover.cs:22-76.)
+(src/PhantomFudge.App/MainWindow.Cover.cs:22-77.)
 
 The cover disables/detaches the workspace and refreshes the window peer's current children.
 Fresh in-process accessibility traversal excludes the covered fields, but an already-retained
@@ -224,15 +245,21 @@ affinity and the Peek-prevention request are limited Windows mechanisms, not glo
 | Hide or global Edit/Present | Stops | Cancels/cleans up |
 | Hide Q/A, open Audio setup, or expand Notes | Audio is unchanged | Closing Q/A cancels its answer/provider activity |
 | Type/edit the question | Continues | Existing frozen request stays independent |
+| Ordinary keyboard modes / Escape | Continues | Continues; no implicit cancellation |
+| Compact selection/reading layout | Continues | Temporary panel hiding preserves state; not Hide Q/A or cancellation |
+| `:devices` | Refused while starting/running/stopping | Refused while answer busy; when allowed, setup closes Q/A/provider activity |
 | Clear question | Unchanged | Cancels/clears question and answer state |
 | Exit | Stops before preservation checks | Cancels/cleans up; unsaved content still requires a decision |
 
 These differences follow the actual separate handlers. In particular, opening setup is not the
 same continuation path as Cover.
-(src/PhantomFudge.App/MainWindow.Questions.cs:39-59,156-201,320-330;
+(src/PhantomFudge.App/MainWindow.Questions.cs:40-61,158-208,327-337;
 src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs:39-49;
 src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:10-17;
 [`StopTranscriptionAsync`, `ToggleVisibility`, `RequestActionAsync`](../src/PhantomFudge.App/MainWindow.xaml.cs).)
+The keyboard setup command adds an explicit busy guard before the same setup path; it is not an
+ordinary mode switch. `:start` is explicit capture, `:stop` is audio-only, and `:cancel` is
+answer/preparation-only. (src/PhantomFudge.App/MainWindow.Keyboard.cs:87-125,320-358.)
 
 ```mermaid
 ---
@@ -263,7 +290,7 @@ sequenceDiagram
 | --- | ---: | --- |
 | Final transcript | 15 |25%smaller than20 |
 | Live partial |13.5normal /10.5compact |25%smaller than18/14 |
-| Answer and interpretation |10normal /9compact |50%smaller than20/18 |
+| Answer and interpretation |10 normal /9 compact until chosen;8–24 choice | Size slider / `:font` / Read `+`/`-`; session-only |
 | Question and clarification reply |18 |Unchanged by those reductions |
 | Device card name |12 |Independent of transcript/answer typography |
 
@@ -272,8 +299,16 @@ Reading text stays opaque white in DeepSeaFoam and black in light/plain themes. 
 slider affects the reading backdrop, not whole-window text opacity; its default is55%, range10–100%.
 Long text retains its own scrollbar, while the main panels and device choices avoid nested scrolling.
 ([Current declarations](../src/PhantomFudge.App/MainWindow.xaml);
-src/PhantomFudge.App/MainWindow.Layout.cs:58-106;
+src/PhantomFudge.App/MainWindow.Layout.cs:58-110;
 src/PhantomFudge.Core/ThemePalette.cs:11-29.)
+The answer-size choice takes precedence over those responsive defaults across resize, but is not
+written to disk. See [answer size](KEYBOARD-CONTROLS.md#answer-size-session-choice-not-a-saved-preference).
+(src/PhantomFudge.App/MainWindow.AnswerFont.cs:9-43.)
+At narrow, short sizes, Select/Search temporarily give the reading area to the transcript and
+restore Q/A when selection ends. Other keyboard modes prioritize expanded Q/A; a chosen size 14+
+with a visible answer does so even outside keyboard control. This is reversible panel visibility,
+not data loss or audio/provider shutdown; wide columns remain unchanged. See
+[compact-window behavior](KEYBOARD-CONTROLS.md#compact-windows-the-active-task-gets-the-reading-space).
 
 ## Launch, diagnostics and preservation
 
@@ -299,6 +334,7 @@ Clear and Cover do not erase existing logs. Use **Diagnostics**, `Show-Diagnosti
 ## References
 
 [Setup](PREVIEW-GUIDE.md) · [Question selection](LOCAL-QUESTIONS.md) ·
+[Keyboard controls and answer size](KEYBOARD-CONTROLS.md) ·
 [Clarification](QUESTION-CLARIFICATION.md) · [Providers](ANSWER-PROVIDERS.md) ·
 [Cover/privacy](COVER-AND-PRIVACY.md) · [Current evidence](IMPLEMENTATION-STATUS.md) ·
 [Annotated source](source-atlas/README.md)

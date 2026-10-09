@@ -1,0 +1,504 @@
+{
+  "schemaVersion": 1,
+  "id": "installer-launcher",
+  "title": "Native installed launcher, ownership and maintenance",
+  "chapter": "docs/INSTALLATION.md",
+  "files": [
+    {
+      "path": "src/PhantomFudge.Launcher/PhantomFudge.Launcher.csproj",
+      "sourceSha256": "a14b653b1519b2445b975595d1eca9705a6e1ef6e56701e783a889778e6c4a81",
+      "role": "Builds the independent WPF Windows launcher as a self-contained x64 executable without additional PackageReference dependencies.",
+      "entryPoints": ["dotnet publish", "Program.Main", "Directory.Build.props"],
+      "blocks": [
+        {
+          "start": 1, "end": 13,
+          "title": "Carry the desktop runtime instead of requiring a developer installation",
+          "explanation": "WinExe selects the Windows GUI subsystem rather than a console host. net10.0-windows and UseWPF provide the generic progress/error surface, while win-x64 and SelfContained package the required .NET runtime. The application manifest is explicitly embedded. This file declares no external NuGet package or Core/App project reference: the launcher does not need to load the main application to perform repair maintenance. Repository-wide nullable, deterministic and warnings-as-errors settings still come from Directory.Build.props. Version0.1.0 is the project default; the installer builder supplies release-specific version properties.",
+          "focus": [{"start": 3, "end": 11}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/app.manifest",
+      "sourceSha256": "696312a3f600b6022b9dfcec2cab1a7b8a65230ea3ec5287680cb9574e66f527",
+      "role": "Declares ordinary-user activation, Windows compatibility and DPI/path awareness for the launcher rather than granting installer elevation or UI-access privileges.",
+      "entryPoints": ["Windows executable activation", "PhantomFudge.Launcher.csproj"],
+      "blocks": [
+        {
+          "start": 1, "end": 22,
+          "title": "Keep bootstrap maintenance in the calling user's security context",
+          "explanation": "asInvoker retains the caller's privilege and uiAccess=false does not request privileged accessibility access. The supportedOS GUID declares modern Windows compatibility; it is not an independent Windows11 minimum-build check. PerMonitorV2 and longPathAware request supported DPI and long-path behavior for the launcher window and filesystem operations. The assembly identity names this executable separately from the notes application. These declarations neither sign the binary nor establish capture exclusion, process invisibility or clean-machine qualification.",
+          "focus": [{"start": 4, "end": 14}, {"start": 16, "end": 20}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/LauncherContract.cs",
+      "sourceSha256": "95f1a928fe1e2a4c7ca5bbacaa31e64be03957934301a78495ef1c193686a6f1",
+      "role": "Defines the exact command surface, local identity/token rules, installed layout and installer-presence gate without interpreting manifest data as executable instructions.",
+      "entryPoints": ["LauncherContract.ParseArguments", "LauncherContract.ReadVersion", "InstallPaths.FromInstallRoot", "InstallPaths.Validate", "InstallerMaintenanceGate.Blocks"],
+      "blocks": [
+        {
+          "start": 1, "end": 36,
+          "title": "Accept explicit modes and derive local identities without shell interpretation",
+          "explanation": "Array-pattern matching accepts only the documented complete argument shapes. Maintenance may name an existing installation root, whereas validation requires one; extra arguments and unknown switches become Invalid rather than reaching a child process. The SID suffix reproduces the main application's uppercase first24 SHA256 hex characters, so recovery addresses the same user/session instance. New tokens contain32 cryptographically random bytes encoded as64 lowercase hex characters. Validation intentionally accepts the broader bounded URL-safe alphabet, preserving previously provisioned valid tokens instead of rotating them.",
+          "focus": [{"start": 14, "end": 23}, {"start": 25, "end": 36}]
+        },
+        {
+          "start": 37, "end": 54,
+          "title": "Treat installation version as bounded metadata rather than command configuration",
+          "explanation": "ReadVersion rejects more than16384 characters, limits JSON nesting to8, and requires an object containing a string version. The version itself is limited to80 ASCII letters, digits, dots, hyphens or plus signs. This is a syntactic metadata check, not semantic-version ordering or downgrade authorization; those belong to the installer. Unknown fields are not used for execution or paths, so a manifest containing an arbitrary python or arguments field cannot redirect the launcher.",
+          "focus": [{"start": 40, "end": 50}]
+        },
+        {
+          "start": 55, "end": 85,
+          "title": "Separate replaceable program files from the fixed per-user workspace",
+          "explanation": "Every executable, manager, model directory, ownership marker and runtime metadata filename is constructed from fixed path components. Ordinary launch must originate from a directory named launcher and derives the installation root from its parent. A fresh installer helper can instead supply an absolute installation root directly. Both paths still derive writable data from the supplied LocalAppData base plus PhantomFudge/InstalledRuntime; changing the target installation root never selects a different runtime receipt or token directory. Path normalization removes trailing separators without reading any manifest override.",
+          "focus": [{"start": 58, "end": 67}, {"start": 69, "end": 76}, {"start": 79, "end": 85}]
+        },
+        {
+          "start": 86, "end": 114,
+          "title": "Keep ownership checks separate from complete installed-layout checks",
+          "explanation": "ValidateOwnershipMarker reads at most64 bytes and requires the trimmed product marker. Maintenance can use that limited ownership check even when the old manifest or executable is damaged. Validate, used for startup and check-only validation, additionally requires the app and a strictly decoded UTF8 manifest of at most16KiB. Speech-enabled validation requires the bundled Python executable, manager and both expected model directories. These are existence/path/metadata checks, not PE signature verification, model-file hashing or native ABI qualification. RequireRegularFile rejects missing files and invokes ancestor reparse-point checks.",
+          "focus": [{"start": 87, "end": 98}, {"start": 99, "end": 105}, {"start": 109, "end": 113}]
+        },
+        {
+          "start": 115, "end": 150,
+          "title": "Bound metadata reads and reject detected linked path components",
+          "explanation": "ReadBounded allocates only maximumBytes+1 and reads until EOF or that sentinel byte, so a growing or oversized metadata file cannot cause an unbounded ReadAllText allocation. One byte beyond the limit is an error, not silent truncation. Directory validation checks existence before walking the path. RejectReparsePoints examines every existing component up to the root and refuses symbolic-link/junction-style aliases. This is defensive path validation within a same-user installation, not an atomic filesystem trust boundary against that user.",
+          "focus": [{"start": 118, "end": 129}, {"start": 140, "end": 148}]
+        },
+        {
+          "start": 151, "end": 165,
+          "title": "Respect installer presence without acquiring or releasing the installer's mutex",
+          "explanation": "Normal and notes-only modes check the exact Local\\PhantomFudge-Installer-Maintenance named mutex. Presence is sufficient, even if the creating thread does not own the mutex. The probe opens and immediately disposes only its own handle, never waits for ownership, and never releases the installer's handle. Maintenance, validation and diagnostic modes short-circuit before probing so a fresh installer helper can operate while Setup holds the gate. An internal name parameter permits a random test namespace; no CLI or manifest field can override the production name.",
+          "focus": [{"start": 154, "end": 164}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+      "sourceSha256": "4105df6f8999fe76d5f426bdde483fd66e9b2a4a01f039596579530caba787f6",
+      "role": "Constructs direct installed child processes, preserves startup coordination until proven handoff, and drains manager output without persisting child text.",
+      "entryPoints": ["ApplicationHandoff.Completion", "ApplicationHandoff.Pending", "ChildProcesses.Manager", "ChildProcesses.Application", "ChildProcesses.RunAsync"],
+      "blocks": [
+        {
+          "start": 1, "end": 42,
+          "title": "Require an app mutex or confirmed child exit instead of treating elapsed time as readiness",
+          "explanation": "ChildResult represents manager completion independently of app readiness. ApplicationHandoff polls two injected evidence probes every100ms: confirmed child exit returns false, while the main-instance mutex returns true. A living child without that mutex remains pending indefinitely; surviving two seconds proves nothing. Expected inspection/access failures are uncertain evidence and do not release the guard. Pending stays true unless the completion task finishes successfully, including a completed false result for confirmed exit. ConfigureAwait(false) lets Program synchronously retain the operation mutex even after its WPF dispatcher has stopped. Tests can model liveness without running the real notes app.",
+          "focus": [{"start": 12, "end": 23}, {"start": 24, "end": 25}, {"start": 29, "end": 40}]
+        },
+        {
+          "start": 43, "end": 62,
+          "title": "Start only the bundled manager with the reviewed Python prefix",
+          "explanation": "Manager accepts only start; installer maintenance is deliberately not delegated to this potentially damaged Python installation. ArgumentList keeps -I, -B, -X, utf8, the absolute manager path and the verb as separate arguments rather than shell text. The embedded Python _pth must explicitly include the packaged service directory for isolated imports. Redirecting all standard streams makes stdin closeable and output drainable without opening a console or parsing human-readable service messages.",
+          "focus": [{"start": 48, "end": 56}, {"start": 57, "end": 60}]
+        },
+        {
+          "start": 63, "end": 79,
+          "title": "Launch the notes executable without forwarding manager switches or shell commands",
+          "explanation": "Application constructs the fixed app path and app-directory working directory, then sets the loopback transcription URI. It adds the locally read token only when the caller supplies one; notes-only launch passes null. No manager arguments are forwarded to the main app. NewStart disables shell execution and requests no console window, but does not hide the WPF notes window with a Hidden window-style flag. Process creation is therefore independent of PowerShell, command-file associations and a system Python or .NET host.",
+          "focus": [{"start": 64, "end": 71}, {"start": 74, "end": 78}]
+        },
+        {
+          "start": 80, "end": 105,
+          "title": "Replace ambient speech configuration with installed paths and offline defaults",
+          "explanation": "The child environment is copied by ProcessStartInfo, then inherited PHANTOM_TRANSCRIPTION_* and PYTHON* keys plus the two named model-hub token variables are removed case-insensitively. The launcher installs the fixed workspace, canonical MODELS_ROOT and token-file path; it does not preserve an ambient remote host, source-workspace model path or speech token. Offline/no-telemetry/no-implicit-token flags request local model behavior, with model-hub caches directed into writable InstalledRuntime/.local. These environment policies are not an OS firewall. The explicit Python command-line prefix supplies isolation, no-bytecode and UTF8 behavior even where isolated Python ignores PYTHON* variables.",
+          "focus": [{"start": 83, "end": 93}, {"start": 94, "end": 104}]
+        },
+        {
+          "start": 106, "end": 142,
+          "title": "Drain both pipes to completion while bounding memory and preserving uncertain runtime ownership",
+          "explanation": "RunAsync closes redirected stdin immediately, starts independent stdout/stderr drains and waits for process exit plus both drains under one deadline. It never returns raw output to callers. Each drain uses a1024-character buffer and caps only its observed-character counter at8192; it continues consuming later text so a full pipe does not deadlock the child. Timeout returns an explicit timed-out result without killing a possibly initializing service or deleting its receipt. Disposal closes parent-owned handles; pipe IO/disposal failures are tolerated and their exception text is not retained.",
+          "focus": [{"start": 109, "end": 117}, {"start": 119, "end": 122}, {"start": 126, "end": 137}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/InstanceCoordination.cs",
+      "sourceSha256": "ffd88a75a2a51c853775df24ab12579b96624843b7bfc1f41ec097b6bf54d4f7",
+      "role": "Coordinates same-user/session launch operations and speaks the existing app's reveal pipe protocol without enumerating, terminating or replacing application processes.",
+      "entryPoints": ["InstanceCoordination constructor", "AppIsRunning", "TryEnter", "RevealAsync", "Dispose"],
+      "blocks": [
+        {
+          "start": 1, "end": 27,
+          "title": "Match the app's SID-derived recovery name while keeping a separate operation mutex",
+          "explanation": "Production construction reads the current Windows SID and delegates suffix generation to LauncherContract. The pipe uses PhantomFudge-<suffix>, matching the app, while the operation mutex adds Launcher so startup and maintenance serialize independently of app lifetime. The Local namespace is scoped to the Windows session; these are not installation-directory-specific locks. The internal suffix constructor also lets self-test use an unrelated random name rather than contacting a real user window.",
+          "focus": [{"start": 12, "end": 20}, {"start": 22, "end": 26}]
+        },
+        {
+          "start": 28, "end": 48,
+          "title": "Detect an existing app without taking its mutex and refuse concurrent operations",
+          "explanation": "AppIsRunning only opens and disposes an existing named mutex handle. It does not acquire app ownership, inspect process names or start an executable to probe for one. TryEnter performs a zero-wait acquisition of the separate launcher mutex; contention returns false immediately. An abandoned mutex exception means Windows granted ownership after a previous owner disappeared, so ownsOperation is set true and later disposal must release it.",
+          "focus": [{"start": 29, "end": 34}, {"start": 37, "end": 47}]
+        },
+        {
+          "start": 49, "end": 66,
+          "title": "Send only REVEAL over a current-user pipe and release only owned synchronization",
+          "explanation": "Recovery connects to the local named pipe with CurrentUserOnly and a five-second cancellation budget, writes exactly the six REVEAL bytes and flushes them. No note text, token or command payload is sent. Dispose releases the operation mutex only if this object acquired it; mutex ownership is thread-affine, which the Program entrypoint preserves. The lease lasts for this launcher process, not for subsequent installer file replacement after maintenance has exited, so it is not a transaction lock covering an entire update.",
+          "focus": [{"start": 50, "end": 57}, {"start": 60, "end": 64}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/LocalToken.cs",
+      "sourceSha256": "9db2b1e5b0330afd2a86581b713c02c2e0f9c799d3c3e374dd49427348ee5f4d",
+      "role": "Creates a missing local capability token with a current-user-only Windows DACL and validates existing bytes and permissions without silently rotating or repairing them.",
+      "entryPoints": ["LocalToken.ReadOrCreate", "LocalToken.Read", "LocalToken.VerifyPrivateAcl"],
+      "blocks": [
+        {
+          "start": 1, "end": 40,
+          "title": "Apply the private DACL at creation instead of securing an already public token",
+          "explanation": "The Windows-only helper checks for linked paths, creates all runtime-data parents and rechecks before opening the token. For an absent file it obtains the current SID, sets that SID as owner, disables inherited access rules and grants only that SID FullControl. FileMode.CreateNew and the supplied FileSecurity apply this policy during creation and refuse replacement of an existing token. Bytes are ASCII and flushed to disk. An IO exception is tolerated only when a file now exists, and that file still goes through the full read/ACL checks; an incomplete or invalid file is never accepted merely because creation raced.",
+          "focus": [{"start": 19, "end": 30}, {"start": 31, "end": 39}]
+        },
+        {
+          "start": 41, "end": 64,
+          "title": "Read bounded ASCII token data and preserve malformed files for deliberate repair",
+          "explanation": "Read first requires a regular, non-linked file, rejects the obvious over1024-byte case and verifies the ACL before opening content. The actual read is independently capped at1025 bytes to detect growth beyond the limit. Non-ASCII bytes, including a UTF8 BOM, are rejected rather than decoded permissively. Surrounding ASCII whitespace is trimmed, then the shared32-to512-character URL-safe rule is applied. The helper returns the token only to local callers and contains no logging, deletion or implicit token replacement path.",
+          "focus": [{"start": 44, "end": 55}, {"start": 58, "end": 63}]
+        },
+        {
+          "start": 65, "end": 86,
+          "title": "Require protected current-user ownership rather than rewriting existing permissions",
+          "explanation": "VerifyPrivateAcl checks both owner SID and inheritance protection, then enumerates explicit and inherited rules as security identifiers. Any Allow entry for another identity fails validation. It also requires an Allow rule granting the current user ReadData; ordinary file opening still determines whether other deny rules prevent reading. Existing insecure ACLs are not silently tightened or token contents rotated, so a permission failure becomes an actionable startup refusal while preserving the file.",
+          "focus": [{"start": 70, "end": 81}, {"start": 83, "end": 84}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/MaintenanceOperation.cs",
+      "sourceSha256": "cbee214c1fac7c36a6a6bdcc3d0b14af0d58c3dedf583d5ddf3a9b21010a01a4",
+      "role": "Stops only an authenticated idle installed service, or clears a proven-dead matching receipt, without depending on old program files or signaling an OS process.",
+      "entryPoints": ["RuntimeReceipt.Parse", "MaintenanceOperation.RunAsync", "RemoveUnchangedReceipt"],
+      "blocks": [
+        {
+          "start": 1, "end": 43,
+          "title": "Parse ownership evidence without confusing a recycled PID with the old service",
+          "explanation": "RuntimeReceipt requires schemaVersion1 and an exact lowercase32-hex GUID instance ID. A present PID must be a nonzero unsigned32-bit number. Creation time, when present, requires a PID and a positive decimal string that fits an unsigned64-bit FILETIME representation. Legacy receipts may omit PID/creation evidence, but an orphan creation timestamp cannot prove any process identity. The JSON nesting limit is8; unknown receipt fields are not executable configuration. A PID alone can prove confirmed absence, but only recorded creation evidence can distinguish a live recycled PID from its previous owner.",
+          "focus": [{"start": 17, "end": 28}, {"start": 31, "end": 41}]
+        },
+        {
+          "start": 44, "end": 86,
+          "title": "Establish local ownership and serialize with the Python manager before any HTTP",
+          "explanation": "An absent data directory or both token and receipt absent succeeds without even probing the port. Any remaining state acquires the Python manager's byte0/length1 lifecycle lock; contention refuses immediately and disposal releases the lock across asynchronous work. A receipt without a token refuses because it cannot authenticate its possibly live owner. Token-only state is normal after an earlier successful stop: after private-token validation it succeeds only if an unauthenticated TCP probe confirms the port is unused, never sending credentials or shutdown to an untracked listener. With both files present, the bounded16KiB receipt is parsed. A confirmed-absent PID permits matching-receipt cleanup even if initialization never recorded creation time. A live PID needs a recorded, different FILETIME to prove recycling; inspection failure is never interpreted as absence.",
+          "focus": [{"start": 52, "end": 63}, {"start": 68, "end": 79}, {"start": 80, "end": 86}]
+        },
+        {
+          "start": 87, "end": 110,
+          "title": "Require matching authenticated idle state and wait for the exact process to disappear",
+          "explanation": "The transport validates service/protocol shape before returning RuntimeIdentity. This layer additionally compares its instance ID and any recorded PID, refuses active transcription and obtains the live Windows creation identity. It sends shutdown only after those checks; a creation mismatch discovered during the race window takes the safe stale-receipt path instead. A positive stopping acknowledgment is not completion: maintenance polls the exact PID/creation pair every100ms for up to15 seconds. Timeout retains the receipt and returns failure; no Kill, terminate signal or process-name fallback exists.",
+          "focus": [{"start": 88, "end": 98}, {"start": 100, "end": 109}]
+        },
+        {
+          "start": 111, "end": 120,
+          "title": "Delete only the unchanged ownership receipt after a successful identity proof",
+          "explanation": "Cleanup revalidates the receipt path, reads it within the same bound and compares its bytes with the original snapshot. A replacement receipt is retained rather than erased on behalf of an earlier service instance. Only the receipt is deleted; the token, configuration, models and user data are untouched. The surrounding lifecycle lock serializes cooperating managers, while this extra comparison detects an unexpected rewrite. It is not a claim of atomic compare-and-delete against arbitrary same-user filesystem changes.",
+          "focus": [{"start": 112, "end": 118}]
+        },
+        {
+          "start": 121, "end": 135,
+          "title": "Check token-only idle state without authenticating an untracked listener",
+          "explanation": "The token-only branch uses a one-second IPv4 TCP connection attempt to127.0.0.1:8765, not an HTTP request. A connected listener makes maintenance refuse because no receipt proves ownership. Only the explicit ConnectionRefused socket result means the port was confirmed unused; cancellation or any other socket failure propagates and therefore fails closed. Disposing the TcpClient closes only the probe's own socket. This preserves repeat update/uninstall after a legitimate stop retained its token, without turning partial state into permission to stop a foreign service. Unit tests inject this probe rather than touching the developer machine's port.",
+          "focus": [{"start": 123, "end": 132}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/OwnedServiceClient.cs",
+      "sourceSha256": "38a477f59f5b6db2617f7ae465649585e572c284df495a2c66d5c46cd6e92424",
+      "role": "Implements the fixed authenticated loopback maintenance protocol with no proxy/redirect forwarding and strict response-size, type and deadline bounds.",
+      "entryPoints": ["IMaintenanceService", "OwnedServiceClient.ReadRuntimeAsync", "OwnedServiceClient.StopAsync"],
+      "blocks": [
+        {
+          "start": 1, "end": 33,
+          "title": "Keep maintenance transport independent of Python and injectable for non-network tests",
+          "explanation": "The narrow interface exposes only runtime inspection and instance-specific stop, while RuntimeIdentity carries the three values needed by the ownership policy. Production HttpClientHandler disables redirects, proxies and cookies and limits response headers to8KiB. The base address is the literal loopback endpoint127.0.0.1:8765 with a three-second timeout; neither an installation root nor a manifest field can change it. An optional handler is an internal test seam, allowing synthetic responses without opening a real service connection.",
+          "focus": [{"start": 8, "end": 14}, {"start": 20, "end": 31}]
+        },
+        {
+          "start": 34, "end": 59,
+          "title": "Require explicit service identity and idle-state types rather than permissive defaults",
+          "explanation": "GET /v1/runtime must return an object naming phantom-fudge-transcription, numeric protocolVersion1, a canonical lowercase GUID, a positive uint PID and an actual Boolean active field. Missing or null active is rejected rather than treated as idle. The separate maintenance policy compares the returned identity against the receipt. POST /v1/shutdown succeeds here only for the exact string status=stopping; it does not claim the process has exited, which is why MaintenanceOperation performs its own creation-identity wait.",
+          "focus": [{"start": 39, "end": 50}, {"start": 53, "end": 58}]
+        },
+        {
+          "start": 60, "end": 88,
+          "title": "Bound authenticated response handling without retaining error bodies or forwarding credentials",
+          "explanation": "Requests place the locally validated token only in Authorization: Bearer and add X-Phantom-Instance only for an instance-specific operation. No body or arbitrary user command is supplied. One cancellation source covers headers and streaming body reads, while non-success HTTP status throws before parsing. Known Content-Length values above4096 are rejected immediately; a4097-byte buffer also detects oversized responses whose length was unknown. JSON depth is capped at8. Response, stream, request and client disposal release owned network resources; no response or exception payload is written into launcher diagnostics.",
+          "focus": [{"start": 63, "end": 74}, {"start": 75, "end": 84}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/ProcessIdentity.cs",
+      "sourceSha256": "16eb880817a6c6b0182e67efa2ca70ba423dbce648d50c84d8926f198805aa3b",
+      "role": "Reads a Windows process creation FILETIME using limited-query access so stale-receipt cleanup can distinguish a terminated or recycled PID without terminating anything.",
+      "entryPoints": ["ProcessIdentity.Read", "OpenProcess", "GetProcessTimes"],
+      "blocks": [
+        {
+          "start": 1, "end": 34,
+          "title": "Use read-only creation identity and refuse unknown access failures",
+          "explanation": "OpenProcess requests only PROCESS_QUERY_LIMITED_INFORMATION (0x1000), with a noninheritable SafeProcessHandle. Error87 means the requested process is absent and returns null; other failures, including access denied, throw rather than being mistaken for proof of death. GetProcessTimes returns creation and exit FILETIMEs. A nonzero exit time is treated as terminated; otherwise the exact unsigned creation value becomes an invariant decimal string matching the Python receipt representation. SafeProcessHandle closes the query handle. There is no terminate, wait-for-input or privilege-elevation API in this helper.",
+          "focus": [{"start": 14, "end": 24}, {"start": 27, "end": 33}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+      "sourceSha256": "08bbd43db4151646be3a80e20880050abedecf43a41cbe206d2aeb35ab852efc",
+      "role": "Maps launcher outcomes to stable exit codes and fixed actionable messages, and emits one generic local JSON status record without child output, tokens or exception text.",
+      "entryPoints": ["LauncherCode", "LauncherStatus.Message", "LauncherStatus.Write"],
+      "blocks": [
+        {
+          "start": 1, "end": 41,
+          "title": "Separate machine-readable refusal reasons from fixed user guidance",
+          "explanation": "The enum reserves success0 and distinct nonzero codes for bad arguments, installation/runtime/app failures, recovery, app-running or operation-busy refusals, maintenance, diagnostics, local data and timeout. AppStartPending76 is a non-success status while a slow child is still watched, not a deadline permitting launcher exit. Its fixed message explains that Close hides progress and updates remain blocked until handoff or child exit. Message never includes exception text, tokens, filenames or manager output. Callers can use numeric outcomes without parsing English text.",
+          "focus": [{"start": 8, "end": 19}, {"start": 20, "end": 20}, {"start": 27, "end": 38}, {"start": 39, "end": 39}]
+        },
+        {
+          "start": 42, "end": 76,
+          "title": "Persist the latest generic result without making logging a prerequisite for success",
+          "explanation": "Write serializes a fixed schema containing the enum name, exit code, authored message, UTC timestamp and internally supplied diagnostic checks. It overwrites launcher-status.json, or launcher-self-test.json for diagnostics, beneath the current user's PhantomFudge LocalAppData directory after rejecting detected linked paths. This is a last-result record, not an accumulating transcript log. File permission/IO failures are suppressed so they cannot replace the operation's exit code. The same JSON is emitted to stdout when a caller redirects it; a closed output pipe is tolerated and no console is allocated here.",
+          "focus": [{"start": 45, "end": 53}, {"start": 56, "end": 61}, {"start": 63, "end": 73}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/LauncherWindow.cs",
+      "sourceSha256": "3dcbeed95853a11b0601ac26259d3f597e22e28995e004e8c0150d18d77f3f60",
+      "role": "Presents a generic startup/error window and an explicit notes-only choice without displaying notes, transcript content, local tokens or child-process diagnostics.",
+      "entryPoints": ["LauncherWindow constructor", "Progress", "Failure", "Complete", "NotesOnly callback"],
+      "blocks": [
+        {
+          "start": 1, "end": 58,
+          "title": "Construct a non-sensitive startup surface with no implicit fallback action",
+          "explanation": "The fixed-width, auto-height WPF window contains only authored heading/progress text and two buttons. The notes-only button starts collapsed and invokes an explicitly assigned asynchronous callback only after a user click; it is not a timer-triggered fallback. Close is disabled while busy, and the Closing event also cancels title-bar closure during an operation. No note or transcription controls are loaded into this window, so it does not reuse the main protected workspace or imply any new capture-exclusion guarantee.",
+          "focus": [{"start": 29, "end": 35}, {"start": 37, "end": 48}, {"start": 49, "end": 57}]
+        },
+        {
+          "start": 59, "end": 85,
+          "title": "Make success, failure and continued startup explicit UI states",
+          "explanation": "Progress marks the operation busy, shows the indeterminate bar, hides the notes-only choice and disables Close. Failure clears busy, obtains only the fixed LauncherStatus message, hides progress and exposes notes-only solely when the caller allows that recovery. Complete clears busy before closing, so the Closing guard no longer cancels success. These transitions control the launcher's window; they neither stop an existing notes app nor open an audio endpoint.",
+          "focus": [{"start": 60, "end": 67}, {"start": 70, "end": 77}, {"start": 80, "end": 83}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/Program.cs",
+      "sourceSha256": "7a61e9783e145e95391df72a449571724fd2b3597c1658c4c160225b1f0bbc48",
+      "role": "Routes native startup, same-user recovery, headless layout validation, independent maintenance and synthetic diagnostics while preserving explicit audio/provider initiation.",
+      "entryPoints": ["Program.Main", "RunInteractive", "MaintenanceAsync", "SelfTestAsync"],
+      "blocks": [
+        {
+          "start": 1, "end": 44,
+          "title": "Dispatch headless commands before constructing a WPF Application",
+          "explanation": "The STA entrypoint first handles the guarded synthetic child mode, then exact public argument parsing. Invalid arguments exit with a generic status; self-test executes without the interactive window. --validate-install resolves the explicit target root, checks the ownership marker and speech-enabled layout, and returns a JSON result declaring that no app, service, audio or model was started. Validation failure returns InstallationInvalid instead of opening UI. The180-second manager deadline is a launcher child-start bound, not a speech-recognition latency promise or the shorter native maintenance deadline.",
+          "focus": [{"start": 13, "end": 24}, {"start": 29, "end": 38}]
+        },
+        {
+          "start": 45, "end": 86,
+          "title": "Honor installer exclusion before recovery or startup, while allowing maintenance itself",
+          "explanation": "Normal and notes-only entry first check the dedicated installer-presence gate and return generic OperationBusy without WPF, app reveal or service work when it exists. Maintenance bypasses that gate, refuses an existing app, acquires the separate launcher-operation mutex, then checks the app again. Outside installer maintenance, ordinary launch still sends REVEAL before installation validation or token creation. A new interactive operation acquires its mutex and rechecks the installer gate: this closes the gap if Setup appeared after the first probe and already completed its maintenance helper. Main holds the thread-affine operation mutex throughout interactive work, so installer maintenance cannot proceed across an earlier in-flight startup.",
+          "focus": [{"start": 47, "end": 58}, {"start": 61, "end": 71}, {"start": 74, "end": 84}]
+        },
+        {
+          "start": 87, "end": 101,
+          "title": "Allow fresh repair code to target damaged old files without selecting another user's data",
+          "explanation": "Ordinary paths derive from the installed launcher directory; the explicit-root overload still derives DataRoot from the current Windows LocalAppData location. Maintenance requires only the product ownership marker before constructing the native HTTP service client and ownership policy: it does not validate the damaged old version manifest or launch its Python/app files. The policy result becomes success or a generic maintenance-blocked refusal.",
+          "focus": [{"start": 88, "end": 99}]
+        },
+        {
+          "start": 102, "end": 125,
+          "title": "Hide startup progress without releasing a still-needed operation guard",
+          "explanation": "Interactive startup retains the owned Process and ApplicationHandoff separately from the WPF window. Closing while that child has not established its instance or exited is canceled and hides progress instead; Closed therefore cannot shut down the dispatcher and release Main's operation mutex prematurely. Explicit shutdown mode keeps the native launcher alive after hiding. A missing handoff object for a known child is conservatively pending. Dispatcher exceptions are handled with fixed generic failure text, and the same Closing guard still applies to that error surface.",
+          "focus": [{"start": 105, "end": 116}, {"start": 118, "end": 124}]
+        },
+        {
+          "start": 126, "end": 152,
+          "title": "Recheck app recovery and basic layout at each explicit open attempt",
+          "explanation": "OpenAsync repeats the existing-app check because another app can appear after Main's earlier decision. Successful recovery writes success and closes the generic launcher. Otherwise it resolves the installed layout and validates the app plus compact manifest before considering speech. A recovering flag preserves the distinction between a failed pipe request and invalid installation files without attempting another potentially failing mutex probe from the catch block. These early failures do not offer a misleading notes-only option when the app itself cannot be validated.",
+          "focus": [{"start": 133, "end": 143}, {"start": 145, "end": 150}]
+        },
+        {
+          "start": 153, "end": 177,
+          "title": "Prepare idle speech only for normal launch and expose failure rather than falling back silently",
+          "explanation": "Normal mode validates the bundled speech paths, creates or reads the private token, and runs only manage.py start with the fixed installed environment. Child timeout and nonzero exit remain distinct status codes. Any such failure leaves the generic window open and explicitly enables Open notes without transcription. The notes-only branch skips this entire block and leaves token null. No answer/provider configuration is written, no model API or login command is invoked here, and starting the idle speech manager is separate from the main app's explicit audio Start action.",
+          "focus": [{"start": 159, "end": 167}, {"start": 170, "end": 175}]
+        },
+        {
+          "start": 178, "end": 210,
+          "title": "Wait for actual instance coordination before declaring the launched app ready",
+          "explanation": "After one final existing-app reveal check, the launcher starts only the fixed app executable and begins polling its retained process handle plus the main-instance mutex. Thirty seconds produces AppStartPending76 and actionable generic text, not success, cancellation or guard release. Waiting continues without a kill deadline. An exit before the mutex is a startup failure even when the child exit code is zero; elapsed time alone never completes startup. Actual handoff records success and closes progress. If a hidden child instead exits, the generic failure is persisted and the now-safe hidden launcher closes without leaving an unreachable UI.",
+          "focus": [{"start": 186, "end": 196}, {"start": 198, "end": 208}]
+        },
+        {
+          "start": 211, "end": 228,
+          "title": "Retain the mutex even if the WPF dispatcher stops before handoff",
+          "explanation": "The explicit notes-only callback and original Loaded mode share the same startup path. Application.Run remains inside a finally guard: if a spawned child still has unproven handoff, a fresh non-WPF watcher synchronously blocks this original mutex-owning thread until the main instance appears or the exact retained child exits. Only then is its Process handle disposed and control returned to Main, where the operation mutex is released. This fallback does not depend on a running dispatcher and never terminates the child.",
+          "focus": [{"start": 213, "end": 224}, {"start": 225, "end": 227}]
+        },
+        {
+          "start": 229, "end": 248,
+          "title": "Keep generic failure presentation separate from synthetic child execution",
+          "explanation": "ShowFailure constructs only the generic launcher surface and exits with the requested code when it closes; Finish records the same code without UI. Expected enumerates the anticipated filesystem, Windows, JSON, argument, cancellation, timeout and HTTP failure families without serializing their details. These helpers do not replace the retained-child guard in RunInteractive or authorize process termination.",
+          "focus": [{"start": 230, "end": 237}, {"start": 240, "end": 248}]
+        },
+        {
+          "start": 249, "end": 268,
+          "title": "Run bounded synthetic child fixtures without starting the notes app",
+          "explanation": "The hidden child mode requires the synthetic-only environment marker. Its readiness fixture accepts only a SelfTest-prefixed GUID suffix, waits2500ms, holds that unrelated app mutex for one second, then exits naturally. It cannot address the production SID-derived instance name. Without that suffix it emits known x/y text rather than secrets and returns0 or intentionally requested23 for output/failure tests. No WPF window, speech service, audio endpoint or model is created.",
+          "focus": [{"start": 252, "end": 263}, {"start": 265, "end": 267}]
+        },
+        {
+          "start": 269, "end": 319,
+          "title": "Exercise real child-process plumbing with fake payloads rather than launching the installed app",
+          "explanation": "SelfTestAsync creates in-memory synthetic layout values, checks token shape, exact Python arguments, installed/offline environment and notes-only token omission. It launches this same executable only in guarded child mode; large known outputs verify both drains/capped counters and an expected-nonzero child verifies failure detection. Ten reported flags now include the delayed child/operation-mutex handoff fixture, existing coordination fixture and explicit no-app/service/audio/model flags. Failures become SelfTestFailed with generic JSON. The checks validate launcher mechanisms, not packaged Python ABI, models, audio devices or WPF interaction.",
+          "focus": [{"start": 274, "end": 285}, {"start": 294, "end": 304}, {"start": 306, "end": 317}]
+        },
+        {
+          "start": 320, "end": 354,
+          "title": "Prove the operation mutex remains held while a synthetic child delays its instance",
+          "explanation": "A worker thread owns a random-suffix launcher mutex synchronously throughout this test. The same published executable starts only its2500ms delayed synthetic child. At2100ms the production ApplicationHandoff must still be pending, and a separate contender thread must fail to acquire the operation mutex. The watcher then observes the synthetic app mutex, and the child must exit naturally with code0. Bounded waits fail diagnostics rather than killing anything. The production app/installer mutex namespaces, user data and service are untouched.",
+          "focus": [{"start": 323, "end": 334}, {"start": 335, "end": 346}, {"start": 349, "end": 353}]
+        },
+        {
+          "start": 355, "end": 394,
+          "title": "Test mutex contention and REVEAL without addressing the real user's instance",
+          "explanation": "A random SelfTest suffix creates an unrelated mutex and pipe namespace. The owner acquires/releases its mutex synchronously on one thread, while a dedicated contender thread checks that another thread cannot enter; this avoids the recursive ownership behavior that would invalidate a same-thread test. The second half creates only a synthetic app mutex and current-user pipe server, connects through the production RevealAsync implementation, and requires exactly REVEAL. All handles and time budgets belong to this fixture. No production SID-derived pipe is opened and no actual app is revealed or closed.",
+          "focus": [{"start": 358, "end": 363}, {"start": 364, "end": 374}, {"start": 377, "end": 388}, {"start": 389, "end": 392}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/InstalledLauncherTests.cs",
+      "sourceSha256": "cefb13a6039df6e426c88424ffe63e860836b76fe1f0b6f12f4bf88a9b8f8bfe",
+      "role": "Tests linked non-WPF launcher helpers in the existing xUnit project using synthetic paths and private fixture tokens, without executing the real app or speech manager.",
+      "entryPoints": ["InstalledLauncherTests", "PhantomFudge.Core.Tests.csproj linked Compile items"],
+      "blocks": [
+        {
+          "start": 1, "end": 38,
+          "title": "Reject command expansion and keep data paths independent of install location",
+          "explanation": "The first test enumerates accepted complete command shapes, including fresh-root maintenance and explicit validation, then rejects extra arguments, executable overrides and the main app's unrelated documentation-screenshot switch. The path test uses directories with spaces and checks fixed app/Python/token/receipt locations. It also rejects a relocated launcher directory and a relative launcher path. These tests examine helper return values only; the synthetic names are not executable instructions and no child process starts.",
+          "focus": [{"start": 13, "end": 23}, {"start": 29, "end": 37}]
+        },
+        {
+          "start": 39, "end": 61,
+          "title": "Prove that compact manifest metadata cannot supply commands",
+          "explanation": "Valid-version cases deliberately include untrusted-looking python and arguments fields and require only the version to be returned. Invalid cases cover absent/wrong root shape, non-string or empty version, newline and path-like syntax. A16385-character input must fail before parsing. This protects the chosen bounded metadata contract; it does not test every installer inventory file or assert that a version string is semantically ordered for upgrades.",
+          "focus": [{"start": 40, "end": 46}, {"start": 49, "end": 57}, {"start": 59, "end": 61}]
+        },
+        {
+          "start": 62, "end": 84,
+          "title": "Check token format bounds and exact compatibility with the app's mutex suffix",
+          "explanation": "One hundred newly generated values must be distinct in this sample and match the64-character lowercase hex format; that sample is a regression check, not a statistical proof of cryptographic entropy. Separate assertions reject short, long, newline-bearing and non-ASCII token values while production validation retains its wider URL-safe compatibility rule. The fixed synthetic SID hash pins the exact uppercase24-character suffix contract, and differing synthetic SIDs must not collapse to the same tested name.",
+          "focus": [{"start": 66, "end": 76}, {"start": 79, "end": 83}]
+        },
+        {
+          "start": 85, "end": 133,
+          "title": "Inspect constructed processes and environments without executing them",
+          "explanation": "Manager construction must use the bundled executable, exact -I/-B/-X/utf8 prefix, ArgumentList and redirected standard streams with no shell or console. Tests require canonical MODELS_ROOT and explicitly reject the obsolete MODELS alias. The environment case injects fake ambient token/host/model/PYTHONPATH/hub-token values and verifies that controlled settings replace them. Notes-only construction must have no token or app arguments, while normal construction adds only the supplied synthetic token and fixed loopback URI. None of these ProcessStartInfo objects is started by this test file.",
+          "focus": [{"start": 90, "end": 99}, {"start": 107, "end": 118}, {"start": 126, "end": 132}]
+        },
+        {
+          "start": 134, "end": 175,
+          "title": "Verify real Windows ACL creation while preserving valid old and invalid existing bytes",
+          "explanation": "The Windows-only filesystem case creates a fixture token through the real ACL helper, then checks repeated calls preserve its exact bytes and private permissions. It replaces the fixture content with a valid older URL-safe value and requires preservation, demonstrating that the new hex generation format does not imply rotation. Invalid existing content must throw and remain unchanged. Finally deletes only the randomly named fixture root below the test working directory's .local/installer-release tree. No real InstalledRuntime token or system temporary directory is used.",
+          "focus": [{"start": 144, "end": 155}, {"start": 163, "end": 174}]
+        },
+        {
+          "start": 176, "end": 195,
+          "title": "Exercise installer-gate presence and bypasses without opening the real installer gate",
+          "explanation": "The test pins the production constant as text but injects a random Local mutex name for every probe. Before creation, both startup modes are allowed. An unowned mutex handle then blocks normal and notes-only modes, proving the policy depends on presence rather than WaitOne ownership. Maintenance, validation, self-test and invalid modes remain unblocked. After disposal, startup is allowed again, also proving the helper did not leak a handle that would keep the gate alive. No actual installer, default launcher, app pipe or speech service is used.",
+          "focus": [{"start": 180, "end": 191}, {"start": 193, "end": 195}]
+        },
+        {
+          "start": 196, "end": 219,
+          "title": "Keep fake-child startup pending beyond the former two-second observation window",
+          "explanation": "The test injects fake child liveness and probes a fresh random-name Windows mutex. After2300ms without a mutex, the handoff must remain pending. Creating the synthetic app mutex then permits a true completion and clears Pending. Finally marks only the fake child exited so even a failed assertion cannot leave a polling task behind. It uses no actual notes process, production mutex, user token, service or audio device.",
+          "focus": [{"start": 202, "end": 212}, {"start": 214, "end": 217}]
+        },
+        {
+          "start": 220, "end": 238,
+          "title": "Distinguish a safe guard release after exit from successful app readiness",
+          "explanation": "Without any app mutex, the fake living child keeps Pending true. Only after the liveness flag changes to confirmed exit may Completion finish, and its result must be false rather than success. The same completion state permits the launcher to release coordination safely. Cleanup guarantees the synthetic monitor cannot continue indefinitely after a test failure.",
+          "focus": [{"start": 225, "end": 236}]
+        },
+        {
+          "start": 239, "end": 269,
+          "title": "Keep uncertain inspection guarded and reject success for a child already gone",
+          "explanation": "The uncertainty case injects both process-inspection failure and denied mutex access, verifies Pending remains true, then permits only a confirmed child exit to complete false. A final case supplies both an already-exited child and an apparent ready mutex; the exit evidence wins and readiness is not claimed. These tests exercise the non-WPF state used by the Closing and dispatcher-finally guards, not a claim that an interactive WPF close was driven.",
+          "focus": [{"start": 243, "end": 253}, {"start": 255, "end": 258}, {"start": 262, "end": 267}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/InstalledMaintenanceTests.cs",
+      "sourceSha256": "6eb1705264a9dc8e1e426b963fec4ae8cb31554c68e00e8eee4d03597abb404b",
+      "role": "Exercises native maintenance ownership, stale-receipt proof, repair-layout checks and HTTP parsing with synthetic service responses and no real service shutdown.",
+      "entryPoints": ["InstalledMaintenanceTests", "InstalledMaintenanceTransportTests", "FakeService", "Handler"],
+      "blocks": [
+        {
+          "start": 1, "end": 62,
+          "title": "Keep fixtures scoped and distinguish absent ownership from partial state",
+          "explanation": "Each instance receives a unique .local/installer-release fixture with separate damaged-install and data paths, and Dispose removes only that root. Absent and empty ownership state must succeed with no probe. Token-only state uses an injected listener result: confirmed unused succeeds, occupied refuses. Receipt-only state refuses without authentication. Every case asserts zero runtime reads/stops, no newly provisioned token, expected directory preservation and unchanged receipt-only text. The probe is a delegate counter, not a real socket connection, so this matrix never touches a source-workspace service.",
+          "focus": [{"start": 17, "end": 28}, {"start": 40, "end": 47}, {"start": 49, "end": 60}]
+        },
+        {
+          "start": 63, "end": 74,
+          "title": "Do not interpret an uncertain port probe as a safely stopped service",
+          "explanation": "The fixture has a valid private token but no receipt, then injects a canceled probe. Maintenance must propagate that uncertainty rather than returning success, and it must make no authenticated runtime or shutdown request. The token remains exactly readable afterward. This covers the fail-closed timeout path independently of an actual network or service.",
+          "focus": [{"start": 65, "end": 73}]
+        },
+        {
+          "start": 75, "end": 108,
+          "title": "Prove repair maintenance does not depend on old binaries and refuses active or foreign identity",
+          "explanation": "The successful idle-stop fixture supplies a fake authenticated service and creation-identity sequence that becomes absent after stop. It requires one read and one stop, removal of the receipt, retention of the token and no installation directory at all. The refusal matrix changes active state, instance ID or PID independently and requires no stop and byte-identical receipt preservation. This is policy testing with injected identities, not an actual service, model or damaged-installed-binary launch.",
+          "focus": [{"start": 79, "end": 88}, {"start": 98, "end": 107}]
+        },
+        {
+          "start": 109, "end": 147,
+          "title": "Distinguish declined or incomplete shutdown from proven stale ownership",
+          "explanation": "A false acknowledgment and an accepted stop whose exact process remains alive both return failure and keep the receipt; TimeSpan.Zero makes the latter deterministic without a15-second test delay. A missing identity or a different creation timestamp proves the recorded process is gone, allowing receipt-only cleanup with zero network calls. An access-denied Win32 exception is deliberately not treated as death: it must propagate while retaining both the receipt and the no-network guarantee.",
+          "focus": [{"start": 113, "end": 120}, {"start": 126, "end": 134}, {"start": 138, "end": 146}]
+        },
+        {
+          "start": 148, "end": 208,
+          "title": "Retain uncertain receipts and respect concurrent manager/receipt changes",
+          "explanation": "An unreachable legacy receipt with a still-live PID but no recorded creation evidence is retained. The adjacent PID-only case instead injects confirmed process absence and requires receipt cleanup with no network calls and preservation of the token; this covers reboot after a partial initializer write. Invalid ownership JSON is retained. A separately held byte0 lock causes immediate maintenance refusal before network access. The final case rewrites the receipt during the fake stop callback and then reports the old process gone. Cleanup must refuse to delete that replacement even though the earlier stop was acknowledged.",
+          "focus": [{"start": 150, "end": 158}, {"start": 162, "end": 171}, {"start": 186, "end": 196}, {"start": 199, "end": 207}]
+        },
+        {
+          "start": 209, "end": 258,
+          "title": "Separate marker-owned repair from full layout validation and verify exact native timestamp representation",
+          "explanation": "A valid ownership marker is accepted even with a damaged manifest and absent app, but normal full validation still fails; replacing the marker with unrelated text must reject ownership. Another fixture supplies inert placeholder files and the required model directories to exercise successful compact-manifest layout validation without execution, then rejects an oversized inventory-style manifest. Creation time without PID is rejected because it cannot identify a process. The only real process query targets the test process itself and compares native FILETIME decimal output with .NET StartTime; it does not signal any process or qualify Python ABI behavior.",
+          "focus": [{"start": 210, "end": 219}, {"start": 230, "end": 238}, {"start": 241, "end": 249}, {"start": 251, "end": 257}]
+        },
+        {
+          "start": 259, "end": 292,
+          "title": "Build synthetic ownership evidence and make service interactions observable",
+          "explanation": "CreateOwnership uses the real private-token helper only inside the fixture and writes a fixed schema1 receipt with synthetic PID1234 and creation string100. FakeService exposes configurable identity, reachability and acknowledgment outcomes plus counters. Its stop callback can simulate a concurrent receipt replacement, and it asserts the expected instance header value. The fake never binds port8765 or opens HTTP; production process inspection is replaced by each test's supplied function except the explicit read-only current-process case above.",
+          "focus": [{"start": 260, "end": 271}, {"start": 278, "end": 289}]
+        },
+        {
+          "start": 293, "end": 325,
+          "title": "Inspect real HTTP request construction through a non-network handler",
+          "explanation": "The transport fixture returns a protocol-shaped JSON response but intercepts HttpRequestMessage in memory. It verifies the literal loopback authority, Bearer scheme with a synthetic token and absence of request content. The first request must be GET /v1/runtime; the second must be POST /v1/shutdown with exactly one matching X-Phantom-Instance value. Parsed identity and stopping acknowledgment are checked independently. Two handler calls prove the intended request sequence, not an actual network server's availability or shutdown behavior.",
+          "focus": [{"start": 304, "end": 315}, {"start": 317, "end": 324}]
+        },
+        {
+          "start": 326, "end": 354,
+          "title": "Reject redirect, authentication, conflict and malformed identity responses",
+          "explanation": "Injected302,401 and409 responses must throw HttpRequestException instead of being interpreted as successful maintenance. The synthetic redirect includes an unrelated Location URI and the handler must observe only one call; production redirect disabling is separately configured in OwnedServiceClient. Empty-object, array and wrong-service responses must fail strict identity parsing. These cases ensure failure does not silently become idle or successful state, without contacting the supplied illustrative external URI.",
+          "focus": [{"start": 334, "end": 343}, {"start": 346, "end": 353}]
+        },
+        {
+          "start": 355, "end": 380,
+          "title": "Test body-size and acknowledgment guards while keeping all transport data synthetic",
+          "explanation": "A4097-character response must be rejected before JSON interpretation, covering the declared response-size ceiling. A syntactically valid status=ready response is still not an accepted stop: only stopping qualifies. Response creates in-memory UTF8 JSON content and Handler returns it through Task.FromResult, making the tests independent of sockets, proxy configuration, audio/model initialization and live service state. The tests complement rather than replace real installed-runtime qualification.",
+          "focus": [{"start": 356, "end": 367}, {"start": 370, "end": 378}]
+        }
+      ]
+    }
+  ]
+}

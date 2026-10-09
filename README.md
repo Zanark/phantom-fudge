@@ -2,9 +2,9 @@
 
 **Local transcription. Speaker notes. Questions under your control.**
 
-[Get started](docs/PREVIEW-GUIDE.md) · [Illustrated workflow](docs/CURRENT-WORKFLOW.md) · [Overview](docs/OVERVIEW.md) · [Docs](docs/README.md) · [Roadmap](TODO/00_INDEX.todo)
+[Windows download](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1) · [Install / update / remove](docs/INSTALLATION.md) · [Workflow](docs/CURRENT-WORKFLOW.md) · [Docs](docs/README.md) · [Roadmap](TODO/00_INDEX.todo)
 
-> Windows 11 preview. Capture exclusion is not universal. **Installed Agency / local-model options; direct Azure is future work.**
+> **Unsigned Windows 11 x64 preview.** Repository access required. [Evidence and limits](docs/IMPLEMENTATION-STATUS.md). Capture exclusion is not universal. Answers are snapshot-only until an external provider is configured.
 
 ## From meeting audio to an answer
 
@@ -37,7 +37,9 @@
 
 [Provider setup](docs/ANSWER-PROVIDERS.md) · [Cover and privacy limits](docs/COVER-AND-PRIVACY.md)
 
-*Latest features are in the [updated source](docs/PREVIEW-GUIDE.md), not the older preview ZIP.*
+[Keyboard controls and answer-size slider](docs/KEYBOARD-CONTROLS.md)
+
+*Use the versioned Setup installer to install, repair or update; remove it through Windows Settings. [Source workflow](docs/PREVIEW-GUIDE.md).*
 
 ## Three looks. One workspace.
 
@@ -57,7 +59,7 @@
 
 | Use it | Understand it | Build it |
 | --- | --- | --- |
-| [Setup and recovery](docs/PREVIEW-GUIDE.md) | [Product overview](docs/OVERVIEW.md) | [Architecture](docs/ARCHITECTURE.md) |
+| [Installation and recovery](docs/INSTALLATION.md) | [Product overview](docs/OVERVIEW.md) | [Architecture](docs/ARCHITECTURE.md) |
 | [Local questions](docs/LOCAL-QUESTIONS.md) | [Capture boundaries](docs/handbook/17-privacy-and-assurance.md) | [Implementation status](docs/IMPLEMENTATION-STATUS.md) |
 | [Speech service](services/transcription/README.md) | [HTML handbook](docs/handbook/Phantom-Fudge-Engineering-Handbook.html) · [PDF](docs/handbook/Phantom-Fudge-Engineering-Handbook.pdf) | [Development JOURNAL](JOURNAL.md) |
 

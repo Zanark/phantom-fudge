@@ -11,9 +11,9 @@ The completed TODO28 slice supplied structured selection, editing and immutable 
 answer service. That boundary remains: freezing text is distinct from invoking a configured provider.
 TODO44 now adds direct multi-click transcript selection in updated source, not a new ZIP.
 It opens independent question editing without sending; the historical045022ZIP remains unchanged.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:84-141; [current status](IMPLEMENTATION-STATUS.md).)
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:85-147; [current status](IMPLEMENTATION-STATUS.md).)
 **SnapshotOnly is the unconfigured default, not a promise that configured Ask never sends data.**
-(src\PhantomFudge.App\MainWindow.Questions.cs:258-297, `QuestionAsk_Click`.)
+(src\PhantomFudge.App\MainWindow.Questions.cs:265-304, `QuestionAsk_Click`.)
 
 The common answer contracts and coordinator are written. Following an organization-authentication
 popup, the owner rejected new login and organization-data access, requesting the existing installed
@@ -150,14 +150,14 @@ docs\AI-ANSWER-PRIVACY.md:11-25, proposed text boundary.)
 
 The main row path retains immutable segment references separately from the smaller chooser.
 `TranscriptRows_SelectionChanged` composes the explicit selection locally and never calls Freeze
-or the answer coordinator. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-20,93-141.)
+or the answer coordinator. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-20,94-147.)
 
 Python remains the local speech specialist; C# owns question and answer orchestration. The CLI owns
 its own authentication/session behavior, while a future direct Azure adapter would own that path.
 Do not add a local HTTP hop through Python solely because it already hosts Vosk. Do not put model
 network work in the native capture callback or ASR CPU worker. The question handler establishes
 the exact snapshot boundary; provider execution belongs to a separate asynchronous coordinator.
-(src\PhantomFudge.App\MainWindow.Questions.cs:258-297, `QuestionAsk_Click`.)
+(src\PhantomFudge.App\MainWindow.Questions.cs:265-304, `QuestionAsk_Click`.)
 
 | Choice | Execution and evidence boundary |
 | --- | --- |
@@ -207,15 +207,15 @@ The manual **Choose source → Mic / Computer / All → Use selected** path rema
 **All** broadens that chooser without selecting anything. An empty manual chooser selection retains
 the draft; by contrast, deselecting the last direct row empties an unedited draft. **Use selected**
 is an explicit replacement action, not subject to the direct-click edit guard.
-(src\PhantomFudge.App\MainWindow.Questions.cs:68-126, filters and `UseQuestionSelection_Click`;
-src\PhantomFudge.App\MainWindow.Questions.cs:258-283, explicit local `QuestionAsk_Click`.)
+(src\PhantomFudge.App\MainWindow.Questions.cs:70-128, filters and `UseQuestionSelection_Click`;
+src\PhantomFudge.App\MainWindow.Questions.cs:265-290, explicit local `QuestionAsk_Click`.)
 
 Direct selection uses each structured segment's raw `Text`, not its timestamp/source display
 prefix. A wrapped or multiline segment is selected whole. After editing, further direct selection
 changes are rejected with inline “Edited question retained” status until **Clear question**;
 the previous draft and highlights are retained, without a popup. The shared ListBox
 `SelectionChanged` handler also handles native keyboard/automation changes.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:84-141;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:85-147;
 [`QuestionDraft.Compose`](../src/PhantomFudge.Core/QuestionDraft.cs).)
 
 ### Implemented Freeze versus planned Finish dictation
@@ -230,7 +230,7 @@ the previous draft and highlights are retained, without a popup. The shared List
 The implemented revision/provisional indicators and Freeze operation establish the manual boundary
 without repurposing global Stop. The future commit timeout must retain the draft and show failure,
 not silently submit an alternative. Armed start/end spans are not implemented by selecting v2 text.
-(src\PhantomFudge.App\MainWindow.Questions.cs:239-297, rendering and Ask;
+(src\PhantomFudge.App\MainWindow.Questions.cs:246-304, rendering and Ask;
 src\PhantomFudge.Core\QuestionDraft.cs:90-95, `Freeze`.)
 
 ### Layout and focus
@@ -241,8 +241,8 @@ sets that default. The implemented inline Question pane lives in the same protec
 with explicit selection, typing, Copy, Clear and a local snapshot display. Expansion rearranges
 existing panels; it does not create a second window. The common answer coordinator now adds provider
 choice, a plain-text answer, Cancel and explicit Copy within that same HWND, under TODO39 review.
-(src\PhantomFudge.App\MainWindow.Questions.cs:36-65, `SetQuestionExpanded`, `ResizeQuestionPanel`;
-src\PhantomFudge.App\MainWindow.Questions.cs:258-330, Ask/Copy/Clear handlers.)
+(src\PhantomFudge.App\MainWindow.Questions.cs:37-67, `SetQuestionExpanded`, `ResizeQuestionPanel`;
+src\PhantomFudge.App\MainWindow.Questions.cs:265-337, Ask/Copy/Clear handlers.)
 
 The legacy chooser can remain passive; **direct main-transcript selection deliberately enters
 question editing**, closes source/setup/Notes panels and takes keyboard focus. **Type / edit**
@@ -252,13 +252,13 @@ question-editing flag, refreshes interaction/protection through hide/reveal and 
 It does not call the global Notes Edit/Present transition. Existing global Edit/Present/Hide audio
 semantics are unchanged. Preserve independent Notes state and audio-start cancellation when
 extending this question-only focus path.
-(src\PhantomFudge.App\MainWindow.Questions.cs:94-100, passive selection;
-src\PhantomFudge.App\MainWindow.Questions.cs:154-201, question focus.)
+(src\PhantomFudge.App\MainWindow.Questions.cs:96-102, passive selection;
+src\PhantomFudge.App\MainWindow.Questions.cs:156-208, question focus.)
 
 This deliberate focus is not the passive no-activation promise for scrolling. Clicking lines
 creates no Ask, snapshot or model question. Selected row outlines preserve transparent backgrounds
 and white/black reading text instead of adding an opaque highlight block.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:93-141;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:94-147;
 [`TranscriptRowStyle`](../src/PhantomFudge.App/MainWindow.xaml);
 [`EnsureQuestionReadingVisible`](../src/PhantomFudge.App/MainWindow.Layout.cs).)
 
@@ -266,7 +266,7 @@ No generated speech/TTS initially: it adds latency and can feed back into Comput
 No automatic clipboard copy, link opening, code execution or reply-posting to a meeting/chat.
 Copy draft is explicit and copies only draft text; the Windows clipboard is outside window-capture
 protection. Clear question discards the current draft and last snapshot, not notes/transcription.
-(src\PhantomFudge.App\MainWindow.Questions.cs:300-330, Copy/Clear;
+(src\PhantomFudge.App\MainWindow.Questions.cs:307-337, Copy/Clear;
 docs\AI-ANSWER-PRIVACY.md:117-134, proposed output safeguards.)
 
 ## 3. Local data model
@@ -278,14 +278,14 @@ capture session and8,192UTF-16 code units including newlines**, not tokens or UT
 (src\PhantomFudge.Core\TranscriptBuffer.cs:6-19, display storage;
 src\PhantomFudge.Core\StructuredTranscriptStore.cs:13-18, capacity defaults;
 src\PhantomFudge.Core\QuestionDraft.cs:8-9, bounds;
-src\PhantomFudge.App\MainWindow.Questions.cs:103-118, key-based selection.)
+src\PhantomFudge.App\MainWindow.Questions.cs:105-120, key-based selection.)
 
 Main-history and partial ListBoxes bind immutable `TranscriptRow` objects containing `DisplayText`
 and a `TranscriptSegment`. Main history retains these references after chooser eviction, so older
 visible rows remain selectable within the unchanged250000-unit final/session display-buffer bound.
 Live partials are separately bounded. Archived unfinished partials retain identity and provisional
 status; separator rows have no segment and are not selectable. New finals scroll only when already
-at the end. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-82;
+at the end. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-83;
 [`TranscriptBuffer`](../src/PhantomFudge.Core/TranscriptBuffer.cs).)
 
 | Implemented record | Identity and ownership |
@@ -307,7 +307,7 @@ This is a desktop envelope, not new v2 wire metadata. The structured consumer ac
 uses local epoch **0** through the current overload defaults, and rejects obsolete sessions/epochs.
 The Core freshness guard rejects an obsolete session before changing structured history.
 Current epochs do not constitute negotiated source commit.
-(src\PhantomFudge.App\MainWindow.Questions.cs:132-140, `UpdateQuestionTranscript`;
+(src\PhantomFudge.App\MainWindow.Questions.cs:134-142, `UpdateQuestionTranscript`;
 src\PhantomFudge.Core\StructuredTranscriptStore.cs:24-40, `BeginSession`, `SetPartial`;
 src\PhantomFudge.Core\StructuredTranscriptStore.cs:120-125, `IsCurrent`, `PrepareUpdate`.)
 
@@ -335,7 +335,7 @@ src\PhantomFudge.Core\StructuredTranscriptStore.cs:134-145, `ApplyUpdate`);
 src\PhantomFudge.Core\QuestionDraft.cs:90-124, Freeze/validation/composition);
 (src\PhantomFudge.Core\QuestionSnapshot.cs:5-14, copied provenance).
 Direct order, guard and highlight synchronization:
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:65-141).
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:66-147).
 
 ### Persistent engine does not mean persistent conversation
 
@@ -430,10 +430,10 @@ or refresh preserves the previous draft instead of truncating. Blank text may ex
 but cannot be frozen. Closing a capture/epoch marks unfinished partials inactive, not final.
 Draft/snapshot storage itself remains in memory, not a durable question history. Opt-in diagnostic
 body retention and external CLI/service artifacts are separate persistence boundaries.
-(src\PhantomFudge.App\MainWindow.Questions.cs:207-236, edit/paste rejection;
+(src\PhantomFudge.App\MainWindow.Questions.cs:214-243, edit/paste rejection;
 src\PhantomFudge.Core\QuestionDraft.cs:90-124, blank/oversize checks;
 src\PhantomFudge.Core\StructuredTranscriptStore.cs:127-129, `ClosePartial`;
-src\PhantomFudge.App\MainWindow.Questions.cs:14-21, local state fields.)
+src\PhantomFudge.App\MainWindow.Questions.cs:14-22, local state fields.)
 
 ### Implemented common answer contract
 
@@ -498,7 +498,7 @@ The implementation must:
 For newly armed dictation, establish a start boundary as well as an end boundary. Prior Mic
 conversation belongs in the transcript, not automatically in the question. Current partials
 lack word timing, so arbitrary retrospective sample cuts cannot be reconstructed exactly from text.
-(services\transcription\recognizer.py:64-67, `VoskRecognizer._new_decoder`.)
+(services\transcription\recognizer.py:78-81, `VoskRecognizer._new_decoder`.)
 
 A click watermark covers **samples delivered by capture**, not necessarily the last acoustic
 sample spoken before that click; some audio can still be in the device buffer. Specify and measure

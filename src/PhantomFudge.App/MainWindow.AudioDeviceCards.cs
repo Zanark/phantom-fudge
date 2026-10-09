@@ -38,7 +38,7 @@ public partial class MainWindow
 
     private void AudioPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs args)
     {
-        if (!switchingCover && args.NewValue is true && AudioPanel.Visibility == Visibility.Visible)
+        if (!switchingCover && !switchingKeyboardMode && args.NewValue is true && AudioPanel.Visibility == Visibility.Visible)
         {
             SetNotesExpanded(false);
             SetQuestionExpanded(false);

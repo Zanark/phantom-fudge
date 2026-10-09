@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { citations, frontmatter, safeRepoPath, slug, validateCatalogue } from './build.mjs';
 import { hash } from './build.mjs';
-import { physicalLines, sourceKind, validateFileAnnotation, validateAtlasManifest, escapeHtml, discoverSources } from './source-atlas.mjs';
+import { physicalLines, sourceKind, validateFileAnnotation, validateAtlasManifest, escapeHtml, discoverSources, atlasChapterLink } from './source-atlas.mjs';
 
 test('frontmatter is required and stripped', () => {
   const page = frontmatter('---\ntitle: "Title"\ndescription: "Description"\n---\n# Body');
@@ -82,6 +82,8 @@ test('atlas physical lines agree with trailing-newline and BOM handling', () => 
 test('atlas scope distinguishes annotated code, mirrors and generated data', () => {
   assert.equal(sourceKind('src/App/Main.cs'), 'annotated');
   assert.equal(sourceKind('tools/Docs/source-atlas.mjs'), 'annotated');
+  assert.equal(sourceKind('tools/Installer/PhantomFudge.iss'), 'annotated');
+  assert.equal(sourceKind('src/PhantomFudge.Launcher/app.manifest'), 'annotated');
   assert.equal(sourceKind('services/transcription/requirements.txt'), 'annotated');
   assert.equal(sourceKind('scripts/Run.txt'), 'possible-mirror');
   assert.equal(sourceKind('tools/Probe/results/run.json'), 'evidence');
@@ -137,4 +139,12 @@ test('atlas completion requires all real outputs and matching coverage counts', 
   assert.throws(() => validateAtlasManifest({ ...manifest, artifacts: [] }, counts));
   assert.throws(() => validateAtlasManifest({ ...manifest, pdf: { ...manifest.pdf, pages: 1 } }, counts));
   assert.throws(() => validateAtlasManifest({ ...manifest, counts: { ...counts, files: 99 } }, counts));
+});
+
+test('atlas links root documentation chapters without inventing a handbook path', () => {
+  assert.equal(atlasChapterLink('docs/INSTALLATION.md'), '../INSTALLATION.md');
+  assert.equal(atlasChapterLink('docs/handbook/16-distribution-and-troubleshooting.md'), '../handbook/16-distribution-and-troubleshooting.md');
+  for (const chapter of [null, '../outside.md', 'docs/../README.md', 'docs/.local/secret.md',
+    'docs/handbook/../../README.md', 'https://example.com/page.md', 'docs/page.html'])
+    assert.throws(() => atlasChapterLink(chapter));
 });

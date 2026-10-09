@@ -28,6 +28,7 @@ public partial class MainWindow
             ReportStatus("Finish the pending file or confirmation operation and restore protection before covering.");
             return;
         }
+        if (covered && KeyboardControlActive) LeaveKeyboardControl();
         switchingCover = true;
         try
         {

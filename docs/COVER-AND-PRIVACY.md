@@ -79,7 +79,7 @@ It calls the documented
 and [`InvalidatePeer`](https://learn.microsoft.com/en-us/dotnet/api/system.windows.automation.peers.automationpeer.invalidatepeer?view=windowsdesktop-10.0)
 methods on the window peer. The first rebuilds child relationships through `GetChildrenCore`;
 the second refreshes peer state. An initial synthetic run showed that detachment without the
-explicit cache reset left the old window children in traversal. (src/PhantomFudge.App/MainWindow.Cover.cs:34-65.)
+explicit cache reset left the old window children in traversal. (src/PhantomFudge.App/MainWindow.Cover.cs:35-66.)
 
 **Observed:** fresh in-process root traversal excludes the original question/note/answer peers
 and includes the cover message and return button. **Also observed: `cachedPeerValueReadable=true`.**

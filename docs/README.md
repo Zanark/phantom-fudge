@@ -1,23 +1,25 @@
 # Phantom Fudge documentation
 
 **New here?** Follow the [illustrated current workflow](CURRENT-WORKFLOW.md), browse the
-[visual front page](../README.md), or go straight to [setup](PREVIEW-GUIDE.md). The [Engineering Handbook](handbook/README.md) is the
+[visual front page](../README.md), or read [installation](INSTALLATION.md). The [Engineering Handbook](handbook/README.md) is the
 deep, source-linked reference; the [development journal](../JOURNAL.md) tells the journey.
 
 | Need | Read |
 | --- | --- |
+| Install, update or remove the Windows11 x64 preview | [Installer guide](INSTALLATION.md); candidate checks passed, clean release build/publication pending |
 | See all current features and images in one walkthrough | [Illustrated workflow, controls and state transitions](CURRENT-WORKFLOW.md) |
 | Understand the product, stack and boundaries | [Product overview](OVERVIEW.md), [product contract](PRODUCT.md) |
 | Read the illustrated book | [Offline HTML](handbook/Phantom-Fudge-Engineering-Handbook.html) or [printable PDF](handbook/Phantom-Fudge-Engineering-Handbook.pdf) |
 | Understand important statements in every first-party file | [Searchable source atlas](source-atlas/index.html), [annotation PDF](source-atlas/Phantom-Fudge-Source-Atlas.pdf), [coverage ledger](source-atlas/coverage.json) |
 | Understand the system quickly | [Principal engineer's guide](handbook/01-principal-engineer-guide.md) |
 | Learn the prerequisites | [Zero to hero](handbook/02-zero-to-hero.md) |
-| Run the current preview | [Preview guide](PREVIEW-GUIDE.md), [service operations](../services/transcription/README.md) |
+| Run from source or an older development bundle | [Source/legacy preview guide](PREVIEW-GUIDE.md), [service operations](../services/transcription/README.md) |
 | Review the October 9 corrections | [Workspace, recognition and answer results](QUALITY-UPDATE.md) |
 | Investigate timing or failures locally | [Metadata logs, text opt-in and safe export](DIAGNOSTICS.md) |
 | Separate implemented from planned | [Current evidence](IMPLEMENTATION-STATUS.md), [roadmap](handbook/21-evidence-and-roadmap.md) |
 | Understand two audio sources | [Frozen v2 contract](DUAL-SOURCE-AUDIO.md), [audio chapter](handbook/07-dual-input-capture.md) |
 | Explore appearance and input behavior | [Themes, translucency and cursors](CURSOR-AND-THEMES.md) |
+| Work without moving the pointer; choose answer size | [Keyboard modes, commands, device navigation, shortcut JSON and Size slider](KEYBOARD-CONTROLS.md) |
 | Cover the workspace without stopping it | [Notepad cover and privacy feasibility](COVER-AND-PRIVACY.md) |
 | Compose and answer a question | [Drafts and snapshots](LOCAL-QUESTIONS.md), [Copilot/local model setup](ANSWER-PROVIDERS.md) |
 | Repair the intent of a noisy question | [Optional interpretation and Yes/correction replies](QUESTION-CLARIFICATION.md) |
@@ -29,6 +31,8 @@ deep, source-linked reference; the [development journal](../JOURNAL.md) tells th
 | Change the docs or regenerate images | [Maintenance contract](DOCUMENTATION-MAINTENANCE.md), [book tooling](../tools/Docs/README.md) |
 
 The app is a **local, unqualified Windows preview**, not a universally invisible application.
+The repository is private; release downloads require repository access. Publishing a prerelease
+does not change repository visibility or establish a qualified release.
 The current native Python service does not need Docker. Providers are explicit: installed Copilot
 can use cloud models or a configured local endpoint. Direct Azure remains future work.
 Handbook UI images are actual WPF visual-tree renders with **synthetic content and device labels**,

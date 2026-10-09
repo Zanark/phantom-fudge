@@ -5,6 +5,7 @@
   <Folder Name="/src/">
     <Project Path="src/PhantomFudge.App/PhantomFudge.App.csproj" />
     <Project Path="src/PhantomFudge.Core/PhantomFudge.Core.csproj" />
+    <Project Path="src/PhantomFudge.Launcher/PhantomFudge.Launcher.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/PhantomFudge.Audio.Tests/PhantomFudge.Audio.Tests.csproj" />

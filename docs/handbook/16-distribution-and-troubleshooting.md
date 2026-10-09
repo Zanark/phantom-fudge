@@ -1,27 +1,143 @@
 ---
 title: "16 - Distribution and Troubleshooting"
-description: "Source and packaged operation, explicit setup, recoverability, and evidence-led diagnosis."
+description: "Installed and source workflows, guarded repair, final runtime evidence and pending release qualification."
+outline: deep
 ---
 
 # Distribution and troubleshooting
 
-> **TL;DR:** A ZIP is a candidate, not a release claim. The native bundle carries the C# app
-> and the Python service's source/setup contract; it does not carry a secret, a user's notes,
-> a virtual environment, or an invisible promise that every machine is supported.
+> **TL;DR:** Use [Installation](../INSTALLATION.md) for the Windows11 x64 installer.
+> It bundles runtime/models and adds guarded update/uninstall; the older source/setup ZIP is a
+> different workflow. Consult the versioned release for available downloads and exact identities.
+> Neither distribution promises that every machine or recorder is supported.
 
-## Overview: what gets shipped
+## Installer versus development bundle
+
+The new recipe publishes the app and native launcher self-contained, assembles an offline speech
+runtime/model payload and emits versioned Setup, optional Portable ZIP and checksums. The target
+is `v0.2.0-preview.1` / Windows version `0.2.0.1`, unsigned and private-repository scoped. End users
+do not need PowerShell7, a system Python or the .NET SDK. Builds require actual generated-PCM
+inference and natural process exit, separately from import and dependency-metadata checks.
+(scripts/Build-Installer.ps1:30-44,76-114)
+(tools/Installer/release.json:1-8)
+
+The Inno recipe is per-user, uses a stable AppId, rejects downgrades and unrecognized nonempty
+destinations, and gates update/uninstall on maintenance. Repair/update uses
+a fresh self-contained helper directory extracted from Setup rather than a potentially corrupted
+old launcher. Lifecycle3 passed the current candidate's isolated repair/lifecycle fixture.
+Uninstall invokes the installed launcher. `WindowsVersion` under
+`HKCU\Software\PhantomFudge\Installer\<AppId>` is the fallback for a damaged version file.
+It does not force-close an app. Save/export, stop capture
+and close with X first. External user settings,
+diagnostics and saved files are retained; do not save personal content inside managed program
+directories. The canonical guide explains the
+[directory and retention policy](../INSTALLATION.md#remove-the-application).
+(tools/Installer/PhantomFudge.iss:10-40,47-65,107-161)
+(src/PhantomFudge.Launcher/Program.cs:50-58,94-100)
+(src/PhantomFudge.Launcher/MaintenanceOperation.cs:48-118)
+
+The repository remains private, so a GitHub prerelease is available only to permitted readers.
+The owner authorized this prerelease work without making it a qualified release or selecting a
+project license. Unsigned-policy blocks must be respected, not bypassed. Exact hashes, lifecycle
+tests and publication state belong in [implementation status](../IMPLEMENTATION-STATUS.md), not
+inferred from this build recipe.
+
+Setup never launches the app. Finish and close it, then open Phantom Fudge from Start. Setup and
+launcher status/error windows are ordinary visible UI, not capture-excluded; install and launch
+before sharing. (tools/Installer/PhantomFudge.iss:14-76)
+(src/PhantomFudge.Launcher/LauncherWindow.cs:18-57)
+
+If an ordinary or notes-only launch detects the installer gate, it returns70 with generic
+“operation busy” status, without opening a launcher window or starting a child. Let Setup finish
+and retry rather than deleting ownership files. The gate is checked before existing-instance reveal
+and again after acquiring the startup mutex; maintenance and layout validation bypass it.
+(src/PhantomFudge.Launcher/Program.cs:25-78,240-244)
+(src/PhantomFudge.Launcher/LauncherContract.cs:152-165)
+(src/PhantomFudge.Launcher/LauncherStatus.cs:15,34)
+
+App startup is not proven by surviving a short delay. The launcher retains its operation mutex
+until the main app mutex appears or the exact child exits. Status76 after30seconds is pending,
+not success; Close hides progress without releasing that guard, even if the dispatcher shuts down
+early. Uncertain liveness stays protected rather than authorizing replacement or process killing.
+(src/PhantomFudge.Launcher/ChildProcesses.cs:12-42)
+(src/PhantomFudge.Launcher/Program.cs:108-118,186-227)
+
+### Inventory and repair evidence are different checks
+
+The final runtime is not a copy of the developer's venv: it uses pinned embedded CPython3.13.14,
+`faster-whisper 1.2.1+phantomfudge1` for PCM-only input and `CTranslate2 4.6.0+phantomfudge2`
+with oneDNN3.1.1/Microsoft compiler OpenMP (`vcomp140`). It excludes CUDA/cuDNN/proprietary
+Intel OpenMP and PyAV/FFmpeg. Variants/notices are listed in
+[third-party notices](../THIRD-PARTY-NOTICES.md#application-private-package-changes).
+The parent confirms85 focused runtime tests; the final offline rebuild passes real generated-PCM hybrid inference, production VAD,
+forced Whisper encoder/decoder execution and natural exit, repeated after Unicode relocation.
+Vosk's unmodified package uses a first-party startup adapter for non-ASCII Windows model paths.
+The older Ruy stages failed at process exit and remain rejected; metadata closure alone describes
+only the modified installed graph and cannot establish execution. No actual capture, service,
+provider request or clean-VM test was performed by this runtime qualification.
+Final redistribution/provenance review remains separate from the passing lifecycle fixture, and existing development
+speech measurements must not be inherited by this different binary set. See
+[dated runtime evidence](../IMPLEMENTATION-STATUS.md) for the exact payload identity.
+(tools/Installer/runtime-lock.json:1-11)
+(tools/Installer/bundle_runtime.py:246-282,332-376,412-462,538-609)
+(services/transcription/recognizer.py:44-63)
+(services/transcription/tests/test_packaged_pcm_runtime.py:35-97,126-138)
+
+Fresh-machine confidence needs more than a restricted `PATH`. The frozen builder now checks PE
+normal/delay imports and exported forwarder DLL names against bundled files or a reviewed Windows11
+inbox list, then observes actual DLL paths in its import and synthetic-PCM probes. The parent
+reports 92 speech PE files and five bundled CRT paths passing, plus a separate static pass over
+861 app/launcher PE files. The final DLL-qualified runtime rebuild has passed this stronger gate
+and recorded new provenance; functional DLLs are reported unchanged from candidate2. Neither static closure nor these
+selected loaded-module observations are a clean-VM or universal dynamic-loading test.
+(tools/Installer/bundle_runtime.py:677-694)
+(tools/Installer/runtime_audit.py:126-166,169-234)
+(services/transcription/tests/test_packaged_pcm_runtime.py:14,88-97)
+
+The launcher consumes compact `install-manifest.json` metadata with a16KiB size bound, while
+`payload-files.json` lists full payload paths, lengths and SHA-256 values. Separating them prevents
+the large runtime inventory from invalidating ordinary startup. The inventory includes the compact
+manifest but excludes its own self-hash. `Build-Installer` enumerates hidden files/directories
+and rejects reparse points and private payload paths before writing the inventory.
+(src/PhantomFudge.Launcher/LauncherContract.cs:38-52,94-105)
+(scripts/Build-Installer.ps1:56-98)
+
+`Test-Installer.ps1` defines an isolated fixture with a random AppId and a separate installation
+path; shortcut creation is omitted and Setup has no launch action. It compares the inventory's filenames
+with the payload exactly, then checks installed lengths/hashes. Repair, damaged-launcher/version
+record recovery, downgrade rejection, uninstall and a retained synthetic external file are distinct
+assertions. The inspected lifecycle3 receipt passes 11 checks for 3,682 inventoried files from
+the parent's current-runtime candidate2 build. The earlier lifecycle2 result is historical.
+(scripts/Test-Installer.ps1:15-18,31-84)
+(tools/Installer/PhantomFudge.iss:62-76)
+
+The “upgrade” case writes an older numeric version record into the current fixture. It does not
+install a genuine older binary or qualify a clean Windows VM, migration across actual releases,
+Start-menu behavior or the supported hardware matrix. Lifecycle3's PASS retains those limits.
+(scripts/Test-Installer.ps1:69-74,96-104)
+
+The frozen launcher's separate `--validate-install` mode checks the owned marker, bounded compact
+manifest and expected file/model-directory layout without invoking the app, Python or inference.
+Historical pre-gate exact-EXE checks returned0for a synthetic valid layout and65for oversized/corrupt
+metadata. Placeholder layout validation is not a model-hash, native ABI, executable-launch or
+full installer-repair test. See [current evidence](../IMPLEMENTATION-STATUS.md).
+(src/PhantomFudge.Launcher/Program.cs:25-43)
+(src/PhantomFudge.Launcher/LauncherContract.cs:87-105)
+(tests/PhantomFudge.Core.Tests/InstalledMaintenanceTests.cs:210-239)
+
+## Legacy overview: what gets shipped
 
 `Publish-Preview.ps1` builds a self-contained win-x64 application into a timestamped directory,
 copies a selected documentation/script/service allowlist, and creates a ZIP plus SHA256 output
 (`scripts\Publish-Preview.ps1:1-52`). The exact list matters: copying the repository wholesale
 would also risk models, token files, captures, temporary data and unrelated development tooling.
 
-The native runtime and Python runtime are different dependencies. Self-contained .NET publishing
+In this legacy ZIP, the native runtime and Python runtime are different dependencies. Self-contained .NET publishing
 includes the .NET runtime needed by the executable. It does not install Python, create the
 service's venv or embed either ASR model. Those operations are owned by explicit initialization
 (`scripts\Initialize-Transcription.ps1:119-165`).
 
-## Artifact flow
+## Legacy candidate-to-qualified-release flow
 
 ```mermaid
 ---
@@ -40,12 +156,13 @@ flowchart TB
     Qualify --> Approval["Owner-authorized release"]
 ```
 
-The final arrows are deliberately not automatic. A passing local smoke test is not signing,
+The final arrows describe qualification, not a prerequisite for honestly labelled experimental
+prerelease access. They are deliberately not automatic. A passing local smoke test is not signing,
 distribution authorization, enterprise-policy acceptance or four-product capture qualification.
 The implementation-status document identifies the actual local candidate and its remaining
-boundaries (`docs\IMPLEMENTATION-STATUS.md:1-256`).
+boundaries (`docs\IMPLEMENTATION-STATUS.md:1-309`).
 
-## Source checkout versus extracted bundle
+## Source checkout versus legacy extracted bundle
 
 The launcher detects whether `PhantomFudge.exe` sits at the root of its working package. If it
 does, it uses that executable without building. Otherwise it targets the source-build path.
@@ -61,7 +178,7 @@ An already-running source instance is revealed rather than rebuilt underneath th
 | Speech service idle | Use its managed Stop command | Broad process-name termination |
 | Service active | Stop transcription in the UI first | Discarding queued audio by terminating the backend |
 
-## Setup is intentionally explicit
+## Legacy setup is intentionally explicit
 
 The initializer checks a pinned archive size/hash and verifies the extracted model files.
 An existing damaged model is not silently overwritten. Token creation uses random bytes,
@@ -185,4 +302,4 @@ references. Freshness tooling detects changed inputs, but semantic review remain
 - `services\transcription\manage.py:114-268` — instance ownership, reuse and stop.
 - `src\PhantomFudge.App\Native\SingleInstance.cs:18-75` — window recovery channel.
 - `src\PhantomFudge.App\LocalFailureNotice.cs:1-30` — non-content failure notice.
-- `docs\IMPLEMENTATION-STATUS.md:1-256` — candidate evidence and limits.
+- `docs\IMPLEMENTATION-STATUS.md:1-309` — candidate evidence and limits.

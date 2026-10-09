@@ -27,7 +27,7 @@ continues and nothing is sent. **Done typing** / Escape restores passive interac
 further direct selection changes retain the draft/highlights with inline status until **Clear
 question**. The manual **Choose source → Mic / Computer / All → Use selected** route can remain passive.
 This distinction is intentional, not evidence that all clicks preserve foreground focus.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:84-141;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:85-147;
 [`SetQuestionEditing`](../src/PhantomFudge.App/MainWindow.Questions.cs).)
 
 The October 9 requested window is 1240 x 1520, clamped to the current monitor work area

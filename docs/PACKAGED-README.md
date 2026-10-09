@@ -1,6 +1,12 @@
-# Phantom Fudge native preview
+# Phantom Fudge legacy development bundle
 
-This local development preview includes the Windows app and native Python speech-service
+This guide is the root README shipped by the **legacy `Publish-Preview.ps1` ZIP workflow**.
+It is not the first-run procedure for the planned v0.2.0-preview.1 installer or new self-contained
+portable payload. For those, read the repository's `docs\INSTALLATION.md` and release evidence.
+Candidate2 built successfully and lifecycle3 passed its bounded current-host fixture. A clean
+committed release build and publication remain **pending**; no downloadable final asset is claimed.
+
+This local development bundle includes the Windows app and native Python speech-service
 source/setup scripts. **Docker is not needed.** The app remains discoverable to Windows and
 capture exclusion is not a guarantee against every recorder.
 
@@ -16,6 +22,8 @@ Extract the entire ZIP. Use PowerShell 7.2+ and an installed Python 3.13 interpr
 Setup creates a package-local Python environment, installs pinned dependencies, explicitly
 downloads verified Vosk and Whisper small.en English models, and creates a local token. No meeting data is uploaded.
 The C# runtime is included; the Python interpreter/model/venv are not baked into the ZIP.
+That statement applies to this legacy bundle, not to the new installer's intended bundled
+Python/Vosk/Whisper layout. Historical ZIPs do not gain later UI changes when this guide changes.
 
 Later launches only need `Run-PhantomFudge.ps1`. It starts or reuses the native Python
 recognizer and launches the app. Audio starts only when you click Start in the app.
@@ -70,3 +78,5 @@ The five allowlisted JSON quality receipts under `tools` are synthetic evidence 
 weights, personal profiles, captured audio or executable benchmark tooling.
 Optional Docker recipes and the engine benchmark are source-checkout tools for later work;
 this bundle is the native runtime, not a container distribution or certified public release.
+The owner has not selected a project license. Preserve exact dependency notices; their licenses
+are not a license grant for Phantom Fudge. A private-repository prerelease is not public access.

@@ -37,7 +37,7 @@ The input identities are `Computer` and `Microphone`, not identified speakers
 local transport before constructing the selected capture inputs
 (`src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:68-128`, `StartCoreAsync`).
 The Python recognizer loads an explicit local model path and produces partial/final text
-(`services/transcription/recognizer.py:41-96`, `VoskFactory`, `VoskRecognizer`).
+(`services/transcription/recognizer.py:44-110`, `VoskFactory`, `VoskRecognizer`).
 The hybrid wrapper transfers disjoint PCM spans to the local Whisper finalizer; verified selected
 models are required rather than silently falling back (`services/transcription/accurate.py:33-129`).
 
@@ -156,10 +156,10 @@ question editing and answer reading are separate typography roles.
 The default Present view is non-activating and uses an arrow cursor. Global Edit enables note
 typing and stops transcription. Question **Type / edit** is deliberately separate: it permits
 keyboard focus without stopping audio or enabling note editing. Done typing/Escape returns to
-passive interaction (`src/PhantomFudge.App/MainWindow.Questions.cs:156-201`).
+passive interaction (`src/PhantomFudge.App/MainWindow.Questions.cs:158-208`).
 Main-transcript clicks now enter that same deliberate question-focus path, not passive scrolling.
 Q/A is expanded initially; direct selection closes source/setup/Notes to expose the editor.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:125-141;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:131-147;
 [`InitializeQuestionView`](../src/PhantomFudge.App/MainWindow.Questions.cs).)
 
 ## Local questions, selectable providers and future Azure
@@ -206,7 +206,7 @@ Only intended segments enter the draft. Manual edits prevent later ASR from over
 `Freeze` validates and copies the exact local question
 (`src/PhantomFudge.Core/QuestionDraft.cs:48-95`). The current Ask handler displays that snapshot
 or sends only its exact question through an explicitly configured provider
-(`src/PhantomFudge.App/MainWindow.Questions.cs:258-284`).
+(`src/PhantomFudge.App/MainWindow.Questions.cs:265-291`).
 The explicit, default-off clarification exception adds its fixed instruction and only this
 question's bounded interpretation/reply history. Each correction or confirmation requires another
 deliberate send; Cover does not auto-confirm anything.
@@ -215,7 +215,7 @@ Ordinary clicks toggle whole segments without Ctrl and compose raw text in displ
 order, including older visible rows beyond chooser eviction. After editing, direct changes are
 rejected with inline retained-draft status until **Clear question**; selection alone never freezes
 or sends. The manual **Choose source → Mic / Computer / All → Use selected** path remains.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-82,84-141.)
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-83,85-147.)
 
 Accurate armed-Mic finalization and approved direct Azure identity/provider integration remain
 separate TODOs. Copilot CLI runs on the machine but normally uses GitHub cloud inference; offline

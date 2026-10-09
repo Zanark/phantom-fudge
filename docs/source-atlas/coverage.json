@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "counts": {
-    "files": 168,
-    "lines": 24583,
-    "nonblankLines": 22903,
-    "blocks": 992,
-    "groups": 7
+    "files": 203,
+    "lines": 30897,
+    "nonblankLines": 28760,
+    "blocks": 1232,
+    "groups": 10
   },
   "meaning": "Every in-scope physical line is assigned to an authored block; this is not proof of complete semantic understanding.",
   "annotated": [
@@ -1106,9 +1106,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Answers.cs",
-      "sourceSha256": "a65926885a6514bf9c4cde4679d67d1c9b28f03ad7c76b2e84a043cce026171b",
-      "lines": 329,
-      "nonblankLines": 312,
+      "sourceSha256": "fc2eda79ae56baf70d608416ad6baa5ca257629de5ae5925a72e2c21d4efb583",
+      "lines": 328,
+      "nonblankLines": 311,
       "blocks": [
         {
           "start": 1,
@@ -1127,42 +1127,47 @@
         },
         {
           "start": 103,
-          "end": 136,
+          "end": 124,
           "title": "Derive action availability from state rather than captions"
         },
         {
-          "start": 137,
-          "end": 159,
+          "start": 125,
+          "end": 135,
+          "title": "Block selection-mode submission and follow the asynchronous editor target"
+        },
+        {
+          "start": 136,
+          "end": 158,
           "title": "Keep local freezing separate from starting a provider run"
         },
         {
-          "start": 160,
-          "end": 177,
+          "start": 159,
+          "end": 176,
           "title": "Publish run identity before starting asynchronous streaming"
         },
         {
-          "start": 178,
-          "end": 211,
+          "start": 177,
+          "end": 210,
           "title": "Consume a bounded stream and validate before accepting completion"
         },
         {
-          "start": 212,
-          "end": 247,
+          "start": 211,
+          "end": 246,
           "title": "Distinguish user cancellation, timeout and provider failure"
         },
         {
-          "start": 248,
-          "end": 271,
+          "start": 247,
+          "end": 270,
           "title": "Render the current answer without claiming pixels were observed"
         },
         {
-          "start": 272,
-          "end": 299,
+          "start": 271,
+          "end": 298,
           "title": "Make terminal cancellation immediate but await cleanup separately"
         },
         {
-          "start": 300,
-          "end": 329,
+          "start": 299,
+          "end": 328,
           "title": "Copy explicitly and clear without reviving old callbacks"
         }
       ],
@@ -1281,9 +1286,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Layout.cs",
-      "sourceSha256": "b8ffb4ed00be59065a7c31317cc42d050bc61d8ef9683799aeba697f3f45858a",
-      "lines": 195,
-      "nonblankLines": 175,
+      "sourceSha256": "8d0d3481d995bb8ac7c32fd3e37c418e27cf82950caa5b2087c9ab9b999c05c5",
+      "lines": 199,
+      "nonblankLines": 179,
       "blocks": [
         {
           "start": 1,
@@ -1297,27 +1302,37 @@
         },
         {
           "start": 56,
+          "end": 73,
+          "title": "Borrow compact reading space without invoking close or cancellation"
+        },
+        {
+          "start": 74,
           "end": 92,
-          "title": "Allocate wide columns or a constrained stacked reader"
+          "title": "Allocate columns, partial rows and small-header space"
         },
         {
           "start": 93,
-          "end": 119,
+          "end": 96,
+          "title": "Preserve a chosen answer size during every layout pass"
+        },
+        {
+          "start": 97,
+          "end": 123,
           "title": "Keep submitted text readable without crowding a clarification reply"
         },
         {
-          "start": 120,
-          "end": 150,
+          "start": 124,
+          "end": 154,
           "title": "Mutually exclude source and provider tools, with inline protection details"
         },
         {
-          "start": 151,
-          "end": 176,
+          "start": 155,
+          "end": 180,
           "title": "Define the exact synthetic notion of reading reachability"
         },
         {
-          "start": 177,
-          "end": 195,
+          "start": 181,
+          "end": 199,
           "title": "Declare monitor structures and native lookup signatures"
         }
       ],
@@ -1371,63 +1386,68 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Questions.cs",
-      "sourceSha256": "d3afa0686c5af5fa12a588061da04abe2d0b84768f52a187792820fc031e9601",
-      "lines": 331,
-      "nonblankLines": 307,
+      "sourceSha256": "02ac6ea2a50071181dc5946fd4bbda3ca0c8c275c010ab39136537747a55ba90",
+      "lines": 338,
+      "nonblankLines": 314,
       "blocks": [
         {
           "start": 1,
-          "end": 35,
+          "end": 36,
           "title": "Start with a local draft and a separately identified transcript session"
         },
         {
-          "start": 36,
-          "end": 67,
+          "start": 37,
+          "end": 69,
           "title": "Expand Q/A without confusing visibility with activity"
         },
         {
-          "start": 68,
-          "end": 102,
+          "start": 70,
+          "end": 104,
           "title": "Filter the chooser by structured source and preserve matching keys"
         },
         {
-          "start": 103,
-          "end": 131,
+          "start": 105,
+          "end": 133,
           "title": "Make manual chooser replacement deliberate and atomic"
         },
         {
-          "start": 132,
-          "end": 153,
+          "start": 134,
+          "end": 155,
           "title": "Refresh only the selected question as recognition changes"
         },
         {
-          "start": 154,
-          "end": 190,
+          "start": 156,
+          "end": 164,
+          "title": "Route typing changes through the active modal controller"
+        },
+        {
+          "start": 165,
+          "end": 197,
           "title": "Take question keyboard focus without the global Notes transition"
         },
         {
-          "start": 191,
-          "end": 206,
+          "start": 198,
+          "end": 213,
           "title": "Derive original-editor permissions and copy semantics"
         },
         {
-          "start": 207,
-          "end": 238,
+          "start": 214,
+          "end": 245,
           "title": "Protect the original from locked edits and reject oversized paste"
         },
         {
-          "start": 239,
-          "end": 257,
+          "start": 246,
+          "end": 264,
           "title": "Render model text with provenance while suppressing recursion"
         },
         {
-          "start": 258,
-          "end": 299,
+          "start": 265,
+          "end": 306,
           "title": "Freeze once only after Ask preconditions succeed"
         },
         {
-          "start": 300,
-          "end": 331,
+          "start": 307,
+          "end": 338,
           "title": "Copy only the draft and clear question state independently"
         }
       ],
@@ -1436,9 +1456,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-      "sourceSha256": "6639643e434d445af7e486a04a1a64f3858731dad127c7e43a7f1db04879c723",
-      "lines": 153,
-      "nonblankLines": 143,
+      "sourceSha256": "873cc9bc409c28d522f530ec36767d61bf2c5ab4541eacf69f9a53e1973c16f3",
+      "lines": 159,
+      "nonblankLines": 148,
       "blocks": [
         {
           "start": 1,
@@ -1452,22 +1472,22 @@
         },
         {
           "start": 49,
-          "end": 83,
+          "end": 84,
           "title": "Rebuild partial rows and reconcile selection by identity"
         },
         {
-          "start": 84,
-          "end": 111,
+          "start": 85,
+          "end": 115,
           "title": "Toggle whole rows and roll back disallowed edits"
         },
         {
-          "start": 112,
-          "end": 143,
+          "start": 116,
+          "end": 149,
           "title": "Compose selected raw segments in view order, not click order"
         },
         {
-          "start": 144,
-          "end": 153,
+          "start": 150,
+          "end": 159,
           "title": "Locate the actual list scroll viewer in the visual tree"
         }
       ],
@@ -1516,9 +1536,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.xaml",
-      "sourceSha256": "cbd33a5c07e0a13db7d997361fc59341bc16e1399cbc6e11e8bb801358c133c3",
-      "lines": 662,
-      "nonblankLines": 662,
+      "sourceSha256": "3c9e1717f63c4bc8bf86f4a1358d17a59f923ea586c1af0488e272addeff25d0",
+      "lines": 698,
+      "nonblankLines": 698,
       "blocks": [
         {
           "start": 1,
@@ -1527,127 +1547,142 @@
         },
         {
           "start": 12,
-          "end": 49,
+          "end": 52,
           "title": "Render each device as a selectable card"
         },
         {
-          "start": 50,
-          "end": 68,
+          "start": 53,
+          "end": 71,
           "title": "Remove scrolling from the device control itself"
         },
         {
-          "start": 69,
-          "end": 73,
+          "start": 72,
+          "end": 76,
           "title": "Retain the separate transcript row template"
         },
         {
-          "start": 74,
-          "end": 105,
+          "start": 77,
+          "end": 111,
           "title": "Show direct selection without painting over translucent reading space"
         },
         {
-          "start": 106,
-          "end": 141,
+          "start": 112,
+          "end": 149,
           "title": "Retain native caption/resize regions and clickable header actions"
         },
         {
-          "start": 142,
-          "end": 167,
+          "start": 150,
+          "end": 175,
           "title": "Expose semantic themes and bounded background tint"
         },
         {
-          "start": 168,
-          "end": 183,
+          "start": 176,
+          "end": 194,
+          "title": "Keep modal prompts and focus inside the protected window"
+        },
+        {
+          "start": 195,
+          "end": 210,
           "title": "Keep unsaved-content decisions inside the existing surface"
         },
         {
-          "start": 184,
-          "end": 231,
+          "start": 211,
+          "end": 258,
           "title": "Separate capture actions from input-mode choice and meters"
         },
         {
-          "start": 232,
-          "end": 234,
+          "start": 259,
+          "end": 261,
           "title": "Keep capture status outside the setup workspace"
         },
         {
-          "start": 235,
-          "end": 264,
+          "start": 262,
+          "end": 291,
           "title": "Give final transcript rows their own scroll and selection surface"
         },
         {
-          "start": 265,
-          "end": 297,
+          "start": 292,
+          "end": 324,
           "title": "Keep live partials selectable and clarification opt-in"
         },
         {
-          "start": 298,
-          "end": 320,
+          "start": 325,
+          "end": 347,
           "title": "Preserve a manual source chooser distinct from direct clicks"
         },
         {
-          "start": 321,
-          "end": 342,
+          "start": 348,
+          "end": 369,
           "title": "Disclose provider/provenance details beside explicit question actions"
         },
         {
-          "start": 343,
-          "end": 386,
+          "start": 370,
+          "end": 413,
           "title": "Separate left editing tools from the primary Ask action"
         },
         {
-          "start": 387,
-          "end": 414,
+          "start": 414,
+          "end": 441,
           "title": "Place Clear after Ask with a persistent red outline"
         },
         {
-          "start": 415,
-          "end": 449,
+          "start": 442,
+          "end": 476,
           "title": "Give original question and clarification reply different text controls"
         },
         {
-          "start": 450,
-          "end": 474,
+          "start": 477,
+          "end": 501,
           "title": "Display immutable submitted text separately from mutable input"
         },
         {
-          "start": 475,
-          "end": 499,
-          "title": "Keep streamed answer, actions and failure status in the same reader"
+          "start": 502,
+          "end": 512,
+          "title": "Keep answer actions above a separately sized reader"
         },
         {
-          "start": 500,
-          "end": 513,
+          "start": 513,
+          "end": 522,
+          "title": "Offer a bounded integer answer-size control in the same action row"
+        },
+        {
+          "start": 523,
+          "end": 535,
+          "title": "Retain solid text and independent answer/request status"
+        },
+        {
+          "start": 536,
+          "end": 549,
           "title": "Give device selection the complete reading area"
         },
         {
-          "start": 514,
-          "end": 554,
+          "start": 550,
+          "end": 590,
           "title": "Keep Computer and Mic identity and paging separate"
         },
         {
-          "start": 555,
-          "end": 571,
+          "start": 591,
+          "end": 607,
           "title": "Keep service setup available without crowding device cards"
         },
         {
-          "start": 572,
-          "end": 603,
+          "start": 608,
+          "end": 639,
           "title": "Keep notes collapsed and file/find actions inside the surface"
         },
         {
-          "start": 604,
-          "end": 625,
+          "start": 640,
+          "end": 661,
           "title": "Use a plain read-only-by-default note editor and hide empty status"
         },
         {
-          "start": 626,
-          "end": 642,
+          "start": 662,
+          "end": 678,
           "title": "State capture limitations without claiming universal invisibility"
         },
         {
-          "start": 643,
-          "end": 662,
+          "start": 679,
+          "end": 698,
           "title": "Keep a plain book cover and one recovery action outside the workspace"
         }
       ],
@@ -1656,9 +1691,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.xaml.cs",
-      "sourceSha256": "c0627761f2fba9ee02d6e8bf4521625d3da8a290cb20c75793cb279b775478d0",
-      "lines": 1216,
-      "nonblankLines": 1161,
+      "sourceSha256": "df98fedfc3f1a8f148bd12ac7735c99c925da0c5bc519830a80aec57b79eccad",
+      "lines": 1232,
+      "nonblankLines": 1177,
       "blocks": [
         {
           "start": 1,
@@ -1667,192 +1702,197 @@
         },
         {
           "start": 50,
-          "end": 80,
+          "end": 81,
           "title": "Initialize resources before controls and marshal audio callbacks"
         },
         {
-          "start": 81,
-          "end": 97,
+          "start": 82,
+          "end": 98,
           "title": "Update source-specific meters with rate-limited metadata"
         },
         {
-          "start": 98,
-          "end": 129,
+          "start": 99,
+          "end": 132,
           "title": "Configure the native surface before showing it"
         },
         {
-          "start": 130,
-          "end": 165,
+          "start": 133,
+          "end": 169,
           "title": "Provide recovery when a hotkey conflicts or protection fails"
         },
         {
-          "start": 166,
-          "end": 205,
+          "start": 170,
+          "end": 211,
           "title": "Handle owned-window cursor, hotkey and nonactivation messages"
         },
         {
-          "start": 206,
-          "end": 231,
+          "start": 212,
+          "end": 238,
           "title": "Hide first on observed session, power or protection invalidation"
         },
         {
-          "start": 232,
-          "end": 268,
+          "start": 239,
+          "end": 277,
           "title": "Distinguish Hide and global Notes Edit from question typing"
         },
         {
-          "start": 269,
-          "end": 296,
+          "start": 278,
+          "end": 305,
           "title": "Derive focus, file permissions and dirty categories"
         },
         {
-          "start": 297,
-          "end": 345,
+          "start": 306,
+          "end": 355,
           "title": "Queue destructive actions and preserve pending intent during IO"
         },
         {
-          "start": 346,
-          "end": 362,
+          "start": 356,
+          "end": 372,
           "title": "Require all exit preservation categories to be resolved"
         },
         {
-          "start": 363,
-          "end": 388,
+          "start": 373,
+          "end": 398,
           "title": "Commit an opened note only after strict read succeeds"
         },
         {
-          "start": 389,
-          "end": 409,
+          "start": 399,
+          "end": 419,
           "title": "Select save destination without treating dialog cancellation as success"
         },
         {
-          "start": 410,
-          "end": 436,
+          "start": 420,
+          "end": 446,
           "title": "Advance the saved baseline only after persistence completes"
         },
         {
-          "start": 437,
-          "end": 469,
+          "start": 447,
+          "end": 479,
           "title": "Keep note status generic and validate the full paste result"
         },
         {
-          "start": 470,
-          "end": 500,
+          "start": 480,
+          "end": 510,
           "title": "Change font and root tint without fading glyphs"
         },
         {
-          "start": 501,
-          "end": 546,
+          "start": 511,
+          "end": 556,
           "title": "Toggle notes without erasing them and find from current selection"
         },
         {
-          "start": 547,
-          "end": 573,
+          "start": 557,
+          "end": 569,
+          "title": "Route covered and armed-mode keys before legacy file shortcuts"
+        },
+        {
+          "start": 570,
+          "end": 588,
           "title": "Reserve Escape for question typing and shortcuts for global Edit"
         },
         {
-          "start": 574,
-          "end": 604,
+          "start": 589,
+          "end": 619,
           "title": "Refresh Computer and Mic lists independently"
         },
         {
-          "start": 605,
-          "end": 636,
+          "start": 620,
+          "end": 651,
           "title": "Keep passive device choice local and audio tools inline"
         },
         {
-          "start": 637,
-          "end": 665,
+          "start": 652,
+          "end": 680,
           "title": "Reject explicit Start before disturbing session state"
         },
         {
-          "start": 666,
-          "end": 704,
+          "start": 681,
+          "end": 719,
           "title": "Start a GUID-stamped capture with old partials archived"
         },
         {
-          "start": 705,
-          "end": 746,
+          "start": 720,
+          "end": 761,
           "title": "Disable source changes throughout startup and stopping"
         },
         {
-          "start": 747,
-          "end": 780,
+          "start": 762,
+          "end": 795,
           "title": "Coalesce repeated stops and cancel startup before waiting"
         },
         {
-          "start": 781,
-          "end": 811,
+          "start": 796,
+          "end": 826,
           "title": "Reject stale capture callbacks before mutating either transcript"
         },
         {
-          "start": 812,
-          "end": 850,
+          "start": 827,
+          "end": 865,
           "title": "Export one transcript snapshot without autosaving audio"
         },
         {
-          "start": 851,
-          "end": 873,
+          "start": 866,
+          "end": 888,
           "title": "Clear transcript only after full stop and saved export"
         },
         {
-          "start": 874,
-          "end": 904,
+          "start": 889,
+          "end": 919,
           "title": "Serialize close requests and release window-owned subscriptions"
         },
         {
-          "start": 905,
-          "end": 943,
+          "start": 920,
+          "end": 958,
           "title": "Set up a synthetic UI harness without enabling inference"
         },
         {
-          "start": 944,
-          "end": 961,
+          "start": 959,
+          "end": 976,
           "title": "Populate synthetic source rows and inspect local cursor/nonactivation"
         },
         {
-          "start": 962,
-          "end": 989,
+          "start": 977,
+          "end": 1004,
           "title": "Check theme bindings and preserve original content/handle baselines"
         },
         {
-          "start": 990,
-          "end": 1032,
+          "start": 1005,
+          "end": 1047,
           "title": "Exercise passive Computer and Mic device-row clicks"
         },
         {
-          "start": 1033,
-          "end": 1056,
+          "start": 1048,
+          "end": 1071,
           "title": "Use busy/stopping negative controls before any audio can start"
         },
         {
-          "start": 1057,
-          "end": 1076,
+          "start": 1072,
+          "end": 1091,
           "title": "Sample low/full root alpha and check solid foregrounds"
         },
         {
-          "start": 1077,
-          "end": 1102,
+          "start": 1092,
+          "end": 1117,
           "title": "Exercise notes expansion, internal scrolling and native hit regions"
         },
         {
-          "start": 1103,
-          "end": 1120,
+          "start": 1118,
+          "end": 1135,
           "title": "Check global mode permissions and block busy document replacement"
         },
         {
-          "start": 1121,
-          "end": 1140,
+          "start": 1136,
+          "end": 1155,
           "title": "Force URI rejection before transport or device work"
         },
         {
-          "start": 1141,
-          "end": 1188,
+          "start": 1156,
+          "end": 1204,
           "title": "Combine synthetic subdiagnostics and close even on failure"
         },
         {
-          "start": 1189,
-          "end": 1216,
+          "start": 1205,
+          "end": 1232,
           "title": "Render WPF content locally and pack native hit-test coordinates"
         }
       ],
@@ -1916,18 +1956,18 @@
     },
     {
       "path": "src/PhantomFudge.App/Native/WindowHotkeys.cs",
-      "sourceSha256": "511ba5495489d6782ad85ca34588f52c9abee128303c504a4a247c85b39d6c00",
-      "lines": 34,
-      "nonblankLines": 29,
+      "sourceSha256": "c14082309356690485c0c17ccad28b10931ac80065f94ae7412cfcc2043ff365",
+      "lines": 35,
+      "nonblankLines": 30,
       "blocks": [
         {
           "start": 1,
-          "end": 19,
+          "end": 20,
           "title": "Record only successfully registered hotkey IDs"
         },
         {
-          "start": 20,
-          "end": 34,
+          "start": 21,
+          "end": 35,
           "title": "Attempt every unregister and keep cleanup diagnostics generic"
         }
       ],
@@ -2031,7 +2071,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs",
-      "sourceSha256": "16af7fc2dd04f4203c5b66d98b202d4566aca04701676d58091ae1eb6833de56",
+      "sourceSha256": "2504129f93301b2838d44805ab3bce9799ff4b94511118ad318f5c8055f5f1ea",
       "lines": 160,
       "nonblankLines": 146,
       "blocks": [
@@ -2106,9 +2146,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Cover.cs",
-      "sourceSha256": "09e1b8b914f6181884e81f2259241cd6a342eddeddae2adfe7921ac9b49c18bf",
-      "lines": 78,
-      "nonblankLines": 73,
+      "sourceSha256": "bbeb31f94c6ae386dd282c93a7691ea7e484355e6451a4ce7f4112d1fd9a2533",
+      "lines": 79,
+      "nonblankLines": 74,
       "blocks": [
         {
           "start": 1,
@@ -2117,17 +2157,22 @@
         },
         {
           "start": 22,
-          "end": 47,
-          "title": "Refuse unsafe transitions and detach the real workspace"
+          "end": 32,
+          "title": "Refuse unsafe cover entry and disarm local commands"
         },
         {
-          "start": 48,
-          "end": 67,
+          "start": 33,
+          "end": 48,
+          "title": "Detach the actual workspace while retaining its ongoing work"
+        },
+        {
+          "start": 49,
+          "end": 68,
           "title": "Restore the visual tree and rebuild the window's automation children"
         },
         {
-          "start": 68,
-          "end": 78,
+          "start": 69,
+          "end": 79,
           "title": "Resume layout and visible timing without restarting work"
         }
       ],
@@ -2183,6 +2228,256 @@
       ],
       "chapter": "docs/handbook/22-desktop-source-walkthrough.md",
       "anchor": "file-src-phantomfudge-app-mainwindow-coverdiagnostics-cs-258c17cd"
+    },
+    {
+      "path": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
+      "sourceSha256": "0df77850de4d0cb982dc2558149a37742116ad0a723c679e7a91b30be78a5b1d",
+      "lines": 57,
+      "nonblankLines": 50,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 18,
+          "title": "Distinguish an unset preference from a user-selected size"
+        },
+        {
+          "start": 19,
+          "end": 27,
+          "title": "Validate before committing a session preference"
+        },
+        {
+          "start": 28,
+          "end": 44,
+          "title": "Apply responsive defaults without overwriting explicit choices"
+        },
+        {
+          "start": 45,
+          "end": 57,
+          "title": "Shorten captions without losing action meaning"
+        }
+      ],
+      "chapter": "docs/handbook/22-desktop-source-walkthrough.md",
+      "anchor": "file-src-phantomfudge-app-mainwindow-answerfont-cs-539251ff"
+    },
+    {
+      "path": "src/PhantomFudge.App/MainWindow.KeyboardDevices.cs",
+      "sourceSha256": "1620895fd8f773e0e7e848aaf3bae26fd27e562b0cc53758ba676d604c12b917",
+      "lines": 73,
+      "nonblankLines": 67,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 18,
+          "title": "Start navigation from the selected endpoint without selecting another"
+        },
+        {
+          "start": 19,
+          "end": 41,
+          "title": "Reveal the cursor page independently of the selected card"
+        },
+        {
+          "start": 42,
+          "end": 55,
+          "title": "Refuse navigation during capture and switch source only in Both mode"
+        },
+        {
+          "start": 56,
+          "end": 73,
+          "title": "Clamp row, card and page motion; reserve selection for nonrepeated Space"
+        }
+      ],
+      "chapter": "docs/handbook/22-desktop-source-walkthrough.md",
+      "anchor": "file-src-phantomfudge-app-mainwindow-keyboarddevices-cs-2a7b9795"
+    },
+    {
+      "path": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
+      "sourceSha256": "4b602ca839b850c10c3163c985259c11ef3d0a72ada749596976f2159041343f",
+      "lines": 161,
+      "nonblankLines": 148,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 28,
+          "title": "Enter selection with an identity cursor, not an implicit selection"
+        },
+        {
+          "start": 29,
+          "end": 49,
+          "title": "Protect edited drafts and filter raw segment text"
+        },
+        {
+          "start": 50,
+          "end": 79,
+          "title": "Filter collection views without changing transcript storage or copied selection"
+        },
+        {
+          "start": 80,
+          "end": 97,
+          "title": "Keep cursor styling and scrolling separate from selected rows"
+        },
+        {
+          "start": 98,
+          "end": 109,
+          "title": "Apply local search while retaining a still-visible cursor"
+        },
+        {
+          "start": 110,
+          "end": 141,
+          "title": "Review with Enter and toggle copies only with explicit nonrepeated Space"
+        },
+        {
+          "start": 142,
+          "end": 161,
+          "title": "Move within bounded visible rows without chasing incoming speech"
+        }
+      ],
+      "chapter": "docs/handbook/22-desktop-source-walkthrough.md",
+      "anchor": "file-src-phantomfudge-app-mainwindow-keyboardselection-cs-bb3444af"
+    },
+    {
+      "path": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+      "sourceSha256": "0ab1fd4ea460238d61f9fbe524ac5dc164bad914e2a186112c4b710b9e7aec82",
+      "lines": 378,
+      "nonblankLines": 357,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 37,
+          "title": "Separate armed mode, copied-row navigation and native transition state"
+        },
+        {
+          "start": 38,
+          "end": 63,
+          "title": "Disable only the activation shortcut when configuration or registration fails"
+        },
+        {
+          "start": 64,
+          "end": 86,
+          "title": "Enter only after protected recovery and retain a bounded foreground-return target"
+        },
+        {
+          "start": 87,
+          "end": 125,
+          "title": "Change local modes without equating temporary hiding with stopped work"
+        },
+        {
+          "start": 126,
+          "end": 140,
+          "title": "Recover an asynchronously replaced Edit target without reclaiming external foreground"
+        },
+        {
+          "start": 141,
+          "end": 158,
+          "title": "Restore passive policy before a best-effort foreground handoff"
+        },
+        {
+          "start": 159,
+          "end": 176,
+          "title": "Abandon stale armed state without revealing an invalidated or hidden surface"
+        },
+        {
+          "start": 177,
+          "end": 217,
+          "title": "Display modal affordances and curated suggestions without executing prompt text"
+        },
+        {
+          "start": 218,
+          "end": 256,
+          "title": "Prioritize native Alt handling, bounded Escape and explicit prompt confirmation"
+        },
+        {
+          "start": 257,
+          "end": 273,
+          "title": "Require review before sending while preserving literal Edit input"
+        },
+        {
+          "start": 274,
+          "end": 300,
+          "title": "Allow repeatable reading motion but not repeatable mode actions"
+        },
+        {
+          "start": 301,
+          "end": 319,
+          "title": "Reuse guarded submission and reject invalid command text before leaving the prompt"
+        },
+        {
+          "start": 320,
+          "end": 345,
+          "title": "Guard shared command dispatch and require idle devices or clarification state"
+        },
+        {
+          "start": 346,
+          "end": 363,
+          "title": "Delegate only typed built-ins and release the dispatch guard on every exit"
+        },
+        {
+          "start": 364,
+          "end": 378,
+          "title": "Disarm before masking and constrain native interop to foreground identity"
+        }
+      ],
+      "chapter": "docs/handbook/22-desktop-source-walkthrough.md",
+      "anchor": "file-src-phantomfudge-app-mainwindow-keyboard-cs-a60857eb"
+    },
+    {
+      "path": "src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs",
+      "sourceSha256": "fc70d2843dc0c4b204506d0a3a7a9897f670812e77ca96ae3b8ca777e0632db8",
+      "lines": 261,
+      "nonblankLines": 258,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 30,
+          "title": "Inject configuration failures without touching the user's shortcut file"
+        },
+        {
+          "start": 31,
+          "end": 58,
+          "title": "Prove activation and stable selected partials with a synthetic cancellation sentinel"
+        },
+        {
+          "start": 59,
+          "end": 92,
+          "title": "Check filtered cursor stability and compact review without creating a snapshot"
+        },
+        {
+          "start": 93,
+          "end": 117,
+          "title": "Submit exact text once and keep malformed commands local during fake streaming"
+        },
+        {
+          "start": 118,
+          "end": 126,
+          "title": "Separate masking from cancellation using a releasable fake answer"
+        },
+        {
+          "start": 127,
+          "end": 160,
+          "title": "Verify explicit maximum font survives responsive and passive layouts"
+        },
+        {
+          "start": 161,
+          "end": 194,
+          "title": "Protect edited drafts and follow asynchronous clarification editor replacement"
+        },
+        {
+          "start": 195,
+          "end": 215,
+          "title": "Restore fixture state and fail the receipt when any named assertion is false"
+        },
+        {
+          "start": 216,
+          "end": 249,
+          "title": "Navigate synthetic paged devices without selecting or starting capture implicitly"
+        },
+        {
+          "start": 250,
+          "end": 261,
+          "title": "Restore real device list references even if a synthetic device check fails"
+        }
+      ],
+      "chapter": "docs/handbook/22-desktop-source-walkthrough.md",
+      "anchor": "file-src-phantomfudge-app-mainwindow-keyboarddiagnostics-cs-922ffd6a"
     },
     {
       "path": ".dockerignore",
@@ -2246,13 +2541,13 @@
     },
     {
       "path": "PhantomFudge.slnx",
-      "sourceSha256": "62e0c1e13581acccab56d253c2e82c315168641b34b69ad3f8ce97bcd644082e",
-      "lines": 13,
-      "nonblankLines": 13,
+      "sourceSha256": "83273f1f97cbf17a0f001c4221eb997d18dac384b630d16a080d24253ca51379",
+      "lines": 14,
+      "nonblankLines": 14,
       "blocks": [
         {
           "start": 1,
-          "end": 13,
+          "end": 14,
           "title": "Declare solution membership rather than implicit execution"
         }
       ],
@@ -2286,23 +2581,23 @@
     },
     {
       "path": "docs/handbook/book.json",
-      "sourceSha256": "26fc782234a1625234a5094a3d25f793c13ab939b9df273eb026b55e64d18841",
-      "lines": 48,
-      "nonblankLines": 48,
+      "sourceSha256": "81a1666769d4801db23685d7bc3950db3797e7a25c06c745671f2078eea7e012",
+      "lines": 50,
+      "nonblankLines": 50,
       "blocks": [
         {
           "start": 1,
-          "end": 20,
+          "end": 22,
           "title": "Declare edition metadata and the introductory-to-audio reading sequence"
         },
         {
-          "start": 21,
-          "end": 39,
+          "start": 23,
+          "end": 41,
           "title": "Connect conceptual chapters with the new source walkthroughs"
         },
         {
-          "start": 40,
-          "end": 48,
+          "start": 42,
+          "end": 50,
           "title": "Append the public journal and select output artifacts"
         }
       ],
@@ -2311,9 +2606,9 @@
     },
     {
       "path": "docs/handbook/catalogue.json",
-      "sourceSha256": "a22ba00ae5d29750a77e3dfdfd59fffff839f85bc58077b8c1ba7ccbc5678753",
-      "lines": 241,
-      "nonblankLines": 241,
+      "sourceSha256": "8f016935d8cdd95549fa32bd25f76548219358bfc3ccee4b33ec9d7934bd3e21",
+      "lines": 253,
+      "nonblankLines": 253,
       "blocks": [
         {
           "start": 1,
@@ -2322,22 +2617,22 @@
         },
         {
           "start": 29,
-          "end": 74,
+          "end": 80,
           "title": "Separate product/platform foundations from desktop content state"
         },
         {
-          "start": 75,
-          "end": 128,
+          "start": 81,
+          "end": 134,
           "title": "Map streaming ownership and distinguish proposed AI design"
         },
         {
-          "start": 129,
-          "end": 190,
+          "start": 135,
+          "end": 202,
           "title": "Connect engineering procedures with reference and evidence"
         },
         {
-          "start": 191,
-          "end": 241,
+          "start": 203,
+          "end": 253,
           "title": "Add dedicated statement-level walkthroughs for seven source domains"
         }
       ],
@@ -2481,9 +2776,9 @@
     },
     {
       "path": "tools/Docs/source-atlas.mjs",
-      "sourceSha256": "64cb912798a3d992217d03225af1e9fa135204096ba89672c0aa648e4ffd6298",
-      "lines": 334,
-      "nonblankLines": 317,
+      "sourceSha256": "c10bdf23e7aec1238b0ba952c236976e66694c24d6163774666650c7d61a712b",
+      "lines": 339,
+      "nonblankLines": 321,
       "blocks": [
         {
           "start": 1,
@@ -2492,57 +2787,62 @@
         },
         {
           "start": 27,
-          "end": 46,
+          "end": 32,
+          "title": "Link root guides and handbook chapters without losing their directory"
+        },
+        {
+          "start": 33,
+          "end": 52,
           "title": "Classify provenance and reject path aliases"
         },
         {
-          "start": 47,
-          "end": 69,
+          "start": 53,
+          "end": 75,
           "title": "Inventory current Git names and compare script mirrors byte-for-byte"
         },
         {
-          "start": 70,
-          "end": 114,
+          "start": 76,
+          "end": 120,
           "title": "Validate authored blocks as a complete ordered partition"
         },
         {
-          "start": 115,
-          "end": 154,
+          "start": 121,
+          "end": 159,
           "title": "Reconcile every assigned source against the live inventory"
         },
         {
-          "start": 155,
-          "end": 178,
+          "start": 160,
+          "end": 183,
           "title": "Keep complete source and explanatory excerpts separate"
         },
         {
-          "start": 179,
-          "end": 200,
+          "start": 184,
+          "end": 205,
           "title": "Generate a searchable offline reference with honest coverage wording"
         },
         {
-          "start": 201,
-          "end": 217,
+          "start": 206,
+          "end": 222,
           "title": "Launch an installed, owned browser without implicit installation"
         },
         {
-          "start": 218,
-          "end": 246,
+          "start": 223,
+          "end": 251,
           "title": "Verify real output completeness before calling an edition current"
         },
         {
-          "start": 247,
-          "end": 280,
+          "start": 252,
+          "end": 285,
           "title": "Select a narrow CLI action and validate before browser work"
         },
         {
-          "start": 281,
-          "end": 315,
+          "start": 286,
+          "end": 320,
           "title": "Publish bounded evidence and explain exclusions beside the source"
         },
         {
-          "start": 316,
-          "end": 334,
+          "start": 321,
+          "end": 339,
           "title": "Record output hashes last and clean up only owned staging"
         }
       ],
@@ -2606,9 +2906,9 @@
     },
     {
       "path": "tools/Docs/test-docs.mjs",
-      "sourceSha256": "9463ce8cf535df4be7e93aebb02c8c1b7584e47ef0e520d8699dabaeb2acaf41",
-      "lines": 140,
-      "nonblankLines": 137,
+      "sourceSha256": "dce266e75d4e62ef096ca2ab9500b7694de61503636e4ec163b7c64b6a6cb4c3",
+      "lines": 150,
+      "nonblankLines": 146,
       "blocks": [
         {
           "start": 1,
@@ -2622,18 +2922,23 @@
         },
         {
           "start": 67,
-          "end": 101,
+          "end": 103,
           "title": "Use a tiny hashed fixture to test physical coverage semantics"
         },
         {
-          "start": 102,
-          "end": 128,
+          "start": 104,
+          "end": 130,
           "title": "Make missing coverage and unsafe rendering fail explicitly"
         },
         {
-          "start": 129,
-          "end": 140,
+          "start": 131,
+          "end": 142,
           "title": "Reject success-shaped incomplete manifests"
+        },
+        {
+          "start": 143,
+          "end": 150,
+          "title": "Keep root guide links correct while refusing unsafe chapter identities"
         }
       ],
       "chapter": "docs/handbook/28-documentation-source-walkthrough.md",
@@ -2718,6 +3023,76 @@
       ],
       "chapter": "docs/handbook/23-domain-source-walkthrough.md",
       "anchor": "file-src-phantomfudge-core-diagnostics-localdiagnostics-cs-7df28b75"
+    },
+    {
+      "path": "src/PhantomFudge.Core/KeyboardCommands.cs",
+      "sourceSha256": "df9007fed871a46d23a02b85700299c8c28c97032f42ddafbf8a442b5057c1b6",
+      "lines": 88,
+      "nonblankLines": 77,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 25,
+          "title": "Separate command identity, payload and curated examples"
+        },
+        {
+          "start": 26,
+          "end": 55,
+          "title": "Accept exactly one built-in token pattern"
+        },
+        {
+          "start": 56,
+          "end": 64,
+          "title": "Prefix suggestions are neither validation nor completion of every value"
+        },
+        {
+          "start": 65,
+          "end": 79,
+          "title": "Validate raw text before whitespace and colon normalization"
+        },
+        {
+          "start": 80,
+          "end": 88,
+          "title": "Reject decorated, overflowing or out-of-range numeric arguments"
+        }
+      ],
+      "chapter": "docs/handbook/23-domain-source-walkthrough.md",
+      "anchor": "file-src-phantomfudge-core-keyboardcommands-cs-983ab33a"
+    },
+    {
+      "path": "src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs",
+      "sourceSha256": "4b865897ed9dafdac5e9c2ffe45b397eabd28700c54c4231f5647677e4bd5ee5",
+      "lines": 116,
+      "nonblankLines": 101,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 29,
+          "title": "Resolve a key without normalizing stored text or registering a hotkey"
+        },
+        {
+          "start": 30,
+          "end": 54,
+          "title": "Default only when opening finds no file or directory"
+        },
+        {
+          "start": 55,
+          "end": 75,
+          "title": "Bound bytes before decoding and parsing"
+        },
+        {
+          "start": 76,
+          "end": 105,
+          "title": "Reject duplicate, unknown, mis-cased and mistyped properties"
+        },
+        {
+          "start": 106,
+          "end": 116,
+          "title": "Require the complete schema before validating and returning"
+        }
+      ],
+      "chapter": "docs/handbook/23-domain-source-walkthrough.md",
+      "anchor": "file-src-phantomfudge-core-keyboardshortcutconfiguration-cs-ef3da0a9"
     },
     {
       "path": "src/PhantomFudge.Core/NoteFileStore.cs",
@@ -2995,6 +3370,131 @@
       "anchor": "file-src-phantomfudge-core-workspacelayout-cs-fdca9b0c"
     },
     {
+      "path": "tests/PhantomFudge.Core.Tests/KeyboardCommandsTests.cs",
+      "sourceSha256": "d0cf50ca2a92daa530151636c8554effcab7a3b8032caa0e9ff24201a3185639",
+      "lines": 408,
+      "nonblankLines": 381,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 42,
+          "title": "Compare full command records across canonical and normalized spellings"
+        },
+        {
+          "start": 43,
+          "end": 76,
+          "title": "Distinguish normalization, null failure and an empty suggestion prefix"
+        },
+        {
+          "start": 77,
+          "end": 124,
+          "title": "Reject abbreviated names, missing arguments and extra tokens"
+        },
+        {
+          "start": 125,
+          "end": 177,
+          "title": "Pin numeric bounds and forbid alternative number notations"
+        },
+        {
+          "start": 178,
+          "end": 203,
+          "title": "Restore both cultures after testing invariant parsing"
+        },
+        {
+          "start": 204,
+          "end": 239,
+          "title": "Count raw UTF-16 input before trimming or limiting suggestions"
+        },
+        {
+          "start": 240,
+          "end": 260,
+          "title": "Do not trim away forbidden control characters"
+        },
+        {
+          "start": 261,
+          "end": 291,
+          "title": "Treat shell-shaped and instruction-shaped text as invalid data"
+        },
+        {
+          "start": 292,
+          "end": 329,
+          "title": "Keep the public examples canonical, complete by family and read-only"
+        },
+        {
+          "start": 330,
+          "end": 372,
+          "title": "Preserve prefix ordering, clamp counts and distinguish no match from invalid syntax"
+        },
+        {
+          "start": 373,
+          "end": 408,
+          "title": "Verify snapshot lifetime and reject mutable collection backdoors"
+        }
+      ],
+      "chapter": "docs/handbook/23-domain-source-walkthrough.md",
+      "anchor": "file-tests-phantomfudge-core-tests-keyboardcommandstests-cs-8a5c5ce5"
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/KeyboardShortcutConfigurationTests.cs",
+      "sourceSha256": "06cb8cb0727b11cf41c766d374248d1a5917dd60db8ecb6f070a79d6d6bc1e57",
+      "lines": 369,
+      "nonblankLines": 340,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 42,
+          "title": "Isolate filesystem fixtures and pin the default key and path"
+        },
+        {
+          "start": 43,
+          "end": 62,
+          "title": "Round-trip every allowed key in both cases and enabled states"
+        },
+        {
+          "start": 63,
+          "end": 117,
+          "title": "Reject unsupported keys even when activation is disabled"
+        },
+        {
+          "start": 118,
+          "end": 170,
+          "title": "Separate absent settings from explicit and configured path selection"
+        },
+        {
+          "start": 171,
+          "end": 212,
+          "title": "Reject structural schema errors without repairing the file"
+        },
+        {
+          "start": 213,
+          "end": 252,
+          "title": "Compare decoded names and preserve distinct JSON parse failures"
+        },
+        {
+          "start": 253,
+          "end": 272,
+          "title": "Accept a leading UTF-8 BOM without tolerating malformed bytes"
+        },
+        {
+          "start": 273,
+          "end": 315,
+          "title": "Exercise inclusive byte limits before key or JSON interpretation"
+        },
+        {
+          "start": 316,
+          "end": 343,
+          "title": "Do not disguise access errors or stale configuration as defaults"
+        },
+        {
+          "start": 344,
+          "end": 369,
+          "title": "Restore culture and remove only the owned fixture directory"
+        }
+      ],
+      "chapter": "docs/handbook/23-domain-source-walkthrough.md",
+      "anchor": "file-tests-phantomfudge-core-tests-keyboardshortcutconfigurationtests-cs-4db58bf8"
+    },
+    {
       "path": "tests/PhantomFudge.Core.Tests/LocalDiagnosticsTests.cs",
       "sourceSha256": "26b07c9ed531977a4512032d1ae7e56ce03b7c19b2d8b77be3130a3605a02217",
       "lines": 66,
@@ -3061,14 +3561,14 @@
     },
     {
       "path": "tests/PhantomFudge.Core.Tests/PhantomFudge.Core.Tests.csproj",
-      "sourceSha256": "b111c7f1e9b4a481f241b2d67f7019b8c46dcc490e22d4c07c6be248924b5b4f",
-      "lines": 24,
-      "nonblankLines": 19,
+      "sourceSha256": "30b5c5e382fdc9d2c506daeb0af68531ed9d1c5d0a07ee5a2b198ffac03e1485",
+      "lines": 30,
+      "nonblankLines": 25,
       "blocks": [
         {
           "start": 1,
-          "end": 24,
-          "title": "Test host, global assertion namespace and library reference"
+          "end": 30,
+          "title": "Test host, assertion namespace and isolated launcher source links"
         }
       ],
       "chapter": "docs/handbook/23-domain-source-walkthrough.md",
@@ -3440,6 +3940,1026 @@
       "anchor": "file-tests-phantomfudge-core-tests-workspacelayouttests-cs-e9ef5887"
     },
     {
+      "path": "src/PhantomFudge.Launcher/PhantomFudge.Launcher.csproj",
+      "sourceSha256": "a14b653b1519b2445b975595d1eca9705a6e1ef6e56701e783a889778e6c4a81",
+      "lines": 13,
+      "nonblankLines": 13,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 13,
+          "title": "Carry the desktop runtime instead of requiring a developer installation"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-src-phantomfudge-launcher-phantomfudge-launcher-csproj-3ec9a044"
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/app.manifest",
+      "sourceSha256": "696312a3f600b6022b9dfcec2cab1a7b8a65230ea3ec5287680cb9574e66f527",
+      "lines": 22,
+      "nonblankLines": 22,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 22,
+          "title": "Keep bootstrap maintenance in the calling user's security context"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-src-phantomfudge-launcher-app-manifest-3921016b"
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/LauncherContract.cs",
+      "sourceSha256": "95f1a928fe1e2a4c7ca5bbacaa31e64be03957934301a78495ef1c193686a6f1",
+      "lines": 165,
+      "nonblankLines": 146,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 36,
+          "title": "Accept explicit modes and derive local identities without shell interpretation"
+        },
+        {
+          "start": 37,
+          "end": 54,
+          "title": "Treat installation version as bounded metadata rather than command configuration"
+        },
+        {
+          "start": 55,
+          "end": 85,
+          "title": "Separate replaceable program files from the fixed per-user workspace"
+        },
+        {
+          "start": 86,
+          "end": 114,
+          "title": "Keep ownership checks separate from complete installed-layout checks"
+        },
+        {
+          "start": 115,
+          "end": 150,
+          "title": "Bound metadata reads and reject detected linked path components"
+        },
+        {
+          "start": 151,
+          "end": 165,
+          "title": "Respect installer presence without acquiring or releasing the installer's mutex"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-src-phantomfudge-launcher-launchercontract-cs-1ee9bb96"
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+      "sourceSha256": "4105df6f8999fe76d5f426bdde483fd66e9b2a4a01f039596579530caba787f6",
+      "lines": 142,
+      "nonblankLines": 130,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 42,
+          "title": "Require an app mutex or confirmed child exit instead of treating elapsed time as readiness"
+        },
+        {
+          "start": 43,
+          "end": 62,
+          "title": "Start only the bundled manager with the reviewed Python prefix"
+        },
+        {
+          "start": 63,
+          "end": 79,
+          "title": "Launch the notes executable without forwarding manager switches or shell commands"
+        },
+        {
+          "start": 80,
+          "end": 105,
+          "title": "Replace ambient speech configuration with installed paths and offline defaults"
+        },
+        {
+          "start": 106,
+          "end": 142,
+          "title": "Drain both pipes to completion while bounding memory and preserving uncertain runtime ownership"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-src-phantomfudge-launcher-childprocesses-cs-570aa2c1"
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/InstanceCoordination.cs",
+      "sourceSha256": "ffd88a75a2a51c853775df24ab12579b96624843b7bfc1f41ec097b6bf54d4f7",
+      "lines": 66,
+      "nonblankLines": 57,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 27,
+          "title": "Match the app's SID-derived recovery name while keeping a separate operation mutex"
+        },
+        {
+          "start": 28,
+          "end": 48,
+          "title": "Detect an existing app without taking its mutex and refuse concurrent operations"
+        },
+        {
+          "start": 49,
+          "end": 66,
+          "title": "Send only REVEAL over a current-user pipe and release only owned synchronization"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-src-phantomfudge-launcher-instancecoordination-cs-e6795189"
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/LocalToken.cs",
+      "sourceSha256": "9db2b1e5b0330afd2a86581b713c02c2e0f9c799d3c3e374dd49427348ee5f4d",
+      "lines": 86,
+      "nonblankLines": 82,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 40,
+          "title": "Apply the private DACL at creation instead of securing an already public token"
+        },
+        {
+          "start": 41,
+          "end": 64,
+          "title": "Read bounded ASCII token data and preserve malformed files for deliberate repair"
+        },
+        {
+          "start": 65,
+          "end": 86,
+          "title": "Require protected current-user ownership rather than rewriting existing permissions"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-src-phantomfudge-launcher-localtoken-cs-0789d830"
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/MaintenanceOperation.cs",
+      "sourceSha256": "cbee214c1fac7c36a6a6bdcc3d0b14af0d58c3dedf583d5ddf3a9b21010a01a4",
+      "lines": 135,
+      "nonblankLines": 128,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 43,
+          "title": "Parse ownership evidence without confusing a recycled PID with the old service"
+        },
+        {
+          "start": 44,
+          "end": 86,
+          "title": "Establish local ownership and serialize with the Python manager before any HTTP"
+        },
+        {
+          "start": 87,
+          "end": 110,
+          "title": "Require matching authenticated idle state and wait for the exact process to disappear"
+        },
+        {
+          "start": 111,
+          "end": 120,
+          "title": "Delete only the unchanged ownership receipt after a successful identity proof"
+        },
+        {
+          "start": 121,
+          "end": 135,
+          "title": "Check token-only idle state without authenticating an untracked listener"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-src-phantomfudge-launcher-maintenanceoperation-cs-867ac0fc"
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/OwnedServiceClient.cs",
+      "sourceSha256": "38a477f59f5b6db2617f7ae465649585e572c284df495a2c66d5c46cd6e92424",
+      "lines": 88,
+      "nonblankLines": 79,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 33,
+          "title": "Keep maintenance transport independent of Python and injectable for non-network tests"
+        },
+        {
+          "start": 34,
+          "end": 59,
+          "title": "Require explicit service identity and idle-state types rather than permissive defaults"
+        },
+        {
+          "start": 60,
+          "end": 88,
+          "title": "Bound authenticated response handling without retaining error bodies or forwarding credentials"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-src-phantomfudge-launcher-ownedserviceclient-cs-7c8a818c"
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/ProcessIdentity.cs",
+      "sourceSha256": "16eb880817a6c6b0182e67efa2ca70ba423dbce648d50c84d8926f198805aa3b",
+      "lines": 34,
+      "nonblankLines": 30,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 34,
+          "title": "Use read-only creation identity and refuse unknown access failures"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-src-phantomfudge-launcher-processidentity-cs-b504e6b3"
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+      "sourceSha256": "08bbd43db4151646be3a80e20880050abedecf43a41cbe206d2aeb35ab852efc",
+      "lines": 76,
+      "nonblankLines": 72,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 41,
+          "title": "Separate machine-readable refusal reasons from fixed user guidance"
+        },
+        {
+          "start": 42,
+          "end": 76,
+          "title": "Persist the latest generic result without making logging a prerequisite for success"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-src-phantomfudge-launcher-launcherstatus-cs-4cfc668b"
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/LauncherWindow.cs",
+      "sourceSha256": "3dcbeed95853a11b0601ac26259d3f597e22e28995e004e8c0150d18d77f3f60",
+      "lines": 85,
+      "nonblankLines": 78,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 58,
+          "title": "Construct a non-sensitive startup surface with no implicit fallback action"
+        },
+        {
+          "start": 59,
+          "end": 85,
+          "title": "Make success, failure and continued startup explicit UI states"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-src-phantomfudge-launcher-launcherwindow-cs-c23858c1"
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/Program.cs",
+      "sourceSha256": "7a61e9783e145e95391df72a449571724fd2b3597c1658c4c160225b1f0bbc48",
+      "lines": 394,
+      "nonblankLines": 375,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 44,
+          "title": "Dispatch headless commands before constructing a WPF Application"
+        },
+        {
+          "start": 45,
+          "end": 86,
+          "title": "Honor installer exclusion before recovery or startup, while allowing maintenance itself"
+        },
+        {
+          "start": 87,
+          "end": 101,
+          "title": "Allow fresh repair code to target damaged old files without selecting another user's data"
+        },
+        {
+          "start": 102,
+          "end": 125,
+          "title": "Hide startup progress without releasing a still-needed operation guard"
+        },
+        {
+          "start": 126,
+          "end": 152,
+          "title": "Recheck app recovery and basic layout at each explicit open attempt"
+        },
+        {
+          "start": 153,
+          "end": 177,
+          "title": "Prepare idle speech only for normal launch and expose failure rather than falling back silently"
+        },
+        {
+          "start": 178,
+          "end": 210,
+          "title": "Wait for actual instance coordination before declaring the launched app ready"
+        },
+        {
+          "start": 211,
+          "end": 228,
+          "title": "Retain the mutex even if the WPF dispatcher stops before handoff"
+        },
+        {
+          "start": 229,
+          "end": 248,
+          "title": "Keep generic failure presentation separate from synthetic child execution"
+        },
+        {
+          "start": 249,
+          "end": 268,
+          "title": "Run bounded synthetic child fixtures without starting the notes app"
+        },
+        {
+          "start": 269,
+          "end": 319,
+          "title": "Exercise real child-process plumbing with fake payloads rather than launching the installed app"
+        },
+        {
+          "start": 320,
+          "end": 354,
+          "title": "Prove the operation mutex remains held while a synthetic child delays its instance"
+        },
+        {
+          "start": 355,
+          "end": 394,
+          "title": "Test mutex contention and REVEAL without addressing the real user's instance"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-src-phantomfudge-launcher-program-cs-984ca97a"
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/InstalledLauncherTests.cs",
+      "sourceSha256": "cefb13a6039df6e426c88424ffe63e860836b76fe1f0b6f12f4bf88a9b8f8bfe",
+      "lines": 269,
+      "nonblankLines": 250,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 38,
+          "title": "Reject command expansion and keep data paths independent of install location"
+        },
+        {
+          "start": 39,
+          "end": 61,
+          "title": "Prove that compact manifest metadata cannot supply commands"
+        },
+        {
+          "start": 62,
+          "end": 84,
+          "title": "Check token format bounds and exact compatibility with the app's mutex suffix"
+        },
+        {
+          "start": 85,
+          "end": 133,
+          "title": "Inspect constructed processes and environments without executing them"
+        },
+        {
+          "start": 134,
+          "end": 175,
+          "title": "Verify real Windows ACL creation while preserving valid old and invalid existing bytes"
+        },
+        {
+          "start": 176,
+          "end": 195,
+          "title": "Exercise installer-gate presence and bypasses without opening the real installer gate"
+        },
+        {
+          "start": 196,
+          "end": 219,
+          "title": "Keep fake-child startup pending beyond the former two-second observation window"
+        },
+        {
+          "start": 220,
+          "end": 238,
+          "title": "Distinguish a safe guard release after exit from successful app readiness"
+        },
+        {
+          "start": 239,
+          "end": 269,
+          "title": "Keep uncertain inspection guarded and reject success for a child already gone"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-tests-phantomfudge-core-tests-installedlaunchertests-cs-8a3b852b"
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/InstalledMaintenanceTests.cs",
+      "sourceSha256": "6eb1705264a9dc8e1e426b963fec4ae8cb31554c68e00e8eee4d03597abb404b",
+      "lines": 380,
+      "nonblankLines": 348,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 62,
+          "title": "Keep fixtures scoped and distinguish absent ownership from partial state"
+        },
+        {
+          "start": 63,
+          "end": 74,
+          "title": "Do not interpret an uncertain port probe as a safely stopped service"
+        },
+        {
+          "start": 75,
+          "end": 108,
+          "title": "Prove repair maintenance does not depend on old binaries and refuses active or foreign identity"
+        },
+        {
+          "start": 109,
+          "end": 147,
+          "title": "Distinguish declined or incomplete shutdown from proven stale ownership"
+        },
+        {
+          "start": 148,
+          "end": 208,
+          "title": "Retain uncertain receipts and respect concurrent manager/receipt changes"
+        },
+        {
+          "start": 209,
+          "end": 258,
+          "title": "Separate marker-owned repair from full layout validation and verify exact native timestamp representation"
+        },
+        {
+          "start": 259,
+          "end": 292,
+          "title": "Build synthetic ownership evidence and make service interactions observable"
+        },
+        {
+          "start": 293,
+          "end": 325,
+          "title": "Inspect real HTTP request construction through a non-network handler"
+        },
+        {
+          "start": 326,
+          "end": 354,
+          "title": "Reject redirect, authentication, conflict and malformed identity responses"
+        },
+        {
+          "start": 355,
+          "end": 380,
+          "title": "Test body-size and acknowledgment guards while keeping all transport data synthetic"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-tests-phantomfudge-core-tests-installedmaintenancetests-cs-21220c76"
+    },
+    {
+      "path": "src/PhantomFudge.App/app.manifest",
+      "sourceSha256": "47cda1ef84d641ae724ff2450465a52cb07588b461ff599823b54163891e9bc2",
+      "lines": 22,
+      "nonblankLines": 22,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 22,
+          "title": "Retain ordinary user privilege and Windows rendering declarations"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-src-phantomfudge-app-app-manifest-0e152e83"
+    },
+    {
+      "path": "tools/Installer/release.json",
+      "sourceSha256": "d4a40bc89690d9b2c135b5722d07e2d0a1be9d03e4d77807948744f530cfade0",
+      "lines": 8,
+      "nonblankLines": 8,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 8,
+          "title": "Separate human preview identity from numeric upgrade ordering"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-tools-installer-release-json-4006c5b6"
+    },
+    {
+      "path": "tools/Installer/PhantomFudge.iss",
+      "sourceSha256": "cd209ff3878c6b683748997ab0fc45e5e57d2d0cd288686c72e18897486e2c65",
+      "lines": 161,
+      "nonblankLines": 149,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 43,
+          "title": "Bind installation identity, platform and lifecycle policy"
+        },
+        {
+          "start": 44,
+          "end": 67,
+          "title": "Ship temporary recovery code separately from managed program files"
+        },
+        {
+          "start": 68,
+          "end": 106,
+          "title": "Hold the installer gate and recognize an owned destination"
+        },
+        {
+          "start": 107,
+          "end": 142,
+          "title": "Reject foreign destinations and known downgrades before maintenance"
+        },
+        {
+          "start": 143,
+          "end": 161,
+          "title": "Require bounded native maintenance before update or removal"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-tools-installer-phantomfudge-iss-d510d508"
+    },
+    {
+      "path": "scripts/Build-Installer.ps1",
+      "sourceSha256": "fce0d469b571c669c551ddbb93db2f8279d0fe32e79be999db7120aabb525b9f",
+      "lines": 116,
+      "nonblankLines": 111,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 34,
+          "title": "Validate release inputs before staging a new runtime payload"
+        },
+        {
+          "start": 35,
+          "end": 55,
+          "title": "Publish independent native runtimes and allowlisted user documentation"
+        },
+        {
+          "start": 56,
+          "end": 78,
+          "title": "Audit hidden entries and hash the exact staged file inventory"
+        },
+        {
+          "start": 79,
+          "end": 99,
+          "title": "Keep launcher metadata small and complete inventory separate"
+        },
+        {
+          "start": 100,
+          "end": 116,
+          "title": "Compile unsigned assets and publish checksums only after success"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-scripts-build-installer-ps1-7090c589"
+    },
+    {
+      "path": "scripts/Test-Installer.ps1",
+      "sourceSha256": "dac0014cd43d935c66de11ba1d418c3747fedf9fca7d7edfca25172a21cd0a08",
+      "lines": 106,
+      "nonblankLines": 104,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 30,
+          "title": "Create a unique fixture identity and limit process ownership"
+        },
+        {
+          "start": 31,
+          "end": 60,
+          "title": "Install a real payload and compare bytes against the inventory"
+        },
+        {
+          "start": 61,
+          "end": 85,
+          "title": "Exercise repair, downgrade protection, removal and foreign-folder refusal"
+        },
+        {
+          "start": 86,
+          "end": 106,
+          "title": "Clean only the fixture installation and emit a scoped receipt"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-scripts-test-installer-ps1-2529ad08"
+    },
+    {
+      "path": "tools/Installer/bundle_runtime.py",
+      "sourceSha256": "776de36307d68159ade74a88ad6d1e558c4b480b727102b2891a38180c7b4b56",
+      "lines": 720,
+      "nonblankLines": 661,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 46,
+          "title": "Declare a narrow payload surface and private package identities"
+        },
+        {
+          "start": 47,
+          "end": 76,
+          "title": "Hash plain files and validate public HTTPS requests"
+        },
+        {
+          "start": 77,
+          "end": 107,
+          "title": "Reuse verified cache entries or commit one bounded verified download"
+        },
+        {
+          "start": 108,
+          "end": 128,
+          "title": "Match exact PyPI artifacts before allowing a same-hash mirror fallback"
+        },
+        {
+          "start": 129,
+          "end": 172,
+          "title": "Extract only safe archive paths and wheel library schemes"
+        },
+        {
+          "start": 173,
+          "end": 195,
+          "title": "Record payload bytes and isolate known build configuration"
+        },
+        {
+          "start": 196,
+          "end": 223,
+          "title": "Bound build commands and find build-host Visual Studio tooling"
+        },
+        {
+          "start": 224,
+          "end": 248,
+          "title": "Reuse a native build only when its reviewed recipe and DLL still match"
+        },
+        {
+          "start": 249,
+          "end": 284,
+          "title": "Build oneDNN and CTranslate2 for CPU with Microsoft OpenMP"
+        },
+        {
+          "start": 285,
+          "end": 309,
+          "title": "Build the pinned srt source distribution without dependency resolution"
+        },
+        {
+          "start": 310,
+          "end": 331,
+          "title": "Rename modified distributions instead of falsifying upstream metadata"
+        },
+        {
+          "start": 332,
+          "end": 366,
+          "title": "Remove encoded-media decoding while preserving reviewed NumPy inference source"
+        },
+        {
+          "start": 367,
+          "end": 392,
+          "title": "Replace wheel DLLs and regenerate truthful private-package RECORDs"
+        },
+        {
+          "start": 393,
+          "end": 411,
+          "title": "Copy only model-manifest members, never neighboring private files"
+        },
+        {
+          "start": 412,
+          "end": 426,
+          "title": "Select only hash-locked official x64 redistributable DLLs"
+        },
+        {
+          "start": 427,
+          "end": 464,
+          "title": "Verify Microsoft signatures before app-local CRT publication"
+        },
+        {
+          "start": 465,
+          "end": 489,
+          "title": "Retain patch rationale and exact public notice inputs"
+        },
+        {
+          "start": 490,
+          "end": 537,
+          "title": "Collect native/package notices and state redistribution limits explicitly"
+        },
+        {
+          "start": 538,
+          "end": 561,
+          "title": "Probe embedded imports and model bytes under explicit installed paths"
+        },
+        {
+          "start": 562,
+          "end": 596,
+          "title": "Report closure of the modified installed graph without claiming inference"
+        },
+        {
+          "start": 597,
+          "end": 611,
+          "title": "Invoke a separate opt-in real PCM and clean-exit test"
+        },
+        {
+          "start": 612,
+          "end": 635,
+          "title": "Refuse incompatible builders, unsafe output reuse and requirement drift"
+        },
+        {
+          "start": 636,
+          "end": 658,
+          "title": "Assemble embedded Python and patched wheels without a developer venv"
+        },
+        {
+          "start": 659,
+          "end": 676,
+          "title": "Transform installed requirements and retain public model/license provenance"
+        },
+        {
+          "start": 677,
+          "end": 699,
+          "title": "Keep native closure, inference execution and complete payload inventory distinct"
+        },
+        {
+          "start": 700,
+          "end": 720,
+          "title": "Expose explicit build options and keep synthetic inference mandatory in release callers"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-tools-installer-bundle-runtime-py-e11ec76b"
+    },
+    {
+      "path": "tools/Installer/runtime-lock.json",
+      "sourceSha256": "4271b71567064386dfad426e5e1fbae4bb7d706b186a9e7cb034d4b5a63ebdc3",
+      "lines": 148,
+      "nonblankLines": 148,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 27,
+          "title": "Pin embedded CPython and official Microsoft CRT/OpenMP inputs"
+        },
+        {
+          "start": 28,
+          "end": 52,
+          "title": "Disclose the changed faster-whisper API, identity and license-review boundary"
+        },
+        {
+          "start": 53,
+          "end": 72,
+          "title": "Lock protocol/Vosk supporting wheels by artifact, not version alone"
+        },
+        {
+          "start": 73,
+          "end": 93,
+          "title": "Separate upstream inference wheels from installed private variants and built srt"
+        },
+        {
+          "start": 94,
+          "end": 112,
+          "title": "Retain hash-identified supplemental redistribution notices"
+        },
+        {
+          "start": 113,
+          "end": 137,
+          "title": "Reconstruct the reviewed CTranslate2 source tree from exact revisions"
+        },
+        {
+          "start": 138,
+          "end": 148,
+          "title": "Pin oneDNN 3.1.1 for the replacement CPU backend"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-tools-installer-runtime-lock-json-cd9d6d0f"
+    },
+    {
+      "path": "tools/Installer/runtime-contract.json",
+      "sourceSha256": "b5ea3d2c2b80ef140b26f48b616e0f9122b4ee09d003cffe211e7f01dd237c99",
+      "lines": 59,
+      "nonblankLines": 59,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 14,
+          "title": "Separate installed binaries/models from writable per-user state"
+        },
+        {
+          "start": 15,
+          "end": 27,
+          "title": "Use exit codes and explicit child environments rather than output parsing"
+        },
+        {
+          "start": 28,
+          "end": 41,
+          "title": "Require local token creation and preserve native inference defaults"
+        },
+        {
+          "start": 42,
+          "end": 44,
+          "title": "Keep launcher output and timeout handling conservative"
+        },
+        {
+          "start": 45,
+          "end": 55,
+          "title": "Define native maintenance independently of damaged or missing old Python"
+        },
+        {
+          "start": 56,
+          "end": 59,
+          "title": "Preserve user state and keep installation distinct from capture/provider setup"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-tools-installer-runtime-contract-json-866a2c48"
+    },
+    {
+      "path": "tools/Installer/runtime_audit.py",
+      "sourceSha256": "67e9ae694242e82186cee16bb81f6b9ed75eaab9c3b3631f82c6f980b4c6f4f2",
+      "lines": 234,
+      "nonblankLines": 215,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 31,
+          "title": "Distinguish reviewed Windows inbox dependencies from required bundled CRTs"
+        },
+        {
+          "start": 32,
+          "end": 61,
+          "title": "Read bounded PE headers and file-backed section ranges"
+        },
+        {
+          "start": 62,
+          "end": 88,
+          "title": "Resolve dependency addresses and bounded ASCII strings"
+        },
+        {
+          "start": 89,
+          "end": 105,
+          "title": "Read ordinary and delay imports with explicit termination"
+        },
+        {
+          "start": 106,
+          "end": 125,
+          "title": "Include export-forwarder DLLs and reject malformed dependency names"
+        },
+        {
+          "start": 126,
+          "end": 168,
+          "title": "Resolve all shipped native dependencies only within approved locations"
+        },
+        {
+          "start": 169,
+          "end": 189,
+          "title": "Set native DLL search policy before embedded package imports"
+        },
+        {
+          "start": 190,
+          "end": 221,
+          "title": "Classify loaded modules without accepting external VC runtime rescue"
+        },
+        {
+          "start": 222,
+          "end": 234,
+          "title": "Require actual app-local CRT loads and report the remaining evidence boundary"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-tools-installer-runtime-audit-py-72f801a8"
+    },
+    {
+      "path": "services/transcription/tests/test_installed_runtime.py",
+      "sourceSha256": "380c133967c1bb856f8e17922a47daeec91e4988f618d374e7899c63c495d384",
+      "lines": 252,
+      "nonblankLines": 224,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 46,
+          "title": "Probe fresh imports with isolated workspace fixtures"
+        },
+        {
+          "start": 47,
+          "end": 81,
+          "title": "Verify common installed roots, source defaults and user-model precedence"
+        },
+        {
+          "start": 82,
+          "end": 98,
+          "title": "Keep provisioning out of package storage and create nested lock state"
+        },
+        {
+          "start": 99,
+          "end": 128,
+          "title": "Assert the Unicode CWD workaround restores process state on success and failure"
+        },
+        {
+          "start": 129,
+          "end": 159,
+          "title": "Observe the PID on disk before creation-time inspection"
+        },
+        {
+          "start": 160,
+          "end": 184,
+          "title": "Retain a recoverable PID when process identity inspection fails"
+        },
+        {
+          "start": 185,
+          "end": 218,
+          "title": "Advance after reboot or PID reuse but preserve a matching live identity"
+        },
+        {
+          "start": 219,
+          "end": 252,
+          "title": "Fail closed for legacy live, malformed or inaccessible identities"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-services-transcription-tests-test-installed-runtime-py-c0521e63"
+    },
+    {
+      "path": "services/transcription/tests/test_packaged_pcm_runtime.py",
+      "sourceSha256": "539738de56061bdfa9200e8a7f5992971d866e5c644e67b49d6b679d292713b7",
+      "lines": 144,
+      "nonblankLines": 128,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 29,
+          "title": "Bind the smoke program to the exact embedded payload and private versions"
+        },
+        {
+          "start": 30,
+          "end": 50,
+          "title": "Forbid Python sockets and feed real Vosk only generated in-memory samples"
+        },
+        {
+          "start": 51,
+          "end": 64,
+          "title": "Count real Silero execution on the unmodified production finalization path"
+        },
+        {
+          "start": 65,
+          "end": 98,
+          "title": "Force native Whisper computation and distinguish execution from speech quality"
+        },
+        {
+          "start": 99,
+          "end": 125,
+          "title": "Require explicit opt-in and isolate the child's user and model locations"
+        },
+        {
+          "start": 126,
+          "end": 144,
+          "title": "Require natural embedded-child completion within a bounded deadline"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-services-transcription-tests-test-packaged-pcm-runtime-py-f7587e69"
+    },
+    {
+      "path": "services/transcription/tests/test_runtime_bundle.py",
+      "sourceSha256": "92dbb0b3cd99cfb39617c50bd6d52e68428760a0367c48a29ee136cc5abac6ff",
+      "lines": 299,
+      "nonblankLines": 270,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 45,
+          "title": "Load builder helpers without bundling and constrain archive path semantics"
+        },
+        {
+          "start": 46,
+          "end": 79,
+          "title": "Reject linked or overwriting archives and omit wheel console scripts"
+        },
+        {
+          "start": 80,
+          "end": 105,
+          "title": "Make cache/offline/URL rejection observable without network access"
+        },
+        {
+          "start": 106,
+          "end": 126,
+          "title": "Prove model copying follows manifest members rather than directory neighbors"
+        },
+        {
+          "start": 127,
+          "end": 160,
+          "title": "Check private version, removed dependency, preserved helper and rewritten RECORD"
+        },
+        {
+          "start": 161,
+          "end": 189,
+          "title": "Verify reviewed upstream source preservation only when the public cache exists"
+        },
+        {
+          "start": 190,
+          "end": 236,
+          "title": "Build inert PE fixtures with controlled imports, delay imports and forwarders"
+        },
+        {
+          "start": 237,
+          "end": 255,
+          "title": "Require delay/forwarder discovery and reject truncated or unterminated PE tables"
+        },
+        {
+          "start": 256,
+          "end": 280,
+          "title": "Reject global or unrelated-package substitutes for missing local dependencies"
+        },
+        {
+          "start": 281,
+          "end": 299,
+          "title": "Distinguish inert cross-platform templates and refuse unpinned CRTs before subprocess work"
+        }
+      ],
+      "chapter": "docs/INSTALLATION.md",
+      "anchor": "file-services-transcription-tests-test-runtime-bundle-py-108467f8"
+    },
+    {
       "path": "scripts/Export-Diagnostics.ps1",
       "sourceSha256": "527dc6c39e9206bb6c49d6569f9b7ce0913a7882ed6d7d04bd8bd330eba0f800",
       "lines": 83,
@@ -3476,9 +4996,9 @@
     },
     {
       "path": "scripts/Export-HandbookScreenshots.ps1",
-      "sourceSha256": "2d21f69f63ccf8d94f6aef2e1932e345f9d918aabe91920c9214737ceec4acf2",
-      "lines": 90,
-      "nonblankLines": 88,
+      "sourceSha256": "ac9ac238da02288df23c587cbb483a92224add600adb4dadf41ccbc13326cffa",
+      "lines": 95,
+      "nonblankLines": 93,
       "blocks": [
         {
           "start": 1,
@@ -3487,17 +5007,17 @@
         },
         {
           "start": 25,
-          "end": 50,
-          "title": "Import seventeen named images and record their dimensions"
+          "end": 51,
+          "title": "Import twenty-three named images and record their dimensions"
         },
         {
-          "start": 51,
-          "end": 72,
+          "start": 52,
+          "end": 77,
           "title": "Bind illustrations to a reviewed set of UI source files"
         },
         {
-          "start": 73,
-          "end": 90,
+          "start": 78,
+          "end": 95,
           "title": "Publish scoped provenance and derive README images"
         }
       ],
@@ -5881,17 +7401,17 @@
     },
     {
       "path": "services/transcription/configuration.py",
-      "sourceSha256": "da858b8e6403dd927bcc13c7fdca4374830a765d778336f1303d07a95636777c",
-      "lines": 70,
-      "nonblankLines": 59,
+      "sourceSha256": "159868e84a06c7bea80214d7b5f353d2959aae603984166d6f35d0b6ef80c302",
+      "lines": 69,
+      "nonblankLines": 58,
       "blocks": [
         {
           "start": 1,
-          "end": 17,
-          "title": "Locate configuration and state the native default"
+          "end": 16,
+          "title": "Share one writable workspace without initializing it"
         },
         {
-          "start": 18,
+          "start": 17,
           "end": 37,
           "title": "Accept one narrow configuration shape"
         },
@@ -5902,8 +7422,8 @@
         },
         {
           "start": 60,
-          "end": 70,
-          "title": "Resolve and verify only the selected inference prerequisites"
+          "end": 69,
+          "title": "Prefer user models but never bypass their manifest checks"
         }
       ],
       "chapter": "docs/handbook/26-speech-source-walkthrough.md",
@@ -5971,58 +7491,73 @@
     },
     {
       "path": "services/transcription/manage.py",
-      "sourceSha256": "1a41c671ef50b7da12ace1ecf2aea5f708d877b713a4355d9a16056e19ca23f0",
-      "lines": 272,
-      "nonblankLines": 230,
+      "sourceSha256": "71c9f51ee23e8fc503aa3345af01151013913386c0619584eb9a152d974e1ffe",
+      "lines": 318,
+      "nonblankLines": 271,
       "blocks": [
         {
           "start": 1,
-          "end": 44,
-          "title": "Fix the workspace identity and reject credential redirects"
+          "end": 43,
+          "title": "Separate immutable service code from mutable workspace ownership"
         },
         {
-          "start": 45,
-          "end": 66,
+          "start": 44,
+          "end": 65,
           "title": "Authenticate bounded management requests without proxies"
         },
         {
-          "start": 67,
-          "end": 94,
-          "title": "Serialize native lifecycle operations with a Windows byte lock"
+          "start": 66,
+          "end": 93,
+          "title": "Hold a Windows byte-range lock across lifecycle decisions"
         },
         {
-          "start": 95,
-          "end": 124,
-          "title": "Retain receipts and authenticate the actual instance rather than a PID"
+          "start": 94,
+          "end": 112,
+          "title": "Validate receipt identity and replace it through a sibling temporary file"
         },
         {
-          "start": 125,
-          "end": 161,
-          "title": "Check capabilities and stop only confirmed idle instances"
+          "start": 113,
+          "end": 141,
+          "title": "Inspect exact Windows creation FILETIME without signalling a PID"
         },
         {
-          "start": 162,
-          "end": 183,
-          "title": "Decide reuse versus verified idle upgrade"
+          "start": 142,
+          "end": 154,
+          "title": "Remove only receipts whose recorded process is provably gone"
         },
         {
-          "start": 184,
-          "end": 208,
-          "title": "Write ownership before a detached, offline-configured launch"
+          "start": 155,
+          "end": 185,
+          "title": "Authenticate instance ownership and validate replacement prerequisites"
         },
         {
-          "start": 209,
-          "end": 228,
-          "title": "Attest startup rather than equating process creation with readiness"
+          "start": 186,
+          "end": 202,
+          "title": "Request authenticated idle shutdown rather than terminating a process"
         },
         {
-          "start": 229,
-          "end": 254,
-          "title": "Expose conservative stop and bounded status"
+          "start": 203,
+          "end": 224,
+          "title": "Reuse a matching instance or recover a stale receipt before spawning"
         },
         {
-          "start": 255,
-          "end": 272,
+          "start": 225,
+          "end": 253,
+          "title": "Persist child PID before creation-time inspection can fail"
+        },
+        {
+          "start": 254,
+          "end": 275,
+          "title": "Require the authenticated ready process to be the launched child"
+        },
+        {
+          "start": 276,
+          "end": 300,
+          "title": "Recover proven-dead receipts on stop but keep status observational"
+        },
+        {
+          "start": 301,
+          "end": 318,
           "title": "Dispatch only explicit lifecycle verbs with safe failures"
         }
       ],
@@ -6051,28 +7586,33 @@
     },
     {
       "path": "services/transcription/provision_whisper.py",
-      "sourceSha256": "526507c4d37beede2d8ce3504cf29397a288aaaf4d017066205f8a64fe22147e",
-      "lines": 98,
-      "nonblankLines": 84,
+      "sourceSha256": "34fcea0fa45cb63698b24874c5198121c813cb4b3971845aae5b85ccc6f9e2ad",
+      "lines": 107,
+      "nonblankLines": 91,
       "blocks": [
         {
           "start": 1,
-          "end": 37,
-          "title": "Read pinned specifications and verify exact local contents"
+          "end": 27,
+          "title": "Resolve workspace and prefer an existing user model without creating data"
         },
         {
-          "start": 38,
-          "end": 57,
-          "title": "Prefer verified installed or benchmark-cached bytes"
+          "start": 28,
+          "end": 46,
+          "title": "Require the exact Whisper file set, sizes and hashes in either location"
         },
         {
-          "start": 58,
-          "end": 82,
+          "start": 47,
+          "end": 65,
+          "title": "Provision exclusively into user storage and reuse only verified cached bytes"
+        },
+        {
+          "start": 66,
+          "end": 92,
           "title": "Bound and verify an explicit revision-pinned public download"
         },
         {
-          "start": 83,
-          "end": 98,
+          "start": 93,
+          "end": 107,
           "title": "Make provisioning an explicit CLI action"
         }
       ],
@@ -6081,29 +7621,39 @@
     },
     {
       "path": "services/transcription/recognizer.py",
-      "sourceSha256": "ff50d28182f5073093b27390118f0ad869f74dfbe3c34b49a12e103e1967fd07",
-      "lines": 96,
-      "nonblankLines": 79,
+      "sourceSha256": "84ce70afced72e24eb90e5a3d210a3089a9ee9d00fcaa23096c9fcf486cf63da",
+      "lines": 110,
+      "nonblankLines": 93,
       "blocks": [
         {
           "start": 1,
-          "end": 21,
-          "title": "Define the shared recognition value and sample-rate unit"
+          "end": 24,
+          "title": "Define recognition values and serialize the Unicode loading workaround"
         },
         {
-          "start": 22,
-          "end": 40,
+          "start": 25,
+          "end": 43,
           "title": "Fail closed on missing, extra, linked or altered model files"
         },
         {
-          "start": 41,
+          "start": 44,
           "end": 68,
-          "title": "Share one loaded model while allocating per-source decoder state"
+          "title": "Load Unicode Windows paths through a serialized wide-character CWD"
         },
         {
           "start": 69,
-          "end": 96,
-          "title": "Clamp absolute times and bound continuous native history"
+          "end": 82,
+          "title": "Keep mutable decoder history independent for each source"
+        },
+        {
+          "start": 83,
+          "end": 95,
+          "title": "Clamp native word timing onto the submitted source clock"
+        },
+        {
+          "start": 96,
+          "end": 110,
+          "title": "Rotate continuous native history and explicitly flush the tail"
         }
       ],
       "chapter": "docs/handbook/26-speech-source-walkthrough.md",
@@ -6660,6 +8210,14 @@
       "canonical": "scripts/Build-Handbook.ps1"
     },
     {
+      "path": "scripts/Build-Installer.txt",
+      "kind": "mirror",
+      "sha256": "fce0d469b571c669c551ddbb93db2f8279d0fe32e79be999db7120aabb525b9f",
+      "bytes": 6677,
+      "lines": 116,
+      "canonical": "scripts/Build-Installer.ps1"
+    },
+    {
       "path": "scripts/Export-Diagnostics.txt",
       "kind": "mirror",
       "sha256": "527dc6c39e9206bb6c49d6569f9b7ce0913a7882ed6d7d04bd8bd330eba0f800",
@@ -6670,9 +8228,9 @@
     {
       "path": "scripts/Export-HandbookScreenshots.txt",
       "kind": "mirror",
-      "sha256": "2d21f69f63ccf8d94f6aef2e1932e345f9d918aabe91920c9214737ceec4acf2",
-      "bytes": 5498,
-      "lines": 90,
+      "sha256": "ac9ac238da02288df23c587cbb483a92224add600adb4dadf41ccbc13326cffa",
+      "bytes": 6016,
+      "lines": 95,
       "canonical": "scripts/Export-HandbookScreenshots.ps1"
     },
     {
@@ -6756,6 +8314,14 @@
       "canonical": "scripts/Test-DualSourceSynthetic.ps1"
     },
     {
+      "path": "scripts/Test-Installer.txt",
+      "kind": "mirror",
+      "sha256": "dac0014cd43d935c66de11ba1d418c3747fedf9fca7d7edfca25172a21cd0a08",
+      "bytes": 7087,
+      "lines": 106,
+      "canonical": "scripts/Test-Installer.ps1"
+    },
+    {
       "path": "scripts/Test-NativeLifecycle.txt",
       "kind": "mirror",
       "sha256": "dea9926a573cd2e11c1449460ad4147c9890a40a17c3611e4362111833d90d40",
@@ -6797,16 +8363,23 @@
     {
       "path": "src/PhantomFudge.App/packages.lock.json",
       "kind": "lockfile",
-      "sha256": "532040f4ecd7957ddcdc61a8c32d639f668cd3ed315f015be635703867588483",
-      "bytes": 2273,
-      "lines": 69
+      "sha256": "bd5df778f68aaa6b68bdcfee360758a879df14af63ac42eecfb341da1d4b7ac8",
+      "bytes": 2312,
+      "lines": 70
     },
     {
       "path": "src/PhantomFudge.Core/packages.lock.json",
       "kind": "lockfile",
-      "sha256": "a4364d81a6de2707d66fbced18fbbc926c882ab96e1d1aebbb17e871285b9d75",
-      "bytes": 66,
-      "lines": 6
+      "sha256": "cd97f644c24bb2cd8c96d92c519036a65133ab22cafc294d07b527626ad20e84",
+      "bytes": 94,
+      "lines": 7
+    },
+    {
+      "path": "src/PhantomFudge.Launcher/packages.lock.json",
+      "kind": "lockfile",
+      "sha256": "0f83acd03bf05aff8b69017cd5247d225fa7dea47c09705da67f24beb2d50a6b",
+      "bytes": 116,
+      "lines": 7
     },
     {
       "path": "tests/PhantomFudge.Audio.Tests/packages.lock.json",

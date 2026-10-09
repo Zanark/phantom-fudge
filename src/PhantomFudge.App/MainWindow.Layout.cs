@@ -57,16 +57,19 @@ public partial class MainWindow
 
     private void UpdateWorkspaceLayout()
     {
-        if (!questionViewReady || TranscriptArea is null || coverActive || switchingCover)
+        if (!questionViewReady || TranscriptArea is null || coverActive || switchingCover || switchingKeyboardMode)
             return;
         var width = ActualWidth > 0 ? ActualWidth : Width;
         var columns = WorkspaceLayout.UseReadingColumns(width);
-        var questionOpen = QuestionPanel.Visibility == Visibility.Visible;
         var shortWorkspace = ActualHeight < 780 || TranscriptArea.ActualHeight < 500;
+        // A compact modal view borrows reading space without invoking the Q/A close/cancel path.
+        var questionOpen = questionExpanded && !(KeyboardSelecting && !columns && shortWorkspace);
+        QuestionPanel.Visibility = questionOpen ? Visibility.Visible : Visibility.Collapsed;
         var sourceToolsOpen = QuestionSourcePanel.Visibility == Visibility.Visible ||
             ProviderSetupPanel.Visibility == Visibility.Visible;
         var toolsReplaceTranscript = questionOpen && !columns && shortWorkspace &&
-            (sourceToolsOpen || AwaitingClarificationReply);
+            (sourceToolsOpen || AwaitingClarificationReply || KeyboardControlActive && !KeyboardSelecting ||
+                chosenAnswerFontSize >= 14 && AnswerPanel.Visibility == Visibility.Visible);
         TranscriptPane.Visibility = toolsReplaceTranscript || AudioPanel.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         TranscriptColumn.Width = new GridLength(1, GridUnitType.Star);
         QuestionColumn.Width = columns && questionOpen ? new GridLength(1.15, GridUnitType.Star) : new GridLength(0);
@@ -87,8 +90,9 @@ public partial class MainWindow
         InputModeLabel.Visibility = width >= 620 ? Visibility.Visible : Visibility.Collapsed;
         ThemeName.Visibility = width >= 620 ? Visibility.Visible : Visibility.Collapsed;
         BackgroundOpacity.Width = width >= 620 ? 140 : 90;
-        AnswerText.FontSize = !columns && shortWorkspace ? 9 : 10;
+        ApplyAnswerFontSize(!columns && shortWorkspace ? 9 : 10);
         AnswerText.Padding = !columns && shortWorkspace ? new Thickness(4) : new Thickness(6);
+        UpdateAnswerActionLabels();
 
         var hideClarificationSnapshot = AwaitingClarificationReply && shortWorkspace;
         QuestionSnapshotPanel.Visibility = lastQuestionSnapshot is not null && !hideClarificationSnapshot

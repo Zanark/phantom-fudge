@@ -1,109 +1,115 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-09T10:55:16.955Z",
-  "edition": "2026-10-09",
+  "generatedAtUtc": "2026-10-09T20:03:28.731Z",
+  "edition": "2026-10-10",
   "inputs": {
     "AGENTS.md": "a2e00965ef5387b5af1b7c69d6594145d8d67d0a6294974b0bf6cb0b1921642d",
     "compose.yaml": "072523fcbae8d0e1b017bae97bb6bfa595108b56b0b2989cb014f761b5ff6e3e",
     "Directory.Build.props": "1bb1bc2e04dc4fee54dd8627dde84f43783cab0f3ffc18224fcdacac0137a6d7",
-    "docs/AI-ANSWER-ARCHITECTURE.md": "7d126971ebff7e0bf37a6e0decff903141fe0a9cfe0091ea6592109e6d5e4c42",
+    "docs/AI-ANSWER-ARCHITECTURE.md": "db420004f6c951658a548e03326027f7c72c3861c0430cf614b9b7a2f103622a",
     "docs/AI-ANSWER-EVALUATION.md": "ef160f486bc2af9642eed8e72ca62a79a4139cd7af2f91cbee415cf05934bcc0",
     "docs/AI-ANSWER-PRIVACY.md": "b809d0bc4b6c755aee4aa80d2c65f0d04d6c642fbb9f6760839b6b7c7b120d58",
     "docs/AI-ANSWER-RESEARCH.md": "6e8606afc392a23c1f237845fdc11f00a69fb94420e9da4f8b4c644ed9c1d105",
     "docs/answer-provider-smoke.json": "7bf9dde741fd48659d3700c8a9a996a788e32729a0a829f1b4c6787e9204081b",
     "docs/ANSWER-PROVIDERS.md": "fa9ffdb3309cb01c1de4d03245c5f2e72d5867847b014b4ca76792b7a05d1ef8",
-    "docs/ARCHITECTURE.md": "205ea15ba077e834acb69c129fa37b9d4fc8d8784c50d5cd9c166416d407d959",
-    "docs/assets/readme/audio-devices.png": "fdc3648935e5d986a01f95037c3178e4f8c821ab4de4367d2654463aa5ae9567",
-    "docs/assets/readme/clarification.png": "33c71c6f47568496e4a3f84db7607a1c3f67aad4f27336d71d72e26b42d9e6c0",
+    "docs/ARCHITECTURE.md": "120baabf6b286bb3667f657dfd436086ed357d3cd93ee47e3a7ef3c03017646e",
+    "docs/assets/readme/audio-devices.png": "d2a8401c88e20294e208a11f39be0d7d009109f1d22a11c55442d9f3d2fdfdd7",
+    "docs/assets/readme/clarification.png": "d64891ec454c7f2cc4831bf8d7be7fb8777522eb3ab1a550346eb0a92a49399f",
     "docs/assets/readme/cover.png": "0c168761ff03309c78d1b4da05e9db58025460276e9f17f9579d74f5ae75a0a2",
-    "docs/assets/readme/deepseafoam.png": "278974c864dc64b396b5bd0667d2196e37a271a21550cf9a8c6b02e8c444482e",
-    "docs/assets/readme/harbor-daylight.png": "9a003ba572805a4b4377a5f1bb02d19ba6c7f5f29f48816c5994d399befcf6ed",
-    "docs/assets/readme/manifest.json": "81c5bd12669a9d18c616555d7d2498fa3ef0c12522bc16c6e516a5859cb587b4",
-    "docs/assets/readme/plain.png": "4502c12e11c4cf979b5c487319f22bc3ab66925edec8499c04c5be8e0dadaaf9",
-    "docs/assets/readme/question.png": "a8e4ead0b6e71be8fb8651d4fce5a147121e6fff412ef82e3c78e0dc221951fa",
-    "docs/assets/readme/recording.png": "119b652ef44c09134aff62201f989705a1fcabc88eb287d7f0181785fc397863",
-    "docs/assets/readme/selection.png": "6b280743814e19d56326c3ed6836961099918b28a76ac3ffd5f1154cf447473d",
-    "docs/assets/readme/transcript.png": "278974c864dc64b396b5bd0667d2196e37a271a21550cf9a8c6b02e8c444482e",
-    "docs/COVER-AND-PRIVACY.md": "ae1bedc2c8bd4a2548c8454b6499ed9c3edb659c6ea70f48a3999aba5a6dab4f",
-    "docs/CURRENT-WORKFLOW.md": "fa3f58d5056512a12f069d34a4b960831c2328b0a53f23bca6870aa1c2529daa",
-    "docs/CURSOR-AND-THEMES.md": "41b44c9b7499d4ca85eda5514a5122d3c2b15c2c945ce08b092a6459c6ec83a0",
+    "docs/assets/readme/deepseafoam.png": "ddc17e2de01b8e22d8e68f19eb7035100affeaf126987570290606e82d4cfccc",
+    "docs/assets/readme/harbor-daylight.png": "7b7552694b40f21ae9601948c51025e133c0c5cd3a1b41b4849dab5f2d64b5c9",
+    "docs/assets/readme/manifest.json": "3546bde5d12381b25bf17167c8a315d55f5b176962cd19e3690d3c3e306aedd6",
+    "docs/assets/readme/plain.png": "415d4b0d3e38afc92ce8511b6c250b9389a63a708612e1cc42b9f7c9e6dfd0af",
+    "docs/assets/readme/question.png": "6f47e363f20c66e38e0b499ab75c3e5099d6f6779cf4a2c0e16682d5ce1b397e",
+    "docs/assets/readme/recording.png": "9d4e43aa93a81bf14b6b508ad143a072f6aca0f1935f9f1f524b701c50b70a5e",
+    "docs/assets/readme/selection.png": "35730ca3c3a7c5a0b46c58af67fc4d76a6d256bf4a5dcb3379fb6f4976e81a95",
+    "docs/assets/readme/transcript.png": "ddc17e2de01b8e22d8e68f19eb7035100affeaf126987570290606e82d4cfccc",
+    "docs/COVER-AND-PRIVACY.md": "a43bc596fa481c7042d0654dc536f79a38b44127cfe1cd003a1b61a0208ae401",
+    "docs/CURRENT-WORKFLOW.md": "c8d4a7f4d591f2eb3e5e24fc297087c17d270cea536338b073bddc45eb8b0468",
+    "docs/CURSOR-AND-THEMES.md": "bab42d313e5f1920e1666a575fedc34f84dc5543aea413c7665b4e8f5726b664",
     "docs/DEVELOPMENT-WORKFLOW.md": "1f0852195c0afe455b2e754c6da1496ca4f450ce8d99cb2a3103a4ad4fc0b7f4",
     "docs/DOCUMENTATION-MAINTENANCE.md": "8169e202c5d4e2ccc932e05ac80d3ddfc940726dc9d48bf555e586514ca5c013",
     "docs/DUAL-SOURCE-AUDIO.md": "61eb2c59cc56b2ab0fbbc7921bcb71ed5bc11c2dbdf6f611c898b074f786d05b",
     "docs/handbook/00-reading-map.md": "b3580f563e004b6d8a7aa4488f40fc8f03eed85788aa0c5026fa227c1cdf179c",
-    "docs/handbook/01-principal-engineer-guide.md": "7ae7bd6c08855118c7e7173c6c3cea8d20b61f1741324925bbb3362ef32a3de3",
-    "docs/handbook/02-zero-to-hero.md": "438a3db3c2fea91fce878f56661a10d57c0e294adf4e2512b1c074c82fa97bc1",
+    "docs/handbook/01-principal-engineer-guide.md": "83a11d53f487f99aace3e18f29123664fb340f34eadfdec1ae622d727c8484ca",
+    "docs/handbook/02-zero-to-hero.md": "e9d9e9bb9feea64fa8d8dc542821745955b6c9907ede5b9c8ad4b551e9f20ad1",
     "docs/handbook/03-product-boundaries-and-decisions.md": "244b4da5e820f6d8d0d04abe80bdfed01ab90dbf4d5c85c7886772793d6c1e31",
-    "docs/handbook/04-windows-capture-and-cursors.md": "df1856a39c7998abba4f2eb04eac31859d386c9651e9f39026bafcdc074553de",
-    "docs/handbook/05-desktop-ui-and-themes.md": "97bb628e6b4b74518f69f6cc4acea08e0b13001fb40580af95821504286e96de",
-    "docs/handbook/06-notes-transcripts-and-storage.md": "8b8c6a4d024178b97cd0a6f525b747beab2a72179150c42b1f660a0b530fb67e",
-    "docs/handbook/07-dual-input-capture.md": "69a40f17cd4b69fbcfa605e934e76be866f6d218df244fc422101eeee0a3de92",
-    "docs/handbook/08-streaming-protocol.md": "eab0dde20b6a5b760e58f4bbedcd1085db1ec5647b110d6c7676f7843b7a2293",
-    "docs/handbook/09-python-recognition.md": "159fc42958b3105fdb5e061d3ee4dc027fe3a81e0549a71ab099b7740bc1a37c",
-    "docs/handbook/10-native-service-lifecycle.md": "1dda97c966565fa55b683c7c0febc0266b0430ee2fc032fe35a89aedfb4fbaa2",
-    "docs/handbook/11-state-machines-and-failure-containment.md": "66b6785969b2228e5f2e83e4d8179157624ae8b9f6f4ac24df0ca66f0c789373",
-    "docs/handbook/12-performance-and-benchmarks.md": "18eb9aad53f1287381ad04c1d13d132c061005cd641521bf44e6f84df2b8afc7",
-    "docs/handbook/13-proposed-azure-answer-flow.md": "0a38a62fd9a4bac6d9e8b34e0d72734b7e96b4a7573d54d18d1b575a2a9155e1",
-    "docs/handbook/14-answer-latency-identity-and-privacy.md": "6626aa123b2c223c212e8b6cd904d817fd4d0e3868dd7ebd9da2ce66d84e0d35",
-    "docs/handbook/15-development-and-testing.md": "55a14db7beab6d868c9f5fdd5d2e3d0d00b4d4fc88a96a7e08fa632320bde279",
-    "docs/handbook/16-distribution-and-troubleshooting.md": "7b44a32efc57156bcb598f57a8ebca6656d2f98ba6197b3c528a1946eb64a16e",
-    "docs/handbook/17-privacy-and-assurance.md": "fd828bd60e30d4b7493f2c354948bcf4c215651aac214ffd555cd5593ccc54bc",
-    "docs/handbook/18-extending-the-system.md": "ff3513687f8f7da601b6855860c9683a8cc703889c04fca972577e1512eb2e39",
-    "docs/handbook/19-api-configuration-reference.md": "ef9c4dc68840f60c8a9748a6b1527d04632d790f78cdf4f4c948eed6791e3782",
-    "docs/handbook/20-glossary-and-repository-map.md": "79411ee5e476de131b2b68004384eb7c397ea56c9a7fa54e0f96bd8216639382",
-    "docs/handbook/21-evidence-and-roadmap.md": "5d889b370bc4fd76edd1b62e1bc8d8e33e900be2d2124bc27c99fad0ca30cdcd",
-    "docs/handbook/22-desktop-source-walkthrough.md": "48756035998c5b570e442cea32edce013ce11cdcefdc24ab8868fa679835d75d",
-    "docs/handbook/23-domain-source-walkthrough.md": "452c0883d3d5875d1eea9b55b59917b069253f96ea3fed806317aeb3c12f00fe",
-    "docs/handbook/24-provider-source-walkthrough.md": "a712766c55ea5c09c0397e2e85687def38a26d027c5d286434a362c65c9d2689",
-    "docs/handbook/25-native-audio-source-walkthrough.md": "9e6fd1559b161444c27d331ab2cc36621d3aa747fe89dc3b74a45e25a8549d8b",
-    "docs/handbook/26-speech-source-walkthrough.md": "f9cf20a8cc4abd377715bd1ab7f9b40f3ae512565ec82680d2c7d6e07dcfa087",
-    "docs/handbook/27-operations-source-walkthrough.md": "2be30264c146944012899b4fd0d8a70904f5c17d73ea32b257cb4da7dabc692b",
+    "docs/handbook/04-windows-capture-and-cursors.md": "33041134d2923c21ff4f5484c58556af5a7941391edb3da58da344d36cae957b",
+    "docs/handbook/05-desktop-ui-and-themes.md": "74c25b11e4f9f79e703ee49cad0cf2e68765d5e2bb280a5f6a04fec39279fa97",
+    "docs/handbook/06-notes-transcripts-and-storage.md": "ab897728e6d5914bd7e2e29111734cce3c25e5758e36c75e601bfb2954a864bb",
+    "docs/handbook/07-dual-input-capture.md": "76566a19916d3234ecb9459dc655af6640dc8974ae4afde47ac048ffbc36ffff",
+    "docs/handbook/08-streaming-protocol.md": "39d303e563f912acfbfceb76b94fbd6f6e883523445d7dfe9e53a7ec3c90fc25",
+    "docs/handbook/09-python-recognition.md": "f0257d99a7fbd0a48d58ad15be8dee9cd2f7808c3866f6c6a75086ab822e84f8",
+    "docs/handbook/10-native-service-lifecycle.md": "d6a1ee785cb0da2e8f8039afba1a3ca246ac4745cc82fd92904ee1957cd20138",
+    "docs/handbook/11-state-machines-and-failure-containment.md": "8e6c279491c99932d14edfc153fa2e9eafb31cdcb6638f3453d54c77958cea7f",
+    "docs/handbook/12-performance-and-benchmarks.md": "6eb4a750b489fe1f1744c02bc87c191fdb0f73a80f592f9af861923bc811c11c",
+    "docs/handbook/13-proposed-azure-answer-flow.md": "19219934f1225554bc698b713dfab220590cd432337696b667b7862b05e6b837",
+    "docs/handbook/14-answer-latency-identity-and-privacy.md": "c2b6ba2bae290282fd04f6193f6453645ec398ff5847033e867501a289a4f943",
+    "docs/handbook/15-development-and-testing.md": "6578d2c5e24b5e8d4ebed189c2c0e9738e058b3b00849a7c9d51add143404d5d",
+    "docs/handbook/16-distribution-and-troubleshooting.md": "00b9fde0f7267f3b41602c04c64e86035f87bbda300a61f023ed3cc1f225f944",
+    "docs/handbook/17-privacy-and-assurance.md": "7b0b61caf5cbe80bae7416d71820671845cfdd93d0e6ecf97bd82e76cd3187d6",
+    "docs/handbook/18-extending-the-system.md": "df7d2625e4d094dec3994c8ef7e3660c89608d5e729b46e983b11dce1dcb8c26",
+    "docs/handbook/19-api-configuration-reference.md": "32f9ff3aa63fa07450345b31770dec3fee4c8d69eee5bc1273016dbf79dda33a",
+    "docs/handbook/20-glossary-and-repository-map.md": "7ed1396c681cb4120709cd6470fdc7e736da2e6b8d8a7d1dad8791df77bd8fc0",
+    "docs/handbook/21-evidence-and-roadmap.md": "1b1e392f842e19127b128177fd2d5c8eee69bf0fb29b9f86181992d8f2371cb7",
+    "docs/handbook/22-desktop-source-walkthrough.md": "32d739a3e31575ed1545b77ec37eabe995d0bc7a8bf0e9ac6de39c21fccaa8b6",
+    "docs/handbook/23-domain-source-walkthrough.md": "9874d2be31a862b3423489e607fffe6e21e73455a4de5c587ed9ba18d233f624",
+    "docs/handbook/24-provider-source-walkthrough.md": "454d5145f24954a1e4c99f366c10a5e3065715b839f0bd71d8f9a7257601352a",
+    "docs/handbook/25-native-audio-source-walkthrough.md": "b551600d8a0de8a256847663a6fa61b0865f78adde24b42a523783216dd6b85f",
+    "docs/handbook/26-speech-source-walkthrough.md": "67b15177203aa36148103f112be7de2a623207ab9abdd718442b658dfcdd04d2",
+    "docs/handbook/27-operations-source-walkthrough.md": "996bc7b314c00234484a07d29660c5ea409ccdd941c2c36fd3c6ca7305edd741",
     "docs/handbook/28-documentation-source-walkthrough.md": "0f5f54aac19297d8449bc1b104b49146c1c0ee36bcd3b4224acca7a2da701bb7",
     "docs/handbook/assets/cover.svg": "cca6a0b1d452c7376989650c5f51eb37398b06ba10df8e759a60d3b5193f8074",
-    "docs/handbook/assets/screenshots/answer-background-10.png": "4b6286b800b4e5f8f1cd9defbdb5bfd0e141288daf62dc8017727eba20ce9dbd",
-    "docs/handbook/assets/screenshots/answer-background-100.png": "d2aa3c9b8d421e9df1bc1deb819aaede768fa3e59239d2c8d5feb3fd45af6ab5",
-    "docs/handbook/assets/screenshots/answer-synthetic.png": "0202a1e8c0aa68935db02f57a4547ff8b4384bea48a55cc43707be80386e384a",
-    "docs/handbook/assets/screenshots/audio-setup-cards-compact.png": "268332af3f146d31d183300ea35ef9ddda647abc49efb608ac9cccadc15287c5",
-    "docs/handbook/assets/screenshots/audio-setup.png": "1b91ec2952c3b36641665fcb92d73578232d5f84d8b66d27c05ab15737c1df39",
-    "docs/handbook/assets/screenshots/background-10.png": "9210881031936edd31f2f62ca6c212932def5dcf5bc1389f2a64de8e5a86f03f",
-    "docs/handbook/assets/screenshots/background-100.png": "735b91d2b556e1c72030644c1fc3eee50f303779fcfb5d4112fdce7196d12a27",
-    "docs/handbook/assets/screenshots/manifest.json": "27a98c48873532d7324662cac6e1d428835ca9a7070bb46f0a1ec65bd2ed40ea",
+    "docs/handbook/assets/screenshots/answer-background-10.png": "f1d4b78f01677193461f77246f01690de20efec0aca12be2bda1a09f42a7e9fd",
+    "docs/handbook/assets/screenshots/answer-background-100.png": "21078dfd0deb3dd7ee3f61b5b56f8118619976aea0b7450a597f7c648b17d3c9",
+    "docs/handbook/assets/screenshots/answer-synthetic.png": "260cc6e01ad8efdd65e6a258946ef73b3e129cb020e356f4716c872bf9bf8560",
+    "docs/handbook/assets/screenshots/audio-setup-cards-compact.png": "99f739f25e413222b0432b7b1499f5cf9942cbf58013c5fe5db76ec32ba75e81",
+    "docs/handbook/assets/screenshots/audio-setup.png": "fae818c821034384c2b4a831bd84c4ff14fd39bc43abf36db4030206fa98ead8",
+    "docs/handbook/assets/screenshots/background-10.png": "60e911295d05bd2ab1523b29e6eaa39c2bb0514a4e0da0417f6df3ce9b34f813",
+    "docs/handbook/assets/screenshots/background-100.png": "611186b878ab6cacd2681b626bb01e6de1335161af9b85d391c07835c4105863",
+    "docs/handbook/assets/screenshots/keyboard-answer-size.png": "79503537537a365cadc19dbc9773fc5af85064be5179ad077448e6a42e4aa90a",
+    "docs/handbook/assets/screenshots/keyboard-command.png": "11e9067f7e5f192a9ad76a1f1cbe263ecdc283a4dfbed7c2eaae1b372ea4ff37",
+    "docs/handbook/assets/screenshots/keyboard-selection.png": "4e9166c874c5f9916cea4057ef5aefed8b2fcb55d0d039076567bae3d4324ac9",
+    "docs/handbook/assets/screenshots/manifest.json": "88c4b0212f431190817edf15e309b1b80634a06410f22a1132e8f5f11a63599e",
     "docs/handbook/assets/screenshots/notepad-cover.png": "307319ce717327750e04e888a2423cf1c9f3700a1935c5e6f08124236ae6a39d",
-    "docs/handbook/assets/screenshots/notes-expanded.png": "328903133e51bdae9c5e3d3442b0d7a19d263dd79be2039ad51f867e748e3f55",
-    "docs/handbook/assets/screenshots/present.png": "328903133e51bdae9c5e3d3442b0d7a19d263dd79be2039ad51f867e748e3f55",
-    "docs/handbook/assets/screenshots/question-clarification.png": "9200b3e79059470b66d3bb9ed5d9629f24b5b417dafdb6eeae1f2f5ef1cea606",
-    "docs/handbook/assets/screenshots/question-draft.png": "0cb9c0f25cd72e9d18732121e16be06f6d1bca4640ec08bda6c38300823704bf",
-    "docs/handbook/assets/screenshots/question-harbordaylight.png": "74efb66dd38ad608e7d3c9083f63f3b6110d7e6b3473e3c9b30001c565cf113f",
-    "docs/handbook/assets/screenshots/question-selection.png": "a9e5985d84173b128e4ce4f69db6a68325705180bffe509c9d896fb5d4b4d652",
-    "docs/handbook/assets/screenshots/recording-active.png": "ae262eb865ad6c95868141c0c58290375c6ae54a2ec1968f7a13f2f401c1f74e",
-    "docs/handbook/assets/screenshots/theme-DeepSeaFoam.png": "71b91fd273ef95136bd3c52786c66e10dc1a738ff78e538275ef269ac299a0e0",
-    "docs/handbook/assets/screenshots/theme-HarborDaylight.png": "8bf331c30e41bbdf0f07415ca1ddd38ade4ee720878928ba8c777873e853509f",
-    "docs/handbook/assets/screenshots/theme-Plain.png": "88b59437f2aaaea26d85739e122a0235e15002bc366d69427b376ea843e598ba",
-    "docs/handbook/assets/screenshots/transcript-deepseafoam.png": "71b91fd273ef95136bd3c52786c66e10dc1a738ff78e538275ef269ac299a0e0",
-    "docs/handbook/assets/screenshots/transcript-multiselect.png": "81acfba26d564878431709540c5fda68027220e8dda8eb08de33f204925797c0",
-    "docs/handbook/book.json": "26fc782234a1625234a5094a3d25f793c13ab939b9df273eb026b55e64d18841",
-    "docs/handbook/catalogue.json": "a22ba00ae5d29750a77e3dfdfd59fffff839f85bc58077b8c1ba7ccbc5678753",
-    "docs/handbook/README.md": "390202737ff675d195cf024108dccc04f2c11d915d4042f0ad2ed88c1b80c5b5",
-    "docs/IMPLEMENTATION-STATUS.md": "a78752fbdb265d8fdec556afe79ede873f8f8773c82f0f8420dc28d00bc6ba02",
-    "docs/LOCAL-QUESTIONS.md": "60b74d791da59093dce56e42d72a55ea9ce496ad23a2181067fdd078fdf88e29",
-    "docs/OVERVIEW.md": "5b6a1946f0d7287d8ef7e84a573c4cb1d6f6c954ccece6de7c9ac7375ba27f6c",
-    "docs/PREVIEW-GUIDE.md": "091d8bf62a8cbd56ebc10afe1ce01e98b65da5b5dd75d95d02405ac55b3bb72c",
-    "docs/PRODUCT.md": "0d5c7ffcd7fa4d2dab51e1fe7d2dab67636e4356efb81938d593f9440aa4d964",
+    "docs/handbook/assets/screenshots/notes-expanded.png": "b6dd4e58221072d3fd9c7c3a6e6a98d8bebdc75d120e1a1e22b80a5f83db5bcd",
+    "docs/handbook/assets/screenshots/present.png": "b6dd4e58221072d3fd9c7c3a6e6a98d8bebdc75d120e1a1e22b80a5f83db5bcd",
+    "docs/handbook/assets/screenshots/question-clarification.png": "719898e01d487b5bf5e9915df935246b45515ca886a20cef0f30782423abdc1b",
+    "docs/handbook/assets/screenshots/question-draft.png": "a304ffdc9bbf043017709a14254552584917e10322106f8f656a037f85a14aa3",
+    "docs/handbook/assets/screenshots/question-harbordaylight.png": "c7c95397efb12333db793bb352b0084f994fbcc4b5f296991043af8838d47ad5",
+    "docs/handbook/assets/screenshots/question-selection.png": "1ab789d35f666fd0addeda909c21ee648950e214564bd27d07f0d804b38ddac8",
+    "docs/handbook/assets/screenshots/recording-active.png": "dfacc238c03ce4751d3780afec2b524b7ca20b7a4525d1e061bfbb42ab69bd80",
+    "docs/handbook/assets/screenshots/theme-DeepSeaFoam.png": "3e9df791679dbfba80cfbcd165eaa3fdd63250f158481667a205cf15e6d0ded4",
+    "docs/handbook/assets/screenshots/theme-HarborDaylight.png": "65394377b69a9ab11fe2620564050889dbc82145073e5c1c355e17030fd582bb",
+    "docs/handbook/assets/screenshots/theme-Plain.png": "8a3bdb2dabef8e73322c7478b029c2fc06ffb6bfa9e959debe419be9538954a2",
+    "docs/handbook/assets/screenshots/transcript-deepseafoam.png": "3e9df791679dbfba80cfbcd165eaa3fdd63250f158481667a205cf15e6d0ded4",
+    "docs/handbook/assets/screenshots/transcript-multiselect.png": "f7b819c6c8d9a510c2b26b911a925bc3fabfd387aff5ebfaf84cfd7efa53d4e2",
+    "docs/handbook/book.json": "81a1666769d4801db23685d7bc3950db3797e7a25c06c745671f2078eea7e012",
+    "docs/handbook/catalogue.json": "8f016935d8cdd95549fa32bd25f76548219358bfc3ccee4b33ec9d7934bd3e21",
+    "docs/handbook/README.md": "69d5fc0e4287229ca873cdf9e12a9350d58b82b0f13e03fe8cf2496ea03667b6",
+    "docs/IMPLEMENTATION-STATUS.md": "8f29a7c3f4d9980a759bc4441a322c32fc5a0e01a659009f202f949a62e212a9",
+    "docs/INSTALLATION.md": "5256482846a27a310646e39231af5d74041ff4322f8c72d97c535667839191ea",
+    "docs/KEYBOARD-CONTROLS.md": "86e040b86d6e671040b1b9036ff8eaf9209a6ace4d155d8ea3121674bb2ad624",
+    "docs/LOCAL-QUESTIONS.md": "8e4c6d8f7ce3213a7372d9bfa4aa4683bdd183509e32e86e9f4cf95542875b40",
+    "docs/OVERVIEW.md": "f249ab5774da725baa9c1d863ed8c86fce3a30587dd5260edd5bedbcf4d053b2",
+    "docs/PREVIEW-GUIDE.md": "88ee620c3695cb84af84a6f8bc7419babeb6eb9c9db695d09274880a1b8309b1",
+    "docs/PRODUCT.md": "7508fddabd6d6d77e9ce22d0a4c714a3586893238d82f22f3e4c065a5a99c8ff",
     "docs/QUALIFICATION.md": "f077c9beeb2d7fc05e6f3c1ec5b3a96a611eb77419fba2c951bb9e3fb4a7e4e8",
     "docs/QUESTION-CLARIFICATION.md": "541d683145e9d2d46679133d23f7a5fca45fee71abd60dc83ea2c504e47a2652",
-    "docs/README.md": "ab30603f83e286ee6ea5f849cc205f9299b50a9996287a22a3f6a3a37645d731",
-    "docs/source-atlas/manifest.json": "875065a65a23cf10d23a97fbaf7fc64ae20eb24b2ff86835d1fad99ff7d825c6",
+    "docs/README.md": "b4cba50ba027518b205ac6e15338ada40cea4d6b13bf90bee2117271f6ad746f",
+    "docs/source-atlas/manifest.json": "9a1e05bf07c5845f6ad312a5dea9e81d474e5ab60b2b39b50be6a65d3944a761",
     "docs/SPEECH-BENCHMARK.md": "46c89e70fc06891a837c3fc2323ed9712510a0175981ea3e916516d750dda39d",
     "docs/TODO-CONVENTIONS.md": "7d214300834874ea780761859b992ea4ccf834ce2a34eef2697437d8d841e753",
     "global.json": "bf68d4a0fc2613967f53bd6af5a6570666b755f5f6bf4688a120736ae523ccaa",
-    "JOURNAL.md": "b6105eea19b3d8403c5a1a0209d04f2d60aa9222dc80d59daeea60a382320aaf",
-    "PhantomFudge.slnx": "62e0c1e13581acccab56d253c2e82c315168641b34b69ad3f8ce97bcd644082e",
-    "README.md": "f4d0ccfdbe320bf875f6568c5d8abff613ad6c1ab23261f9667cd7b14ba8ab30",
+    "JOURNAL.md": "2e097b0d0b8618c164acdeef287972744dd288a5a80e7ee8ae35369374dbd69d",
+    "PhantomFudge.slnx": "83273f1f97cbf17a0f001c4221eb997d18dac384b630d16a080d24253ca51379",
+    "README.md": "c25c558c5e74bf34cbc69d34bca18421aae0785183059ca9b5d5c4134c71d798",
     "scripts/Build-Handbook.ps1": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
     "scripts/Build-Handbook.txt": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
+    "scripts/Build-Installer.ps1": "fce0d469b571c669c551ddbb93db2f8279d0fe32e79be999db7120aabb525b9f",
     "scripts/Export-Diagnostics.ps1": "527dc6c39e9206bb6c49d6569f9b7ce0913a7882ed6d7d04bd8bd330eba0f800",
-    "scripts/Export-HandbookScreenshots.ps1": "2d21f69f63ccf8d94f6aef2e1932e345f9d918aabe91920c9214737ceec4acf2",
-    "scripts/Export-HandbookScreenshots.txt": "2d21f69f63ccf8d94f6aef2e1932e345f9d918aabe91920c9214737ceec4acf2",
+    "scripts/Export-HandbookScreenshots.ps1": "ac9ac238da02288df23c587cbb483a92224add600adb4dadf41ccbc13326cffa",
+    "scripts/Export-HandbookScreenshots.txt": "ac9ac238da02288df23c587cbb483a92224add600adb4dadf41ccbc13326cffa",
     "scripts/Export-ReadmeImages.ps1": "8de5b17da8b62acd28dd4d93c5585fc91913df3d2c1f7ae28381a794ce2b48a3",
     "scripts/Export-ReadmeImages.txt": "8de5b17da8b62acd28dd4d93c5585fc91913df3d2c1f7ae28381a794ce2b48a3",
     "scripts/Initialize-Answers.ps1": "cc21c6d9e913a7019d7b6d7a944399f005ec0ad90a98fa522979905f851962b3",
@@ -116,18 +122,19 @@
     "scripts/Start-Transcription.ps1": "13249d0994de8d004e0f3cf789e35f110f78547cb78780573bde5159ab98a91e",
     "scripts/Stop-Transcription.ps1": "1fae50158aabf4a343ff617996d7d227bf122e2751c3b2ea6b234c3bb1b3db93",
     "scripts/Test-DualSourceSynthetic.ps1": "6f5082703591ae17e7ed46ea2e42396239dbe68f0572eb4936902b9bfdf74038",
+    "scripts/Test-Installer.ps1": "dac0014cd43d935c66de11ba1d418c3747fedf9fca7d7edfca25172a21cd0a08",
     "scripts/Test-NativeLifecycle.ps1": "dea9926a573cd2e11c1449460ad4147c9890a40a17c3611e4362111833d90d40",
     "scripts/Test-PlaybackTranscription.ps1": "d6c6537f5cc1f8be22b9b9b888be82d52d8ba2b8f9912b72d91c0027177a9c23",
     "services/transcription/accurate.py": "97d3bcd911e1a495dc265357d57329693d63c85112b8b80719c8b719ad15549a",
-    "services/transcription/configuration.py": "da858b8e6403dd927bcc13c7fdca4374830a765d778336f1303d07a95636777c",
+    "services/transcription/configuration.py": "159868e84a06c7bea80214d7b5f353d2959aae603984166d6f35d0b6ef80c302",
     "services/transcription/diagnostics.py": "5cd7f3172d536c7fadf50c2a3039a2e0959ecba06915f59b99d7f5291d90f533",
     "services/transcription/Dockerfile": "5ebf5db78dc52d2538ea381017a58641d9a1f9ab775a5f2947ddb9d2f4a3ce35",
     "services/transcription/healthcheck.py": "b42fc44506c3d9e440bfb370acafc95be73610147e14dda71dadf4a87a6742a6",
-    "services/transcription/manage.py": "1a41c671ef50b7da12ace1ecf2aea5f708d877b713a4355d9a16056e19ca23f0",
+    "services/transcription/manage.py": "71c9f51ee23e8fc503aa3345af01151013913386c0619584eb9a152d974e1ffe",
     "services/transcription/model.json": "6785be034f92fa2e661765aa2451b72a9808477201d6d65507507391b1dd5c07",
-    "services/transcription/provision_whisper.py": "526507c4d37beede2d8ce3504cf29397a288aaaf4d017066205f8a64fe22147e",
+    "services/transcription/provision_whisper.py": "34fcea0fa45cb63698b24874c5198121c813cb4b3971845aae5b85ccc6f9e2ad",
     "services/transcription/README.md": "9702bb30406940792f0eba7898a75dbab16157d9b8a2c859bc0644ea3b7f7f38",
-    "services/transcription/recognizer.py": "ff50d28182f5073093b27390118f0ad869f74dfbe3c34b49a12e103e1967fd07",
+    "services/transcription/recognizer.py": "84ce70afced72e24eb90e5a3d210a3089a9ee9d00fcaa23096c9fcf486cf63da",
     "services/transcription/requirements.txt": "753d326b0b350625189027712d66ee2cd9a063e4016f9e0b86fa1347fc78c8f2",
     "services/transcription/server.py": "c847e2d3333100a5243ccdb93ad92e678d429c762563e3e08eabc0a2419b9994",
     "services/transcription/technical-vocabulary.json": "b055d754a557778a3962ac8de0a1b16f84f84eeb1eb521599066fb1d63eec219",
@@ -137,7 +144,9 @@
     "services/transcription/tests/test_accurate.py": "58d339732598f7baec8c3cbd35e4821ce970d7354cb57e9485d8f4b35470a3b8",
     "services/transcription/tests/test_diagnostics_failure.py": "82d05f3f03c2a10ae7a58d6e05dacabfbd83851f625015fd2c8b25b719bc2c7a",
     "services/transcription/tests/test_dual_protocol.py": "a5578e8749633577591da17dc8791887ead12f7873f553eac3c44ed4984dd3af",
+    "services/transcription/tests/test_installed_runtime.py": "380c133967c1bb856f8e17922a47daeec91e4988f618d374e7899c63c495d384",
     "services/transcription/tests/test_management.py": "4ac15c8ebedec295b913f3c3b448488c75d84ec7a51315d137de26efceb57c8f",
+    "services/transcription/tests/test_packaged_pcm_runtime.py": "539738de56061bdfa9200e8a7f5992971d866e5c644e67b49d6b679d292713b7",
     "services/transcription/tests/test_protocol.py": "0d6a405502a3b4346137554f56d47ad1840fa3bc509f81dcac2fafc6fb2ce35c",
     "services/transcription/tests/test_recognizer.py": "69f10170b4c3676b9377c91ac20afb9b0421b8ed7a29cbb51ba311bb2fcdfb2a",
     "services/transcription/tests/Test-DualSyntheticTranscription.ps1": "48b9cf7caefca5030c5c95127850b706aa7c17dc7689b66a0185e64ea052b0dd",
@@ -155,26 +164,31 @@
     "src/PhantomFudge.App/Diagnostics/CaptureProof.cs": "b1291002780b48a324a579251f057c9809d56af008416f60325b3a2433a1f26e",
     "src/PhantomFudge.App/LocalFailureNotice.cs": "7124bf1b08d179e2d4060a88482f6cb0f1f8bd361a63d8507c2651546a9abeb8",
     "src/PhantomFudge.App/MainWindow.AnswerDiagnostics.cs": "8b0089b18111f1feb49dc7c9f179019ab479b698aacef13010acd95efa0317ce",
+    "src/PhantomFudge.App/MainWindow.AnswerFont.cs": "0df77850de4d0cb982dc2558149a37742116ad0a723c679e7a91b30be78a5b1d",
     "src/PhantomFudge.App/MainWindow.AnswerLifetime.cs": "695ce25912a421acbbe7e511a93d720a207298c62b7397e70e35db83b066ccb9",
-    "src/PhantomFudge.App/MainWindow.Answers.cs": "a65926885a6514bf9c4cde4679d67d1c9b28f03ad7c76b2e84a043cce026171b",
-    "src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs": "16af7fc2dd04f4203c5b66d98b202d4566aca04701676d58091ae1eb6833de56",
+    "src/PhantomFudge.App/MainWindow.Answers.cs": "fc2eda79ae56baf70d608416ad6baa5ca257629de5ae5925a72e2c21d4efb583",
+    "src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs": "2504129f93301b2838d44805ab3bce9799ff4b94511118ad318f5c8055f5f1ea",
     "src/PhantomFudge.App/MainWindow.AudioDeviceCardsDiagnostics.cs": "6a4a24a3e61edc4823e1883829c030945d949ff9c13e7a40374a7290c9578ab4",
     "src/PhantomFudge.App/MainWindow.Clarification.cs": "360a83c8f69b83a47589851895d5877c55aad7236109b85115f4e14c7d6278ea",
     "src/PhantomFudge.App/MainWindow.ClarificationDiagnostics.cs": "4adf057707ccb75c2f7b9089d27362546ab2a40a8a889fee256da9894f367950",
-    "src/PhantomFudge.App/MainWindow.Cover.cs": "09e1b8b914f6181884e81f2259241cd6a342eddeddae2adfe7921ac9b49c18bf",
+    "src/PhantomFudge.App/MainWindow.Cover.cs": "bbeb31f94c6ae386dd282c93a7691ea7e484355e6451a4ce7f4112d1fd9a2533",
     "src/PhantomFudge.App/MainWindow.CoverDiagnostics.cs": "bdb76120d8328dd07a73470acebfde680e43792c13f633871ff2ec266ca0c8c8",
     "src/PhantomFudge.App/MainWindow.Diagnostics.cs": "c321cfec0df21284a15e390c298babfbfeb8ab147d81e506ba2e9d6b9435748f",
-    "src/PhantomFudge.App/MainWindow.Layout.cs": "b8ffb4ed00be59065a7c31317cc42d050bc61d8ef9683799aeba697f3f45858a",
+    "src/PhantomFudge.App/MainWindow.Keyboard.cs": "0ab1fd4ea460238d61f9fbe524ac5dc164bad914e2a186112c4b710b9e7aec82",
+    "src/PhantomFudge.App/MainWindow.KeyboardDevices.cs": "1620895fd8f773e0e7e848aaf3bae26fd27e562b0cc53758ba676d604c12b917",
+    "src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs": "fc70d2843dc0c4b204506d0a3a7a9897f670812e77ca96ae3b8ca777e0632db8",
+    "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs": "4b602ca839b850c10c3163c985259c11ef3d0a72ada749596976f2159041343f",
+    "src/PhantomFudge.App/MainWindow.Layout.cs": "8d0d3481d995bb8ac7c32fd3e37c418e27cf82950caa5b2087c9ab9b999c05c5",
     "src/PhantomFudge.App/MainWindow.QuestionDiagnostics.cs": "f87b0a7fe816aa8f45667892b1dd79ce0d8d2d16a0979d015d5fd03f1b70b826",
-    "src/PhantomFudge.App/MainWindow.Questions.cs": "d3afa0686c5af5fa12a588061da04abe2d0b84768f52a187792820fc031e9601",
+    "src/PhantomFudge.App/MainWindow.Questions.cs": "02ac6ea2a50071181dc5946fd4bbda3ca0c8c275c010ab39136537747a55ba90",
     "src/PhantomFudge.App/MainWindow.RecordingIndicator.cs": "351d83ad04fb350493b65db8aac3ee63abcb10ac108b655a17db4b7d1ba05e61",
-    "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs": "6639643e434d445af7e486a04a1a64f3858731dad127c7e43a7f1db04879c723",
+    "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs": "873cc9bc409c28d522f530ec36767d61bf2c5ab4541eacf69f9a53e1973c16f3",
     "src/PhantomFudge.App/MainWindow.TranscriptSelectionDiagnostics.cs": "9b2dd7146f3415dcbded1f0f6e884109b6e3ee81098b6b5386cb6040141b098e",
-    "src/PhantomFudge.App/MainWindow.xaml": "cbd33a5c07e0a13db7d997361fc59341bc16e1399cbc6e11e8bb801358c133c3",
-    "src/PhantomFudge.App/MainWindow.xaml.cs": "c0627761f2fba9ee02d6e8bf4521625d3da8a290cb20c75793cb279b775478d0",
+    "src/PhantomFudge.App/MainWindow.xaml": "3c9e1717f63c4bc8bf86f4a1358d17a59f923ea586c1af0488e272addeff25d0",
+    "src/PhantomFudge.App/MainWindow.xaml.cs": "df98fedfc3f1a8f148bd12ac7735c99c925da0c5bc519830a80aec57b79eccad",
     "src/PhantomFudge.App/Native/CursorPolicy.cs": "60fdd0df16389f15f2383df9fed2af3a83ecea6581171b85e8da3c175df05610",
     "src/PhantomFudge.App/Native/SingleInstance.cs": "ee8664818c1f17788d84c6c07fc1ab7d6416e0794242d762b73fce380894e36a",
-    "src/PhantomFudge.App/Native/WindowHotkeys.cs": "511ba5495489d6782ad85ca34588f52c9abee128303c504a4a247c85b39d6c00",
+    "src/PhantomFudge.App/Native/WindowHotkeys.cs": "c14082309356690485c0c17ccad28b10931ac80065f94ae7412cfcc2043ff365",
     "src/PhantomFudge.App/Native/WindowProtection.cs": "869a41bab3c3f9cf8916b5b4db612f83c9b0d3f654cc1188d2805af2fbf20442",
     "src/PhantomFudge.App/PhantomFudge.App.csproj": "ecde577ae8590c11ad9524b4572410e28792532fc45d71d6600b52721c039e1c",
     "src/PhantomFudge.App/ThemeBrushes.cs": "538caca7b44d67284cf62546ea9b48be3c80fd1db3c9616ed3ff7985f5b09a71",
@@ -195,6 +209,8 @@
     "src/PhantomFudge.Core/Answers/CopilotOwnedProcess.cs": "f67cdafdd908e3d136f59df1a5c00e48afa142271d3a285e9d2440e2099b2850",
     "src/PhantomFudge.Core/AudioSource.cs": "a2b5a65fab05e33c18ac7582bf20d3b750d6e15117cb33b1baff973100679b20",
     "src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs": "9f0bf913d48eef5e538f38f17cd3789fd0027aea3d76ff9c7e868f61d91d2e44",
+    "src/PhantomFudge.Core/KeyboardCommands.cs": "df9007fed871a46d23a02b85700299c8c28c97032f42ddafbf8a442b5057c1b6",
+    "src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs": "4b865897ed9dafdac5e9c2ffe45b397eabd28700c54c4231f5647677e4bd5ee5",
     "src/PhantomFudge.Core/NoteFileStore.cs": "b77d315514d7fdbe492123fac1819c16fa1dd33d114807cff2eda04135d88658",
     "src/PhantomFudge.Core/PhantomFudge.Core.csproj": "95b6a79adb4ad8329d8eb4c1873f012cc4f4934a0f0573b0e42b01222d7201db",
     "src/PhantomFudge.Core/QuestionDraft.cs": "51ddfe4ab42936c7b61d23d3a973aa206c6dffe3297bf2d20638b1ea6c11d7e5",
@@ -204,6 +220,15 @@
     "src/PhantomFudge.Core/TranscriptBuffer.cs": "d9d2477acd821aa6b3e075a7c02ab4ec040791bad2c89181e629b4746a11e449",
     "src/PhantomFudge.Core/TranscriptSegment.cs": "0bd6ec2f24cb5aa25b9b5a6f474b3254b17139031fc293cce514ff71875a7384",
     "src/PhantomFudge.Core/WorkspaceLayout.cs": "d7cf6bb33938580f922e75e03650fa84e87932aa0322851f6539a132548dffaa",
+    "src/PhantomFudge.Launcher/ChildProcesses.cs": "4105df6f8999fe76d5f426bdde483fd66e9b2a4a01f039596579530caba787f6",
+    "src/PhantomFudge.Launcher/InstanceCoordination.cs": "ffd88a75a2a51c853775df24ab12579b96624843b7bfc1f41ec097b6bf54d4f7",
+    "src/PhantomFudge.Launcher/LauncherContract.cs": "95f1a928fe1e2a4c7ca5bbacaa31e64be03957934301a78495ef1c193686a6f1",
+    "src/PhantomFudge.Launcher/LauncherStatus.cs": "08bbd43db4151646be3a80e20880050abedecf43a41cbe206d2aeb35ab852efc",
+    "src/PhantomFudge.Launcher/LauncherWindow.cs": "3dcbeed95853a11b0601ac26259d3f597e22e28995e004e8c0150d18d77f3f60",
+    "src/PhantomFudge.Launcher/LocalToken.cs": "9db2b1e5b0330afd2a86581b713c02c2e0f9c799d3c3e374dd49427348ee5f4d",
+    "src/PhantomFudge.Launcher/MaintenanceOperation.cs": "cbee214c1fac7c36a6a6bdcc3d0b14af0d58c3dedf583d5ddf3a9b21010a01a4",
+    "src/PhantomFudge.Launcher/OwnedServiceClient.cs": "38a477f59f5b6db2617f7ae465649585e572c284df495a2c66d5c46cd6e92424",
+    "src/PhantomFudge.Launcher/Program.cs": "7a61e9783e145e95391df72a449571724fd2b3597c1658c4c160225b1f0bbc48",
     "tests/PhantomFudge.Audio.Tests/DualSourceTests.cs": "55c25a56f4d2c26201f9855bb8811f6c682654c515e0bcef00cf7712da95e0e2",
     "tests/PhantomFudge.Audio.Tests/DualSyntheticServiceCheck.cs": "2a8fb264c54c76340d7a66d5a2d2879baf88191fd2c0691d07e6788dbd6c9e60",
     "tests/PhantomFudge.Audio.Tests/PhantomFudge.Audio.Tests.csproj": "adae6b3cf58b45ad3ca7b16d7cd390954afb200baf5f221b967ec81dd07feeb4",
@@ -215,9 +240,11 @@
     "tests/PhantomFudge.Core.Tests/CopilotCliAnswerProviderTests.cs": "34e038c117190fe6a785c6fb284f9817b56d81cdb426377cf651945d0d0514b5",
     "tests/PhantomFudge.Core.Tests/CopilotJsonProtocolTests.cs": "09720a1f91c1d79996ac312ac357583ee29b877ae9e6fb45d3e215b887006f19",
     "tests/PhantomFudge.Core.Tests/CopilotOfflineIntegrationTests.cs": "5c41bd1bfcf536be4a5c40a1df32da80a970aa694f865bc852bb7e36887fc800",
+    "tests/PhantomFudge.Core.Tests/InstalledLauncherTests.cs": "cefb13a6039df6e426c88424ffe63e860836b76fe1f0b6f12f4bf88a9b8f8bfe",
+    "tests/PhantomFudge.Core.Tests/InstalledMaintenanceTests.cs": "6eb1705264a9dc8e1e426b963fec4ae8cb31554c68e00e8eee4d03597abb404b",
     "tests/PhantomFudge.Core.Tests/LocalDiagnosticsTests.cs": "26b07c9ed531977a4512032d1ae7e56ce03b7c19b2d8b77be3130a3605a02217",
     "tests/PhantomFudge.Core.Tests/NoteFileStoreTests.cs": "4dbd7966bb9f3bd758d8bf5a3dbb981d5eb1ac9606a4e5ec1fe718fbfed337f5",
-    "tests/PhantomFudge.Core.Tests/PhantomFudge.Core.Tests.csproj": "b111c7f1e9b4a481f241b2d67f7019b8c46dcc490e22d4c07c6be248924b5b4f",
+    "tests/PhantomFudge.Core.Tests/PhantomFudge.Core.Tests.csproj": "30b5c5e382fdc9d2c506daeb0af68531ed9d1c5d0a07ee5a2b198ffac03e1485",
     "tests/PhantomFudge.Core.Tests/QuestionDraftTests.cs": "de91a57c34928b88ef8a16753c20a2ba2e020a1ae9a27fda90e7c9aa762c215e",
     "tests/PhantomFudge.Core.Tests/QuestionSnapshotTests.cs": "1bc3da32943fdb2776fb43830758f5e2bf876d3456f16a3c6e2325f74454a9da",
     "tests/PhantomFudge.Core.Tests/SourceTranscriptTests.cs": "fb2556b3ff32a93f0893b14f2c773c46eba912323b4421e21e99a10b5dcaf825",
@@ -225,11 +252,11 @@
     "tests/PhantomFudge.Core.Tests/ThemePaletteTests.cs": "3bbb5308677f535c629c9909df63e1f1879a6e915a8165aed891cc1d57247f53",
     "tests/PhantomFudge.Core.Tests/TranscriptBufferTests.cs": "4ebd424f1684c9d8fd623322e19153427fb2b94858ca93034baeae20c1a91558",
     "tests/PhantomFudge.Core.Tests/WorkspaceLayoutTests.cs": "3b1261c8523b8218a3359dddec3118f53d653f8a981b8696a57d264cfc404d69",
-    "TODO/00_INDEX.todo": "eaaa1d8591f542fb907b69b13caf31f8e15278cb8cb6381268726519f38dee85",
+    "TODO/00_INDEX.todo": "2d31f330aa8bcd3fb39e6aafcf12e6f474999b83b39c0675a2a539bf993d49ee",
     "TODO/08_LOCAL_STORAGE.todo": "ef568213f4a837ed48f2011b6dd93a1298fdd40a2151983350a252ec985a789d",
     "TODO/13_COMPATIBILITY_QUALIFICATION.todo": "9ef0db53d6031e1744d377e3a02163cbdf0e406b3e92a7d9b018b9ae9af0abf1",
     "TODO/14_PACKAGING_RELEASE.todo": "869edd690efd9a23798bd90d9c3277b6e077da8069ab6bd6eedcf1c09a8a2794",
-    "TODO/16_DEVELOPMENT_LEDGER.todo": "2af20f9b80fb412f1b94a55ae416badd29eefec1b0d8b33c4d04040f135c2f53",
+    "TODO/16_DEVELOPMENT_LEDGER.todo": "cba24774322cec4df297a78f6a367461b1f53152184a2c48c0f5123c8797bdae",
     "TODO/17_RELEASE_ACCEPTANCE.todo": "ced71d32d0045f0b7b490bd2d99171be177fbc215e7cbfe051ba06f62cdfe526",
     "TODO/20_DOCKER_LOCAL_SERVICE.todo": "701e74651abb517d595a86261d3c48b78e2399d0bce83a7db12a39e8a2d746de",
     "TODO/22_NATIVE_PYTHON_RUNTIME.todo": "444317a249a394d5e625649bbb43da82db9049c36a8812e98f34170dbbabbb13",
@@ -271,9 +298,15 @@
     "tools/Docs/package-lock.json": "f3440ae335f87a70e7209fd1bda51272d50530010ecc9f8567e33c32b9c3d630",
     "tools/Docs/package.json": "33e27043d4daf6246ceceb9dc2c83b74dd1c5fd3510febb057d5aa2d854bdbf9",
     "tools/Docs/README.md": "b3ddbf69623a2f778920334f7135eaaa7bd24eb72c5064f8f548193e5e70f47c",
-    "tools/Docs/test-docs.mjs": "9463ce8cf535df4be7e93aebb02c8c1b7584e47ef0e520d8699dabaeb2acaf41",
+    "tools/Docs/test-docs.mjs": "dce266e75d4e62ef096ca2ab9500b7694de61503636e4ec163b7c64b6a6cb4c3",
     "tools/DualSourceProbe/probe.py": "6ff0b3f74333cd01e7b8974bc094fe4fe148f23024550c8e538250f14e449c2c",
     "tools/DualSourceProbe/test_runtime_upgrade.py": "784e149ba6d9da2346fcf7c9b556e6bba6275649bd0a13fbc69c086536165b20",
+    "tools/Installer/bundle_runtime.py": "776de36307d68159ade74a88ad6d1e558c4b480b727102b2891a38180c7b4b56",
+    "tools/Installer/PhantomFudge.iss": "cd209ff3878c6b683748997ab0fc45e5e57d2d0cd288686c72e18897486e2c65",
+    "tools/Installer/release.json": "d4a40bc89690d9b2c135b5722d07e2d0a1be9d03e4d77807948744f530cfade0",
+    "tools/Installer/runtime_audit.py": "67e9ae694242e82186cee16bb81f6b9ed75eaab9c3b3631f82c6f980b4c6f4f2",
+    "tools/Installer/runtime-contract.json": "b5ea3d2c2b80ef140b26f48b616e0f9122b4ee09d003cffe211e7f01dd237c99",
+    "tools/Installer/runtime-lock.json": "4271b71567064386dfad426e5e1fbae4bb7d706b186a9e7cb034d4b5a63ebdc3",
     "tools/SpeechBench/bench.py": "e4129a6b46a33a43e07ee324327c687312be7a7bfc3de9184382df582d69a68e",
     "tools/SpeechBench/corpus.json": "3e3313d4e1249ecea55bec163f7759f440e5e5e0b4963af385fcaa424c6a8e12",
     "tools/SpeechBench/metrics.py": "46db0d4c45ca8389f4ae9d108bb30acf0c6a7bebd648675f315eaeaa3beab4d1",
@@ -458,8 +491,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 114,
-          "end": 159
+          "start": 155,
+          "end": 200
         },
         {
           "file": "src/PhantomFudge.App/Audio/TranscriptEvent.cs",
@@ -508,13 +541,13 @@
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 11,
-          "end": 35
+          "start": 8,
+          "end": 34
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 61,
-          "end": 70
+          "start": 60,
+          "end": 69
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.AnswerLifetime.cs",
@@ -558,8 +591,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 114,
-          "end": 159
+          "start": 155,
+          "end": 200
         },
         {
           "file": "docs/SPEECH-BENCHMARK.md",
@@ -657,7 +690,7 @@
         {
           "file": "scripts/Export-HandbookScreenshots.ps1",
           "start": 1,
-          "end": 89
+          "end": 94
         },
         {
           "file": "src/PhantomFudge.App/PhantomFudge.App.csproj",
@@ -704,6 +737,529 @@
       "words": 1057
     },
     {
+      "file": "docs/INSTALLATION.md",
+      "title": "Install, update and remove Phantom Fudge",
+      "citations": [
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 72,
+          "end": 76
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 150,
+          "end": 160
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 47,
+          "end": 78
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 152,
+          "end": 165
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 30,
+          "end": 44
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 76,
+          "end": 114
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 15,
+          "end": 18
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 31,
+          "end": 84
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 96,
+          "end": 104
+        },
+        {
+          "file": "tools/Installer/release.json",
+          "start": 1,
+          "end": 8
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 30,
+          "end": 44
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 56,
+          "end": 105
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 48,
+          "end": 105
+        },
+        {
+          "file": "tools/Installer/runtime-lock.json",
+          "start": 1,
+          "end": 11
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 79,
+          "end": 114
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 100,
+          "end": 114
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 14,
+          "end": 76
+        },
+        {
+          "file": "tools/Installer/release.json",
+          "start": 6,
+          "end": 7
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherWindow.cs",
+          "start": 18,
+          "end": 57
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 47,
+          "end": 78
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 127,
+          "end": 213
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 152,
+          "end": 165
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 15,
+          "end": 15
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 34,
+          "end": 34
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 43,
+          "end": 61
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/InstanceCoordination.cs",
+          "start": 12,
+          "end": 57
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LocalToken.cs",
+          "start": 12,
+          "end": 39
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 12,
+          "end": 42
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 108,
+          "end": 118
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 186,
+          "end": 227
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 39,
+          "end": 39
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 14,
+          "end": 23
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 153,
+          "end": 213
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherWindow.cs",
+          "start": 37,
+          "end": 48
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherWindow.cs",
+          "start": 70,
+          "end": 77
+        },
+        {
+          "file": "src/PhantomFudge.Core/Answers/AnswerConfiguration.cs",
+          "start": 8,
+          "end": 21
+        },
+        {
+          "file": "src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs",
+          "start": 31,
+          "end": 39
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 30,
+          "end": 54
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 56,
+          "end": 74
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 51,
+          "end": 52
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 107,
+          "end": 148
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 50,
+          "end": 58
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 94,
+          "end": 100
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 61,
+          "end": 74
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 94,
+          "end": 100
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 87,
+          "end": 105
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/MaintenanceOperation.cs",
+          "start": 48,
+          "end": 118
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/OwnedServiceClient.cs",
+          "start": 20,
+          "end": 58
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/MaintenanceOperation.cs",
+          "start": 52,
+          "end": 75
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/MaintenanceOperation.cs",
+          "start": 121,
+          "end": 134
+        },
+        {
+          "file": "tests/PhantomFudge.Core.Tests/InstalledMaintenanceTests.cs",
+          "start": 31,
+          "end": 74
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 47,
+          "end": 60
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 39,
+          "end": 40
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 150,
+          "end": 161
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 29,
+          "end": 39
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 56,
+          "end": 84
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 43,
+          "end": 61
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 47,
+          "end": 65
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 150,
+          "end": 161
+        },
+        {
+          "file": "tools/Installer/runtime-contract.json",
+          "start": 7,
+          "end": 12
+        },
+        {
+          "file": "services/transcription/tests/test_installed_runtime.py",
+          "start": 74,
+          "end": 91
+        },
+        {
+          "file": "services/transcription/tests/test_installed_runtime.py",
+          "start": 129,
+          "end": 198
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 25,
+          "end": 61
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 107,
+          "end": 123
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 30,
+          "end": 44
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 105,
+          "end": 108
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 69,
+          "end": 84
+        },
+        {
+          "file": "services/transcription/model.json",
+          "start": 2,
+          "end": 10
+        },
+        {
+          "file": "services/transcription/whisper-models.json",
+          "start": 1,
+          "end": 5
+        },
+        {
+          "file": "services/transcription/whisper-models.json",
+          "start": 17,
+          "end": 26
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 246,
+          "end": 282
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 332,
+          "end": 376
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 412,
+          "end": 462
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 597,
+          "end": 609
+        },
+        {
+          "file": "services/transcription/recognizer.py",
+          "start": 44,
+          "end": 63
+        },
+        {
+          "file": "services/transcription/tests/test_packaged_pcm_runtime.py",
+          "start": 35,
+          "end": 97
+        },
+        {
+          "file": "services/transcription/tests/test_packaged_pcm_runtime.py",
+          "start": 126,
+          "end": 138
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 38,
+          "end": 52
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 94,
+          "end": 105
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 56,
+          "end": 98
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 25,
+          "end": 43
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 87,
+          "end": 105
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 47,
+          "end": 49
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 143,
+          "end": 147
+        },
+        {
+          "file": "tools/Installer/release.json",
+          "start": 1,
+          "end": 8
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 14,
+          "end": 76
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 107,
+          "end": 161
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 30,
+          "end": 54
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 56,
+          "end": 114
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 25,
+          "end": 100
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 103,
+          "end": 227
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/MaintenanceOperation.cs",
+          "start": 48,
+          "end": 134
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 332,
+          "end": 376
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 465,
+          "end": 535
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 538,
+          "end": 609
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 668,
+          "end": 694
+        },
+        {
+          "file": "tools/Installer/runtime_audit.py",
+          "start": 32,
+          "end": 166
+        },
+        {
+          "file": "tools/Installer/runtime_audit.py",
+          "start": 169,
+          "end": 234
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 56,
+          "end": 105
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 12,
+          "end": 42
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 48,
+          "end": 105
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LocalToken.cs",
+          "start": 12,
+          "end": 85
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 25,
+          "end": 61
+        }
+      ],
+      "diagrams": 2,
+      "words": 2704
+    },
+    {
       "file": "docs/CURRENT-WORKFLOW.md",
       "title": "Current Workflow: An Illustrated Guide",
       "citations": [
@@ -714,13 +1270,48 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 26,
-          "end": 59
+          "start": 27,
+          "end": 61
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Cover.cs",
           "start": 22,
-          "end": 76
+          "end": 77
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 67,
+          "end": 85
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 141,
+          "end": 175
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 218,
+          "end": 306
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 364,
+          "end": 368
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
+          "start": 110,
+          "end": 159
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 127,
+          "end": 139
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 301,
+          "end": 306
         },
         {
           "file": "src/PhantomFudge.App/Audio/LoopbackTranscriber.cs",
@@ -744,13 +1335,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 156,
-          "end": 205
+          "start": 158,
+          "end": 212
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 258,
-          "end": 330
+          "start": 265,
+          "end": 337
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.RecordingIndicator.cs",
@@ -760,7 +1351,17 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Cover.cs",
           "start": 20,
-          "end": 76
+          "end": 77
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 177,
+          "end": 196
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
+          "start": 9,
+          "end": 43
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs",
@@ -824,8 +1425,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 84,
-          "end": 141
+          "start": 85,
+          "end": 147
         },
         {
           "file": "src/PhantomFudge.Core/QuestionDraft.cs",
@@ -844,8 +1445,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 103,
-          "end": 129
+          "start": 105,
+          "end": 131
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
@@ -874,8 +1475,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 258,
-          "end": 330
+          "start": 265,
+          "end": 337
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
@@ -885,7 +1486,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Cover.cs",
           "start": 22,
-          "end": 76
+          "end": 77
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.CoverDiagnostics.cs",
@@ -894,18 +1495,18 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 39,
-          "end": 59
+          "start": 40,
+          "end": 61
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 156,
-          "end": 201
+          "start": 158,
+          "end": 208
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 320,
-          "end": 330
+          "start": 327,
+          "end": 337
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs",
@@ -918,14 +1519,29 @@
           "end": 17
         },
         {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 87,
+          "end": 125
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 320,
+          "end": 358
+        },
+        {
           "file": "src/PhantomFudge.App/MainWindow.Layout.cs",
           "start": 58,
-          "end": 106
+          "end": 110
         },
         {
           "file": "src/PhantomFudge.Core/ThemePalette.cs",
           "start": 11,
           "end": 29
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
+          "start": 9,
+          "end": 43
         },
         {
           "file": "scripts/Run-PhantomFudge.ps1",
@@ -939,7 +1555,230 @@
         }
       ],
       "diagrams": 2,
-      "words": 1813
+      "words": 2153
+    },
+    {
+      "file": "docs/KEYBOARD-CONTROLS.md",
+      "title": "Keyboard Controls and Answer Size",
+      "citations": [
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 65,
+          "end": 85
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 218,
+          "end": 266
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 301,
+          "end": 306
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 330,
+          "end": 358
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
+          "start": 15,
+          "end": 28
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
+          "start": 110,
+          "end": 159
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 257,
+          "end": 266
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 301,
+          "end": 306
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 177,
+          "end": 299
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
+          "start": 110,
+          "end": 125
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 127,
+          "end": 139
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 257,
+          "end": 266
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 301,
+          "end": 306
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 141,
+          "end": 175
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 198,
+          "end": 204
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 222,
+          "end": 232
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 67,
+          "end": 85
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 290,
+          "end": 296
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 364,
+          "end": 368
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
+          "start": 30,
+          "end": 79
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
+          "start": 98,
+          "end": 159
+        },
+        {
+          "file": "src/PhantomFudge.Core/KeyboardCommands.cs",
+          "start": 15,
+          "end": 79
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 206,
+          "end": 256
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 308,
+          "end": 318
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 320,
+          "end": 362
+        },
+        {
+          "file": "src/PhantomFudge.Core/KeyboardCommands.cs",
+          "start": 26,
+          "end": 55
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardDevices.cs",
+          "start": 12,
+          "end": 17
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardDevices.cs",
+          "start": 27,
+          "end": 71
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 87,
+          "end": 125
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 330,
+          "end": 358
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
+          "start": 9,
+          "end": 43
+        },
+        {
+          "file": "src/PhantomFudge.Core/KeyboardCommands.cs",
+          "start": 15,
+          "end": 16
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 274,
+          "end": 286
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 87,
+          "end": 125
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
+          "start": 19,
+          "end": 26
+        },
+        {
+          "file": "src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs",
+          "start": 7,
+          "end": 28
+        },
+        {
+          "file": "src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs",
+          "start": 31,
+          "end": 114
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 30,
+          "end": 63
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 38,
+          "end": 63
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs",
+          "start": 21,
+          "end": 28
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs",
+          "start": 16,
+          "end": 18
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs",
+          "start": 209,
+          "end": 214
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs",
+          "start": 170,
+          "end": 193
+        }
+      ],
+      "diagrams": 2,
+      "words": 2527
     },
     {
       "file": "docs/handbook/03-product-boundaries-and-decisions.md",
@@ -1071,17 +1910,17 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
           "start": 1,
-          "end": 110
+          "end": 116
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 168,
-          "end": 183
+          "start": 195,
+          "end": 210
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 500,
-          "end": 570
+          "start": 536,
+          "end": 606
         },
         {
           "file": "src/PhantomFudge.App/App.xaml.cs",
@@ -1090,13 +1929,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 98,
-          "end": 128
+          "start": 99,
+          "end": 131
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 174,
-          "end": 205
+          "start": 178,
+          "end": 211
         },
         {
           "file": "src/PhantomFudge.App/App.xaml.cs",
@@ -1121,7 +1960,7 @@
         {
           "file": "src/PhantomFudge.App/Native/WindowHotkeys.cs",
           "start": 6,
-          "end": 25
+          "end": 26
         },
         {
           "file": "src/PhantomFudge.App/Native/SingleInstance.cs",
@@ -1151,12 +1990,12 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
           "start": 50,
-          "end": 128
+          "end": 131
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 637,
-          "end": 685
+          "start": 652,
+          "end": 700
         },
         {
           "file": "src/PhantomFudge.App/Native/WindowProtection.cs",
@@ -1190,13 +2029,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 195,
-          "end": 199
+          "start": 201,
+          "end": 205
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 245,
-          "end": 284
+          "start": 253,
+          "end": 293
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
@@ -1210,8 +2049,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 176,
-          "end": 180
+          "start": 180,
+          "end": 184
         },
         {
           "file": "src/PhantomFudge.App/Native/CursorPolicy.cs",
@@ -1225,28 +2064,28 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 200,
-          "end": 229
+          "start": 206,
+          "end": 236
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 148,
-          "end": 160
+          "start": 152,
+          "end": 164
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 232,
-          "end": 267
+          "start": 239,
+          "end": 276
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 472,
-          "end": 511
+          "start": 482,
+          "end": 521
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 156,
-          "end": 160
+          "start": 160,
+          "end": 164
         },
         {
           "file": "src/PhantomFudge.App/LocalFailureNotice.cs",
@@ -1255,18 +2094,18 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 114,
-          "end": 139
+          "start": 115,
+          "end": 143
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 182,
-          "end": 193
+          "start": 186,
+          "end": 197
         },
         {
           "file": "src/PhantomFudge.App/Native/WindowHotkeys.cs",
-          "start": 12,
-          "end": 17
+          "start": 13,
+          "end": 18
         },
         {
           "file": "src/PhantomFudge.App/Native/SingleInstance.cs",
@@ -1275,8 +2114,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 142,
-          "end": 145
+          "start": 146,
+          "end": 149
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Layout.cs",
@@ -1295,13 +2134,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 168,
-          "end": 183
+          "start": 195,
+          "end": 210
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 598,
-          "end": 603
+          "start": 634,
+          "end": 639
         },
         {
           "file": "src/PhantomFudge.App/App.xaml",
@@ -1320,33 +2159,33 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 297,
-          "end": 302
+          "start": 306,
+          "end": 311
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 363,
-          "end": 380
+          "start": 373,
+          "end": 390
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 389,
-          "end": 395
+          "start": 399,
+          "end": 405
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 813,
-          "end": 819
+          "start": 828,
+          "end": 834
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 166,
-          "end": 170
+          "start": 170,
+          "end": 174
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 200,
-          "end": 229
+          "start": 206,
+          "end": 236
         },
         {
           "file": "src/PhantomFudge.App/Diagnostics/CaptureProof.cs",
@@ -1360,13 +2199,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 915,
-          "end": 961
+          "start": 930,
+          "end": 976
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1189,
-          "end": 1202
+          "start": 1205,
+          "end": 1218
         },
         {
           "file": "docs/QUALIFICATION.md",
@@ -1414,17 +2253,17 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
           "start": 50,
-          "end": 95
+          "end": 96
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 235,
-          "end": 581
+          "start": 262,
+          "end": 617
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 93,
-          "end": 141
+          "start": 94,
+          "end": 147
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -1433,8 +2272,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 637,
-          "end": 685
+          "start": 652,
+          "end": 700
         },
         {
           "file": "src/PhantomFudge.Core/AudioSource.cs",
@@ -1443,33 +2282,63 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 161,
-          "end": 177
+          "start": 214,
+          "end": 230
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 905,
-          "end": 953
+          "start": 920,
+          "end": 968
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1189,
-          "end": 1202
+          "start": 1205,
+          "end": 1218
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1046,
-          "end": 1080
+          "start": 1061,
+          "end": 1095
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 487,
-          "end": 491
+          "start": 523,
+          "end": 527
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Layout.cs",
-          "start": 90,
-          "end": 91
+          "start": 93,
+          "end": 94
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
+          "start": 9,
+          "end": 43
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 87,
+          "end": 139
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 218,
+          "end": 368
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
+          "start": 110,
+          "end": 159
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 127,
+          "end": 139
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 301,
+          "end": 306
         },
         {
           "file": "src/PhantomFudge.Core/WorkspaceLayout.cs",
@@ -1479,12 +2348,12 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Layout.cs",
           "start": 58,
-          "end": 107
+          "end": 111
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 106,
-          "end": 139
+          "start": 112,
+          "end": 147
         },
         {
           "file": "src/PhantomFudge.Core/ThemePalette.cs",
@@ -1503,13 +2372,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 482,
-          "end": 499
+          "start": 492,
+          "end": 509
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 269,
-          "end": 284
+          "start": 278,
+          "end": 293
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
@@ -1518,13 +2387,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 84,
-          "end": 141
+          "start": 85,
+          "end": 147
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 905,
-          "end": 1179
+          "start": 920,
+          "end": 1195
         },
         {
           "file": "src/PhantomFudge.Core/ThemePalette.cs",
@@ -1548,8 +2417,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 497,
-          "end": 499
+          "start": 507,
+          "end": 509
         },
         {
           "file": "src/PhantomFudge.App/ThemeBrushes.cs",
@@ -1568,8 +2437,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 482,
-          "end": 495
+          "start": 492,
+          "end": 505
         },
         {
           "file": "src/PhantomFudge.Core/ThemePalette.cs",
@@ -1583,18 +2452,18 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 967,
-          "end": 979
+          "start": 982,
+          "end": 994
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 924,
-          "end": 943
+          "start": 939,
+          "end": 958
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 986,
-          "end": 988
+          "start": 1001,
+          "end": 1003
         },
         {
           "file": "src/PhantomFudge.App/App.xaml",
@@ -1613,8 +2482,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 472,
-          "end": 479
+          "start": 482,
+          "end": 489
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
@@ -1623,43 +2492,43 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 124,
-          "end": 124
+          "start": 130,
+          "end": 130
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 168,
-          "end": 170
+          "start": 195,
+          "end": 197
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 500,
-          "end": 502
+          "start": 536,
+          "end": 538
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 252,
-          "end": 261
+          "start": 279,
+          "end": 288
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 604,
-          "end": 610
+          "start": 640,
+          "end": 646
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 156,
-          "end": 164
+          "start": 165,
+          "end": 173
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1072,
-          "end": 1076
+          "start": 1087,
+          "end": 1091
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1103,
-          "end": 1106
+          "start": 1118,
+          "end": 1121
         },
         {
           "file": "docs/ARCHITECTURE.md",
@@ -1673,63 +2542,63 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1046,
-          "end": 1076
+          "start": 1061,
+          "end": 1091
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 269,
-          "end": 284
+          "start": 278,
+          "end": 293
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 637,
-          "end": 685
+          "start": 652,
+          "end": 700
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 705,
-          "end": 728
+          "start": 720,
+          "end": 743
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 613,
-          "end": 623
+          "start": 628,
+          "end": 638
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 514,
-          "end": 554
+          "start": 550,
+          "end": 590
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 245,
-          "end": 267
+          "start": 253,
+          "end": 276
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 501,
-          "end": 511
+          "start": 511,
+          "end": 521
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 626,
-          "end": 634
+          "start": 641,
+          "end": 649
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1077,
-          "end": 1080
+          "start": 1092,
+          "end": 1095
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1103,
-          "end": 1107
+          "start": 1118,
+          "end": 1122
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 472,
-          "end": 515
+          "start": 482,
+          "end": 525
         },
         {
           "file": "src/PhantomFudge.App/ThemeBrushes.cs",
@@ -1738,18 +2607,18 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 482,
-          "end": 495
+          "start": 492,
+          "end": 505
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1071,
-          "end": 1076
+          "start": 1086,
+          "end": 1091
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1108,
-          "end": 1111
+          "start": 1123,
+          "end": 1126
         },
         {
           "file": "src/PhantomFudge.Core/TranscriptSegment.cs",
@@ -1773,18 +2642,18 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 84,
-          "end": 141
+          "start": 85,
+          "end": 147
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Layout.cs",
           "start": 58,
-          "end": 141
+          "end": 145
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 93,
-          "end": 141
+          "start": 94,
+          "end": 147
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelectionDiagnostics.cs",
@@ -1794,12 +2663,12 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
           "start": 13,
-          "end": 82
+          "end": 83
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 93,
-          "end": 141
+          "start": 94,
+          "end": 147
         },
         {
           "file": "src/PhantomFudge.Core/QuestionSnapshot.cs",
@@ -1833,8 +2702,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Layout.cs",
-          "start": 144,
-          "end": 149
+          "start": 148,
+          "end": 153
         },
         {
           "file": "tests/PhantomFudge.Core.Tests/ThemePaletteTests.cs",
@@ -1843,23 +2712,23 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 927,
-          "end": 953
+          "start": 942,
+          "end": 968
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 989,
-          "end": 1106
+          "start": 1004,
+          "end": 1121
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1189,
-          "end": 1202
+          "start": 1205,
+          "end": 1218
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1072,
-          "end": 1076
+          "start": 1087,
+          "end": 1091
         },
         {
           "file": "src/PhantomFudge.Core/ThemePalette.cs",
@@ -1868,8 +2737,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 305,
-          "end": 313
+          "start": 358,
+          "end": 366
         },
         {
           "file": "docs/CURSOR-AND-THEMES.md",
@@ -1883,7 +2752,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 3531
+      "words": 3726
     },
     {
       "file": "docs/handbook/06-notes-transcripts-and-storage.md",
@@ -1896,38 +2765,38 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 294,
-          "end": 313
+          "start": 303,
+          "end": 323
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 414,
-          "end": 421
+          "start": 424,
+          "end": 431
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 833,
-          "end": 840
+          "start": 848,
+          "end": 855
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 251,
-          "end": 256
+          "start": 304,
+          "end": 309
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 312,
-          "end": 313
+          "start": 365,
+          "end": 366
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 380,
-          "end": 380
+          "start": 390,
+          "end": 390
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 421,
-          "end": 421
+          "start": 431,
+          "end": 431
         },
         {
           "file": "docs/PRODUCT.md",
@@ -1936,28 +2805,28 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 294,
-          "end": 295
+          "start": 303,
+          "end": 304
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 389,
-          "end": 434
+          "start": 399,
+          "end": 444
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 781,
-          "end": 848
+          "start": 796,
+          "end": 863
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
           "start": 13,
-          "end": 63
+          "end": 64
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 112,
-          "end": 125
+          "start": 118,
+          "end": 131
         },
         {
           "file": "src/PhantomFudge.Core/NoteFileStore.cs",
@@ -2006,8 +2875,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 294,
-          "end": 295
+          "start": 303,
+          "end": 304
         },
         {
           "file": "src/PhantomFudge.Core/NoteFileStore.cs",
@@ -2016,33 +2885,33 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 458,
-          "end": 466
+          "start": 468,
+          "end": 476
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 604,
-          "end": 611
+          "start": 640,
+          "end": 647
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 65,
-          "end": 65
+          "start": 66,
+          "end": 66
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 166,
-          "end": 170
+          "start": 170,
+          "end": 174
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 781,
-          "end": 809
+          "start": 796,
+          "end": 824
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
           "start": 22,
-          "end": 63
+          "end": 64
         },
         {
           "file": "src/PhantomFudge.Core/TranscriptBuffer.cs",
@@ -2131,8 +3000,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 398,
-          "end": 428
+          "start": 408,
+          "end": 438
         },
         {
           "file": "src/PhantomFudge.Core/NoteFileStore.cs",
@@ -2146,78 +3015,78 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 363,
-          "end": 446
+          "start": 373,
+          "end": 456
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 294,
-          "end": 295
+          "start": 303,
+          "end": 304
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 781,
-          "end": 804
-        },
-        {
-          "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 813,
-          "end": 848
-        },
-        {
-          "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 297,
-          "end": 361
-        },
-        {
-          "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 389,
-          "end": 395
-        },
-        {
-          "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 813,
+          "start": 796,
           "end": 819
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 851,
-          "end": 871
+          "start": 828,
+          "end": 863
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 331,
-          "end": 340
+          "start": 306,
+          "end": 371
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 371,
-          "end": 379
+          "start": 399,
+          "end": 405
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 470,
-          "end": 471
+          "start": 828,
+          "end": 834
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 482,
-          "end": 517
+          "start": 866,
+          "end": 886
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 294,
-          "end": 294
+          "start": 341,
+          "end": 350
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 414,
-          "end": 428
+          "start": 381,
+          "end": 389
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 454,
-          "end": 456
+          "start": 480,
+          "end": 481
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
+          "start": 492,
+          "end": 527
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
+          "start": 303,
+          "end": 303
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
+          "start": 424,
+          "end": 438
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
+          "start": 464,
+          "end": 466
         },
         {
           "file": "src/PhantomFudge.Core/NoteFileStore.cs",
@@ -2281,8 +3150,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 501,
-          "end": 511
+          "start": 511,
+          "end": 521
         },
         {
           "file": "src/PhantomFudge.Core/StructuredTranscriptStore.cs",
@@ -2302,17 +3171,17 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
           "start": 13,
-          "end": 63
+          "end": 64
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 84,
-          "end": 141
+          "start": 85,
+          "end": 147
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 65,
-          "end": 82
+          "start": 66,
+          "end": 83
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelectionDiagnostics.cs",
@@ -2365,12 +3234,12 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
           "start": 35,
-          "end": 95
+          "end": 96
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 637,
-          "end": 685
+          "start": 652,
+          "end": 700
         },
         {
           "file": "scripts/Run-PhantomFudge.ps1",
@@ -2429,8 +3298,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 574,
-          "end": 602
+          "start": 589,
+          "end": 617
         },
         {
           "file": "src/PhantomFudge.App/Audio/LoopbackTranscriber.cs",
@@ -2524,8 +3393,8 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 82,
-          "end": 93
+          "start": 96,
+          "end": 107
         },
         {
           "file": "services/transcription/accurate.py",
@@ -2539,8 +3408,8 @@
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 11,
-          "end": 36
+          "start": 8,
+          "end": 35
         },
         {
           "file": "services/transcription/accurate.py",
@@ -2649,13 +3518,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 637,
-          "end": 674
+          "start": 652,
+          "end": 689
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 705,
-          "end": 778
+          "start": 720,
+          "end": 793
         },
         {
           "file": "src/PhantomFudge.Core/TranscriptBuffer.cs",
@@ -2752,8 +3621,8 @@
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 11,
-          "end": 15
+          "start": 8,
+          "end": 14
         },
         {
           "file": "tools/SpeechBench/results/quality-validation-20261009.json",
@@ -2772,8 +3641,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 188,
-          "end": 193
+          "start": 229,
+          "end": 234
         },
         {
           "file": "services/transcription/server.py",
@@ -3150,8 +4019,8 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 41,
-          "end": 67
+          "start": 44,
+          "end": 81
         },
         {
           "file": "services/transcription/server.py",
@@ -3170,8 +4039,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 188,
-          "end": 201
+          "start": 229,
+          "end": 242
         },
         {
           "file": "services/transcription/accurate.py",
@@ -3180,8 +4049,8 @@
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 11,
-          "end": 36
+          "start": 8,
+          "end": 35
         },
         {
           "file": "services/transcription/accurate.py",
@@ -3210,18 +4079,18 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 22,
-          "end": 49
+          "start": 25,
+          "end": 63
         },
         {
           "file": "services/transcription/provision_whisper.py",
-          "start": 19,
-          "end": 81
+          "start": 28,
+          "end": 90
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 61,
-          "end": 70
+          "start": 60,
+          "end": 69
         },
         {
           "file": "services/transcription/accurate.py",
@@ -3255,8 +4124,8 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 82,
-          "end": 84
+          "start": 96,
+          "end": 98
         },
         {
           "file": "services/transcription/accurate.py",
@@ -3290,8 +4159,8 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 82,
-          "end": 93
+          "start": 96,
+          "end": 107
         },
         {
           "file": "src/PhantomFudge.App/Audio/SilenceCadence.cs",
@@ -3365,18 +4234,18 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 209,
-          "end": 227
+          "start": 254,
+          "end": 273
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 61,
-          "end": 70
+          "start": 60,
+          "end": 69
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 22,
-          "end": 49
+          "start": 25,
+          "end": 63
         },
         {
           "file": "services/transcription/server.py",
@@ -3410,8 +4279,8 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 75,
-          "end": 76
+          "start": 89,
+          "end": 90
         },
         {
           "file": "services/transcription/tests/test_recognizer.py",
@@ -3513,13 +4382,13 @@
       "citations": [
         {
           "file": "services/transcription/manage.py",
-          "start": 95,
-          "end": 124
+          "start": 94,
+          "end": 165
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 145,
-          "end": 159
+          "start": 186,
+          "end": 200
         },
         {
           "file": "scripts/Initialize-Transcription.ps1",
@@ -3533,13 +4402,178 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 637,
-          "end": 685
+          "start": 652,
+          "end": 700
         },
         {
           "file": "src/PhantomFudge.App/Audio/LoopbackTranscriber.cs",
           "start": 102,
           "end": 115
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 30,
+          "end": 44
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 23,
+          "end": 30
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 62,
+          "end": 76
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 25,
+          "end": 78
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 127,
+          "end": 213
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 152,
+          "end": 165
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 15,
+          "end": 15
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 34,
+          "end": 34
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 48,
+          "end": 105
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 56,
+          "end": 84
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 14,
+          "end": 76
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherWindow.cs",
+          "start": 18,
+          "end": 57
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 12,
+          "end": 42
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 108,
+          "end": 118
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 186,
+          "end": 227
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 50,
+          "end": 58
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 94,
+          "end": 100
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 87,
+          "end": 105
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/MaintenanceOperation.cs",
+          "start": 48,
+          "end": 118
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/OwnedServiceClient.cs",
+          "start": 20,
+          "end": 58
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 143,
+          "end": 161
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 15,
+          "end": 18
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 31,
+          "end": 84
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 96,
+          "end": 104
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/MaintenanceOperation.cs",
+          "start": 52,
+          "end": 75
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/MaintenanceOperation.cs",
+          "start": 121,
+          "end": 134
+        },
+        {
+          "file": "tools/Installer/runtime-contract.json",
+          "start": 7,
+          "end": 12
+        },
+        {
+          "file": "tools/Installer/runtime-contract.json",
+          "start": 20,
+          "end": 22
+        },
+        {
+          "file": "services/transcription/tests/test_installed_runtime.py",
+          "start": 74,
+          "end": 91
+        },
+        {
+          "file": "services/transcription/tests/test_installed_runtime.py",
+          "start": 98,
+          "end": 198
+        },
+        {
+          "file": "services/transcription/recognizer.py",
+          "start": 47,
+          "end": 77
+        },
+        {
+          "file": "services/transcription/tests/test_packaged_pcm_runtime.py",
+          "start": 35,
+          "end": 97
+        },
+        {
+          "file": "services/transcription/tests/test_packaged_pcm_runtime.py",
+          "start": 126,
+          "end": 138
         },
         {
           "file": "scripts/Initialize-Transcription.ps1",
@@ -3563,8 +4597,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 255,
-          "end": 268
+          "start": 301,
+          "end": 314
         },
         {
           "file": "services/transcription/server.py",
@@ -3573,8 +4607,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 162,
-          "end": 179
+          "start": 203,
+          "end": 220
         },
         {
           "file": "scripts/Initialize-Transcription.ps1",
@@ -3588,8 +4622,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 35,
-          "end": 42
+          "start": 34,
+          "end": 41
         },
         {
           "file": "services/transcription/server.py",
@@ -3613,18 +4647,18 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 22,
-          "end": 43
+          "start": 25,
+          "end": 46
         },
         {
           "file": "services/transcription/provision_whisper.py",
-          "start": 15,
-          "end": 35
+          "start": 19,
+          "end": 44
         },
         {
           "file": "services/transcription/provision_whisper.py",
-          "start": 38,
-          "end": 98
+          "start": 47,
+          "end": 107
         },
         {
           "file": "scripts/Initialize-Transcription.ps1",
@@ -3638,48 +4672,48 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 67,
-          "end": 92
+          "start": 66,
+          "end": 91
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 162,
-          "end": 166
+          "start": 203,
+          "end": 207
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 230,
-          "end": 249
+          "start": 276,
+          "end": 295
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 95,
-          "end": 124
+          "start": 94,
+          "end": 165
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 185,
-          "end": 187
+          "start": 226,
+          "end": 228
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 214,
-          "end": 216
+          "start": 259,
+          "end": 262
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 23,
-          "end": 32
+          "start": 22,
+          "end": 31
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 45,
-          "end": 58
+          "start": 44,
+          "end": 57
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 114,
-          "end": 179
+          "start": 155,
+          "end": 220
         },
         {
           "file": "services/transcription/server.py",
@@ -3688,28 +4722,28 @@
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 61,
-          "end": 70
+          "start": 60,
+          "end": 69
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 39,
-          "end": 58
+          "start": 38,
+          "end": 57
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 183,
-          "end": 227
+          "start": 224,
+          "end": 273
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 183,
-          "end": 227
+          "start": 224,
+          "end": 273
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 61,
-          "end": 70
+          "start": 60,
+          "end": 69
         },
         {
           "file": "services/transcription/server.py",
@@ -3743,8 +4777,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 188,
-          "end": 201
+          "start": 229,
+          "end": 242
         },
         {
           "file": "scripts/Run-PhantomFudge.ps1",
@@ -3753,8 +4787,8 @@
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 11,
-          "end": 36
+          "start": 8,
+          "end": 35
         },
         {
           "file": "services/transcription/diagnostics.py",
@@ -3768,8 +4802,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 145,
-          "end": 153
+          "start": 186,
+          "end": 194
         },
         {
           "file": "services/transcription/server.py",
@@ -3783,28 +4817,28 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 152,
-          "end": 159
+          "start": 193,
+          "end": 200
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 51,
-          "end": 52
+          "start": 50,
+          "end": 51
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 78,
-          "end": 87
+          "start": 77,
+          "end": 86
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 154,
-          "end": 159
+          "start": 195,
+          "end": 200
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 230,
-          "end": 241
+          "start": 276,
+          "end": 287
         },
         {
           "file": "scripts/Run-PhantomFudge.ps1",
@@ -3823,8 +4857,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 127,
-          "end": 129
+          "start": 168,
+          "end": 170
         },
         {
           "file": "services/transcription/tests/test_management.py",
@@ -3868,7 +4902,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2382
+      "words": 3084
     },
     {
       "file": "docs/handbook/11-state-machines-and-failure-containment.md",
@@ -3891,13 +4925,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 748,
-          "end": 778
+          "start": 763,
+          "end": 793
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 179,
-          "end": 181
+          "start": 232,
+          "end": 234
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -3931,8 +4965,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 637,
-          "end": 778
+          "start": 652,
+          "end": 793
         },
         {
           "file": "src/PhantomFudge.App/Audio/WasapiInput.cs",
@@ -3961,23 +4995,23 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 637,
-          "end": 685
+          "start": 652,
+          "end": 700
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 705,
-          "end": 735
+          "start": 720,
+          "end": 750
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 851,
-          "end": 856
+          "start": 866,
+          "end": 871
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 748,
-          "end": 778
+          "start": 763,
+          "end": 793
         },
         {
           "file": "src/PhantomFudge.App/Audio/LoopbackTranscriber.cs",
@@ -4011,8 +5045,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 767,
-          "end": 770
+          "start": 782,
+          "end": 785
         },
         {
           "file": "src/PhantomFudge.App/Audio/LoopbackTranscriber.cs",
@@ -4166,28 +5200,28 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 179,
-          "end": 181
+          "start": 232,
+          "end": 234
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 637,
-          "end": 640
+          "start": 652,
+          "end": 655
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 705,
-          "end": 735
+          "start": 720,
+          "end": 750
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 851,
-          "end": 856
+          "start": 866,
+          "end": 871
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1046,
-          "end": 1053
+          "start": 1061,
+          "end": 1068
         },
         {
           "file": "src/PhantomFudge.App/Audio/LoopbackTranscriber.cs",
@@ -4211,28 +5245,28 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 65,
-          "end": 93
+          "start": 66,
+          "end": 94
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 166,
-          "end": 170
+          "start": 170,
+          "end": 174
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 222,
-          "end": 266
+          "start": 228,
+          "end": 275
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 297,
-          "end": 313
+          "start": 306,
+          "end": 323
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 414,
-          "end": 445
+          "start": 424,
+          "end": 455
         },
         {
           "file": "src/PhantomFudge.App/LocalFailureNotice.cs",
@@ -4241,8 +5275,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 156,
-          "end": 160
+          "start": 160,
+          "end": 164
         },
         {
           "file": "tests/PhantomFudge.Audio.Tests/DualSourceTests.cs",
@@ -4266,8 +5300,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 173,
-          "end": 181
+          "start": 226,
+          "end": 234
         },
         {
           "file": "docs/QUALIFICATION.md",
@@ -4634,8 +5668,8 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 82,
-          "end": 96
+          "start": 96,
+          "end": 110
         },
         {
           "file": "docs/SPEECH-BENCHMARK.md",
@@ -4644,13 +5678,13 @@
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 11,
-          "end": 36
+          "start": 8,
+          "end": 35
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 61,
-          "end": 70
+          "start": 60,
+          "end": 69
         },
         {
           "file": "services/transcription/accurate.py",
@@ -4737,8 +5771,8 @@
       "citations": [
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 258,
-          "end": 297
+          "start": 265,
+          "end": 304
         },
         {
           "file": "TODO/29_QUESTION_COMMIT_LATENCY.todo",
@@ -4807,8 +5841,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 84,
-          "end": 141
+          "start": 85,
+          "end": 147
         },
         {
           "file": "src/PhantomFudge.Core/QuestionSnapshot.cs",
@@ -4908,12 +5942,12 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
           "start": 13,
-          "end": 82
+          "end": 83
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 84,
-          "end": 141
+          "start": 85,
+          "end": 147
         },
         {
           "file": "src/PhantomFudge.Core/TranscriptBuffer.cs",
@@ -4932,8 +5966,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 132,
-          "end": 140
+          "start": 134,
+          "end": 142
         },
         {
           "file": "src/PhantomFudge.Core/StructuredTranscriptStore.cs",
@@ -4952,8 +5986,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 84,
-          "end": 141
+          "start": 85,
+          "end": 147
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
@@ -4962,8 +5996,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 68,
-          "end": 126
+          "start": 70,
+          "end": 128
         },
         {
           "file": "src/PhantomFudge.Core/QuestionDraft.cs",
@@ -4993,7 +6027,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
           "start": 13,
-          "end": 82
+          "end": 83
         },
         {
           "file": "src/PhantomFudge.Core/QuestionSnapshot.cs",
@@ -5003,12 +6037,12 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
           "start": 14,
-          "end": 21
+          "end": 22
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 258,
-          "end": 330
+          "start": 265,
+          "end": 337
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
@@ -5052,8 +6086,8 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 55,
-          "end": 96
+          "start": 69,
+          "end": 110
         },
         {
           "file": "TODO/29_QUESTION_COMMIT_LATENCY.todo",
@@ -5072,8 +6106,8 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 64,
-          "end": 67
+          "start": 78,
+          "end": 81
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
@@ -5177,23 +6211,23 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 245,
-          "end": 266
+          "start": 253,
+          "end": 275
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 36,
-          "end": 56
+          "start": 37,
+          "end": 58
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 154,
-          "end": 201
+          "start": 156,
+          "end": 208
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 125,
-          "end": 141
+          "start": 131,
+          "end": 147
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
@@ -5227,8 +6261,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 258,
-          "end": 283
+          "start": 265,
+          "end": 290
         },
         {
           "file": "services/transcription/server.py",
@@ -5345,8 +6379,8 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 82,
-          "end": 96
+          "start": 96,
+          "end": 110
         },
         {
           "file": "src/PhantomFudge.App/Audio/TranscriptionSocket.cs",
@@ -5535,8 +6569,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 813,
-          "end": 840
+          "start": 828,
+          "end": 855
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
@@ -5545,8 +6579,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 98,
-          "end": 126
+          "start": 99,
+          "end": 129
         },
         {
           "file": "docs/PRODUCT.md",
@@ -5679,7 +6713,7 @@
         {
           "file": "tests/PhantomFudge.Core.Tests/PhantomFudge.Core.Tests.csproj",
           "start": 1,
-          "end": 24
+          "end": 30
         },
         {
           "file": "tests/PhantomFudge.Audio.Tests/PhantomFudge.Audio.Tests.csproj",
@@ -5709,7 +6743,7 @@
         {
           "file": "scripts/Export-HandbookScreenshots.ps1",
           "start": 1,
-          "end": 89
+          "end": 94
         },
         {
           "file": "tests/PhantomFudge.Audio.Tests/Program.cs",
@@ -5719,7 +6753,7 @@
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
           "start": 1,
-          "end": 226
+          "end": 279
         },
         {
           "file": "global.json",
@@ -5734,7 +6768,7 @@
         {
           "file": "tests/PhantomFudge.Core.Tests/PhantomFudge.Core.Tests.csproj",
           "start": 1,
-          "end": 24
+          "end": 30
         },
         {
           "file": "tests/PhantomFudge.Audio.Tests/PhantomFudge.Audio.Tests.csproj",
@@ -5770,6 +6804,221 @@
       "title": "16 - Distribution and Troubleshooting",
       "citations": [
         {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 30,
+          "end": 44
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 76,
+          "end": 114
+        },
+        {
+          "file": "tools/Installer/release.json",
+          "start": 1,
+          "end": 8
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 10,
+          "end": 40
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 47,
+          "end": 65
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 107,
+          "end": 161
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 50,
+          "end": 58
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 94,
+          "end": 100
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/MaintenanceOperation.cs",
+          "start": 48,
+          "end": 118
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 14,
+          "end": 76
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherWindow.cs",
+          "start": 18,
+          "end": 57
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 25,
+          "end": 78
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 240,
+          "end": 244
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 152,
+          "end": 165
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 15,
+          "end": 15
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 34,
+          "end": 34
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 12,
+          "end": 42
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 108,
+          "end": 118
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 186,
+          "end": 227
+        },
+        {
+          "file": "tools/Installer/runtime-lock.json",
+          "start": 1,
+          "end": 11
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 246,
+          "end": 282
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 332,
+          "end": 376
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 412,
+          "end": 462
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 538,
+          "end": 609
+        },
+        {
+          "file": "services/transcription/recognizer.py",
+          "start": 44,
+          "end": 63
+        },
+        {
+          "file": "services/transcription/tests/test_packaged_pcm_runtime.py",
+          "start": 35,
+          "end": 97
+        },
+        {
+          "file": "services/transcription/tests/test_packaged_pcm_runtime.py",
+          "start": 126,
+          "end": 138
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 677,
+          "end": 694
+        },
+        {
+          "file": "tools/Installer/runtime_audit.py",
+          "start": 126,
+          "end": 166
+        },
+        {
+          "file": "tools/Installer/runtime_audit.py",
+          "start": 169,
+          "end": 234
+        },
+        {
+          "file": "services/transcription/tests/test_packaged_pcm_runtime.py",
+          "start": 14,
+          "end": 14
+        },
+        {
+          "file": "services/transcription/tests/test_packaged_pcm_runtime.py",
+          "start": 88,
+          "end": 97
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 38,
+          "end": 52
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 94,
+          "end": 105
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 56,
+          "end": 98
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 15,
+          "end": 18
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 31,
+          "end": 84
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 62,
+          "end": 76
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 69,
+          "end": 74
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 96,
+          "end": 104
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 25,
+          "end": 43
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 87,
+          "end": 105
+        },
+        {
+          "file": "tests/PhantomFudge.Core.Tests/InstalledMaintenanceTests.cs",
+          "start": 210,
+          "end": 239
+        },
+        {
           "file": "scripts/Publish-Preview.ps1",
           "start": 1,
           "end": 52
@@ -5782,7 +7031,7 @@
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
           "start": 1,
-          "end": 256
+          "end": 309
         },
         {
           "file": "scripts/Run-PhantomFudge.ps1",
@@ -5892,11 +7141,11 @@
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
           "start": 1,
-          "end": 256
+          "end": 309
         }
       ],
       "diagrams": 2,
-      "words": 1122
+      "words": 2034
     },
     {
       "file": "docs/handbook/17-privacy-and-assurance.md",
@@ -5939,8 +7188,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 114,
-          "end": 159
+          "start": 155,
+          "end": 200
         },
         {
           "file": "src/PhantomFudge.Core/NoteFileStore.cs",
@@ -6014,8 +7263,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 114,
-          "end": 159
+          "start": 155,
+          "end": 200
         },
         {
           "file": "src/PhantomFudge.Core/NoteFileStore.cs",
@@ -6052,8 +7301,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 258,
-          "end": 297
+          "start": 265,
+          "end": 304
         },
         {
           "file": "TODO/29_QUESTION_COMMIT_LATENCY.todo",
@@ -6137,18 +7386,18 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 781,
-          "end": 809
+          "start": 796,
+          "end": 824
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 132,
-          "end": 151
+          "start": 134,
+          "end": 153
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 14,
-          "end": 19
+          "start": 17,
+          "end": 22
         },
         {
           "file": "services/transcription/server.py",
@@ -6227,8 +7476,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 705,
-          "end": 745
+          "start": 720,
+          "end": 760
         },
         {
           "file": "tests/PhantomFudge.Audio.Tests/DualSourceTests.cs",
@@ -6247,8 +7496,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 68,
-          "end": 118
+          "start": 70,
+          "end": 120
         },
         {
           "file": "services/transcription/server.py",
@@ -6262,13 +7511,13 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 22,
-          "end": 52
+          "start": 25,
+          "end": 66
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 55,
-          "end": 96
+          "start": 69,
+          "end": 110
         },
         {
           "file": "services/transcription/tests/test_recognizer.py",
@@ -6277,8 +7526,8 @@
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 13,
-          "end": 35
+          "start": 12,
+          "end": 34
         },
         {
           "file": "services/transcription/accurate.py",
@@ -6327,8 +7576,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 110,
-          "end": 154
+          "start": 116,
+          "end": 163
         },
         {
           "file": "src/PhantomFudge.Core/ThemePalette.cs",
@@ -6342,8 +7591,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 472,
-          "end": 495
+          "start": 482,
+          "end": 505
         },
         {
           "file": "tests/PhantomFudge.Core.Tests/ThemePaletteTests.cs",
@@ -6357,13 +7606,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 191,
-          "end": 201
+          "start": 198,
+          "end": 208
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 239,
-          "end": 252
+          "start": 246,
+          "end": 259
         },
         {
           "file": "src/PhantomFudge.Core/QuestionSnapshot.cs",
@@ -6402,8 +7651,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 258,
-          "end": 297
+          "start": 265,
+          "end": 304
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
@@ -6547,8 +7796,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 132,
-          "end": 140
+          "start": 134,
+          "end": 142
         },
         {
           "file": "src/PhantomFudge.Core/QuestionDraft.cs",
@@ -6577,8 +7826,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 207,
-          "end": 236
+          "start": 214,
+          "end": 243
         },
         {
           "file": "services/transcription/server.py",
@@ -6597,13 +7846,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 23,
-          "end": 24
+          "start": 24,
+          "end": 25
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 154,
-          "end": 201
+          "start": 156,
+          "end": 208
         },
         {
           "file": "docs/QUALIFICATION.md",
@@ -6627,8 +7876,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 132,
-          "end": 140
+          "start": 134,
+          "end": 142
         },
         {
           "file": "tests/PhantomFudge.Core.Tests/SourceTranscriptTests.cs",
@@ -6731,17 +7980,292 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
           "start": 35,
-          "end": 64
+          "end": 65
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 637,
-          "end": 685
+          "start": 652,
+          "end": 700
         },
         {
           "file": "src/PhantomFudge.App/Audio/LoopbackTranscriber.cs",
           "start": 102,
           "end": 115
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 25,
+          "end": 78
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 240,
+          "end": 244
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 152,
+          "end": 165
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 15,
+          "end": 15
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 34,
+          "end": 34
+        },
+        {
+          "file": "tests/PhantomFudge.Core.Tests/InstalledLauncherTests.cs",
+          "start": 176,
+          "end": 195
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 51,
+          "end": 52
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 107,
+          "end": 161
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 15,
+          "end": 18
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 40,
+          "end": 84
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 96,
+          "end": 104
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 8,
+          "end": 23
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 56,
+          "end": 105
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 25,
+          "end": 100
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 127,
+          "end": 213
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 48,
+          "end": 105
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 48,
+          "end": 61
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 81,
+          "end": 105
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 13,
+          "end": 13
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 31,
+          "end": 36
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LocalToken.cs",
+          "start": 12,
+          "end": 39
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LocalToken.cs",
+          "start": 42,
+          "end": 63
+        },
+        {
+          "file": "tests/PhantomFudge.Core.Tests/InstalledLauncherTests.cs",
+          "start": 135,
+          "end": 155
+        },
+        {
+          "file": "tools/Installer/runtime-contract.json",
+          "start": 7,
+          "end": 12
+        },
+        {
+          "file": "tools/Installer/runtime-contract.json",
+          "start": 20,
+          "end": 22
+        },
+        {
+          "file": "services/transcription/tests/test_installed_runtime.py",
+          "start": 74,
+          "end": 91
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/MaintenanceOperation.cs",
+          "start": 48,
+          "end": 118
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/OwnedServiceClient.cs",
+          "start": 35,
+          "end": 84
+        },
+        {
+          "file": "tools/Installer/runtime-contract.json",
+          "start": 11,
+          "end": 24
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/MaintenanceOperation.cs",
+          "start": 52,
+          "end": 118
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/MaintenanceOperation.cs",
+          "start": 121,
+          "end": 134
+        },
+        {
+          "file": "tests/PhantomFudge.Core.Tests/InstalledMaintenanceTests.cs",
+          "start": 31,
+          "end": 108
+        },
+        {
+          "file": "tests/PhantomFudge.Core.Tests/InstalledMaintenanceTests.cs",
+          "start": 149,
+          "end": 172
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 6,
+          "end": 61
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 107,
+          "end": 123
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 12,
+          "end": 42
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 108,
+          "end": 118
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 186,
+          "end": 227
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 321,
+          "end": 354
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 20,
+          "end": 20
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 31,
+          "end": 31
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 39,
+          "end": 39
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherWindow.cs",
+          "start": 18,
+          "end": 57
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 14,
+          "end": 76
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 38,
+          "end": 52
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 94,
+          "end": 105
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 56,
+          "end": 98
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 40,
+          "end": 54
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 96,
+          "end": 104
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 25,
+          "end": 43
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 94,
+          "end": 100
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 6,
+          "end": 19
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 87,
+          "end": 105
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 47,
+          "end": 49
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 143,
+          "end": 147
         },
         {
           "file": "scripts/Initialize-Transcription.ps1",
@@ -6779,14 +8303,39 @@
           "end": 75
         },
         {
-          "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 50,
-          "end": 64
+          "file": "src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs",
+          "start": 7,
+          "end": 28
+        },
+        {
+          "file": "src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs",
+          "start": 31,
+          "end": 114
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 30,
+          "end": 63
+        },
+        {
+          "file": "src/PhantomFudge.Core/KeyboardCommands.cs",
+          "start": 15,
+          "end": 79
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
+          "start": 9,
+          "end": 43
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 659,
-          "end": 685
+          "start": 50,
+          "end": 65
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
+          "start": 674,
+          "end": 700
         },
         {
           "file": "scripts/Run-PhantomFudge.ps1",
@@ -6805,8 +8354,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 188,
-          "end": 201
+          "start": 229,
+          "end": 242
         },
         {
           "file": "tests/PhantomFudge.Audio.Tests/DualSyntheticServiceCheck.cs",
@@ -6835,8 +8384,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 35,
-          "end": 42
+          "start": 34,
+          "end": 41
         },
         {
           "file": "services/transcription/server.py",
@@ -6860,18 +8409,18 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 22,
-          "end": 49
+          "start": 25,
+          "end": 63
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 11,
-          "end": 35
+          "start": 8,
+          "end": 34
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 61,
-          "end": 70
+          "start": 60,
+          "end": 69
         },
         {
           "file": "services/transcription/accurate.py",
@@ -6880,38 +8429,38 @@
         },
         {
           "file": "services/transcription/provision_whisper.py",
-          "start": 19,
-          "end": 81
+          "start": 28,
+          "end": 90
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 244,
-          "end": 268
+          "start": 290,
+          "end": 314
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 67,
-          "end": 92
+          "start": 66,
+          "end": 91
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 114,
-          "end": 179
+          "start": 155,
+          "end": 220
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 45,
-          "end": 92
+          "start": 44,
+          "end": 91
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 145,
-          "end": 227
+          "start": 186,
+          "end": 273
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 39,
-          "end": 58
+          "start": 38,
+          "end": 57
         },
         {
           "file": "services/transcription/server.py",
@@ -7065,8 +8614,8 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 82,
-          "end": 90
+          "start": 96,
+          "end": 104
         },
         {
           "file": "tests/PhantomFudge.Audio.Tests/PhantomFudge.Audio.Tests.csproj",
@@ -7165,8 +8714,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 145,
-          "end": 159
+          "start": 186,
+          "end": 200
         },
         {
           "file": "src/PhantomFudge.Core/StructuredTranscriptStore.cs",
@@ -7210,7 +8759,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2595
+      "words": 3828
     },
     {
       "file": "docs/handbook/20-glossary-and-repository-map.md",
@@ -7253,8 +8802,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 162,
-          "end": 224
+          "start": 203,
+          "end": 270
         },
         {
           "file": "services/transcription/server.py",
@@ -7268,8 +8817,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 637,
-          "end": 685
+          "start": 652,
+          "end": 700
         },
         {
           "file": "src/PhantomFudge.App/App.xaml.cs",
@@ -7293,13 +8842,13 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 41,
-          "end": 96
+          "start": 44,
+          "end": 110
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 114,
-          "end": 159
+          "start": 155,
+          "end": 200
         },
         {
           "file": "scripts/Run-PhantomFudge.ps1",
@@ -7353,8 +8902,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 210,
-          "end": 213
+          "start": 263,
+          "end": 266
         },
         {
           "file": "src/PhantomFudge.Core/WorkspaceLayout.cs",
@@ -7378,13 +8927,13 @@
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 39,
-          "end": 70
+          "start": 38,
+          "end": 69
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 82,
-          "end": 84
+          "start": 96,
+          "end": 98
         },
         {
           "file": "src/PhantomFudge.App/Audio/TranscriptionSocket.cs",
@@ -7468,8 +9017,8 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 82,
-          "end": 96
+          "start": 96,
+          "end": 110
         },
         {
           "file": "src/PhantomFudge.App/Audio/TranscriptionSocket.cs",
@@ -7538,13 +9087,13 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 185,
-          "end": 193
+          "start": 226,
+          "end": 234
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 95,
-          "end": 124
+          "start": 94,
+          "end": 165
         },
         {
           "file": "services/transcription/server.py",
@@ -7593,8 +9142,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 813,
-          "end": 848
+          "start": 828,
+          "end": 863
         },
         {
           "file": "src/PhantomFudge.Core/TranscriptBuffer.cs",
@@ -7603,13 +9152,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 294,
-          "end": 295
+          "start": 303,
+          "end": 304
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 414,
-          "end": 428
+          "start": 424,
+          "end": 438
         },
         {
           "file": "src/PhantomFudge.Core/NoteFileStore.cs",
@@ -7653,18 +9202,18 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 110,
-          "end": 124
+          "start": 116,
+          "end": 130
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 168,
-          "end": 183
+          "start": 195,
+          "end": 210
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 500,
-          "end": 570
+          "start": 536,
+          "end": 606
         },
         {
           "file": "src/PhantomFudge.App/Native/WindowProtection.cs",
@@ -7688,13 +9237,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 472,
-          "end": 479
+          "start": 482,
+          "end": 489
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1072,
-          "end": 1076
+          "start": 1087,
+          "end": 1091
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
@@ -7713,8 +9262,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 269,
-          "end": 284
+          "start": 278,
+          "end": 293
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -7723,18 +9272,18 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 269,
-          "end": 284
+          "start": 278,
+          "end": 293
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 637,
-          "end": 685
+          "start": 652,
+          "end": 700
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 245,
-          "end": 266
+          "start": 253,
+          "end": 275
         },
         {
           "file": "src/PhantomFudge.App/Native/CursorPolicy.cs",
@@ -7778,13 +9327,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 905,
-          "end": 953
+          "start": 920,
+          "end": 968
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1189,
-          "end": 1202
+          "start": 1205,
+          "end": 1218
         },
         {
           "file": "docs/QUALIFICATION.md",
@@ -7803,8 +9352,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 305,
-          "end": 314
+          "start": 358,
+          "end": 367
         },
         {
           "file": "src/PhantomFudge.App/Audio/TranscriptionSocket.cs",
@@ -7823,8 +9372,8 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 82,
-          "end": 84
+          "start": 96,
+          "end": 98
         },
         {
           "file": "services/transcription/server.py",
@@ -7843,8 +9392,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 748,
-          "end": 778
+          "start": 763,
+          "end": 793
         },
         {
           "file": "docs/PRODUCT.md",
@@ -7853,28 +9402,28 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 294,
-          "end": 295
+          "start": 303,
+          "end": 304
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 813,
-          "end": 840
+          "start": 828,
+          "end": 855
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 232,
-          "end": 242
+          "start": 239,
+          "end": 250
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 297,
-          "end": 330
+          "start": 306,
+          "end": 340
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 472,
-          "end": 479
+          "start": 482,
+          "end": 489
         },
         {
           "file": "src/PhantomFudge.App/Native/WindowProtection.cs",
@@ -7902,7 +9451,7 @@
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
           "start": 3,
-          "end": 177
+          "end": 230
         },
         {
           "file": "docs/TODO-CONVENTIONS.md",
@@ -7956,8 +9505,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 98,
-          "end": 126
+          "start": 99,
+          "end": 129
         },
         {
           "file": "src/PhantomFudge.App/Native/CursorPolicy.cs",
@@ -7971,23 +9520,23 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 173,
-          "end": 181
+          "start": 226,
+          "end": 234
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 173,
-          "end": 177
+          "start": 226,
+          "end": 230
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 275,
-          "end": 287
+          "start": 328,
+          "end": 340
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 276,
-          "end": 283
+          "start": 329,
+          "end": 336
         },
         {
           "file": "tools/SpeechBench/results/synthetic-20261008.json",
@@ -8017,7 +9566,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Layout.cs",
           "start": 58,
-          "end": 107
+          "end": 111
         },
         {
           "file": "tools/SpeechBench/results/quality-validation-20261009.json",
@@ -8101,13 +9650,13 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 305,
-          "end": 314
+          "start": 358,
+          "end": 367
         },
         {
           "file": "docs/PREVIEW-GUIDE.md",
-          "start": 69,
-          "end": 74
+          "start": 79,
+          "end": 84
         },
         {
           "file": "TODO/16_DEVELOPMENT_LEDGER.todo",
@@ -8181,13 +9730,13 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 183,
-          "end": 189
+          "start": 236,
+          "end": 242
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 257,
-          "end": 266
+          "start": 310,
+          "end": 319
         },
         {
           "file": "TODO/17_RELEASE_ACCEPTANCE.todo",
@@ -8221,8 +9770,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 323,
-          "end": 329
+          "start": 376,
+          "end": 382
         },
         {
           "file": "JOURNAL.md",
@@ -8246,8 +9795,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 173,
-          "end": 177
+          "start": 226,
+          "end": 230
         },
         {
           "file": "docs/CURSOR-AND-THEMES.md",
@@ -8279,13 +9828,73 @@
       "citations": [
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 23,
-          "end": 23
+          "start": 24,
+          "end": 24
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 269,
-          "end": 269
+          "start": 278,
+          "end": 278
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 65,
+          "end": 175
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 218,
+          "end": 306
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
+          "start": 10,
+          "end": 28
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
+          "start": 110,
+          "end": 159
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardDevices.cs",
+          "start": 42,
+          "end": 71
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
+          "start": 9,
+          "end": 43
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 320,
+          "end": 368
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs",
+          "start": 209,
+          "end": 214
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 38,
+          "end": 51
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 127,
+          "end": 139
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
+          "start": 301,
+          "end": 306
+        },
+        {
+          "file": "src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs",
+          "start": 170,
+          "end": 193
         },
         {
           "file": "src/PhantomFudge.App/PhantomFudge.App.csproj",
@@ -8329,13 +9938,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 98,
-          "end": 98
+          "start": 99,
+          "end": 99
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 142,
-          "end": 142
+          "start": 146,
+          "end": 146
         },
         {
           "file": "src/PhantomFudge.App/App.xaml.cs",
@@ -8359,13 +9968,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 174,
-          "end": 174
+          "start": 178,
+          "end": 178
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 222,
-          "end": 222
+          "start": 228,
+          "end": 228
         },
         {
           "file": "src/PhantomFudge.App/LocalFailureNotice.cs",
@@ -8374,8 +9983,8 @@
         },
         {
           "file": "src/PhantomFudge.App/Native/WindowHotkeys.cs",
-          "start": 12,
-          "end": 12
+          "start": 13,
+          "end": 13
         },
         {
           "file": "src/PhantomFudge.App/Native/SingleInstance.cs",
@@ -8389,18 +9998,18 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 106,
-          "end": 106
+          "start": 112,
+          "end": 112
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 129,
-          "end": 129
+          "start": 135,
+          "end": 135
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 472,
-          "end": 472
+          "start": 482,
+          "end": 482
         },
         {
           "file": "src/PhantomFudge.App/ThemeBrushes.cs",
@@ -8409,8 +10018,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 487,
-          "end": 487
+          "start": 523,
+          "end": 523
         },
         {
           "file": "src/PhantomFudge.App/App.xaml",
@@ -8429,8 +10038,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 74,
-          "end": 74
+          "start": 77,
+          "end": 77
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Layout.cs",
@@ -8444,8 +10053,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Layout.cs",
-          "start": 151,
-          "end": 151
+          "start": 155,
+          "end": 155
         },
         {
           "file": "src/PhantomFudge.Core/WorkspaceLayout.cs",
@@ -8454,8 +10063,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 781,
-          "end": 781
+          "start": 796,
+          "end": 796
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
@@ -8474,18 +10083,18 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 783,
-          "end": 783
+          "start": 798,
+          "end": 798
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 84,
-          "end": 84
+          "start": 85,
+          "end": 85
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 112,
-          "end": 112
+          "start": 118,
+          "end": 118
         },
         {
           "file": "src/PhantomFudge.Core/QuestionDraft.cs",
@@ -8504,28 +10113,28 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 103,
-          "end": 103
+          "start": 105,
+          "end": 105
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 156,
-          "end": 156
+          "start": 158,
+          "end": 158
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 245,
-          "end": 245
+          "start": 253,
+          "end": 253
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 258,
-          "end": 258
+          "start": 265,
+          "end": 265
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 137,
-          "end": 137
+          "start": 136,
+          "end": 136
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
@@ -8539,8 +10148,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 294,
-          "end": 294
+          "start": 321,
+          "end": 321
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
@@ -8569,8 +10178,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 300,
-          "end": 300
+          "start": 307,
+          "end": 307
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
@@ -8594,13 +10203,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 178,
-          "end": 178
+          "start": 177,
+          "end": 177
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 272,
-          "end": 272
+          "start": 271,
+          "end": 271
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
@@ -8614,8 +10223,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 748,
-          "end": 748
+          "start": 763,
+          "end": 763
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.AnswerLifetime.cs",
@@ -8629,8 +10238,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 235,
-          "end": 235
+          "start": 234,
+          "end": 234
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs",
@@ -8649,13 +10258,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 363,
-          "end": 363
+          "start": 373,
+          "end": 373
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 410,
-          "end": 410
+          "start": 420,
+          "end": 420
         },
         {
           "file": "src/PhantomFudge.Core/NoteFileStore.cs",
@@ -8669,53 +10278,53 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 458,
-          "end": 458
+          "start": 468,
+          "end": 468
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 229,
-          "end": 229
+          "start": 236,
+          "end": 236
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 812,
-          "end": 812
+          "start": 827,
+          "end": 827
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 851,
-          "end": 851
+          "start": 866,
+          "end": 866
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 297,
-          "end": 297
+          "start": 306,
+          "end": 306
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 346,
-          "end": 346
+          "start": 356,
+          "end": 356
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 874,
-          "end": 874
+          "start": 889,
+          "end": 889
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 905,
-          "end": 905
+          "start": 920,
+          "end": 920
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1057,
-          "end": 1057
+          "start": 1072,
+          "end": 1072
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1189,
-          "end": 1189
+          "start": 1205,
+          "end": 1205
         },
         {
           "file": "src/PhantomFudge.App/Native/CursorPolicy.cs",
@@ -8764,37 +10373,37 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 255,
-          "end": 255
+          "start": 254,
+          "end": 254
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 98,
-          "end": 98
+          "start": 99,
+          "end": 99
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
-          "start": 93,
-          "end": 93
+          "start": 94,
+          "end": 94
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 258,
-          "end": 258
+          "start": 265,
+          "end": 265
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 178,
-          "end": 178
+          "start": 177,
+          "end": 177
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 316,
-          "end": 316
+          "start": 326,
+          "end": 326
         }
       ],
       "diagrams": 2,
-      "words": 2530
+      "words": 2833
     },
     {
       "file": "docs/handbook/23-domain-source-walkthrough.md",
@@ -8816,6 +10425,21 @@
           "end": 47
         },
         {
+          "file": "src/PhantomFudge.Core/KeyboardCommands.cs",
+          "start": 15,
+          "end": 86
+        },
+        {
+          "file": "src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs",
+          "start": 7,
+          "end": 28
+        },
+        {
+          "file": "src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs",
+          "start": 31,
+          "end": 114
+        },
+        {
           "file": "src/PhantomFudge.Core/AudioSource.cs",
           "start": 3,
           "end": 3
@@ -8827,13 +10451,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 781,
-          "end": 781
+          "start": 796,
+          "end": 796
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 132,
-          "end": 132
+          "start": 134,
+          "end": 134
         },
         {
           "file": "src/PhantomFudge.Core/TranscriptSegment.cs",
@@ -8877,8 +10501,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 135,
-          "end": 135
+          "start": 137,
+          "end": 137
         },
         {
           "file": "src/PhantomFudge.Core/TranscriptBuffer.cs",
@@ -9002,13 +10626,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 258,
-          "end": 258
+          "start": 265,
+          "end": 265
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 137,
-          "end": 137
+          "start": 136,
+          "end": 136
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
@@ -9102,13 +10726,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 389,
-          "end": 389
+          "start": 399,
+          "end": 399
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 813,
-          "end": 813
+          "start": 828,
+          "end": 828
         },
         {
           "file": "src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs",
@@ -9267,7 +10891,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2366
+      "words": 2509
     },
     {
       "file": "docs/handbook/24-provider-source-walkthrough.md",
@@ -9285,13 +10909,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 258,
-          "end": 258
+          "start": 265,
+          "end": 265
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 137,
-          "end": 137
+          "start": 136,
+          "end": 136
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerConfiguration.cs",
@@ -9600,8 +11224,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 187,
-          "end": 187
+          "start": 186,
+          "end": 186
         },
         {
           "file": "tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs",
@@ -9753,13 +11377,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 637,
-          "end": 637
+          "start": 652,
+          "end": 652
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 65,
-          "end": 65
+          "start": 66,
+          "end": 66
         },
         {
           "file": "src/PhantomFudge.App/Audio/WasapiInput.cs",
@@ -9788,8 +11412,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 781,
-          "end": 781
+          "start": 796,
+          "end": 796
         },
         {
           "file": "src/PhantomFudge.App/Audio/LoopbackTranscriber.cs",
@@ -9973,13 +11597,13 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 65,
-          "end": 65
+          "start": 66,
+          "end": 66
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 783,
-          "end": 783
+          "start": 798,
+          "end": 798
         },
         {
           "file": "src/PhantomFudge.App/Audio/LoopbackTranscriber.cs",
@@ -10133,13 +11757,13 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 132,
-          "end": 132
+          "start": 173,
+          "end": 173
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 171,
-          "end": 171
+          "start": 212,
+          "end": 212
         },
         {
           "file": "spikes/CaptureProof/CaptureProof.csproj",
@@ -10201,8 +11825,8 @@
       "citations": [
         {
           "file": "services/transcription/configuration.py",
-          "start": 13,
-          "end": 13
+          "start": 12,
+          "end": 12
         },
         {
           "file": "services/transcription/accurate.py",
@@ -10231,8 +11855,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 189,
-          "end": 189
+          "start": 230,
+          "end": 230
         },
         {
           "file": "services/transcription/server.py",
@@ -10331,13 +11955,13 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 41,
-          "end": 41
+          "start": 44,
+          "end": 44
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 69,
-          "end": 69
+          "start": 83,
+          "end": 83
         },
         {
           "file": "services/transcription/accurate.py",
@@ -10471,48 +12095,48 @@
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 18,
-          "end": 18
+          "start": 17,
+          "end": 17
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 39,
-          "end": 39
+          "start": 38,
+          "end": 38
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 39,
-          "end": 39
+          "start": 38,
+          "end": 38
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 45,
-          "end": 45
+          "start": 44,
+          "end": 44
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 67,
-          "end": 67
+          "start": 66,
+          "end": 66
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 95,
-          "end": 95
+          "start": 94,
+          "end": 94
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 136,
-          "end": 136
+          "start": 177,
+          "end": 177
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 162,
-          "end": 162
+          "start": 203,
+          "end": 203
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 209,
-          "end": 209
+          "start": 254,
+          "end": 254
         },
         {
           "file": "services/transcription/model.json",
@@ -10526,8 +12150,8 @@
         },
         {
           "file": "services/transcription/recognizer.py",
-          "start": 22,
-          "end": 22
+          "start": 25,
+          "end": 25
         },
         {
           "file": "services/transcription/whisper-models.json",
@@ -10536,18 +12160,18 @@
         },
         {
           "file": "services/transcription/provision_whisper.py",
-          "start": 15,
-          "end": 15
+          "start": 19,
+          "end": 19
         },
         {
           "file": "services/transcription/provision_whisper.py",
-          "start": 38,
-          "end": 38
+          "start": 47,
+          "end": 47
         },
         {
           "file": "services/transcription/provision_whisper.py",
-          "start": 58,
-          "end": 58
+          "start": 67,
+          "end": 67
         },
         {
           "file": "services/transcription/requirements.txt",
@@ -10754,8 +12378,8 @@
         },
         {
           "file": "services/transcription/provision_whisper.py",
-          "start": 38,
-          "end": 38
+          "start": 47,
+          "end": 47
         },
         {
           "file": "scripts/Initialize-Transcription.ps1",
@@ -10764,8 +12388,8 @@
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 18,
-          "end": 18
+          "start": 17,
+          "end": 17
         },
         {
           "file": "scripts/Run-PhantomFudge.ps1",
@@ -10774,8 +12398,8 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 162,
-          "end": 162
+          "start": 203,
+          "end": 203
         },
         {
           "file": "scripts/Run-PhantomFudge.ps1",
@@ -10804,28 +12428,28 @@
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 67,
-          "end": 67
+          "start": 66,
+          "end": 66
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 114,
-          "end": 114
+          "start": 155,
+          "end": 155
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 145,
-          "end": 145
+          "start": 186,
+          "end": 186
         },
         {
           "file": "services/transcription/manage.py",
-          "start": 174,
-          "end": 174
+          "start": 215,
+          "end": 215
         },
         {
           "file": "services/transcription/configuration.py",
-          "start": 39,
-          "end": 39
+          "start": 38,
+          "end": 38
         },
         {
           "file": "scripts/Start-Transcription.ps1",
@@ -10908,6 +12532,156 @@
           "end": 135
         },
         {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 30,
+          "end": 54
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 56,
+          "end": 114
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 14,
+          "end": 76
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 107,
+          "end": 161
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 25,
+          "end": 100
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 56,
+          "end": 98
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 30,
+          "end": 34
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 15,
+          "end": 18
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 40,
+          "end": 84
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 96,
+          "end": 104
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 25,
+          "end": 43
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 94,
+          "end": 100
+        },
+        {
+          "file": "tools/Installer/runtime-lock.json",
+          "start": 1,
+          "end": 11
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 246,
+          "end": 282
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 332,
+          "end": 376
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 465,
+          "end": 535
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 538,
+          "end": 609
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 682,
+          "end": 694
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 30,
+          "end": 34
+        },
+        {
+          "file": "services/transcription/recognizer.py",
+          "start": 47,
+          "end": 77
+        },
+        {
+          "file": "services/transcription/tests/test_packaged_pcm_runtime.py",
+          "start": 35,
+          "end": 97
+        },
+        {
+          "file": "services/transcription/tests/test_packaged_pcm_runtime.py",
+          "start": 126,
+          "end": 138
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 45,
+          "end": 45
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 677,
+          "end": 694
+        },
+        {
+          "file": "tools/Installer/runtime_audit.py",
+          "start": 126,
+          "end": 166
+        },
+        {
+          "file": "tools/Installer/runtime_audit.py",
+          "start": 169,
+          "end": 234
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 14,
+          "end": 76
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 108,
+          "end": 118
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 186,
+          "end": 227
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherWindow.cs",
+          "start": 18,
+          "end": 57
+        },
+        {
           "file": "scripts/Publish-Preview.ps1",
           "start": 14,
           "end": 14
@@ -10939,8 +12713,8 @@
         },
         {
           "file": "scripts/Export-HandbookScreenshots.ps1",
-          "start": 73,
-          "end": 73
+          "start": 78,
+          "end": 78
         },
         {
           "file": "scripts/Export-ReadmeImages.ps1",
@@ -11049,8 +12823,8 @@
         },
         {
           "file": "services/transcription/provision_whisper.py",
-          "start": 28,
-          "end": 28
+          "start": 37,
+          "end": 37
         },
         {
           "file": "tools/SpeechBench/SapiBridge.cs",
@@ -11219,7 +12993,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2487
+      "words": 2970
     },
     {
       "file": "docs/handbook/28-documentation-source-walkthrough.md",
@@ -11396,8 +13170,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Cover.cs",
-          "start": 34,
-          "end": 65
+          "start": 35,
+          "end": 66
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.CoverDiagnostics.cs",
@@ -11449,8 +13223,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 249,
-          "end": 303
+          "start": 302,
+          "end": 356
         },
         {
           "file": "TODO/16_DEVELOPMENT_LEDGER.todo",
@@ -11459,8 +13233,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 242,
-          "end": 247
+          "start": 295,
+          "end": 300
         },
         {
           "file": "docs/DEVELOPMENT-WORKFLOW.md",
@@ -11469,28 +13243,28 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 231,
-          "end": 240
+          "start": 284,
+          "end": 293
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 210,
-          "end": 229
+          "start": 263,
+          "end": 282
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 216,
-          "end": 219
+          "start": 269,
+          "end": 272
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 191,
-          "end": 208
+          "start": 244,
+          "end": 261
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 167,
-          "end": 189
+          "start": 220,
+          "end": 242
         },
         {
           "file": "docs/DUAL-SOURCE-AUDIO.md",
@@ -11499,8 +13273,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 161,
-          "end": 165
+          "start": 214,
+          "end": 218
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
@@ -11509,21 +13283,256 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 183,
-          "end": 189
+          "start": 236,
+          "end": 242
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 25,
+          "end": 78
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 209,
+          "end": 212
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 152,
+          "end": 165
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 15,
+          "end": 15
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 33,
+          "end": 33
+        },
+        {
+          "file": "tests/PhantomFudge.Core.Tests/InstalledLauncherTests.cs",
+          "start": 176,
+          "end": 195
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherContract.cs",
+          "start": 152,
+          "end": 165
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 47,
+          "end": 78
+        },
+        {
+          "file": "tests/PhantomFudge.Core.Tests/InstalledLauncherTests.cs",
+          "start": 176,
+          "end": 195
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 72,
+          "end": 76
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 150,
+          "end": 160
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 47,
+          "end": 78
+        },
+        {
+          "file": "services/transcription/accurate.py",
+          "start": 121,
+          "end": 129
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 12,
+          "end": 42
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 179,
+          "end": 228
+        },
+        {
+          "file": "services/transcription/tests/test_packaged_pcm_runtime.py",
+          "start": 35,
+          "end": 97
+        },
+        {
+          "file": "services/transcription/tests/test_packaged_pcm_runtime.py",
+          "start": 126,
+          "end": 138
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 246,
+          "end": 282
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 332,
+          "end": 390
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 412,
+          "end": 462
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 581,
+          "end": 609
+        },
+        {
+          "file": "services/transcription/recognizer.py",
+          "start": 44,
+          "end": 63
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 30,
+          "end": 34
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/ChildProcesses.cs",
+          "start": 12,
+          "end": 42
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 108,
+          "end": 118
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 186,
+          "end": 227
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/Program.cs",
+          "start": 321,
+          "end": 354
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 20,
+          "end": 20
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherStatus.cs",
+          "start": 39,
+          "end": 39
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 38,
+          "end": 84
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 96,
+          "end": 104
+        },
+        {
+          "file": "tools/Installer/PhantomFudge.iss",
+          "start": 14,
+          "end": 76
+        },
+        {
+          "file": "src/PhantomFudge.Launcher/LauncherWindow.cs",
+          "start": 18,
+          "end": 57
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 30,
+          "end": 44
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 76,
+          "end": 114
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 38,
+          "end": 84
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 96,
+          "end": 104
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 15,
+          "end": 18
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 31,
+          "end": 84
+        },
+        {
+          "file": "scripts/Test-Installer.ps1",
+          "start": 96,
+          "end": 104
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 677,
+          "end": 694
+        },
+        {
+          "file": "tools/Installer/runtime_audit.py",
+          "start": 126,
+          "end": 166
+        },
+        {
+          "file": "tools/Installer/runtime_audit.py",
+          "start": 169,
+          "end": 234
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 412,
+          "end": 489
+        },
+        {
+          "file": "tools/Installer/bundle_runtime.py",
+          "start": 677,
+          "end": 694
+        },
+        {
+          "file": "tools/Installer/runtime_audit.py",
+          "start": 126,
+          "end": 166
+        },
+        {
+          "file": "tools/Installer/runtime_audit.py",
+          "start": 169,
+          "end": 234
         }
       ],
       "diagrams": 2,
-      "words": 7509
+      "words": 12077
     }
   ],
-  "diagramCount": 69,
-  "wordCount": 74817,
+  "diagramCount": 73,
+  "wordCount": 88927,
   "pdf": {
     "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.pdf",
-    "sha256": "87296f1cadaef80af158cce7b29581d52605c9fc366e4648e4fff29cbd0109d2",
-    "bytes": 10310805,
-    "pages": 329,
+    "sha256": "3d85d3ad4c877a7297decd45c8e134f42db266e275e073e5e3465595ed69ea17",
+    "bytes": 11493747,
+    "pages": 371,
     "inspection": {
       "missingImages": [],
       "overflowing": [],
@@ -11619,6 +13628,30 @@
       "sha256": "67546092f2f6752b2e144647a8991cb97affb6f66d65e6ab9a68e9839ee84daf"
     },
     {
+      "file": "docs/handbook/assets/diagrams/installation-01.svg",
+      "sha256": "99bdbb87be1bc5ca7a40b3d8ed900350970beadc046239303d7498eac629a758"
+    },
+    {
+      "file": "docs/handbook/assets/diagrams/installation-01.mmd",
+      "sha256": "f8c8b84a1a8b1eb4422fa19dd11bd04ac683942b06d605e173c8c9dc464ce8ce"
+    },
+    {
+      "file": "docs/handbook/assets/diagrams/installation-01.json",
+      "sha256": "56246fbd9c46dcea9b93198afd84e905d24e0d8c58438fe5cbd98f9d28d7f474"
+    },
+    {
+      "file": "docs/handbook/assets/diagrams/installation-02.svg",
+      "sha256": "37f3475f4131bbcaa5258b2d508325c53043573bdb4509e10e2f84ea464a3b9a"
+    },
+    {
+      "file": "docs/handbook/assets/diagrams/installation-02.mmd",
+      "sha256": "03102061cddf2d5b3c547bf06959576774f9aa9032550adcfe86b39647059f4b"
+    },
+    {
+      "file": "docs/handbook/assets/diagrams/installation-02.json",
+      "sha256": "3f4063ee992394753748de106bd96318f58cf75cd97d0f8c8260b62852291135"
+    },
+    {
       "file": "docs/handbook/assets/diagrams/current-workflow-01.svg",
       "sha256": "afe798eeb961f809e5cdeba16191eb1f821cfba8eb37a902bc97588a8c3dfe00"
     },
@@ -11641,6 +13674,30 @@
     {
       "file": "docs/handbook/assets/diagrams/current-workflow-02.json",
       "sha256": "bc01185a70984d8ccd0e34d513dc89360a6678a63c38cb99fbdca52fdd90d678"
+    },
+    {
+      "file": "docs/handbook/assets/diagrams/keyboard-controls-01.svg",
+      "sha256": "4be74fb301c03812df1cd7639424f21bc50c03e2de0cee9c9902134ef2f55a83"
+    },
+    {
+      "file": "docs/handbook/assets/diagrams/keyboard-controls-01.mmd",
+      "sha256": "0945c1bbc75d21a6038f2a621d2aa09efdf54717b012f784311c89da06349c8c"
+    },
+    {
+      "file": "docs/handbook/assets/diagrams/keyboard-controls-01.json",
+      "sha256": "3d2fd15d0451bb58b6336051e9b49dfd0aff4725666aa6f26bcff445a1b0d966"
+    },
+    {
+      "file": "docs/handbook/assets/diagrams/keyboard-controls-02.svg",
+      "sha256": "d134ccafcb089faf19b2baa5529b1a9616fff3b7248a181acd61f3aca746e2fa"
+    },
+    {
+      "file": "docs/handbook/assets/diagrams/keyboard-controls-02.mmd",
+      "sha256": "6682efda949f16161449b749afdea11def2983caa6c808e889dc017f9f8b8ca4"
+    },
+    {
+      "file": "docs/handbook/assets/diagrams/keyboard-controls-02.json",
+      "sha256": "54de4f88e56d4d004f382bea99c46b91d6432ecbae63901ce32c981ecf58bfa8"
     },
     {
       "file": "docs/handbook/assets/diagrams/03-product-boundaries-and-decisions-01.svg",
@@ -12376,11 +14433,11 @@
     },
     {
       "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.html",
-      "sha256": "b87253f46cf80bf2ea9c492c87382c4eefbb0a73e37e2ca3c016b777cdc1aea7"
+      "sha256": "7e712dd34d7dff679e7bf5ad0ea783b14b831fb3cb66fdd4a7e38c6ac272ba8d"
     },
     {
       "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.pdf",
-      "sha256": "87296f1cadaef80af158cce7b29581d52605c9fc366e4648e4fff29cbd0109d2"
+      "sha256": "3d85d3ad4c877a7297decd45c8e134f42db266e275e073e5e3465595ed69ea17"
     }
   ]
 }

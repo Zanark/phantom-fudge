@@ -57,6 +57,12 @@
           "children": []
         },
         {
+          "title": "keyboard-controls",
+          "name": "Keyboard Controls and Answer Size",
+          "prompt": "Use docs/KEYBOARD-CONTROLS.md as the canonical guide. Trace activation, literal Edit, selection/review/submit and explicit lifecycle commands through src/PhantomFudge.App/MainWindow.Keyboard.cs:65-368, MainWindow.KeyboardSelection.cs:110-159 and MainWindow.KeyboardDevices.cs:42-71. Explain invalid-config fallback in src/PhantomFudge.App/MainWindow.Keyboard.cs:38-63 and armed Edit with foreground-only async editor retargeting at src/PhantomFudge.App/MainWindow.Keyboard.cs:127-139. Explain session-only font choice from src/PhantomFudge.App/MainWindow.AnswerFont.cs:9-43 and exact shortcut JSON/allowed keys from src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs:7-114. Separate final synthetic runtime evidence from pending atlas/book completion and unqualified external hotkey/foreground comfort; do not promise global cursor control.",
+          "children": []
+        },
+        {
           "title": "06-notes-transcripts-and-storage",
           "name": "Notes, Transcripts and Storage",
           "prompt": "Explain bounded text, source partials and atomic saves from src/PhantomFudge.Core/TranscriptBuffer.cs:6, NoteFileStore.cs and tests/PhantomFudge.Core.Tests/SourceTranscriptTests.cs:1.",
@@ -138,9 +144,15 @@
           "children": []
         },
         {
+          "title": "installation",
+          "name": "Install, Update and Remove",
+          "prompt": "Explain the Windows11 x64 unsigned per-user installer, same-version repair, numeric downgrade refusal, guarded removal and retained external data. Trace tools/Installer/PhantomFudge.iss:47-76,107-161, scripts/Build-Installer.ps1:30-44,56-116 and scripts/Test-Installer.ps1:31-104. Setup never launches: close it, then Start. Its status UI is ordinary visible UI. Trace native pending76 and guard retention in src/PhantomFudge.Launcher/Program.cs:108-118,186-227. Explain pinned offline models, disclosed CPU/PCM-only variants and separate PE/import/real-inference gates in tools/Installer/bundle_runtime.py:332-376,412-535,538-609,677-694 and tools/Installer/runtime_audit.py:126-234. Ground Unicode startup handling in services/transcription/recognizer.py:44-63. Use docs/IMPLEMENTATION-STATUS.md:1 for dated evidence; do not infer cleanVM, real-device, performance, signing or universal-capture qualification.",
+          "children": []
+        },
+        {
           "title": "16-distribution-and-troubleshooting",
           "name": "Distribution and Troubleshooting",
-          "prompt": "Trace bundle content and fault branches from scripts/Publish-Preview.ps1:1, Initialize-Transcription.ps1:1, services/transcription/manage.py:95 and docs/PREVIEW-GUIDE.md:1.",
+          "prompt": "Trace bundle content and fault branches from scripts/Publish-Preview.ps1:1, Initialize-Transcription.ps1:1, services/transcription/manage.py:94 and docs/PREVIEW-GUIDE.md:1.",
           "children": []
         },
         {
@@ -165,7 +177,7 @@
         {
           "title": "current-workflow",
           "name": "Current Illustrated Workflow",
-          "prompt": "Show the actual device-card, recording, selection, clarification and cover workflow using src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs:96-141, src/PhantomFudge.App/MainWindow.RecordingIndicator.cs:7-10 and src/PhantomFudge.App/MainWindow.Cover.cs:22-76; distinguish Cover from Hide/Stop.",
+          "prompt": "Show the actual device-card, recording, selection, clarification and cover workflow using src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs:96-141, src/PhantomFudge.App/MainWindow.RecordingIndicator.cs:7-10 and src/PhantomFudge.App/MainWindow.Cover.cs:22-77; distinguish Cover from Hide/Stop.",
           "children": []
         },
         {

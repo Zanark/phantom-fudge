@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "id": "installer-packaging",
+  "title": "Windows installer and release payload packaging",
+  "chapter": "docs/INSTALLATION.md",
+  "files": [
+    {
+      "path": "src/PhantomFudge.App/app.manifest",
+      "sourceSha256": "47cda1ef84d641ae724ff2450465a52cb07588b461ff599823b54163891e9bc2",
+      "role": "Declares the desktop executable's non-elevated Windows compatibility and DPI/path awareness independently of installer platform gates.",
+      "entryPoints": ["Windows process activation", "PhantomFudge.App.csproj"],
+      "blocks": [
+        {
+          "start": 1, "end": 22,
+          "title": "Retain ordinary user privilege and Windows rendering declarations",
+          "explanation": "asInvoker keeps the application at its caller's privilege and uiAccess=false does not request privileged accessibility access. The supportedOS identifier declares modern Windows compatibility; it is not the installer minimum-build gate. PerMonitorV2 requests per-monitor DPI behavior and longPathAware opts into supported long paths. Neither declaration proves every monitor, filesystem or screen-sharing backend is qualified. The assembly identity version is manifest metadata, distinct from the release FileVersion.",
+          "focus": [{"start": 4, "end": 14}, {"start": 16, "end": 20}]
+        }
+      ]
+    },
+    {
+      "path": "tools/Installer/release.json",
+      "sourceSha256": "d4a40bc89690d9b2c135b5722d07e2d0a1be9d03e4d77807948744f530cfade0",
+      "role": "Pins the preview label, numeric Windows version, target platform and reviewed installer compiler provenance.",
+      "entryPoints": ["Build-Installer.ps1", "Test-Installer.ps1"],
+      "blocks": [
+        {
+          "start": 1, "end": 8,
+          "title": "Separate human preview identity from numeric upgrade ordering",
+          "explanation": "The preview suffix identifies a prerelease download; windowsVersion is the four-component value consumed by the installer downgrade guard and executable version metadata. win-x64 and minimum Windows build22000 deliberately exclude other platforms. The compiler version and official archive hash are provenance, not an application signature: the build still requires an explicitly supplied compiler path.",
+          "focus": [{"start": 2, "end": 7}]
+        }
+      ]
+    },
+    {
+      "path": "tools/Installer/PhantomFudge.iss",
+      "sourceSha256": "cd209ff3878c6b683748997ab0fc45e5e57d2d0cd288686c72e18897486e2c65",
+      "role": "Defines a per-user Windows11 x64 installation, guarded repair/upgrade and standard uninstall without automatic recording or forced application closure.",
+      "entryPoints": ["PrepareToInstall", "InitializeUninstall", "IsRecognizedInstallation"],
+      "blocks": [
+        {
+          "start": 1, "end": 43,
+          "title": "Bind installation identity, platform and lifecycle policy",
+          "explanation": "PayloadDir is mandatory; release labels and installer identity have defaults that the builder or isolated fixture may override. The stable AppId selects the same installed product for upgrades. lowest privilege and LocalAppData Programs make installation per-user. x64os and Windows build22000 are actual gates, not claims about ARM emulation. Automatic application closing/restart are disabled, and the information page is a packaged explanation rather than a provider login or capture gate.",
+          "focus": [{"start": 23, "end": 33}, {"start": 34, "end": 42}]
+        },
+        {
+          "start": 44, "end": 67,
+          "title": "Ship temporary recovery code separately from managed program files",
+          "explanation": "The fresh launcher is first in the solid archive and marked dontcopy so PrepareToInstall can extract it before replacing a damaged installed launcher. The regular payload recursively installs beneath the product root. A dedicated product registry key retains the numeric version outside Inno's uninstall key, which Inno recreates during repair. InstallDelete replaces only named managed code/documentation directories; external runtime data and user saves are not targeted. Interrupted upgrades are not atomic. InstallerTest omits shortcuts. No Run section exists: Setup never launches the app, so users close it before launching without its maintenance gate.",
+          "focus": [{"start": 47, "end": 58}, {"start": 62, "end": 66}]
+        },
+        {
+          "start": 68, "end": 106,
+          "title": "Hold the installer gate and recognize an owned destination",
+          "explanation": "InitializeSetup creates the named maintenance mutex for the installer lifetime. The installed launcher checks its presence before starting or revealing the app; maintenance itself is permitted. The marker must contain the exact product string after trimming. DirectoryHasFiles enumerates entries, ignores only dot entries and always closes its search handle. PrepareToInstall combines these checks before replacement. A marker is ownership bookkeeping within a same-user directory, not a cryptographic boundary against that user.",
+          "focus": [{"start": 72, "end": 83}, {"start": 91, "end": 102}]
+        },
+        {
+          "start": 107, "end": 142,
+          "title": "Reject foreign destinations and known downgrades before maintenance",
+          "explanation": "An absent or empty destination is a fresh install. A nonempty destination must be marker-owned. The installed numeric version is read from its file; a missing or invalid file falls back to the product's registered numeric version. If neither works, the installer refuses rather than guessing. Packed-version comparison blocks an older installer over a known newer version. All these refusals occur before file replacement and before asking a service to stop.",
+          "focus": [{"start": 115, "end": 124}, {"start": 126, "end": 136}, {"start": 138, "end": 142}]
+        },
+        {
+          "start": 143, "end": 161,
+          "title": "Require bounded native maintenance before update or removal",
+          "explanation": "Setup extracts the current launcher's dependencies and executes maintenance against the existing installation root, avoiding damaged old binaries during repair. A nonzero result blocks replacement with a close/stop message. Uninstall creates the same lifetime gate, then uses its installed launcher and marker; damaged files require repair first. SuppressibleMsgBox respects silent suppression instead of leaving unattended removal waiting on an invisible acknowledgment. There is no process-name kill, implicit capture cancellation or user-data purge.",
+          "focus": [{"start": 143, "end": 148}, {"start": 150, "end": 161}]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Build-Installer.ps1",
+      "sourceSha256": "fce0d469b571c669c551ddbb93db2f8279d0fe32e79be999db7120aabb525b9f",
+      "role": "Builds a new immutable output directory containing the verified speech payload, self-contained native programs, installer, portable archive and checksums.",
+      "entryPoints": ["Build-Installer.ps1"],
+      "blocks": [
+        {
+          "start": 1, "end": 34,
+          "title": "Validate release inputs before staging a new runtime payload",
+          "explanation": "The builder requires PowerShell7.2 and explicit compiler/output paths; the target installer requires neither PowerShell nor developer tools. Release labels are numeric preview form and win-x64. Existing output is rejected. The existing development virtual environment is preferred when Python is not supplied, and a reusable cache supports an explicit offline build. Every release invokes verify-synthetic-pcm, so imports and metadata alone cannot pass: real generated-PCM model execution must exit normally. Any bundler failure leaves a non-release partial output.",
+          "focus": [{"start": 13, "end": 23}, {"start": 24, "end": 34}]
+        },
+        {
+          "start": 35, "end": 55,
+          "title": "Publish independent native runtimes and allowlisted user documentation",
+          "explanation": "App and launcher are published sequentially into separate subdirectories, avoiding conflicting dependency layouts. Both are self-contained win-x64 builds with the reviewed release/FileVersion and no debug symbols. Only the named guides, handbook PDF and installation notes are copied. ASCII marker/version files support future maintenance; no token, answer configuration or recorded transcript is copied from the developer workspace.",
+          "focus": [{"start": 35, "end": 43}, {"start": 48, "end": 54}]
+        },
+        {
+          "start": 56, "end": 78,
+          "title": "Audit hidden entries and hash the exact staged file inventory",
+          "explanation": "Force enumeration includes hidden/system entries that the ZIP writer could otherwise package without review. Any reparse-point entry or private directory component is rejected. Files are also screened for known local token/settings/log names before their size and SHA256 are recorded. Git revision and dirty state describe the actual build source instead of implying an uncommitted candidate came from a clean tag. The gate supplements the bundler's allowlists; it is not a general-purpose secret scanner.",
+          "focus": [{"start": 56, "end": 65}, {"start": 67, "end": 78}]
+        },
+        {
+          "start": 79, "end": 99,
+          "title": "Keep launcher metadata small and complete inventory separate",
+          "explanation": "install-manifest.json is compact metadata for the launcher's bounded reader, avoiding the earlier incompatibility where a full runtime inventory exceeded16KiB. Its own hash is then added to payload-files.json. The inventory intentionally does not hash itself; outer installer/archive hashes cover the entire artifact. Neither manifest contains personal paths, credentials or developer settings.",
+          "focus": [{"start": 79, "end": 90}, {"start": 91, "end": 98}]
+        },
+        {
+          "start": 100, "end": 116,
+          "title": "Compile unsigned assets and publish checksums only after success",
+          "explanation": "The compiler receives explicit payload/version/output values and must return success with the expected Setup filename. The optional portable ZIP contains the whole audited payload, not a single executable without its dependencies. SHA256SUMS covers top-level installer/archive assets. The final message says built, not installed, signed or published to GitHub. Generated PCM did execute local models, but no audio endpoint, answer provider or installer was started.",
+          "focus": [{"start": 100, "end": 108}, {"start": 109, "end": 116}]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Test-Installer.ps1",
+      "sourceSha256": "dac0014cd43d935c66de11ba1d418c3747fedf9fca7d7edfca25172a21cd0a08",
+      "role": "Exercises installer replacement and removal with an isolated registry identity and destination, retaining synthetic user files and reporting bounded evidence.",
+      "entryPoints": ["Test-Installer.ps1", "Invoke-FixtureProcess"],
+      "blocks": [
+        {
+          "start": 1, "end": 30,
+          "title": "Create a unique fixture identity and limit process ownership",
+          "explanation": "A new output path and random AppId keep test uninstall registration separate from the real product. Installer processes are started explicitly and awaited for five minutes. A timeout stops only that Process object's owned process tree, including temporary installer children that otherwise outlive a wrapper; a nonexpected exit fails the fixture. This is fixture-process control, not permission to kill the user's application or speech service.",
+          "focus": [{"start": 10, "end": 20}, {"start": 22, "end": 28}]
+        },
+        {
+          "start": 31, "end": 60,
+          "title": "Install a real payload and compare bytes against the inventory",
+          "explanation": "The same installer definition is compiled with a unique identity and InstallerTest, which omits production shortcuts; neither production nor fixture Setup launches the app. Silent installation uses only the fixture directory. The source file set must exactly match inventory entries plus the inventory itself; each installed inventoried file must match size and SHA256. The actual native launcher then validates the bounded compact manifest, and maintenance tests the idle/no-owned-service path without starting default application behavior.",
+          "focus": [{"start": 31, "end": 39}, {"start": 40, "end": 51}]
+        },
+        {
+          "start": 61, "end": 85,
+          "title": "Exercise repair, downgrade protection, removal and foreign-folder refusal",
+          "explanation": "Same-version reinstall must restore the version and retain an external synthetic note. The fixture then removes the installed launcher and corrupts its version file to exercise recovery from fresh installer code and registry metadata. Upgrade uses a simulated older version record, not an actual old-binary compatibility matrix. A newer record must produce exit7 without replacement. Uninstall must remove application/registration while retaining the external note; a nonempty unrecognized destination must also refuse without erasing its sentinel.",
+          "focus": [{"start": 62, "end": 73}, {"start": 74, "end": 81}]
+        },
+        {
+          "start": 86, "end": 106,
+          "title": "Clean only the fixture installation and emit a scoped receipt",
+          "explanation": "Finally restores the deliberately renamed launcher and numeric version before invoking the fixture's remaining uninstaller, so a failed damaged-install case cannot deadlock cleanup on its own injected damage. Cleanup failures surface. The successful receipt records each Boolean, payload count and no-audio/no-model-request boundary. It excludes clean-VM, shortcut and actual historical-binary qualification and records that production Setup has no automatic launch.",
+          "focus": [{"start": 86, "end": 95}, {"start": 96, "end": 106}]
+        }
+      ]
+    }
+  ]
+}

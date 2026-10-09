@@ -60,6 +60,7 @@ public partial class MainWindow : Window
         InitializeDiagnostics();
         InitializeQuestionView();
         InitializeAnswers();
+        InitializeKeyboardControls();
         ApplyTheme(currentTheme);
         ServiceToken.Password = Environment.GetEnvironmentVariable("PHANTOM_TRANSCRIPTION_TOKEN") ?? "";
         transcriber.TranscriptReceived += value => Dispatch(() => ReceiveTranscript(value));
@@ -114,14 +115,16 @@ public partial class MainWindow : Window
                 hotkeys = new WindowHotkeys(handle);
                 RegisterHotkey(WindowHotkeys.ToggleVisibility, 0x20);
                 RegisterHotkey(WindowHotkeys.ToggleEditing, 0x45);
+                RegisterKeyboardControlHotkey();
                 SystemEvents.SessionSwitch += SessionSwitch;
                 SystemEvents.PowerModeChanged += PowerModeChanged;
                 subscribed = true;
             }
-            ShowActivated = !PassiveWindow && !diagnosticRendering;
+            ShowActivated = !PassiveWindow && !diagnosticRendering && !suppressKeyboardActivation;
             UpdateInteractionControls();
             Show();
             ShowCaptureProtectionStatus();
+            if (keyboardShortcutNotice is not null) ReportStatus(keyboardShortcutNotice);
             PrepareAgencyProvider();
         }
         finally { showing = false; }
@@ -129,6 +132,7 @@ public partial class MainWindow : Window
 
     private void RegisterHotkey(int id, uint key)
     {
+        if (diagnosticRendering) return;
         try
         {
             hotkeys!.Register(id, key);
@@ -150,7 +154,7 @@ public partial class MainWindow : Window
         try
         {
             ShowProtected();
-            if (!PassiveWindow && !diagnosticRendering)
+            if (!PassiveWindow && !diagnosticRendering && !suppressKeyboardActivation)
                 Activate();
         }
         catch (Exception error) when (IsProtectionFailure(error))
@@ -191,6 +195,8 @@ public partial class MainWindow : Window
                     SetNotesExpanded(true);
                     await TogglePresentationAsync(forceEdit: true);
                 });
+            else if (wParam.ToInt32() == WindowHotkeys.KeyboardControl)
+                Dispatch(ToggleKeyboardControl);
         }
         else if (message == 0x0021 && PassiveWindow)
         {
@@ -222,6 +228,7 @@ public partial class MainWindow : Window
     private async Task InvalidateAsync(string message)
     {
         protectionReady = false;
+        AbandonKeyboardControl();
         questionEditing = false;
         Hide();
         CancelAnswer();
@@ -233,6 +240,7 @@ public partial class MainWindow : Window
     {
         if (IsVisible)
         {
+            AbandonKeyboardControl();
             questionEditing = false;
             Hide();
             CancelAnswer();
@@ -251,6 +259,7 @@ public partial class MainWindow : Window
             return;
         }
         var next = forceEdit ? false : !presenting;
+        AbandonKeyboardControl();
         questionEditing = false;
         Hide();
         CancelAnswer();
@@ -269,12 +278,12 @@ public partial class MainWindow : Window
     private void UpdateInteractionControls()
     {
         Resources["ControlsFocusable"] = !PassiveWindow;
-        NoteEditor.IsReadOnly = presenting;
-        NoteEditor.Focusable = !presenting;
+        NoteEditor.IsReadOnly = presenting || KeyboardControlActive;
+        NoteEditor.Focusable = !presenting && !KeyboardControlActive;
         TranscriptText.Focusable = !PassiveWindow;
         PartialText.Focusable = !PassiveWindow;
         InputMethod.SetIsInputMethodEnabled(NoteEditor, !presenting);
-        FileToolbar.IsEnabled = !presenting && !fileBusy;
+        FileToolbar.IsEnabled = !presenting && !fileBusy && !KeyboardControlActive;
         SourceButton.IsEnabled = !fileBusy;
         ExportButton.IsEnabled = !presenting && !fileBusy;
         AudioEditHint.Visibility = presenting ? Visibility.Visible : Visibility.Collapsed;
@@ -303,6 +312,7 @@ public partial class MainWindow : Window
         }
         if (action == PendingAction.Exit)
         {
+            LeaveKeyboardControl(restoreForeground: false);
             SetCover(false);
             await StopVisibleActivityAsync();
         }
@@ -550,6 +560,11 @@ public partial class MainWindow : Window
         {
             if (args.Key is not (Key.Space or Key.Enter) || !CoverToggleButton.IsKeyboardFocused)
                 args.Handled = true;
+            return;
+        }
+        if (KeyboardControlActive)
+        {
+            args.Handled = HandleKeyboardKey(args.Key, Keyboard.Modifiers, args.IsRepeat);
             return;
         }
         if (args.Key == Key.Escape && questionEditing)
@@ -1144,6 +1159,7 @@ public partial class MainWindow : Window
             var recordingIndicatorChecks = await RunRecordingIndicatorDiagnosticAsync(directory);
             var audioDeviceCardChecks = await RunAudioDeviceCardsDiagnosticAsync(directory);
             var coverChecks = await RunCoverDiagnosticAsync(directory);
+            var keyboardChecks = await RunKeyboardDiagnosticAsync(directory);
             var styles = WindowProtection.ReadStyles(new WindowInteropHelper(this).Handle);
             var acknowledgmentsRemoved = FindName("ConsentCheck") is null && FindName("RehearsalCheck") is null;
             var passed = protectionReady && preserved && readOnly && !ShowInTaskbar && acknowledgmentsRemoved &&
@@ -1173,7 +1189,7 @@ public partial class MainWindow : Window
                     nativeStyles = styles, recordingStarted = transcriber.IsRunning,
                     discoveredRenderEndpoints = discoveredRenderCount,
                     discoveredMicrophoneEndpoints = discoveredMicrophoneCount,
-                    documentationFixture, questionChecks, answerChecks, clarificationChecks, recordingIndicatorChecks, audioDeviceCardChecks, coverChecks,
+                    documentationFixture, questionChecks, answerChecks, clarificationChecks, recordingIndicatorChecks, audioDeviceCardChecks, coverChecks, keyboardChecks,
                     limitation = "Synthetic local UI, cursor-shape policy and nonactivation assertions only; " +
                         "no real audio or remote captured-cursor visibility guarantee."
                 }, new JsonSerializerOptions { WriteIndented = true }));

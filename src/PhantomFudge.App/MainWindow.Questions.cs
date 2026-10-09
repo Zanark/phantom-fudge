@@ -18,9 +18,10 @@ public partial class MainWindow
     private bool questionViewReady;
     private bool renderingQuestion;
     private bool questionEditing;
+    private bool questionExpanded;
     private int questionSnapshotCount;
 
-    private bool PassiveWindow => presenting && !questionEditing;
+    private bool PassiveWindow => presenting && !questionEditing && !KeyboardControlActive;
     private bool HasQuestionContent => questionDraft.Text.Length > 0 || lastQuestionSnapshot is not null || HasAnswerContent;
 
     private void InitializeQuestionView()
@@ -34,10 +35,11 @@ public partial class MainWindow
     }
 
     private void QuestionToggle_Click(object sender, RoutedEventArgs args) =>
-        SetQuestionExpanded(QuestionPanel.Visibility != Visibility.Visible);
+        SetQuestionExpanded(!questionExpanded);
 
     private void SetQuestionExpanded(bool expanded)
     {
+        questionExpanded = expanded;
         if (!expanded)
         {
             CancelAnswer();
@@ -155,6 +157,11 @@ public partial class MainWindow
 
     private void SetQuestionEditing(bool editing)
     {
+        if (KeyboardControlActive && !switchingKeyboardMode)
+        {
+            SetKeyboardMode(editing ? KeyboardMode.Edit : KeyboardMode.Control);
+            return;
+        }
         if (editing && (fileBusy || !protectionReady))
         {
             QuestionStatus.Text = "Finish the file operation and restore capture protection before changing editing mode.";

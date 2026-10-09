@@ -4,11 +4,14 @@ from dataclasses import dataclass
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
+import threading
 
 
 SAMPLE_RATE = 16000
 MODEL_MANIFEST = Path(__file__).with_name("model.json")
+MODEL_LOAD_LOCK = threading.Lock()
 
 
 @dataclass(frozen=True)
@@ -45,7 +48,18 @@ class VoskFactory:
 
         vosk.SetLogLevel(-1)
         # Supplying a path is essential: language/name discovery may download a model.
-        self._model = vosk.Model(model_path=str(path))
+        if os.name == "nt" and not str(path).isascii():
+            # Vosk's Windows native file APIs do not accept UTF-8 absolute paths.
+            # Startup awaits this load before serving requests; chdir uses Windows wide APIs.
+            with MODEL_LOAD_LOCK:
+                previous = Path.cwd()
+                try:
+                    os.chdir(path)
+                    self._model = vosk.Model(model_path=".")
+                finally:
+                    os.chdir(previous)
+        else:
+            self._model = vosk.Model(model_path=str(path))
         self._recognizer_class = vosk.KaldiRecognizer
 
     def __call__(self):

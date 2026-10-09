@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "platform": "Windows 11 x64",
+  "pythonRelativePath": "runtime\\python\\python.exe",
+  "managerRelativePath": "services\\transcription\\manage.py",
+  "applicationRelativePath": "app\\PhantomFudge.exe",
+  "workspaceRelativeToLocalAppData": "PhantomFudge\\InstalledRuntime",
+  "privateDirectoryWithinWorkspace": ".local",
+  "tokenFileWithinPrivateDirectory": "transcription.token",
+  "configFileWithinPrivateDirectory": "transcription-config.json",
+  "userModelsDirectoryWithinPrivateDirectory": "models",
+  "modelResolution": "Existing per-user .local\\models\\<pinned-model-name> takes precedence; otherwise use installed models. Explicit provisioning writes only to per-user models. All selected files must pass the same pinned manifest.",
+  "managerArgumentPrefix": ["-I", "-B", "-X", "utf8"],
+  "managerCommands": ["start", "stop", "status"],
+  "managerExitCodes": {
+    "0": "Operation completed; status may indicate not listening.",
+    "1": "Operation refused or failed; no unrelated process was terminated.",
+    "64": "Invalid command."
+  },
+  "managerEnvironment": {
+    "PHANTOM_TRANSCRIPTION_WORKSPACE": "Absolute path to LocalAppData\\PhantomFudge\\InstalledRuntime",
+    "PHANTOM_TRANSCRIPTION_MODELS_ROOT": "Absolute path to InstallRoot\\models"
+  },
+  "applicationEnvironment": {
+    "PHANTOM_TRANSCRIPTION_TOKEN": "Existing locally generated token, never a command argument",
+    "PHANTOM_TRANSCRIPTION_URI": "ws://127.0.0.1:8765/v1/transcribe"
+  },
+  "tokenProvisioning": {
+    "randomBytes": 32,
+    "encoding": "64 lowercase ASCII hex characters, without BOM",
+    "creation": "Owner-SID-only DACL; CreateNew; retain and validate existing token.",
+    "acceptedPattern": "^[A-Za-z0-9_-]{32,512}$",
+    "never": ["ship token", "log token", "rotate implicitly", "copy provider credentials"]
+  },
+  "defaultConfigWhenAbsent": {
+    "schemaVersion": 1,
+    "engine": "hybrid-whisper",
+    "model": "small.en",
+    "threads": 4,
+    "vocabulary": "technical"
+  },
+  "managerOutput": "Human-readable bounded text, except listening status JSON; use exit code, not English text parsing.",
+  "startupTimeoutSeconds": 180,
+  "timeoutPolicy": "Do not kill a detached service or remove its receipt on launcher timeout.",
+  "launcherMaintenance": {
+    "arguments": ["--maintenance", "<existing-install-root>"],
+    "requiresPython": false,
+    "requiresOldRuntimeBinaries": false,
+    "requiresInstalledOwnershipMarker": true,
+    "requiresAppStopped": true,
+    "transport": "Native authenticated loopback HTTP GET /v1/runtime and POST /v1/shutdown; never a Python maintenance command.",
+    "coordination": "Current-user installed workspace and its existing token/receipt; shared byte-range lifecycle lock.",
+    "staleReceiptPolicy": "Only remove an unchanged receipt after Windows proves the recorded process absent or its creation identity changed. Ambiguous live ownership fails closed; never kill by PID.",
+    "exitPolicy": "Exit 0 permits maintenance; any nonzero exit blocks replacement or uninstall. Preserve user data in either case."
+  },
+  "uninstallPolicy": "Refuse active/foreign service; preserve InstalledRuntime and all user data. No purge by default.",
+  "capturePolicy": "Idle service startup never opens an audio endpoint; capture requires explicit app Start.",
+  "redistributionPolicy": "No internal Agency/provider binaries, auth, personal config or caches."
+}

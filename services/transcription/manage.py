@@ -13,10 +13,9 @@ from urllib.error import HTTPError, URLError
 from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 import uuid
 
-from configuration import load_config, metadata, paths, verify_config
+from configuration import ROOT, load_config, metadata, paths, verify_config
 
 
-ROOT = Path(__file__).resolve().parents[2]
 LOCAL = ROOT / ".local"
 RECORD = LOCAL / "transcription-runtime.json"
 SERVER = Path(__file__).with_name("server.py")
@@ -70,7 +69,7 @@ def lifecycle_lock():
         raise RuntimeFailure("This native launcher is for Windows. The headless service itself is portable.")
     import msvcrt
 
-    LOCAL.mkdir(exist_ok=True)
+    LOCAL.mkdir(parents=True, exist_ok=True)
     with (LOCAL / "transcription-runtime.lock").open("a+b") as lock:
         if lock.seek(0, os.SEEK_END) == 0:
             lock.write(b"0")
@@ -109,6 +108,48 @@ def write_record(data):
     temporary = RECORD.with_suffix(".tmp")
     temporary.write_text(json.dumps(data, indent=2), encoding="utf-8")
     temporary.replace(RECORD)
+
+
+def process_identity(pid):
+    """Inspect creation time, never signal a PID that may have been recycled."""
+    import ctypes
+    from ctypes import wintypes
+
+    kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+    kernel.OpenProcess.argtypes = (wintypes.DWORD, wintypes.BOOL, wintypes.DWORD)
+    kernel.OpenProcess.restype = wintypes.HANDLE
+    kernel.GetProcessTimes.argtypes = (wintypes.HANDLE,) + (ctypes.POINTER(wintypes.FILETIME),) * 4
+    kernel.GetProcessTimes.restype = wintypes.BOOL
+    kernel.CloseHandle.argtypes = (wintypes.HANDLE,)
+    kernel.CloseHandle.restype = wintypes.BOOL
+    handle = kernel.OpenProcess(0x1000, False, pid)  # PROCESS_QUERY_LIMITED_INFORMATION
+    if not handle:
+        if ctypes.get_last_error() == 87:  # A terminated/nonexistent process.
+            return None
+        raise RuntimeFailure("The recorded process cannot be inspected. No process or receipt was changed.")
+    try:
+        created, exited, system, user = (wintypes.FILETIME() for _ in range(4))
+        if not kernel.GetProcessTimes(handle, ctypes.byref(created), ctypes.byref(exited),
+                                      ctypes.byref(system), ctypes.byref(user)):
+            raise RuntimeFailure("The recorded process identity is unavailable. No process was changed.")
+        if exited.dwHighDateTime or exited.dwLowDateTime:
+            return None
+        return str((created.dwHighDateTime << 32) | created.dwLowDateTime)
+    finally:
+        kernel.CloseHandle(handle)
+
+
+def clear_dead_record(record):
+    pid, created = record.get("pid"), record.get("processCreatedAt")
+    if (type(pid) is not int or not 1 <= pid <= 0xFFFFFFFF
+            or (created is not None and (
+                not isinstance(created, str) or not re.fullmatch(r"[1-9][0-9]{0,19}", created)))):
+        raise RuntimeFailure("An incomplete or legacy service receipt remains. No second process was started; inspect the retained runtime receipt.")
+    current = process_identity(pid)
+    if current is not None and (created is None or current == created):
+        raise RuntimeFailure("The recorded service process is still alive but not listening. Its receipt was retained.")
+    # A missing PID or a different creation time proves the recorded process is gone.
+    RECORD.unlink()
 
 
 def owned_info(local_token, record):
@@ -178,7 +219,7 @@ def start():
             stop_owned(local_token, record, info)
             print("Restarting the owned idle service for the selected ASR configuration.")
         elif record is not None:
-            raise RuntimeFailure("A managed service receipt exists but its service is not reachable. No receipt was overwritten and no second process was started; inspect the retained runtime receipt.")
+            clear_dead_record(record)
 
         validate_start(config)
         model = paths(config)[0]
@@ -201,18 +242,23 @@ def start():
         })
         with (LOCAL / "transcription-service.log").open("wb") as log:
             process = subprocess.Popen(
-                [sys.executable, str(SERVER)], cwd=ROOT, env=env, stdin=subprocess.DEVNULL,
+                [sys.executable, "-B", "-X", "utf8", str(SERVER)], cwd=ROOT, env=env, stdin=subprocess.DEVNULL,
                 stdout=log, stderr=log,
                 creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP,
                 close_fds=True,
             )
+        record["pid"] = process.pid
+        write_record(record)
+        record["processCreatedAt"] = process_identity(process.pid)
+        write_record(record)
         deadline = time.monotonic() + 45
         while time.monotonic() < deadline:
             if process.poll() is not None:
                 raise RuntimeFailure("Local Python service exited during startup. Check setup and the local generic log.")
             if port_in_use():
                 info = owned_info(local_token, record)
-                record["pid"] = info.get("pid")
+                if info.get("pid") != process.pid:
+                    raise RuntimeFailure("The service process identity did not match the launched child.")
                 write_record(record)
                 if info.get("ready") is not True:
                     raise RuntimeFailure("Local model did not load. Use Stop-Transcription, repair setup and restart.")
@@ -233,7 +279,7 @@ def stop():
         record = read_record()
         if not port_in_use():
             if record is not None:
-                raise RuntimeFailure("The owned service is not reachable; no unrelated process was stopped. Inspect the local runtime receipt.")
+                clear_dead_record(record)
             print("No managed local Python service is running.")
             return
         info = owned_info(local_token, record)

@@ -12,7 +12,7 @@ Computer output and microphone input answer different questions: “what played 
 
 This chapter documents **source, not a new audio or capture result**. Its 16 files cover 3,586 physical lines in 147 contiguous annotation blocks with 58 focused excerpts. The [source atlas](../source-atlas/index.html) carries the complete source/block pairing; its [reader guide](../source-atlas/README.md) explains navigation. Reading these files did not run their tests, sockets, models, playback or capture windows. Documentation rendering and hash/coverage checks are recorded separately in the edition manifests.
 
-The entry path remains deliberate: `Start_Click` checks busy/running state, protection, requested devices and token before calling the adapter. Constructor event wiring does not start capture. A missing requested device is not silently replaced. (`src/PhantomFudge.App/MainWindow.xaml.cs:637`) (`src/PhantomFudge.App/MainWindow.xaml.cs:65`) (`src/PhantomFudge.App/Audio/WasapiInput.cs:46`)
+The entry path remains deliberate: `Start_Click` checks busy/running state, protection, requested devices and token before calling the adapter. Constructor event wiring does not start capture. A missing requested device is not silently replaced. (`src/PhantomFudge.App/MainWindow.xaml.cs:652`) (`src/PhantomFudge.App/MainWindow.xaml.cs:66`) (`src/PhantomFudge.App/Audio/WasapiInput.cs:46`)
 
 ## 2. Architecture: two input owners, one ordered sender
 
@@ -56,7 +56,7 @@ flowchart TD
     style View fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
 ```
 
-The diagram follows `StartCoreAsync`, `OnAudio`, `SendAudioAsync` and the actual UI subscriber—not hypothetical layers. The Python handler constructs one decoder per declared source before replying ready. (`src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:95`) (`src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:266`) (`src/PhantomFudge.App/Audio/TranscriptionSocket.cs:322`) (`services/transcription/server.py:565`) (`src/PhantomFudge.App/MainWindow.xaml.cs:781`)
+The diagram follows `StartCoreAsync`, `OnAudio`, `SendAudioAsync` and the actual UI subscriber—not hypothetical layers. The Python handler constructs one decoder per declared source before replying ready. (`src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:95`) (`src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:266`) (`src/PhantomFudge.App/Audio/TranscriptionSocket.cs:322`) (`services/transcription/server.py:565`) (`src/PhantomFudge.App/MainWindow.xaml.cs:796`)
 
 ### Readiness precedes device construction
 
@@ -154,7 +154,7 @@ For finals:
 
 After stop is marked sent, every selected v2 source must contribute a final before `stopped` is accepted. Remote error strings are validated for shape but replaced with a fixed safe message, preventing backend paths/secrets from becoming UI errors. (`src/PhantomFudge.App/Audio/TranscriptionSocket.cs:406`) (`src/PhantomFudge.App/Audio/TranscriptionSocket.cs:446`) (`src/PhantomFudge.App/Audio/TranscriptionSocket.cs:468`)
 
-`TranscriptEvent` is only a record; it does not validate itself. The socket publishes validated fields, the adapter copies in its capture GUID, and `MainWindow` dispatches onto the UI thread. `ReceiveTranscript` rejects a callback whose GUID differs from the current structured transcript session. This prevents delayed old-session text entering a new capture; source identity and session identity solve different problems. (`src/PhantomFudge.App/Audio/TranscriptEvent.cs:9`) (`src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:95`) (`src/PhantomFudge.App/MainWindow.xaml.cs:65`) (`src/PhantomFudge.App/MainWindow.xaml.cs:783`)
+`TranscriptEvent` is only a record; it does not validate itself. The socket publishes validated fields, the adapter copies in its capture GUID, and `MainWindow` dispatches onto the UI thread. `ReceiveTranscript` rejects a callback whose GUID differs from the current structured transcript session. This prevents delayed old-session text entering a new capture; source identity and session identity solve different problems. (`src/PhantomFudge.App/Audio/TranscriptEvent.cs:9`) (`src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:95`) (`src/PhantomFudge.App/MainWindow.xaml.cs:66`) (`src/PhantomFudge.App/MainWindow.xaml.cs:798`)
 
 ## 5. Stop is an ordered protocol, not merely a cancellation token
 
@@ -247,7 +247,7 @@ wire.set(pcm, 1);
 
 This preserves opaque sample bytes and a binary tag; text serialization would violate the actual receiver's binary-frame contract. The real Python probe pads to 3,200 PCM bytes and sends each source at approximately real-time cadence. (`tools/DualSourceProbe/probe.py:96`) (`services/transcription/server.py:317`)
 
-One source-review caveat matters for maintenance: the older “current service is reused” test mocks ready/active/v2 metadata but omits `configFingerprint` and does not mock configuration loading. Current `manage.start` requires both current audio capability **and engine fingerprint** before reuse. Therefore the fixture's name cannot establish current successful reuse; parent test owners should review it without interpreting this documentation pass as execution. Other tests correctly express exact integer v2 detection and refusing shutdown unless activity is literally false. (`tools/DualSourceProbe/test_runtime_upgrade.py:12`) (`tools/DualSourceProbe/test_runtime_upgrade.py:25`) (`services/transcription/manage.py:132`) (`services/transcription/manage.py:171`)
+One source-review caveat matters for maintenance: the older “current service is reused” test mocks ready/active/v2 metadata but omits `configFingerprint` and does not mock configuration loading. Current `manage.start` requires both current audio capability **and engine fingerprint** before reuse. Therefore the fixture's name cannot establish current successful reuse; parent test owners should review it without interpreting this documentation pass as execution. Other tests correctly express exact integer v2 detection and refusing shutdown unless activity is literally false. (`tools/DualSourceProbe/test_runtime_upgrade.py:12`) (`tools/DualSourceProbe/test_runtime_upgrade.py:25`) (`services/transcription/manage.py:173`) (`services/transcription/manage.py:212`)
 
 ## 7. Local GDI positive control is not recipient qualification
 

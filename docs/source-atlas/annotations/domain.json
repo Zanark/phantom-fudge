@@ -81,6 +81,72 @@
       ]
     },
     {
+      "path": "src/PhantomFudge.Core/KeyboardCommands.cs",
+      "sourceSha256": "df9007fed871a46d23a02b85700299c8c28c97032f42ddafbf8a442b5057c1b6",
+      "role": "Turns bounded palette text into allowlisted command data and offers curated prefixes without executing actions, shell syntax or model requests.",
+      "entryPoints": ["KeyboardCommandKind", "KeyboardCommand", "KeyboardCommands.Examples", "KeyboardCommands.Parse", "KeyboardCommands.Suggest"],
+      "blocks": [
+        {
+          "start": 1, "end": 25, "title": "Separate command identity, payload and curated examples",
+          "explanation": "KeyboardCommandKind declares sixteen action families; KeyboardCommand carries a kind plus optional string Argument and integer Value. The record constructor itself does not validate enum values or payload combinations: Parse supplies that contract for text input. The public limits are 128 input units and font sizes 8..24. Examples wraps twenty-three fixed strings in a read-only collection, including record aliases and representative numeric values rather than every valid font or opacity. These declarations describe requests only; they do not start recording, copy content, send a question or change a window.",
+          "focus": [{"start": 5, "end": 16}]
+        },
+        {
+          "start": 26, "end": 55, "title": "Accept exactly one built-in token pattern",
+          "explanation": "Parse first tokenizes and gives an empty token list its own authored error. Exact list patterns enforce argument count: start and record start produce the same Start value, while source, clarify and theme accept only their listed normalized arguments. Font and opacity produce integer Value payloads through separate inclusive bounds of 8..24 and 10..100. Everything else, including missing or excess arguments, receives the fixed unknown-command ArgumentException with parameter text rather than an echoed input. Matching returns data, not an invocation; caller-side availability, confirmation and application-state guards are not enforced by this parser.",
+          "focus": [{"start": 32, "end": 41}]
+        },
+        {
+          "start": 56, "end": 64, "title": "Prefix suggestions are neither validation nor completion of every value",
+          "explanation": "Suggest uses the same tokenizer as Parse and rejoins normalized tokens with one space. It filters Examples with an ordinal case-insensitive prefix comparison, retains declaration order and clamps maximum to 0..20, defaulting to five. Each call materializes a fresh read-only array wrapper, so later calls cannot mutate an earlier result. Blank input offers the initial examples; an unmatched prefix yields an empty list without invoking Parse. Thus font 8 is valid but has no suggestion because the curated numeric example is font 14. Even a zero result limit still runs tokenizer validation first.",
+          "focus": [{"start": 57, "end": 63}]
+        },
+        {
+          "start": 65, "end": 79, "title": "Validate raw text before whitespace and colon normalization",
+          "explanation": "Tokenize rejects null, then raw string lengths above 128, then control characters other than tab, CR and LF. The ceiling counts UTF-16 code units including leading/trailing whitespace and any colon, not bytes or visible glyphs. Control validation precedes trimming, so forbidden controls cannot disappear at the edges. Trimming removes surrounding whitespace, at most one leading colon is stripped, and invariant lowercasing plus whitespace splitting produces the command tokens. Unicode whitespace can separate tokens, but control whitespace such as vertical tab remains forbidden. Newlines separate words, not independent commands: source newline mic can match one command, whereas start newline stop cannot.",
+          "focus": [{"start": 68, "end": 78}]
+        },
+        {
+          "start": 80, "end": 88, "title": "Reject decorated, overflowing or out-of-range numeric arguments",
+          "explanation": "ParseInteger uses int.TryParse with NumberStyles.None and InvariantCulture, then checks both inclusive endpoints before returning a value. Decimal digit strings with leading zeroes are accepted; signs, fractions, exponents, grouping, unit suffixes and Int32 overflow are not coerced or clamped. Both parse and range failures throw the caller-supplied fixed message with parameter text, without copying the numeric input into the error. This helper validates the numeric token only; the list-pattern caller has already enforced the command's two-token shape.",
+          "focus": [{"start": 81, "end": 86}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs",
+      "sourceSha256": "4b865897ed9dafdac5e9c2ffe45b397eabd28700c54c4231f5647677e4bd5ee5",
+      "role": "Loads a small strict local shortcut document and resolves an allowlisted activation key while distinguishing absent settings from malformed or inaccessible settings.",
+      "entryPoints": ["KeyboardShortcutSettings", "KeyboardShortcutSettings.Validate", "KeyboardShortcutSettings.VirtualKey", "KeyboardShortcutConfiguration.FilePath", "KeyboardShortcutConfiguration.Load"],
+      "blocks": [
+        {
+          "start": 1, "end": 29, "title": "Resolve a key without normalizing stored text or registering a hotkey",
+          "explanation": "Settings default to Enabled=true and ActivationKey=K. Both Validate and the computed VirtualKey call the same resolver, even when Enabled is false; record construction alone performs no validation. A one-character ASCII letter is uppercased invariantly and accepted except E. Function keys require F or f, length two or three, no leading zero, invariant unsigned integer syntax and a number from one through eleven, mapping to 0x70..0x7A. F12 and f12 are rejected along with null, whitespace-padded names and Unicode lookalikes; ArgumentException names ActivationKey and advertises only A-Z except E or F1-F11. Stored casing is preserved. This validates a key value, not modifier policy, OS registration availability or successful shortcut activation.",
+          "focus": [{"start": 15, "end": 25}]
+        },
+        {
+          "start": 30, "end": 54, "title": "Default only when opening finds no file or directory",
+          "explanation": "The loader owns a 1,024-byte ceiling and a UTF-8 decoder configured to throw rather than replace malformed bytes. FilePath is a mutable public field initially pointing to LocalApplicationData/PhantomFudge/keyboard.json; a non-null argument takes precedence, while null uses that field. Opening uses FileMode.Open, read access and FileShare.Read. Only FileNotFoundException and DirectoryNotFoundException return new default settings. No directory or file is created. Invalid paths, access denial and sharing or other I/O failures propagate instead of silently enabling the default shortcut.",
+          "focus": [{"start": 44, "end": 53}]
+        },
+        {
+          "start": 55, "end": 75, "title": "Bound bytes before decoding and parsing",
+          "explanation": "Within a disposing stream scope, ReadAtLeast requests 1,025 bytes with end-of-stream permitted. A count above 1,024 rejects the file before decoding or JSON parsing; this bounds the read buffer without trusting an initial Length property or reading a huge file in full. A leading three-byte UTF-8 BOM is excluded only from decoding, so it still consumes the byte budget. Invalid UTF-8 is translated into a fixed InvalidDataException. JsonDocument.Parse uses its default strict syntax and its JsonException is not caught. A successfully parsed non-object root gets a separate InvalidDataException; neither failure path rewrites the input.",
+          "focus": [{"start": 57, "end": 66}]
+        },
+        {
+          "start": 76, "end": 105, "title": "Reject duplicate, unknown, mis-cased and mistyped properties",
+          "explanation": "Property names enter an ordinal HashSet before dispatch, so duplicates are rejected even when different JSON escape spellings decode to the same name. The switch permits only exact schemaVersion, enabled and activationKey names. Version must be a JSON number readable as Int32 and equal to one; enabled must be a JSON Boolean; activationKey must be a JSON string. Unknown names and wrong value kinds fail immediately with fixed InvalidDataException messages. Local initial values are only parsing storage, not permission to omit fields. Enumeration and validation remain inside both disposal scopes.",
+          "focus": [{"start": 80, "end": 91}]
+        },
+        {
+          "start": 106, "end": 116, "title": "Require the complete schema before validating and returning",
+          "explanation": "Exactly three distinct properties must survive the allowlist, which together with duplicate and unknown-name rejection guarantees that all required names appeared. Missing fields cannot inherit the local enabled or activationKey initializers. Only then does the loader create the settings record and validate the activation key; an invalid key propagates ArgumentException, including for disabled settings, rather than becoming a schema error or default. Each call reads anew and returns only after all checks; there is no last-good cache, automatic repair, persistence or hotkey registration in this file.",
+          "focus": [{"start": 107, "end": 113}]
+        }
+      ]
+    },
+    {
       "path": "src/PhantomFudge.Core/NoteFileStore.cs",
       "sourceSha256": "b77d315514d7fdbe492123fac1819c16fa1dd33d114807cff2eda04135d88658",
       "role": "Reads and explicitly writes bounded strict UTF-8 notes, preserving BOM choice and using byte fingerprints to detect observed external changes.",
@@ -338,6 +404,127 @@
       ]
     },
     {
+      "path": "tests/PhantomFudge.Core.Tests/KeyboardCommandsTests.cs",
+      "sourceSha256": "d0cf50ca2a92daa530151636c8554effcab7a3b8032caa0e9ff24201a3185639",
+      "role": "Specifies canonical command payloads, rejection boundaries and stable read-only suggestions with synthetic strings rather than application actions.",
+      "entryPoints": ["KeyboardCommandsTests.ParsesOnlyCanonicalData", "KeyboardCommandsTests.NumericArgumentsRequireInvariantUnsignedDecimalIntegers", "KeyboardCommandsTests.MaximumInputLengthIncludesWhitespaceBeforeTrimming", "KeyboardCommandsTests.InjectionShapedTextIsRejectedWithoutEchoingIt", "KeyboardCommandsTests.SuggestionsUseStableCanonicalPrefixOrdering", "KeyboardCommandsTests.AssertReadOnly"],
+      "blocks": [
+        {
+          "start": 1, "end": 42, "title": "Compare full command records across canonical and normalized spellings",
+          "explanation": "The table specifies kind, optional argument and optional integer for every command family, including record aliases, all enumerated source/theme choices, numeric endpoints and leading-zero font/opacity spellings. Each row compares the complete expected record twice: once from the canonical input and once from uppercased input wrapped in whitespace and one colon. Full-record equality catches misplaced or unexpected payloads, not merely the right enum. These are parser tests only; Start, Ask, Copy and the other names do not execute their corresponding application actions here.",
+          "focus": [{"start": 37, "end": 42}]
+        },
+        {
+          "start": 43, "end": 76, "title": "Distinguish normalization, null failure and an empty suggestion prefix",
+          "explanation": "Mixed casing, tabs, CR/LF, em spaces and nonbreaking spaces must parse like canonical commands after removing one leading colon. Null must fail both Parse and Suggest with ArgumentNullException, the authored Enter a built-in command message and parameter text. Empty, whitespace-only and colon-only inputs instead yield Parse's ArgumentException while Suggest returns the first five Examples. The tests preserve the intentional difference between submitting no command and requesting initial suggestions, despite both APIs sharing the tokenizer.",
+          "focus": [{"start": 71, "end": 76}]
+        },
+        {
+          "start": 77, "end": 124, "title": "Reject abbreviated names, missing arguments and extra tokens",
+          "explanation": "Negative rows exercise unknown verbs, prefixes such as sta, unsupported record/source/clarify/theme subcommands, absent arguments and invalid colon positions. Every one must receive the fixed unknown-command message and parameter text, not a guessed command. A separate loop appends an extra token to every public example and requires failure, tying strict arity to the evolving example list. These assertions prohibit implicit suffix tolerance and shell-like argument interpretation; valid whitespace inside a recognized token sequence remains covered separately.",
+          "focus": [{"start": 111, "end": 116}]
+        },
+        {
+          "start": 125, "end": 177, "title": "Pin numeric bounds and forbid alternative number notations",
+          "explanation": "Font values below eight or above twenty-four and opacity values below ten or above one hundred must report their respective authored range errors. The shared invalid-number matrix then checks fractions, locale commas, scientific notation, NaN/infinities, signs, hexadecimal, separators, suffixes, Int32 overflow and non-ASCII digit forms against both commands. The errors must identify parameter text without confusing the two ranges. Accepted endpoints and leading zeroes appear in the earlier positive table; rejection is not evidence of a blanket ban on every noncanonical decimal spelling.",
+          "focus": [{"start": 169, "end": 176}]
+        },
+        {
+          "start": 178, "end": 203, "title": "Restore both cultures after testing invariant parsing",
+          "explanation": "For Turkish, French and Saudi Arabic cultures, the fixture changes both CurrentCulture and CurrentUICulture, parses uppercase words and ordinary decimal values, and checks normalized clarify suggestions. A comma decimal still fails. The finally block restores both original cultures even if an assertion throws, avoiding contamination of subsequent work. These cases exercise culture independence of the chosen word and number paths; they do not simulate keyboard layouts, IME composition or translated UI labels.",
+          "focus": [{"start": 189, "end": 200}]
+        },
+        {
+          "start": 204, "end": 239, "title": "Count raw UTF-16 input before trimming or limiting suggestions",
+          "explanation": "A help command padded to exactly 128 units must parse and suggest successfully, while adding one space must make both APIs throw the length error. The next fixture includes the leading colon in that same budget. Sixty-five supplementary emoji occupy 130 UTF-16 code units and must fail Parse and Suggest even with maximum zero. Together these controls catch moving the check after trimming, after colon removal, or behind an empty-result shortcut; they do not measure bytes or user-perceived glyph count.",
+          "focus": [{"start": 230, "end": 238}]
+        },
+        {
+          "start": 240, "end": 260, "title": "Do not trim away forbidden control characters",
+          "explanation": "The control-character table includes NUL, backspace, vertical tab, form feed, escape, DEL and selected C1 controls. Each is placed before help, after help and between source and mic; both Parse and Suggest must reject all three positions with the authored control-character message. Edge positions specifically guard against trimming before validation, while the middle position guards against treating every control as a legal separator. Tab, CR and LF are deliberately absent because the earlier positive normalization cases allow them.",
+          "focus": [{"start": 251, "end": 259}]
+        },
+        {
+          "start": 261, "end": 291, "title": "Treat shell-shaped and instruction-shaped text as invalid data",
+          "explanation": "The matrix supplies chaining operators, newlines joining separate commands, substitutions, quoted values, comments, redirection, executable-looking text and an instruction-like sentence. Parse must throw ArgumentException without embedding the complete supplied input in its message, retain parameter text, and Suggest must return no matches. This validates the deterministic allowlist and the error non-echo behavior for these samples. It is not a shell sandbox or model-safety trial: the tests neither start processes nor send text to a provider.",
+          "focus": [{"start": 285, "end": 291}]
+        },
+        {
+          "start": 292, "end": 329, "title": "Keep the public examples canonical, complete by family and read-only",
+          "explanation": "Examples must be nonempty, unique under ordinal case-insensitive comparison, trimmed, lowercase and colon-free. Parsing them must cover exactly the enum's command families; explicit font 14 and opacity 55 assertions preserve representative numeric entries. Further tests snapshot Examples and suggestions for matching, unmatched and empty prefixes, exercise the shared mutation-rejection helper, and compare later reads with the snapshots. These checks protect collection exposure, including empty results, without claiming that Examples enumerates every valid numeric command.",
+          "focus": [{"start": 294, "end": 305}]
+        },
+        {
+          "start": 330, "end": 372, "title": "Preserve prefix ordering, clamp counts and distinguish no match from invalid syntax",
+          "explanation": "Source suggestions must retain mic/computer/both declaration order across casing, whitespace and colon normalization; partial source M, record, font and copy prefixes have exact expected results. Maximum values from Int32.MinValue through Int32.MaxValue must clamp to 0..20, with the omitted limit still five. A larger maximum never pads the three theme matches. Unknown prefixes and invalid commands may have no suggestions, but so does valid font 8 because it is not a curated example. Empty suggestions therefore cannot substitute for Parse or disable otherwise valid submission.",
+          "focus": [{"start": 354, "end": 362}]
+        },
+        {
+          "start": 373, "end": 408, "title": "Verify snapshot lifetime and reject mutable collection backdoors",
+          "explanation": "A saved copy-suggestion result must survive later suggestion and parse calls unchanged. Separate assertions pin the public 128-input and 8..24-font constants without exercising a real slider. AssertReadOnly rejects a raw string array, casts to generic IList, checks IsReadOnly and requires Add/Clear to throw; nonempty lists must also reject replacement and RemoveAt. It repeats read-only, Add and Clear checks through nongeneric IList. The helper tests actual mutation attempts rather than trusting only the IReadOnlyList static type, which by itself would not prevent a mutable underlying collection.",
+          "focus": [{"start": 391, "end": 402}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/KeyboardShortcutConfigurationTests.cs",
+      "sourceSha256": "06cb8cb0727b11cf41c766d374248d1a5917dd60db8ecb6f070a79d6d6bc1e57",
+      "role": "Exercises allowed key resolution, strict settings schema and bounded read-only file loading using disposable synthetic files, not global hotkey registration.",
+      "entryPoints": ["KeyboardShortcutConfigurationTests.ValidKeys", "KeyboardShortcutConfigurationTests.AllowedKeysHaveExactCaseInsensitiveVirtualKeys", "KeyboardShortcutConfigurationTests.InvalidSchemaNeverSilentlyLoadsDefaults", "KeyboardShortcutConfigurationTests.ByteLimitIsInclusiveAndCheckedBeforeJsonParsing", "KeyboardShortcutConfigurationTests.LockedFileFailureIsNotReplacedWithDefaults", "KeyboardShortcutConfigurationTests.Dispose"],
+      "blocks": [
+        {
+          "start": 1, "end": 42, "title": "Isolate filesystem fixtures and pin the default key and path",
+          "explanation": "Each test instance creates a GUID-named .keyboard-shortcut-tests directory relative to the working directory and uses its keyboard.json, rather than writing the user's default settings. ValidKeys enumerates all twenty-five ASCII letters except E and the eleven function keys F1-F11 with exact expected virtual-key values. The default test validates a new record, requires Enabled=true, K and 0x4B, and compares the configured default path with LocalApplicationData/PhantomFudge/keyboard.json. That path assertion does not open the real settings file or register any shortcut.",
+          "focus": [{"start": 22, "end": 28}]
+        },
+        {
+          "start": 43, "end": 62, "title": "Round-trip every allowed key in both cases and enabled states",
+          "explanation": "For each ValidKeys row, nested loops test the original and lowercase spellings with Enabled both true and false. The constructed record must validate and resolve the exact virtual key while retaining its supplied ActivationKey casing. WriteSettings serializes the synthetic configuration, Load must return a value-equal record, and the loaded record must resolve the same virtual key. This connects direct key validation to file loading and prevents Disabled from becoming an alternate validation path. It proves data mapping only, not OS acceptance of those keys.",
+          "focus": [{"start": 50, "end": 59}]
+        },
+        {
+          "start": 63, "end": 117, "title": "Reject unsupported keys even when activation is disabled",
+          "explanation": "Negative inputs explicitly include F12 and f12, alongside E/e, blank or padded names, multi-letter names, digits, other out-of-range or zero-prefixed function keys, signed/fractional/exponential function syntax, Unicode lookalikes, control characters and command-shaped strings. For both enabled states, Validate must throw the authored F1-F11 ArgumentException naming ActivationKey, VirtualKey must also throw, and loading the serialized value must fail rather than default. A separate null-key test checks direct record validation and property access; JSON null is a different schema-kind failure covered later. No settings are normalized into an accepted alternative.",
+          "focus": [{"start": 97, "end": 108}]
+        },
+        {
+          "start": 118, "end": 170, "title": "Separate absent settings from explicit and configured path selection",
+          "explanation": "Missing-file and missing-directory tests require default records without creating the missing filesystem objects. Two fixtures temporarily replace the mutable FilePath and restore it in finally: omitted and null arguments must use that path, while an explicit file must load successfully even when the configured default contains invalid JSON. The latter makes accidental default-path access observable. All writes remain in the instance fixture directory; these tests neither rewrite the user's configuration nor establish a synchronized policy for concurrent mutation of FilePath.",
+          "focus": [{"start": 138, "end": 149}]
+        },
+        {
+          "start": 171, "end": 212, "title": "Reject structural schema errors without repairing the file",
+          "explanation": "The schema matrix includes non-object roots, missing fields, unsupported or non-Int32 version representations, wrong enabled/key value kinds, unknown options and mis-cased property names. Each valid-JSON input must raise InvalidDataException and retain exact string equality with File.ReadAllText afterward; this is a text comparison, not a byte-array comparison. It guards against silent defaulting or automatic rewriting on schema rejection. In particular, schemaVersion 1.0 and 1e0 are deliberately rejected rather than treated as the accepted integer spelling; malformed JSON and unsupported string key values have their own exception tests.",
+          "focus": [{"start": 202, "end": 212}]
+        },
+        {
+          "start": 213, "end": 252, "title": "Compare decoded names and preserve distinct JSON parse failures",
+          "explanation": "Repeated schemaVersion, enabled or activationKey must report the duplicate-property InvalidDataException, including a literal enabled name paired with an escaped spelling of the same decoded name. Empty/incomplete text, comments, trailing commas, multiple roots and single-quoted syntax must instead propagate a JsonException subtype. A positive object reorders properties, adds whitespace and uses escaped key/name characters; it still loads disabled lowercase k. These controls distinguish strict JSON syntax and decoded-name identity from raw-text equality or a blanket ban on escape sequences.",
+          "focus": [{"start": 219, "end": 224}]
+        },
+        {
+          "start": 253, "end": 272, "title": "Accept a leading UTF-8 BOM without tolerating malformed bytes",
+          "explanation": "The BOM fixture explicitly concatenates UTF-8 preamble bytes with a valid settings object, loads default-valued settings and compares the complete stored byte array afterward. The invalid-encoding fixture inserts byte FF inside the key string and requires the authored UTF-8 InvalidDataException, not replacement-character decoding or an unrelated unsupported-key failure. These tests establish acceptance and nonmutation for the BOM case and rejection for this malformed byte sequence; they are not an exhaustive decoder conformance suite.",
+          "focus": [{"start": 255, "end": 262}]
+        },
+        {
+          "start": 273, "end": 315, "title": "Exercise inclusive byte limits before key or JSON interpretation",
+          "explanation": "Valid ASCII JSON padded to exactly 1,024 bytes must load; one appended space must trigger the size message. A second control pads to 1,021 bytes before adding the three-byte BOM and likewise rejects the next byte. Replacing K with 510 accented characters creates JSON shorter than 1,024 characters but longer than 1,024 UTF-8 bytes, and must fail with the size error before key validation. A 64 KiB file must also be rejected. These assertions test limit behavior; the bounded 1,025-byte read allocation is established by loader source, not measured memory usage here.",
+          "focus": [{"start": 275, "end": 285}]
+        },
+        {
+          "start": 316, "end": 343, "title": "Do not disguise access errors or stale configuration as defaults",
+          "explanation": "An empty path must throw ArgumentException, an existing directory must throw UnauthorizedAccessException in this filesystem environment, and a file held with FileShare.None must cause IOException. None is treated like a missing settings file. Sequential rewrites then change F1/enabled to F11/disabled: a new Load must observe the new content while the previously returned record remains unchanged. Replacing the file with an invalid empty object must fail rather than returning either cached valid value. These are sequential I/O controls, not a concurrent writer or atomic-snapshot test.",
+          "focus": [{"start": 334, "end": 342}]
+        },
+        {
+          "start": 344, "end": 369, "title": "Restore culture and remove only the owned fixture directory",
+          "explanation": "Turkish and Saudi Arabic culture rows write lowercase i and f11 and require invariant virtual keys 0x49 and 0x7A. CurrentCulture is restored in finally even on failure. WriteSettings consistently emits exactly schemaVersion=1, enabled and activationKey through JsonSerializer; IDisposable cleanup recursively deletes the instance's GUID-named directory. The fixtures exercise local parsing and synthetic filesystem state, not RegisterHotKey, application focus, microphone capture, model calls or real keyboard input. Source assertions do not by themselves establish that a test run passed.",
+          "focus": [{"start": 353, "end": 362}]
+        }
+      ]
+    },
+    {
       "path": "tests/PhantomFudge.Core.Tests/LocalDiagnosticsTests.cs",
       "sourceSha256": "26b07c9ed531977a4512032d1ae7e56ce03b7c19b2d8b77be3130a3605a02217",
       "role": "Exercises synthetic JSONL flushing, rotation, observable I/O failure and selected metadata rejection controls without live content.",
@@ -400,14 +587,14 @@
     },
     {
       "path": "tests/PhantomFudge.Core.Tests/PhantomFudge.Core.Tests.csproj",
-      "sourceSha256": "b111c7f1e9b4a481f241b2d67f7019b8c46dcc490e22d4c07c6be248924b5b4f",
-      "role": "Declares the .NET 10 xUnit test assembly and its direct Core project dependency.",
+      "sourceSha256": "30b5c5e382fdc9d2c506daeb0af68531ed9d1c5d0a07ee5a2b198ffac03e1485",
+      "role": "Declares the .NET 10 xUnit test assembly, its Core dependency and directly linked non-UI launcher helpers.",
       "entryPoints": ["MSBuild test-project evaluation"],
       "blocks": [
         {
-          "start": 1, "end": 24, "title": "Test host, global assertion namespace and library reference",
-          "explanation": "The SDK project targets net10.0, enables implicit usings/nullable analysis and marks itself nonpackable. It references Microsoft.NET.Test.Sdk 17.14.1, xunit 2.9.3 and xunit.runner.visualstudio 3.1.4. The Using item makes Xunit attributes/assertions available without per-file using statements, and ProjectReference compiles tests against the first-party Core library. Directory.Build.props contributes shared settings. Package implementations and locks are outside these annotations; declarations do not demonstrate a restored or passing test run.",
-          "focus": [{"start": 10, "end": 21}]
+          "start": 1, "end": 30, "title": "Test host, assertion namespace and isolated launcher source links",
+          "explanation": "The nonpackable net10.0 project enables nullable/implicit usings and references the pinned test SDK, xUnit and runner. Using supplies the global Xunit namespace; ProjectReference compiles against Core. Six Compile links include actual non-UI launcher source for contract, process handoff, token and maintenance tests without depending on its WPF entry point. They are not duplicate implementations or permission to run a real service. Directory.Build.props contributes shared correctness settings. Declarations alone do not establish passing execution.",
+          "focus": [{"start": 10, "end": 18}, {"start": 20, "end": 28}]
         }
       ]
     },

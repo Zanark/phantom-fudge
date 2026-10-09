@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "target": "cp313-win_amd64",
+  "python": {
+    "filename": "python-3.13.14-embed-amd64.zip",
+    "url": "https://www.python.org/ftp/python/3.13.14/python-3.13.14-embed-amd64.zip",
+    "sha256": "90b4e5b9898b72d744650524bff92377c367f44bd5fbd09e3148656c080ad907",
+    "bytes": 10964839
+  },
+  "vcRuntime": {
+    "directoryVersion": "14.44.35112",
+    "fileVersion": "14.44.35211.0",
+    "origin": "Official Microsoft Visual Studio 2022 VC/Redist/MSVC/<directoryVersion>/x64; never System32 or debug_nonredist",
+    "files": {
+      "concrt140.dll": "2405355f0a58067b258f8df33c327e3a3d716eaac5a3a5aebb757842d85bd376",
+      "msvcp140.dll": "0f885b509a685d2bbfa652fed26b5fb31d88fbdab0a978c641d1c7b8aa460aa9",
+      "msvcp140_1.dll": "bfad5aef4c63a669e3c140655cdfdf395b6c979b400a447bd5dcb65ed8826c3d",
+      "msvcp140_2.dll": "3ea06f0ee098b4823cb79599df3780e7f23cce52c19aac31d2a0d47efe33a5e9",
+      "msvcp140_atomic_wait.dll": "640b2aefced484d0368eea5bdd06addd0658a3a70a49256e560d6923b404a479",
+      "msvcp140_codecvt_ids.dll": "f2069a52880ec885ee7f0511186100eb7fada0411a2b4948fafea7735b878a18",
+      "vccorlib140.dll": "19839407c3fdbc824e5bce189bf68ddf8097f12ec28b757797ffa0415c144ddd",
+      "vcruntime140.dll": "d5e4d9a3e835fa679450145d6a7d94e36573a509317111904d9b3712c30d9066",
+      "vcruntime140_1.dll": "1f2d41c4aa5db0bc33ebf7b66d72943a817d7ce6cbe880502a9403823633093f",
+      "vcruntime140_threads.dll": "219915cf20822f34d5e7c1fdd4e21ae7f3396881096c51036225fb8f84b47afa",
+      "vcomp140.dll": "55aba23cdcd6484fbb06f4155b8ca75adfce7a881f10afd0c49457165e677164"
+    }
+  },
+  "excludedPackages": {
+    "av": "The installed speech adapter only accepts in-memory PCM arrays. A disclosed faster-whisper patch makes optional file decoding fail explicitly without importing PyAV/FFmpeg."
+  },
+  "packagePatches": {
+    "fasterWhisper": {
+      "upstreamVersion": "1.2.1",
+      "installedVersion": "1.2.1+phantomfudge1",
+      "audioSha256": "60a1d8638f718cbf6d245aed3e5a5aa61c1f822a0b0fe9b48a7c928d47c23909",
+      "padOrTrimSha256": "aa264b40d16df0ee7f0f9421ac5e8692ffb5c88f3c36e33c29bb3792f388cb08",
+      "unchangedFiles": {
+        "faster_whisper/transcribe.py": "5d5ffb00018561d3d529b2c72e1d9f5fff055bea725f3cccc7c6c67f5cc8ffe4",
+        "faster_whisper/feature_extractor.py": "e403966dbc592a53695eea2aea24fa60bab50ef6755e0076b311f907be7a397c",
+        "faster_whisper/vad.py": "37a9c774aefdd3162d936b896c8dcf5571b2ed938d65bffecfd631770049a18d",
+        "faster_whisper/__init__.py": "5396c3a025a7b0cf81246fcd680c0bb7e384e2e587cc2e18f9518cef4c26d56c"
+      },
+      "change": "Only encoded-file decoding and its eager PyAV import are removed; ndarray transcription, feature extraction, VAD and pad_or_trim remain upstream source.",
+      "reason": "Our production finalizer supplies NumPy PCM arrays. PyAV19's FFmpeg wheel includes unused x264/x265 components; its vendor patch moves them out of FFmpeg's GPL library classification. An LGPL-only label therefore does not establish redistribution compliance for that bundle. Excluding the unused decoder avoids shipping those unresolved codec components.",
+      "licenseBoundary": "This is not a claim that PyAV can never be redistributed. An unchanged codec bundle would require its own complete component/source/license compliance review, which this release has not established. faster-whisper itself remains MIT; installed metadata deliberately describes a modified distribution, not an intact upstream dependency graph.",
+      "evidence": [
+        "https://raw.githubusercontent.com/PyAV-Org/pyav-ffmpeg/9.0.2-1/patches/ffmpeg.patch",
+        "https://github.com/SYSTRAN/faster-whisper/blob/v1.2.1/faster_whisper/transcribe.py",
+        "https://github.com/SYSTRAN/faster-whisper/blob/v1.2.1/LICENSE"
+      ]
+    }
+  },
+  "wheels": [
+    ["aiohttp", "3.14.3", "aiohttp-3.14.3-cp313-cp313-win_amd64.whl", "dff9461ec275f22135650d5ba4b4931a11f3958df7dfbb8db630000d4dee0883"],
+    ["vosk", "0.3.45", "vosk-0.3.45-py3-none-win_amd64.whl", "6994ddc68556c7e5730c3b6f6bad13320e3519b13ce3ed2aa25a86724e7c10ac"],
+    ["aiohappyeyeballs", "2.7.1", "aiohappyeyeballs-2.7.1-py3-none-any.whl", "9243213661e29250eb41368e5daa826fc017156c3b8a11440826b2e3ed376472"],
+    ["aiosignal", "1.4.0", "aiosignal-1.4.0-py3-none-any.whl", "053243f8b92b990551949e63930a839ff0cf0b0ebbe0597b0f3fb19e1a0fe82e"],
+    ["attrs", "26.1.0", "attrs-26.1.0-py3-none-any.whl", "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309"],
+    ["certifi", "2026.7.22", "certifi-2026.7.22-py3-none-any.whl", "62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775"],
+    ["cffi", "2.1.1", "cffi-2.1.1-cp313-cp313-win_amd64.whl", "1aa5645c30469b09530c4ebca77ebf8f17618293c58f8549cb1a543a50236e7d"],
+    ["charset-normalizer", "3.5.2", "charset_normalizer-3.5.2-cp313-cp313-win_amd64.whl", "78456a747de8dc58360ffa581f30a002baf5aa28cb262536545e91f113ed7639"],
+    ["colorama", "0.4.6", "colorama-0.4.6-py2.py3-none-any.whl", "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"],
+    ["frozenlist", "1.8.0", "frozenlist-1.8.0-cp313-cp313-win_amd64.whl", "878be833caa6a3821caf85eb39c5ba92d28e85df26d57afb06b35b2efd937231"],
+    ["idna", "3.20", "idna-3.20-py3-none-any.whl", "ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c"],
+    ["multidict", "6.9.1", "multidict-6.9.1-cp313-cp313-win_amd64.whl", "ac51cd64bae51c462ea58ad2492c9b8209667a4ef60c45c4a304518b67598d5d"],
+    ["propcache", "0.5.4", "propcache-0.5.4-cp313-cp313-win_amd64.whl", "0c889f6fa84957bc7e8b4eab71fd16a0455068d5045e3aa40c733071d2b2fd77"],
+    ["pycparser", "3.0", "pycparser-3.0-py3-none-any.whl", "b727414169a36b7d524c1c3e31839a521725078d7b2ff038656844266160a992"],
+    ["requests", "2.34.2", "requests-2.34.2-py3-none-any.whl", "2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0"],
+    ["tqdm", "4.70.1", "tqdm-4.70.1-py3-none-any.whl", "c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73"],
+    ["urllib3", "2.8.0", "urllib3-2.8.0-py3-none-any.whl", "0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3"],
+    ["websockets", "17.1", "websockets-17.1-cp313-cp313-win_amd64.whl", "0340bbef6bfbe16da888b3983d666a4db4954ac3253c38f13bc7aba0c7db5a2f"],
+    ["yarl", "1.25.1", "yarl-1.25.1-cp313-cp313-win_amd64.whl", "1f51020b2eb8a003c84925638ec63c21a750a4bddd3a22ec8eac6a742dadf1b9"],
+    ["faster-whisper", "1.2.1", "faster_whisper-1.2.1-py3-none-any.whl", "79a66ad50688c0b794dd501dc340a736992a6342f7f95e5811be60b5224a26a7"],
+    ["ctranslate2", "4.6.0", "ctranslate2-4.6.0-cp313-cp313-win_amd64.whl", "af555c75cb9a9cc6c385f38680b92fa426761cf690e4479b1e962e2b17e02972"],
+    ["numpy", "2.2.6", "numpy-2.2.6-cp313-cp313-win_amd64.whl", "b0544343a702fa80c95ad5d3d608ea3599dd54d4632df855e4c8d24eb6ecfa1c"],
+    ["onnxruntime", "1.30.0", "onnxruntime-1.30.0-cp313-cp313-win_amd64.whl", "4b63041bd623a9a9ac5e353948436c6fa7f43edd12d6b4a4ebc340bca959ba93"],
+    ["tokenizers", "0.23.2", "tokenizers-0.23.2-cp310-abi3-win_amd64.whl", "2e96f5699d5249c9c64aa8412e044f727aae3a4098cf830f9901ec1afc361cde"],
+    ["huggingface-hub", "0.34.4", "huggingface_hub-0.34.4-py3-none-any.whl", "9b365d781739c93ff90c359844221beef048403f1bc1f1c123c191257c3c890a"],
+    ["filelock", "4.0.7", "filelock-4.0.7-py3-none-any.whl", "a93c4d93269b339a6af4848342c7e940d0f9928ad95eff64764699e5f1bf8a6a"],
+    ["flatbuffers", "25.12.19", "flatbuffers-25.12.19-py2.py3-none-any.whl", "7634f50c427838bb021c2d66a3d1168e9d199b0607e6329399f04846d42e20b4"],
+    ["fsspec", "2026.9.0", "fsspec-2026.9.0-py3-none-any.whl", "8dd6e646e99ea382bd85f97a45e6b526a442d79423a7dc673f1e2756d05fcb5f"],
+    ["packaging", "26.3", "packaging-26.3-py3-none-any.whl", "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"],
+    ["protobuf", "7.36.2", "protobuf-7.36.2-cp310-abi3-win_amd64.whl", "a300819d441e078a5608c0d3c709796bb548136058fda017ae51d425b44fd353"],
+    ["PyYAML", "6.0.3", "pyyaml-6.0.3-cp313-cp313-win_amd64.whl", "79005a0d97d5ddabfeeea4cf676af11e647e41d81c9a7722a193022accdb6b7c"],
+    ["typing_extensions", "4.16.0", "typing_extensions-4.16.0-py3-none-any.whl", "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"],
+    ["setuptools", "75.8.0", "setuptools-75.8.0-py3-none-any.whl", "e3982f444617239225d675215d51f6ba05f845d4eec313da4418fdbb56fb27e3"]
+  ],
+  "sourceDistribution": {
+    "name": "srt",
+    "version": "3.5.3",
+    "filename": "srt-3.5.3.tar.gz",
+    "sha256": "4884315043a4f0740fd1f878ed6caa376ac06d70e135f306a6dc44632eed0cc0"
+  },
+  "notices": [
+    {"filename": "Microsoft-VS2022-Enterprise-Professional-License-EN.docx", "url": "https://visualstudio.microsoft.com/wp-content/uploads/2021/11/Visual-Studio-2022-Enterprise-Professional-License-EN.docx", "sha256": "9c0cd52b20db9d081854c75bd1b50c75514b8f8cb09c8cad15e89d90b97b5bf3"},
+    {"filename": "vosk-COPYING.txt", "url": "https://raw.githubusercontent.com/alphacep/vosk-api/v0.3.45/COPYING", "sha256": "bb618af833c817ab01c1564bd3ec75ba4b4f9cf30910a4a2168e30a674ee8cc6"},
+    {"filename": "whisper-LICENSE.txt", "url": "https://raw.githubusercontent.com/openai/whisper/v20250625/LICENSE", "sha256": "b5d65a59060e68c4ff940e1eddfa6f94b2d68fdf58ed7f4dd57721c997e35e9d"},
+    {"filename": "silero-vad-LICENSE.txt", "url": "https://raw.githubusercontent.com/snakers4/silero-vad/v6.0/LICENSE", "sha256": "2e63e9a38b6e8fc0c7bc37ce174caca1862870856c6daf5697cfb785e925520b"},
+    {"filename": "tokenizers-LICENSE.txt", "url": "https://raw.githubusercontent.com/huggingface/tokenizers/v0.23.2/LICENSE", "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"},
+    {"filename": "GCC-RUNTIME-EXCEPTION.txt", "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-10.2.0/COPYING.RUNTIME", "sha256": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74"},
+    {"filename": "GPL-3.0.txt", "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-10.2.0/COPYING3", "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"},
+    {"filename": "vosk-Kaldi-COPYING.txt", "url": "https://raw.githubusercontent.com/alphacep/kaldi/8b7fecf92b329b7253d9d1cd97898c8b13f9aef3/COPYING", "sha256": "3fd3dd523b1717f1fb2ae40896df943d767fa5e664e46156c2dba7094f0d7172"},
+    {"filename": "vosk-OpenFst-COPYING.txt", "url": "https://raw.githubusercontent.com/alphacep/openfst/18e94e63870ebcf79ebb42b7035cd3cb626ec090/COPYING", "sha256": "dd0c6c9378a98b6a0e96b559b285c8506434fe2691eeeef151e8a8c1c492778e"},
+    {"filename": "vosk-OpenBLAS-LICENSE.txt", "url": "https://raw.githubusercontent.com/OpenMathLib/OpenBLAS/v0.3.20/LICENSE", "sha256": "190b5a9c8d9723fe958ad33916bd7346d96fab3c5ea90832bb02d854f620fcff"},
+    {"filename": "vosk-CLAPACK-COPYING.txt", "url": "https://raw.githubusercontent.com/alphacep/clapack/v3.2.1/COPYING", "sha256": "23014869214a231525b38c39fdb5f82364fa24154ac80fdcab2a79671460fd09"},
+    {"filename": "vosk-libf2c-Notice.txt", "url": "https://raw.githubusercontent.com/alphacep/clapack/v3.2.1/F2CLIBS/libf2c/Notice", "sha256": "44561c447e91203ddc747beeca5cc2794d95ee982c17c578670e4f0408bc3904"},
+    {"filename": "MinGW-w64-COPYING.txt", "url": "https://raw.githubusercontent.com/mingw-w64/mingw-w64/v8.0.0/COPYING", "sha256": "99a69660981156c21336fdb5661f89341b013c94e4bf9e1c7467b4745718397f"},
+    {"filename": "MinGW-winpthreads-COPYING.txt", "url": "https://raw.githubusercontent.com/mingw-w64/mingw-w64/v8.0.0/mingw-w64-libraries/winpthreads/COPYING", "sha256": "63263614cdd29f2f93cba85e992f041b31f9fc7b4033692f31269489a8a1b177"},
+    {"filename": "flatbuffers-LICENSE.txt", "url": "https://raw.githubusercontent.com/google/flatbuffers/v25.12.19/LICENSE", "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"},
+    {"filename": "nlohmann-json-LICENSE.txt", "url": "https://raw.githubusercontent.com/nlohmann/json/v3.11.2/LICENSE.MIT", "sha256": "86b998c792894ccb911a1cb7994f7a9652894e7a094c0b5e45be2f553f45cf14"},
+    {"filename": "pybind11-LICENSE.txt", "url": "https://raw.githubusercontent.com/pybind/pybind11/v2.13.6/LICENSE", "sha256": "83965b843b98f670d3a85bd041ed4b372c8ec50d7b4a5995a83ac697ba675dcb"}
+  ],
+  "cpuSources": [
+    {
+      "name": "CTranslate2",
+      "repository": "OpenNMT/CTranslate2",
+      "revision": "617405f4b050e994e829d527da6caa0e0030afe7",
+      "filename": "ctranslate2-source-617405f4b050e994e829d527da6caa0e0030afe7.zip",
+      "sha256": "62bf6861246f2fed24663e6f19375f95e3788264c86c37375dd5bb217c1a40d6",
+      "destination": "."
+    },
+    {
+      "name": "cpu_features",
+      "repository": "google/cpu_features",
+      "revision": "8a494eb1e158ec2050e5f699a504fbc9b896a43b",
+      "filename": "cpu-features-source-8a494eb1e158ec2050e5f699a504fbc9b896a43b.zip",
+      "sha256": "4ccded88992089effa9852740b192e404e7ba26541b185ad2a4a0e8aa95a109c",
+      "destination": "third_party/cpu_features"
+    },
+    {
+      "name": "spdlog",
+      "repository": "gabime/spdlog",
+      "revision": "76fb40d95455f249bd70824ecfcae7a8f0930fa3",
+      "filename": "spdlog-source-76fb40d95455f249bd70824ecfcae7a8f0930fa3.zip",
+      "sha256": "9a00dd50318b9467148adc5e822e55221c65d8d8794c6890ba034eed222dcf64",
+      "destination": "third_party/spdlog"
+    },
+    {
+      "name": "oneDNN",
+      "version": "3.1.1",
+      "repository": "oneapi-src/oneDNN",
+      "revision": "64f6bcbcbab628e96f33a62c3e975f8535a7bde4",
+      "filename": "onednn-source-64f6bcbcbab628e96f33a62c3e975f8535a7bde4.zip",
+      "sha256": "eb13ce1ee920fb3537b24235fbf5d421670a135a3954e0184b77493f2abfea51",
+      "destination": "third_party/oneDNN"
+    }
+  ]
+}

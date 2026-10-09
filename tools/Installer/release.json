@@ -1,0 +1,8 @@
+{
+  "version": "0.2.0-preview.1",
+  "windowsVersion": "0.2.0.1",
+  "runtime": "win-x64",
+  "minimumWindowsBuild": 22000,
+  "innoSetupVersion": "6.7.3",
+  "innoSetupSha256": "9c73c3bae7ed48d44112a0f48e66742c00090bdb5bef71d9d3c056c66e97b732"
+}

@@ -16,7 +16,7 @@ The October9 source-only selection increment adds main/partial ListBoxes of immu
 selection composes raw text in displayed history order through `QuestionDraft.ReplaceSelection`;
 it does not parse timestamps/source labels or create a request. Main rows outlive the smaller
 chooser's eviction while the existing display/export bound remains unchanged.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-82,112-141;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-83,118-147;
 [local question contract](LOCAL-QUESTIONS.md).)
 
 ## Why this shape
@@ -182,7 +182,7 @@ the global Notes transition or transcription stop. Further direct selection afte
 rejected with inline retained-draft status until **Clear question**. Ordinary clicks toggle whole
 segments without Ctrl; native keyboard/automation selection uses the same `SelectionChanged`
 handler. The manual chooser/Use selected path remains distinct and can stay passive.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:84-141;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:85-147;
 [`InitializeQuestionView` / `SetQuestionEditing`](../src/PhantomFudge.App/MainWindow.Questions.cs).)
 
 In Edit mode, preserve keyboard focus, standard text editing, keyboard traversal, and

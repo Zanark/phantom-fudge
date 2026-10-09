@@ -91,7 +91,7 @@ engine comparison is explicit about that distinction (`docs\SPEECH-BENCHMARK.md:
 The local process boundary is useful for dependency isolation and future packaging, but it adds
 protocol, authentication, backpressure and service-lifecycle work. The manager does not identify
 ownership by a PID alone: it authenticates runtime metadata and checks the saved instance ID
-before reuse or shutdown (`services\transcription\manage.py:114-159`).
+before reuse or shutdown (`services\transcription\manage.py:155-200`).
 
 ## Domain model: implemented concepts, not a database
 
@@ -171,7 +171,7 @@ OBS path. The qualification matrix keeps these observations separate
 
 The October 9 hybrid now implements the source-worker/finalizer separation, with selected verified
 Whisper small.en CPU-int8 finals and no fallback on missing models
-(`services/transcription/accurate.py:33-129`; `services/transcription/configuration.py:11-35,61-70`).
+(`services/transcription/accurate.py:33-129`; `services/transcription/configuration.py:8-34,60-69`).
 Configured Agency is also operational: it prepares an empty session without inference and sends
 one exact question only after Ask. Local preparation/diagnostic retention do not make hosted
 inference offline (`src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:23-78`;
@@ -209,5 +209,5 @@ the coordinator not start a new logical session until the old completion boundar
 - `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:72-193` — native lifecycle ownership.
 - `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:11-71` — transport state/bounds.
 - `services\transcription\server.py:290-505` — source queue and completion.
-- `services\transcription\manage.py:114-159` — authenticated process ownership.
+- `services\transcription\manage.py:155-200` — authenticated process ownership.
 - `docs\SPEECH-BENCHMARK.md:15-40` — engines versus host languages.

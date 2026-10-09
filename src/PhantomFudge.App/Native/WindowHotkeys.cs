@@ -7,6 +7,7 @@ internal sealed class WindowHotkeys(nint handle) : IDisposable
 {
     public const int ToggleVisibility = 1;
     public const int ToggleEditing = 2;
+    public const int KeyboardControl = 3;
     private readonly List<int> registered = [];
 
     public void Register(int id, uint virtualKey)

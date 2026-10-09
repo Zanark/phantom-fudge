@@ -4,7 +4,18 @@ This is an **unqualified Windows 11 x64 preview**, not a certified private meeti
 Rehearse with synthetic text and a separate recipient before using sensitive notes.
 The app remains visible to normal OS/process/accessibility inspection.
 
-## Native app
+For the planned **v0.2.0-preview.1 installer**, use [Install, update and remove](INSTALLATION.md).
+That path bundles its own runtime and models and uses a native Start-menu launcher; it does not
+require the source-development tools below. Candidate2 built and lifecycle3 passed its bounded
+current-host checks; the clean committed release build and publication are **pending**. See
+[current evidence](IMPLEMENTATION-STATUS.md); this is not a clean-VM or downloadable-release claim.
+The repository/release remain private. Windows10, ARM, macOS and Linux are unsupported installer targets.
+Finish and close Setup before opening the app from Start; Setup never launches it. Setup and launcher
+status/error windows are ordinary visible UI, not capture-excluded: install and launch before sharing.
+(tools/Installer/PhantomFudge.iss:14-76)
+(src/PhantomFudge.Launcher/LauncherWindow.cs:18-57)
+
+## Native app from source or a legacy development ZIP
 
 For a complete tour with the current images, use the [illustrated workflow](CURRENT-WORKFLOW.md).
 
@@ -22,15 +33,19 @@ Use `.\scripts\Run-PhantomFudge.ps1 -NotesOnly` for notes without speech service
 Development builds need
 the .NET 10 Desktop Runtime; an explicitly published self-contained ZIP includes its runtime.
 
-If a packaged preview is supplied, extract the WHOLE directory and run `PhantomFudge.exe`.
+For a legacy development ZIP, extract the WHOLE directory and use its supplied
+`scripts\Run-PhantomFudge.ps1` after explicit Python/model setup. Running its root
+`PhantomFudge.exe` alone does not start the speech service or pass the token.
 Do not copy just its EXE away from its dependent files. An unsigned preview may be blocked
 by Windows or organizational policy; do not disable security controls to bypass that.
 
-**The later October9 UI changes are source-only:** multi-line selection, Clarify first, smaller
+**The older045022ZIP lacks the later October9 UI changes:** multi-line selection, Clarify first, smaller
 transcript/answer text, prominent Ask/red Clear, recording dot, no-scroll device cards and Cover.
+Keyboard workstream57 is complete locally: the final38keyboard checks,297Core and18docs-tool tests,
+maintained images and source-atlas/handbook editions are recorded in the implementation status.
+The installer workstream58 is separate and still in progress; this is not a qualified release.
 Run `.\scripts\Run-PhantomFudge.ps1` from the updated checkout after saving and closing the old app.
-The immutable historical045022ZIP predates these additions.
-See [the source-only milestone](IMPLEMENTATION-STATUS.md).
+See [the dated milestones](IMPLEMENTATION-STATUS.md).
 
 ## Transcript-first view, themes, and notes
 
@@ -56,6 +71,12 @@ stops or faults. This indicates live capture, not that an audio file is being sa
 The right-hand action group is **large accent Ask, then red-bordered Clear question**. Type/edit
 and Copy remain on the left. Current final transcript size is15WPF units; partials are13.5or10.5
 compact; answers/interpretations are10or9compact. Question text remains18.
+The new **Size** slider can choose 8–24 for answers/interpretations; that session choice overrides
+the 10/9 responsive defaults across resize but is not retained after restart.
+In a narrow, short window, Select/Search temporarily show the transcript instead of Q/A; reviewing
+restores Q/A without cancelling it. Other keyboard modes prioritize Q/A, as does a chosen size 14+
+with a visible answer even outside keyboard control. Nothing is discarded or stopped, and wide
+columns are unchanged. See the [compact-layout explanation](KEYBOARD-CONTROLS.md#compact-windows-the-active-task-gets-the-reading-space).
 See [current sizes and images](CURRENT-WORKFLOW.md#current-sizes-themes-and-visible-status).
 
 - The live transcript is the main view, with **QUESTION / ANSWER** expanded by default. **Hide Q/A**
@@ -93,13 +114,50 @@ Permission and recipient rehearsal are handled by the owner outside the app; nei
 reconfirmed with checkboxes, dialogs or repeat prompts. Global Edit/Present switching, hiding, lock/suspend
 or protection invalidation stops transcription.
 Start again deliberately after checking the new configuration. Normal dialogs/export are
-disabled during Present. The current preview uses fixed shortcut defaults.
+disabled during Present. Hide and Notes Edit retain their fixed shortcuts; keyboard-control
+activation has the separate configuration below.
 Cover is the explicit exception to stopping: it retains ongoing work. Opening Audio setup,
 expanding Notes or hiding Q/A closes the question pane and cancels its current answer/provider
 activity while leaving audio unchanged. The [transition table](CURRENT-WORKFLOW.md#state-changes-cover-is-not-hide)
 distinguishes these actions from Stop and Cancel answer.
 
+## Keyboard control and answer size
+
+Read the canonical [keyboard guide](KEYBOARD-CONTROLS.md) for the complete mode table, commands,
+synthetic illustration references and exact JSON. The beginner path is **Ctrl+Alt+K → `v` →
+`j`/`k` → Space → Enter review → Ctrl+Enter submit**. **Keys** is the on-window fallback.
+Letters work only inside the armed local modes; in Edit they are ordinary text and Enter inserts
+a newline. Escape backs out to Control, then attempts to return to the previous application.
+`m` in Control masks/disarms while capture and answers continue; the system pointer is not locked,
+hidden or moved. (src/PhantomFudge.App/MainWindow.Keyboard.cs:65-175,218-306,364-368.)
+After Ctrl+Enter, Edit stays armed. Async clarification updates its reply/original target only if
+the field is visible and editable; focus is retargeted only while the app is already foreground.
+Use Escape → `a` for reading commands after submission.
+(src/PhantomFudge.App/MainWindow.Keyboard.cs:127-139,257-266,301-306.)
+
+Use F2/F3/F1 instead of US OEM `:`/`/`/`?` shortcuts where needed; **F3 is Select-only** and
+literal Edit does not interpret these as mode commands. `:devices` refuses busy audio/answers
+and, when allowed, closes Q/A for setup; ordinary modes preserve ongoing work. `:start` explicitly
+starts capture, `:stop` stops audio only, `:cancel` cancels answer/preparation only, and Clear retains
+its existing answer-cancellation behavior.
+(src/PhantomFudge.App/MainWindow.Keyboard.cs:257-358;
+src/PhantomFudge.App/MainWindow.KeyboardSelection.cs:110-125.)
+
+The optional `%LOCALAPPDATA%\PhantomFudge\keyboard.json` accepts only `schemaVersion`, `enabled`
+and `activationKey`; [copy the exact example](KEYBOARD-CONTROLS.md#shortcut-configuration-and-recovery).
+Activation is fixed Ctrl+Alt+NoRepeat plus A–Z except E, or F1–F11; **F12 is reserved/rejected**.
+Invalid configuration or a registration conflict leaves the **Keys** button available. Save needed
+content and restart to apply configuration changes; relaunching an existing instance is not a reload.
+Answer size is not a saved keyboard setting.
+(src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs:7-28,31-114;
+src/PhantomFudge.App/MainWindow.Keyboard.cs:30-63;
+src/PhantomFudge.App/MainWindow.AnswerFont.cs:9-43.)
+
 ## Local transcription: Computer, Mic, or Both
+
+The provisioning and stop commands in this section are for the **source/legacy development
+workflow**. Installed users use the [native launcher and maintenance procedure](INSTALLATION.md);
+do not run workspace scripts against the installed runtime's ownership data.
 
 Choose Computer for meeting/system playback, Mic to dictate a question, or Both to transcribe both
 independently. Both is selected initially, but capture does not start automatically. Audio setup has
@@ -185,7 +243,7 @@ toggle multiple rows without Ctrl; click again to deselect. The question combine
 history order, not click order. A wrapped/multiline recognition segment is selected whole, and
 generated timestamps/source prefixes are not copied. Older visible rows remain selectable after
 the smaller chooser evicts them; new finals do not pull the scrollbar down while you read history.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-82,84-141.)
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-83,85-147.)
 
 A click opens Q/A, hides source/setup/Notes panels and enters independent question editing without
 stopping transcription or unlocking speaker notes. It takes deliberate keyboard focus; it creates
@@ -198,7 +256,7 @@ retained” status. Copy anything needed, then **Clear question** before choosin
 also resets highlights. There is no popup or repeated permission/rehearsal prompt. The manual
 **Choose source → Mic / Computer / All → Use selected** route remains an explicit replacement
 alternative; it does not automatically copy every visible row.
-(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:93-141;
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:94-147;
 [`UseQuestionSelection_Click`](../src/PhantomFudge.App/MainWindow.Questions.cs).)
 
 ![Synthetic direct multi-line question selection](handbook/assets/screenshots/transcript-multiselect.png)
@@ -237,3 +295,5 @@ Text recording is a separate explicit opt-in; see [diagnostic retention](DIAGNOS
 Save/copy needed content and close the old app with **X**, not Hide, before launching an updated
 source build or extracted preview. Relaunch normally recovers an existing instance; it cannot
 replace its loaded code. No running user instance should be force-closed to apply this update.
+For the installer, run the same/newer Setup only after closing; its maintenance guard, downgrade
+refusal and retained-data policy are documented in [Installation](INSTALLATION.md#update-or-repair).

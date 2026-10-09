@@ -8,7 +8,7 @@ outline: deep
 
 ## Readiness is not recording
 
-This reference distinguishes three operations that must never be conflated: **provisioning**, **starting an idle service**, and **starting selected audio capture**. The launcher starts/reuses Python, but the window separately requires explicit Start, valid selections, protection readiness, and a token. Both is the initial input-mode selection, not automatic recording. (`scripts\Run-PhantomFudge.ps1:39-55`, launcher; `src\PhantomFudge.App\MainWindow.xaml.cs:35-64`, initial state; `src\PhantomFudge.App\MainWindow.xaml.cs:637-685`, `Start_Click`.)
+This reference distinguishes three operations that must never be conflated: **provisioning**, **starting an idle service**, and **starting selected audio capture**. The launcher starts/reuses Python, but the window separately requires explicit Start, valid selections, protection readiness, and a token. Both is the initial input-mode selection, not automatic recording. (`scripts\Run-PhantomFudge.ps1:39-55`, launcher; `src\PhantomFudge.App\MainWindow.xaml.cs:35-65`, initial state; `src\PhantomFudge.App\MainWindow.xaml.cs:652-700`, `Start_Click`.)
 
 Commands below are reference examples from the repository root, not actions performed to produce this chapter. No credential value is reproduced. Follow [capture](07-dual-input-capture.md), [protocol](08-streaming-protocol.md), [recognition](09-python-recognition.md), and [service ownership](10-native-service-lifecycle.md) for the implementation narratives.
 
@@ -45,9 +45,147 @@ flowchart TB
 
 The final gate is implemented by `StartCoreAsync`: native construction follows successful transport connection, not merely process launch. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:102-115`, `StartCoreAsync`.)
 
-## 1. Startup commands and argument semantics
+## Installed launcher reference
 
-The normal operational sequence is:
+The planned Windows11 x64 installer has a native entry point, separate from the PowerShell
+source/legacy commands below. Candidate2/lifecycle3 passed bounded checks; the clean committed
+release build and publication remain **pending**. Use
+[Installation](../INSTALLATION.md) for current availability and safe update/uninstall steps.
+
+| Installed launcher arguments | Meaning |
+| --- | --- |
+| No arguments | Refuse while the installer gate is present; otherwise reveal an existing same-user app or prepare the installed local service and open the app with audio still idle |
+| `--notes-only` | Same installer gate; open/reveal without speech preparation; does not stop a service or disable configured answer providers |
+| `--maintenance [installation-root]` | Noninteractive guard: refuse a running app/busy launcher; require the owned marker and perform native authenticated idle shutdown, independent of old Python/compact manifest |
+| `--validate-install installation-root` | Headless marker, compact metadata and required layout validation; no app/service/audio/inference startup |
+| `--self-test` | Synthetic launcher contract/child-process checks; not real app, audio, provider or installed-copy qualification |
+
+The presence of `Local\PhantomFudge-Installer-Maintenance` blocks normal/notes-only launch before
+coordination or existing-instance reveal. It is checked again after acquiring the startup mutex.
+Detection records generic status and exits70 without WPF UI or child processes; maintenance and
+validation bypass the gate. The targeted presence/lifetime test uses a randomly named mutex,
+not the production gate, so it does not claim a real Setup concurrency run.
+(src/PhantomFudge.Launcher/Program.cs:25-78,240-244)
+(src/PhantomFudge.Launcher/LauncherContract.cs:152-165)
+(src/PhantomFudge.Launcher/LauncherStatus.cs:15,34)
+(tests/PhantomFudge.Core.Tests/InstalledLauncherTests.cs:176-195)
+
+The repair/update hook uses a fresh Setup-extracted helper directory and an explicit absolute
+installation-root argument, rather than requiring a healthy old launcher. The native path is
+covered by lifecycle3's 11-check current-candidate fixture, including damaged-launcher/version repair.
+Its 3,682-file inventory pass is not a genuine old-binary upgrade, shortcut or clean-VM qualification.
+The explicit root does not
+override the fixed current-user data workspace and is not a general startup-path override.
+Uninstall continues through the installed helper. A second numeric version record in the
+per-user `HKCU\Software\PhantomFudge\Installer\<AppId>` key (`WindowsVersion`) supports repair
+of a damaged `app-version.txt`; both invalid means
+refusal, not an assumed upgrade.
+(tools/Installer/PhantomFudge.iss:51-52,107-161)
+(scripts/Test-Installer.ps1:15-18,40-84,96-104)
+
+Arguments are exact whitelist forms, not shell expressions. Validation/maintenance accept an
+absolute installation root and require its bounded ownership marker; normal launch paths stay fixed.
+The fixed install layout is `app`, `launcher`, `runtime\python`, `services\transcription` and
+`models`. Mutable speech data is external at
+`%LOCALAPPDATA%\PhantomFudge\InstalledRuntime\.local`. The launcher sets literal-loopback service
+coordinates and an offline speech environment; it preserves the app's existing answer/keyboard
+settings location.
+(src/PhantomFudge.Launcher/LauncherContract.cs:8-23,56-105)
+(src/PhantomFudge.Launcher/Program.cs:25-100,127-213)
+(src/PhantomFudge.Launcher/ChildProcesses.cs:48-105)
+
+The normal-launch manager argument prefix is `-I -B -X utf8`, followed by the fixed manager path
+and `start`; the launcher deadline is 180 seconds. Fresh credentials use 32 random bytes encoded as
+64 lowercase hexadecimal characters. Existing valid URL-safe tokens, including earlier Base64URL
+tokens, are preserved rather than rotated. These constants match the installed-runtime contract;
+the model root is supplied through `PHANTOM_TRANSCRIPTION_MODELS_ROOT`.
+(src/PhantomFudge.Launcher/ChildProcesses.cs:48-61,81-105)
+(src/PhantomFudge.Launcher/Program.cs:13)
+(src/PhantomFudge.Launcher/LauncherContract.cs:31-36)
+(src/PhantomFudge.Launcher/LocalToken.cs:12-39,42-63)
+(tests/PhantomFudge.Core.Tests/InstalledLauncherTests.cs:135-155)
+
+The model-resolution contract preserves user provisioning separately:
+`InstalledRuntime\.local\models\<pinned-model-name>` takes precedence when present; otherwise
+the bundled `models` directory is selected. Both paths require the same pinned manifest.
+Explicit provisioning writes only user model data, so it cannot silently modify installer-managed
+weights. Targeted tests cover both path selection and the write destination.
+(tools/Installer/runtime-contract.json:7-12,20-22)
+(services/transcription/tests/test_installed_runtime.py:74-91)
+
+Maintenance uses the native authenticated loopback client and shared receipt lock, not a Python
+`maintenance` command. It matches instance/activity/process identity before shutdown; confirmed
+dead/recycled identity permits removing only an unchanged receipt. A live/unknown process is not
+terminated. The runtime's documented manager verbs remain `start`, `stop`, and `status`.
+(src/PhantomFudge.Launcher/MaintenanceOperation.cs:48-118)
+(src/PhantomFudge.Launcher/OwnedServiceClient.cs:35-84)
+(tools/Installer/runtime-contract.json:11-24)
+
+Partial ownership has explicit, different outcomes:
+
+| Installed runtime state | Maintenance behavior |
+| --- | --- |
+| Token and receipt both absent | Succeed without probing a source-workspace listener |
+| Receipt present, token absent | Refuse without authentication or file deletion |
+| Token present, receipt absent | Validate the private token locally, then make a credential-free one-second TCP presence probe; succeed only on connection refused, not an occupied/uncertain port |
+| Token and receipt present | Prove stale process identity or authenticate the exact owned idle runtime; remove only an unchanged receipt, never kill a PID |
+
+A successful stop intentionally retains the token, so token-only state is not automatically
+corruption. The probe sends no token or shutdown request to an untracked listener. For stale
+PID-only receipts, Windows must confirm that PID absent before unauthenticated cleanup; an
+inspectable live legacy PID still requires matching authenticated service identity. An
+uninspectable process remains protected.
+(src/PhantomFudge.Launcher/MaintenanceOperation.cs:52-118,121-134)
+(tests/PhantomFudge.Core.Tests/InstalledMaintenanceTests.cs:31-108,149-172)
+
+`%LOCALAPPDATA%\PhantomFudge\launcher-status.json` records a bounded generic result. Self-test
+uses `launcher-self-test.json`. A runtime timeout preserves uncertain process ownership; it is
+not an instruction to terminate Python or delete a retained receipt. Reinstall/repair and manual
+data reset are different operations.
+(src/PhantomFudge.Launcher/LauncherStatus.cs:6-61)
+(src/PhantomFudge.Launcher/ChildProcesses.cs:107-123)
+
+App handoff has a separate wait from the180-second manager deadline:
+
+| Observation after spawning the app | Meaning |
+| --- | --- |
+| Main-instance mutex appears | Startup handoff succeeds; elapsed time alone never proves this |
+| Exact child is proven exited before readiness | AppStartFailed67, even if the child's exit code is0 |
+| Neither can be proved | Retain the launcher operation mutex and keep watching |
+| Still unresolved after30seconds | Write/show AppStartPending76, not Success and not an automatic exit |
+| Close while handoff is pending | Hide progress, retain the guard and continue watching; early dispatcher shutdown retains a synchronous watcher |
+
+Setup never launches the app. Finish/close Setup before using Start. Setup and launcher
+status/error UI are ordinary visible windows, not capture-excluded; launch before sharing.
+The latest handoff reports55helper tests and10exact-EXE self-checks, including delayed synthetic
+child/mutex coordination. It does not claim an interactive WPF Close test.
+(src/PhantomFudge.Launcher/ChildProcesses.cs:12-42)
+(src/PhantomFudge.Launcher/Program.cs:108-118,186-227,321-354)
+(src/PhantomFudge.Launcher/LauncherStatus.cs:20,31,39)
+(src/PhantomFudge.Launcher/LauncherWindow.cs:18-57)
+(tools/Installer/PhantomFudge.iss:14-76)
+
+The compact `install-manifest.json` contains release metadata and stays within the launcher's
+16KiB bound. `payload-files.json` holds the full file inventory separately, including the
+compact manifest but excluding its own self-hash. The build enumerates hidden entries and rejects
+reparse points/private data; the fixture checks exact inventory coverage and installed hashes.
+Those are integrity checks, not publication or cross-version/clean-VM qualification.
+(src/PhantomFudge.Launcher/LauncherContract.cs:38-52,94-105)
+(scripts/Build-Installer.ps1:56-98)
+(scripts/Test-Installer.ps1:40-54,96-104)
+
+`--validate-install` succeeds on file/directory layout and valid compact metadata; it does not
+hash every payload/model file or execute those binaries. Validation returns0on success and65on
+missing/invalid installation data. Maintenance deliberately does **not** require compact metadata
+or old runtime executables, because it must remain usable for repair. The helper itself is a
+whole self-contained deployment, not a single-file executable.
+(src/PhantomFudge.Launcher/Program.cs:25-43,94-100)
+(src/PhantomFudge.Launcher/LauncherStatus.cs:6-19)
+(src/PhantomFudge.Launcher/LauncherContract.cs:87-105)
+(tools/Installer/PhantomFudge.iss:47-49,143-147)
+## 1. Source/legacy startup commands and argument semantics
+
+The source/legacy operational sequence is:
 
 ```powershell
 # Explicit provisioning; may download dependencies and the pinned model.
@@ -80,33 +218,58 @@ The application itself recognizes three exact two-argument diagnostic patterns: 
 
 ## 2. Environment, defaults, and secret ownership
 
+### Keyboard activation is a separate local setting
+
+The optional `%LOCALAPPDATA%\PhantomFudge\keyboard.json` is loaded at app initialization. Use the
+[exact three-property JSON and recovery guide](../KEYBOARD-CONTROLS.md#shortcut-configuration-and-recovery):
+`schemaVersion: 1`, boolean `enabled`, and string `activationKey` (default `"K"`).
+Allowed keys are A–Z except E or F1–F11; F12 is reserved/rejected. Ctrl+Alt+NoRepeat remains
+fixed. Missing settings use the default; malformed/unreadable settings disable the shortcut with
+a notice, while the Keys button remains available. Registration conflicts also retain Keys.
+Restart after editing; this is not the diagnostics reload action.
+(src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs:7-28,31-114;
+src/PhantomFudge.App/MainWindow.Keyboard.cs:30-63.)
+
+The command prompt uses the finite `KeyboardCommands.Parse` grammar, not a shell or model.
+See the [complete command table](../KEYBOARD-CONTROLS.md#built-in-commands-deterministic-not-a-shell-or-model).
+Answer font 8–24 is a session-only choice, **not** a permitted JSON property. The final exporter
+passed after correcting the configuration-error boundary to catch `InvalidDataException`.
+The [guide](../KEYBOARD-CONTROLS.md) records that bounded evidence; citation/atlas/book completion
+and external shortcut/foreground qualification remain separate.
+(src/PhantomFudge.Core/KeyboardCommands.cs:15-79;
+src/PhantomFudge.App/MainWindow.AnswerFont.cs:9-43.)
+
+### Speech environment and secret ownership
+
 | Variable | Consumer, default, and precedence |
 | --- | --- |
 | `PHANTOM_TRANSCRIPTION_URI` | App speech endpoint; defaults to `ws://127.0.0.1:8765/v1/transcribe`. Launcher explicitly sets this value. |
 | `PHANTOM_TRANSCRIPTION_TOKEN` | App initial token field, empty when absent. Server uses it only when a token-file setting is not supplied. |
 | `PHANTOM_TRANSCRIPTION_TOKEN_FILE` | Server reads this file first; native manager supplies the workspace token-file path. It is not an app token-file setting. |
 | `PHANTOM_TRANSCRIPTION_MODEL_PATH` | Required by production server; no implicit model download or default model directory in `server.main`. Manager supplies the pinned directory. |
+| `PHANTOM_TRANSCRIPTION_WORKSPACE` | Shared mutable workspace; installed launch uses `PhantomFudge\InstalledRuntime` beneath LocalAppData. |
+| `PHANTOM_TRANSCRIPTION_MODELS_ROOT` | Separate shipped-model root for the installed runtime; not the mutable `.local` data directory. |
 | `PHANTOM_TRANSCRIPTION_HOST` | Server default `127.0.0.1`; only `127.0.0.1` and `0.0.0.0` accepted. Native manager overrides to loopback. |
 | `PHANTOM_TRANSCRIPTION_INSTANCE` | Optional canonical UUID-hex identity; manager generates it. Without managed identity/callback, authenticated shutdown is unavailable. |
 | `PYTHONDONTWRITEBYTECODE` | Manager sets `1` for its child. |
 | `OPENBLAS_NUM_THREADS`, `OMP_NUM_THREADS` | Manager sets each to `1`; these are child environment settings, not WebSocket controls. |
 | `PHANTOM_AUDIO_TEST_TOKEN` | Native fixture/playback harness credential; distinct from the application's token-variable name. |
 
-Source: `MainWindow` initialization and `Start_Click` (`src\PhantomFudge.App\MainWindow.xaml.cs:50-64`, `src\PhantomFudge.App\MainWindow.xaml.cs:659-685`); launcher environment (`scripts\Run-PhantomFudge.ps1:43-55`); `load_token`, `main`, and `production_app` (`services\transcription\server.py:75-85`, `services\transcription\server.py:658-705`); manager child environment (`services\transcription\manage.py:188-201`, `start`); harness lookup (`tests\PhantomFudge.Audio.Tests\DualSyntheticServiceCheck.cs:24-27`, `RunDualSyntheticServiceCheckAsync`).
+Source: `MainWindow` initialization and `Start_Click` (`src\PhantomFudge.App\MainWindow.xaml.cs:50-65`, `src\PhantomFudge.App\MainWindow.xaml.cs:674-700`); launcher environment (`scripts\Run-PhantomFudge.ps1:43-55`); `load_token`, `main`, and `production_app` (`services\transcription\server.py:75-85`, `services\transcription\server.py:658-705`); manager child environment (`services\transcription\manage.py:229-242`, `start`); harness lookup (`tests\PhantomFudge.Audio.Tests\DualSyntheticServiceCheck.cs:24-27`, `RunDualSyntheticServiceCheckAsync`).
 
 **Do not infer a port setting:** production `server.main` binds port 8765. The C# validator allows other valid ports on literal `127.0.0.1` or `[::1]`, but that does not reconfigure the server. It rejects `localhost`, remote hosts, `wss`, query credentials, fragments, user information, and normalized/escaped alternate paths. The default native server is IPv4 despite client IPv6-loopback acceptance. Redirects and proxies are disabled. (`services\transcription\server.py:695-712`, `main`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:26-31`, HTTP handler; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:82-98`, `ValidateEndpoint`.)
 
-Initialization generates 32 random bytes as 64 hexadecimal characters and restricts the Windows token DACL to the current user. Existing invalid tokens require explicit repair, not silent rotation. Manager/server validation requires `[A-Za-z0-9_-]{32,512}`; the native socket's broader lexical check is not the server's credential contract. Never put credentials in URLs or command arguments. (`scripts\Initialize-Transcription.ps1:42-76`, token setup; `services\transcription\manage.py:35-42`, `token`; `services\transcription\server.py:75-85`, `load_token`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:117-144`, `ConnectCoreAsync`.)
+Initialization generates 32 random bytes as 64 hexadecimal characters and restricts the Windows token DACL to the current user. Existing invalid tokens require explicit repair, not silent rotation. Manager/server validation requires `[A-Za-z0-9_-]{32,512}`; the native socket's broader lexical check is not the server's credential contract. Never put credentials in URLs or command arguments. (`scripts\Initialize-Transcription.ps1:42-76`, token setup; `services\transcription\manage.py:34-41`, `token`; `services\transcription\server.py:75-85`, `load_token`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:117-144`, `ConnectCoreAsync`.)
 
-Engine/model pins are `vosk==0.3.45`, `aiohttp==3.14.3`, and English `vosk-model-small-en-us-0.15`. The archive is 41,205,931 bytes; its recorded hash is observed download identity, not a publisher-signed checksum. Runtime verifies the exact manifest file set and hashes before explicit-path model loading. (`services\transcription\requirements.txt:1-2`, dependency pins; `services\transcription\model.json:2-10`, manifest; `services\transcription\recognizer.py:22-49`, `verify_model`, `VoskFactory`.)
+Engine/model pins are `vosk==0.3.45`, `aiohttp==3.14.3`, and English `vosk-model-small-en-us-0.15`. The archive is 41,205,931 bytes; its recorded hash is observed download identity, not a publisher-signed checksum. Runtime verifies the exact manifest file set and hashes before explicit-path model loading. (`services\transcription\requirements.txt:1-2`, dependency pins; `services\transcription\model.json:2-10`, manifest; `services\transcription\recognizer.py:25-63`, `verify_model`, `VoskFactory`.)
 
 Those are the provisional/legacy pins, not the entire hybrid footprint. The native default also
 uses faster-whisper 1.2.1, CPU-int8 small.en and four CPU threads. Configuration lives in
 `.local\transcription-config.json`; schema/engine/model/thread/vocabulary fields are validated,
 both model families are checked before load, and missing accurate files never trigger fallback.
-(`services/transcription/configuration.py:11-35,61-70`;
+(`services/transcription/configuration.py:8-34,60-69`;
 `services/transcription/accurate.py:75-81`;
-`services/transcription/provision_whisper.py:19-81`.)
+`services/transcription/provision_whisper.py:28-90`.)
 
 ## 3. Native management contract
 
@@ -114,9 +277,9 @@ both model families are checked before load, and missing accurate files never tr
 .\services\transcription\.venv\Scripts\python.exe .\services\transcription\manage.py status
 ```
 
-`manage.py` accepts exactly one verb: `start`, `stop`, or `status`; exit codes are `0` success, `1` runtime failure, and `64` invalid usage. Status reports `ready`, `active`, and `pid` when it authenticates a listener; no listener produces a textual status instead. (`services\transcription\manage.py:244-268`, `status`, `main`.)
+The source/legacy management workflow uses `start`, `stop`, or `status`; exit codes are `0` success, `1` runtime failure, and `64` invalid usage. Status reports `ready`, `active`, and `pid` when it authenticates a listener; no listener produces a textual status instead. The installed launcher's maintenance integration is documented separately above. (`services\transcription\manage.py:290-314`, `status`, `main`.)
 
-Start/Stop/Status share a workspace byte-range lock. Ownership requires the receipt's UUID plus authenticated service name and management version, not merely a PID or occupied port. Reuse requires current speech capability and engine/model/source/dependency/vocabulary fingerprint. Automatic replacement is limited to an authenticated owned idle instance after verifying the selected models. Active, ambiguous, foreign, or unready instances are not silently repaired. (`services\transcription\manage.py:67-92`, `lifecycle_lock`; `services\transcription\manage.py:114-179`, ownership/capability/start decisions.)
+Start/Stop/Status share a workspace byte-range lock. Ownership requires the receipt's UUID plus authenticated service name and management version, not merely a PID or occupied port. Reuse requires current speech capability and engine/model/source/dependency/vocabulary fingerprint. Automatic replacement is limited to an authenticated owned idle instance after verifying the selected models. Active, ambiguous, foreign, or unready instances are not silently repaired. (`services\transcription\manage.py:66-91`, `lifecycle_lock`; `services\transcription\manage.py:155-220`, ownership/capability/start decisions.)
 
 The Python decision can be read as this JavaScript pseudocode:
 
@@ -128,11 +291,13 @@ if (listenerExists()) {
   require(info.active === false);
   verifySelectedModels();
   await authenticatedShutdownAndPortClosure();
+} else if (receiptExists()) {
+  clearOnlyConfirmedDeadOrRecycledProcessReceipt();
 }
 await spawnWithNewReceiptAndVerifyReadiness();
 ```
 
-Management waits are phase-specific: lock acquisition 50 seconds, HTTP request 2 seconds, startup observation 45 seconds, shutdown-port wait 12 seconds. Failed shutdown/startup preserves ownership evidence rather than killing an arbitrary OS process. The request reader caps JSON at 4,096 bytes and forbids redirects/proxies. (`services\transcription\manage.py:45-92`, request/lock; `services\transcription\manage.py:145-227`, stop/start.)
+Management waits are phase-specific: lock acquisition 50 seconds, HTTP request 2 seconds, startup observation 45 seconds, shutdown-port wait 12 seconds. Failed shutdown/startup preserves ownership evidence rather than killing an arbitrary OS process. The request reader caps JSON at 4,096 bytes and forbids redirects/proxies. (`services\transcription\manage.py:44-91`, request/lock; `services\transcription\manage.py:186-273`, stop/start.)
 
 ## 4. HTTP routes
 
@@ -146,7 +311,7 @@ Management waits are phase-specific: lock acquisition 50 seconds, HTTP request 2
 Authenticated runtime metadata additionally exposes engine/model/revision, configuration fingerprint,
 diagnostic availability and numeric queue/fault/drop bounds, including `maxStopSeconds:85`.
 This does **not** add fields to strict v1/v2 ready/stopped/speech messages or expose model paths.
-(`services/transcription/configuration.py:39-58`;
+(`services/transcription/configuration.py:38-57`;
 [runtime contract](../../services/transcription/README.md#protocol-privacy-and-resource-behavior).)
 
 These routes are registered by `create_app`. Runtime/shutdown/transcription reject query strings and bodies. Authentication requires exactly one Bearer header; nonempty browser Origin is rejected—403 on transcription, 401 on management. An identity mismatch or active shutdown attempt yields 409; unavailable speech yields 503. (`services\transcription\server.py:201-260`, `health`, `authorized`, management handlers; `services\transcription\server.py:538-563`, `transcribe`; `services\transcription\server.py:636-655`, `create_app`.)
@@ -237,7 +402,7 @@ native call is not silently retried as success. Span ownership is exact audio ac
 word-aligned timestamps or an accuracy guarantee (`services/transcription/accurate.py:33-118`;
 [recognition lifecycle](09-python-recognition.md)).
 
-Capture waits, silence scheduling, and decoder rotation are distinct mechanisms, not one end-to-end deadline or acoustic endpoint setting. A timed-out native release retains worker ownership and blocks unsafe restart; a delayed silence tick does not backfill elapsed time. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:13-15`, constants; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:82-85`, restart gate; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:313-333`, `SupplySilenceAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:408-426`, `FinishSessionAsync`; `src\PhantomFudge.App\Audio\SilenceCadence.cs:11-19`, scheduling; `services\transcription\recognizer.py:82-90`, rotation.)
+Capture waits, silence scheduling, and decoder rotation are distinct mechanisms, not one end-to-end deadline or acoustic endpoint setting. A timed-out native release retains worker ownership and blocks unsafe restart; a delayed silence tick does not backfill elapsed time. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:13-15`, constants; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:82-85`, restart gate; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:313-333`, `SupplySilenceAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:408-426`, `FinishSessionAsync`; `src\PhantomFudge.App\Audio\SilenceCadence.cs:11-19`, scheduling; `services\transcription\recognizer.py:96-104`, rotation.)
 
 ## 7. Testing commands: choose the evidence layer
 
@@ -276,7 +441,7 @@ Service errors have exactly `type: "error"`, `code`, and a fixed safe `message`.
 | `decoder_error`, `model_unavailable` | Recognition failure versus unavailable readiness/model; neither invokes cloud fallback. |
 | `server_stopping` | Service shutdown notification, not a successful transcription-completion acknowledgement. |
 
-The meanings come from `ERRORS` and their enforcing paths. A decoder-operation failure marks runtime readiness failed; an idle-only managed restart cannot safely terminate a stuck native call. Repair and restart are deliberate operational steps, not promises of automatic recovery. (`services\transcription\server.py:29-42`, `ERRORS`; `services\transcription\server.py:147-181`, `Runtime.cpu`; `services\transcription\server.py:296-357`, receive limits; `services\transcription\server.py:620-626`, shutdown; `services\transcription\manage.py:145-159`, `stop_owned`.)
+The meanings come from `ERRORS` and their enforcing paths. A decoder-operation failure marks runtime readiness failed; an idle-only managed restart cannot safely terminate a stuck native call. Repair and restart are deliberate operational steps, not promises of automatic recovery. (`services\transcription\server.py:29-42`, `ERRORS`; `services\transcription\server.py:147-181`, `Runtime.cpu`; `services\transcription\server.py:296-357`, receive limits; `services\transcription\server.py:620-626`, shutdown; `services\transcription\manage.py:186-200`, `stop_owned`.)
 
 ### Checkpoints and reference boundary
 

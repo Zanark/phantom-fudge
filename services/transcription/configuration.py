@@ -5,10 +5,9 @@ import json
 import os
 from pathlib import Path
 
-from provision_whisper import model_spec, verify_whisper
+from provision_whisper import ROOT, model_directory, model_spec, verify_whisper
 from recognizer import verify_model
 
-ROOT = Path(os.environ.get("PHANTOM_TRANSCRIPTION_WORKSPACE", Path(__file__).resolve().parent.parent.parent))
 CONFIG = ROOT / ".local" / "transcription-config.json"
 DEFAULT = {"schemaVersion": 1, "engine": "hybrid-whisper", "model": "small.en", "threads": 4,
            "vocabulary": "technical"}
@@ -59,8 +58,8 @@ def metadata(config):
 
 
 def paths(config):
-    return (ROOT / ".local" / "models" / "vosk-model-small-en-us-0.15",
-            ROOT / ".local" / "models" / model_spec(config["model"])["directory"])
+    return (model_directory("vosk-model-small-en-us-0.15"),
+            model_directory(model_spec(config["model"])["directory"]))
 
 
 def verify_config(config):
