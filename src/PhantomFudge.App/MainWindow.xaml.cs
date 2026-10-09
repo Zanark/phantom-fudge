@@ -1096,7 +1096,7 @@ public partial class MainWindow : Window
             var noteScrollWorks = NoteEditor.HorizontalOffset > 0;
             NoteEditor.Text = before;
             NoteEditor.TextWrapping = TextWrapping.Wrap;
-            var captionHit = HitTestDiagnostic(new Point(22, 18));
+            var captionHit = HitTestDiagnostic(new Point(70, 18));
             var resizeHit = HitTestDiagnostic(new Point(2, ActualHeight / 2));
             var editorHit = HitTestDiagnostic(NoteEditor.TranslatePoint(new Point(30, 30), this));
             var chromeWorks = captionHit == 2 && resizeHit == 10 && editorHit == 1;

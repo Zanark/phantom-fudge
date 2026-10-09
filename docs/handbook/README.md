@@ -10,6 +10,9 @@ edition's counts, source hashes, citations and artifact hashes; it is the author
 
 ## Reading order
 
+For the complete current experience with the new images, start with the
+[illustrated workflow](../CURRENT-WORKFLOW.md). It appears near the front of both generated editions.
+
 | Part | Chapters |
 | --- | --- |
 | Orientation | [00 Reading map](00-reading-map.md), [01 Principal engineer](01-principal-engineer-guide.md), [02 Zero to hero](02-zero-to-hero.md), [03 Product decisions](03-product-boundaries-and-decisions.md) |

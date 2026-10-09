@@ -15,7 +15,7 @@ The initial request was a draggable speaker-notes window that would not appear i
 share. The useful part of that request is implementable on supported Windows capture paths.
 The absolute version—no software can ever detect or record the surface—is not. The product
 contract therefore separates plain-text editing, movement, shell presentation, captured pixels,
-platform support and actual product qualification (`docs\PRODUCT.md:6-33`).
+platform support and actual product qualification (`docs\PRODUCT.md:6-37`).
 
 That separation made later changes tractable. Transcription became the main view. Notes became
 collapsible. The owner removed repetitive permission/rehearsal acknowledgments. Translucency
@@ -108,7 +108,7 @@ flowchart LR
 The owner observed an I-beam over text and a disappearing cursor in a shared view. The app
 now uses Arrow and a non-activating default, but those local changes do not control every
 recorder's cursor stream. The design deliberately records that remaining uncertainty rather
-than renaming it success (`docs\CURSOR-AND-THEMES.md:1-62`).
+than renaming it success (`docs\CURSOR-AND-THEMES.md:1-69`).
 
 At the same time, normal functionality must not be sacrificed to a privacy slogan. Notes must
 still be editable after an explicit Edit action. Device rows must still be selectable without
@@ -148,7 +148,7 @@ is written down before pretending that all those surfaces agree
 
 ## References
 
-- `docs\PRODUCT.md:6-33` — distinct requirements and limits.
+- `docs\PRODUCT.md:6-37` — distinct requirements and limits.
 - `TODO\16_DEVELOPMENT_LEDGER.todo:1-90` — dated scope/evidence history.
 - `src\PhantomFudge.App\Native\WindowProtection.cs:19-48` — actual window mechanism.
 - `src\PhantomFudge.Core\AudioSource.cs:3-30` — input identities.

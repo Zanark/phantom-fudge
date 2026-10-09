@@ -1,0 +1,25 @@
+# Consolidated current workflow and image documentation
+
+Status: DONE
+Milestone: Complete current-feature documentation
+Dependencies: 54_README_WORKFLOW_GALLERY.todo
+
+## Scope
+
+- [x] Create one illustrated workflow for cards, capture state, multi-selection, clarification, answers and cover.
+- [x] Explain exact typography/actions, privacy/retention limits, launch and current-source delivery.
+- [x] Reconcile overview, setup, product, cursor/theme, status, index and handbook navigation.
+- [x] Distinguish Cover, Hide, Stop, Cancel, global Edit, question editing and closing Q/A.
+- [x] Review links/citations/images and generate full current source-atlas and handbook HTML/PDF.
+- [x] Record evidence and persist the final documentation handoff.
+
+Reuse current20synthetic WPF images and10palette-backed derivatives. No new application rendering,
+audio, model, service, account, installation or source-runtime change is needed.
+
+## Completion log
+
+- 2026-10-09 14:36 - Owner requested all documentation updated with every recent feature and image.
+- Seven-guide review resolves163local links and10image uses. The new handbook chapter includes
+  seven UI images plus two diagrams, with five rendered sections and PDF pages inspected.
+  Both updated overview diagrams render.1440/768/390reader widths fit; all runtime/tool hashes
+  remain unchanged. Full source atlas and handbook editions are current.

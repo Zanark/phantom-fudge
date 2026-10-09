@@ -115,6 +115,8 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 | 52 | 52_TRANSCRIPT_FONT_SIZE.todo | DONE | Final and live-partial transcript fonts25%smaller; other text unchanged |
 | 53 | 53_NOTEPAD_COVER_AND_PRIVACY.todo | DONE | Visual cover, fresh-tree minimization and Peek request; no global invisibility |
 | 54 | 54_README_WORKFLOW_GALLERY.todo | DONE | Six-stage visual workflow using current synthetic images |
+| 55 | 55_CURRENT_WORKFLOW_DOCUMENTATION.todo | DONE | Consolidated illustrated workflow and current-source documentation |
+| 56 | 56_MASK_ICON_POSITION.todo | DONE | Icon-only top-left mask toggle; same background-work behavior |
 
 ## Dependency map
 

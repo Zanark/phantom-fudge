@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-09T09:00:55.296Z",
+  "generatedAtUtc": "2026-10-09T10:54:53.383Z",
   "complete": true,
   "counts": {
     "files": 168,
-    "lines": 24559,
-    "nonblankLines": 22880,
-    "blocks": 991,
+    "lines": 24583,
+    "nonblankLines": 22903,
+    "blocks": 992,
     "groups": 7
   },
   "inputs": {
@@ -15,8 +15,8 @@
     "Directory.Build.props": "1bb1bc2e04dc4fee54dd8627dde84f43783cab0f3ffc18224fcdacac0137a6d7",
     "PhantomFudge.slnx": "62e0c1e13581acccab56d253c2e82c315168641b34b69ad3f8ce97bcd644082e",
     "compose.yaml": "072523fcbae8d0e1b017bae97bb6bfa595108b56b0b2989cb014f761b5ff6e3e",
-    "docs/handbook/book.json": "3c06cef2fa61c42107a13f10ed47a337dc98fd3d36a318d1961b93b50a7eaacc",
-    "docs/handbook/catalogue.json": "bedabef86682528f823e8a82bd686a2d288249299a5c254cce2ac13bcdd690b6",
+    "docs/handbook/book.json": "26fc782234a1625234a5094a3d25f793c13ab939b9df273eb026b55e64d18841",
+    "docs/handbook/catalogue.json": "a22ba00ae5d29750a77e3dfdfd59fffff839f85bc58077b8c1ba7ccbc5678753",
     "global.json": "bf68d4a0fc2613967f53bd6af5a6570666b755f5f6bf4688a120736ae523ccaa",
     "scripts/Build-Handbook.ps1": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
     "scripts/Build-Handbook.txt": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
@@ -93,8 +93,8 @@
     "src/PhantomFudge.App/MainWindow.AudioDeviceCardsDiagnostics.cs": "6a4a24a3e61edc4823e1883829c030945d949ff9c13e7a40374a7290c9578ab4",
     "src/PhantomFudge.App/MainWindow.Clarification.cs": "360a83c8f69b83a47589851895d5877c55aad7236109b85115f4e14c7d6278ea",
     "src/PhantomFudge.App/MainWindow.ClarificationDiagnostics.cs": "4adf057707ccb75c2f7b9089d27362546ab2a40a8a889fee256da9894f367950",
-    "src/PhantomFudge.App/MainWindow.Cover.cs": "a8573efab0dcebe6120e8aaaee42b8d4f0e66a923e7bbfa8b63c967b50918ad1",
-    "src/PhantomFudge.App/MainWindow.CoverDiagnostics.cs": "729f133f4853c3c2402a07aa3dbc25928f15f0e49d360e68b46ace75b2e61eba",
+    "src/PhantomFudge.App/MainWindow.Cover.cs": "09e1b8b914f6181884e81f2259241cd6a342eddeddae2adfe7921ac9b49c18bf",
+    "src/PhantomFudge.App/MainWindow.CoverDiagnostics.cs": "bdb76120d8328dd07a73470acebfde680e43792c13f633871ff2ec266ca0c8c8",
     "src/PhantomFudge.App/MainWindow.Diagnostics.cs": "c321cfec0df21284a15e390c298babfbfeb8ab147d81e506ba2e9d6b9435748f",
     "src/PhantomFudge.App/MainWindow.Layout.cs": "b8ffb4ed00be59065a7c31317cc42d050bc61d8ef9683799aeba697f3f45858a",
     "src/PhantomFudge.App/MainWindow.QuestionDiagnostics.cs": "f87b0a7fe816aa8f45667892b1dd79ce0d8d2d16a0979d015d5fd03f1b70b826",
@@ -102,8 +102,8 @@
     "src/PhantomFudge.App/MainWindow.RecordingIndicator.cs": "351d83ad04fb350493b65db8aac3ee63abcb10ac108b655a17db4b7d1ba05e61",
     "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs": "6639643e434d445af7e486a04a1a64f3858731dad127c7e43a7f1db04879c723",
     "src/PhantomFudge.App/MainWindow.TranscriptSelectionDiagnostics.cs": "9b2dd7146f3415dcbded1f0f6e884109b6e3ee81098b6b5386cb6040141b098e",
-    "src/PhantomFudge.App/MainWindow.xaml": "aa9a056cfb64ef96ae4f0802ae4f5ae33f7f9772a84e0a8c63eeae61bc1d1bf6",
-    "src/PhantomFudge.App/MainWindow.xaml.cs": "b58eca78e98ff6b87b1eb8c7730b5f3862e788fca4c540acbcdf95679d196cd1",
+    "src/PhantomFudge.App/MainWindow.xaml": "cbd33a5c07e0a13db7d997361fc59341bc16e1399cbc6e11e8bb801358c133c3",
+    "src/PhantomFudge.App/MainWindow.xaml.cs": "c0627761f2fba9ee02d6e8bf4521625d3da8a290cb20c75793cb279b775478d0",
     "src/PhantomFudge.App/Native/CursorPolicy.cs": "60fdd0df16389f15f2383df9fed2af3a83ecea6581171b85e8da3c175df05610",
     "src/PhantomFudge.App/Native/SingleInstance.cs": "ee8664818c1f17788d84c6c07fc1ab7d6416e0794242d762b73fce380894e36a",
     "src/PhantomFudge.App/Native/WindowHotkeys.cs": "511ba5495489d6782ad85ca34588f52c9abee128303c504a4a247c85b39d6c00",
@@ -239,9 +239,9 @@
     "tools/SpeechBench/test_quality_receipt.py": "bfdcf31f0e1f2e04681aee2b4543ae4eef218edd93dd5e7e4a85bec8c375de25",
     "docs/source-atlas/annotations/audio-native.json": "ae678ff69af8e4f4e6669803238917d3a81449740446bac04e253fb3c8a75132",
     "docs/handbook/25-native-audio-source-walkthrough.md": "9e6fd1559b161444c27d331ab2cc36621d3aa747fe89dc3b74a45e25a8549d8b",
-    "docs/source-atlas/annotations/desktop.json": "17e6ef7ceba1aab7b790460e2d611004ee2e5fd91aabcb04fa325cae6ff59978",
-    "docs/handbook/22-desktop-source-walkthrough.md": "b24cb70ca42762895a443e25399fe085ff2552e6886a5125bc83dc4eaa882311",
-    "docs/source-atlas/annotations/documentation.json": "8fd3d4c14708978c286a73f5e3d2e210f2244105adc72f5a9cbd76b3f4a49cba",
+    "docs/source-atlas/annotations/desktop.json": "7063eb67896ebe01107b37772cd65bd1287e3e5dcf1d9be218fdeb9fdf4c5587",
+    "docs/handbook/22-desktop-source-walkthrough.md": "48756035998c5b570e442cea32edce013ce11cdcefdc24ab8868fa679835d75d",
+    "docs/source-atlas/annotations/documentation.json": "9d77c7fb3e8cb1b9cf387beff629413fc0a241c6f6b07d5ee074aa5c41e37fb7",
     "docs/handbook/28-documentation-source-walkthrough.md": "0f5f54aac19297d8449bc1b104b49146c1c0ee36bcd3b4224acca7a2da701bb7",
     "docs/source-atlas/annotations/domain.json": "f814ceedc1d603bf52f15cf9c99e1837f44ad7919892a1d0ce940ce8fed163dc",
     "docs/handbook/23-domain-source-walkthrough.md": "452c0883d3d5875d1eea9b55b59917b069253f96ea3fed806317aeb3c12f00fe",
@@ -254,28 +254,28 @@
   },
   "pdf": {
     "file": "docs/source-atlas/Phantom-Fudge-Source-Atlas.pdf",
-    "sha256": "4041d5be4022e0661f74385432dffbb01f308f75d5c217f2ceab1d4b6236f805",
-    "pages": 497,
-    "bytes": 13031589
+    "sha256": "faa9156977273afaf906f86e1823242fe620e77c670ce8573694b84d63624008",
+    "pages": 498,
+    "bytes": 13038283
   },
   "artifacts": [
     {
       "file": "docs/source-atlas/Phantom-Fudge-Source-Atlas.pdf",
-      "sha256": "4041d5be4022e0661f74385432dffbb01f308f75d5c217f2ceab1d4b6236f805",
-      "pages": 497,
-      "bytes": 13031589
+      "sha256": "faa9156977273afaf906f86e1823242fe620e77c670ce8573694b84d63624008",
+      "pages": 498,
+      "bytes": 13038283
     },
     {
       "file": "docs/source-atlas/index.html",
-      "sha256": "8e543d40fed7c63deaf4019fd7b56ac1eb10cce4e43f37291e95cca304ef4687"
+      "sha256": "a98fa1e85613c631a040127cc57f175c1bc15f39474fd3d567c5faaa859639ad"
     },
     {
       "file": "docs/source-atlas/coverage.json",
-      "sha256": "421865917f4bcc4f5c42d2c08a8661dfe1cce58e197a2c479adfc491809172e1"
+      "sha256": "0585d7625e47f4ef6d6a8db4cdd58763a6aaa61e3cdf4b6bcaf64e35b6f37470"
     },
     {
       "file": "docs/source-atlas/README.md",
-      "sha256": "752ed759105721af563518dfd16fb71c949a428aba46619c776f60c845494362"
+      "sha256": "5b37a8ec43f202fbde48ef50e768a7f0bf21b2e2dc92db240241caa41f716b24"
     }
   ]
 }

@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "counts": {
     "files": 168,
-    "lines": 24559,
-    "nonblankLines": 22880,
-    "blocks": 991,
+    "lines": 24583,
+    "nonblankLines": 22903,
+    "blocks": 992,
     "groups": 7
   },
   "meaning": "Every in-scope physical line is assigned to an authored block; this is not proof of complete semantic understanding.",
@@ -1516,9 +1516,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.xaml",
-      "sourceSha256": "aa9a056cfb64ef96ae4f0802ae4f5ae33f7f9772a84e0a8c63eeae61bc1d1bf6",
-      "lines": 657,
-      "nonblankLines": 657,
+      "sourceSha256": "cbd33a5c07e0a13db7d997361fc59341bc16e1399cbc6e11e8bb801358c133c3",
+      "lines": 662,
+      "nonblankLines": 662,
       "blocks": [
         {
           "start": 1,
@@ -1647,7 +1647,7 @@
         },
         {
           "start": 643,
-          "end": 657,
+          "end": 662,
           "title": "Keep a plain book cover and one recovery action outside the workspace"
         }
       ],
@@ -1656,7 +1656,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.xaml.cs",
-      "sourceSha256": "b58eca78e98ff6b87b1eb8c7730b5f3862e788fca4c540acbcdf95679d196cd1",
+      "sourceSha256": "c0627761f2fba9ee02d6e8bf4521625d3da8a290cb20c75793cb279b775478d0",
       "lines": 1216,
       "nonblankLines": 1161,
       "blocks": [
@@ -2106,7 +2106,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Cover.cs",
-      "sourceSha256": "a8573efab0dcebe6120e8aaaee42b8d4f0e66a923e7bbfa8b63c967b50918ad1",
+      "sourceSha256": "09e1b8b914f6181884e81f2259241cd6a342eddeddae2adfe7921ac9b49c18bf",
       "lines": 78,
       "nonblankLines": 73,
       "blocks": [
@@ -2136,9 +2136,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.CoverDiagnostics.cs",
-      "sourceSha256": "729f133f4853c3c2402a07aa3dbc25928f15f0e49d360e68b46ace75b2e61eba",
-      "lines": 183,
-      "nonblankLines": 179,
+      "sourceSha256": "bdb76120d8328dd07a73470acebfde680e43792c13f633871ff2ec266ca0c8c8",
+      "lines": 195,
+      "nonblankLines": 190,
       "blocks": [
         {
           "start": 1,
@@ -2162,18 +2162,23 @@
         },
         {
           "start": 113,
-          "end": 139,
+          "end": 141,
           "title": "Inspect real cover-message pixels, minimum geometry and unchanged HWND"
         },
         {
-          "start": 140,
-          "end": 168,
+          "start": 142,
+          "end": 170,
           "title": "Preserve editing and device setup and refuse file-busy cover"
         },
         {
-          "start": 169,
-          "end": 183,
+          "start": 171,
+          "end": 185,
           "title": "Report bounded evidence rather than universal invisibility"
+        },
+        {
+          "start": 186,
+          "end": 195,
+          "title": "Assert the icon-only top-left mask target"
         }
       ],
       "chapter": "docs/handbook/22-desktop-source-walkthrough.md",
@@ -2281,23 +2286,23 @@
     },
     {
       "path": "docs/handbook/book.json",
-      "sourceSha256": "3c06cef2fa61c42107a13f10ed47a337dc98fd3d36a318d1961b93b50a7eaacc",
-      "lines": 47,
-      "nonblankLines": 47,
+      "sourceSha256": "26fc782234a1625234a5094a3d25f793c13ab939b9df273eb026b55e64d18841",
+      "lines": 48,
+      "nonblankLines": 48,
       "blocks": [
         {
           "start": 1,
-          "end": 19,
+          "end": 20,
           "title": "Declare edition metadata and the introductory-to-audio reading sequence"
         },
         {
-          "start": 20,
-          "end": 38,
+          "start": 21,
+          "end": 39,
           "title": "Connect conceptual chapters with the new source walkthroughs"
         },
         {
-          "start": 39,
-          "end": 47,
+          "start": 40,
+          "end": 48,
           "title": "Append the public journal and select output artifacts"
         }
       ],
@@ -2306,9 +2311,9 @@
     },
     {
       "path": "docs/handbook/catalogue.json",
-      "sourceSha256": "bedabef86682528f823e8a82bd686a2d288249299a5c254cce2ac13bcdd690b6",
-      "lines": 235,
-      "nonblankLines": 235,
+      "sourceSha256": "a22ba00ae5d29750a77e3dfdfd59fffff839f85bc58077b8c1ba7ccbc5678753",
+      "lines": 241,
+      "nonblankLines": 241,
       "blocks": [
         {
           "start": 1,
@@ -2327,12 +2332,12 @@
         },
         {
           "start": 129,
-          "end": 184,
+          "end": 190,
           "title": "Connect engineering procedures with reference and evidence"
         },
         {
-          "start": 185,
-          "end": 235,
+          "start": 191,
+          "end": 241,
           "title": "Add dedicated statement-level walkthroughs for seven source domains"
         }
       ],

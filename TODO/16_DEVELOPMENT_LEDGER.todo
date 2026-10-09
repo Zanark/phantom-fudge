@@ -197,3 +197,12 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
 - 2026-10-09 14:18 -54READMEvisualworkflow: devicecards, recordingdot, multi-select, optional
   clarification, answer andcover. Added5opaqueverifiedderivatives(10total); sourceimagesunchanged.
   Image-firstprose,themegallery,setup/privacylinksmaintained. No app/audio/model/service/login/upload.
+- 2026-10-09 14:36 -55consolidatescurrentworkflowandimagesacrossguide/overview/setup/product/
+  appearance/status/book/index. Current-vs-historicalsourceevidenceandCover/Hide/Stop/Cancel
+  transitionsmadeexplicit. Reuse20WPF/10derivatives; no runtime/audio/model/service changes.
+-55DONE: newguide7images+2diagramsincludedearlyinbook;163local links/10imageusesin7guides
+  resolve, overviewdiagramsrender, workflowHTML/PDFviewsreviewed. Sourcehashesunchanged; full
+  atlas/bookfreshnessconfirmed. Historicalevidenceremainsdatedandunqualifiedlimits explicit.
+- 2026-10-09 16:09 -56masktoggle: vectorbookicon,32x32toplefttarget,no visibleCover/Uncover
+  captions. Accessibleactionnamesandmask-borderstateretained.161613UIpassesplacement/content/
+  hit-testingandpriorguards; headerdragprobe movedofftheicon. Slider/cursor-choiceworkstillpending.

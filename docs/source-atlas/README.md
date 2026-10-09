@@ -2,7 +2,7 @@
 
 [Open the searchable source reader](index.html) | [Read the printable annotations](Phantom-Fudge-Source-Atlas.pdf) | [Coverage ledger](coverage.json) | [Engineering handbook](../handbook/README.md)
 
-168 first-party files, 24559 physical lines and 991 authored explanation blocks.
+168 first-party files, 24583 physical lines and 992 authored explanation blocks.
 
 Open any file to read its purpose, callers/readers, annotated ranges and focused code excerpts. Expand the full source for stable line links. Search matches code as well as explanations. The PDF prints explanations and selected snippets, not a second dump of every source file.
 

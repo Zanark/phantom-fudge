@@ -166,7 +166,7 @@
     },
     {
       "path": "docs/handbook/book.json",
-      "sourceSha256": "3c06cef2fa61c42107a13f10ed47a337dc98fd3d36a318d1961b93b50a7eaacc",
+      "sourceSha256": "26fc782234a1625234a5094a3d25f793c13ab939b9df273eb026b55e64d18841",
       "role": "Defines the authoritative reading order and generated filenames for the illustrated handbook.",
       "entryPoints": [
         "loadBook",
@@ -176,9 +176,9 @@
       "blocks": [
         {
           "start": 1,
-          "end": 19,
+          "end": 20,
           "title": "Declare edition metadata and the introductory-to-audio reading sequence",
-          "explanation": "Title, subtitle, edition and language become book metadata. The chapters array is ordered, not an unordered discovery list: orientation, platform behavior, UI/storage and the audio pipeline precede performance/design discussion. The renderer loads each named Markdown file as a real public repository input and assigns an ID derived from its basename. Merely adding a file to the repository does not automatically make it a book chapter.",
+          "explanation": "Title, subtitle, edition and language become book metadata. The chapters array is ordered, not an unordered discovery list: orientation, platform behavior, UI/storage and the audio pipeline precede performance/design discussion. The renderer loads each named Markdown file as a real public repository input and assigns an ID derived from its basename. Merely adding a file to the repository does not automatically make it a book chapter. The current illustrated workflow is placed immediately after onboarding, before subsystem chapters.",
           "focus": [
             {
               "start": 2,
@@ -187,26 +187,26 @@
           ]
         },
         {
-          "start": 20,
-          "end": 38,
+          "start": 21,
+          "end": 39,
           "title": "Connect conceptual chapters with the new source walkthroughs",
           "explanation": "The remaining ordered chapters include proposed Azure boundaries, engineering/reference topics, seven source-level walkthroughs and the installed-provider/clarification guides outside the handbook folder. Relative paths are resolved against the handbook root and checked against the public repository boundary. The source walkthroughs complement the per-file atlas rather than embedding every implementation file as undifferentiated text. The cover/privacy guide is included as an additional full chapter, not only an external link.",
           "focus": [
             {
-              "start": 27,
-              "end": 37
+              "start": 28,
+              "end": 38
             }
           ]
         },
         {
-          "start": 39,
-          "end": 47,
+          "start": 40,
+          "end": 48,
           "title": "Append the public journal and select output artifacts",
           "explanation": "The public root JOURNAL is an appendix, distinct from the private context journal. The outputs object names the HTML and PDF editions used by the compiler, links and freshness manifest. These output names describe generated documentation, not a Windows application release or permission to upload the book. Private stores are forbidden by the path validator even if someone tries to add one here.",
           "focus": [
             {
-              "start": 39,
-              "end": 46
+              "start": 40,
+              "end": 47
             }
           ]
         }
@@ -214,7 +214,7 @@
     },
     {
       "path": "docs/handbook/catalogue.json",
-      "sourceSha256": "bedabef86682528f823e8a82bd686a2d288249299a5c254cce2ac13bcdd690b6",
+      "sourceSha256": "a22ba00ae5d29750a77e3dfdfd59fffff839f85bc58077b8c1ba7ccbc5678753",
       "role": "Preserves the source-linked research and writing map, with constrained onboarding and subsystem/source-walkthrough sections.",
       "entryPoints": [
         "validateCatalogue",
@@ -259,9 +259,9 @@
         },
         {
           "start": 129,
-          "end": 184,
+          "end": 190,
           "title": "Connect engineering procedures with reference and evidence",
-          "explanation": "Engineering identifies test runners, distribution, privacy and extension seams. Reference identifies configuration/API definitions, glossary and evidence/roadmap sources. Each child has the same title/name/prompt/children schema, making validation uniform. The catalogue is not itself the dependency graph or authoritative work-item status; those remain in source, receipts and the TODO index.",
+          "explanation": "Engineering identifies test runners, distribution, privacy and extension seams. Reference identifies configuration/API definitions, glossary and evidence/roadmap sources. Each child has the same title/name/prompt/children schema, making validation uniform. The catalogue is not itself the dependency graph or authoritative work-item status; those remain in source, receipts and the TODO index. Reference also includes a current-workflow node tied to the actual card, recording and cover implementations.",
           "focus": [
             {
               "start": 133,
@@ -270,14 +270,14 @@
           ]
         },
         {
-          "start": 185,
-          "end": 235,
+          "start": 191,
+          "end": 241,
           "title": "Add dedicated statement-level walkthroughs for seven source domains",
           "explanation": "The annotated-source section points to the new desktop, domain, provider, native-audio, Python-speech, operations and documentation/compiler chapters. Keeping it at top level avoids burying implementation reference under onboarding. Its seven children respect the maximum-eight-child rule. The writing prompts cite code entry points, while the authored annotation JSON supplies exact full-file line partitions and source hashes.",
           "focus": [
             {
-              "start": 185,
-              "end": 196
+              "start": 191,
+              "end": 202
             }
           ]
         }

@@ -2,7 +2,7 @@
 
 **Local transcription. Speaker notes. Questions under your control.**
 
-[Get started](docs/PREVIEW-GUIDE.md) · [Overview](docs/OVERVIEW.md) · [Docs](docs/README.md) · [Roadmap](TODO/00_INDEX.todo)
+[Get started](docs/PREVIEW-GUIDE.md) · [Illustrated workflow](docs/CURRENT-WORKFLOW.md) · [Overview](docs/OVERVIEW.md) · [Docs](docs/README.md) · [Roadmap](TODO/00_INDEX.todo)
 
 > Windows 11 preview. Capture exclusion is not universal. **Installed Agency / local-model options; direct Azure is future work.**
 
@@ -30,7 +30,7 @@
 
 <p align="center">
   <a href="docs/assets/readme/question.png"><img src="docs/assets/readme/question.png" width="47%" alt="Large accent Ask button, red-bordered Clear button and a synthetic streamed answer"></a>
-  <a href="docs/assets/readme/cover.png"><img src="docs/assets/readme/cover.png" width="47%" alt="NOTEPAD IS READY cover with one Uncover button"></a>
+  <a href="docs/assets/readme/cover.png"><img src="docs/assets/readme/cover.png" width="47%" alt="NOTEPAD IS READY with the icon-only mask toggle at the top left"></a>
 </p>
 
 **Cover keeps transcription and answers running.** It does not make the app universally invisible.

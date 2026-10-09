@@ -1,0 +1,21 @@
+# Icon-only mask toggle at top left
+
+Status: DONE
+Milestone: Mask control presentation
+Dependencies: 53_NOTEPAD_COVER_AND_PRIVACY.todo
+
+## Scope and evidence
+
+- [x] Replace visible Cover/Uncover captions with an original vector book icon.
+- [x] Move the32x32toggle to the top left and reserve title space; restore normal right-side header spacing.
+- [x] Retain accessible action names and a stronger border while masked.
+- [x] Verify icon-only content, both-state placement, native client hit testing and remaining caption drag region.
+- [x] Preserve ongoing capture/answers and refresh images, source annotations and user documentation.
+
+The161613synthetic fixture passes iconOnlyTopLeft and all prior cover/layout/capture-style guards.
+No actual audio/model or user-app operation. The requested answer-font slider and cursor strategy
+remain separate pending work; this change does not freeze, hide or reposition the system pointer.
+
+## Completion log
+
+- 2026-10-09 16:09 - Owner explicitly requested an icon instead of Cover/Uncover words, at top left.

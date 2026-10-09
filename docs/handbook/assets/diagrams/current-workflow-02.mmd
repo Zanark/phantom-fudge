@@ -1,0 +1,20 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","signalColor":"#8b949e","signalTextColor":"#e6edf3"}}
+---
+sequenceDiagram
+    accTitle: Continuing work versus stopping work
+    accDescr: Cover only changes the attached view, while Hide follows the existing shutdown path.
+    autonumber
+    actor User
+    participant UI
+    participant Audio
+    participant Answer
+    User->>UI: Cover
+    UI->>UI: Detach workspace and show cover
+    Audio-->>UI: Continue transcript updates
+    Answer-->>UI: Continue response updates
+    User->>UI: Uncover
+    UI-->>User: Show current retained content
+    User->>UI: Hide
+    UI->>Audio: Request stop
+    UI->>Answer: Cancel and clean up

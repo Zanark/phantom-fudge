@@ -67,7 +67,7 @@ features arrived faster than real sharing environments could be qualified.
 
 **Public record:** initial decisions and scope appear in `TODO/16_DEVELOPMENT_LEDGER.todo:75-85`;
 the convention's bounded survey and evidence semantics are in `docs/TODO-CONVENTIONS.md:1-73`.
-The current capture-claim limits are stated in `docs/OVERVIEW.md:38-56`.
+The current capture-claim limits are stated in `docs/OVERVIEW.md:48-70`.
 
 ## 2026-10-08, 00:32 onward - Implementation, and a new primary signal
 
@@ -94,7 +94,7 @@ system changes. Later testing therefore relied on generated PCM and isolated syn
 No public release or push followed from creating a local ZIP.
 
 **Public record:** the historical implementation/evidence table and approved playback boundary are
-in `docs/IMPLEMENTATION-STATUS.md:212-266`; the authorization and subsequent restrictions are preserved
+in `docs/IMPLEMENTATION-STATUS.md:249-303`; the authorization and subsequent restrictions are preserved
 in `TODO/16_DEVELOPMENT_LEDGER.todo:66-74`.
 
 ## 03:01 - A hidden window must still be recoverable
@@ -123,7 +123,7 @@ protection setup and unsaved-content safeguards remained. Nor did it turn an ext
 into recorded compatibility evidence. The lasting requirement is **not to reintroduce permission or
 rehearsal prompts** under a different name during future feature work.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:205-210` records the change and local artifact;
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:242-247` records the change and local artifact;
 `docs/DEVELOPMENT-WORKFLOW.md:95-102` preserves the durable behavioral requirement.
 
 ## 03:12 - Seeing through the surface without washing out the text
@@ -142,7 +142,7 @@ first-frame guarantee.
 The lesson was to treat rendering changes as changes to the capture-evidence boundary, not just
 visual polish.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:194-203` identifies the layered result and limitations;
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:231-240` identifies the layered result and limitations;
 the implementation is explored in [chapter05](docs/handbook/05-desktop-ui-and-themes.md).
 
 ## 03:25 - Correcting Docker's place in the architecture
@@ -162,7 +162,7 @@ was moved after native release17. Runtime22 became the required operational path
 prevented infrastructure work from blocking the thing the owner actually wanted to run.
 
 **Public record:** native operation and the Docker correction are recorded in
-`docs/IMPLEMENTATION-STATUS.md:173-192`; the current dependency graph is in `TODO/00_INDEX.todo`.
+`docs/IMPLEMENTATION-STATUS.md:210-229`; the current dependency graph is in `TODO/00_INDEX.todo`.
 
 ## The muted-laptop experiment - Compare engines, not language stereotypes
 
@@ -192,7 +192,7 @@ that today's harness hash differs from the historical receipt rather than rewrit
 
 **Public record:** [the full benchmark report](docs/SPEECH-BENCHMARK.md) and
 [chapter12](docs/handbook/12-performance-and-benchmarks.md). Summary measurements and their limit
-are recorded in `docs/IMPLEMENTATION-STATUS.md:179-182`.
+are recorded in `docs/IMPLEMENTATION-STATUS.md:216-219`.
 
 ## 11:31 - Transcription moves to the foreground
 
@@ -217,7 +217,7 @@ packaged separately.
 **Still unresolved:** recipient-side cursor disappearance needs qualification in the actual
 recorder/sharing mode. No implementation change justified the requested absolute invisibility claim.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:154-171`, [cursor/theme notes](docs/CURSOR-AND-THEMES.md)
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:191-208`, [cursor/theme notes](docs/CURSOR-AND-THEMES.md)
 and workstreams24/25.
 
 ## 13:47-14:01 - Small UI questions clarify the evidence
@@ -258,7 +258,7 @@ manager-upgrade guards, plus real generated dual PCM and C#-to-Python v2 recogni
 microphone/render endpoint or chat content was opened for this work. Hardware permissions, echo,
 OS microphone indicators and recipient behavior remain to be qualified.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:130-152`,
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:167-189`,
 `docs/DUAL-SOURCE-AUDIO.md:1-30` and [chapters07-11](docs/handbook/07-dual-input-capture.md).
 
 ## 15:05 - An answer feature is researched before it is built
@@ -286,7 +286,7 @@ Four design documents, workstreams27-37 and workflows04/05 capture the plan. Onl
 DONE. There is no implemented Ask button, composer, Azure client, source commit or answer pane.
 No Azure account/resource discovery, sign-in, inference or upload was performed.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:124-128`,
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:161-165`,
 `docs/AI-ANSWER-ARCHITECTURE.md:82-188` and the four linked [AI design documents](docs/README.md).
 
 ## 16:11 - Turn the implementation into a teachable engineering record
@@ -322,7 +322,7 @@ so the reader gained responsive wrapping. Those corrections improved the actual 
 than treating a successful export as sufficient. Nothing was uploaded or published.
 
 The documentation-only fixture does not replace the most recent user preview ZIP. That preview
-remains the145231 dual-source bundle identified in `docs/IMPLEMENTATION-STATUS.md:146-152`.
+remains the145231 dual-source bundle identified in `docs/IMPLEMENTATION-STATUS.md:183-189`.
 The book does not implement Azure Ask, qualify remote cursors, or move Docker earlier.
 
 ```mermaid
@@ -834,3 +834,35 @@ Cover's continuing-work behavior and the lack of universal invisibility remain e
 
 Only documentation and its image allowlist changed. No app, capture endpoint, service, model,
 authentication flow, upload, commit or push was run for this update.
+
+## 14:36 - Consolidate the complete current experience
+
+The owner requested all documentation brought up to date with the recent features and images.
+Individual milestones were documented, but the overview and implementation-status entry points
+still emphasized older snapshots. A new illustrated current-workflow guide now provides one
+continuous reading path through device cards, recording state, multi-line selection, optional
+clarification, answers, typography/actions, the cover and operational recovery.
+
+The guide reuses current synthetic imagery and explicitly distinguishes Cover from Hide, Stop,
+Cancel answer, global Edit and closing Q/A. It retains privacy, retention, source-only delivery
+and bounded benchmark caveats. Overview, setup, product, appearance, status and handbook navigation
+are reconciled; older package/test milestones remain historical instead of being rewritten as
+current-runtime evidence. No runtime, model, audio or service work is required for this documentation.
+
+The completed guide includes seven current UI images and two source-grounded diagrams. It is now
+near the front of the HTML/PDF handbook. Seven affected guides' local links and image references
+were reviewed, as were the workflow's key rendered sections and PDF pages. The overview's updated
+diagrams also render. Runtime, service, provider and tooling source hashes remained unchanged;
+current edition counts and artifacts remain authoritative in the manifests.
+
+## 16:09 - Make the mask control icon-only
+
+The owner requested a small icon at the top left instead of visible Cover/Uncover text. The
+always-mounted toggle now uses an original vector book glyph in a32x32target, with title spacing
+adjusted around it. Meaningful accessibility names remain; a thicker border indicates masked state.
+The same icon restores the workspace while ongoing transcription/answer behavior remains unchanged.
+
+The synthetic fixture checks the actual icon content and top-left client hit region in both states.
+The separate caption-drag probe moved to an unobstructed header point. Images, source explanations
+and current user guides follow the change. No cursor-freezing strategy or answer-font slider was
+implemented here; those remain pending the separate discussion/selection.

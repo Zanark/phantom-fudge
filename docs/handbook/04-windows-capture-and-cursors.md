@@ -19,7 +19,7 @@ Keep four observations separate:
 | Does a sharing picker list it? | The particular picker's behavior; not established by tool-window style |
 | What does the audience actually receive? | Independent recipient frames and recordings for that exact configuration |
 
-The qualification plan explicitly separates these dimensions. A successful API call cannot fill in the other three columns. Nor does a visible local Arrow establish that a recorder includes the pointer. (docs\QUALIFICATION.md:9-26; docs\CURSOR-AND-THEMES.md:38-54)
+The qualification plan explicitly separates these dimensions. A successful API call cannot fill in the other three columns. Nor does a visible local Arrow establish that a recorder includes the pointer. (docs\QUALIFICATION.md:9-26; docs\CURSOR-AND-THEMES.md:45-61)
 
 **Newcomer path:** follow startup, then read the cursor section. **Principal-engineer path:** inspect the native error semantics, invalidation ordering, and evidence limits. [Chapter 11](11-state-machines-and-failure-containment.md) connects this window lifecycle to asynchronous audio shutdown.
 
@@ -124,7 +124,7 @@ Cursor shape is handled at two levels:
 
 The native policy loads resource `32512`, the standard Arrow. It does not replace system cursor resources or manipulate global visibility counters. Arrow is also used in Edit; editable text and an I-beam are not inseparable concepts. (src\PhantomFudge.App\MainWindow.xaml:6-9; src\PhantomFudge.App\App.xaml:48-76; src\PhantomFudge.App\MainWindow.xaml.cs:176-180; src\PhantomFudge.App\Native\CursorPolicy.cs:8-24)
 
-A recorder may include, exclude, or separately composite cursor imagery. Consequently, the reported remote cursor disappearance remains unresolved until tested in the actual sharing product and mode. Local foreground preservation, native Arrow equality, and content-exclusion samples answer different questions. (docs\CURSOR-AND-THEMES.md:40-54)
+A recorder may include, exclude, or separately composite cursor imagery. Consequently, the reported remote cursor disappearance remains unresolved until tested in the actual sharing product and mode. Local foreground preservation, native Arrow equality, and content-exclusion samples answer different questions. (docs\CURSOR-AND-THEMES.md:47-61)
 
 ### Invalidation hides before waiting
 

@@ -24,8 +24,12 @@ selected it. "Proposed" is a recommendation to resolve in `TODO\01_PRODUCT_DECIS
 | R15 | Planned: use Azure where justified with explicit data/identity boundaries | Approved selected-text inference profile; audio remains local by default |
 | R16 | Keep illustrated engineering documentation and a public development journal current | Source-linked chapters, synthetic images, diagrams and generated editions maintained with changes |
 | R17 | Use existing Agency in background or an explicit local model, with no org-data tools | Labelled provider, isolated prompt-only launch, zero-tool surface and bounded streamed output |
-| R19 | Optional, default-off question interpretation before answering | Fixed clarification metadata, original draft retained, explicit Yes/correction replies; no automatic request |
 | R18 | Click several Mic/Computer transcript lines directly to compose a question | Whole-segment toggles, displayed-order raw text, guarded edits and no send until explicit Ask; workstream44 |
+| R19 | Optional, default-off question interpretation before answering | Fixed clarification metadata, original draft retained, explicit Yes/correction replies; no automatic request |
+| R20 | Clear primary action hierarchy and reduced reading type | Accent Ask followed by red-bordered Clear; answer50%and transcript25%font reductions |
+| R21 | Visible active-transcription state | Red indicator follows running state, not source selection/startup |
+| R22 | Direct device-card selection without list scrolling | Wrapping source-specific cards, explicit overflow pages and retained endpoint choice |
+| R23 | Reversible notepad cover while ongoing work continues | Same-HWND NOTEPAD IS READY/Uncover; no implicit stop/cancel and no invisibility claim |
 
 The original wish for a window that can "never be detected" is not an implementable
 universal contract. Task Manager, desktop-window enumeration, accessibility tools,
@@ -50,7 +54,8 @@ answers, and Docker-last. Cloud audio is separately optional. See AI-ANSWER-ARCH
 Question typing deliberately takes keyboard focus through its own protected transition without
 stopping transcription or enabling notes editing. Direct transcript clicks now enter that same
 transition; they are not passive no-activation gestures. Snapshot-only mode sends nothing;
-configured-provider Ask sends only the exact reviewed question. Accurate armed-Mic finalization
+normal configured-provider Ask sends only the exact reviewed question; optional clarification
+includes its fixed instruction and bounded explicit exchanges. Accurate armed-Mic finalization
 remains29. See LOCAL-QUESTIONS.md.
 
 October8 11:31 direction: transcript-first replaces notes-first. Start in non-activating Present,

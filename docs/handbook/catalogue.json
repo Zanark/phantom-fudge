@@ -4,12 +4,12 @@
       "title": "onboarding",
       "name": "Onboarding",
       "collapsed": false,
-      "prompt": "Introduce the implemented local conversation companion and planned Azure extension from docs/OVERVIEW.md:8-56, src/PhantomFudge.App/App.xaml.cs:1 and docs/IMPLEMENTATION-STATUS.md:1.",
+      "prompt": "Introduce the implemented local conversation companion and planned Azure extension from docs/OVERVIEW.md:8-70, src/PhantomFudge.App/App.xaml.cs:1 and docs/IMPLEMENTATION-STATUS.md:1.",
       "children": [
         {
           "title": "00-reading-map",
           "name": "Reading Map",
-          "prompt": "Orient readers using docs/OVERVIEW.md:8-56, docs/PRODUCT.md:1 and TODO/00_INDEX.todo:1; distinguish implemented, measured, planned and unqualified.",
+          "prompt": "Orient readers using docs/OVERVIEW.md:8-70, docs/PRODUCT.md:1 and TODO/00_INDEX.todo:1; distinguish implemented, measured, planned and unqualified.",
           "children": []
         },
         {
@@ -162,6 +162,12 @@
       "name": "Reference and Evidence",
       "prompt": "Provide the operational reference and honest roadmap using docs/IMPLEMENTATION-STATUS.md:1, docs/DUAL-SOURCE-AUDIO.md:1 and TODO/00_INDEX.todo:1.",
       "children": [
+        {
+          "title": "current-workflow",
+          "name": "Current Illustrated Workflow",
+          "prompt": "Show the actual device-card, recording, selection, clarification and cover workflow using src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs:96-141, src/PhantomFudge.App/MainWindow.RecordingIndicator.cs:7-10 and src/PhantomFudge.App/MainWindow.Cover.cs:22-76; distinguish Cover from Hide/Stop.",
+          "children": []
+        },
         {
           "title": "19-api-configuration-reference",
           "name": "API and Configuration Reference",

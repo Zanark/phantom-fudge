@@ -126,10 +126,10 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Margin="13,0" VerticalAlignment="Center" FontWeight="SemiBold"
+                <TextBlock Margin="46,0,0,0" VerticalAlignment="Center" FontWeight="SemiBold"
                            Foreground="{DynamicResource ThemeHeading}"
                            Text="Phantom Fudge" IsHitTestVisible="False" />
-                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,2,77,2"
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,2,5,2"
                             shell:WindowChrome.IsHitTestVisibleInChrome="True">
                     <Button x:Name="DiagnosticsButton" Content="Diagnostics" Click="Diagnostics_Click"
                             AutomationProperties.Name="Open local diagnostic log folder" />
@@ -648,10 +648,15 @@
                                AutomationProperties.Name="NOTEPAD IS READY" />
                 </Grid>
             </Border>
-            <Button x:Name="CoverToggleButton" Content="Cover" Width="68" Height="32" Margin="0,2,5,0"
-                    HorizontalAlignment="Right" VerticalAlignment="Top" Click="CoverToggle_Click"
+            <Button x:Name="CoverToggleButton" Width="32" Height="32" Padding="5" Margin="5,2,0,0"
+                    HorizontalAlignment="Left" VerticalAlignment="Top" Click="CoverToggle_Click"
                     shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                    AutomationProperties.Name="Show notepad cover; transcription and answers keep running" />
+                    AutomationProperties.Name="Show notepad cover; transcription and answers keep running">
+                <Path x:Name="CoverToggleIcon" Width="18" Height="18" Stretch="Uniform"
+                      Stroke="{DynamicResource ThemeHeading}" StrokeThickness="1.5" StrokeLineJoin="Round"
+                      Data="M5,2 H18 V20 H5 C2,20 2,16 5,16 H18 M5,2 C2,2 2,4 2,6 V18 M6,6 H14 M6,10 H14"
+                      IsHitTestVisible="False" />
+            </Button>
         </Grid>
     </Border>
 </Window>

@@ -1444,7 +1444,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.xaml",
-      "sourceSha256": "aa9a056cfb64ef96ae4f0802ae4f5ae33f7f9772a84e0a8c63eeae61bc1d1bf6",
+      "sourceSha256": "cbd33a5c07e0a13db7d997361fc59341bc16e1399cbc6e11e8bb801358c133c3",
       "role": "Defines the one native WPF workspace, inline tools and independent reading surfaces; its resource bindings and event wires are part of the capture, focus and explicit-action design.",
       "entryPoints": [
         "MainWindow.InitializeComponent",
@@ -1529,7 +1529,7 @@
           "start": 106,
           "end": 141,
           "title": "Retain native caption/resize regions and clickable header actions",
-          "explanation": "WindowChrome reserves a 38-unit caption and six-unit resize edge without glass or rounded native corners. Root grid rows separate chrome, controls and a star-sized reader. The title is not hit-testable, allowing caption dragging; the header StackPanel is explicitly hit-testable in chrome so Diagnostics/Edit/Hide/Exit are client controls rather than drag starts. Event handlers provide lifecycle behavior. WorkspaceHost owns the detachable WorkspaceRoot, while the caption buttons reserve space for the separate always-mounted Cover toggle.",
+          "explanation": "The caption retains native drag/resize behavior and client-hit-testable actions. The title reserves46units on the left for the separate32-unit book icon; the normal right-side action cluster returns to a five-unit margin. WorkspaceHost still detaches the main visual/logical content without removing the mask toggle.",
           "focus": [
             {
               "start": 106,
@@ -1807,13 +1807,13 @@
         },
         {
           "start": 643,
-          "end": 657,
+          "end": 662,
           "title": "Keep a plain book cover and one recovery action outside the workspace",
-          "explanation": "CoverHost mounts only a centered high-contrast NOTEPAD IS READY label when covered. The sole always-mounted Cover/Uncover button is in the top-right caption hit region, outside WorkspaceRoot. The original process/window identity remains Phantom Fudge; the cover does not impersonate the Windows Notepad executable. Both hosts share the same protected HWND and background controls, and switching content does not stop background work.",
+          "explanation": "The cover contains NOTEPAD IS READY and the same always-mounted icon-only toggle at the top left. A small original vector book Path replaces text captions, avoiding icon-font or image dependencies. The button's32by32target is explicitly client-hit-testable inside the caption; the title is offset to leave room. Meaningful accessible names still describe the action, but no Cover/Uncover caption is drawn. The same HWND and continuing-work lifecycle are retained.",
           "focus": [
             {
-              "start": 643,
-              "end": 654
+              "start": 651,
+              "end": 660
             }
           ]
         }
@@ -1821,7 +1821,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.xaml.cs",
-      "sourceSha256": "b58eca78e98ff6b87b1eb8c7730b5f3862e788fca4c540acbcdf95679d196cd1",
+      "sourceSha256": "c0627761f2fba9ee02d6e8bf4521625d3da8a290cb20c75793cb279b775478d0",
       "role": "Coordinates the window's protection, focus, notes, explicit audio lifecycle, transcript display and synthetic UI harness; other partials share this state rather than forming independent windows.",
       "entryPoints": [
         "MainWindow.MainWindow",
@@ -2955,7 +2955,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Cover.cs",
-      "sourceSha256": "a8573efab0dcebe6120e8aaaee42b8d4f0e66a923e7bbfa8b63c967b50918ad1",
+      "sourceSha256": "09e1b8b914f6181884e81f2259241cd6a342eddeddae2adfe7921ac9b49c18bf",
       "role": "Swaps the workspace for a plain cover without stopping ongoing transcription or answers, while narrowing fresh UI Automation traversal.",
       "entryPoints": [
         "MainWindow.InitializeCover",
@@ -2995,7 +2995,7 @@
           "start": 48,
           "end": 67,
           "title": "Restore the visual tree and rebuild the window's automation children",
-          "explanation": "Uncover removes CoverView and reattaches/enables WorkspaceRoot. The button caption and accessible name describe whether the workspace is covered and that ongoing work continues. ResetChildrenCache synchronously rebuilds the existing window peer's child tree, followed by invalidation. This removes covered fields from fresh root traversal, not from previously cached peers or process memory. finally always releases the transition guard.",
+          "explanation": "Uncover removes CoverView and restores/enables WorkspaceRoot. The icon remains unchanged; a two-unit border marks covered state and accessible names describe showing the notepad or restoring the workspace without visible text captions. ResetChildrenCache synchronously rebuilds the window peer children, then invalidates peer state. Cached references and retained memory remain outside this fresh-tree improvement. finally releases the transition guard.",
           "focus": [
             {
               "start": 50,
@@ -3023,11 +3023,12 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.CoverDiagnostics.cs",
-      "sourceSha256": "729f133f4853c3c2402a07aa3dbc25928f15f0e49d360e68b46ace75b2e61eba",
+      "sourceSha256": "bdb76120d8328dd07a73470acebfde680e43792c13f633871ff2ec266ca0c8c8",
       "role": "Exercises synthetic cover appearance, retained background work and explicitly limited accessibility-tree privacy.",
       "entryPoints": [
         "MainWindow.RunCoverDiagnosticAsync",
-        "MainWindow.AutomationDescendants"
+        "MainWindow.AutomationDescendants",
+        "MainWindow.IsMaskIconTopLeft"
       ],
       "blocks": [
         {
@@ -3088,7 +3089,7 @@
         },
         {
           "start": 113,
-          "end": 139,
+          "end": 141,
           "title": "Inspect real cover-message pixels, minimum geometry and unchanged HWND",
           "explanation": "The synthetic WPF render is sampled within the actual DPI-scaled text bounds; more than100bright pixels prove the message was drawn rather than trusting IsVisible alone. Minimum-size geometry must leave the message/toggle visible. HWND/styles/protection remain unchanged through cover. Uncover must restore the answer text and ordinary editor traversal and then record its first visible assignment.",
           "focus": [
@@ -3097,36 +3098,48 @@
               "end": 125
             },
             {
-              "start": 128,
-              "end": 139
+              "start": 129,
+              "end": 140
             }
           ]
         },
         {
-          "start": 140,
-          "end": 168,
+          "start": 142,
+          "end": 170,
           "title": "Preserve editing and device setup and refuse file-busy cover",
           "explanation": "The fake audio-start guard is cleared before further UI checks. Independent question editing survives a cover cycle. Audio setup also restores its selected output/microphone objects without visibility callbacks closing it or reconfiguring work during host swaps. File-busy activation is rejected. Synthetic content/provider mode is then cleared and normal fixture state restored.",
           "focus": [
             {
-              "start": 143,
-              "end": 154
+              "start": 145,
+              "end": 156
             },
             {
-              "start": 155,
-              "end": 166
+              "start": 157,
+              "end": 168
             }
           ]
         },
         {
-          "start": 169,
-          "end": 183,
+          "start": 171,
+          "end": 185,
           "title": "Report bounded evidence rather than universal invisibility",
           "explanation": "The aggregate requires visual, keyboard, background-work, fresh accessibility, compact, HWND, restoration and busy-guard checks. The receipt separately reports cachedPeerValueReadable, zero live model requests and no audio capture. Its limitation explicitly excludes cached external clients, process inspection and recipient capture qualification. Failed checks throw instead of generating a successful privacy claim. The final aggregate also requires an accepted native Peek-prevention request; actual taskbar-hover output is not tested.",
           "focus": [
             {
-              "start": 169,
-              "end": 180
+              "start": 171,
+              "end": 182
+            }
+          ]
+        },
+        {
+          "start": 186,
+          "end": 195,
+          "title": "Assert the icon-only top-left mask target",
+          "explanation": "The helper checks that button content is the actual vector Path with geometry, not a string caption. Its top-left coordinates must stay within the header inset, and its target remains32by32. Native hit testing at its center must report client content rather than caption dragging. Covered and restored modes both run this assertion; the separate drag check moved to an unobstructed header point.",
+          "focus": [
+            {
+              "start": 188,
+              "end": 194
             }
           ]
         }

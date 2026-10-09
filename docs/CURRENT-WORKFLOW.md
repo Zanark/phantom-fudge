@@ -21,6 +21,9 @@ historical package. (src/PhantomFudge.App/MainWindow.xaml:1-10;
 src/PhantomFudge.App/MainWindow.Questions.cs:26-59;
 src/PhantomFudge.App/MainWindow.Cover.cs:22-76.)
 
+Configure an [answer provider](ANSWER-PROVIDERS.md) before the AI steps. Without one, **Freeze
+locally** only captures a local question snapshot; transcription and notes remain usable.
+
 ## Architecture: what happens after each click
 
 ```mermaid
@@ -40,7 +43,9 @@ flowchart TB
     Interpret --> Review["Review proposed meaning"]
     Review -->|Send correction| Interpret
     Review -->|Explicit Yes| Ask
-    Ask --> Answer["Answer in the same workspace"]
+    Ask --> Destination{"Provider selected?"}
+    Destination -->|No| Frozen["Local snapshot only"]
+    Destination -->|Yes| Answer["Answer in the same workspace"]
     style Cards fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Start fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Transcript fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
@@ -51,6 +56,8 @@ flowchart TB
     style Interpret fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Review fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Answer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Destination fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Frozen fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
 ```
 
 The normal speech path is selected native WASAPI inputs, authenticated local transport, fast Vosk
@@ -75,7 +82,7 @@ src/PhantomFudge.Core/Answers/AnswerClarification.cs:13-69.)
 | Large accent button | Ask provider, Freeze locally, Interpret question or Reply below, according to mode |
 | Red-bordered Clear question | Clear the question/snapshot/answer, not the transcript or notes |
 | Clarify first | Default-off interpretation and explicit correction/confirmation workflow |
-| Cover / Uncover | Visual book cover; already-started work continues |
+| Book icon, top left | Toggle the visual mask; already-started work continues |
 | Diagnostics | Open local diagnostics and reload its settings |
 
 These are distinct handlers and state checks, not alternate names for one global pause action.
@@ -83,7 +90,7 @@ These are distinct handlers and state checks, not alternate names for one global
 src/PhantomFudge.App/MainWindow.RecordingIndicator.cs:7-10;
 src/PhantomFudge.App/MainWindow.Cover.cs:20-76.)
 
-## 1. Choose Computer and/or Mic device cards
+## 1. Choose audio device cards
 
 ![Audio setup with directly selectable device cards](assets/readme/audio-devices.png)
 
@@ -151,7 +158,7 @@ src/PhantomFudge.App/MainWindow.Questions.cs:103-129.)
 
 ![Clarification interpretation and explicit correction/confirmation controls](assets/readme/clarification.png)
 
-**Clarify first is off on launch.** Enable it and press **Interpret question** when the transcript
+**Clarify first is off on launch.** With a provider configured, enable it and press **Interpret question** when the transcript
 captures the general subject but is cumbersome to correct. The model should restate the intended
 question rather than solve it yet. Your original draft stays separate from the reply field.
 
@@ -191,9 +198,9 @@ See [provider setup](ANSWER-PROVIDERS.md) and [measured limits](QUALITY-UPDATE.m
 
 ## 6. Cover the workspace without pausing it
 
-![NOTEPAD IS READY and the single Uncover action](assets/readme/cover.png)
+![NOTEPAD IS READY and the icon-only top-left mask toggle](assets/readme/cover.png)
 
-Click **Cover**. Only **NOTEPAD IS READY** and **Uncover** remain. Transcription and answers already
+Click the **top-left book icon**. Only **NOTEPAD IS READY** and the same icon remain. Transcription and answers already
 running continue behind it; no new capture or request is created. Uncover restores current results
 and the retained workspace. The recording dot is behind the cover, so its absence is not a stopped
 indicator. File/confirmation operations block covering rather than hiding a required decision.

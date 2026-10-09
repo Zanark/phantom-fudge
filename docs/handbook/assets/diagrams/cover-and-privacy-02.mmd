@@ -9,7 +9,7 @@ sequenceDiagram
     participant Window
     participant Cached as Retained question peer
     Fixture->>Window: Cover and refresh root traversal
-    Window-->>Fixture: Cover and Uncover only
+    Window-->>Fixture: Message and icon toggle only
     Fixture->>Cached: Read IValueProvider.Value
     Cached-->>Fixture: Retained synthetic question
     Note over Fixture,Cached: Data stays in memory for ongoing work

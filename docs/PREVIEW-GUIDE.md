@@ -6,6 +6,8 @@ The app remains visible to normal OS/process/accessibility inspection.
 
 ## Native app
 
+For a complete tour with the current images, use the [illustrated workflow](CURRENT-WORKFLOW.md).
+
 From the repository in PowerShell 7, with the SDK selected by `global.json`:
 
 ```powershell
@@ -24,17 +26,15 @@ If a packaged preview is supplied, extract the WHOLE directory and run `PhantomF
 Do not copy just its EXE away from its dependent files. An unsigned preview may be blocked
 by Windows or organizational policy; do not disable security controls to bypass that.
 
-**The October9 click-selection, Clarify first and answer-font updates are source-only.**
-The later answer-font adjustment is also source-only: answer/interpretation text is50%smaller
-(20to10normally;18to9in compact layouts). Transcription text is now25%smaller too: final20to15,
-partial18to13.5and compact14to10.5. Question text is unchanged. Run `.\scripts\Run-PhantomFudge.ps1`
-from this updated checkout after closing the old app. No new ZIP is planned for this small change;
-the immutable historical045022ZIP does not include these additions.
+**The later October9 UI changes are source-only:** multi-line selection, Clarify first, smaller
+transcript/answer text, prominent Ask/red Clear, recording dot, no-scroll device cards and Cover.
+Run `.\scripts\Run-PhantomFudge.ps1` from the updated checkout after saving and closing the old app.
+The immutable historical045022ZIP predates these additions.
 See [the source-only milestone](IMPLEMENTATION-STATUS.md).
 
 ## Transcript-first view, themes, and notes
 
-**Cover / Uncover** in the top bar shows only **NOTEPAD IS READY** and the return button.
+The **book icon at the top left** toggles the mask: only **NOTEPAD IS READY** and that icon remain.
 This is visual only: transcription and answers keep running, and the recording dot is behind the
 cover. Uncover restores accumulated content. Hide/Exit still stop work normally. Cover is not
 invisibility: process inspection, cached accessibility references and some capture methods remain
@@ -52,6 +52,11 @@ guidance only when needed; a missing-token Start opens it automatically. No card
 A **red dot beside TRANSCRIPT / Start** appears while the selected audio inputs are actively
 being transcribed. It stays hidden during connection/startup and disappears when transcription
 stops or faults. This indicates live capture, not that an audio file is being saved.
+
+The right-hand action group is **large accent Ask, then red-bordered Clear question**. Type/edit
+and Copy remain on the left. Current final transcript size is15WPF units; partials are13.5or10.5
+compact; answers/interpretations are10or9compact. Question text remains18.
+See [current sizes and images](CURRENT-WORKFLOW.md#current-sizes-themes-and-visible-status).
 
 - The live transcript is the main view, with **QUESTION / ANSWER** expanded by default. **Hide Q/A**
   and **Show Q/A** toggle it. Notes starts collapsed; click Notes to expand/collapse.
@@ -89,6 +94,10 @@ reconfirmed with checkboxes, dialogs or repeat prompts. Global Edit/Present swit
 or protection invalidation stops transcription.
 Start again deliberately after checking the new configuration. Normal dialogs/export are
 disabled during Present. The current preview uses fixed shortcut defaults.
+Cover is the explicit exception to stopping: it retains ongoing work. Opening Audio setup,
+expanding Notes or hiding Q/A closes the question pane and cancels its current answer/provider
+activity while leaving audio unchanged. The [transition table](CURRENT-WORKFLOW.md#state-changes-cover-is-not-hide)
+distinguishes these actions from Stop and Cancel answer.
 
 ## Local transcription: Computer, Mic, or Both
 

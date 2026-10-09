@@ -131,12 +131,14 @@ public partial class MainWindow
         Height = oldHeight;
         var coverHandleStable = handle == new WindowInteropHelper(this).Handle &&
             WindowProtection.ReadStyles(handle) == styleBefore && protectionReady;
+        var iconOnlyTopLeft = IsMaskIconTopLeft();
         var peekPreventionRequested = lastProtection?.PeekPreventionRequested == true;
         SetCover(false);
         await Dispatcher.InvokeAsync(UpdateLayout, System.Windows.Threading.DispatcherPriority.ApplicationIdle);
         var restored = WorkspaceHost.Child == WorkspaceRoot && WorkspaceRoot.IsEnabled && QuestionEditor.IsVisible &&
             AnswerText.Text == "COVER_BACKGROUND_ANSWER" && firstAnswerVisibleLogged && !coverActive &&
             AutomationDescendants(rootPeer).Contains(editorPeer!);
+        iconOnlyTopLeft &= IsMaskIconTopLeft();
         audioBusy = false;
         audioStartCancellation = null;
         UpdateAudioControls();
@@ -168,10 +170,10 @@ public partial class MainWindow
         UpdateAnswerControls();
         var passed = accessibilityBefore && detached && accessibilityCovered && keysBlocked && backgroundContinues &&
             noHiddenVisibleTiming && coverAppearance && renderedMessage && compactCover && coverHandleStable &&
-            restored && editingPreserved && setupRestored && busyCoverRefused && peekPreventionRequested;
+            restored && editingPreserved && setupRestored && busyCoverRefused && peekPreventionRequested && iconOnlyTopLeft;
         var result = new { passed, accessibilityBefore, detached, accessibilityCovered, keysBlocked, backgroundContinues,
             noHiddenVisibleTiming, coverAppearance, renderedMessage, compactCover, coverHandleStable, restored,
-            editingPreserved, setupRestored, busyCoverRefused, cachedPeerValueReadable, peekPreventionRequested,
+            editingPreserved, setupRestored, busyCoverRefused, cachedPeerValueReadable, peekPreventionRequested, iconOnlyTopLeft,
             modelRequests = 0, audioCaptured = false,
             limitation = "Fresh in-process WPF peer traversal only; cached clients, process inspection and recipient capture are not qualified." };
         await System.IO.File.WriteAllTextAsync(System.IO.Path.Combine(directory, "notepad-cover.json"),
@@ -179,5 +181,15 @@ public partial class MainWindow
         if (!passed)
             throw new InvalidOperationException("Synthetic notepad cover checks failed: " + System.Text.Json.JsonSerializer.Serialize(result));
         return result;
+    }
+
+    private bool IsMaskIconTopLeft()
+    {
+        UpdateLayout();
+        var location = CoverToggleButton.TranslatePoint(new Point(), this);
+        var center = CoverToggleButton.TranslatePoint(new Point(16, 16), this);
+        return ReferenceEquals(CoverToggleButton.Content, CoverToggleIcon) && CoverToggleIcon.Data is not null &&
+            location.X is >= 0 and < 12 && location.Y is >= 0 and < 8 &&
+            CoverToggleButton.ActualWidth == 32 && CoverToggleButton.ActualHeight == 32 && HitTestDiagnostic(center) == 1;
     }
 }

@@ -43,7 +43,7 @@ flowchart TB
 The final arrows are deliberately not automatic. A passing local smoke test is not signing,
 distribution authorization, enterprise-policy acceptance or four-product capture qualification.
 The implementation-status document identifies the actual local candidate and its remaining
-boundaries (`docs\IMPLEMENTATION-STATUS.md:1-219`).
+boundaries (`docs\IMPLEMENTATION-STATUS.md:1-256`).
 
 ## Source checkout versus extracted bundle
 
@@ -185,4 +185,4 @@ references. Freshness tooling detects changed inputs, but semantic review remain
 - `services\transcription\manage.py:114-268` — instance ownership, reuse and stop.
 - `src\PhantomFudge.App\Native\SingleInstance.cs:18-75` — window recovery channel.
 - `src\PhantomFudge.App\LocalFailureNotice.cs:1-30` — non-content failure notice.
-- `docs\IMPLEMENTATION-STATUS.md:1-219` — candidate evidence and limits.
+- `docs\IMPLEMENTATION-STATUS.md:1-256` — candidate evidence and limits.

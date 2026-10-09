@@ -2,6 +2,9 @@
 
 ## Current interaction model
 
+The [illustrated workflow](CURRENT-WORKFLOW.md) shows the current cards, selection, clarification,
+answer controls and cover with the maintained images.
+
 The app starts in read-only, non-activating Present mode. The transcript occupies the main
 reading area; Q/A is expanded and Notes is collapsed. Click Notes to expand/collapse without changing its text,
 or use Edit / Ctrl+Alt+E to open editable notes deliberately. Audio setup can be opened
@@ -12,6 +15,10 @@ Buttons/selectors are not keyboard-focusable while Present is passive, but work 
 Global Edit or independent question editing restores keyboard access. The app never forwards clicks into another app.
 Changing themes, opacity or notes visibility does not start/stop audio or recreate the HWND.
 Changing Edit/Present mode still stops transcription, as before.
+Opening Audio setup uses the reading area for cards rather than a scrolling list. Its page arrows
+preserve selection and remain locked during capture lifecycle changes. Cover instead detaches the
+workspace without stopping audio/answers, preserves the existing native interaction style, and
+leaves one accessible Uncover action. Global inspection/cached data remain separate privacy limits.
 
 **Direct transcript clicks deliberately take focus.** Click several Mic/Computer rows to toggle
 whole segments without Ctrl and populate the question in displayed history order. This opens Q/A
@@ -60,6 +67,12 @@ They withhold/hide the content, emit a generic error and save a bounded notice a
 Startup failure exits nonzero. Explicit file dialogs in Edit remain outside the protected HWND.
 
 ## Theme controls
+
+The current sizes are15for final transcription,13.5/10.5for normal/compact partials and10/9for
+answers/interpretations. Question text stays18. Ask uses the palette accent/action-text colors,
+while Clear immediately to its right keeps a two-unit theme-error red border. Device-card selection
+uses an accent outline/radio dot; the active recording dot uses the same red error-role color.
+These are independent of the background-opacity slider and do not fade reading glyphs.
 
 DeepSeaFoam is the default. The sun/moon button alternates DeepSeaFoam and Harbor Daylight.
 Plain B/W restores the neutral presentation; the themed button returns from Plain to

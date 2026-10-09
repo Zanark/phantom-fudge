@@ -1,0 +1,31 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3"}}
+---
+flowchart TB
+    accTitle: Current question workflow
+    accDescr: Device selection, capture, question composition and provider requests are separate deliberate actions. Clarification is optional and never auto-confirms.
+    Cards["Select device cards"] --> Start["Explicit Start"]
+    Start --> Transcript["Local source-labelled transcription"]
+    Transcript --> Select["Click intended rows"]
+    Select --> Draft["Review or edit question"]
+    Draft --> Mode{"Clarify first?"}
+    Mode -->|Off| Ask["Explicit Ask"]
+    Mode -->|On| Interpret["Explicit interpretation request"]
+    Interpret --> Review["Review proposed meaning"]
+    Review -->|Send correction| Interpret
+    Review -->|Explicit Yes| Ask
+    Ask --> Destination{"Provider selected?"}
+    Destination -->|No| Frozen["Local snapshot only"]
+    Destination -->|Yes| Answer["Answer in the same workspace"]
+    style Cards fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Start fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Transcript fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Select fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Draft fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Mode fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Ask fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Interpret fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Review fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Answer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Destination fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Frozen fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

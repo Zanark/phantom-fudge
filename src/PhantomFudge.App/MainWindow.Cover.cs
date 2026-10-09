@@ -54,9 +54,9 @@ public partial class MainWindow
                 WorkspaceRoot.IsEnabled = true;
                 coverActive = false;
             }
-            CoverToggleButton.Content = covered ? "Uncover" : "Cover";
+            CoverToggleButton.BorderThickness = new Thickness(covered ? 2 : 1);
             AutomationProperties.SetName(CoverToggleButton, covered
-                ? "Uncover"
+                ? "Restore workspace"
                 : "Show notepad cover; transcription and answers keep running");
             if (UIElementAutomationPeer.FromElement(this) is { } peer)
             {

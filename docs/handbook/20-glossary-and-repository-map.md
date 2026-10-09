@@ -59,7 +59,7 @@ This is an ownership map, not a claim that the manager processes PCM. `Run-Phant
 | `tests` | [Core file tests](../../tests/PhantomFudge.Core.Tests/NoteFileStoreTests.cs) and [native harness](../../tests/PhantomFudge.Audio.Tests/Program.cs): deterministic policies and synthetic protocol checks. (tests\PhantomFudge.Core.Tests\NoteFileStoreTests.cs:13-109; tests\PhantomFudge.Audio.Tests\Program.cs:26-75) |
 | `spikes` and `tools` | [CaptureProof project](../../spikes/CaptureProof/CaptureProof.csproj) links diagnostic code; [SpeechBench](../../tools/SpeechBench/bench.py) and [DualSourceProbe](../../tools/DualSourceProbe/probe.py) serve separate experiments. (spikes\CaptureProof\CaptureProof.csproj:9-12; tools\SpeechBench\bench.py:1-25; tools\DualSourceProbe\probe.py:19-41) |
 | `docs` and `TODO` | [Qualification](../QUALIFICATION.md) defines evidence; [TODO index](../../TODO/00_INDEX.todo) records dependencies and status, not executable behavior. (docs\QUALIFICATION.md:142-168; TODO\00_INDEX.todo:49-58) |
-| Repository root | [Solution](../../PhantomFudge.slnx) lists projects; [global.json](../../global.json) pins SDK policy. [Compose](../../compose.yaml) is optional, last-stage packaging—not a native prerequisite. (PhantomFudge.slnx:1-13; global.json:2-6; docs\IMPLEMENTATION-STATUS.md:173-176) |
+| Repository root | [Solution](../../PhantomFudge.slnx) lists projects; [global.json](../../global.json) pins SDK policy. [Compose](../../compose.yaml) is optional, last-stage packaging—not a native prerequisite. (PhantomFudge.slnx:1-13; global.json:2-6; docs\IMPLEMENTATION-STATUS.md:210-213) |
 
 ## Navigation by question
 
@@ -99,7 +99,7 @@ protocol in `accurate.py`; `configuration.py` fingerprints selected models/runti
 | **Stream / track** | One source's ordered PCM and decoder state. Both tracks share a WebSocket without becoming one mixed waveform. (services\transcription\server.py:280-290,319-357,563-576) |
 | **Session** | One negotiated transcription conversation: selected sources, decoders, queue, and global final-ID counter. It is shorter-lived than the service process. (services\transcription\server.py:280-290,563-606) |
 | **Speaker** | A human identity the current source labels do not establish. Two voices on Computer remain Computer, not automatically separate people. (tests\PhantomFudge.Core.Tests\SourceTranscriptTests.cs:81-87) |
-| **Loopback** | Capture of a render endpoint's output through `WasapiLoopbackCapture`, not capture limited to a particular meeting application. (src\PhantomFudge.App\Audio\WasapiInput.cs:48-54; docs\PRODUCT.md:87-100) |
+| **Loopback** | Capture of a render endpoint's output through `WasapiLoopbackCapture`, not capture limited to a particular meeting application. (src\PhantomFudge.App\Audio\WasapiInput.cs:48-54; docs\PRODUCT.md:92-105) |
 | **Endpoint** | The selected Windows audio device identified by ID, direction, and active state—not the WebSocket network address. (src\PhantomFudge.App\Audio\WasapiInput.cs:64-74) |
 | **ASR** | Automatic speech recognition: `VoskRecognizer.accept` turns PCM into recognition results. It does not answer the semantic question spoken aloud. (services\transcription\recognizer.py:82-96) |
 
@@ -146,7 +146,7 @@ protocol in `accurate.py`; `configuration.py` fingerprints selected models/runti
 | **Focus** | Keyboard/foreground interaction state, distinct from visibility and cursor shape. `UpdateInteractionControls` changes focusability separately from content. (src\PhantomFudge.App\MainWindow.xaml.cs:269-284) |
 | **Present** | Default passive, read-only interaction mode; it neither starts capture automatically nor certifies the sharing configuration. (src\PhantomFudge.App\MainWindow.xaml.cs:33-36,269-284,637-685) |
 | **Edit** | Deliberate focusable editing. `TogglePresentationAsync` currently hides and stops transcription before switching—not a purely cosmetic toggle. (src\PhantomFudge.App\MainWindow.xaml.cs:245-266) |
-| **Arrow** | Standard local cursor shape set by `CursorPolicy`, not an instruction controlling a recorder's separate pointer stream. (src\PhantomFudge.App\Native\CursorPolicy.cs:8-24; docs\CURSOR-AND-THEMES.md:40-54) |
+| **Arrow** | Standard local cursor shape set by `CursorPolicy`, not an instruction controlling a recorder's separate pointer stream. (src\PhantomFudge.App\Native\CursorPolicy.cs:8-24; docs\CURSOR-AND-THEMES.md:47-61) |
 | **Semantic theme** | Named color roles converted into WPF resources by `ThemeBrushes.Apply`; appearance changes do not constitute content or session replacement. (src\PhantomFudge.Core\ThemePalette.cs:5-29; src\PhantomFudge.App\ThemeBrushes.cs:9-41) |
 
 ### Plans and evidence: naming is not implementation
@@ -158,7 +158,7 @@ protocol in `accurate.py`; `configuration.py` fingerprints selected models/runti
 | **QuestionSnapshot** | Implemented immutable exact question text/revision with copied local source provenance, provisional/edit flags and a monotonic creation timestamp. It is not proof of submission. (src\PhantomFudge.Core\QuestionSnapshot.cs:5-23) |
 | **Synthetic fixture** | Deliberately generated test content. `RunUiSmokeAsync` uses synthetic text/devices; visual-tree renders are not screen-sharing captures. (src\PhantomFudge.App\MainWindow.xaml.cs:905-953,1189-1202) |
 | **Qualification** | Configuration-specific recipient/recording evidence with controls and explicit outcomes; neither build success nor API readback substitutes for it. (docs\QUALIFICATION.md:9-26,79-107) |
-| **Preview** | Implemented development software with open release gates, not “planned only” and not a universally supported release. (docs\IMPLEMENTATION-STATUS.md:1-3,268-277) |
+| **Preview** | Implemented development software with open release gates, not “planned only” and not a universally supported release. (docs\IMPLEMENTATION-STATUS.md:1-3,305-314) |
 
 ## Data flow: one worked boundary trace
 
@@ -203,7 +203,7 @@ The diagram shows a graceful path, not a guarantee after transport or device fai
 
 ## Glossary pitfalls and review exercises
 
-**“Two streams means two speakers.”** No: independent source tracks prevent state mixing, not acoustic echo or multiple voices sharing one endpoint. Inspect source labels before inferring people. (docs\PRODUCT.md:87-100)
+**“Two streams means two speakers.”** No: independent source tracks prevent state mixing, not acoustic echo or multiple voices sharing one endpoint. Inspect source labels before inferring people. (docs\PRODUCT.md:92-105)
 
 **“Final means saved.”** No: final concerns recognizer state; export concerns filesystem persistence. The buffer can contain finals while `TranscriptDirty` remains true. (src\PhantomFudge.App\MainWindow.xaml.cs:294-295,813-840)
 

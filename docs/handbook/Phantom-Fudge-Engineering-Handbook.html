@@ -89,7 +89,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 32px 0; }
   a { color: inherit; text-decoration: none; }
   .chapter-note { font-size: 8pt; }
 }
-</style></head><body><main><header class="cover"><div class="edition">Engineering edition 2026-10-09</div><img src="assets/cover.svg" alt="Original diagrammatic handbook cover"><h1>Phantom Fudge Engineering Handbook</h1><p>A local-first conversation companion, from Windows surfaces to source-labelled speech</p><p>Local capture and explicit provider answers. Measured evidence is bounded. Direct Azure remains future work.</p></header><div class="status">This book distinguishes implemented behavior, measured observations, proposals and unknowns. No universal screen-capture or cursor invisibility is promised. Documentation images use synthetic content.</div><h2 id="contents">Contents</h2><nav class="toc"><a href="#ch-00-reading-map">00 - Reading Map and Current Reality</a><a href="#ch-01-principal-engineer-guide">01 - Principal Engineer Guide</a><a href="#ch-02-zero-to-hero">02 - Zero-to-Hero Learning Path</a><a href="#ch-03-product-boundaries-and-decisions">03 - Product Boundaries and Decisions</a><a href="#ch-04-windows-capture-and-cursors">04 — Windows Capture, Cursors, and Focus</a><a href="#ch-05-desktop-ui-and-themes">05 — Desktop UI and Semantic Themes</a><a href="#ch-06-notes-transcripts-and-storage">06 — Notes, Transcripts, and Explicit Storage</a><a href="#ch-07-dual-input-capture">7. Dual-input capture: two sources, one owned session</a><a href="#ch-08-streaming-protocol">8. Streaming protocol: preserving identity under backpressure</a><a href="#ch-09-python-recognition">9. Python recognition: fast previews, bounded Whisper finals</a><a href="#ch-10-native-service-lifecycle">10. Native service lifecycle: readiness without accidental capture</a><a href="#ch-11-state-machines-and-failure-containment">11 — State Machines and Failure Containment</a><a href="#ch-12-performance-and-benchmarks">12. Performance and Benchmarks</a><a href="#ch-13-proposed-azure-answer-flow">13. Local Questions, Installed Providers and Future Azure</a><a href="#ch-14-answer-latency-identity-and-privacy">14. Answer Latency, Identity, and Privacy</a><a href="#ch-15-development-and-testing">15 - Development and Testing</a><a href="#ch-16-distribution-and-troubleshooting">16 - Distribution and Troubleshooting</a><a href="#ch-17-privacy-and-assurance">17 - Privacy and Assurance</a><a href="#ch-18-extending-the-system">18. Extending the System</a><a href="#ch-19-api-configuration-reference">19. API and configuration reference</a><a href="#ch-20-glossary-and-repository-map">20 — Glossary and Repository Map</a><a href="#ch-21-evidence-and-roadmap">21. Evidence and Roadmap</a><a href="#ch-22-desktop-source-walkthrough">Desktop source walkthrough: one window, explicit intent</a><a href="#ch-23-domain-source-walkthrough">Domain source walkthrough: identity, exact text and bounded local state</a><a href="#ch-24-provider-source-walkthrough">Provider source walkthrough: exact questions, controlled roles and terminal evidence</a><a href="#ch-25-native-audio-source-walkthrough">Native audio: source ownership, bounded transport and evidence limits</a><a href="#ch-26-speech-source-walkthrough">Speech source walkthrough: bounded local recognition and owned lifecycle</a><a href="#ch-27-operations-source-walkthrough">Operations source walkthrough: ownership, consent, and honest measurements</a><a href="#ch-28-documentation-source-walkthrough">28 - Documentation Compiler and Root Configuration, Statement by Statement</a><a href="#ch-answer-providers">Answer Providers: Agency, Local Models and Future Azure</a><a href="#ch-question-clarification">Clarify First: Review Intent Before an Answer</a><a href="#ch-cover-and-privacy">Cover Mode and Privacy Boundaries</a><a href="#ch-journal">Development Journal: The Journey of Phantom Fudge</a></nav><section class="chapter" id="ch-00-reading-map"><div class="chapter-note">Source: docs/handbook/00-reading-map.md</div><h1 id="ch-00-reading-map-reading-map-and-current-reality">Reading map and current reality</h1>
+</style></head><body><main><header class="cover"><div class="edition">Engineering edition 2026-10-09</div><img src="assets/cover.svg" alt="Original diagrammatic handbook cover"><h1>Phantom Fudge Engineering Handbook</h1><p>A local-first conversation companion, from Windows surfaces to source-labelled speech</p><p>Local capture and explicit provider answers. Measured evidence is bounded. Direct Azure remains future work.</p></header><div class="status">This book distinguishes implemented behavior, measured observations, proposals and unknowns. No universal screen-capture or cursor invisibility is promised. Documentation images use synthetic content.</div><h2 id="contents">Contents</h2><nav class="toc"><a href="#ch-00-reading-map">00 - Reading Map and Current Reality</a><a href="#ch-01-principal-engineer-guide">01 - Principal Engineer Guide</a><a href="#ch-02-zero-to-hero">02 - Zero-to-Hero Learning Path</a><a href="#ch-current-workflow">Current Workflow: An Illustrated Guide</a><a href="#ch-03-product-boundaries-and-decisions">03 - Product Boundaries and Decisions</a><a href="#ch-04-windows-capture-and-cursors">04 — Windows Capture, Cursors, and Focus</a><a href="#ch-05-desktop-ui-and-themes">05 — Desktop UI and Semantic Themes</a><a href="#ch-06-notes-transcripts-and-storage">06 — Notes, Transcripts, and Explicit Storage</a><a href="#ch-07-dual-input-capture">7. Dual-input capture: two sources, one owned session</a><a href="#ch-08-streaming-protocol">8. Streaming protocol: preserving identity under backpressure</a><a href="#ch-09-python-recognition">9. Python recognition: fast previews, bounded Whisper finals</a><a href="#ch-10-native-service-lifecycle">10. Native service lifecycle: readiness without accidental capture</a><a href="#ch-11-state-machines-and-failure-containment">11 — State Machines and Failure Containment</a><a href="#ch-12-performance-and-benchmarks">12. Performance and Benchmarks</a><a href="#ch-13-proposed-azure-answer-flow">13. Local Questions, Installed Providers and Future Azure</a><a href="#ch-14-answer-latency-identity-and-privacy">14. Answer Latency, Identity, and Privacy</a><a href="#ch-15-development-and-testing">15 - Development and Testing</a><a href="#ch-16-distribution-and-troubleshooting">16 - Distribution and Troubleshooting</a><a href="#ch-17-privacy-and-assurance">17 - Privacy and Assurance</a><a href="#ch-18-extending-the-system">18. Extending the System</a><a href="#ch-19-api-configuration-reference">19. API and configuration reference</a><a href="#ch-20-glossary-and-repository-map">20 — Glossary and Repository Map</a><a href="#ch-21-evidence-and-roadmap">21. Evidence and Roadmap</a><a href="#ch-22-desktop-source-walkthrough">Desktop source walkthrough: one window, explicit intent</a><a href="#ch-23-domain-source-walkthrough">Domain source walkthrough: identity, exact text and bounded local state</a><a href="#ch-24-provider-source-walkthrough">Provider source walkthrough: exact questions, controlled roles and terminal evidence</a><a href="#ch-25-native-audio-source-walkthrough">Native audio: source ownership, bounded transport and evidence limits</a><a href="#ch-26-speech-source-walkthrough">Speech source walkthrough: bounded local recognition and owned lifecycle</a><a href="#ch-27-operations-source-walkthrough">Operations source walkthrough: ownership, consent, and honest measurements</a><a href="#ch-28-documentation-source-walkthrough">28 - Documentation Compiler and Root Configuration, Statement by Statement</a><a href="#ch-answer-providers">Answer Providers: Agency, Local Models and Future Azure</a><a href="#ch-question-clarification">Clarify First: Review Intent Before an Answer</a><a href="#ch-cover-and-privacy">Cover Mode and Privacy Boundaries</a><a href="#ch-journal">Development Journal: The Journey of Phantom Fudge</a></nav><section class="chapter" id="ch-00-reading-map"><div class="chapter-note">Source: docs/handbook/00-reading-map.md</div><h1 id="ch-00-reading-map-reading-map-and-current-reality">Reading map and current reality</h1>
 <blockquote>
 <p><strong>TL;DR:</strong> Phantom Fudge is a Windows conversation companion with local speech recognition,
 not an invisible process and not yet an Azure question-answering product. Read this book as
@@ -97,13 +97,17 @@ an explanation of boundaries: between presentation and capture, samples and text
 and its completion, and a researched proposal and working software.</p>
 </blockquote>
 <h2 id="ch-00-reading-map-overview-what-this-book-is-for">Overview: what this book is for</h2>
+<p><strong>Use the current interface first:</strong> the <a href="#ch-current-workflow">illustrated workflow</a> brings together
+device cards, recording status, multi-line questions, optional clarification, current action/font
+choices and the continuing-work cover. Older dated evidence elsewhere in the book remains historical;
+it does not redefine the controls in the current source.</p>
 <p>The original problem sounded like a small notepad: show private speaker notes while presenting.
 That problem expanded into a local transcription-first interface, selectable Computer/Mic/Both
 inputs, and a researched proposal for explicitly sending a question to an Azure model. The
 important engineering work is not drawing a rectangle. It is keeping each promise narrow enough
 to implement and each state transition strong enough to preserve data. The current product
 contract records those distinct requirements rather than collapsing them into a claim of
-universal invisibility (<code>docs\PRODUCT.md:6-33</code>).</p>
+universal invisibility (<code>docs\PRODUCT.md:6-37</code>).</p>
 <p>This handbook is intended to support three activities. A new contributor should be able to
 run and navigate the application without guessing. A senior engineer should be able to review
 its invariants and tradeoffs. A future book editor should be able to assemble the chapters,
@@ -278,8 +282,8 @@ it cannot prove that prose is semantically correct. Human source review remains 
 <p>If any pair sounds equivalent, revisit the relevant boundary before changing the code.</p>
 <h2 id="ch-00-reading-map-references">References</h2>
 <ul>
-<li><code>docs\OVERVIEW.md:8-56</code> — current product and qualification summary, moved from the visual front page.</li>
-<li><code>docs\PRODUCT.md:6-33</code> — requirement and impossibility boundary.</li>
+<li><code>docs\OVERVIEW.md:8-70</code> — current product and qualification summary, moved from the visual front page.</li>
+<li><code>docs\PRODUCT.md:6-37</code> — requirement and impossibility boundary.</li>
 <li><code>AGENTS.md:14-43</code> — engineering distinctions and privacy rules.</li>
 <li><code>src\PhantomFudge.App\App.xaml.cs:13-97</code> — real startup paths.</li>
 <li><code>src\PhantomFudge.Core\AudioSource.cs:3-30</code> — source identity.</li>
@@ -709,6 +713,360 @@ test/documentation improvement that follows one real invariant end to end.</p>
 <li><code>docs\DUAL-SOURCE-AUDIO.md:28-84</code> — byte contract.</li>
 </ul>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section>
+<section class="chapter" id="ch-current-workflow"><div class="chapter-note">Source: docs/CURRENT-WORKFLOW.md</div><h1 id="ch-current-workflow-current-workflow-an-illustrated-guide">Current workflow: an illustrated guide</h1>
+<h2 id="ch-current-workflow-overview-one-workspace-separate-deliberate-actions">Overview: one workspace, separate deliberate actions</h2>
+<p>Phantom Fudge combines local transcription, an editable question and explicit provider answers.
+Choosing an input does not record it; selecting words does not send them; covering the workspace
+does not stop work. This guide brings the current controls and images together so those boundaries
+are visible before a meeting. It describes <strong>current source</strong>, not the older045022preview ZIP.</p>
+<p>All pictures below are <strong>separate synthetic WPF examples</strong>. They show actual controls with generated
+text/device labels, not a real conversation, live model result or screen-sharing qualification.
+The <a href="assets/screenshots/manifest.json">source-image manifest</a> and
+<a href="../assets/readme/manifest.json">README-image manifest</a> record their provenance.
+Current rendering and behavior are defined by the window and its partial classes, not by the
+historical package. (src/PhantomFudge.App/MainWindow.xaml:1-10;
+src/PhantomFudge.App/MainWindow.Questions.cs:26-59;
+src/PhantomFudge.App/MainWindow.Cover.cs:22-76.)</p>
+<p>Configure an <a href="#ch-answer-providers">answer provider</a> before the AI steps. Without one, <strong>Freeze
+locally</strong> only captures a local question snapshot; transcription and notes remain usable.</p>
+<h2 id="ch-current-workflow-architecture-what-happens-after-each-click">Architecture: what happens after each click</h2>
+<figure class="diagram"><img src="assets/diagrams/current-workflow-01.svg" alt="Current Workflow: An Illustrated Guide diagram 1"><figcaption>Current Workflow: An Illustrated Guide - diagram 1. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
+config: {&quot;theme&quot;:&quot;base&quot;,&quot;themeVariables&quot;:{&quot;darkMode&quot;:true,&quot;primaryColor&quot;:&quot;#2d333b&quot;,&quot;primaryBorderColor&quot;:&quot;#6d5dfc&quot;,&quot;primaryTextColor&quot;:&quot;#e6edf3&quot;,&quot;lineColor&quot;:&quot;#8b949e&quot;,&quot;textColor&quot;:&quot;#e6edf3&quot;}}
+---
+flowchart TB
+    accTitle: Current question workflow
+    accDescr: Device selection, capture, question composition and provider requests are separate deliberate actions. Clarification is optional and never auto-confirms.
+    Cards[&quot;Select device cards&quot;] --&gt; Start[&quot;Explicit Start&quot;]
+    Start --&gt; Transcript[&quot;Local source-labelled transcription&quot;]
+    Transcript --&gt; Select[&quot;Click intended rows&quot;]
+    Select --&gt; Draft[&quot;Review or edit question&quot;]
+    Draft --&gt; Mode{&quot;Clarify first?&quot;}
+    Mode --&gt;|Off| Ask[&quot;Explicit Ask&quot;]
+    Mode --&gt;|On| Interpret[&quot;Explicit interpretation request&quot;]
+    Interpret --&gt; Review[&quot;Review proposed meaning&quot;]
+    Review --&gt;|Send correction| Interpret
+    Review --&gt;|Explicit Yes| Ask
+    Ask --&gt; Destination{&quot;Provider selected?&quot;}
+    Destination --&gt;|No| Frozen[&quot;Local snapshot only&quot;]
+    Destination --&gt;|Yes| Answer[&quot;Answer in the same workspace&quot;]
+    style Cards fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Start fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Transcript fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Select fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Draft fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Mode fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Ask fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Interpret fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Review fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Answer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Destination fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Frozen fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+</code></pre></details><p>The normal speech path is selected native WASAPI inputs, authenticated local transport, fast Vosk
+partial text and local Whisper small.en finals. Normal Ask sends the frozen question through the
+configured provider. Clarification deliberately adds only its fixed task instruction and bounded
+question-specific history; no notes or unselected meeting transcript are appended.
+(src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:65-128;
+services/transcription/accurate.py:33-129;
+src/PhantomFudge.Core/Answers/AnswerRun.cs:15-27;
+src/PhantomFudge.Core/Answers/AnswerClarification.cs:13-69.)</p>
+<h2 id="ch-current-workflow-components-know-the-controls-before-sending">Components: know the controls before sending</h2>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Computer / Mic / Both</td>
+<td>Select input types; these labels do not identify speakers</td>
+</tr>
+<tr>
+<td>Audio setup</td>
+<td>Open source-specific device cards; Service setup contains the token field</td>
+</tr>
+<tr>
+<td>Start / Stop</td>
+<td>Explicit audio capture and final-text draining</td>
+</tr>
+<tr>
+<td>Red dot</td>
+<td>The transcriber reports Running; hidden while starting/stopped and behind Cover</td>
+</tr>
+<tr>
+<td>Transcript rows</td>
+<td>Ordinary clicks toggle whole segments into the question</td>
+</tr>
+<tr>
+<td>Type / edit</td>
+<td>Deliberate question focus without global Notes Edit</td>
+</tr>
+<tr>
+<td>Large accent button</td>
+<td>Ask provider, Freeze locally, Interpret question or Reply below, according to mode</td>
+</tr>
+<tr>
+<td>Red-bordered Clear question</td>
+<td>Clear the question/snapshot/answer, not the transcript or notes</td>
+</tr>
+<tr>
+<td>Clarify first</td>
+<td>Default-off interpretation and explicit correction/confirmation workflow</td>
+</tr>
+<tr>
+<td>Book icon, top left</td>
+<td>Toggle the visual mask; already-started work continues</td>
+</tr>
+<tr>
+<td>Diagnostics</td>
+<td>Open local diagnostics and reload its settings</td>
+</tr>
+</tbody>
+</table>
+<p>These are distinct handlers and state checks, not alternate names for one global pause action.
+(src/PhantomFudge.App/MainWindow.Questions.cs:156-205,258-330;
+src/PhantomFudge.App/MainWindow.RecordingIndicator.cs:7-10;
+src/PhantomFudge.App/MainWindow.Cover.cs:20-76.)</p>
+<h2 id="ch-current-workflow-1-choose-audio-device-cards">1. Choose audio device cards</h2>
+<p><img src="../assets/readme/audio-devices.png" alt="Audio setup with directly selectable device cards"></p>
+<p>Choose the input mode, open <strong>Audio setup</strong>, then click the intended cards. The accent outline and
+filled dot identify the selected item. Computer should match the output carrying the meeting;
+Mic is the input used for your own dictation. <strong>Done</strong> or <strong>Close setup</strong> returns to the reading view.</p>
+<p>There are <strong>no device-list scrollbars</strong>. Setup temporarily uses the reading area, with cards wrapping
+into rows. If a large catalogue or small window cannot show everything, Previous/Next buttons show
+another page without changing the selected endpoint. The page label identifies the selected card's
+page. Selection/paging are locked while capture is starting, running or stopping.
+(src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs:39-65,96-159.)</p>
+<p><img src="assets/screenshots/audio-setup-cards-compact.png" alt="Compact audio setup uses pages rather than a scrolling list"></p>
+<p>The compact image intentionally uses23synthetic outputs and17microphones. It illustrates overflow,
+not the number of devices on your machine. Friendly names wrap; extremely constrained cards may
+ellipsize only the displayed name, not the stored name or endpoint ID. Empty lists have an explicit
+message. <strong>Service setup</strong> reveals the session-only token and existing guidance; missing-token
+Start opens it automatically. The normal launcher supplies the token, so manual entry is usually
+unnecessary. (src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs:80-140;
+src/PhantomFudge.App/MainWindow.AudioDeviceCardsDiagnostics.cs:39-53,104-131;
+scripts/Run-PhantomFudge.ps1:43-57.)</p>
+<h2 id="ch-current-workflow-2-start-transcription-and-watch-the-red-dot">2. Start transcription and watch the red dot</h2>
+<p><img src="../assets/readme/recording.png" alt="Synthetic active-recording indicator beside the transcript heading"></p>
+<p>Press <strong>Start</strong> only when ready to capture the selected inputs. <strong>Both</strong> is merely the initial
+mode selection; it is not automatic recording. A red dot beside <strong>TRANSCRIPT</strong> appears when the
+transcriber reports Running, not merely when the service is connecting or words happen to be visible.
+It indicates transcription, <strong>not an audio file being saved</strong>.
+(src/PhantomFudge.App/MainWindow.RecordingIndicator.cs:7-10;
+src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:30-36,117-128.)</p>
+<p>Computer and Mic keep separate labels, meters, partials and identities. Computer output can include
+other applications or sidetone; this is not meeting-process isolation or speaker diarization.
+Whisper finals can replace provisional guesses. Stop ends capture and drains accepted work, so a
+last final line can arrive after active capture has ended. The normal UI remains honest about
+recognition errors and failures. (src/PhantomFudge.Core/AudioSource.cs:3-30;
+src/PhantomFudge.Core/StructuredTranscriptStore.cs:37-100;
+src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:387-445.)</p>
+<h2 id="ch-current-workflow-3-select-several-transcript-lines-and-review-the-question">3. Select several transcript lines and review the question</h2>
+<p><img src="../assets/readme/selection.png" alt="Mic and Computer rows explicitly combined into one question"></p>
+<p>Click one or more intended rows. Each click toggles a whole recognition segment; Ctrl is not
+required. The draft follows displayed history order rather than click order. A wrapped segment
+remains one selectable unit. Generated timestamps/source prefixes do not enter the question.
+Selecting rows opens the question editor and deliberately takes editing focus without stopping
+transcription or sending a request.
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:84-141.)</p>
+<p>After you manually edit the draft, further direct row changes are refused so a click cannot
+destroy your corrections. Copy anything needed, then use <strong>Clear question</strong> before starting a
+different direct selection. The manual <strong>Choose source → Mic / Computer / All → Use selected</strong>
+route remains an explicit replacement alternative, except while a clarification locks the original.
+One draft is limited to256selected entries from one capture session and8192UTF-16 units including
+inserted newlines. Invalid changes retain the existing text rather than truncating it.
+(src/PhantomFudge.Core/QuestionDraft.cs:8-45,48-79,105-125;
+src/PhantomFudge.App/MainWindow.Questions.cs:103-129.)</p>
+<h2 id="ch-current-workflow-4-optionally-ask-the-model-to-clarify-your-intended-question">4. Optionally ask the model to clarify your intended question</h2>
+<p><img src="../assets/readme/clarification.png" alt="Clarification interpretation and explicit correction/confirmation controls"></p>
+<p><strong>Clarify first is off on launch.</strong> With a provider configured, enable it and press <strong>Interpret question</strong> when the transcript
+captures the general subject but is cumbersome to correct. The model should restate the intended
+question rather than solve it yet. Your original draft stays separate from the reply field.</p>
+<p>Type <strong>Yes</strong> and press <strong>Send reply</strong>, or click <strong>Yes, answer</strong>. To correct the proposed meaning,
+type that correction and press <strong>Send reply</strong> instead. <code>Yes, but use Python</code> is a correction, not
+automatic confirmation. Merely typing or receiving an interpretation never submits the next turn.
+The confirmation button does not discard a written correction.
+(src/PhantomFudge.App/MainWindow.Clarification.cs:11-44,85-155.)</p>
+<p>Only completed interpretation exchanges enter history. There are at most four interpretations,
+8192UTF-16 units per input/interpretation and32768total including the current reply. Turning the
+option off, clearing the question or changing provider resets the thread; a same-settings reload
+can retain it for explicit retry. Normal Ask remains history-free.
+(src/PhantomFudge.Core/Answers/AnswerClarification.cs:7-69;
+src/PhantomFudge.App/MainWindow.Clarification.cs:46-83,157-184.)</p>
+<h2 id="ch-current-workflow-5-ask-read-cancel-or-clear-deliberately">5. Ask, read, cancel or clear deliberately</h2>
+<p><img src="../assets/readme/question.png" alt="The large Ask action, red-bordered Clear and current answer reader"></p>
+<p>The large accent-filled button is in the right-hand action group, followed by red-bordered
+<strong>Clear question</strong>. Type/edit and Copy stay on the left. In <strong>Snapshot only</strong>, the button says
+<strong>Freeze locally</strong> and sends nothing. With a configured provider, <strong>Ask provider</strong> freezes the
+exact reviewed text and starts that request. Only one answer runs at a time.</p>
+<p><strong>Cancel answer</strong> retains visible partial text as incomplete. <strong>Clear question</strong> clears the
+question, last displayed snapshot and answer, but does not erase notes or the transcript.
+It does not erase previously exported files or diagnostic/provider history.
+(src/PhantomFudge.App/MainWindow.Questions.cs:258-330;
+src/PhantomFudge.Core/Answers/AnswerRun.cs:32-79.)</p>
+<p>Installed Agency uses its existing model service; it is not inherently offline inference.
+A configured local-model endpoint is a separate option, and direct Azure remains future work.
+Preparation makes no question request. Older prepared-response timings are bounded historical
+measurements, not a promise for every question, cold start or clarification conversation.
+See <a href="#ch-answer-providers">provider setup</a> and <a href="../QUALITY-UPDATE.md">measured limits</a>.</p>
+<h2 id="ch-current-workflow-6-cover-the-workspace-without-pausing-it">6. Cover the workspace without pausing it</h2>
+<p><img src="../assets/readme/cover.png" alt="NOTEPAD IS READY and the icon-only top-left mask toggle"></p>
+<p>Click the <strong>top-left book icon</strong>. Only <strong>NOTEPAD IS READY</strong> and the same icon remain. Transcription and answers already
+running continue behind it; no new capture or request is created. Uncover restores current results
+and the retained workspace. The recording dot is behind the cover, so its absence is not a stopped
+indicator. File/confirmation operations block covering rather than hiding a required decision.
+(src/PhantomFudge.App/MainWindow.Cover.cs:22-76.)</p>
+<p>The cover disables/detaches the workspace and refreshes the window peer's current children.
+Fresh in-process accessibility traversal excludes the covered fields, but an already-retained
+typed value provider <strong>still read the synthetic question</strong>. Process identity, memory, OS microphone
+indicators, cached data, saved files and provider retention remain independent. Existing display
+affinity and the Peek-prevention request are limited Windows mechanisms, not global invisibility.
+(src/PhantomFudge.App/MainWindow.CoverDiagnostics.cs:68-88;
+<a href="#ch-cover-and-privacy">complete privacy matrix</a>.)</p>
+<h2 id="ch-current-workflow-state-changes-cover-is-not-hide">State changes: Cover is not Hide</h2>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Transcription</th>
+<th>Current answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cover / Uncover</td>
+<td>Continues</td>
+<td>Continues; hidden text is not logged as visibly presented</td>
+</tr>
+<tr>
+<td>Stop</td>
+<td>Stops and drains accepted audio</td>
+<td>Separate request continues</td>
+</tr>
+<tr>
+<td>Cancel answer</td>
+<td>Unchanged</td>
+<td>Cancels; partial result remains incomplete</td>
+</tr>
+<tr>
+<td>Hide or global Edit/Present</td>
+<td>Stops</td>
+<td>Cancels/cleans up</td>
+</tr>
+<tr>
+<td>Hide Q/A, open Audio setup, or expand Notes</td>
+<td>Audio is unchanged</td>
+<td>Closing Q/A cancels its answer/provider activity</td>
+</tr>
+<tr>
+<td>Type/edit the question</td>
+<td>Continues</td>
+<td>Existing frozen request stays independent</td>
+</tr>
+<tr>
+<td>Clear question</td>
+<td>Unchanged</td>
+<td>Cancels/clears question and answer state</td>
+</tr>
+<tr>
+<td>Exit</td>
+<td>Stops before preservation checks</td>
+<td>Cancels/cleans up; unsaved content still requires a decision</td>
+</tr>
+</tbody>
+</table>
+<p>These differences follow the actual separate handlers. In particular, opening setup is not the
+same continuation path as Cover.
+(src/PhantomFudge.App/MainWindow.Questions.cs:39-59,156-201,320-330;
+src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs:39-49;
+src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:10-17;
+<a href="../../src/PhantomFudge.App/MainWindow.xaml.cs"><code>StopTranscriptionAsync</code>, <code>ToggleVisibility</code>, <code>RequestActionAsync</code></a>.)</p>
+<figure class="diagram"><img src="assets/diagrams/current-workflow-02.svg" alt="Current Workflow: An Illustrated Guide diagram 2"><figcaption>Current Workflow: An Illustrated Guide - diagram 2. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
+config: {&quot;theme&quot;:&quot;base&quot;,&quot;themeVariables&quot;:{&quot;darkMode&quot;:true,&quot;primaryColor&quot;:&quot;#2d333b&quot;,&quot;primaryBorderColor&quot;:&quot;#6d5dfc&quot;,&quot;primaryTextColor&quot;:&quot;#e6edf3&quot;,&quot;lineColor&quot;:&quot;#8b949e&quot;,&quot;textColor&quot;:&quot;#e6edf3&quot;,&quot;actorBkg&quot;:&quot;#2d333b&quot;,&quot;actorBorder&quot;:&quot;#6d5dfc&quot;,&quot;actorTextColor&quot;:&quot;#e6edf3&quot;,&quot;signalColor&quot;:&quot;#8b949e&quot;,&quot;signalTextColor&quot;:&quot;#e6edf3&quot;}}
+---
+sequenceDiagram
+    accTitle: Continuing work versus stopping work
+    accDescr: Cover only changes the attached view, while Hide follows the existing shutdown path.
+    autonumber
+    actor User
+    participant UI
+    participant Audio
+    participant Answer
+    User-&gt;&gt;UI: Cover
+    UI-&gt;&gt;UI: Detach workspace and show cover
+    Audio--&gt;&gt;UI: Continue transcript updates
+    Answer--&gt;&gt;UI: Continue response updates
+    User-&gt;&gt;UI: Uncover
+    UI--&gt;&gt;User: Show current retained content
+    User-&gt;&gt;UI: Hide
+    UI-&gt;&gt;Audio: Request stop
+    UI-&gt;&gt;Answer: Cancel and clean up
+</code></pre></details><h2 id="ch-current-workflow-current-sizes-themes-and-visible-status">Current sizes, themes and visible status</h2>
+<table>
+<thead>
+<tr>
+<th>Reading surface</th>
+<th style="text-align:right">Current WPF font size</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final transcript</td>
+<td style="text-align:right">15</td>
+<td>25%smaller than20</td>
+</tr>
+<tr>
+<td>Live partial</td>
+<td style="text-align:right">13.5normal /10.5compact</td>
+<td>25%smaller than18/14</td>
+</tr>
+<tr>
+<td>Answer and interpretation</td>
+<td style="text-align:right">10normal /9compact</td>
+<td>50%smaller than20/18</td>
+</tr>
+<tr>
+<td>Question and clarification reply</td>
+<td style="text-align:right">18</td>
+<td>Unchanged by those reductions</td>
+</tr>
+<tr>
+<td>Device card name</td>
+<td style="text-align:right">12</td>
+<td>Independent of transcript/answer typography</td>
+</tr>
+</tbody>
+</table>
+<p>These are WPF logical units, not a guarantee of exact rasterized pixel height at every DPI.
+Reading text stays opaque white in DeepSeaFoam and black in light/plain themes. The Background
+slider affects the reading backdrop, not whole-window text opacity; its default is55%, range10–100%.
+Long text retains its own scrollbar, while the main panels and device choices avoid nested scrolling.
+(<a href="../../src/PhantomFudge.App/MainWindow.xaml">Current declarations</a>;
+src/PhantomFudge.App/MainWindow.Layout.cs:58-106;
+src/PhantomFudge.Core/ThemePalette.cs:11-29.)</p>
+<h2 id="ch-current-workflow-launch-diagnostics-and-preservation">Launch, diagnostics and preservation</h2>
+<p>On an already-provisioned source checkout, save/copy needed content, close an older instance with
+<strong>X</strong>, then run:</p>
+<pre><code class="language-powershell">.\scripts\Run-PhantomFudge.ps1
+</code></pre>
+<p>Relaunch normally reveals an existing instance instead of replacing its loaded code. A fresh machine
+or extracted bundle needs its own prerequisites/model setup; do not reuse another workspace's token
+or kill its service. Follow the <a href="../PREVIEW-GUIDE.md">setup guide</a>. The older045022ZIP does not contain
+these later source changes. (scripts/Run-PhantomFudge.ps1:17-57.)</p>
+<p>There is no note/transcript autosave or crash recovery. Save notes and export transcripts explicitly.
+Default diagnostics contain metadata, not conversation bodies; Text mode is a separate local opt-in.
+Clear and Cover do not erase existing logs. Use <strong>Diagnostics</strong>, <code>Show-Diagnostics.ps1</code> or
+<code>Export-Diagnostics.ps1</code> for local investigation, with no automatic upload.
+(src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs:145-184;
+<a href="../DIAGNOSTICS.md">diagnostic guide</a>.)</p>
+<h2 id="ch-current-workflow-references">References</h2>
+<p><a href="../PREVIEW-GUIDE.md">Setup</a> · <a href="../LOCAL-QUESTIONS.md">Question selection</a> ·
+<a href="#ch-question-clarification">Clarification</a> · <a href="#ch-answer-providers">Providers</a> ·
+<a href="#ch-cover-and-privacy">Cover/privacy</a> · <a href="../IMPLEMENTATION-STATUS.md">Current evidence</a> ·
+<a href="../source-atlas/README.md">Annotated source</a></p>
+<p class="top-link"><a href="#contents">Back to contents</a></p></section>
 <section class="chapter" id="ch-03-product-boundaries-and-decisions"><div class="chapter-note">Source: docs/handbook/03-product-boundaries-and-decisions.md</div><h1 id="ch-03-product-boundaries-and-decisions-product-boundaries-and-decisions">Product boundaries and decisions</h1>
 <blockquote>
 <p><strong>TL;DR:</strong> Scope changes are not embarrassing historical debris; they are design inputs.
@@ -720,7 +1078,7 @@ and avoid treating an earlier assumption as a permanent requirement.</p>
 share. The useful part of that request is implementable on supported Windows capture paths.
 The absolute version—no software can ever detect or record the surface—is not. The product
 contract therefore separates plain-text editing, movement, shell presentation, captured pixels,
-platform support and actual product qualification (<code>docs\PRODUCT.md:6-33</code>).</p>
+platform support and actual product qualification (<code>docs\PRODUCT.md:6-37</code>).</p>
 <p>That separation made later changes tractable. Transcription became the main view. Notes became
 collapsible. The owner removed repetitive permission/rehearsal acknowledgments. Translucency
 became a real rendering requirement, rather than a hypothetical visual effect. A microphone
@@ -830,7 +1188,7 @@ flowchart LR
 <p>The owner observed an I-beam over text and a disappearing cursor in a shared view. The app
 now uses Arrow and a non-activating default, but those local changes do not control every
 recorder's cursor stream. The design deliberately records that remaining uncertainty rather
-than renaming it success (<code>docs\CURSOR-AND-THEMES.md:1-62</code>).</p>
+than renaming it success (<code>docs\CURSOR-AND-THEMES.md:1-69</code>).</p>
 <p>At the same time, normal functionality must not be sacrificed to a privacy slogan. Notes must
 still be editable after an explicit Edit action. Device rows must still be selectable without
 unnecessarily activating the window. Unsaved-content warnings remain even though permission
@@ -863,7 +1221,7 @@ is written down before pretending that all those surfaces agree
 (<code>docs\DUAL-SOURCE-AUDIO.md:28-116</code>).</p>
 <h2 id="ch-03-product-boundaries-and-decisions-references">References</h2>
 <ul>
-<li><code>docs\PRODUCT.md:6-33</code> — distinct requirements and limits.</li>
+<li><code>docs\PRODUCT.md:6-37</code> — distinct requirements and limits.</li>
 <li><code>TODO\16_DEVELOPMENT_LEDGER.todo:1-90</code> — dated scope/evidence history.</li>
 <li><code>src\PhantomFudge.App\Native\WindowProtection.cs:19-48</code> — actual window mechanism.</li>
 <li><code>src\PhantomFudge.Core\AudioSource.cs:3-30</code> — input identities.</li>
@@ -903,7 +1261,7 @@ is written down before pretending that all those surfaces agree
 </tr>
 </tbody>
 </table>
-<p>The qualification plan explicitly separates these dimensions. A successful API call cannot fill in the other three columns. Nor does a visible local Arrow establish that a recorder includes the pointer. (docs\QUALIFICATION.md:9-26; docs\CURSOR-AND-THEMES.md:38-54)</p>
+<p>The qualification plan explicitly separates these dimensions. A successful API call cannot fill in the other three columns. Nor does a visible local Arrow establish that a recorder includes the pointer. (docs\QUALIFICATION.md:9-26; docs\CURSOR-AND-THEMES.md:45-61)</p>
 <p><strong>Newcomer path:</strong> follow startup, then read the cursor section. <strong>Principal-engineer path:</strong> inspect the native error semantics, invalidation ordering, and evidence limits. <a href="#ch-11-state-machines-and-failure-containment">Chapter 11</a> connects this window lifecycle to asynchronous audio shutdown.</p>
 <h2 id="ch-04-windows-capture-and-cursors-architecture-one-content-surface-several-independent-policies">Architecture: one content surface, several independent policies</h2>
 <p>The production surface is a topmost, layered WPF window with a generic title, no ordinary taskbar entry, transparent window background, and custom move/resize chrome. The root content is not click-through. Capture affinity belongs to the native window handle, whereas text controls and inline panels belong to its WPF visual tree. A panel inside that tree is not equivalent to a separate native dialog. (src\PhantomFudge.App\MainWindow.xaml:1-110,168-183,500-570)</p>
@@ -1010,7 +1368,7 @@ sequenceDiagram
 <li><code>WindowMessage</code> handles <code>WM_SETCURSOR</code> for the owned HWND by calling <code>CursorPolicy.SetArrow</code>.</li>
 </ol>
 <p>The native policy loads resource <code>32512</code>, the standard Arrow. It does not replace system cursor resources or manipulate global visibility counters. Arrow is also used in Edit; editable text and an I-beam are not inseparable concepts. (src\PhantomFudge.App\MainWindow.xaml:6-9; src\PhantomFudge.App\App.xaml:48-76; src\PhantomFudge.App\MainWindow.xaml.cs:176-180; src\PhantomFudge.App\Native\CursorPolicy.cs:8-24)</p>
-<p>A recorder may include, exclude, or separately composite cursor imagery. Consequently, the reported remote cursor disappearance remains unresolved until tested in the actual sharing product and mode. Local foreground preservation, native Arrow equality, and content-exclusion samples answer different questions. (docs\CURSOR-AND-THEMES.md:40-54)</p>
+<p>A recorder may include, exclude, or separately composite cursor imagery. Consequently, the reported remote cursor disappearance remains unresolved until tested in the actual sharing product and mode. Local foreground preservation, native Arrow equality, and content-exclusion samples answer different questions. (docs\CURSOR-AND-THEMES.md:47-61)</p>
 <h3 id="ch-04-windows-capture-and-cursors-invalidation-hides-before-waiting">Invalidation hides before waiting</h3>
 <p>Display/DPI messages, selected session changes, and suspend/resume notifications dispatch <code>InvalidateAsync</code>. It clears <code>protectionReady</code>, hides immediately, then awaits audio Stop. That ordering avoids leaving content intentionally visible while cleanup drains. It cannot revoke frames already captured or make OS notifications instantaneous. Reveal deliberately re-runs <code>Configure</code>. (src\PhantomFudge.App\MainWindow.xaml.cs:200-229,148-160)</p>
 <p>Ordinary Hide also stops transcription, but does not destroy the document or exit the process. Mode switching hides, stops audio, changes editability, and reconfigures before showing again. Theme, opacity, and Notes expansion are different operations: they update existing controls rather than changing this native policy. (src\PhantomFudge.App\MainWindow.xaml.cs:232-267,472-511)</p>
@@ -1062,7 +1420,7 @@ def reveal():
 <section class="chapter" id="ch-05-desktop-ui-and-themes"><div class="chapter-note">Source: docs/handbook/05-desktop-ui-and-themes.md</div><h1 id="ch-05-desktop-ui-and-themes-05-desktop-ui-and-semantic-themes">05 — Desktop UI and Semantic Themes</h1>
 <h2 id="ch-05-desktop-ui-and-themes-overview-a-reading-surface-before-an-editor">Overview: a reading surface before an editor</h2>
 <p>The most important UI decision is not a color. It is which activity receives space and focus by default. Phantom Fudge starts with passive transcript reading, Q/A expanded and Notes collapsed. Question typing has its own deliberate transition: click a transcript row or choose <strong>Type / edit</strong>, rather than entering global Notes Edit. This separates “I need to see the meeting” from “I intend to compose a question.” The initial fields and XAML establish the reading surface. (src\PhantomFudge.App\MainWindow.xaml.cs:33-35,50-95; src\PhantomFudge.App\MainWindow.xaml:235-581.) Direct selection enters question editing through <code>TranscriptRows_SelectionChanged</code>; the default Q/A expansion is in <a href="../../src/PhantomFudge.App/MainWindow.Questions.cs"><code>InitializeQuestionView</code></a>. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:93-141.)</p>
-<p>The UI is native C#/WPF. WASAPI capture begins only after explicit Start, for Computer, Mic, or Both. Both is the initial selection, not an instruction to record immediately. Labels describe input sources, not identified speakers. The planned Azure Ask experience is not an existing control or hidden mode. (src\PhantomFudge.App\MainWindow.xaml.cs:35,637-685; src\PhantomFudge.Core\AudioSource.cs:3-30; docs\IMPLEMENTATION-STATUS.md:124-140)</p>
+<p>The UI is native C#/WPF. WASAPI capture begins only after explicit Start, for Computer, Mic, or Both. Both is the initial selection, not an instruction to record immediately. Labels describe input sources, not identified speakers. The planned Azure Ask experience is not an existing control or hidden mode. (src\PhantomFudge.App\MainWindow.xaml.cs:35,637-685; src\PhantomFudge.Core\AudioSource.cs:3-30; docs\IMPLEMENTATION-STATUS.md:161-177)</p>
 <p><strong>Newcomer path:</strong> read the visual-tree map, then the worked theme change. <strong>Principal-engineer path:</strong> inspect resource replacement, alpha compositing, passive selection, and the limits of the contrast tests. <a href="#ch-04-windows-capture-and-cursors">Chapter 04</a> explains the native capture and cursor policy; <a href="#ch-06-notes-transcripts-and-storage">Chapter 06</a> explains the content retained beneath the controls.</p>
 <p><img src="assets/screenshots/transcript-deepseafoam.png" alt="Transcript-first DeepSeaFoam surface"></p>
 <p><em>Actual WPF visual-tree render with synthetic content, not a screen-sharing capture.</em> The fixture inserts source-labelled transcript examples without starting transcription. It demonstrates layout, not recognition accuracy, remote exclusion, or reader acceptance. (src\PhantomFudge.App\MainWindow.xaml.cs:905-953,1189-1202)</p>
@@ -1071,13 +1429,13 @@ transcription has fully stopped before clearing&quot;: the fixture deliberately 
 without opening audio inputs, then retains its status text while rendering opacity and Notes.
 It is not a report of a live recording. (src\PhantomFudge.App\MainWindow.xaml.cs:1046-1080)</p>
 <h2 id="ch-05-desktop-ui-and-themes-architecture-one-visual-tree-explicit-priorities">Architecture: one visual tree, explicit priorities</h2>
-<p><strong>Cover</strong> swaps the attached workspace for <strong>NOTEPAD IS READY</strong> and one <strong>Uncover</strong> action in the
+<p>The <strong>top-left book icon</strong> swaps the workspace for <strong>NOTEPAD IS READY</strong> and the same icon-only return action in the
 same HWND. The disabled workspace is detached, not painted over; its controls/models still receive
 transcript and answer updates. The user explicitly requested continuing work, so this path never
 calls the normal Hide/Stop/Cancel lifecycle. Uncover restores layout and content. File/confirmation
 operations block covering so their required decisions cannot disappear.
 (<a href="../../src/PhantomFudge.App/MainWindow.Cover.cs">Cover implementation</a>.)</p>
-<p><img src="assets/screenshots/notepad-cover.png" alt="Synthetic notepad cover with a single Uncover action"></p>
+<p><img src="assets/screenshots/notepad-cover.png" alt="Synthetic notepad mask with the icon-only toggle at the top left"></p>
 <p>Fresh in-process automation traversal sees the cover after the window peer's supported children-cache
 refresh, but the fixture also demonstrates that an already-retained value provider can still read
 question text. The application title/process identity remains Phantom Fudge. No claim of global
@@ -1277,7 +1635,7 @@ flowchart TB
 </tr>
 </tbody>
 </table>
-<p><code>ThemePalette.For</code> defines these values along with muted, heading, border, hover, selected text, action text, input, warning, and error roles. Plain B/W is a neutral interface name, not literally only two RGB values. The white/black reading role is the owner's October 9 override, not an unchanged canonical color. The maintained provenance document records the canonical palette revision and composites; the WPF mapping is original to this app. (src\PhantomFudge.Core\ThemePalette.cs:5-25; docs\CURSOR-AND-THEMES.md:80-105)</p>
+<p><code>ThemePalette.For</code> defines these values along with muted, heading, border, hover, selected text, action text, input, warning, and error roles. Plain B/W is a neutral interface name, not literally only two RGB values. The white/black reading role is the owner's October 9 override, not an unchanged canonical color. The maintained provenance document records the canonical palette revision and composites; the WPF mapping is original to this app. (src\PhantomFudge.Core\ThemePalette.cs:5-25; docs\CURSOR-AND-THEMES.md:93-118)</p>
 <p><img src="assets/screenshots/theme-HarborDaylight.png" alt="Harbor Daylight theme"></p>
 <p><em>Actual WPF visual-tree render with synthetic content, not a screen-sharing capture.</em> <code>RunUiSmokeAsync</code> applies every theme and checks key resource and foreground colors before rendering the examples. (src\PhantomFudge.App\MainWindow.xaml.cs:967-979)</p>
 <p><img src="assets/screenshots/theme-Plain.png" alt="Plain B/W visual reference"></p>
@@ -1316,7 +1674,7 @@ second window. The token is blank. No physical input was opened to produce this 
 </code></pre>
 <p>At 10%, 55%, and 100%, the byte alpha is respectively 26, 140, and 255. <code>MainWindow</code> remains transparent behind that tint; note and final-transcript control backgrounds are also transparent. The answer-reading tint follows the same slider; its parent no longer blocks transparency with an opaque content container. Header, setup, and confirmation surfaces use opaque theme brushes. The application never fades the glyphs with the background. (src\PhantomFudge.App\MainWindow.xaml.cs:472-479; src\PhantomFudge.App\MainWindow.xaml:7,124,168-170,500-502,252-261,604-610)</p>
 <p>The slider exposes 10–100%, defaults to 55%, and snaps to five-percent ticks. It remains available in Present. The implementation does not set <code>Window.Opacity</code>; the diagnostic explicitly checks window/editor/transcript opacity equals one and text brush alpha equals 255. (src\PhantomFudge.App\MainWindow.xaml:156-164; src\PhantomFudge.App\MainWindow.xaml.cs:1072-1076,1103-1106)</p>
-<p>Why stop at 10% rather than zero? The maintained design calls out nonzero background alpha as avoiding entirely transparent mouse holes while keeping the surface usable. Why not promise readable text over every background? Composited contrast depends on the underlying desktop: approximately <code>alpha × tint + (1 − alpha) × background</code>. Solid glyphs alone cannot prevent visual interference from a busy slide. Increasing opacity or moving the window is a usability choice, not a capture-policy change. (docs\ARCHITECTURE.md:206-210; docs\CURSOR-AND-THEMES.md:68-73)</p>
+<p>Why stop at 10% rather than zero? The maintained design calls out nonzero background alpha as avoiding entirely transparent mouse holes while keeping the surface usable. Why not promise readable text over every background? Composited contrast depends on the underlying desktop: approximately <code>alpha × tint + (1 − alpha) × background</code>. Solid glyphs alone cannot prevent visual interference from a busy slide. Increasing opacity or moving the window is a usability choice, not a capture-policy change. (docs\ARCHITECTURE.md:206-210; docs\CURSOR-AND-THEMES.md:81-86)</p>
 <p><img src="assets/screenshots/background-10.png" alt="Background at ten percent"></p>
 <p><em>Actual WPF visual-tree render with synthetic content at10% background alpha.</em> The reader's
 checkerboard is an illustrative backing for transparent PNG pixels, not a captured desktop.
@@ -1441,7 +1799,7 @@ capture exclusion. The real synthetic Agency request is separately recorded in t
 <p><strong>Exercise:</strong> After Plain, which theme does the companion button select?<br>
 <strong>Answer:</strong> DeepSeaFoam; <code>NextThemed</code> has only one special case, DeepSeaFoam → Harbor Daylight.</p>
 <p><strong>Review question:</strong> What still needs people and hardware?<br>
-<strong>Answer:</strong> Readability over real backgrounds, accessibility and mixed-DPI behavior, presentation-focus acceptance, and recipient-side content/cursor qualification. Local tests do not supply owner approval. (src\PhantomFudge.App\MainWindow.xaml.cs:1072-1076; src\PhantomFudge.Core\ThemePalette.cs:28-29; docs\IMPLEMENTATION-STATUS.md:268-276)</p>
+<strong>Answer:</strong> Readability over real backgrounds, accessibility and mixed-DPI behavior, presentation-focus acceptance, and recipient-side content/cursor qualification. Local tests do not supply owner approval. (src\PhantomFudge.App\MainWindow.xaml.cs:1072-1076; src\PhantomFudge.Core\ThemePalette.cs:28-29; docs\IMPLEMENTATION-STATUS.md:305-313)</p>
 <h2 id="ch-05-desktop-ui-and-themes-references-and-maintenance-checkpoints">References and maintenance checkpoints</h2>
 <ul>
 <li><a href="../../src/PhantomFudge.App/MainWindow.xaml">Main window layout</a> and <a href="../../src/PhantomFudge.App/MainWindow.xaml.cs">interaction code</a>.</li>
@@ -1450,12 +1808,12 @@ capture exclusion. The real synthetic Agency request is separately recorded in t
 <li><a href="../../src/PhantomFudge.Core/ThemePalette.cs">Palette values</a>, <a href="../../src/PhantomFudge.App/ThemeBrushes.cs">brush adapter</a>, and <a href="../../tests/PhantomFudge.Core.Tests/ThemePaletteTests.cs">contrast tests</a>.</li>
 <li><a href="../../src/PhantomFudge.Core/AudioSource.cs">Source labels</a> and <a href="../CURSOR-AND-THEMES.md">palette provenance</a>.</li>
 </ul>
-<p>Theme and opacity choices are session-only. Persisted preferences and broader accessibility acceptance must not be inferred from the current controls. Any future popup, template, or rendering change should revisit both local usability assertions and the capture qualification matrix. (docs\CURSOR-AND-THEMES.md:64-73; docs\QUALIFICATION.md:113-130)</p>
+<p>Theme and opacity choices are session-only. Persisted preferences and broader accessibility acceptance must not be inferred from the current controls. Any future popup, template, or rendering change should revisit both local usability assertions and the capture qualification matrix. (docs\CURSOR-AND-THEMES.md:77-86; docs\QUALIFICATION.md:113-130)</p>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section>
 <section class="chapter" id="ch-06-notes-transcripts-and-storage"><div class="chapter-note">Source: docs/handbook/06-notes-transcripts-and-storage.md</div><h1 id="ch-06-notes-transcripts-and-storage-06-notes-transcripts-and-explicit-storage">06 — Notes, Transcripts, and Explicit Storage</h1>
 <h2 id="ch-06-notes-transcripts-and-storage-overview-persistence-is-a-deliberate-boundary">Overview: persistence is a deliberate boundary</h2>
-<p>Seeing text, retaining it in memory, and saving it are three different events. Phantom Fudge keeps one editable note and an in-memory transcript; neither is automatically a file. The note tracks its last successful saved value. The transcript tracks its last explicitly exported value. These distinctions let the UI warn about unsaved work without silently persisting meeting content. They also mean a crash can lose unexported text: the preview does not implement automatic recovery. (src\PhantomFudge.App\MainWindow.xaml.cs:24-32,294-313,414-421,833-840; docs\IMPLEMENTATION-STATUS.md:214-219,275-276)</p>
-<p>Capture exclusion does not extend to a <code>.txt</code> file, the clipboard, a native file dialog, or process memory. File storage is therefore designed for bounded input and accidental-overwrite resistance, not advertised as a secure vault. Saving to a user-selected location is an explicit act with the ordinary privacy properties of that location. (src\PhantomFudge.App\MainWindow.xaml.cs:380,421; docs\PRODUCT.md:179-195)</p>
+<p>Seeing text, retaining it in memory, and saving it are three different events. Phantom Fudge keeps one editable note and an in-memory transcript; neither is automatically a file. The note tracks its last successful saved value. The transcript tracks its last explicitly exported value. These distinctions let the UI warn about unsaved work without silently persisting meeting content. They also mean a crash can lose unexported text: the preview does not implement automatic recovery. (src\PhantomFudge.App\MainWindow.xaml.cs:24-32,294-313,414-421,833-840; docs\IMPLEMENTATION-STATUS.md:251-256,312-313)</p>
+<p>Capture exclusion does not extend to a <code>.txt</code> file, the clipboard, a native file dialog, or process memory. File storage is therefore designed for bounded input and accidental-overwrite resistance, not advertised as a secure vault. Saving to a user-selected location is an explicit act with the ordinary privacy properties of that location. (src\PhantomFudge.App\MainWindow.xaml.cs:380,421; docs\PRODUCT.md:184-200)</p>
 <p><strong>Newcomer path:</strong> start with the transcript example, then follow Save. <strong>Principal-engineer path:</strong> inspect session-local ID reset, snapshot comparisons, byte bounds, and the remaining check-to-replace race. <a href="#ch-11-state-machines-and-failure-containment">Chapter 11</a> explains why session reset must wait for final draining.</p>
 <h2 id="ch-06-notes-transcripts-and-storage-architecture-separate-content-lifetimes-one-file-primitive">Architecture: separate content lifetimes, one file primitive</h2>
 <p>Notes use the WPF text editor as their current text surface. <code>TranscriptBuffer</code> separately owns accumulated final text and source-specific unfinished text. Both explicit note saves and transcript exports use <code>NoteFileStore</code>; no recognizer callback writes a document file. (src\PhantomFudge.App\MainWindow.xaml.cs:294-295,389-434,781-848)</p>
@@ -2616,7 +2974,7 @@ sequenceDiagram
 <blockquote>
 <p><strong><code>IsRunning == false</code> does not mean fully stopped, drained, and reusable.</strong></p>
 </blockquote>
-<p><code>Session.RequestStop</code> immediately sets <code>Running=false</code>; <code>StopSessionAsync</code> and transport disposal still have substantial work afterward. The UI separately holds <code>audioStopping</code> through its awaited Stop path. A documented review found and fixed a stop/restart race by preserving this distinction. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:30,387-447,532-546; src\PhantomFudge.App\MainWindow.xaml.cs:748-778; docs\IMPLEMENTATION-STATUS.md:142-144)</p>
+<p><code>Session.RequestStop</code> immediately sets <code>Running=false</code>; <code>StopSessionAsync</code> and transport disposal still have substantial work afterward. The UI separately holds <code>audioStopping</code> through its awaited Stop path. A documented review found and fixed a stop/restart race by preserving this distinction. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:30,387-447,532-546; src\PhantomFudge.App\MainWindow.xaml.cs:748-778; docs\IMPLEMENTATION-STATUS.md:179-181)</p>
 <p><strong>Newcomer path:</strong> follow the normal Stop sequence before reading the locks. <strong>Principal-engineer path:</strong> inspect queued-start invalidation, ownership after driver timeouts, and the difference between graceful drain and fault abort. The diagrams below name conceptual states; the production code implements them through fields, tasks, locks, and guards, not one central state enum.</p>
 <h2 id="ch-11-state-machines-and-failure-containment-architecture-several-coordinated-state-dimensions">Architecture: several coordinated state dimensions</h2>
 <table>
@@ -2764,7 +3122,7 @@ Preparation and shutdown block conflicting actions; late answer events cannot re
 <p>Endpoint validation restricts the transport to literal loopback, and the HTTP handler disables proxies and redirects. Recognizer error bodies are schema-checked but replaced with fixed local messages rather than displayed verbatim. This limits accidental propagation of paths, secrets, or transcript text through an error surface. It is not a claim that every possible exception everywhere in the app is contained. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:26-31,82-98,398-414)</p>
 <p>Device notifications invalidate only the explicitly selected endpoint, once, and dispatch work away from the notification callback. Default-device changes do not switch input identity. A lost selected source faults the entire session; the app does not quietly substitute a microphone or another playback device. (src\PhantomFudge.App\Audio\RenderEndpointNotification.cs:10-29; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:199-204,362-373)</p>
 <h2 id="ch-11-state-machines-and-failure-containment-worked-example-the-stop-reset-race">Worked example: the stop/reset race</h2>
-<p>Suppose session A has accepted final ID 20. Stop makes Running false, but final ID 21 is still returning. If the UI resets <code>TranscriptBuffer.lastSegmentId</code> for session B now, the late A final could advance B's ID baseline to 21. B's new final ID 1 would then be ignored by <code>AddFinal</code>. Text would disappear from the new session even though the user saw a plausible restart. This is an explanatory interleaving derived from the actual reset/deduplication logic and the recorded bug, not a claim of a newly executed reproduction. (src\PhantomFudge.Core\TranscriptBuffer.cs:23-38,48-56; docs\IMPLEMENTATION-STATUS.md:142-144)</p>
+<p>Suppose session A has accepted final ID 20. Stop makes Running false, but final ID 21 is still returning. If the UI resets <code>TranscriptBuffer.lastSegmentId</code> for session B now, the late A final could advance B's ID baseline to 21. B's new final ID 1 would then be ignored by <code>AddFinal</code>. Text would disappear from the new session even though the user saw a plausible restart. This is an explanatory interleaving derived from the actual reset/deduplication logic and the recorded bug, not a claim of a newly executed reproduction. (src\PhantomFudge.Core\TranscriptBuffer.cs:23-38,48-56; docs\IMPLEMENTATION-STATUS.md:179-181)</p>
 <p>The repaired UI keeps Start, source-mode changes, and Clear blocked through its awaited stop task. A synthetic regression explicitly sets <code>audioStopping</code>, attempts those actions, and verifies that the transcript/session selection remain unchanged. Controller-level ownership guards remain necessary underneath this UI protection. (src\PhantomFudge.App\MainWindow.xaml.cs:637-640,705-735,851-856,1046-1053; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:81-91)</p>
 <p>The following <strong>Python-shaped pseudocode is explanatory, not production code</strong>:</p>
 <pre><code class="language-python">async def stop_from_ui():
@@ -2792,7 +3150,7 @@ def may_start_or_reset():
 <li>Repeated sessions detach callbacks; simultaneous source faults release both inputs. (tests\PhantomFudge.Audio.Tests\DualSourceTests.cs:658-758)</li>
 <li>Hung startup retains ownership, hung Stop releases the responsive input, and disposal failures prevent unsafe restart. (tests\PhantomFudge.Audio.Tests\DualSourceTests.cs:762-868)</li>
 </ul>
-<p>The maintained evidence records 41 Core tests, 46 native synthetic groups, 71 backend tests, and four manager-upgrade guards. Those are existing results, not tests rerun for this chapter. They do not establish actual microphone permissions, hardware echo behavior, OS microphone-indicator visibility, or remote cursor inclusion. (docs\IMPLEMENTATION-STATUS.md:136-144; docs\QUALIFICATION.md:127-140)</p>
+<p>The maintained evidence records 41 Core tests, 46 native synthetic groups, 71 backend tests, and four manager-upgrade guards. Those are existing results, not tests rerun for this chapter. They do not establish actual microphone permissions, hardware echo behavior, OS microphone-indicator visibility, or remote cursor inclusion. (docs\IMPLEMENTATION-STATUS.md:173-181; docs\QUALIFICATION.md:127-140)</p>
 <p><strong>Exercise:</strong> Why retain <code>_pendingCaptureRelease</code> after the visible session stops?<br>
 <strong>Answer:</strong> A worker may still own a device; allowing another Start would obscure ownership.</p>
 <p><strong>Exercise:</strong> Why not silently drop PCM when the queue fills?<br>
@@ -3687,7 +4045,7 @@ flowchart TB
 <li>The current transport rejects nonliteral-loopback ASR endpoints and disables proxying and redirects. CLI inference and any future HTTPS Azure client are <strong>separate</strong> boundaries, not reasons to relax speech validation. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:26-31, HTTP handler; src\PhantomFudge.App\Audio\TranscriptionSocket.cs:82-98, <code>ValidateEndpoint</code>.)</li>
 <li>Remote speech errors are replaced with a generic local message because server text may contain paths, secrets, or transcript content. The answer adapter should preserve that principle while distinguishing useful safe error codes. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:406-414, <code>ProcessMessage</code>; docs\AI-ANSWER-PRIVACY.md:128-134, diagnostics.)</li>
 <li>Application transcript/answer buffers are bounded and Copy/export is explicit. This does not make the external CLI memory-only. App diagnostics should use random IDs, durations, counts and safe result codes, not content or content hashes. (src\PhantomFudge.Core\TranscriptBuffer.cs:6-8, <code>MaximumCharacters</code>; src\PhantomFudge.App\MainWindow.xaml.cs:813-840, <code>ExportTranscriptAsync</code>; docs\AI-ANSWER-PRIVACY.md:130-136, logging/persistence.)</li>
-<li><code>ShowProtected</code> requests protection before showing the window, but neither it nor the same-HWND answer view guarantees exclusion from every recorder. Authentication surfaces, clipboard, profiles and process memory have separate boundaries. (src\PhantomFudge.App\MainWindow.xaml.cs:98-126, <code>ShowProtected</code>; docs\PRODUCT.md:179-195, privacy boundaries.)</li>
+<li><code>ShowProtected</code> requests protection before showing the window, but neither it nor the same-HWND answer view guarantees exclusion from every recorder. Authentication surfaces, clipboard, profiles and process memory have separate boundaries. (src\PhantomFudge.App\MainWindow.xaml.cs:98-126, <code>ShowProtected</code>; docs\PRODUCT.md:184-200, privacy boundaries.)</li>
 </ul>
 <p><code>LocalDiagnostics</code> now defaults to metadata-only records: correlation IDs, monotonic/process times,
 durations, counts and safe codes. Its nonblocking bounded queue must not stall capture or UI; files
@@ -3895,7 +4253,7 @@ synthetic sentence does not prove every cancellation path.</p>
 <h2 id="ch-15-development-and-testing-interpreting-results">Interpreting results</h2>
 <p>Record source identity, environment, exact command, pass/failure, sample size and limitations.
 The implementation-status document is a bounded receipt, not a badge that everything is safe
-(<code>docs\IMPLEMENTATION-STATUS.md:1-189</code>).</p>
+(<code>docs\IMPLEMENTATION-STATUS.md:1-226</code>).</p>
 <p>For capture, an in-process <code>RenderTargetBitmap</code> image proves UI appearance. A cropped GDI
 fixture proves only the sampled local path. Neither proves what a remote participant sees.
 Run an intentionally unprotected positive control only outside a live presentation; it is
@@ -3953,7 +4311,7 @@ flowchart TB
 </code></pre></details><p>The final arrows are deliberately not automatic. A passing local smoke test is not signing,
 distribution authorization, enterprise-policy acceptance or four-product capture qualification.
 The implementation-status document identifies the actual local candidate and its remaining
-boundaries (<code>docs\IMPLEMENTATION-STATUS.md:1-219</code>).</p>
+boundaries (<code>docs\IMPLEMENTATION-STATUS.md:1-256</code>).</p>
 <h2 id="ch-16-distribution-and-troubleshooting-source-checkout-versus-extracted-bundle">Source checkout versus extracted bundle</h2>
 <p>The launcher detects whether <code>PhantomFudge.exe</code> sits at the root of its working package. If it
 does, it uses that executable without building. Otherwise it targets the source-build path.
@@ -4096,7 +4454,7 @@ references. Freshness tooling detects changed inputs, but semantic review remain
 <li><code>services\transcription\manage.py:114-268</code> — instance ownership, reuse and stop.</li>
 <li><code>src\PhantomFudge.App\Native\SingleInstance.cs:18-75</code> — window recovery channel.</li>
 <li><code>src\PhantomFudge.App\LocalFailureNotice.cs:1-30</code> — non-content failure notice.</li>
-<li><code>docs\IMPLEMENTATION-STATUS.md:1-219</code> — candidate evidence and limits.</li>
+<li><code>docs\IMPLEMENTATION-STATUS.md:1-256</code> — candidate evidence and limits.</li>
 </ul>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section>
 <section class="chapter" id="ch-17-privacy-and-assurance"><div class="chapter-note">Source: docs/handbook/17-privacy-and-assurance.md</div><h1 id="ch-17-privacy-and-assurance-privacy-and-assurance">Privacy and assurance</h1>
@@ -4110,7 +4468,7 @@ right experiment for the claim.</p>
 <p>&quot;Private&quot; can mean that notes are absent from a recipient's frames, audio stays local, a token
 is not logged, a file is encrypted, or a process is not listed. Those are different properties.
 The current product explicitly does not promise process invisibility or a security/DRM boundary
-(<code>docs\PRODUCT.md:179-195</code>).</p>
+(<code>docs\PRODUCT.md:184-200</code>).</p>
 <p>The first useful threat-model step is therefore to state what is controlled. The app owns
 its HWND and can request display affinity. It owns the selected capture objects and can require
 explicit Start. It owns the local protocol and can authenticate it. It does not own a meeting
@@ -4151,7 +4509,7 @@ system privacy setting (<code>src\PhantomFudge.App\Native\WindowProtection.cs:19
 <p>The cursor policy chooses the standard Arrow for the app, while the default Present mode avoids
 unnecessary activation. The owner still reported a recipient-side disappearing pointer, and
 that exact sharing configuration remains unqualified. Local shape/foreground observations
-are useful but not substitutes for recipient frames (<code>docs\CURSOR-AND-THEMES.md:1-62</code>,
+are useful but not substitutes for recipient frames (<code>docs\CURSOR-AND-THEMES.md:1-69</code>,
 <code>src\PhantomFudge.App\Native\CursorPolicy.cs:1-25</code>).</p>
 <p>Automatic protection failures should not reveal the application through a new unprotected
 message box. A generic, bounded local notice contains no note/transcript payload
@@ -4241,7 +4599,7 @@ bounded measured results, not evidence that an Azure deployment or universal fiv
 </ol>
 <h2 id="ch-17-privacy-and-assurance-references">References</h2>
 <ul>
-<li><code>docs\PRODUCT.md:179-195</code> — privacy scope.</li>
+<li><code>docs\PRODUCT.md:184-200</code> — privacy scope.</li>
 <li><code>src\PhantomFudge.App\Native\WindowProtection.cs:19-48</code> — owned-window policy.</li>
 <li><code>src\PhantomFudge.App\Native\CursorPolicy.cs:1-25</code> — standard cursor behavior.</li>
 <li><code>src\PhantomFudge.App\LocalFailureNotice.cs:1-30</code> — generic local error notice.</li>
@@ -4539,7 +4897,7 @@ for scenario, expected in cases:
 <h2 id="ch-18-extending-the-system-exercises">Exercises</h2>
 <ol>
 <li>Find every fixed two-source assumption in the checklist. Explain why changing only the enum can compile in one layer while violating another layer's runtime schema. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:51-56, arrays; services\transcription\server.py:100-112, <code>parse_start</code>.)</li>
-<li>Propose a warning color with acceptable opaque contrast, then explain why translucent-background readability still needs separate observation. (tests\PhantomFudge.Core.Tests\ThemePaletteTests.cs:31-73, contrast calculation; docs\PRODUCT.md:113-120, translucency limits.)</li>
+<li>Propose a warning color with acceptable opaque contrast, then explain why translucent-background readability still needs separate observation. (tests\PhantomFudge.Core.Tests\ThemePaletteTests.cs:31-73, contrast calculation; docs\PRODUCT.md:118-125, translucency limits.)</li>
 <li>Draft a provider change receipt that records capability and privacy differences without including a real question, token, or account secret. (docs\AI-ANSWER-EVALUATION.md:140-149, receipt requirements.)</li>
 <li>Select a partial, freeze it, edit the draft, then deliver an empty final and evict the original store row. Explain each object's expected text and why <code>SourceRefs</code> must not become the Azure request body. (src\PhantomFudge.Core\QuestionDraft.cs:48-95, edit/refresh/Freeze; src\PhantomFudge.Core\QuestionSnapshot.cs:5-23, local immutable provenance.)</li>
 <li>On paper, apply TextDelta(1), Completed(2), then TextDelta(3) to one run; contrast that with request enumeration ending before Completed. Explain why neither is complete, why ACP process EOF is a different failure, and why none permits provider fallback. (src\PhantomFudge.Core\Answers\AnswerRun.cs:32-63, event/terminal guards.)</li>
@@ -5090,7 +5448,7 @@ flowchart TB
 </tr>
 <tr>
 <td>Repository root</td>
-<td><a href="../../PhantomFudge.slnx">Solution</a> lists projects; <a href="../../global.json">global.json</a> pins SDK policy. <a href="../../compose.yaml">Compose</a> is optional, last-stage packaging—not a native prerequisite. (PhantomFudge.slnx:1-13; global.json:2-6; docs\IMPLEMENTATION-STATUS.md:173-176)</td>
+<td><a href="../../PhantomFudge.slnx">Solution</a> lists projects; <a href="../../global.json">global.json</a> pins SDK policy. <a href="../../compose.yaml">Compose</a> is optional, last-stage packaging—not a native prerequisite. (PhantomFudge.slnx:1-13; global.json:2-6; docs\IMPLEMENTATION-STATUS.md:210-213)</td>
 </tr>
 </tbody>
 </table>
@@ -5197,7 +5555,7 @@ protocol in <code>accurate.py</code>; <code>configuration.py</code> fingerprints
 </tr>
 <tr>
 <td><strong>Loopback</strong></td>
-<td>Capture of a render endpoint's output through <code>WasapiLoopbackCapture</code>, not capture limited to a particular meeting application. (src\PhantomFudge.App\Audio\WasapiInput.cs:48-54; docs\PRODUCT.md:87-100)</td>
+<td>Capture of a render endpoint's output through <code>WasapiLoopbackCapture</code>, not capture limited to a particular meeting application. (src\PhantomFudge.App\Audio\WasapiInput.cs:48-54; docs\PRODUCT.md:92-105)</td>
 </tr>
 <tr>
 <td><strong>Endpoint</strong></td>
@@ -5358,7 +5716,7 @@ protocol in <code>accurate.py</code>; <code>configuration.py</code> fingerprints
 </tr>
 <tr>
 <td><strong>Arrow</strong></td>
-<td>Standard local cursor shape set by <code>CursorPolicy</code>, not an instruction controlling a recorder's separate pointer stream. (src\PhantomFudge.App\Native\CursorPolicy.cs:8-24; docs\CURSOR-AND-THEMES.md:40-54)</td>
+<td>Standard local cursor shape set by <code>CursorPolicy</code>, not an instruction controlling a recorder's separate pointer stream. (src\PhantomFudge.App\Native\CursorPolicy.cs:8-24; docs\CURSOR-AND-THEMES.md:47-61)</td>
 </tr>
 <tr>
 <td><strong>Semantic theme</strong></td>
@@ -5397,7 +5755,7 @@ protocol in <code>accurate.py</code>; <code>configuration.py</code> fingerprints
 </tr>
 <tr>
 <td><strong>Preview</strong></td>
-<td>Implemented development software with open release gates, not “planned only” and not a universally supported release. (docs\IMPLEMENTATION-STATUS.md:1-3,268-277)</td>
+<td>Implemented development software with open release gates, not “planned only” and not a universally supported release. (docs\IMPLEMENTATION-STATUS.md:1-3,305-314)</td>
 </tr>
 </tbody>
 </table>
@@ -5433,7 +5791,7 @@ sequenceDiagram
     UI-&gt;&gt;Buffer: Retain history for export or next session
 </code></pre></details><p>The diagram shows a graceful path, not a guarantee after transport or device failure. Python's stop sentinel follows queued PCM; the client validates finals before terminal acknowledgement; the UI holds <code>audioStopping</code> until its awaited operation finishes. (services\transcription\server.py:306-316,394-498; src\PhantomFudge.App\Audio\TranscriptionSocket.cs:446-474; src\PhantomFudge.App\MainWindow.xaml.cs:748-778)</p>
 <h2 id="ch-20-glossary-and-repository-map-glossary-pitfalls-and-review-exercises">Glossary pitfalls and review exercises</h2>
-<p><strong>“Two streams means two speakers.”</strong> No: independent source tracks prevent state mixing, not acoustic echo or multiple voices sharing one endpoint. Inspect source labels before inferring people. (docs\PRODUCT.md:87-100)</p>
+<p><strong>“Two streams means two speakers.”</strong> No: independent source tracks prevent state mixing, not acoustic echo or multiple voices sharing one endpoint. Inspect source labels before inferring people. (docs\PRODUCT.md:92-105)</p>
 <p><strong>“Final means saved.”</strong> No: final concerns recognizer state; export concerns filesystem persistence. The buffer can contain finals while <code>TranscriptDirty</code> remains true. (src\PhantomFudge.App\MainWindow.xaml.cs:294-295,813-840)</p>
 <p><strong>“Hidden means stopped and exited.”</strong> No: Hide awaits Stop but retains the process and content; Exit separately evaluates unsaved work. (src\PhantomFudge.App\MainWindow.xaml.cs:232-242,297-330)</p>
 <p><strong>Exercise:</strong> Is 100% background opacity stronger capture exclusion than 10%?<br>
@@ -5445,11 +5803,11 @@ sequenceDiagram
 <p class="top-link"><a href="#contents">Back to contents</a></p></section>
 <section class="chapter" id="ch-21-evidence-and-roadmap"><div class="chapter-note">Source: docs/handbook/21-evidence-and-roadmap.md</div><h1 id="ch-21-evidence-and-roadmap-21-evidence-and-roadmap">21. Evidence and Roadmap</h1>
 <h2 id="ch-21-evidence-and-roadmap-why-evidence-needs-its-own-architecture">Why evidence needs its own architecture</h2>
-<p>A living engineering book must distinguish <strong>what exists</strong>, <strong>what was observed</strong>, and <strong>what is justified for users</strong>. Phantom Fudge has an implemented native preview and recorded local results; it does not have a qualified public release or an implemented Azure answer feature. A plausible design, passing synthetic test, and owner acceptance answer different questions. Combining them into one “done” badge would discard the most important information. (docs\IMPLEMENTATION-STATUS.md:3-140, current scope; docs\TODO-CONVENTIONS.md:58-70, evidence classes.)</p>
+<p>A living engineering book must distinguish <strong>what exists</strong>, <strong>what was observed</strong>, and <strong>what is justified for users</strong>. Phantom Fudge has an implemented native preview and recorded local results; it does not have a qualified public release or an implemented Azure answer feature. A plausible design, passing synthetic test, and owner acceptance answer different questions. Combining them into one “done” badge would discard the most important information. (docs\IMPLEMENTATION-STATUS.md:3-177, current scope; docs\TODO-CONVENTIONS.md:58-70, evidence classes.)</p>
 <p>This chapter reads the frozen application source and current public evidence summaries. It does not rerun application tests, inspect private capture receipts, requalify a package, or perform cloud/audio operations. “Recorded result” below means the cited repository reports that observation, not that this documentation session independently repeated it. The qualification contract explicitly rejects substituting local previews, API return codes, or missing recordings for recipient evidence. (TODO\13_COMPATIBILITY_QUALIFICATION.todo:24-35, acceptance and evidence.)</p>
 <p>The engineering unit of assurance is therefore a <strong>bounded claim</strong>: a behavior, an exact subject, an environment, a procedure, an observation, and its limits. The repository's result template already asks for source identity, package hash, operating system, GPU, sharing backend, positive controls, frame coverage, and reviewer approval. A result without those boundaries may help investigation, but should not silently widen support. (docs\QUALIFICATION.md:142-168, result record.)</p>
 <h2 id="ch-21-evidence-and-roadmap-the-evidence-ladder-stronger-claims-require-additional-proof">The evidence ladder: stronger claims require additional proof</h2>
-<p>The ladder is not permission to infer the next rung. Each transition requires evidence appropriate to its scope; an owner report remains a separate observation until reproduced under a known configuration. (docs\TODO-CONVENTIONS.md:64-70, noninterchangeable evidence; docs\CURSOR-AND-THEMES.md:38-55, unresolved owner report.)</p>
+<p>The ladder is not permission to infer the next rung. Each transition requires evidence appropriate to its scope; an owner report remains a separate observation until reproduced under a known configuration. (docs\TODO-CONVENTIONS.md:64-70, noninterchangeable evidence; docs\CURSOR-AND-THEMES.md:45-62, unresolved owner report.)</p>
 <figure class="diagram"><img src="assets/diagrams/21-evidence-and-roadmap-01.svg" alt="21. Evidence and Roadmap diagram 1"><figcaption>21. Evidence and Roadmap - diagram 1. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
 config:
   theme: base
@@ -5527,14 +5885,14 @@ flowchart TB
 <p>These distinctions are instantiated by the native-runtime evidence, dual-source integration limits, qualification procedure, and final acceptance gates. (TODO\22_NATIVE_PYTHON_RUNTIME.todo:30-38, native results; TODO\26_MICROPHONE_AND_COMPUTER.todo:34-41, synthetic integration; docs\QUALIFICATION.md:79-107, capture procedure; TODO\17_RELEASE_ACCEPTANCE.todo:13-29, acceptance.)</p>
 <h3 id="ch-21-evidence-and-roadmap-configuration-is-not-observation-of-captured-pixels">Configuration is not observation of captured pixels</h3>
 <p><code>WindowProtection.Configure</code> checks Windows/DWM conditions, sets window styles and affinity, inspects available readback, and flushes composition. None of those calls observes another participant's screen. <code>ShowProtected</code> configures before showing and reports an unqualified-preview status. This is implemented failure-prevention logic, not recipient certification. (src\PhantomFudge.App\Native\WindowProtection.cs:19-48, <code>Configure</code>; src\PhantomFudge.App\MainWindow.xaml.cs:98-126, <code>ShowProtected</code>.)</p>
-<p>Similarly, <code>CursorPolicy.SetArrow</code> sets the local standard cursor. It does not choose the recorder's cursor-capture option. The owner's reported disappearing shared cursor is credible as a reported symptom, while its exact product/backend reproduction remains missing. Local Arrow and nonactivation evidence cannot close that gap. (src\PhantomFudge.App\Native\CursorPolicy.cs:8-24, <code>SetArrow</code>; docs\CURSOR-AND-THEMES.md:40-54, recorder boundary.)</p>
+<p>Similarly, <code>CursorPolicy.SetArrow</code> sets the local standard cursor. It does not choose the recorder's cursor-capture option. The owner's reported disappearing shared cursor is credible as a reported symptom, while its exact product/backend reproduction remains missing. Local Arrow and nonactivation evidence cannot close that gap. (src\PhantomFudge.App\Native\CursorPolicy.cs:8-24, <code>SetArrow</code>; docs\CURSOR-AND-THEMES.md:47-61, recorder boundary.)</p>
 <h2 id="ch-21-evidence-and-roadmap-what-the-current-evidence-actually-says">What the current evidence actually says</h2>
-<p>The earlier dual-source update records <strong>41 Core tests, 46 native synthetic groups, 71 backend tests, and four manager-upgrade guards</strong>. The subsequent local-question slice adds96Core cases, bringing that historical Core run to137, and repeats the46native groups with GUID identity assertions. Python's71cases remain earlier evidence, not a fresh run for the C#-only change. These are distinct scopes, not one interchangeable total. (docs\IMPLEMENTATION-STATUS.md:136-144, earlier dual-source evidence; <a href="../../TODO/28_QUESTION_DRAFTS.todo">local-question receipt</a>.)</p>
-<p>The recorded real Python recognizer processed generated dual-source PCM with Computer/Mic partial counts of <strong>11/8</strong> and three finals each. The actual C# v2-to-Python path produced <strong>13/10</strong> partials and two finals each, with expected phrases and tail drain. “Real” describes the engine and transport; the input was still synthetic. No physical microphone, device-permission, echo, or OS-indicator qualification follows. (docs\IMPLEMENTATION-STATUS.md:136-140, integration results.)</p>
+<p>The earlier dual-source update records <strong>41 Core tests, 46 native synthetic groups, 71 backend tests, and four manager-upgrade guards</strong>. The subsequent local-question slice adds96Core cases, bringing that historical Core run to137, and repeats the46native groups with GUID identity assertions. Python's71cases remain earlier evidence, not a fresh run for the C#-only change. These are distinct scopes, not one interchangeable total. (docs\IMPLEMENTATION-STATUS.md:173-181, earlier dual-source evidence; <a href="../../TODO/28_QUESTION_DRAFTS.todo">local-question receipt</a>.)</p>
+<p>The recorded real Python recognizer processed generated dual-source PCM with Computer/Mic partial counts of <strong>11/8</strong> and three finals each. The actual C# v2-to-Python path produced <strong>13/10</strong> partials and two finals each, with expected phrases and tail drain. “Real” describes the engine and transport; the input was still synthetic. No physical microphone, device-permission, echo, or OS-indicator qualification follows. (docs\IMPLEMENTATION-STATUS.md:173-177, integration results.)</p>
 <p>Two earlier observations have different boundaries:</p>
 <ul>
-<li>An explicitly approved playback-loopback check recorded 11 partials, three finals, 37 nonzero-meter updates, expected phrase matching, and zero faults. That establishes one actual render-endpoint path, not the later dual-input hardware matrix. (docs\IMPLEMENTATION-STATUS.md:238-250, playback evidence.)</li>
-<li>A cropped GDI proof reported a 100,000-differing-pixel positive control and 16 protected samples matching the underlying baseline. That is specific BitBlt evidence, not continuous startup-frame coverage or Teams/Zoom/Meet/OBS qualification. (docs\IMPLEMENTATION-STATUS.md:239-246, synthetic capture evidence.)</li>
+<li>An explicitly approved playback-loopback check recorded 11 partials, three finals, 37 nonzero-meter updates, expected phrase matching, and zero faults. That establishes one actual render-endpoint path, not the later dual-input hardware matrix. (docs\IMPLEMENTATION-STATUS.md:275-287, playback evidence.)</li>
+<li>A cropped GDI proof reported a 100,000-differing-pixel positive control and 16 protected samples matching the underlying baseline. That is specific BitBlt evidence, not continuous startup-frame coverage or Teams/Zoom/Meet/OBS qualification. (docs\IMPLEMENTATION-STATUS.md:276-283, synthetic capture evidence.)</li>
 </ul>
 <p>The public speech benchmark covers <strong>32 synthetic cases, 164.070 seconds, and 292 normalized reference words</strong>, with two serial warm passes. Its recorded results are:</p>
 <table>
@@ -5608,8 +5966,8 @@ package passes do not establish universal activation or recipient behavior. Earl
 <h2 id="ch-21-evidence-and-roadmap-what-still-needs-qualification">What still needs qualification</h2>
 <p><strong>Recipient pixels:</strong> the required meeting/OBS candidates remain <code>NOT_TESTED</code>. Record product/version, exact sharing source and backend, local visibility, remote live view, applicable recording, positive controls, and transitions. A window/tab result cannot justify whole-screen support; a missing licensed recording capability is not a pass. A black rectangle can fail the intended experience even without readable text. (docs\QUALIFICATION.md:3-7, status; docs\QUALIFICATION.md:28-64, matrix and artifact criteria; docs\QUALIFICATION.md:79-107, procedure.)</p>
 <p><strong>Cursor:</strong> reproduce the owner's report in the actual sharing mode and record hover/click/drag/type, foreground changes, and recipient cursor behavior independently. Do not substitute a fake cursor, recorder modification, or the local value <code>MA_NOACTIVATE=3</code> for that observation. (TODO\24_CURSOR_AND_FOCUS.todo:14-26, open gates; docs\QUALIFICATION.md:127-137, C15.)</p>
-<p><strong>Hardware and usability:</strong> microphone access/denial, selected-device loss, echo, privacy indicators, headsets, alternative GPU/display/DPI/HDR combinations, startup transitions, accessibility, and long-session behavior remain scoped work. The code selects render versus capture endpoints explicitly; source inspection proves that branch exists, not that every physical configuration works. Owner readability/focus approval remains separate from automated success. (src\PhantomFudge.App\Audio\WasapiInput.cs:20-74, selection and <code>Direction</code>; TODO\26_MICROPHONE_AND_COMPUTER.todo:34-41, hardware gaps; docs\QUALIFICATION.md:66-77, environments; docs\IMPLEMENTATION-STATUS.md:268-277, remaining work.)</p>
-<p>The owner handles permission and recipient rehearsal externally; those preferences removed repeated runtime confirmations. They are not an engineering pass, and this roadmap does not reintroduce those dialogs. (docs\PREVIEW-GUIDE.md:64-69, interaction contract; TODO\16_DEVELOPMENT_LEDGER.todo:63-65, decision record.)</p>
+<p><strong>Hardware and usability:</strong> microphone access/denial, selected-device loss, echo, privacy indicators, headsets, alternative GPU/display/DPI/HDR combinations, startup transitions, accessibility, and long-session behavior remain scoped work. The code selects render versus capture endpoints explicitly; source inspection proves that branch exists, not that every physical configuration works. Owner readability/focus approval remains separate from automated success. (src\PhantomFudge.App\Audio\WasapiInput.cs:20-74, selection and <code>Direction</code>; TODO\26_MICROPHONE_AND_COMPUTER.todo:34-41, hardware gaps; docs\QUALIFICATION.md:66-77, environments; docs\IMPLEMENTATION-STATUS.md:305-314, remaining work.)</p>
+<p>The owner handles permission and recipient rehearsal externally; those preferences removed repeated runtime confirmations. They are not an engineering pass, and this roadmap does not reintroduce those dialogs. (docs\PREVIEW-GUIDE.md:69-74, interaction contract; TODO\16_DEVELOPMENT_LEDGER.todo:63-65, decision record.)</p>
 <h2 id="ch-21-evidence-and-roadmap-roadmap-statuses-describe-scope-dependencies-describe-order">Roadmap: statuses describe scope, dependencies describe order</h2>
 <p>The current index covers workstreams <strong>01–43</strong>; documentation work adds an ongoing maintenance obligation without changing the implemented-versus-planned application boundary:</p>
 <table>
@@ -5698,7 +6056,7 @@ flowchart LR
     style Release fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Docker fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     linkStyle default stroke:#8b949e
-</code></pre></details><p>The diagram abbreviates native prerequisites, not their completion requirements. Packaging <strong>14 precedes qualification 13</strong>; the current expanded release graph also includes planned answer client/UI/resilience work. Final acceptance 17 requires 13, 14, 15, and 35. Docker <strong>20 is LAST, optional, and depends on 17</strong>—never a prerequisite for ordinary transcription or native release. Recipe files do not prove a container ran. (TODO\00_INDEX.todo:119-158, dependency map; TODO\14_PACKAGING_RELEASE.todo:3-5, prerequisites; TODO\20_DOCKER_LOCAL_SERVICE.todo:3-10, final-stage contract; TODO\20_DOCKER_LOCAL_SERVICE.todo:29-36, execution limits.)</p>
+</code></pre></details><p>The diagram abbreviates native prerequisites, not their completion requirements. Packaging <strong>14 precedes qualification 13</strong>; the current expanded release graph also includes planned answer client/UI/resilience work. Final acceptance 17 requires 13, 14, 15, and 35. Docker <strong>20 is LAST, optional, and depends on 17</strong>—never a prerequisite for ordinary transcription or native release. Recipe files do not prove a container ran. (TODO\00_INDEX.todo:121-160, dependency map; TODO\14_PACKAGING_RELEASE.todo:3-5, prerequisites; TODO\20_DOCKER_LOCAL_SERVICE.todo:3-10, final-stage contract; TODO\20_DOCKER_LOCAL_SERVICE.todo:29-36, execution limits.)</p>
 <h3 id="ch-21-evidence-and-roadmap-installed-answers-exist-commit-azure-and-qualification-remain-open">Installed answers exist; commit, Azure and qualification remain open</h3>
 <figure class="diagram"><img src="assets/diagrams/21-evidence-and-roadmap-03.svg" alt="21. Evidence and Roadmap diagram 3"><figcaption>21. Evidence and Roadmap - diagram 3. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
 config:
@@ -5739,7 +6097,7 @@ flowchart TB
     linkStyle default stroke:#8b949e
 </code></pre></details><p>The local selected/typed draft and immutable snapshot are implemented. Continue with source-specific
 start/commit boundaries and approved cloud connection, not an automatic deployment. The target remains
-local ASR and direct C# streamed text in the same protected UI. Azure identity/resource/geography approvals, actual model availability, and latency measurements remain future gates. Optional 36 depends on 27 and 33; conditional 37 depends on 27 and 30, neither silently becoming mandatory. (TODO\00_INDEX.todo:135-148, answer dependencies; TODO\27_AI_ANSWER_RESEARCH.todo:13-32, research-only scope; docs\AI-ANSWER-ARCHITECTURE.md:671-753, delivery and unresolved decisions.)</p>
+local ASR and direct C# streamed text in the same protected UI. Azure identity/resource/geography approvals, actual model availability, and latency measurements remain future gates. Optional 36 depends on 27 and 33; conditional 37 depends on 27 and 30, neither silently becoming mandatory. (TODO\00_INDEX.todo:137-150, answer dependencies; TODO\27_AI_ANSWER_RESEARCH.todo:13-32, research-only scope; docs\AI-ANSWER-ARCHITECTURE.md:671-753, delivery and unresolved decisions.)</p>
 <h2 id="ch-21-evidence-and-roadmap-worked-review-algorithm-promote-claims-not-enthusiasm">Worked review algorithm: promote claims, not enthusiasm</h2>
 <p>The following is explanatory pseudocode for reviewing evidence, not an implemented tool or a test executed here. Its checks derive from the exact-candidate and positive-control requirements. (docs\QUALIFICATION.md:79-107, procedure; TODO\14_PACKAGING_RELEASE.todo:22-30, candidate freeze.)</p>
 <pre><code class="language-python">def assess_support_claim(claim, evidence):
@@ -5756,16 +6114,16 @@ local ASR and direct C# streamed text in the same protected UI. Azure identity/r
         return &quot;INSUFFICIENT_EVIDENCE&quot;  # review result, not a matrix status
     return &quot;SCOPED_PASS_CANDIDATE&quot;      # still needs review and acceptance
 </code></pre>
-<p>For example, a claim that the <code>145231</code> package supports Teams desktop sharing cannot be promoted using an older cropped GDI result. Both artifact and capture scope differ. Likewise, an owner's rehearsal preference cannot replace the missing recipient record. Retain failed and unavailable cases; changing a binary or backend makes prior results historical rather than transferable. (docs\QUALIFICATION.md:24-26, version changes; docs\QUALIFICATION.md:166-168, exact artifact; docs\IMPLEMENTATION-STATUS.md:146-152, historical dual-source package.)</p>
+<p>For example, a claim that the <code>145231</code> package supports Teams desktop sharing cannot be promoted using an older cropped GDI result. Both artifact and capture scope differ. Likewise, an owner's rehearsal preference cannot replace the missing recipient record. Retain failed and unavailable cases; changing a binary or backend makes prior results historical rather than transferable. (docs\QUALIFICATION.md:24-26, version changes; docs\QUALIFICATION.md:166-168, exact artifact; docs\IMPLEMENTATION-STATUS.md:183-189, historical dual-source package.)</p>
 <h2 id="ch-21-evidence-and-roadmap-keeping-the-book-honest-as-the-project-changes">Keeping the book honest as the project changes</h2>
-<p>Reviewing the book exposed historical wording that no longer matched the implementation. The summary now describes Computer/Microphone/Both and labels its initial-preview evidence historical; workstream17 distinguishes the existing preview from unstarted final acceptance; Workstream13 follows the current C01-C19 scenario set. These corrections preserve the earlier journey without erasing implemented work or promoting a local package to a qualified release. (docs\IMPLEMENTATION-STATUS.md:220-229, corrected summary and historical heading; TODO\17_RELEASE_ACCEPTANCE.todo:31-37, final acceptance scope; TODO\14_PACKAGING_RELEASE.todo:45-57, local artifacts; TODO\13_COMPATIBILITY_QUALIFICATION.todo:18-21, current scenario list; docs\QUALIFICATION.md:127-137, added scenarios.)</p>
-<p><strong>Current documentation coordination:</strong> workstream <strong>38</strong> is <strong>DONE for the initial local edition</strong>. Its receipt records the generated HTML/PDF, reviewed illustrations and freshness result. Workflow <strong>06</strong>, <code>06_LIVING_DOCUMENTATION.todo</code>, is <strong>DONE as a procedure definition</strong>, with ongoing execution <strong>IN_PROGRESS</strong>: future feature changes still need matching book updates. This is documentation completion, not application release acceptance. The documentation update did not replace the current preview ZIP. (TODO\38_LIVING_DOCUMENTATION.todo:3-22, status and tasks; TODO\WORKFLOWS\06_LIVING_DOCUMENTATION.todo:3-11, definition/execution distinction; docs\IMPLEMENTATION-STATUS.md:286-292, documentation edition boundary.)</p>
-<p>The public journal now supplies the narrative counterpart to the operational ledger. Future behavior changes require corresponding chapter, citation, diagram, image, and journal maintenance. Mechanical freshness detects drift in recorded inputs, but cannot prove semantic correctness or discover every uncited feature; human source review remains necessary. This extends the evidence discipline instead of relaxing application qualification. (JOURNAL.md:8-16, journal scope; docs\DOCUMENTATION-MAINTENANCE.md:12-27, completion requirements; docs\DOCUMENTATION-MAINTENANCE.md:69-81, freshness limitations; TODO\00_INDEX.todo:193-201, documentation definition of done.)</p>
+<p>Reviewing the book exposed historical wording that no longer matched the implementation. The summary now describes Computer/Microphone/Both and labels its initial-preview evidence historical; workstream17 distinguishes the existing preview from unstarted final acceptance; Workstream13 follows the current C01-C19 scenario set. These corrections preserve the earlier journey without erasing implemented work or promoting a local package to a qualified release. (docs\IMPLEMENTATION-STATUS.md:257-266, corrected summary and historical heading; TODO\17_RELEASE_ACCEPTANCE.todo:31-37, final acceptance scope; TODO\14_PACKAGING_RELEASE.todo:45-57, local artifacts; TODO\13_COMPATIBILITY_QUALIFICATION.todo:18-21, current scenario list; docs\QUALIFICATION.md:127-137, added scenarios.)</p>
+<p><strong>Current documentation coordination:</strong> workstream <strong>38</strong> is <strong>DONE for the initial local edition</strong>. Its receipt records the generated HTML/PDF, reviewed illustrations and freshness result. Workflow <strong>06</strong>, <code>06_LIVING_DOCUMENTATION.todo</code>, is <strong>DONE as a procedure definition</strong>, with ongoing execution <strong>IN_PROGRESS</strong>: future feature changes still need matching book updates. This is documentation completion, not application release acceptance. The documentation update did not replace the current preview ZIP. (TODO\38_LIVING_DOCUMENTATION.todo:3-22, status and tasks; TODO\WORKFLOWS\06_LIVING_DOCUMENTATION.todo:3-11, definition/execution distinction; docs\IMPLEMENTATION-STATUS.md:323-329, documentation edition boundary.)</p>
+<p>The public journal now supplies the narrative counterpart to the operational ledger. Future behavior changes require corresponding chapter, citation, diagram, image, and journal maintenance. Mechanical freshness detects drift in recorded inputs, but cannot prove semantic correctness or discover every uncited feature; human source review remains necessary. This extends the evidence discipline instead of relaxing application qualification. (JOURNAL.md:8-16, journal scope; docs\DOCUMENTATION-MAINTENANCE.md:12-27, completion requirements; docs\DOCUMENTATION-MAINTENANCE.md:69-81, freshness limitations; TODO\00_INDEX.todo:195-203, documentation definition of done.)</p>
 <h2 id="ch-21-evidence-and-roadmap-exercises-and-references">Exercises and references</h2>
 <ol>
-<li>Classify the dual-source PCM result, owner cursor report, and Azure latency target. For each, write one supported claim and one prohibited inference. (docs\IMPLEMENTATION-STATUS.md:136-140; docs\CURSOR-AND-THEMES.md:40-54; docs\AI-ANSWER-EVALUATION.md:45-62.)</li>
+<li>Classify the dual-source PCM result, owner cursor report, and Azure latency target. For each, write one supported claim and one prohibited inference. (docs\IMPLEMENTATION-STATUS.md:173-177; docs\CURSOR-AND-THEMES.md:47-61; docs\AI-ANSWER-EVALUATION.md:45-62.)</li>
 <li>Given a rebuilt package with unchanged UI, identify which previous qualification claims must become historical and which observations remain useful diagnostics. (docs\QUALIFICATION.md:24-26, version semantics.)</li>
-<li>Trace why completing optional Docker or cloud-ASR work cannot close native release 17. (TODO\00_INDEX.todo:141-148, release dependencies.)</li>
+<li>Trace why completing optional Docker or cloud-ASR work cannot close native release 17. (TODO\00_INDEX.todo:143-150, release dependencies.)</li>
 </ol>
 <p>Continue with the <a href="../IMPLEMENTATION-STATUS.md">implementation evidence</a>, <a href="../QUALIFICATION.md">qualification matrix</a>, <a href="../../TODO/00_INDEX.todo">TODO index</a>, <a href="../../TODO/16_DEVELOPMENT_LEDGER.todo">ledger</a>, <a href="#ch-journal">public journal</a>, and <a href="../DOCUMENTATION-MAINTENANCE.md">maintenance contract</a>. The <a href="../SPEECH-BENCHMARK.md">benchmark</a> and <a href="../AI-ANSWER-ARCHITECTURE.md">answer architecture</a> provide detailed measured-versus-planned boundaries.</p>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section>
@@ -5798,7 +6156,7 @@ local ASR and direct C# streamed text in the same protected UI. Azure identity/r
 <tr>
 <td>Application/window XAML and theme brushes</td>
 <td style="text-align:right">3</td>
-<td style="text-align:right">941</td>
+<td style="text-align:right">946</td>
 <td style="text-align:right">38</td>
 </tr>
 <tr>
@@ -5822,8 +6180,8 @@ local ASR and direct C# streamed text in the same protected UI. Azure identity/r
 <tr>
 <td>Indicator, diagnostics and synthetic UI assertions</td>
 <td style="text-align:right">8</td>
-<td style="text-align:right">1,161</td>
-<td style="text-align:right">44</td>
+<td style="text-align:right">1,173</td>
+<td style="text-align:right">45</td>
 </tr>
 <tr>
 <td>Audio device-card layout and paging</td>
@@ -5840,8 +6198,8 @@ local ASR and direct C# streamed text in the same protected UI. Azure identity/r
 <tr>
 <td><strong>Total</strong></td>
 <td style="text-align:right"><strong>27</strong></td>
-<td style="text-align:right"><strong>5,295</strong></td>
-<td style="text-align:right"><strong>201</strong></td>
+<td style="text-align:right"><strong>5,312</strong></td>
+<td style="text-align:right"><strong>202</strong></td>
 </tr>
 </tbody>
 </table>
@@ -8044,8 +8402,8 @@ opted-in history. Clear is not deletion of already-written logs or remote copies
 <p><strong>Research date: 2026-10-09.</strong> This guide uses official public documentation and current source.
 The cover is implemented. It does <strong>not</strong> make the application universally undetectable.</p>
 <h2 id="ch-cover-and-privacy-use-the-cover">Use the cover</h2>
-<p>Click <strong>Cover</strong> in the top bar. The workspace is replaced by <strong>NOTEPAD IS READY</strong> and one
-<strong>Uncover</strong> button. Click that same button to restore the transcript, question, answer, notes
+<p>Click the <strong>book icon at the top left</strong>. The workspace is replaced by <strong>NOTEPAD IS READY</strong> and
+that same icon-only toggle, without Cover/Uncover text captions. Click it again to restore the transcript, question, answer, notes
 and setup state. The existing protected HWND is reused; the app remains Phantom Fudge, not a
 process pretending to be Windows Notepad.</p>
 <p><strong>Transcription and answers keep running behind the cover</strong>, as explicitly requested.
@@ -8070,7 +8428,7 @@ sequenceDiagram
     User-&gt;&gt;Window: Cover
     Window-&gt;&gt;Workspace: Disable and detach
     Window-&gt;&gt;Window: Refresh automation children
-    Window--&gt;&gt;User: NOTEPAD IS READY and Uncover
+    Window--&gt;&gt;User: NOTEPAD IS READY and book icon
     Work-&gt;&gt;Workspace: Continue existing updates
     User-&gt;&gt;Window: Uncover
     Window-&gt;&gt;Workspace: Reattach and enable
@@ -8160,7 +8518,7 @@ sequenceDiagram
     participant Window
     participant Cached as Retained question peer
     Fixture-&gt;&gt;Window: Cover and refresh root traversal
-    Window--&gt;&gt;Fixture: Cover and Uncover only
+    Window--&gt;&gt;Fixture: Message and icon toggle only
     Fixture-&gt;&gt;Cached: Read IValueProvider.Value
     Cached--&gt;&gt;Fixture: Retained synthetic question
     Note over Fixture,Cached: Data stays in memory for ongoing work
@@ -8318,7 +8676,7 @@ implementation and release acceptance. That separation would become increasingly
 features arrived faster than real sharing environments could be qualified.</p>
 <p><strong>Public record:</strong> initial decisions and scope appear in <code>TODO/16_DEVELOPMENT_LEDGER.todo:75-85</code>;
 the convention's bounded survey and evidence semantics are in <code>docs/TODO-CONVENTIONS.md:1-73</code>.
-The current capture-claim limits are stated in <code>docs/OVERVIEW.md:38-56</code>.</p>
+The current capture-claim limits are stated in <code>docs/OVERVIEW.md:48-70</code>.</p>
 <h2 id="ch-journal-2026-10-08-00-32-onward-implementation-and-a-new-primary-signal">2026-10-08, 00:32 onward - Implementation, and a new primary signal</h2>
 <p>The owner authorized implementation and requested eventual Docker support. Live transcription of
 the <strong>computer's meeting playback</strong>, initially not the microphone, quickly became mandatory.
@@ -8339,7 +8697,7 @@ Subsequent sleep instructions ruled out further speaker playback, questions, upl
 system changes. Later testing therefore relied on generated PCM and isolated synthetic fixtures.
 No public release or push followed from creating a local ZIP.</p>
 <p><strong>Public record:</strong> the historical implementation/evidence table and approved playback boundary are
-in <code>docs/IMPLEMENTATION-STATUS.md:212-266</code>; the authorization and subsequent restrictions are preserved
+in <code>docs/IMPLEMENTATION-STATUS.md:249-303</code>; the authorization and subsequent restrictions are preserved
 in <code>TODO/16_DEVELOPMENT_LEDGER.todo:66-74</code>.</p>
 <h2 id="ch-journal-03-01-a-hidden-window-must-still-be-recoverable">03:01 - A hidden window must still be recoverable</h2>
 <p>The first operational question was simple: after clicking Hide, how does the presenter get the
@@ -8360,7 +8718,7 @@ The change removed those gates from Start, Present and reset paths.</p>
 protection setup and unsaved-content safeguards remained. Nor did it turn an external responsibility
 into recorded compatibility evidence. The lasting requirement is <strong>not to reintroduce permission or
 rehearsal prompts</strong> under a different name during future feature work.</p>
-<p><strong>Public record:</strong> <code>docs/IMPLEMENTATION-STATUS.md:205-210</code> records the change and local artifact;
+<p><strong>Public record:</strong> <code>docs/IMPLEMENTATION-STATUS.md:242-247</code> records the change and local artifact;
 <code>docs/DEVELOPMENT-WORKFLOW.md:95-102</code> preserves the durable behavioral requirement.</p>
 <h2 id="ch-journal-03-12-seeing-through-the-surface-without-washing-out-the-text">03:12 - Seeing through the surface without washing out the text</h2>
 <p>The next request was practical: the opaque window blocked the material behind it. Instead of
@@ -8374,7 +8732,7 @@ machine and those samples. It did not qualify four meeting products or prove an 
 first-frame guarantee.</p>
 <p>The lesson was to treat rendering changes as changes to the capture-evidence boundary, not just
 visual polish.</p>
-<p><strong>Public record:</strong> <code>docs/IMPLEMENTATION-STATUS.md:194-203</code> identifies the layered result and limitations;
+<p><strong>Public record:</strong> <code>docs/IMPLEMENTATION-STATUS.md:231-240</code> identifies the layered result and limitations;
 the implementation is explored in <a href="#ch-05-desktop-ui-and-themes">chapter05</a>.</p>
 <h2 id="ch-journal-03-25-correcting-docker-s-place-in-the-architecture">03:25 - Correcting Docker's place in the architecture</h2>
 <p>The owner clarified an important mismatch: Docker should come at the <strong>absolute end</strong>, as a future
@@ -8389,7 +8747,7 @@ setup remains explicit, and an idle running service still does not capture audio
 was moved after native release17. Runtime22 became the required operational path. This distinction
 prevented infrastructure work from blocking the thing the owner actually wanted to run.</p>
 <p><strong>Public record:</strong> native operation and the Docker correction are recorded in
-<code>docs/IMPLEMENTATION-STATUS.md:173-192</code>; the current dependency graph is in <code>TODO/00_INDEX.todo</code>.</p>
+<code>docs/IMPLEMENTATION-STATUS.md:210-229</code>; the current dependency graph is in <code>TODO/00_INDEX.todo</code>.</p>
 <h2 id="ch-journal-the-muted-laptop-experiment-compare-engines-not-language-stereotypes">The muted-laptop experiment - Compare engines, not language stereotypes</h2>
 <p>The owner also questioned whether C# transcription would be good enough and asked for a real
 comparison, while planning to mute the laptop. A mute-independent experiment sent the same
@@ -8433,7 +8791,7 @@ The historical receipt must be read with its exact harness/model provenance; the
 that today's harness hash differs from the historical receipt rather than rewriting that receipt.</p>
 <p><strong>Public record:</strong> <a href="../SPEECH-BENCHMARK.md">the full benchmark report</a> and
 <a href="#ch-12-performance-and-benchmarks">chapter12</a>. Summary measurements and their limit
-are recorded in <code>docs/IMPLEMENTATION-STATUS.md:179-182</code>.</p>
+are recorded in <code>docs/IMPLEMENTATION-STATUS.md:216-219</code>.</p>
 <h2 id="ch-journal-11-31-transcription-moves-to-the-foreground">11:31 - Transcription moves to the foreground</h2>
 <p>The owner reported two interaction cues: the recipient-side cursor could disappear when clicking
 the app, and the local pointer became an I-beam over text. They also asked for transcription to
@@ -8451,7 +8809,7 @@ generic local notices. The already-running owner app was preserved while new can
 packaged separately.</p>
 <p><strong>Still unresolved:</strong> recipient-side cursor disappearance needs qualification in the actual
 recorder/sharing mode. No implementation change justified the requested absolute invisibility claim.</p>
-<p><strong>Public record:</strong> <code>docs/IMPLEMENTATION-STATUS.md:154-171</code>, <a href="../CURSOR-AND-THEMES.md">cursor/theme notes</a>
+<p><strong>Public record:</strong> <code>docs/IMPLEMENTATION-STATUS.md:191-208</code>, <a href="../CURSOR-AND-THEMES.md">cursor/theme notes</a>
 and workstreams24/25.</p>
 <h2 id="ch-journal-13-47-14-01-small-ui-questions-clarify-the-evidence">13:47-14:01 - Small UI questions clarify the evidence</h2>
 <p>The owner asked where the theme toggle was and later confirmed that themes worked. They also
@@ -8482,7 +8840,7 @@ changes until final draining and cleanup settle.</p>
 manager-upgrade guards, plus real generated dual PCM and C#-to-Python v2 recognition. No actual
 microphone/render endpoint or chat content was opened for this work. Hardware permissions, echo,
 OS microphone indicators and recipient behavior remain to be qualified.</p>
-<p><strong>Public record:</strong> <code>docs/IMPLEMENTATION-STATUS.md:130-152</code>,
+<p><strong>Public record:</strong> <code>docs/IMPLEMENTATION-STATUS.md:167-189</code>,
 <code>docs/DUAL-SOURCE-AUDIO.md:1-30</code> and <a href="#ch-07-dual-input-capture">chapters07-11</a>.</p>
 <h2 id="ch-journal-15-05-an-answer-feature-is-researched-before-it-is-built">15:05 - An answer feature is researched before it is built</h2>
 <p>The next idea was to turn a chosen transcript question into a prompt and display the model's
@@ -8503,7 +8861,7 @@ and configuration. Likewise, <code>store:false</code> is not a universal zero-re
 <p>Four design documents, workstreams27-37 and workflows04/05 capture the plan. Only research27 is
 DONE. There is no implemented Ask button, composer, Azure client, source commit or answer pane.
 No Azure account/resource discovery, sign-in, inference or upload was performed.</p>
-<p><strong>Public record:</strong> <code>docs/IMPLEMENTATION-STATUS.md:124-128</code>,
+<p><strong>Public record:</strong> <code>docs/IMPLEMENTATION-STATUS.md:161-165</code>,
 <code>docs/AI-ANSWER-ARCHITECTURE.md:82-188</code> and the four linked <a href="../README.md">AI design documents</a>.</p>
 <h2 id="ch-journal-16-11-turn-the-implementation-into-a-teachable-engineering-record">16:11 - Turn the implementation into a teachable engineering record</h2>
 <p>The owner requested documentation detailed enough to become a book, using another project's
@@ -8531,7 +8889,7 @@ layout was enlarged and sequence labels wrapped; narrow-screen review exposed lo
 so the reader gained responsive wrapping. Those corrections improved the actual artifacts rather
 than treating a successful export as sufficient. Nothing was uploaded or published.</p>
 <p>The documentation-only fixture does not replace the most recent user preview ZIP. That preview
-remains the145231 dual-source bundle identified in <code>docs/IMPLEMENTATION-STATUS.md:146-152</code>.
+remains the145231 dual-source bundle identified in <code>docs/IMPLEMENTATION-STATUS.md:183-189</code>.
 The book does not implement Azure Ask, qualify remote cursors, or move Docker earlier.</p>
 <figure class="diagram"><img src="assets/diagrams/journal-02.svg" alt="Development Journal: The Journey of Phantom Fudge diagram 2"><figcaption>Development Journal: The Journey of Phantom Fudge - diagram 2. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
 config: {&quot;theme&quot;:&quot;base&quot;,&quot;themeVariables&quot;:{&quot;primaryColor&quot;:&quot;#2d333b&quot;,&quot;primaryBorderColor&quot;:&quot;#6d5dfc&quot;,&quot;primaryTextColor&quot;:&quot;#e6edf3&quot;,&quot;lineColor&quot;:&quot;#8b949e&quot;,&quot;textColor&quot;:&quot;#e6edf3&quot;,&quot;clusterBkg&quot;:&quot;#161b22&quot;,&quot;clusterBorder&quot;:&quot;#30363d&quot;,&quot;actorBkg&quot;:&quot;#2d333b&quot;,&quot;actorBorder&quot;:&quot;#6d5dfc&quot;,&quot;actorTextColor&quot;:&quot;#e6edf3&quot;,&quot;signalColor&quot;:&quot;#8b949e&quot;,&quot;signalTextColor&quot;:&quot;#e6edf3&quot;}}
@@ -8941,4 +9299,29 @@ are labelled as separate synthetic examples, not one real meeting or continuous 
 Cover's continuing-work behavior and the lack of universal invisibility remain explicit.</p>
 <p>Only documentation and its image allowlist changed. No app, capture endpoint, service, model,
 authentication flow, upload, commit or push was run for this update.</p>
+<h2 id="ch-journal-14-36-consolidate-the-complete-current-experience">14:36 - Consolidate the complete current experience</h2>
+<p>The owner requested all documentation brought up to date with the recent features and images.
+Individual milestones were documented, but the overview and implementation-status entry points
+still emphasized older snapshots. A new illustrated current-workflow guide now provides one
+continuous reading path through device cards, recording state, multi-line selection, optional
+clarification, answers, typography/actions, the cover and operational recovery.</p>
+<p>The guide reuses current synthetic imagery and explicitly distinguishes Cover from Hide, Stop,
+Cancel answer, global Edit and closing Q/A. It retains privacy, retention, source-only delivery
+and bounded benchmark caveats. Overview, setup, product, appearance, status and handbook navigation
+are reconciled; older package/test milestones remain historical instead of being rewritten as
+current-runtime evidence. No runtime, model, audio or service work is required for this documentation.</p>
+<p>The completed guide includes seven current UI images and two source-grounded diagrams. It is now
+near the front of the HTML/PDF handbook. Seven affected guides' local links and image references
+were reviewed, as were the workflow's key rendered sections and PDF pages. The overview's updated
+diagrams also render. Runtime, service, provider and tooling source hashes remained unchanged;
+current edition counts and artifacts remain authoritative in the manifests.</p>
+<h2 id="ch-journal-16-09-make-the-mask-control-icon-only">16:09 - Make the mask control icon-only</h2>
+<p>The owner requested a small icon at the top left instead of visible Cover/Uncover text. The
+always-mounted toggle now uses an original vector book glyph in a32x32target, with title spacing
+adjusted around it. Meaningful accessibility names remain; a thicker border indicates masked state.
+The same icon restores the workspace while ongoing transcription/answer behavior remains unchanged.</p>
+<p>The synthetic fixture checks the actual icon content and top-left client hit region in both states.
+The separate caption-drag probe moved to an unobstructed header point. Images, source explanations
+and current user guides follow the change. No cursor-freezing strategy or answer-font slider was
+implemented here; those remain pending the separate discussion/selection.</p>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section></main></body></html>

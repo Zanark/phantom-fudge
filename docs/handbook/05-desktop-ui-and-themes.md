@@ -10,7 +10,7 @@ outline: deep
 
 The most important UI decision is not a color. It is which activity receives space and focus by default. Phantom Fudge starts with passive transcript reading, Q/A expanded and Notes collapsed. Question typing has its own deliberate transition: click a transcript row or choose **Type / edit**, rather than entering global Notes Edit. This separates “I need to see the meeting” from “I intend to compose a question.” The initial fields and XAML establish the reading surface. (src\PhantomFudge.App\MainWindow.xaml.cs:33-35,50-95; src\PhantomFudge.App\MainWindow.xaml:235-581.) Direct selection enters question editing through `TranscriptRows_SelectionChanged`; the default Q/A expansion is in [`InitializeQuestionView`](../../src/PhantomFudge.App/MainWindow.Questions.cs). (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:93-141.)
 
-The UI is native C#/WPF. WASAPI capture begins only after explicit Start, for Computer, Mic, or Both. Both is the initial selection, not an instruction to record immediately. Labels describe input sources, not identified speakers. The planned Azure Ask experience is not an existing control or hidden mode. (src\PhantomFudge.App\MainWindow.xaml.cs:35,637-685; src\PhantomFudge.Core\AudioSource.cs:3-30; docs\IMPLEMENTATION-STATUS.md:124-140)
+The UI is native C#/WPF. WASAPI capture begins only after explicit Start, for Computer, Mic, or Both. Both is the initial selection, not an instruction to record immediately. Labels describe input sources, not identified speakers. The planned Azure Ask experience is not an existing control or hidden mode. (src\PhantomFudge.App\MainWindow.xaml.cs:35,637-685; src\PhantomFudge.Core\AudioSource.cs:3-30; docs\IMPLEMENTATION-STATUS.md:161-177)
 
 **Newcomer path:** read the visual-tree map, then the worked theme change. **Principal-engineer path:** inspect resource replacement, alpha compositing, passive selection, and the limits of the contrast tests. [Chapter 04](04-windows-capture-and-cursors.md) explains the native capture and cursor policy; [Chapter 06](06-notes-transcripts-and-storage.md) explains the content retained beneath the controls.
 
@@ -25,14 +25,14 @@ It is not a report of a live recording. (src\PhantomFudge.App\MainWindow.xaml.cs
 
 ## Architecture: one visual tree, explicit priorities
 
-**Cover** swaps the attached workspace for **NOTEPAD IS READY** and one **Uncover** action in the
+The **top-left book icon** swaps the workspace for **NOTEPAD IS READY** and the same icon-only return action in the
 same HWND. The disabled workspace is detached, not painted over; its controls/models still receive
 transcript and answer updates. The user explicitly requested continuing work, so this path never
 calls the normal Hide/Stop/Cancel lifecycle. Uncover restores layout and content. File/confirmation
 operations block covering so their required decisions cannot disappear.
 ([Cover implementation](../../src/PhantomFudge.App/MainWindow.Cover.cs).)
 
-![Synthetic notepad cover with a single Uncover action](assets/screenshots/notepad-cover.png)
+![Synthetic notepad mask with the icon-only toggle at the top left](assets/screenshots/notepad-cover.png)
 
 Fresh in-process automation traversal sees the cover after the window peer's supported children-cache
 refresh, but the fixture also demonstrates that an already-retained value provider can still read
@@ -192,7 +192,7 @@ The following are selected roles, not the entire palette:
 | Accent | `#00A591` | `#006F63` | `#202B30` |
 | Selection | `#003748` | `#C7DDD7` | `#D7E1DC` |
 
-`ThemePalette.For` defines these values along with muted, heading, border, hover, selected text, action text, input, warning, and error roles. Plain B/W is a neutral interface name, not literally only two RGB values. The white/black reading role is the owner's October 9 override, not an unchanged canonical color. The maintained provenance document records the canonical palette revision and composites; the WPF mapping is original to this app. (src\PhantomFudge.Core\ThemePalette.cs:5-25; docs\CURSOR-AND-THEMES.md:80-105)
+`ThemePalette.For` defines these values along with muted, heading, border, hover, selected text, action text, input, warning, and error roles. Plain B/W is a neutral interface name, not literally only two RGB values. The white/black reading role is the owner's October 9 override, not an unchanged canonical color. The maintained provenance document records the canonical palette revision and composites; the WPF mapping is original to this app. (src\PhantomFudge.Core\ThemePalette.cs:5-25; docs\CURSOR-AND-THEMES.md:93-118)
 
 ![Harbor Daylight theme](assets/screenshots/theme-HarborDaylight.png)
 
@@ -249,7 +249,7 @@ At 10%, 55%, and 100%, the byte alpha is respectively 26, 140, and 255. `MainWin
 
 The slider exposes 10–100%, defaults to 55%, and snaps to five-percent ticks. It remains available in Present. The implementation does not set `Window.Opacity`; the diagnostic explicitly checks window/editor/transcript opacity equals one and text brush alpha equals 255. (src\PhantomFudge.App\MainWindow.xaml:156-164; src\PhantomFudge.App\MainWindow.xaml.cs:1072-1076,1103-1106)
 
-Why stop at 10% rather than zero? The maintained design calls out nonzero background alpha as avoiding entirely transparent mouse holes while keeping the surface usable. Why not promise readable text over every background? Composited contrast depends on the underlying desktop: approximately `alpha × tint + (1 − alpha) × background`. Solid glyphs alone cannot prevent visual interference from a busy slide. Increasing opacity or moving the window is a usability choice, not a capture-policy change. (docs\ARCHITECTURE.md:206-210; docs\CURSOR-AND-THEMES.md:68-73)
+Why stop at 10% rather than zero? The maintained design calls out nonzero background alpha as avoiding entirely transparent mouse holes while keeping the surface usable. Why not promise readable text over every background? Composited contrast depends on the underlying desktop: approximately `alpha × tint + (1 − alpha) × background`. Solid glyphs alone cannot prevent visual interference from a busy slide. Increasing opacity or moving the window is a usability choice, not a capture-policy change. (docs\ARCHITECTURE.md:206-210; docs\CURSOR-AND-THEMES.md:81-86)
 
 ![Background at ten percent](assets/screenshots/background-10.png)
 
@@ -421,7 +421,7 @@ capture exclusion. The real synthetic Agency request is separately recorded in t
 **Answer:** DeepSeaFoam; `NextThemed` has only one special case, DeepSeaFoam → Harbor Daylight.
 
 **Review question:** What still needs people and hardware?  
-**Answer:** Readability over real backgrounds, accessibility and mixed-DPI behavior, presentation-focus acceptance, and recipient-side content/cursor qualification. Local tests do not supply owner approval. (src\PhantomFudge.App\MainWindow.xaml.cs:1072-1076; src\PhantomFudge.Core\ThemePalette.cs:28-29; docs\IMPLEMENTATION-STATUS.md:268-276)
+**Answer:** Readability over real backgrounds, accessibility and mixed-DPI behavior, presentation-focus acceptance, and recipient-side content/cursor qualification. Local tests do not supply owner approval. (src\PhantomFudge.App\MainWindow.xaml.cs:1072-1076; src\PhantomFudge.Core\ThemePalette.cs:28-29; docs\IMPLEMENTATION-STATUS.md:305-313)
 
 ## References and maintenance checkpoints
 
@@ -431,4 +431,4 @@ capture exclusion. The real synthetic Agency request is separately recorded in t
 - [Palette values](../../src/PhantomFudge.Core/ThemePalette.cs), [brush adapter](../../src/PhantomFudge.App/ThemeBrushes.cs), and [contrast tests](../../tests/PhantomFudge.Core.Tests/ThemePaletteTests.cs).
 - [Source labels](../../src/PhantomFudge.Core/AudioSource.cs) and [palette provenance](../CURSOR-AND-THEMES.md).
 
-Theme and opacity choices are session-only. Persisted preferences and broader accessibility acceptance must not be inferred from the current controls. Any future popup, template, or rendering change should revisit both local usability assertions and the capture qualification matrix. (docs\CURSOR-AND-THEMES.md:64-73; docs\QUALIFICATION.md:113-130)
+Theme and opacity choices are session-only. Persisted preferences and broader accessibility acceptance must not be inferred from the current controls. Any future popup, template, or rendering change should revisit both local usability assertions and the capture qualification matrix. (docs\CURSOR-AND-THEMES.md:77-86; docs\QUALIFICATION.md:113-130)

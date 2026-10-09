@@ -1,11 +1,12 @@
 # Phantom Fudge documentation
 
-**New here?** Browse the [visual front page](../README.md), read the [product overview](OVERVIEW.md),
-or go straight to [setup](PREVIEW-GUIDE.md). The [Engineering Handbook](handbook/README.md) is the
+**New here?** Follow the [illustrated current workflow](CURRENT-WORKFLOW.md), browse the
+[visual front page](../README.md), or go straight to [setup](PREVIEW-GUIDE.md). The [Engineering Handbook](handbook/README.md) is the
 deep, source-linked reference; the [development journal](../JOURNAL.md) tells the journey.
 
 | Need | Read |
 | --- | --- |
+| See all current features and images in one walkthrough | [Illustrated workflow, controls and state transitions](CURRENT-WORKFLOW.md) |
 | Understand the product, stack and boundaries | [Product overview](OVERVIEW.md), [product contract](PRODUCT.md) |
 | Read the illustrated book | [Offline HTML](handbook/Phantom-Fudge-Engineering-Handbook.html) or [printable PDF](handbook/Phantom-Fudge-Engineering-Handbook.pdf) |
 | Understand important statements in every first-party file | [Searchable source atlas](source-atlas/index.html), [annotation PDF](source-atlas/Phantom-Fudge-Source-Atlas.pdf), [coverage ledger](source-atlas/coverage.json) |

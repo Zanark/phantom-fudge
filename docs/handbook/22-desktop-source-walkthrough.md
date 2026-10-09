@@ -16,14 +16,14 @@ This chapter follows the frozen desktop source. The [source atlas](../source-atl
 | --- | ---: | ---: | ---: |
 | Startup, failure notice, project declaration | 3 | 155 | 10 |
 | Four native adapters | 4 | 252 | 13 |
-| Application/window XAML and theme brushes | 3 | 941 | 38 |
+| Application/window XAML and theme brushes | 3 | 946 | 38 |
 | Main window coordinator and layout | 2 | 1,411 | 46 |
 | Questions, direct selection, clarification | 3 | 669 | 23 |
 | Answers and provider lifetime | 2 | 468 | 17 |
-| Indicator, diagnostics and synthetic UI assertions | 8 | 1,161 | 44 |
+| Indicator, diagnostics and synthetic UI assertions | 8 | 1,173 | 45 |
 | Audio device-card layout and paging | 1 | 160 | 6 |
 | Visual cover lifecycle | 1 | 78 | 4 |
-| **Total** | **27** | **5,295** | **201** |
+| **Total** | **27** | **5,312** | **202** |
 
 The project declares a Windows .NET 10 WPF executable, a Core reference and NAudio 2.2.1; that declaration is not evidence of a build or device qualification. Selection/clarification increments 44/45 are source-only, and the historical `045022` ZIP excludes them. Direct Azure remains future work and Docker remains optional/last, not prerequisites of these handlers. (src/PhantomFudge.App/PhantomFudge.App.csproj:1) (TODO/00_INDEX.todo:39)
 

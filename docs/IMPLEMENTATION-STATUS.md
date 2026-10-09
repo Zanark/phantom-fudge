@@ -2,7 +2,44 @@
 
 **Local development preview, not a qualified/public release.**
 
-## October9 10:33: optional question interpretation
+## Current source summary
+
+Start with the [illustrated current workflow](CURRENT-WORKFLOW.md). It includes the maintained
+images and the exact distinction between selecting, recording, sending, covering and stopping.
+The dated sections below preserve earlier evidence rather than pretending old packages contain
+newer features.
+
+| Current feature | Source behavior and boundary | Guide |
+| --- | --- | --- |
+| Audio device cards | No list scrollbars; explicit overflow pages retain selected endpoint identity | [Setup](CURRENT-WORKFLOW.md#1-choose-audio-device-cards) |
+| Red recording dot | Follows active transcription, not startup or input-mode selection; no audio-file save implied | [Capture state](CURRENT-WORKFLOW.md#2-start-transcription-and-watch-the-red-dot) |
+| Multi-line question selection | Whole Mic/Computer segments, raw text in display order, no automatic Ask | [Local questions](LOCAL-QUESTIONS.md) |
+| Clarify first | Off by default; separate original/reply, explicit correction or Yes, bounded history | [Clarification](QUESTION-CLARIFICATION.md) |
+| Ask and Clear | Large accent Ask, red-bordered Clear immediately after it; existing guards retained | [Current controls](CURRENT-WORKFLOW.md#components-know-the-controls-before-sending) |
+| Reading sizes | Final transcript15; partial13.5/10.5; answer10/9; question18, in WPF units | [Typography](CURRENT-WORKFLOW.md#current-sizes-themes-and-visible-status) |
+| Cover / Uncover | NOTEPAD IS READY; already-started transcription/answers continue on the same HWND | [Cover/privacy](COVER-AND-PRIVACY.md) |
+| Privacy requests | Existing capture affinity/tool-window plus accepted Peek request; cached peer still reads retained text | [Feasibility matrix](COVER-AND-PRIVACY.md#feasible-measures-in-practical-order) |
+| Diagnostics | Metadata by default; conversation bodies only through explicit Text opt-in | [Local diagnostics](DIAGNOSTICS.md) |
+
+**Delivery is current source**, through `scripts\Run-PhantomFudge.ps1`. Save/copy required text and
+close an older instance with X before loading new code. The immutable045022ZIP predates the later
+selection/clarification/action/font/card/cover changes; it is not a package of the current workspace.
+No new ZIP, signed release or public publication is claimed.
+
+**Current evidence:** the final140313synthetic UI fixture covers the current combined interface,
+including15cover assertions, source selection, cards, font/layout/action, clarification and alpha
+guards. It uses fake provider output and synthetic transcript/device data, not real recording.
+Peek setter acceptance and affinity readback17 are local API observations. External UIA clients,
+recipient captures, actual microphone quality and broad latency distributions remain unqualified.
+Earlier provider/speech benchmarks retain their original scope and failures; they were not rerun
+for documentation.
+
+The [20-image WPF manifest](handbook/assets/screenshots/manifest.json),
+[10-image derivative manifest](assets/readme/manifest.json), [source-atlas ledger](source-atlas/coverage.json)
+and [handbook manifest](handbook/manifest.json) carry current provenance. Images are separate
+synthetic examples, not a continuous meeting or capture-exclusion proof.
+
+## Historical October9 10:33: optional question interpretation
 
 Current source adds **Clarify first**, off on launch. Interpret the chosen question, review the
 model's proposed meaning, then explicitly send Yes or a correction. The original draft is retained
@@ -16,7 +53,7 @@ Only fake providers/transports and synthetic content were used. No live-model wo
 claim is made. The full illustrated handbook has been rebuilt and reviewed for this source handoff.
 No new ZIP is planned:045022 predates both clarification and direct multi-line selection.
 
-## October9 10:07: source-only multi-line transcript selection
+## Historical October9 10:07: source-only multi-line transcript selection
 
 The owner requested direct Mic/Computer transcript clicks, then explicitly added multiple lines.
 Current source implements whole-segment toggles without Ctrl, displayed-history-order composition,

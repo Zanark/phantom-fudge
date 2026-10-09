@@ -15,7 +15,7 @@ description: "A bounded threat and evidence model for local audio, window exclus
 "Private" can mean that notes are absent from a recipient's frames, audio stays local, a token
 is not logged, a file is encrypted, or a process is not listed. Those are different properties.
 The current product explicitly does not promise process invisibility or a security/DRM boundary
-(`docs\PRODUCT.md:179-195`).
+(`docs\PRODUCT.md:184-200`).
 
 The first useful threat-model step is therefore to state what is controlled. The app owns
 its HWND and can request display affinity. It owns the selected capture objects and can require
@@ -66,7 +66,7 @@ system privacy setting (`src\PhantomFudge.App\Native\WindowProtection.cs:19-48`)
 The cursor policy chooses the standard Arrow for the app, while the default Present mode avoids
 unnecessary activation. The owner still reported a recipient-side disappearing pointer, and
 that exact sharing configuration remains unqualified. Local shape/foreground observations
-are useful but not substitutes for recipient frames (`docs\CURSOR-AND-THEMES.md:1-62`,
+are useful but not substitutes for recipient frames (`docs\CURSOR-AND-THEMES.md:1-69`,
 `src\PhantomFudge.App\Native\CursorPolicy.cs:1-25`).
 
 Automatic protection failures should not reveal the application through a new unprotected
@@ -178,7 +178,7 @@ bounded measured results, not evidence that an Azure deployment or universal fiv
 
 ## References
 
-- `docs\PRODUCT.md:179-195` — privacy scope.
+- `docs\PRODUCT.md:184-200` — privacy scope.
 - `src\PhantomFudge.App\Native\WindowProtection.cs:19-48` — owned-window policy.
 - `src\PhantomFudge.App\Native\CursorPolicy.cs:1-25` — standard cursor behavior.
 - `src\PhantomFudge.App\LocalFailureNotice.cs:1-30` — generic local error notice.

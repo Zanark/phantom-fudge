@@ -10,8 +10,8 @@ The cover is implemented. It does **not** make the application universally undet
 
 ## Use the cover
 
-Click **Cover** in the top bar. The workspace is replaced by **NOTEPAD IS READY** and one
-**Uncover** button. Click that same button to restore the transcript, question, answer, notes
+Click the **book icon at the top left**. The workspace is replaced by **NOTEPAD IS READY** and
+that same icon-only toggle, without Cover/Uncover text captions. Click it again to restore the transcript, question, answer, notes
 and setup state. The existing protected HWND is reused; the app remains Phantom Fudge, not a
 process pretending to be Windows Notepad.
 
@@ -41,7 +41,7 @@ sequenceDiagram
     User->>Window: Cover
     Window->>Workspace: Disable and detach
     Window->>Window: Refresh automation children
-    Window-->>User: NOTEPAD IS READY and Uncover
+    Window-->>User: NOTEPAD IS READY and book icon
     Work->>Workspace: Continue existing updates
     User->>Window: Uncover
     Window->>Workspace: Reattach and enable
@@ -106,7 +106,7 @@ sequenceDiagram
     participant Window
     participant Cached as Retained question peer
     Fixture->>Window: Cover and refresh root traversal
-    Window-->>Fixture: Cover and Uncover only
+    Window-->>Fixture: Message and icon toggle only
     Fixture->>Cached: Read IValueProvider.Value
     Cached-->>Fixture: Retained synthetic question
     Note over Fixture,Cached: Data stays in memory for ongoing work

@@ -12,13 +12,18 @@ description: "How to read the engineering handbook without confusing implementat
 
 ## Overview: what this book is for
 
+**Use the current interface first:** the [illustrated workflow](../CURRENT-WORKFLOW.md) brings together
+device cards, recording status, multi-line questions, optional clarification, current action/font
+choices and the continuing-work cover. Older dated evidence elsewhere in the book remains historical;
+it does not redefine the controls in the current source.
+
 The original problem sounded like a small notepad: show private speaker notes while presenting.
 That problem expanded into a local transcription-first interface, selectable Computer/Mic/Both
 inputs, and a researched proposal for explicitly sending a question to an Azure model. The
 important engineering work is not drawing a rectangle. It is keeping each promise narrow enough
 to implement and each state transition strong enough to preserve data. The current product
 contract records those distinct requirements rather than collapsing them into a claim of
-universal invisibility (`docs\PRODUCT.md:6-33`).
+universal invisibility (`docs\PRODUCT.md:6-37`).
 
 This handbook is intended to support three activities. A new contributor should be able to
 run and navigate the application without guessing. A senior engineer should be able to review
@@ -164,8 +169,8 @@ If any pair sounds equivalent, revisit the relevant boundary before changing the
 
 ## References
 
-- `docs\OVERVIEW.md:8-56` — current product and qualification summary, moved from the visual front page.
-- `docs\PRODUCT.md:6-33` — requirement and impossibility boundary.
+- `docs\OVERVIEW.md:8-70` — current product and qualification summary, moved from the visual front page.
+- `docs\PRODUCT.md:6-37` — requirement and impossibility boundary.
 - `AGENTS.md:14-43` — engineering distinctions and privacy rules.
 - `src\PhantomFudge.App\App.xaml.cs:13-97` — real startup paths.
 - `src\PhantomFudge.Core\AudioSource.cs:3-30` — source identity.
