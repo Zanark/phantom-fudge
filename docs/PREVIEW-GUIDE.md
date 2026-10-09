@@ -4,11 +4,11 @@ This is an **unqualified Windows 11 x64 preview**, not a certified private meeti
 Rehearse with synthetic text and a separate recipient before using sensitive notes.
 The app remains visible to normal OS/process/accessibility inspection.
 
-For the planned **v0.2.0-preview.1 installer**, use [Install, update and remove](INSTALLATION.md).
+For the published **v0.2.0-preview.1 installer**, use [Install, update and remove](INSTALLATION.md).
 That path bundles its own runtime and models and uses a native Start-menu launcher; it does not
-require the source-development tools below. Candidate2 built and lifecycle3 passed its bounded
-current-host checks; the clean committed release build and publication are **pending**. See
-[current evidence](IMPLEMENTATION-STATUS.md); this is not a clean-VM or downloadable-release claim.
+require the source-development tools below. The clean-source Setup, Portable ZIP, reference PDFs
+and checksums are published. See [current evidence](IMPLEMENTATION-STATUS.md) and
+[exact asset identities](release-0.2.0-preview.1.json); this is not clean-VM qualification.
 The repository/release remain private. Windows10, ARM, macOS and Linux are unsupported installer targets.
 Finish and close Setup before opening the app from Start; Setup never launches it. Setup and launcher
 status/error windows are ordinary visible UI, not capture-excluded: install and launch before sharing.

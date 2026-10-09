@@ -785,7 +785,7 @@ file version <code>0.2.0.1</code>. (tools/Installer/release.json:1-8)</p>
 <table>
 <thead>
 <tr>
-<th>Included by the planned installer</th>
+<th>Included by the installer</th>
 <th>Not installed or configured for you</th>
 </tr>
 </thead>
@@ -820,7 +820,7 @@ or evidence of capture exclusion. (scripts/Build-Installer.ps1:79-114)</p>
 <p>Once the release evidence confirms that assets are available:</p>
 <ol>
 <li>
-<p>Open the versioned release above while signed in with repository access. Download the planned
+<p>Open the versioned release above while signed in with repository access. Download
 <code>PhantomFudge-0.2.0-preview.1-win-x64-Setup.exe</code> and <code>SHA256SUMS.txt</code>.</p>
 </li>
 <li>
@@ -1075,7 +1075,7 @@ uncertain process ownership rather than force-killing the child.
 <h2 id="ch-installation-source-portable-and-licensing-boundaries">Source, portable and licensing boundaries</h2>
 <p>The existing <a href="../PREVIEW-GUIDE.md">source-development workflow</a> still uses its own SDK, PowerShell,
 Python environment and explicit model provisioning. The older timestamped ZIPs are historical
-and lack later UI features. A planned <code>win-x64-Portable.zip</code> from this new build is a different,
+and lack later UI features. The published <code>win-x64-Portable.zip</code> from this build is a different,
 self-contained payload: keep all its directories together and use <code>launcher\PhantomFudge.Launcher.exe</code>;
 it does not register a Windows Apps uninstall entry. Do not mix files from these workflows.
 (scripts/Build-Installer.ps1:30-44,105-108)
@@ -3672,10 +3672,10 @@ sequenceDiagram
 <p>“Something is listening on port 8765” is insufficient evidence that Phantom Fudge may reuse or stop it. The listener could belong to another checkout, lack the installed client's speech version, run the wrong recognition configuration, or be transcribing an active session. <code>manage.py</code> treats a local service as owned only after combining a workspace receipt, authenticated runtime response, expected service identity, management version, and matching instance UUID. It does not convert a discovered PID into permission to terminate a process. (<code>services\transcription\manage.py:94-165</code>, <code>read_record</code>, <code>owned_info</code>; <code>services\transcription\manage.py:186-200</code>, <code>stop_owned</code>.)</p>
 <p>The second boundary is <strong>ready service versus recording application</strong>. Initialization provisions dependencies and weights. Start makes an idle recognizer service available. The application still requires explicit Start before endpoint acquisition, and transport readiness precedes native capture. Keeping these operations distinct makes a launcher convenient without turning it into an automatic recorder. (<code>scripts\Initialize-Transcription.ps1:119-165</code>, Python setup; <code>scripts\Start-Transcription.ps1:8-15</code>, native start; <code>src\PhantomFudge.App\MainWindow.xaml.cs:652-700</code>, <code>Start_Click</code>; <code>src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:102-115</code>, <code>StartCoreAsync</code>.)</p>
 <h2 id="ch-10-native-service-lifecycle-installed-preview-a-different-entry-point-the-same-capture-boundary">Installed preview: a different entry point, the same capture boundary</h2>
-<p>The planned v0.2.0-preview.1 Windows11 x64 installer replaces end-user PowerShell/Python setup
-with a native Start-menu launcher and a bundled runtime/model payload. Candidate2 built and
-lifecycle3 passed bounded current-host checks; the clean committed release build and publication
-remain <strong>pending</strong>. Follow
+<p>The published v0.2.0-preview.1 Windows11 x64 installer replaces end-user PowerShell/Python setup
+with a native Start-menu launcher and a bundled runtime/model payload. The final clean-source
+payload passed the bounded current-host installer fixture; clean-VM and actual-device
+qualification remain open. Follow
 <a href="#ch-installation">Installation</a> for the short procedure and
 <a href="../IMPLEMENTATION-STATUS.md">implementation status</a> for evidence.
 (scripts/Build-Installer.ps1:30-44)
@@ -6101,9 +6101,9 @@ flowchart TB
     linkStyle default stroke:#8b949e
 </code></pre></details><p>The final gate is implemented by <code>StartCoreAsync</code>: native construction follows successful transport connection, not merely process launch. (<code>src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:102-115</code>, <code>StartCoreAsync</code>.)</p>
 <h2 id="ch-19-api-configuration-reference-installed-launcher-reference">Installed launcher reference</h2>
-<p>The planned Windows11 x64 installer has a native entry point, separate from the PowerShell
-source/legacy commands below. Candidate2/lifecycle3 passed bounded checks; the clean committed
-release build and publication remain <strong>pending</strong>. Use
+<p>The published Windows11 x64 installer has a native entry point, separate from the PowerShell
+source/legacy commands below. Versioned assets and their checksums identify the clean committed
+release build; broad machine/device qualification remains open. Use
 <a href="#ch-installation">Installation</a> for current availability and safe update/uninstall steps.</p>
 <table>
 <thead>
@@ -9000,8 +9000,8 @@ flowchart TD
 <h3 id="ch-27-operations-source-walkthrough-installer-workstream58-is-separate-from-the-legacy-zip">Installer workstream58 is separate from the legacy ZIP</h3>
 <p>The new <a href="#ch-installation">installation chapter</a> traces <code>Build-Installer.ps1</code>, the Inno recipe
 and native launcher. It targets an unsigned Windows11 x64 prerelease with bundled speech
-runtime/models, per-user installation and guarded update/uninstall. Candidate2 built and lifecycle3
-passed; a clean committed release build and publication remain <strong>pending</strong>. See
+runtime/models, per-user installation and guarded update/uninstall. The clean-source prerelease
+is published with exact asset identities and bounded installer evidence. See
 <a href="../IMPLEMENTATION-STATUS.md">current evidence</a>.
 Private repository access, retained external data and separate provider setup remain explicit.
 The self-contained publish/asset recipe is not a passing installer lifecycle receipt.
@@ -11217,4 +11217,20 @@ documentation-tool cases pass, including the new regression case.</p>
 <p>Existing citations were migrated once from the installer baseline: 120 ranges across 18 documents,
 with seven changed endpoints explicitly reviewed. This completes source/reference preparation;
 the clean committed asset build, immutable release tag and private publication are separate next steps.</p>
+<h2 id="ch-journal-2026-10-10-01-52-the-first-installer-prerelease-is-published">2026-10-10, 01:52 - The first installer prerelease is published</h2>
+<p><a href="https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1">v0.2.0-preview.1</a>
+is now published in the unchanged private repository. Setup and Portable were built from clean
+commit <code>e25c8d5624e5afd2f50cda80f964e2e32737fce1</code>. All five assets, including the 371-page
+handbook, 645-page source atlas and checksums, were downloaded and matched before publication.
+The <a href="../release-0.2.0-preview.1.json">release record</a> preserves exact identities.</p>
+<p>The final isolated installer lifecycle passed all 11 checks across 3,684 inventoried files;
+the Portable archive's 3,685 entries were independently hashed. The exact launcher passed ten
+self-checks and the desktop passed its UI groups and 38 keyboard checks serially. An earlier
+concurrent fixture returned <code>InvalidOperationException</code>; the unchanged artifact later passed,
+but the cause remains unestablished. Both outcomes are retained, not rewritten into a clean first run.</p>
+<p>Installation, repair/update and Windows Settings uninstall are delivered. Saved external notes,
+exports and per-user settings remain intact. Windows 11 x64, unsigned policy, separate optional
+answer-provider setup and capture limits remain explicit. No real audio, external model call or
+clean-VM qualification was added by publication. Release PDFs remain the immutable build-time
+edition; the maintained repository book includes this follow-up. Workstream58 is complete.</p>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section></main></body></html>

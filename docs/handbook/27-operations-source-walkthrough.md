@@ -88,8 +88,8 @@ The protocol probe stores only authorization presence, not its value, but record
 
 The new [installation chapter](../INSTALLATION.md) traces `Build-Installer.ps1`, the Inno recipe
 and native launcher. It targets an unsigned Windows11 x64 prerelease with bundled speech
-runtime/models, per-user installation and guarded update/uninstall. Candidate2 built and lifecycle3
-passed; a clean committed release build and publication remain **pending**. See
+runtime/models, per-user installation and guarded update/uninstall. The clean-source prerelease
+is published with exact asset identities and bounded installer evidence. See
 [current evidence](../IMPLEMENTATION-STATUS.md).
 Private repository access, retained external data and separate provider setup remain explicit.
 The self-contained publish/asset recipe is not a passing installer lifecycle receipt.

@@ -4,10 +4,10 @@ These dependency notices do not choose a license for Phantom Fudge. **The owner 
 a project license.** The October9 installer/prerelease request does not supply one or change the
 repository's private visibility.
 
-The planned v0.2.0-preview.1 payload includes its exact third-party license/notice files under
+The published v0.2.0-preview.1 payload includes its exact third-party license/notice files under
 `licenses` and the installed runtime/package directories. Preserve those files when redistributing
-an authorized artifact. The final runtime handoff includes an inventoried payload; final assembled
-installer review and publication remain pending. This page is not a release or legal certification.
+an authorized artifact. [Release provenance](release-0.2.0-preview.1.json) records the assembled
+artifact identities. Publication is not a legal certification or proof of publisher licensing entitlement.
 
 ## NAudio 2.2.1 - MIT
 

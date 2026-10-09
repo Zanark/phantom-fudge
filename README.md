@@ -4,7 +4,7 @@
 
 [Windows download](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1) · [Install / update / remove](docs/INSTALLATION.md) · [Workflow](docs/CURRENT-WORKFLOW.md) · [Docs](docs/README.md) · [Roadmap](TODO/00_INDEX.todo)
 
-> **Unsigned Windows 11 x64 preview.** Repository access required. [Evidence and limits](docs/IMPLEMENTATION-STATUS.md). Capture exclusion is not universal. Answers are snapshot-only until an external provider is configured.
+> **v0.2.0-preview.1 is published: unsigned Windows 11 x64 preview.** Repository access required. [Evidence and limits](docs/IMPLEMENTATION-STATUS.md). Capture exclusion is not universal. Answers are snapshot-only until an external provider is configured.
 
 ## From meeting audio to an answer
 

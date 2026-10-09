@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "version": "0.2.0-preview.1",
+  "tag": "v0.2.0-preview.1",
+  "sourceCommit": "e25c8d5624e5afd2f50cda80f964e2e32737fce1",
+  "sourceDirty": false,
+  "publishedAt": "2026-10-09T20:22:55Z",
+  "url": "https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1",
+  "privateRepository": true,
+  "prerelease": true,
+  "signed": false,
+  "platform": "Windows 11 x64",
+  "downloadedAssetsMatch": true,
+  "portableFilesVerified": 3685,
+  "installerInventoriedFiles": 3684,
+  "installerLifecycleChecksPassed": 11,
+  "launcherSelfChecksPassed": 10,
+  "keyboardUiChecksPassed": 38,
+  "runtimeFocusedTestsPassed": 85,
+  "launcherFocusedTestsPassed": 55,
+  "speechPeFilesAudited": 92,
+  "appAndLauncherPeFilesAudited": 861,
+  "realAudioCaptured": false,
+  "externalModelRequests": 0,
+  "cleanVmTested": false,
+  "qualificationLimits": [
+    "Current-host isolated installer identity and path; shortcuts omitted.",
+    "Older-version metadata simulated; not a genuine old-binary migration matrix.",
+    "Initial concurrent UI fixture reported InvalidOperationException; unchanged exact artifact passed in a later serial run. Cause not established.",
+    "No actual installed-service session, real-device capture, external hotkey comfort or recipient-side screen-sharing qualification.",
+    "Published PDFs are the immutable tagged-build edition; maintained repository documentation may add publication follow-up."
+  ],
+  "assets": [
+    {
+      "name": "PhantomFudge-0.2.0-preview.1-win-x64-Setup.exe",
+      "bytes": 656900030,
+      "sha256": "e626fec0abdf35241fcb25ef263efa728948ccff22ebf3a824214a008f3c7596"
+    },
+    {
+      "name": "PhantomFudge-0.2.0-preview.1-win-x64-Portable.zip",
+      "bytes": 703899990,
+      "sha256": "b596f9ffe19262b66a603fd304cfb2f915938e7332c18547acaaa7829d8694b5"
+    },
+    {
+      "name": "Phantom-Fudge-Engineering-Handbook.pdf",
+      "bytes": 11493747,
+      "sha256": "3d85d3ad4c877a7297decd45c8e134f42db266e275e073e5e3465595ed69ea17",
+      "pages": 371
+    },
+    {
+      "name": "Phantom-Fudge-Source-Atlas.pdf",
+      "bytes": 17302245,
+      "sha256": "566feb0f3c7b08855723e3bf3a28c73b0c3450d4ebf0cd37babdd33ef038695e",
+      "pages": 645
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 435,
+      "sha256": "bcbc66e72888c2d2aebd1b51335b6243ff30cb26bd9347b1672caae17d9f5cfb"
+    }
+  ]
+}

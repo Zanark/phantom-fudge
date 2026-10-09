@@ -1376,3 +1376,23 @@ documentation-tool cases pass, including the new regression case.
 Existing citations were migrated once from the installer baseline: 120 ranges across 18 documents,
 with seven changed endpoints explicitly reviewed. This completes source/reference preparation;
 the clean committed asset build, immutable release tag and private publication are separate next steps.
+
+## 2026-10-10, 01:52 - The first installer prerelease is published
+
+[v0.2.0-preview.1](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1)
+is now published in the unchanged private repository. Setup and Portable were built from clean
+commit `e25c8d5624e5afd2f50cda80f964e2e32737fce1`. All five assets, including the 371-page
+handbook, 645-page source atlas and checksums, were downloaded and matched before publication.
+The [release record](docs/release-0.2.0-preview.1.json) preserves exact identities.
+
+The final isolated installer lifecycle passed all 11 checks across 3,684 inventoried files;
+the Portable archive's 3,685 entries were independently hashed. The exact launcher passed ten
+self-checks and the desktop passed its UI groups and 38 keyboard checks serially. An earlier
+concurrent fixture returned `InvalidOperationException`; the unchanged artifact later passed,
+but the cause remains unestablished. Both outcomes are retained, not rewritten into a clean first run.
+
+Installation, repair/update and Windows Settings uninstall are delivered. Saved external notes,
+exports and per-user settings remain intact. Windows 11 x64, unsigned policy, separate optional
+answer-provider setup and capture limits remain explicit. No real audio, external model call or
+clean-VM qualification was added by publication. Release PDFs remain the immutable build-time
+edition; the maintained repository book includes this follow-up. Workstream58 is complete.

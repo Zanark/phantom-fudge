@@ -1,17 +1,26 @@
 # Implementation status - 2026-10-10
 
-**Unqualified Windows preview. Candidate2 build and lifecycle3 checks passed. A clean committed
-release build and private prerelease publication remain pending; no published final asset is claimed.**
+**Published: [v0.2.0-preview.1](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1),
+an unsigned, private Windows 11 x64 prerelease.** Publication is not universal capture, device or
+clean-machine qualification.
 
-**Latest integration — October10 01:11:** the parent reports a successful full candidate2 build
-with the current runtime/native launcher and mandatory real-PCM/clean-exit gate. The inspected
-lifecycle3 receipt passes all 11 checks against 3,682 inventoried files. This supersedes the
-old-runtime-only lifecycle2 evidence, not the current-host/random-AppId/no-shortcuts/simulated-version
-limits. Earlier Ruy failures remain historical; those stages must not ship.
-The final offline runtime rebuild has passed the stronger PE/DLL-path and real-PCM/clean-exit gates.
-The parent confirms85focused Python tests, including seven new PE-auditor cases, and55native tests
-passing again. Runtime qualification is complete within the scopes below; the clean committed
-final release asset build remains pending.
+**October10 01:52 IST:** Setup, Portable ZIP, both reference PDFs and SHA256SUMS were published
+after downloading all five assets and matching their exact bytes. The immutable tag points to
+`e25c8d5624e5afd2f50cda80f964e2e32737fce1`; installer metadata records that commit and
+`sourceDirty=false`. [The release record](release-0.2.0-preview.1.json) contains exact hashes and sizes.
+
+The final isolated installer lifecycle passed 11 checks across 3,684 inventoried files; all 3,685
+Portable entries, including the inventory, matched their expected hashes. The exact launcher passed
+10 self-checks, and the exact desktop passed its UI groups and 38 keyboard checks in a serial run.
+An earlier concurrent UI attempt returned `InvalidOperationException`; its cause is not established.
+That failed attempt is retained rather than being erased by the later unchanged-artifact pass.
+
+The runtime passed 85 focused tests, declared dependency/actual CRT-path gates, real generated-PCM
+Vosk/VAD/Whisper execution and natural exit, including Unicode paths. Native helper tests passed 55.
+No real audio capture or external model request was made. Current-host, simulated older-version,
+shortcut, installed-service and clean-VM limits remain explicit in the release record.
+The released book has 371 pages; the source atlas has 645 pages and covers 203 first-party files.
+Repository editions may add this publication follow-up; release attachments remain immutable.
 
 ## Current source summary
 
@@ -22,24 +31,22 @@ newer features.
 
 | Current feature | Source behavior and boundary | Guide |
 | --- | --- | --- |
-| Installer / native launcher | Candidate2 build/lifecycle3 passed bounded checks; clean committed release build/publication pending | [Installation](INSTALLATION.md) |
+| Installer / native launcher | Published clean-source Setup and Portable preview; guarded install, repair, update and removal | [Installation](INSTALLATION.md) |
 | Audio device cards | No list scrollbars; explicit overflow pages retain selected endpoint identity | [Setup](CURRENT-WORKFLOW.md#1-choose-audio-device-cards) |
 | Red recording dot | Follows active transcription, not startup or input-mode selection; no audio-file save implied | [Capture state](CURRENT-WORKFLOW.md#2-start-transcription-and-watch-the-red-dot) |
 | Multi-line question selection | Whole Mic/Computer segments, raw text in display order, no automatic Ask | [Local questions](LOCAL-QUESTIONS.md) |
 | Clarify first | Off by default; separate original/reply, explicit correction or Yes, bounded history | [Clarification](QUESTION-CLARIFICATION.md) |
 | Ask and Clear | Large accent Ask, red-bordered Clear immediately after it; existing guards retained | [Current controls](CURRENT-WORKFLOW.md#components-know-the-controls-before-sending) |
 | Reading sizes | Final transcript15; partial13.5/10.5; answer10/9 until a session choice8–24; question18, in WPF units | [Typography](CURRENT-WORKFLOW.md#current-sizes-themes-and-visible-status) |
-| Keyboard controls / answer Size | Implemented; explicit local modes and session size8-24; source-only delivery, external focus/comfort qualification remains | [Canonical keyboard guide](KEYBOARD-CONTROLS.md) |
+| Keyboard controls / answer Size | Included in the published preview; explicit local modes and session size8-24; external focus/comfort qualification remains | [Canonical keyboard guide](KEYBOARD-CONTROLS.md) |
 | Cover / Uncover | NOTEPAD IS READY; already-started transcription/answers continue on the same HWND | [Cover/privacy](COVER-AND-PRIVACY.md) |
 | Privacy requests | Existing capture affinity/tool-window plus accepted Peek request; cached peer still reads retained text | [Feasibility matrix](COVER-AND-PRIVACY.md#feasible-measures-in-practical-order) |
 | Diagnostics | Metadata by default; conversation bodies only through explicit Text opt-in | [Local diagnostics](DIAGNOSTICS.md) |
 
-**Delivery is current source**, through `scripts\Run-PhantomFudge.ps1`. Save/copy required text and
-close an older instance with X before loading new code. The immutable045022ZIP predates the later
-selection/clarification/action/font/card/cover changes; it is not a package of the current workspace.
-Workstream58now targets a new installer and self-contained portable payload. Current candidate
-checks passed, but the clean committed release build and publication remain pending; the repository
-remains private.
+**Use the published Setup or complete Portable ZIP**, or run current source through
+`scripts\Run-PhantomFudge.ps1`. Save/copy required text and close an older instance with X before
+updating. The immutable045022ZIP predates the later selection/clarification/action/font/card/cover
+changes; use v0.2.0-preview.1 instead. Workstream58 is complete for this private, unqualified preview.
 
 **Earlier evidence, not a keyboard-increment pass:** the140313synthetic UI fixture covers the then-current combined interface,
 including15cover assertions, source selection, cards, font/layout/action, clarification and alpha
@@ -55,7 +62,7 @@ and [handbook manifest](handbook/manifest.json) carry their recorded provenance.
 includes23WPF images and10README derivatives plus refreshed atlas/book editions. Images are separate
 synthetic examples, not a continuous meeting or capture-exclusion proof.
 
-## October10 01:11: final runtime gates pass; clean release asset build remains pending
+## Historical checkpoint - October10 01:11: runtime gates passed before release assembly
 
 Documentation read the frozen component handoffs, lifecycle3 result and implementation paths below.
 The latest combined test, candidate2 and dependency-audit results were supplied by the parent;

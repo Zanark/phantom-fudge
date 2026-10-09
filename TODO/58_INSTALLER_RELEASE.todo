@@ -1,10 +1,16 @@
 # Windows installer and private prerelease delivery
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Windows11 x64 install/update/uninstall with maintained public documentation
 Dependencies: 22_NATIVE_PYTHON_RUNTIME.todo, 57_KEYBOARD_CONTROLS.todo
 
-Current (2026-10-10 01:11 IST): parent confirms55native tests passing again and85runtime focused
+Current (2026-10-10 01:52 IST): published private unsigned v0.2.0-preview.1 from clean commit
+e25c8d5624e5afd2f50cda80f964e2e32737fce1. Setup, Portable, handbook, atlas and checksums were
+downloaded and matched before publication. Final lifecycle11/3684files, Portable3685hashedentries,
+launcher10selfchecks and serial UI/38keyboard checks pass. See docs/release-0.2.0-preview.1.json.
+This completes the scoped preview request, not clean-VM, real-device or recipient qualification.
+
+Historical 01:11 checkpoint: parent confirms55native tests passing again and85runtime focused
 tests across the same five modules, including7newPEauditor cases.10exact-EXE selfchecks previously passed.
 Final offline rebuild/strongergate/realPCM/Unicode/naturalexit PASS; use installer-runtime-dll-qualified.
 Earlier Ruy exit/Unicode blockers are resolved in that replacement; old stages remain rejected.
@@ -70,12 +76,13 @@ preview candidate.
   real generated-PCM inference/cleanexit. This is not a clean committed final release build.
 - [x] Inspect lifecycle3 receipt:11checks/3682inventoriedfiles PASS for install/layout/hash/maintenance,
   repair/damagedlauncher, simulated-version upgrade/downgrade, uninstall/retention/foreign destination.
-- [ ] Build clean committed unsigned release artifacts and record final payload/version/checksum/license inventory.
+- [x] Build clean committed unsigned release artifacts and record final payload/version/checksum/license inventory.
 - [x] Retain explicit qualification limits for actual native/notes-only installed speech startup,
   runtime ownership/concurrency, shortcut UX and real old-binary migration; lifecycle3 does not drive them.
-- [ ] Verify Setup/Uninstall holds Local\PhantomFudge-Installer-Maintenance from before native
-  maintenance through replacement/deletion until exit: CreateMutex is implemented in bothinitializers;
-  separate concurrency acceptance remains parent-owned; lifecycle3 does not drive concurrent launches.
+- [x] Implement the Setup/Uninstall lifetime gate Local\PhantomFudge-Installer-Maintenance:
+  CreateMutex is present in both initializers and native helper cases exercise the gate contract.
+  Real concurrent installer/launcher and interactive pending-Close qualification remain NOT_TESTED,
+  outside this unqualified preview's completion claim; the isolated lifecycle does not drive them.
 - [x] Record parent lifecycle2:11checks/3670inventoriedfiles PASS, including fresh-helper damaged
   launcher/version repair and retained external sentinel. OLD-runtime fixture, not final payload,
   real old-binary upgrade, shortcut UX or clean-VM qualification.
@@ -85,11 +92,18 @@ preview candidate.
   pendingClose hides and preserves guard including dispatchershutdown. InteractiveClose NOT driven.
 - [x] Freeze remaining installer/runtime citations; migrate existing citations once from baseline.
 - [x] Complete authored source annotations, HTML/PDF editions and rendered/freshness review.
-- [ ] Publish only the approved private-repository prerelease; verify release URL/assets/hashes.
-- [ ] Replace planned-asset wording only after publication evidence; deliver exact limits and links.
+- [x] Publish only the approved private-repository prerelease; verify release URL/assets/hashes.
+- [x] Replace planned-asset wording only after publication evidence; deliver exact limits and links.
 
 ## Current evidence
 
+- Published2026-10-09T20:22:55Z (October10 01:52IST), tagpeeled e25c8d5624e5afd2f50cda80f964e2e32737fce1.
+  Final clean Setup SHA256 e626fec0abdf35241fcb25ef263efa728948ccff22ebf3a824214a008f3c7596.
+  Portable SHA256 b596f9ffe19262b66a603fd304cfb2f915938e7332c18547acaaa7829d8694b5.
+  All5assets downloaded and byte-matched. Final exact-payload fixture passes11checks/3684files;
+  all3685Portable entries hashed. SourceDirty=false. Published PDFs371/645pages retain tagged-build
+  provenance; maintained repository editions add publication follow-up. Initial concurrent UI attempt
+  failed InvalidOperationException; identical artifact passed serially, causeunestablished/retained.
 - October10 01:31: candidate3 full build passes final PE/load-path/realPCM/clean-exit gates.
   Functional speech bytes match candidate2; changes are notices/provenance. Packaged launcher
   selfchecks10/10 and desktop synthetic UI/38keyboard checks pass. No real capture/provider.

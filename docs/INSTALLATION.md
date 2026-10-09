@@ -47,7 +47,7 @@ computer; no universal CPU, memory, microphone or capture guarantee is claimed. 
 configuration pins `win-x64`, minimum Windows build22000, version `0.2.0-preview.1` and Windows
 file version `0.2.0.1`. (tools/Installer/release.json:1-8)
 
-| Included by the planned installer | Not installed or configured for you |
+| Included by the installer | Not installed or configured for you |
 | --- | --- |
 | Self-contained .NET desktop app and native Start-menu launcher | .NET SDK, PowerShell7 or a system Python prerequisite |
 | Private Python3.13.14 runtime, speech-service files and verified English Vosk/Whisper small.en models | Docker, GPU drivers or universal hardware support |
@@ -71,7 +71,7 @@ or evidence of capture exclusion. (scripts/Build-Installer.ps1:79-114)
 
 Once the release evidence confirms that assets are available:
 
-1. Open the versioned release above while signed in with repository access. Download the planned
+1. Open the versioned release above while signed in with repository access. Download
    `PhantomFudge-0.2.0-preview.1-win-x64-Setup.exe` and `SHA256SUMS.txt`.
 2. Compare the EXE's SHA-256 with its exact filename in the checksum file. Windows PowerShell can
    perform this optional check; **PowerShell7 is not required to install or run the app**:
@@ -289,7 +289,7 @@ uncertain process ownership rather than force-killing the child.
 
 The existing [source-development workflow](PREVIEW-GUIDE.md) still uses its own SDK, PowerShell,
 Python environment and explicit model provisioning. The older timestamped ZIPs are historical
-and lack later UI features. A planned `win-x64-Portable.zip` from this new build is a different,
+and lack later UI features. The published `win-x64-Portable.zip` from this build is a different,
 self-contained payload: keep all its directories together and use `launcher\PhantomFudge.Launcher.exe`;
 it does not register a Windows Apps uninstall entry. Do not mix files from these workflows.
 (scripts/Build-Installer.ps1:30-44,105-108)

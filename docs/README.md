@@ -6,7 +6,7 @@ deep, source-linked reference; the [development journal](../JOURNAL.md) tells th
 
 | Need | Read |
 | --- | --- |
-| Install, update or remove the Windows11 x64 preview | [Installer guide](INSTALLATION.md); candidate checks passed, clean release build/publication pending |
+| Install, update or remove the Windows11 x64 preview | [Installer guide](INSTALLATION.md) and [published asset identities](release-0.2.0-preview.1.json) |
 | See all current features and images in one walkthrough | [Illustrated workflow, controls and state transitions](CURRENT-WORKFLOW.md) |
 | Understand the product, stack and boundaries | [Product overview](OVERVIEW.md), [product contract](PRODUCT.md) |
 | Read the illustrated book | [Offline HTML](handbook/Phantom-Fudge-Engineering-Handbook.html) or [printable PDF](handbook/Phantom-Fudge-Engineering-Handbook.pdf) |

@@ -8,6 +8,9 @@ The HTML edition works offline with the adjacent `assets` directory. The PDF is 
 Neither is hosted or uploaded by the build. [manifest.json](manifest.json) records the generated
 edition's counts, source hashes, citations and artifact hashes; it is the authority for edition size.
 
+The prerelease attachments are the immutable tagged-build editions. This maintained repository
+edition also records publication follow-up; it does not silently replace those release assets.
+
 ## Reading order
 
 For the Windows 11 x64 prerelease, begin with [Install, update and remove](../INSTALLATION.md).

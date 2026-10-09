@@ -47,9 +47,9 @@ The final gate is implemented by `StartCoreAsync`: native construction follows s
 
 ## Installed launcher reference
 
-The planned Windows11 x64 installer has a native entry point, separate from the PowerShell
-source/legacy commands below. Candidate2/lifecycle3 passed bounded checks; the clean committed
-release build and publication remain **pending**. Use
+The published Windows11 x64 installer has a native entry point, separate from the PowerShell
+source/legacy commands below. Versioned assets and their checksums identify the clean committed
+release build; broad machine/device qualification remains open. Use
 [Installation](../INSTALLATION.md) for current availability and safe update/uninstall steps.
 
 | Installed launcher arguments | Meaning |

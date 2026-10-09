@@ -11,35 +11,28 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Current state
 
-- Owner21:52requested installer/release and maintained README/TODO/book work;58is IN_PROGRESS.
-  Targetv0.2.0-preview.1 is an unsigned Windows11 x64 prerelease, not a qualified release.
-  Repository/release remain private; clean committed release build/publication pending. See docs\INSTALLATION.md.
-  Parent confirms55native tests again and85runtimefocused tests;10exactselfchecks previously passed. Real
-  UnicodeHybridFactory/productionVAD/forcedWhisper inference/naturalexit. ReplacementoneDNN3.1.1/
-  MicrosoftOpenMP runtime resolves formerexit/Unicodeblockers; oldRuy stages remainrejected.
-  Native pending76holds mutexuntilappmutex/provenexit; Closehides withguardretained, including
-  dispatchershutdown. InteractiveClose notdriven. Setupneverlaunches; finish/close thenStart.
-  Packaged-desktopUI receipts pass priorregressiongroups/38keyboard; noaudio/modelrequests.
-  Parent candidate2 full build PASS with currentruntime/native and mandatory realPCM/cleanexit;
-  inspected lifecycle3 PASS11checks/3682files, currenthost/randomAppId/no-shortcuts/simulatedversion.
-  No actualcapture/provider request/cleanVM; priorperformance notnewbackendqualification.
-  Latest Unicode/startup/backend review reports no significant issues, not independent PCM execution.
-  Parent reports92speechPE/5bundledCRTpaths and separate861App/LauncherPEstaticclosure PASS.
-  Final installer-runtime-dll-qualified offline rebuild passed strongergate/Unicode/PCM/normalexit;
-  functionalDLLs unchangedvs candidate2. No runtime gate outstanding; final clean assetbuild remains.
-  Clean committed release build, finalprovenance/editions and publication remainparent-owned;
-  runtime-atlas owner handles runtime annotations, parent handles domain/packaging/book and migration.
+- Workstream58 is DONE: v0.2.0-preview.1 was published October10 01:52IST from clean commit
+  e25c8d5624e5afd2f50cda80f964e2e32737fce1. Private unsigned Windows11 x64 preview, not a qualified release.
+  Setup, Portable, handbook, atlas and checksums were downloaded and matched. See docs\INSTALLATION.md
+  and docs\release-0.2.0-preview.1.json for asset identities, retained-data policy and evidence limits.
+  Final lifecycle11checks/3684files, Portable3685hashedentries, launcher10selfchecks, serial UI38keys;
+  runtime85/native55focused tests and actual generatedPCM/Unicode/naturalexit gates pass.
+  No real capture/provider/cleanVM claim. Initial concurrent UI fixture failed with an unestablished
+  InvalidOperationException; identical artifact passed serially and both results are retained.
+  Setup never launches; finish/close then Start. Bootstrap UI is ordinary visible, not capture-excluded.
+  Atlas203files/30897lines/1232blocks; book36chapters/73diagrams. Published build-time PDFs371/645pages.
 - Owner19:36approved keyboard-first controls and the answer-size slider; workstream57is DONE locally.
   Final203556UI fixture passed38keyboard checks and old regressions; Core297/docs-tool18passed.
   Current23WPF/10READMEimages, reviewed citations and full atlas/book accompany the source.
   No pointer manipulation,
-  global letters or new ZIP; external hotkey/foreground comfort remains unqualified.
+  global letters; controls now ship in v0.2.0-preview.1. External hotkey/foreground comfort remains unqualified.
 - Implementation authorized October 8. Local experimental implementation is now in progress.
 - User approved Windows 11 first with Teams, Zoom, Google Meet, and OBS qualified separately.
 - WPF/C#/.NET10 now uses owner-requested background translucency; four-product qualification still blocks release.
 - Live meeting-output transcription19 and native Python runtime22 are required; Docker20 is deferred until last.
 - Local synthetic GDI/UI/speech evidence and approved hardware-loopback recognition exist.
-- No four-product qualification, actual Docker execution, owner UX acceptance, commit, push or public release.
+- Source commit/push and private prerelease are complete. Four-product qualification, actual Docker
+  execution and owner UX acceptance remain open; no public repository visibility change was made.
 - WORKFLOWS statuses describe authored procedures, not app execution.
 - Owner14:01 adds selected microphone dictation alongside computer output; task26 supersedes the
   earlier never-microphone product scope. No chat reading or automatic capture is introduced.
@@ -55,11 +48,10 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Next action
 
-Complete58's clean committed release build, final provenance/checksums and source/book editions,
-then verify private publication. Candidate2 and lifecycle3 passed their bounded current-host gates;
-that is not a clean-VM, shortcut, genuine old-binary migration or published-release claim.
-Do not mark the planned release link as downloadable before verified assets exist.
-The new installer retains external user data and needs no end-user PowerShell7/system Python.
+Workstream58 is complete; no additional installer publication is pending. Continue broader
+qualification only under the corresponding workstreams: clean machines, actual devices/shortcuts,
+genuine old-binary migration and recipient capture. The published installer retains external user data
+and needs no end-user PowerShell7/system Python. This preview does not close those broader gates.
 
 57remains available from updated source using docs\KEYBOARD-CONTROLS.md. Owner comfort, actual shortcut
 collisions, foreground return and recorder qualification remain separate; no model probe is implied.
@@ -151,7 +143,7 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 | 55 | 55_CURRENT_WORKFLOW_DOCUMENTATION.todo | DONE | Consolidated illustrated workflow and current-source documentation |
 | 56 | 56_MASK_ICON_POSITION.todo | DONE | Icon-only top-left mask toggle; same background-work behavior |
 | 57 | 57_KEYBOARD_CONTROLS.todo | DONE | Modal controls/session answer size; bounded synthetic evidence and maintained book |
-| 58 | 58_INSTALLER_RELEASE.todo | IN_PROGRESS | Candidate2/lifecycle3 pass; clean committed release build/editions/private publication pending |
+| 58 | 58_INSTALLER_RELEASE.todo | DONE | Private v0.2.0-preview.1 published; clean-source Setup/Portable/PDFs/checksums verified |
 
 ## Dependency map
 

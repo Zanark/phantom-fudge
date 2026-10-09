@@ -14,10 +14,10 @@ The second boundary is **ready service versus recording application**. Initializ
 
 ## Installed preview: a different entry point, the same capture boundary
 
-The planned v0.2.0-preview.1 Windows11 x64 installer replaces end-user PowerShell/Python setup
-with a native Start-menu launcher and a bundled runtime/model payload. Candidate2 built and
-lifecycle3 passed bounded current-host checks; the clean committed release build and publication
-remain **pending**. Follow
+The published v0.2.0-preview.1 Windows11 x64 installer replaces end-user PowerShell/Python setup
+with a native Start-menu launcher and a bundled runtime/model payload. The final clean-source
+payload passed the bounded current-host installer fixture; clean-VM and actual-device
+qualification remain open. Follow
 [Installation](../INSTALLATION.md) for the short procedure and
 [implementation status](../IMPLEMENTATION-STATUS.md) for evidence.
 (scripts/Build-Installer.ps1:30-44)

@@ -366,3 +366,8 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
   fixture except notices/provenance. Packaged native10selfchecks and UI/38keyboard checks PASS.
   Atlas203files/30897lines/1232blocks; book36chapters/73diagrams. Citation migration applied once,
   120ranges/18docs/7reviewed endpoints.19documentation-tool cases PASS. Clean assets/publication next.
+- 2026-10-10 01:52 - DONE58: private unsigned v0.2.0-preview.1 published from clean e25c8d5624e5afd2f50cda80f964e2e32737fce1.
+  Five downloaded assets byte-match. Final lifecycle11/3684files; Portable3685hashedentries;
+  launcher10selfchecks and serial UI38keyboard pass. Initial concurrent UI InvalidOperationException
+  remains recorded with unestablished cause. Exact asset hashes/limits: docs/release-0.2.0-preview.1.json.
+  README/TODO/install guides and maintained reference editions updated; immutable tag/assets retained.

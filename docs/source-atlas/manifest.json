@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-09T20:03:10.233Z",
+  "generatedAtUtc": "2026-10-09T20:32:14.551Z",
   "complete": true,
   "counts": {
     "files": 203,
@@ -284,11 +284,11 @@
     "docs/source-atlas/annotations/domain.json": "3ac18355e805d99ea5174aee0e1be30c4e3abc930f812d1ba893868977482380",
     "docs/handbook/23-domain-source-walkthrough.md": "9874d2be31a862b3423489e607fffe6e21e73455a4de5c587ed9ba18d233f624",
     "docs/source-atlas/annotations/installer-launcher.json": "81fee755a82f54d07815d3cbd2b05dfab7889f6ef4f249fe47fb9ed26218ab67",
-    "docs/INSTALLATION.md": "5256482846a27a310646e39231af5d74041ff4322f8c72d97c535667839191ea",
+    "docs/INSTALLATION.md": "733f6b7fcfcd23477d7f9d904b560713461793f2a42b5844f37873b84b6a936e",
     "docs/source-atlas/annotations/installer-packaging.json": "d4ddec05b6a395b1eca784696a15da0d427494265c3059f0bb051126efe4a68b",
     "docs/source-atlas/annotations/installer-runtime.json": "ecb12b9c7294f43db848e51f8ad495814a35c186e22d2ea8c4d94eb27d79f639",
     "docs/source-atlas/annotations/operations.json": "4a70c29a050fce234be2b67adaefc936775e1d47f48bd3b8d93f90e4862c9206",
-    "docs/handbook/27-operations-source-walkthrough.md": "996bc7b314c00234484a07d29660c5ea409ccdd941c2c36fd3c6ca7305edd741",
+    "docs/handbook/27-operations-source-walkthrough.md": "1b4ffc16a998eb51429824c9710d9a99b960eced4c0854089657fd9057eb5773",
     "docs/source-atlas/annotations/providers.json": "3dbfcc1ce100e99e96a0585aa10fffd0bcf18b71a5a107105e262cfbb2c582da",
     "docs/handbook/24-provider-source-walkthrough.md": "454d5145f24954a1e4c99f366c10a5e3065715b839f0bd71d8f9a7257601352a",
     "docs/source-atlas/annotations/speech.json": "60a0d4e854c0c7e3b3f0ae0c957a855d09a5eafe1d38b7d616b2b384ea58e87d",
@@ -296,14 +296,14 @@
   },
   "pdf": {
     "file": "docs/source-atlas/Phantom-Fudge-Source-Atlas.pdf",
-    "sha256": "566feb0f3c7b08855723e3bf3a28c73b0c3450d4ebf0cd37babdd33ef038695e",
+    "sha256": "387651c7c244793fc98a952eae54b6ef9dbcf372aa4593e102c00d82535c7197",
     "pages": 645,
     "bytes": 17302245
   },
   "artifacts": [
     {
       "file": "docs/source-atlas/Phantom-Fudge-Source-Atlas.pdf",
-      "sha256": "566feb0f3c7b08855723e3bf3a28c73b0c3450d4ebf0cd37babdd33ef038695e",
+      "sha256": "387651c7c244793fc98a952eae54b6ef9dbcf372aa4593e102c00d82535c7197",
       "pages": 645,
       "bytes": 17302245
     },
