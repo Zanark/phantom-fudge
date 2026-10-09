@@ -1,0 +1,20 @@
+# Half-size answer-field text
+
+Status: DONE
+Milestone: Requested reading-density adjustment
+Dependencies: 40_EXPANDED_READABLE_WORKSPACE.todo
+
+## Scope and evidence
+
+- [x] Reduce only AnswerText from20to10WPF font units, and compact18to9.
+- [x] Preserve transcript/question sizes, transparency, contrast and existing lifecycle behavior.
+- [x] Add exact normal/compact font assertions to the existing synthetic UI fixture.
+- [x] Refresh affected images, authored source annotations and illustrated documentation.
+
+The same AnswerText control displays interpretations, so they inherit the smaller type.
+Source-only delivery; no new ZIP, actual model/audio/service operation or user-app interruption.
+
+## Completion log
+
+- 2026-10-09 11:55 - Owner requested50%smaller answer-field font. Updated XAML and responsive
+  assignment together. Synthetic fixture passes the9/10font assertions and existing UI guards.

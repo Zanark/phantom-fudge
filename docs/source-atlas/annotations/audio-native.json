@@ -1,0 +1,929 @@
+{
+  "schemaVersion": 1,
+  "id": "audio-native",
+  "title": "Native audio, strict transport, synthetic tests and local capture controls",
+  "chapter": "docs/handbook/25-native-audio-source-walkthrough.md",
+  "files": [
+    {
+      "path": "spikes/CaptureProof/CaptureProof.csproj",
+      "sourceSha256": "22337716c1958d9d67d8b5d940309b835a1ffd6a677c29dcf1a80ac2f6b01cb5",
+      "role": "Build definition for the isolated synthetic WPF capture-control executable, sharing the application's first-party protection and proof implementations.",
+      "entryPoints": ["MSBuild PropertyGroup", "MSBuild Compile items"],
+      "blocks": [
+        {
+          "start": 1, "end": 8,
+          "title": "Select a Windows WPF executable and application manifest",
+          "explanation": "The SDK project produces an executable targeting net10.0-windows. UseWPF supplies the WPF build surface; EnableWindowsTargeting permits targeting Windows during builds, not running this proof on another OS. ApplicationManifest points to the app's manifest rather than declaring a separate spike-specific native environment. These are build inputs, not evidence that a window or capture experiment has run.",
+          "focus": [{"start": 3, "end": 7}]
+        },
+        {
+          "start": 9, "end": 13,
+          "title": "Compile the actual protection and capture-control source",
+          "explanation": "The two Compile items link WindowProtection.cs and Diagnostics/CaptureProof.cs directly into this executable. Consequently the spike exercises those source implementations rather than a duplicate approximation, but its assembly and synthetic windows are still distinct from the complete application. Link names organize the project view; they do not create additional runtime copies."
+        }
+      ]
+    },
+    {
+      "path": "spikes/CaptureProof/Program.cs",
+      "sourceSha256": "199eb8a47a7d96b64af7ee13b02534cdd9b7c92a4b0edde6c2379b4236911fc9",
+      "role": "Explicit STA entry point for the synthetic local GDI experiment; not an application startup path or recipient capture test.",
+      "entryPoints": ["Program.Main"],
+      "blocks": [
+        {
+          "start": 1, "end": 17,
+          "title": "Require an explicit evidence destination and optional transparent mode",
+          "explanation": "Imports support WPF and the filtered native/file exception policy below. Main is STA for WPF. Exactly one destination argument, optionally followed by --transparent, is accepted; other shapes return usage exit code 64 before constructing Application. This executable can write images and open windows when invoked; its synthetic purpose is not a no-side-effects guarantee.",
+          "focus": [{"start": 10, "end": 16}]
+        },
+        {
+          "start": 18, "end": 24,
+          "title": "Run the proof on WPF startup and forward its outcome",
+          "explanation": "OnExplicitShutdown keeps the dispatcher alive until the asynchronous Startup handler calls Shutdown with CaptureProof.RunAsync's result. The second argument enables the layered/translucent fixture. The awaited helper owns creating and closing the synthetic windows; this wrapper supplies the WPF message loop."
+        },
+        {
+          "start": 25, "end": 35,
+          "title": "Report bounded native failure metadata",
+          "explanation": "Known Win32, file-access, COM, state and platform failures produce only the exception type and optional native error number, then exit 1. It does not print arbitrary exception messages or file paths. The filter is not a catch-all for every possible async-event exception. app.Run returns the selected shutdown code; a zero code would describe this proof's local predicate only."
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.App/Audio/LoopbackTranscriber.cs",
+      "sourceSha256": "58bbed6cefd3adb31c235d44b6679b6d52badfab32633e1c0ad05c762e97499a",
+      "role": "Own selected capture endpoints and session identity, convert callbacks into bounded source-labelled transport submissions, and coordinate fault/stop/release without depending on the WPF dispatcher.",
+      "entryPoints": ["LoopbackTranscriber.StartAsync", "LoopbackTranscriber.StopAsync", "LoopbackTranscriber.DisposeAsync", "LoopbackTranscriber.OnAudio", "LoopbackTranscriber.SignalFault"],
+      "blocks": [
+        {
+          "start": 1, "end": 37,
+          "title": "Separate lifecycle serialization, request cancellation and device ownership",
+          "explanation": "Capture waits use 10-second startup and 5-second stop limits; the shared zero-filled SilenceFrame is 3200 PCM bytes, or 100 ms. _lifecycle serializes asynchronous transitions while _requestLock and _stopVersion let Stop invalidate a waiting Start. _pendingCaptureRelease and _captureReleaseFailed retain unsafe-restart state beyond a bounded caller wait. The public constructor chooses WasapiInput; the internal factory seam allows synthetic IWaveIn tests. IsRunning reads session state, not endpoint existence; events expose transcript, fault, status and per-source/max-latest meters.",
+          "focus": [{"start": 13, "end": 23}]
+        },
+        {
+          "start": 38, "end": 64,
+          "title": "Enumerate only active devices in the requested direction",
+          "explanation": "GetRenderDevices and GetMicrophoneDevices project a shared enumeration into distinct UI records. WasapiInput.Direction determines Render versus Capture; each MMDevice and the enumerator are disposed after copying ID/name. The repeated direction/state test prevents returning a mismatched endpoint. Enumeration failure becomes a generic Windows-settings error instead of propagating driver details. No endpoint is started and no default-device fallback is selected here."
+        },
+        {
+          "start": 65, "end": 94,
+          "title": "Choose protocol version and admit one identified session",
+          "explanation": "The legacy string overload requests computer-only v1; AudioInputSelection requests v2 even for one source. A supplied Guid.Empty is rejected. Start snapshots _stopVersion before awaiting the lifecycle semaphore, rejects disposed/current/unreleased state, validates inputs, then compares the version while holding _requestLock before publishing the new Session. This closes the gap where Stop arrives while another Start is queued. Pending release blocks restart; a sticky release failure also blocks it after the worker finishes.",
+          "focus": [{"start": 84, "end": 94}]
+        },
+        {
+          "start": 95, "end": 109,
+          "title": "Stamp callbacks and finish the handshake before opening inputs",
+          "explanation": "Transport events are copied with the owning session GUID, so final callbacks can be rejected later by the UI if they belong to an old session. Transport faults and caller cancellation converge on SignalFault. Connect uses the session's startup token and explicit source list for v2; no native factory is called until Connect has accepted ready and cancellation is rechecked. The adapter itself does not marshal events to WPF.",
+          "focus": [{"start": 95, "end": 105}]
+        },
+        {
+          "start": 110, "end": 140,
+          "title": "Start inputs off-dispatcher and require all of them to succeed",
+          "explanation": "Each StartCapture runs through Task.Run because capture construction can capture SynchronizationContext and cleanup can join a driver thread. WhenAll plus WaitAsync bounds the startup wait without terminating blocked native work. Running becomes true only with no failure/stop request, successful starts for every input, and no completed RecordingStopped task. Silence tasks start afterward. Any startup exception signals one safe fault, performs StopSessionAsync, and throws the retained failure; finally releases the lifecycle semaphore.",
+          "focus": [{"start": 112, "end": 123}]
+        },
+        {
+          "start": 141, "end": 157,
+          "title": "Reject missing, blank or identical endpoint selections",
+          "explanation": "Null means the source is not requested; non-null whitespace is invalid. Both absent and the same ordinal endpoint ID used twice are rejected rather than silently reducing Both to one input. Inputs are built in Computer then Microphone order. Device activity/direction cannot be proven from these strings and is checked later by WasapiInput.",
+          "focus": [{"start": 144, "end": 150}]
+        },
+        {
+          "start": 158, "end": 194,
+          "title": "Invalidate pending starts before waiting to stop or dispose",
+          "explanation": "StopAsync and DisposeAsync call RequestStop before waiting for _lifecycle, so a pending handshake is cancelable even while Start owns the semaphore. Dispose additionally sets the persistent disposed flag; repeated disposal returns safely. RequestStop increments the version under _requestLock and signals the published session. A completed Stop does not imply all native ownership has been released: FinishSessionAsync may retain a late worker and block subsequent Start.",
+          "focus": [{"start": 186, "end": 192}]
+        },
+        {
+          "start": 195, "end": 232,
+          "title": "Acquire, wire and start one endpoint while retaining failed ownership",
+          "explanation": "The factory receives source, exact endpoint ID and a selected-device-loss callback. Cancellation is checked both before and after acquisition; a late-returning capture remains assigned for cleanup. Handlers are installed before StartRecording, and AudioGate initializes silence/meter time and enables callback admission. StartSucceeded is set only after StartRecording returns. CaptureReleaseException marks cleanup failure before ownership could be returned; other startup failures stop the entire session, not just the failing track.",
+          "focus": [{"start": 208, "end": 218}]
+        },
+        {
+          "start": 233, "end": 265,
+          "title": "Validate callback byte counts and record sample-only statistics",
+          "explanation": "OnAudio holds only this input's AudioGate. Disabled admission or zero recorded bytes returns; negative counts, counts exceeding the reusable buffer, and odd PCM16 lengths fault. Each two-byte little-endian signed value contributes one sample, with values at or beyond +/-32760 counted as clipped. Once elapsed time reaches a second, metadata records sample/clipping counts under capture GUID and wire source, then resets the counters. This loop does not log PCM and does not infer speech quality.",
+          "focus": [{"start": 243, "end": 253}]
+        },
+        {
+          "start": 266, "end": 286,
+          "title": "Split copied PCM submissions before publishing a throttled meter",
+          "explanation": "A real callback resets that input's silence cadence before splitting at MaximumFrameBytes=32000. Since both the cap and callback count are even, each slice stays sample-aligned. TryEnqueueAudio copies each slice; false stops further processing of this callback. At most one RMS update is calculated per callback after 100 ms, then published outside AudioGate. Exceptions, including processing/callback failures, become a generic session fault; there is no retry or alternate input."
+        },
+        {
+          "start": 287, "end": 311,
+          "title": "Compute signed PCM RMS and aggregate latest source levels",
+          "explanation": "StateGate protects updating one input.Level and taking the maximum across current levels; it is not a waveform mixer or combined-energy calculation. Source and aggregate events are invoked after releasing that lock. CalculateLevel reads signed little-endian PCM16, divides by 32768.0, averages squares over pcm.Length/2 samples, square-roots and clamps to [0,1]. Empty PCM yields zero; nonempty odd spans are not handled here because OnAudio validates them first.",
+          "focus": [{"start": 300, "end": 310}]
+        },
+        {
+          "start": 312, "end": 346,
+          "title": "Supply bounded idle silence independently for each source",
+          "explanation": "A 100-ms PeriodicTimer uses the session's silence cancellation token. Under the same AudioGate used by real packets, it exits on closed admission/stop, then asks SilenceCadence whether 250 ms of real-packet absence and 100 ms since prior silence have elapsed. One tick can enqueue only one 3200-byte zero frame, never a catch-up burst. Silence affects only this track and publishes a zero level after the lock; expected cancellation is ignored, other failures stop the session.",
+          "focus": [{"start": 323, "end": 333}]
+        },
+        {
+          "start": 347, "end": 361,
+          "title": "Classify expected versus unexpected recording completion",
+          "explanation": "A RecordingStopped exception is a fault even after stop was requested; an exception-free event is still a fault if no stop was requested. The finally block always clears Running and completes the input's asynchronous stopped latch. Cleanup can therefore wait for observed completion without running its continuation inline on the capture callback thread."
+        },
+        {
+          "start": 362, "end": 386,
+          "title": "Fail once without taking another source's audio lock",
+          "explanation": "CompareExchange keeps the first session failure. All volatile AcceptAudio flags are disabled, Running is cleared, cancellation is requested, and the transport is aborted before cleanup is scheduled. Crucially the callback never acquires another input's AudioGate: simultaneous Computer/Mic failures otherwise risk cross-lock deadlock. The worker later obtains _lifecycle and stops only if this is still the active session. Faulted receives the safe message once; user event handlers remain a behavioral boundary.",
+          "focus": [{"start": 364, "end": 374}]
+        },
+        {
+          "start": 387, "end": 400,
+          "title": "Announce graceful flushing but guarantee cleanup even if status fails",
+          "explanation": "StopSessionAsync requests stop and publishes the flushing status only when no failure is already retained. FinishSessionAsync is in finally, so a throwing status subscriber cannot skip device/transport cleanup. Session.RequestStop cancels silence/startup and clears Running; on normal stop it deliberately does not immediately clear AcceptAudio, allowing remaining driver callbacks before release."
+        },
+        {
+          "start": 401, "end": 426,
+          "title": "Retain parallel release workers beyond a bounded wait",
+          "explanation": "After joining silence tasks, one retained task starts an independent ReleaseInputAsync worker for each input. A hung microphone does not serialize computer release behind it. Cancellation sources are disposed only after all release workers finish. The five-second outer wait bounds this stage's caller wait, not the driver's lifetime; a timeout records a safe fault while _pendingCaptureRelease continues to own unfinished cleanup.",
+          "focus": [{"start": 410, "end": 421}]
+        },
+        {
+          "start": 427, "end": 448,
+          "title": "Close admission, drain or abort transport, and reset visible state",
+          "explanation": "Finally disables all input admission and clears Running even after release timeout. Transport.DisposeAsync performs its own graceful drain when healthy, or abort cleanup when faulted. The external cancellation registration is disposed; only the matching active session pointer is cleared. Zero levels are published per input, so the aggregate reaches zero after all have been reset. 'Transcription stopped' is suppressed when a failure exists. This transport flush can outlast the five-second capture-release wait."
+        },
+        {
+          "start": 449, "end": 475,
+          "title": "Wait for late acquisition before stopping the owned capture",
+          "explanation": "ReleaseInputAsync first awaits this input's startup task: disposing before a blocked constructor/start returns would lose ownership. Expected startup cancellation is tolerated; other failures are surfaced safely. If a capture exists, StopRecording is called, then a successfully started input waits up to five seconds for RecordingStopped. That wait does not bound StopRecording itself, which is why inputs run on independent workers. Stop exceptions become faults while finally still attempts disposal."
+        },
+        {
+          "start": 476, "end": 495,
+          "title": "Disable callbacks, dispose the endpoint and detach handlers",
+          "explanation": "AcceptAudio is cleared before Dispose. A disposal exception sets the sticky _captureReleaseFailed bit, preserving the close-app-before-retry policy even if the worker completes. Event handlers are detached in a nested finally after disposal, including when disposal throws. The code relies on the IWaveIn implementation for its actual join/release behavior; the WasapiInput comment's NAudio join expectation was not independently inspected inside the package.",
+          "focus": [{"start": 478, "end": 489}]
+        },
+        {
+          "start": 496, "end": 516,
+          "title": "Keep capture state, gates, timing and meters per input",
+          "explanation": "Input binds immutable source/device identity to one AudioGate, SilenceCadence and RecordingStopped latch. Startup and SilenceTask default to completed tasks so cleanup also handles partially initialized sessions. Volatile AcceptAudio is the cross-thread admission switch; StartSucceeded distinguishes a started capture from an acquired-but-failed one. Meter timestamps, diagnostic sample counters and latest Level are source-local rather than shared across Computer and Mic."
+        },
+        {
+          "start": 517, "end": 547,
+          "title": "Own a fresh transport and cancel both startup and silence",
+          "explanation": "Session carries the capture GUID, immutable input array, StateGate, a new single-use transport and two cancellation sources. RequestStop records StopRequested/Running under StateGate, then uses a separate cancellation lock before Cancel calls. This keeps start and timer cancellation coordinated with delayed cleanup while avoiding an ObjectDisposedException race against DisposeCancellation. Failure is stored once by the outer SignalFault, not rewritten by each input."
+        },
+        {
+          "start": 548, "end": 559,
+          "title": "Dispose cancellation resources only after late workers finish",
+          "explanation": "DisposeCancellation acquires the same lock as RequestStop, marks the sources disposed, then releases them. FinishSessionAsync invokes it from the retained release task's finally, not merely when the UI's bounded wait ends. Late driver work can therefore still inspect the session's cancellation state while it owns an endpoint."
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.App/Audio/RenderEndpointNotification.cs",
+      "sourceSha256": "0917794971dd7af78a0cca4afd5583f3583b88c6a8e0d8df3034dd6316387ccb",
+      "role": "Convert loss of one explicitly selected endpoint into a one-shot asynchronous fault without following Windows default-device changes.",
+      "entryPoints": ["RenderEndpointNotification.OnDeviceStateChanged", "RenderEndpointNotification.OnDeviceRemoved", "RenderEndpointNotification.OnDefaultDeviceChanged"],
+      "blocks": [
+        {
+          "start": 1, "end": 14,
+          "title": "Watch active-state loss for the selected device",
+          "explanation": "IMMNotificationClient is the external Core Audio callback interface. The listener stores the constructor's device ID and action, with an integer one-shot latch. Only a state different from Active reaches Invalidate; identity is checked there. Despite its historical Render name, WasapiInput uses this listener for microphone endpoints too."
+        },
+        {
+          "start": 15, "end": 22,
+          "title": "Ignore unrelated discovery and default-selection changes",
+          "explanation": "Removal can invalidate the selected endpoint; additions and property updates are no-ops. Default-device changes are deliberately ignored in either direction so an explicitly selected track cannot silently change to another speaker/microphone. This is a selection-preservation policy, not automatic device recovery."
+        },
+        {
+          "start": 23, "end": 32,
+          "title": "Queue selected-device failure once outside the notification callback",
+          "explanation": "Ordinal ID equality filters unrelated events. CompareExchange permits only the first invalidation, including a disabled-then-removed sequence. QueueUserWorkItem makes the notification return promptly and avoids unregistering from inside the callback; WasapiInput's owner later performs disposal. The queued action itself is not wrapped in a local try/catch.",
+          "focus": [{"start": 25, "end": 29}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.App/Audio/SilenceCadence.cs",
+      "sourceSha256": "01d1bf47c0f78369a6b337c2a7baa3634f2532d5b495f75f1504bf67f0b38356",
+      "role": "Small source-local monotonic-time policy preventing synthetic silence from overlapping recent packets or bursting after a delayed timer.",
+      "entryPoints": ["SilenceCadence.ObservePacket", "SilenceCadence.TrySchedule"],
+      "blocks": [
+        {
+          "start": 1, "end": 11,
+          "title": "Reset real-packet and silence clocks together",
+          "explanation": "Both fields are Stopwatch timestamps, not sample counts or wall-clock dates. ObservePacket resets both after a real callback and at input startup. The class contains no internal lock: LoopbackTranscriber must hold the same AudioGate for real-packet observation and timer scheduling to prevent a stale silence decision."
+        },
+        {
+          "start": 12, "end": 21,
+          "title": "Require a quiet gap and a minimum silence interval",
+          "explanation": "TrySchedule returns false until at least 250 ms since the latest real packet and 100 ms since the latest scheduled silence. A successful decision assigns _lastSilence=now, rather than adding 100 ms to its old value; repeated calls at the same late timestamp cannot backfill missed intervals. This throttles synthetic frames but does not reconstruct a continuous device clock.",
+          "focus": [{"start": 15, "end": 19}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.App/Audio/TranscriptEvent.cs",
+      "sourceSha256": "e6c386cb3bba745182f6a6bb371ee63810a15956695e1c337a69f1dc9a942d2e",
+      "role": "Immutable UI/capture boundary records for endpoint selection and validated transcript callbacks.",
+      "entryPoints": ["RenderDevice", "MicrophoneDevice", "AudioInputSelection", "TranscriptEvent"],
+      "blocks": [
+        {
+          "start": 1, "end": 7,
+          "title": "Keep endpoint identity distinct from display name and source choice",
+          "explanation": "RenderDevice and MicrophoneDevice pair the actual ID with a friendly name; AudioInputSelection stores nullable IDs, not display labels. Null omits a source, while LoopbackTranscriber.ValidateSelection rejects empty requested IDs. The Core import supplies AudioSource for the callback record below."
+        },
+        {
+          "start": 8, "end": 16,
+          "title": "Carry protocol fields and a separate local session identity",
+          "explanation": "Type/Text are required record constructor arguments; segment ID and times are optional because partials lack final metadata. Source is null for legacy v1 callbacks, and CaptureSessionId is initially absent at the socket layer. LoopbackTranscriber stamps its GUID using a record copy. This passive record performs no validation itself; strict checks happen in TranscriptionSocket before publication.",
+          "focus": [{"start": 9, "end": 16}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.App/Audio/TranscriptionSocket.cs",
+      "sourceSha256": "ba6dc1ad394437fec7b7152a8a54f1bbb83dd282870ca28aa99674ffd9c7f4b4",
+      "role": "Single-use authenticated literal-loopback WebSocket transport with source-aware PCM accounting, strict inbound transcript validation and ordered final drain.",
+      "entryPoints": ["TranscriptionSocket.ValidateEndpoint", "TranscriptionSocket.ConnectAsync", "TranscriptionSocket.TryEnqueueAudio", "TranscriptionSocket.StopAsync", "TranscriptionSocket.DisposeAsync"],
+      "blocks": [
+        {
+          "start": 1, "end": 24,
+          "title": "Define PCM units separately from protocol message bytes",
+          "explanation": "16000 samples/second times two bytes/sample gives 32000 PCM bytes/second for mono signed 16-bit audio. MaximumFrameBytes is one second of PCM; MaximumPendingBytes is 64000 per source and MaximumTotalPendingBytes is 128000. These exclude v2's source-prefix byte and managed object overhead. Inbound JSON is separately capped at 32768 bytes. v1 start and shared stop controls are fixed UTF-8 arrays; connection establishment has a ten-second deadline.",
+          "focus": [{"start": 13, "end": 24}]
+        },
+        {
+          "start": 25, "end": 48,
+          "title": "Use one socket sender and disable proxy/redirect routing",
+          "explanation": "SocketsHttpHandler explicitly disables proxies and redirects. _lifecycle serializes connect/stop/dispose; _queueLock protects admission/accounting; _resourceLock coordinates abort/disposal. The channel permits multiple producers and one reader without inline continuations. Its 64000-item capacity corresponds to the minimum two-byte PCM item under the total-byte cap, but the byte checks remain the meaningful limit. FullMode=Wait does not make capture callbacks wait: admission uses TryWrite. Ready/stopped latches also run continuations asynchronously.",
+          "focus": [{"start": 36, "end": 47}]
+        },
+        {
+          "start": 49, "end": 80,
+          "title": "Track per-source budgets, clocks and stop finals",
+          "explanation": "Arrays of length three reserve indexes 1 and 2 for Computer/Microphone. Pending bytes cover queued plus currently sending frames, while submitted bytes accumulate accepted PCM for timestamp validation. A single last segment ID applies across sources; last end and stop-final flags are per source. v1 defaults to Computer. IsReady means ready received and not faulted, not necessarily currently accepting after Stop begins. Tests can shorten the normal 90-second flush limit, but cannot set a nonpositive or larger value."
+        },
+        {
+          "start": 81, "end": 115,
+          "title": "Restrict endpoint spelling and canonicalize the declared source set",
+          "explanation": "ValidateEndpoint tests OriginalString to reject DNS names, alternate numeric loopbacks, escaped/normalized paths, credentials, queries and fragments. Only ws with literal 127.0.0.1 or [::1], a valid port and exact path survives; it does not claim encrypted transport or authenticate the server process. The v2 overload copies the caller's list, permits one or two distinct defined sources, and sorts it before use, so later caller mutation or reversed input order cannot change the handshake.",
+          "focus": [{"start": 85, "end": 96}]
+        },
+        {
+          "start": 116, "end": 148,
+          "title": "Validate token shape and reserve a single-use connection",
+          "explanation": "Tokens must be nonblank, no more than 1024 characters and match a restricted bearer-compatible alphabet, excluding newline/header injection. Validation precedes the lifecycle lock. Under _queueLock, reused, closed or stop-requested instances are rejected; _used and _connecting are set before network work. The selected list switches to v2. Authorization is a header, not a URI parameter. Ten-second keepalive settings and a linked caller/abort deadline configure external WebSocket behavior without inspecting its internals.",
+          "focus": [{"start": 132, "end": 143}]
+        },
+        {
+          "start": 149, "end": 190,
+          "title": "Send start, validate ready, then enable PCM admission",
+          "explanation": "After connection, v1 sends its fixed control while v2 serializes version, format and canonical wire names. ReceiveAsync starts before awaiting _ready. A false latch result, fault, stop request or deadline prevents admission. Only after ready does _acceptAudio become true and the single sender start. Exceptions are replaced with safe local-service guidance; _connecting is cleared and _lifecycle released in finally. This is the readiness barrier on which LoopbackTranscriber relies before native construction.",
+          "focus": [{"start": 159, "end": 169}]
+        },
+        {
+          "start": 191, "end": 215,
+          "title": "Validate one source-aligned frame and reserve byte headroom",
+          "explanation": "The legacy enqueue overload maps to Computer. Closed/disposed calls return false without a new fault. An undeclared source, zero length, odd length or more than 32000 PCM bytes faults visibly. After validation, _queueLock gates acceptance and compares the incoming length against remaining per-source and total budgets. This subtraction form makes the intended upper limits explicit. Nonaccepting transport returns false rather than blocking the native callback.",
+          "focus": [{"start": 207, "end": 214}]
+        },
+        {
+          "start": 216, "end": 240,
+          "title": "Copy samples, prepend only the source tag, and fail on overflow",
+          "explanation": "v2 allocates pcm.Length+1, stores AudioSource's byte at index zero and copies PCM starting at one; v1 has no prefix. Accounting adds only PCM length. Submitted bytes increase only after TryWrite succeeds. Failed channel admission rolls back pending counters and clears the new array. Overflow calls Fail outside the queue lock and stops the session instead of silently skipping a frame. This policy does not guarantee all previously accepted audio reaches recognition after an abort.",
+          "focus": [{"start": 217, "end": 228}]
+        },
+        {
+          "start": 241, "end": 263,
+          "title": "Cancel a pending handshake or close further audio admission",
+          "explanation": "Stop records _stopRequested before awaiting _lifecycle. If connection startup is in progress, Fail cancels it immediately rather than waiting for its deadline. For an established single-use session, _closed makes repeated Stop a no-op; under _queueLock acceptance is disabled and the writer completed. Completion leaves existing queued frames available to the sender for a healthy drain."
+        },
+        {
+          "start": 264, "end": 297,
+          "title": "Bound graceful flushing and always abort/join remaining I/O",
+          "explanation": "One flush deadline covers sender drain, stopped acknowledgement, receiver completion and close-output. Healthy sessions await them in that order; a false stopped latch already represents failure. Exceptions report that final text may be unavailable. Finally aborts any remaining I/O, joins sender/receiver, clears unsent copied frames and clears readiness. The timeout bounds the normal waits; subsequent joining still depends on the external socket implementation responding to abort. The lifecycle semaphore is released on every path.",
+          "focus": [{"start": 267, "end": 276}]
+        },
+        {
+          "start": 298, "end": 321,
+          "title": "Route adapter aborts through fault policy and dispose resources once",
+          "explanation": "Abort deliberately calls Fail, ensuring transport rejection and a safe fault are coordinated. DisposeAsync first performs StopAsync, then holds lifecycle and resource locks while checking/setting _disposed and releasing the socket, HTTP invoker and abort source. The resource lock prevents AbortCore from canceling an already disposed source. Repeated Dispose does not reopen or reuse the transport."
+        },
+        {
+          "start": 322, "end": 351,
+          "title": "Preserve admission order and send stop after the final PCM frame",
+          "explanation": "A single ReadAllAsync consumer sends every AudioFrame as one complete binary WebSocket message. ReleaseFrame runs in finally even when SendAsync fails, so in-flight PCM remains in pending accounting until send completion/failure and its copied bytes are then cleared. Only normal channel exhaustion sets _stopSent and sends the text stop control. Abort cancellation is expected; another exception faults the connection. There are not two competing per-source socket senders.",
+          "focus": [{"start": 330, "end": 340}]
+        },
+        {
+          "start": 352, "end": 373,
+          "title": "Reassemble bounded text messages without accepting binary replies",
+          "explanation": "The scratch array has MaximumMessageBytes+1 bytes to detect excess. Receive loops collect fragments until EndOfMessage, rejecting Close, any nontext message, overflow, or an unfinished message already at the ceiling. A fragmented valid JSON document is accepted as one message; a server binary frame is never interpreted as a transcript. Bounds use byte counts here, distinct from later string-length limits.",
+          "focus": [{"start": 363, "end": 372}]
+        },
+        {
+          "start": 374, "end": 397,
+          "title": "Parse shallow JSON and erase the receive scratch buffer",
+          "explanation": "JsonDocument.Parse applies depth eight and scopes disposal to each message. ProcessMessage's true result terminates receive after stopped or a sanitized error. JSON failures receive a version/schema hint; other failures receive a generic connection-ended hint, not remote payloads. Expected abort cancellation is ignored. Finally clears the byte scratch buffer; it does not securely erase strings or every copy made by libraries and subscribers."
+        },
+        {
+          "start": 398, "end": 415,
+          "title": "Reject duplicate keys and never forward remote error text",
+          "explanation": "The root must be an object. Enumerating properties into an ordinal HashSet detects duplicates that GetProperty alone could obscure. Type must be a string of at most 32 UTF-16 units. Error messages require exactly type/code/message with bounded strings, but their contents are discarded in favor of a fixed safe failure because local backend messages may contain paths, secrets or transcripts. Validly shaped error is terminal, not a transcript event.",
+          "focus": [{"start": 406, "end": 414}]
+        },
+        {
+          "start": 416, "end": 436,
+          "title": "Require exact v2 ready before making the transport usable",
+          "explanation": "For v2, the key set is exact and protocolVersion must be integer 2. Sources must be an array whose string elements exactly match canonical requested names and order; omitted, reordered, duplicated or undeclared inputs cannot downgrade the session. Both versions require ready, 16000 Hz, one channel and pcm_s16le. v1 does not run the same exact-property-set check for its initial ready, so its tolerance should not be described as identical to v2. Success sets the flag and ready latch.",
+          "focus": [{"start": 420, "end": 431}]
+        },
+        {
+          "start": 437, "end": 445,
+          "title": "Publish a validated source-specific provisional replacement",
+          "explanation": "Partial replies have exactly type/text and, for v2, source. RequiredSource enforces declaration membership; text must be a string no longer than 16384 UTF-16 units, including the legitimate empty replacement. The resulting TranscriptEvent has a source only for v2 and no final ID/times. It is delivered synchronously to subscribers on the receive path, not directly on the WPF dispatcher."
+        },
+        {
+          "start": 446, "end": 467,
+          "title": "Validate global final identity against a source-local audio clock",
+          "explanation": "A final needs the exact versioned fields, declared source and bounded text. segmentId must be an int strictly greater than the one session-global last ID; gaps are allowed, replays and cross-source reuse are not. Seconds must be finite/nonnegative. End cannot precede start or exceed that source's accepted PCM duration plus one second; v2 also forbids start before that source's previous end. The allowance is not sample-accurate server attestation. Accepted finals update state before callback; after _stopSent they satisfy that source's terminal-final requirement, even with empty text.",
+          "focus": [{"start": 450, "end": 461}]
+        },
+        {
+          "start": 468, "end": 493,
+          "title": "Require stop ordering and a post-stop final from every v2 source",
+          "explanation": "stopped has only type. It is invalid before the sender marks stop sent, and v2 requires a final observed after that mark for each declared source. Success completes the stopped latch and exits receive. Unknown types, including another ready, fault. RequiredSource maps v1 internally to Computer but exposes no source field; v2 uses exact case-sensitive wire names and refuses undeclared sources. RequireTranscriptProperties selects the exact schema for the negotiated version.",
+          "focus": [{"start": 468, "end": 474}]
+        },
+        {
+          "start": 494, "end": 517,
+          "title": "Centralize string, numeric and exact-property guards",
+          "explanation": "RequiredString rejects missing/nonstring/too-long values but intentionally permits empty strings. RequiredSeconds accepts JSON numbers only when convertible to finite nonnegative doubles. RequireProperties uses set equality after duplicate detection, rejecting both extra and missing fields. These helpers prevent partially valid replies from slipping into UI state; they do not impose semantic speech accuracy."
+        },
+        {
+          "start": 518, "end": 545,
+          "title": "Publish the first fault and unblock handshake/stop waiters",
+          "explanation": "Disposed instances ignore Fail; an interlocked latch suppresses repeated fault notifications. Queue admission is closed and the writer completed, then AbortCore cancels the shared token and socket under _resourceLock. Both latches receive false so Connect/Stop can leave their waits. Faulted is invoked after state changes. AbortCore rechecks _disposed while holding the resource lock to avoid racing actual resource disposal.",
+          "focus": [{"start": 522, "end": 532}]
+        },
+        {
+          "start": 546, "end": 563,
+          "title": "Release PCM budget and clear every transport-owned frame copy",
+          "explanation": "ClearQueuedAudio drains leftovers after I/O has joined. ReleaseFrame subtracts PcmLength, not WireBytes.Length, from total and source counters under _queueLock, then zeroes the entire wire array including any source prefix. AudioFrame carries source, owned copy and original PCM length so framing and memory accounting cannot be confused. Clearing these arrays is best-effort local retention reduction, not a guarantee about OS or library buffers.",
+          "focus": [{"start": 552, "end": 562}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.App/Audio/WasapiInput.cs",
+      "sourceSha256": "7bc736e543d6bc891b690f3c1c1e53c7492710e130fe6606aa05981dd38fa59b",
+      "role": "Own one exact active Core Audio endpoint and request shared-mode PCM16 mono 16 kHz capture through NAudio, preserving release responsibility on failures.",
+      "entryPoints": ["WasapiInput.WasapiInput", "WasapiInput.Direction", "WasapiInput.MatchesSelection", "WasapiInput.Dispose"],
+      "blocks": [
+        {
+          "start": 1, "end": 27,
+          "title": "Register selected-endpoint invalidation before capture acquisition",
+          "explanation": "CaptureReleaseException distinguishes a constructor that could not return ownership and also failed cleanup. WasapiInput implements NAudio's IWaveIn and owns enumerator, notification object, chosen device and capture. Construction is intended off the UI thread. RegisterEndpointNotificationCallback is HRESULT-checked before _registered becomes true; Direction then rejects undefined AudioSource values. An exception in the guarded constructor invokes Dispose below.",
+          "focus": [{"start": 20, "end": 27}]
+        },
+        {
+          "start": 28, "end": 62,
+          "title": "Select the exact endpoint and request conversion without mixing tracks",
+          "explanation": "Every nonselected enumerated candidate is disposed in finally; the matching active ID/direction transfers ownership to _device. Absence raises a generic error instead of switching to the default device. Computer uses WasapiLoopbackCapture; Mic uses WasapiCapture. Both request shared mode and WaveFormat(16000,16,1). The comment attributes conversion flags to NAudio 2.2.1; no resampling algorithm exists in this file and package internals were not inspected. Construction failure attempts cleanup, replacing the original exception with CaptureReleaseException if cleanup itself fails.",
+          "focus": [{"start": 48, "end": 59}]
+        },
+        {
+          "start": 63, "end": 80,
+          "title": "Define direction and identity as separate selection invariants",
+          "explanation": "Direction maps Computer to Render and Microphone to Capture and throws for other enum values. MatchesSelection requires ordinal ID equality, the mapped direction and exactly Active state. This pure policy is exercised by synthetic tests without opening hardware. WaveFormat forwards to the constructed capture; null-forgiving access reflects the constructor's success precondition, not an independently guarded property."
+        },
+        {
+          "start": 81, "end": 96,
+          "title": "Forward IWaveIn events and recording commands",
+          "explanation": "Event add/remove accessors subscribe directly to the underlying NAudio capture; StartRecording and StopRecording are direct delegates. There is no extra event queue, copying, exception sanitization or dispatcher marshaling in this wrapper. LoopbackTranscriber owns callback validation, copied transport admission and off-thread lifecycle ordering."
+        },
+        {
+          "start": 97, "end": 121,
+          "title": "Release capture before notifications, endpoint and enumerator",
+          "explanation": "The first disposal step delegates to capture.Dispose, whose join behavior is an explicit source comment but remains an uninspected NAudio boundary. Nested finally blocks still attempt unregistering, device disposal and enumerator disposal when earlier stages throw. _registered is cleared before the HRESULT-checked unregister call, preventing a later cleanup attempt from assuming a still-registered state. The method does not swallow errors; the owner uses them to block unsafe restart.",
+          "focus": [{"start": 108, "end": 117}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.App/Diagnostics/CaptureProof.cs",
+      "sourceSha256": "b1291002780b48a324a579251f057c9809d56af008416f60325b3a2433a1f26e",
+      "role": "Synthetic cropped GDI positive-control experiment and local evidence writer, explicitly not recipient/backend qualification.",
+      "entryPoints": ["CaptureProof.RunAsync", "CaptureProof.Grab", "CaptureProof.CountDifferences"],
+      "blocks": [
+        {
+          "start": 1, "end": 41,
+          "title": "Construct distinguishable synthetic background and note windows",
+          "explanation": "Imports support WPF, GDI interop, PNG output and an assembly hash. RunAsync creates the requested output directory and two fixed-position, differently colored windows containing only a canary. Transparent mode adds background text, enables a layered overlay, sets background alpha 128 and resize chrome. It changes only background opacity, not text opacity. When executed this fixture opens windows and writes files; reading its source establishes no experimental result."
+        },
+        {
+          "start": 42, "end": 58,
+          "title": "Capture an unprotected positive control before the hidden baseline",
+          "explanation": "Both windows are shown before protection deliberately: a working capture path should see the red synthetic note. After settling, GetWindowRect supplies the physical capture rectangle and Grab saves positive-control.png. Hiding the overlay exposes the green/background baseline at the same bounds. CountDifferences measures control visibility. Only then is protection configured while the overlay is hidden. This order is appropriate for a synthetic experiment, not production sensitive-note reveal.",
+          "focus": [{"start": 50, "end": 58}]
+        },
+        {
+          "start": 59, "end": 90,
+          "title": "Sample sixteen protected frames across show/hide cycles",
+          "explanation": "Four cycles each take four samples, recording difference count, alpha, filename and UTC. Transparent samples use alpha 26,140,255,140 and yield rendering/flush composition before Grab. Each cycle hides, settles and reapplies protection before the next show. MaximumDifference retains the worst observed RGB mismatch. These are finite snapshots with scheduling gaps, not complete first-frame or transition recordings.",
+          "focus": [{"start": 66, "end": 77}]
+        },
+        {
+          "start": 91, "end": 124,
+          "title": "Keep the PASS predicate narrowly local and close both windows",
+          "explanation": "Pass requires the unprotected control to differ in more than one fifth of baseline pixels, zero differing pixels across protected samples, ToolWindow set and AppWindow absent. The result records assembly SHA-256, OS, architecture, configuration/readback and style diagnostics; layered/noActivate are reported but not separate terms in this predicate. The outcome name and limitation explicitly exclude Teams/Zoom/Meet/OBS, WGC, full first-frame evidence, app UX and universal privacy. JSON is written locally; return is 0 or 2. Finally closes overlay and backdrop.",
+          "focus": [{"start": 91, "end": 101}]
+        },
+        {
+          "start": 125, "end": 147,
+          "title": "Use simple synthetic windows and a nonsecurity settling delay",
+          "explanation": "MakeWindow fixes borderless, topmost, nonactivated, non-taskbar presentation with plain white TextBlock content. The opaque default can be overridden by the transparent experiment. SettleAsync yields to ApplicationIdle, calls WindowProtection.FlushComposition and delays 150 ms. Its comment explicitly denies that fixture settling is the application's privacy barrier; the delay merely reduces measurement instability."
+        },
+        {
+          "start": 148, "end": 167,
+          "title": "Compare color pixels and encode Bgr32 images",
+          "explanation": "CountDifferences advances four bytes per pixel but compares only the first three color channels, ignoring the unused/alpha byte in Bgr32. It assumes equal-sized arrays from the same capture bounds; there is no independent length guard. SaveImage derives width/height and width*4 stride from those bounds, uses 96-DPI PNG metadata and writes a named local file. It performs no OCR or readability claim."
+        },
+        {
+          "start": 168, "end": 200,
+          "title": "Crop screen pixels into a top-down 32-bit DIB",
+          "explanation": "Grab rejects nonpositive or over-4096 dimensions before acquiring a screen DC. It creates a compatible memory DC and DIB with negative Height for top-down rows, one plane and 32 bits/pixel. SelectObject must return a valid prior object. BitBlt uses SRCCOPY with CAPTUREBLT into the cropped rectangle; checked(width*height*4) sizes the managed copy. Native failures become Win32Exception using the last P/Invoke error. GDI/Windows behavior remains an external implementation boundary.",
+          "focus": [{"start": 189, "end": 199}]
+        },
+        {
+          "start": 201, "end": 224,
+          "title": "Restore GDI selection before freeing bitmap and device contexts",
+          "explanation": "Finally restores the previous object when valid, deletes the created bitmap, deletes the memory DC and releases the screen DC in that order, including on partial acquisition failure. Cleanup return values are not checked here. Sequential NativeRect and BitmapInfo fields define the unmanaged layout; Size=40 describes the bitmap header while the trailing Colors slot permits the structure shape used by CreateDIBSection."
+        },
+        {
+          "start": 225, "end": 250,
+          "title": "Declare the native API boundary and error conventions",
+          "explanation": "user32 imports obtain bounds/screen DC and release it; gdi32 imports create/select/copy/delete drawing resources. SetLastError is enabled for creation and capture calls whose errors are inspected, and BOOL results are explicitly marshaled where needed. These declarations expose an API contract, not inspected internals of GDI or a substitute for measuring other capture backends."
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Audio.Tests/DualSourceTests.cs",
+      "sourceSha256": "55c25a56f4d2c26201f9855bb8811f6c682654c515e0bcef00cf7712da95e0e2",
+      "role": "Synthetic v2 transport and dual-input lifecycle matrix covering source identity, byte budgets, callback races and retained ownership under stuck/failing device seams.",
+      "entryPoints": ["AudioTests.DualSourceTests", "AudioTests.V2FramingAsync", "AudioTests.DualCaptureAsync", "AudioTests.SyntheticInput"],
+      "blocks": [
+        {
+          "start": 1, "end": 45,
+          "title": "Register twenty-six source/protocol/lifecycle test groups",
+          "explanation": "Both and BothInputs use fixed Computer/Microphone identities and synthetic endpoint strings. The table supplies the executable harness with v2 framing, helper-process, schema, budget, cancellation and dual-owner failure cases. Several delegates parameterize one implementation across source modes or Stop/Dispose paths. These are test definitions, not results; ordinary execution would start local test sockets and one child helper, but replace device acquisition with SyntheticInput.",
+          "focus": [{"start": 34, "end": 44}]
+        },
+        {
+          "start": 46, "end": 74,
+          "title": "Construct canonical v2 responses and inspect the client's start control",
+          "explanation": "V2Ready serializes all six handshake fields with wire names; Final emits labelled final metadata, allowing empty text and zero-duration tail markers. ExpectV2StartAsync requires text, six properties, version 2, PCM16/16k/mono and exactly ordered requested source names. It checks the client's output rather than relying on a decoder. Server-side duplicate-key attack coverage is supplied elsewhere, not by this helper's property-count check."
+        },
+        {
+          "start": 75, "end": 95,
+          "title": "Drain tagged frames and send one terminal final per source",
+          "explanation": "DrainV2Async accepts binary messages only when total length is odd, 3..32001 bytes, and byte zero names a declared source. That means one tag plus nonempty even PCM. Optional collection strips the tag. The first text message must be exact stop; only then does the helper issue monotonically increasing source finals and stopped. It validates ordered transport shape, not audio recognition."
+        },
+        {
+          "start": 96, "end": 115,
+          "title": "Arrange fragmented readiness and distinct source partials",
+          "explanation": "V2FramingAsync builds a deterministic 32000-byte pattern and a scripted server that checks canonical start, fragments ready, sends a labelled partial for every declared source and drains later PCM. The client collects transcripts/faults concurrently. Passing these assertions would establish fragmentation/source handling for the tested modes, without involving WASAPI or model internals."
+        },
+        {
+          "start": 116, "end": 141,
+          "title": "Mutate caller-owned inputs to prove defensive copies and ordered drain",
+          "explanation": "The reversed source list is mutated to enum 255 after Connect; each maximum-size PCM buffer is zeroed after enqueue, followed by a two-byte minimum frame. Concurrent Stop calls must complete without faults. Per-source collected frames must retain original bytes and order, and both partial/final labels must survive. Final IDs are asserted globally 1..N for this scripted server. This does not mean the production parser requires consecutive IDs.",
+          "focus": [{"start": 117, "end": 127}]
+        },
+        {
+          "start": 142, "end": 176,
+          "title": "Reject invalid source and endpoint selections before hardware",
+          "explanation": "Empty, zero/255, duplicate and oversized source arrays must throw ArgumentException before connection to the sentinel port. A counting factory then verifies null/null, blank IDs and repeated endpoint IDs never open IWaveIn or leave Running true. Guid.Empty is also rejected before hardware/network startup. These tests distinguish source-declaration validation from later active-device direction validation."
+        },
+        {
+          "start": 177, "end": 196,
+          "title": "Script the dual synthetic CLI's exact wire contract",
+          "explanation": "Two tiny unequal PCM fixtures are expected under their respective tag bytes. The fake server checks both binary payloads and exact stop ordering, then emits different source phrases with global IDs 1 and 2 before stopped. This is a negative control against helper-side source mixing and establishes expected output for the child-process portion; it is not a real recognizer."
+        },
+        {
+          "start": 197, "end": 233,
+          "title": "Exercise the actual helper process with bounded synthetic stdin",
+          "explanation": "The test would launch dotnet on this compiled assembly with --service-v2, expected source phrases and redirected standard streams. A fixed nonsecret test token is passed through the child's environment; JSON/base64 PCM is supplied on stdin, not a recording file. Output and stderr drain concurrently with a ten-second exit wait. It requires exit 0, a microphone PASS line and blank stderr, then kills only the owned child tree if still running. This source was read, not executed.",
+          "focus": [{"start": 215, "end": 225}]
+        },
+        {
+          "start": 234, "end": 272,
+          "title": "Prove malformed or downgraded ready never opens capture",
+          "explanation": "The matrix changes v2 ready to v1, wrong version/rate/channel/encoding, reordered/missing/duplicate/unknown sources, an extra property or duplicate type key. For each, a counting injected factory must remain unopened, startup must reject and exactly one fault must occur. This tests the barrier between network negotiation and native ownership, rather than merely testing an isolated JSON parser."
+        },
+        {
+          "start": 273, "end": 296,
+          "title": "Enumerate v2 transcript attacks and bounded-message failures",
+          "explanation": "Cases cover missing source downgrade, wrong case/unknown/numeric source, nonstring text, duplicate source keys, missing final labels, negative/infinite/reversed times, a remote private-message marker and oversized text. Additional calls send binary replies and a valid Computer label into a Mic-only session. All use AssertV2FaultAsync; rejecting these payloads does not certify arbitrary network security or language-model correctness."
+        },
+        {
+          "start": 297, "end": 326,
+          "title": "Release bad responses only after connect and inspect fault privacy",
+          "explanation": "A latch delays scripted bad messages until Connect completes and optional PCM has been submitted, making timestamp tests deterministic. The helper captures transcript events and first safe fault, waits at most three seconds, then stops. Assertions require exactly one fault, cleared readiness, no synthetic-private marker leakage and the specified count of already-valid events. Earlier accepted finals may remain; invalid later events must not be appended.",
+          "focus": [{"start": 318, "end": 324}]
+        },
+        {
+          "start": 327, "end": 355,
+          "title": "Separate session-global IDs from source-local clocks and byte credit",
+          "explanation": "Two cases replay/decrease IDs across different sources; another moves Computer time backwards after a Mic final. Supplying one second only on one source must not authorize 1.5 seconds on the other. A positive control accepts Computer ending at 0.8 and Mic at 0.1 after Stop with no submitted PCM, exercising independent clocks and the client's explicit one-second tolerance. This is not a test of sample-accurate backend duration accounting.",
+          "focus": [{"start": 329, "end": 337}]
+        },
+        {
+          "start": 356, "end": 373,
+          "title": "Reject stopped when a requested source has no stop-final",
+          "explanation": "After a valid Both handshake and reading the client's stop, the fake server sends only Computer's final followed by stopped. Stop must generate one fault because Mic's post-stop final is absent. Empty final text would have been acceptable; absence of the source's terminal event is the failure being tested."
+        },
+        {
+          "start": 374, "end": 397,
+          "title": "Reject undeclared source IDs and invalid PCM lengths",
+          "explanation": "Each case opens a Mic-only transport, then tries Computer, undefined byte values 0/3, or Mic frames of length zero, one or 32002. Assertions require false admission, one visible fault and readiness cleared. The native endpoint seam is not used: this validates transport boundaries independent of physical microphone permissions or format conversion."
+        },
+        {
+          "start": 398, "end": 429,
+          "title": "Freeze release accounting to test exact per-source byte budgets",
+          "explanation": "Reflection obtains _queueLock; holding its reentrant monitor lets this test enqueue while preventing the sender's ReleaseFrame from returning budget. Two 32000-byte frames per source must fit and total _pendingBytes must equal 128000, excluding tags. A further two-byte frame on either saturated source must fault exactly once. This avoids relying on OS socket-buffer timing. It is intentionally coupled to private accounting fields, not a hardware throughput benchmark.",
+          "focus": [{"start": 414, "end": 425}]
+        },
+        {
+          "start": 430, "end": 453,
+          "title": "Stop or dispose a socket while ready is withheld",
+          "explanation": "The server acknowledges receipt of start only to the test latch, then never sends ready. StopAsync or DisposeAsync must finish within three seconds and make the original Connect reject once with readiness false. This tests cancellation before the ten-second connect timeout rather than a graceful final-drain exchange."
+        },
+        {
+          "start": 454, "end": 474,
+          "title": "Cancel the adapter handshake without reaching its input factory",
+          "explanation": "A server withholds ready while a 150-ms caller token expires. The injected factory increments opened if reached. Startup must reject, opened must remain zero and one adapter fault must occur. The setup establishes no device handles and therefore cannot test cancellation inside an actual driver."
+        },
+        {
+          "start": 475, "end": 501,
+          "title": "Invalidate both active and queued adapter starts",
+          "explanation": "After the first start reaches the server, a second Start queues behind _lifecycle. Stop or Dispose is then requested. Both start tasks must reject within the bounded operation, only one handshake may reach the server, and no input may open. The test targets _stopVersion/_requestLock admission ordering, not simply a canceled socket."
+        },
+        {
+          "start": 502, "end": 525,
+          "title": "Test endpoint direction and silence independence without devices",
+          "explanation": "Pure MatchesSelection checks accept the exact active Render/Computer and Capture/Microphone pairs, rejecting wrong direction, disabled state and wrong ID. Two independent SilenceCadence instances receive synthetic monotonic ticks: recent Computer packets must not suppress Mic silence and vice versa. No MMDeviceEnumerator or wall-clock waiting is needed for these policy assertions."
+        },
+        {
+          "start": 526, "end": 556,
+          "title": "Arrange readiness and microphone-start gates with concurrent observations",
+          "explanation": "DualCaptureAsync separates a server-ready latch from a ManualResetEventSlim blocking Mic's StartRecording. The factory verifies no SynchronizationContext and the exact requested IDs, counts opens and stores each SyntheticInput. Source meter and aggregate events are collected independently. This arrangement can reveal premature hardware opening, endpoint substitution and early Running transitions without real audio capture."
+        },
+        {
+          "start": 557, "end": 585,
+          "title": "Exercise startup barriers, immutable packet copies and source-specific idleness",
+          "explanation": "Before ready, opened must be zero; while Mic's start is gated, Running must remain false. After both start, an attempted selection switch must reject without new inputs. The test emits 3200-byte full-negative-scale Computer samples and half-scale Mic samples, then clears the caller arrays. Tiny Computer packets every 50 ms keep only Computer active while Mic becomes idle. These values deliberately distinguish source copies, signed RMS and silence cadence.",
+          "focus": [{"start": 561, "end": 571}]
+        },
+        {
+          "start": 586, "end": 603,
+          "title": "Assert final cleanup, copied samples, independent silence and zero meters",
+          "explanation": "Concurrent stops must produce no faults, one StopRecording per input, disposal and zero remaining handlers. Collected source frames must retain different original sample bytes despite cleared input arrays. Mic must acquire a zero frame while Computer must not, and source RMS values must reach 1 and approximately 0.5. The aggregate must contain 1 and end at zero. Finally opens Mic's gate even on test failure to avoid leaving a synthetic blocked worker."
+        },
+        {
+          "start": 604, "end": 631,
+          "title": "Arrange v1 Computer and v2 Mic compatibility controls",
+          "explanation": "The same loop covers legacy Computer capture and Mic-only v2. Mic uses the labelled drain helper; legacy Computer checks its two PCM bytes arrive without a source prefix, then replies with an unlabelled final and stopped. This protects the old overload's wire compatibility instead of assuming all one-source sessions use the same framing."
+        },
+        {
+          "start": 632, "end": 657,
+          "title": "Verify single-input identity and adapter GUID stamping",
+          "explanation": "The factory checks source and exact synthetic ID. The test chooses the matching overload, emits one sample and stops. It requires exactly one opened/disposed input, no fault, source null only for v1, and a nonempty CaptureSessionId for either protocol. Mic frames must keep the label and PCM bytes. Thus the local session identity is independent of whether the older wire protocol names a source."
+        },
+        {
+          "start": 658, "end": 677,
+          "title": "Arrange a reusable adapter with fresh captures per session",
+          "explanation": "One server and transcriber are reused for three sessions, but the factory creates a fresh SyntheticInput on each call. Bags/queues retain all input objects and callbacks for later isolation checks. This specifically tests adapter reuse while each Session creates a new TranscriptionSocket, rather than attempting to reconnect a single-use transport."
+        },
+        {
+          "start": 678, "end": 701,
+          "title": "Reject cross-session callback and cancellation leakage",
+          "explanation": "Each iteration starts, stops and inspects exactly two finals with one unique nonempty GUID; the middle session supplies an explicit GUID that must survive. It then cancels the old token and invokes UnexpectedStop on all accumulated inputs. No fault or Running state may leak, and all handlers must be detached. Concurrent final disposal is also exercised. Six total inputs must each have exactly one start and stop.",
+          "focus": [{"start": 685, "end": 695}]
+        },
+        {
+          "start": 702, "end": 730,
+          "title": "Fail the second input after Computer has entered startup",
+          "explanation": "Computer is allowed to enter StartRecording before Mic either throws during construction or returns an input that throws on start. The caller must see rejection and exactly one fault, Running false, Computer disposed, and Mic disposed whenever construction actually returned it. The positive Computer-start latch makes this a real partial-ownership rollback test rather than a failure before any acquisition."
+        },
+        {
+          "start": 731, "end": 761,
+          "title": "Race two device-loss or RecordingStopped failures",
+          "explanation": "For each mode the factory captures per-source lost callbacks and returns synthetic inputs. After both are running, concurrent Task.Run calls either signal loss or unexpected recording errors on both tracks. Stop must complete within three seconds with one fault and every input disposed. This is the regression control for SignalFault avoiding another source's AudioGate; synthetic scheduling is not exhaustive concurrency proof."
+        },
+        {
+          "start": 762, "end": 797,
+          "title": "Retain ownership of a canceled but hung startup",
+          "explanation": "Mic blocks inside StartRecording while Computer starts normally. Caller cancellation followed by Stop must return within seven seconds, reject startup, dispose Computer but not the still-blocked Mic, and emit one fault. A new session must be refused while the worker owns Mic. Finally releases the gate and waits until Mic disposal and handler detachment finish. The test demonstrates bounded waiting plus retained ownership, not forcible termination of a stuck driver.",
+          "focus": [{"start": 781, "end": 792}]
+        },
+        {
+          "start": 798, "end": 823,
+          "title": "Release a responsive input while its peer's stop is blocked",
+          "explanation": "Both synthetic inputs start, but Mic's StopRecording blocks at StopGate. Stop must return within seven seconds after the adapter's capture-release timeout, with Computer disposed, Mic still owned, Running false and one fault. Finally unblocks Mic and waits for late disposal. The scenario exercises parallel release workers; it does not prove an actual Windows driver can always be canceled."
+        },
+        {
+          "start": 824, "end": 845,
+          "title": "Latch a disposal failure against subsequent restart",
+          "explanation": "Mic's synthetic Dispose sets its observed Disposed flag and then throws. The first session stops, and a second Start must be rejected despite both synthetic flags being true. Exactly one fault is expected. This distinguishes an attempted disposal from confirmed safe release and checks the adapter's persistent _captureReleaseFailed guard."
+        },
+        {
+          "start": 846, "end": 870,
+          "title": "Retain the unsafe-restart guard when construction cleanup fails",
+          "explanation": "The factory throws CaptureReleaseException before returning any capture object, recording how many attempts occurred. After the first failed Start, another Start must reject without another factory call; one fault and false Running are required. This models the otherwise easy-to-lose case where the constructor owns native resources but cannot hand the object to the adapter for ordinary cleanup."
+        },
+        {
+          "start": 871, "end": 893,
+          "title": "Provide bounded polling and an observable synthetic capture seam",
+          "explanation": "WaitUntilAsync polls every 10 ms with a three-second cancellation deadline. SyntheticInput implements IWaveIn at the required format, exposes start/stop gates and injected failures, tracks counts and event-handler attachment, and uses a continuation-safe start latch. Its Disposed flag is a test observation, not evidence about COM handles. No native enumerator, microphone or render device is created here."
+        },
+        {
+          "start": 894, "end": 919,
+          "title": "Make starts, stops, packets and disposal independently controllable",
+          "explanation": "StartRecording increments the count and signals entry before optional blocking/throwing. StopRecording increments, optionally blocks and synchronously raises a normal stopped event. Emit reuses the supplied byte array to challenge the adapter's copy semantics; UnexpectedStop raises an exception-bearing event. Dispose marks its flag before an optional exception, enabling the release-failure test. These simplified behaviors intentionally isolate client logic rather than simulate every NAudio or driver behavior.",
+          "focus": [{"start": 905, "end": 916}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Audio.Tests/DualSyntheticServiceCheck.cs",
+      "sourceSha256": "2a8fb264c54c76340d7a66d5a2d2879baf88191fd2c0691d07e6788dbd6c9e60",
+      "role": "Explicit native v2 fixture client accepting two synthetic PCM tracks on stdin, pacing them without hardware and checking source-specific final phrases.",
+      "entryPoints": ["AudioTests.RunDualSyntheticServiceCheckAsync"],
+      "blocks": [
+        {
+          "start": 1, "end": 24,
+          "title": "Require an explicit dual-fixture command shape",
+          "explanation": "The partial AudioTests helper expects exactly seven arguments with --synthetic-tracks-stdin and separate expected phrases. It returns 1 with usage on mismatch. The comment specifies base64 PCM16/mono/16k JSON, not microphone acquisition. Stage and fault counters support bounded failure reporting. The synthetic-only rule is caller policy; raw bytes cannot prove that their original source was synthetic."
+        },
+        {
+          "start": 25, "end": 48,
+          "title": "Bound stdin JSON and decode exactly two named tracks",
+          "explanation": "The token comes from PHANTOM_AUDIO_TEST_TOKEN. Input has a 15-second deadline and a 5121024-byte JSON ceiling, accommodating two base64-encoded 60-second tracks plus structure. The root must be an object with two properties; lookups require Computer/Mic wire names. Decoded PCM must be nonempty, even and at most 1920000 bytes per source. Both expected phrases must be nonblank. The scratch read buffer is cleared on this success path, not a comprehensive secure-erasure promise."
+        },
+        {
+          "start": 49, "end": 68,
+          "title": "Stream each source at approximately real-time PCM cadence",
+          "explanation": "A v2 TranscriptionSocket receives Both. The loop advances 3200 bytes per 100-ms tick and submits each track independently if it still has bytes; the shorter track is not padded here. Each enqueue must succeed. After all source data is submitted, StopAsync drains transport/finals. No WasapiInput, output device or audio file is involved, but this mode does contact the explicitly supplied local service and may run its recognizer.",
+          "focus": [{"start": 55, "end": 66}]
+        },
+        {
+          "start": 69, "end": 93,
+          "title": "Assert expected text per source and clear decoded fixtures",
+          "explanation": "Final strings are joined separately for Computer and Mic and compared case-insensitively with their expected phrase; no faults may have occurred. Counts are printed without transcript bodies. This checks phrase presence, not absence of all cross-source contamination or overall ASR accuracy. Catch prints only stage/type/fault count and returns 1. Finally clears decoded PCM arrays, while JSON/base64/string/library copies remain outside that narrow clearing guarantee."
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Audio.Tests/PhantomFudge.Audio.Tests.csproj",
+      "sourceSha256": "adae6b3cf58b45ad3ca7b16d7cd390954afb200baf5f221b967ec81dd07feeb4",
+      "role": "Executable synthetic audio harness that compiles the real first-party Audio sources without requiring the WPF application UI.",
+      "entryPoints": ["MSBuild PropertyGroup", "MSBuild Compile items"],
+      "blocks": [
+        {
+          "start": 1, "end": 6,
+          "title": "Define an executable Windows-targeted harness",
+          "explanation": "OutputType=Exe explains the top-level Program.cs runner and command-line helper modes rather than a unit-test adapter entry point. net10.0-windows and EnableWindowsTargeting select the target framework; unlike the capture spike, this project does not enable WPF. These settings do not imply tests were run."
+        },
+        {
+          "start": 7, "end": 13,
+          "title": "Link production audio code and the local fake-server dependencies",
+          "explanation": "Microsoft.AspNetCore.App supplies the in-process Kestrel test server, NAudio 2.2.1 supplies IWaveIn and native wrappers, and Core supplies source identities. Compile links every App/Audio/*.cs file into this assembly, so internal constructors/helpers are directly testable without widening production APIs. Package implementation internals and lockfile contents are outside this annotation's inspected scope.",
+          "focus": [{"start": 8, "end": 11}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Audio.Tests/PlaybackCheck.cs",
+      "sourceSha256": "f9ce6d264c3e5ebc413f54a3d09b476401c501bb6a2f86fab6e7b3918f56e628",
+      "role": "Explicit, hardware-touching render-loopback check, distinct from ordinary synthetic transport tests and from microphone/meeting qualification.",
+      "entryPoints": ["PlaybackCheck.RunAsync"],
+      "blocks": [
+        {
+          "start": 1, "end": 18,
+          "title": "Select the explicit playback mode and collect observations",
+          "explanation": "Exactly --playback, endpoint, --expect, phrase is required; malformed invocation returns 64. Concurrent queues retain faults/finals and counters observe partials/meters. Program.cs dispatches this mode separately from the ordinary test list. This function has no independent consent flag: authorization must come from the caller, and the function must not be treated as a no-device test."
+        },
+        {
+          "start": 19, "end": 38,
+          "title": "Read a bounded synthetic PCM fixture from stdin",
+          "explanation": "A process environment token is required. stdin is copied with a ten-second deadline and capped at 16000*2*20=640000 bytes, or twenty seconds. Nonempty even length is required before rewinding. The code assumes raw PCM16/mono/16k; a byte stream has no WAV format header to verify and cannot attest synthetic provenance."
+        },
+        {
+          "start": 39, "end": 55,
+          "title": "Choose one actual default render endpoint and start its loopback",
+          "explanation": "MMDeviceEnumerator selects the default Multimedia render device and retains that exact MMDevice/ID. A real LoopbackTranscriber captures its output; callbacks count nontrivial levels above 0.001, nonempty partials and final strings. The legacy StartAsync overload uses untagged v1 Computer audio. This path captures all output on that endpoint, including unrelated audio; it is not a meeting-only filter."
+        },
+        {
+          "start": 56, "end": 72,
+          "title": "Play the fixture through WASAPI and always stop loopback",
+          "explanation": "RawSourceWaveStream labels the fixture PCM16 mono 16k. WasapiOut uses the same render endpoint in shared mode with 100-ms latency. PlaybackStopped completes an asynchronous latch; a 25-second wait and reported playback exception bound the observation. A further 1600-ms idle interval permits speech finalization before the finally block stops/drains capture. Output/resampling behavior is delegated to uninspected NAudio/Windows internals.",
+          "focus": [{"start": 58, "end": 68}]
+        },
+        {
+          "start": 73, "end": 88,
+          "title": "Report only the tested local render path",
+          "explanation": "Pass requires the expected phrase in joined finals, no capture faults, at least one nonzero meter and partial, and capture stopped. Output counts and exit 0/2 expose success/failure; exceptions yield type/count metadata and exit 1. The explicit limitation excludes microphone, audio-file creation, Docker and meeting qualification. No result is established merely by this definition, and this documentation task did not execute it."
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Audio.Tests/Program.cs",
+      "sourceSha256": "cce136e4359110d48900b72b42e3ac0380fe9a3f771c0d39507b05537db0f60a",
+      "role": "Executable v1 protocol/policy test runner, explicit fixture-service/playback dispatch, and authenticated local WebSocket test infrastructure shared with dual-source tests.",
+      "entryPoints": ["AudioTests.RunAsync", "AudioTests.RunSyntheticServiceCheckAsync", "AudioTests.TestServer.StartAsync"],
+      "blocks": [
+        {
+          "start": 1, "end": 33,
+          "title": "Separate default synthetic checks from explicit service/playback modes",
+          "explanation": "Top-level code awaits AudioTests.RunAsync. The constant token is explicitly a synthetic nonsecret, and Ready is a v1 format fixture. Leading --service, --service-v2 and --playback dispatch before name filtering, so hardware playback is not part of the ordinary suite. Imports support the local ASP.NET server, NAudio contracts and shared test helpers."
+        },
+        {
+          "start": 34, "end": 77,
+          "title": "Register twenty base checks and run selected groups with deadlines",
+          "explanation": "The table covers endpoint spelling, RMS, silence/device policy, v1 transport/auth/schema/order/backpressure and cleanup, then appends DualSourceTests. Filters are case-insensitive name substrings; an unmatched filter can run zero tests and still return 0. Each selected group has a thirty-second outer wait, reports PASS only after completion, and stops the runner on first exception. The final no-endpoint statement describes this default synthetic suite, not the special playback mode.",
+          "focus": [{"start": 62, "end": 71}]
+        },
+        {
+          "start": 78, "end": 108,
+          "title": "Validate a single explicit local-recognizer fixture",
+          "explanation": "The service helper requires endpoint, either --synthetic-wave or --synthetic-pcm, and a nonblank expected phrase. Token is process-scoped. WAV input is checked for PCM, 16000 Hz, mono and 16 bits; raw stdin has no embedded format metadata. Both must contain nonempty even PCM of at most sixty seconds. The caller must ensure synthetic authorization; file naming or sample values alone cannot prove provenance."
+        },
+        {
+          "start": 109, "end": 147,
+          "title": "Pace v1 PCM, drain final text and report a bounded phrase check",
+          "explanation": "The socket gathers final strings and counts provisional events/faults. Frames are at most 3200 bytes and delay is read/BytesPerSecond, correctly shortening the last tick. After Stop, a case-insensitive expected substring and zero faults are required. The success text explicitly disclaims WASAPI capture and Docker evidence. Failures report stage/type/counts and the socket's already-sanitized fault message. Frame clearing occurs on the ordinary path, not all possible exceptions."
+        },
+        {
+          "start": 148, "end": 174,
+          "title": "Admit raw synthetic PCM only through bounded stdin",
+          "explanation": "Raw PCM's path must be '-' rather than a recording filename. A MemoryStream receives at most 1920000 bytes with a fifteen-second deadline. The scratch buffer is cleared, the stream rewound and ownership returned to the caller. Failure disposes the memory stream before rethrowing. Disposing MemoryStream alone is not a guarantee that its backing bytes were erased."
+        },
+        {
+          "start": 175, "end": 201,
+          "title": "Test original URI spellings rather than normalized loopback equivalence",
+          "explanation": "Positive cases are literal IPv4/IPv6 loopback and an omitted port. Negative controls include wss, localhost/DNS, another loopback address, shortened/integer IP spellings, port zero, query/fragment/userinfo, wrong/normalized/escaped paths and IPv4-mapped IPv6. Each must throw ArgumentException. The test calls only ValidateEndpoint and does not establish connectivity or authentication."
+        },
+        {
+          "start": 202, "end": 227,
+          "title": "Check signed RMS and precise no-backfill silence boundaries",
+          "explanation": "RMS assertions cover empty/silent bytes, repeated -32768 at full scale, and +/-16384 yielding 0.5. Silence tests convert explicit milliseconds into Stopwatch ticks, testing 1249 versus 1250 ms after a 1000-ms packet, the 100-ms rescheduling boundary, reset by a real packet and a delayed 10000-ms tick without duplicate backfill. They exercise arithmetic/policy deterministically, not device timing."
+        },
+        {
+          "start": 228, "end": 246,
+          "title": "Ignore default/unrelated endpoint changes and invalidate once",
+          "explanation": "A synthetic selected ID receives default-change, unrelated removal and Active notifications; none should fault. Disabled then removed for the selected ID must trigger exactly one queued callback, awaited by a three-second latch. The test invokes IMMNotificationClient methods directly and therefore does not establish actual Windows notification delivery."
+        },
+        {
+          "start": 247, "end": 275,
+          "title": "Arrange ordered PCM and fragmented provisional replies",
+          "explanation": "The fake server checks v1 start, sends ready and two provisional strings, deliberately fragmenting the replacement. It collects binary PCM until exact stop text arrives, checking nonempty even frames no larger than 32000. Two finals at 0..0.1 and 0.1..0.3 seconds then stopped model a healthy drain for a 9600-byte fixture. Recognition text is scripted, not inferred from PCM."
+        },
+        {
+          "start": 276, "end": 295,
+          "title": "Assert byte preservation and exact callback ordering",
+          "explanation": "The client submits the fixture as 3200 and 6400 bytes, stops and waits for server completion. Collected bytes must exactly match with no loss/duplication, faults must be empty, callback text order must preserve both partials before both finals, final IDs remain 1/2 and readiness must clear. These are transport assertions only; partial replacement in a UI store is outside this test."
+        },
+        {
+          "start": 296, "end": 318,
+          "title": "Test bearer rejection and refuse HTTP redirect forwarding",
+          "explanation": "WrongTokenAsync supplies a wrong synthetic token and requires rejected connect, false readiness, one fault and no token in the fault text. RedirectAsync uses the fake server's 302 mode and asserts the redirect target counter remains zero. Together they check client routing/error behavior without trusting a friendly local server; they do not implement OS process identity authentication."
+        },
+        {
+          "start": 319, "end": 353,
+          "title": "Reject wrong ready format and cancel a stalled handshake",
+          "explanation": "InvalidReadyAsync sends 48k stereo float format into the real adapter with a sentinel nonexistent device ID; rejection must occur before capture startup can succeed. CancellationAsync withholds ready and expires a 200-ms token, requiring one fault and false readiness. The first test uses the production factory but relies on the protocol gate never reaching native construction."
+        },
+        {
+          "start": 354, "end": 383,
+          "title": "Stop invalidates a queued start rather than just the current socket",
+          "explanation": "The first adapter Start reaches a server that withholds ready; a second Start queues behind it. Stop or Dispose must complete within three seconds, both Starts must reject, exactly one handshake must have occurred and one fault is expected. Sentinel endpoint IDs keep this a startup gate test rather than hardware testing."
+        },
+        {
+          "start": 384, "end": 415,
+          "title": "Enumerate invalid v1 schemas and preserve the failing case number",
+          "explanation": "The table covers wrong text type, duplicate/unexpected properties, duplicate ready, premature stopped, unknown type, nonpositive final ID, negative/reversed/impossible/string times, a private-path error, invalid JSON and a nonobject root. Each uses the shared fault-response assertion under a ten-second case wait. Errors are wrapped with a case index to locate the bad fixture without echoing the hostile payload."
+        },
+        {
+          "start": 416, "end": 441,
+          "title": "Preserve an accepted final while rejecting replay and oversized input",
+          "explanation": "A valid final ID 1 with text retained is followed by the same ID with text duplicate. The test waits for a fault and requires exactly the first event to survive, so a later invalid message cannot erase or duplicate valid output. The separate oversized case creates 33000 characters in partial text to exceed the inbound message budget. These test invalid-response containment, not rollback of earlier valid events."
+        },
+        {
+          "start": 442, "end": 480,
+          "title": "Make connection loss and unconsumed-byte overflow visible",
+          "explanation": "DisconnectAsync aborts after ready and requires one fault/false readiness even if Connect races the abort. BackpressureAsync uses a server that never consumes PCM and repeatedly submits maximum frames until admission fails; the fault must mention inability to keep up. Unlike the dual-source lock-based test, this v1 stress loop interacts with socket buffering, so it is not a deterministic throughput measurement."
+        },
+        {
+          "start": 481, "end": 515,
+          "title": "Reject invalid PCM and bound a missing stopped acknowledgement",
+          "explanation": "Zero, odd one-byte and oversized 32002-byte submissions each require false return plus one visible fault after ready. StopTimeoutAsync has the server consume stop but never acknowledge it; a client constructed with a 200-ms flush deadline must return within three seconds and fault once. This tests a configurable short deadline, not the production 90-second duration or device release timeout."
+        },
+        {
+          "start": 516, "end": 551,
+          "title": "Check unused-object disposal and sanitize hostile response faults",
+          "explanation": "IdempotentDisposeAsync stops/disposes unused socket and adapter repeatedly and verifies they cannot accept/run afterward, without opening audio. AssertFaultResponseAsync sends one scripted reply after ready, accepts a Connect race with the fault, waits at most five seconds, stops and requires one fault, false readiness and no synthetic-private marker in the message. It validates a privacy boundary around remote errors, not the transcript contents intentionally published on valid messages."
+        },
+        {
+          "start": 552, "end": 594,
+          "title": "Share concise wire helpers and assertion semantics",
+          "explanation": "ExpectStartAsync verifies v1 format values. ReceiveAsync assembles test-client messages into a fixed 64000-byte buffer and refuses unexpected close; it is test infrastructure, not the hardened production parser. SendAsync emits complete UTF-8 text; SendFragmentedAsync splits after seven bytes to exercise message reassembly. Check raises InvalidOperationException so the outer executable runner can fail the group uniformly."
+        },
+        {
+          "start": 595, "end": 627,
+          "title": "Host a quiet ephemeral loopback server with a redirect control",
+          "explanation": "TestServer owns the WebApplication, cancellation source and asynchronous completion latch. StartAsync clears ASP.NET logging, binds IPAddress.Loopback port zero and enables WebSockets. A redirect target counts any unwanted follow; optional redirect mode returns 302 from the transcription route. This source would create a real local listener when tests run, which was prohibited and not performed during documentation."
+        },
+        {
+          "start": 628, "end": 658,
+          "title": "Authenticate the test request and surface handler assertions",
+          "explanation": "Only the exact synthetic Authorization header upgrades. The handler runs with the owned cancellation token. Success, expected cancellation and deliberate WebSocket abort complete the latch; other exceptions fault it, carrying failed assertions to tests that await Completed. After starting Kestrel, the actual ephemeral address is converted to the client's ws endpoint. A single completion latch is not a per-request result history when a test reuses this server."
+        },
+        {
+          "start": 659, "end": 668,
+          "title": "Cancel handlers before shutting down the local test host",
+          "explanation": "DisposeAsync first cancels the server token so infinite scripted waits can leave, then gives application StopAsync three seconds, disposes the host and releases the cancellation source. Cleanup is awaited rather than leaving a background listener intentionally running. This method is test lifecycle code only, not production service management."
+        }
+      ]
+    },
+    {
+      "path": "tools/DualSourceProbe/probe.py",
+      "sourceSha256": "6ff0b3f74333cd01e7b8974bc094fe4fe148f23024550c8e538250f14e449c2c",
+      "role": "Explicit synthetic dual-source probe against first-party service code and installed local model, either using Python wire checks or the native C# fixture client.",
+      "entryPoints": ["run", "main"],
+      "blocks": [
+        {
+          "start": 1, "end": 18,
+          "title": "Import the repository service without claiming package inspection",
+          "explanation": "ROOT is derived from this file's location; the first-party transcription directory is placed on sys.path to import VoskFactory, FORMAT and create_app. aiohttp is the network framework boundary. The module describes generated in-memory PCM; it is not an ordinary unit test and running it can load models and start a listener. No dependency internals or private model directories were inspected for these annotations."
+        },
+        {
+          "start": 19, "end": 42,
+          "title": "Choose the requested local model and bind an ephemeral service",
+          "explanation": "A deliberately synthetic token protects this test server. Accurate mode explicitly loads configured HybridFactory inputs; otherwise a fixed local Vosk-model path is passed to VoskFactory. create_app is hosted on 127.0.0.1 port zero with access logging disabled. Per-source partial/final counts and clocks are initialized separately, while last_id is global. runner.setup/site.start happen before the later try/finally; a failure at those earlier statements is not covered by that cleanup block."
+        },
+        {
+          "start": 43, "end": 66,
+          "title": "Drive the actual C# v2 client through synthetic stdin",
+          "explanation": "The native branch starts dotnet on the explicitly resolved client path with expected Computer/Mic phrases and passes its token by child environment. JSON/base64 PCM is sent on stdin while stdout/stderr are captured. communicate has a 60-second deadline or 120 seconds for accurate mode; timeout kills and waits only this child. A nonzero exit raises with its stderr; success prints the child's summary and a narrowly labelled no-endpoint/no-audio-file report. This report is code-defined, not a result obtained here.",
+          "focus": [{"start": 46, "end": 57}]
+        },
+        {
+          "start": 67, "end": 93,
+          "title": "Validate Python-client handshake, labels and final ordering",
+          "explanation": "Without a native client, aiohttp connects with bearer authorization and requires exact equality between ready and the declared v2 format/sources. A receive task counts nonempty partials, requires known source labels, strictly increasing global final IDs and monotonic nonnegative per-source start/end times. This probe's parser is narrower than TranscriptionSocket's hardened schema/size checks; for example it does not enforce exact transcript key sets or PCM-duration bounds."
+        },
+        {
+          "start": 94, "end": 123,
+          "title": "Pad independent tracks, drain and test keyword separation",
+          "explanation": "The loop sends 3200 PCM bytes plus one source byte per track per 100 ms, zero-padding short tracks through the longest length plus another 32000 bytes. Stop is sent after these frames; the receiver has a fifteen-second completion wait and is canceled/joined in finally if unfinished. Assertions require stopped, partials/finals for both, expected keywords and absence of selected other-source phrases. This is stronger than phrase presence alone but not general diarization or echo cancellation proof. runner.cleanup releases the service after either branch."
+        },
+        {
+          "start": 124, "end": 146,
+          "title": "Bound supplied fixtures and require native checks for accurate mode",
+          "explanation": "main reads at most 4000001 stdin bytes and rejects more than 4000000, then requires exactly Computer/Microphone JSON keys. Strict base64 decoding and nonempty even tracks no longer than 960000 bytes cap each at thirty seconds. A provided native path must resolve to an existing path. --accurate without that native client is rejected. asyncio.run is reached only after validation; it would execute service/model work and was not invoked in this documentation task.",
+          "focus": [{"start": 130, "end": 141}]
+        }
+      ]
+    },
+    {
+      "path": "tools/DualSourceProbe/test_runtime_upgrade.py",
+      "sourceSha256": "784e149ba6d9da2346fcf7c9b556e6bba6275649bd0a13fbc69c086536165b20",
+      "role": "Mocked management-policy tests for exact v2 capability detection and refusing to restart possibly active services; includes an older reuse fixture with a current fingerprint-coverage caveat.",
+      "entryPoints": ["UpgradeTests.test_capabilities_require_exact_integer_two", "UpgradeTests.test_unknown_activity_never_allows_shutdown", "UpgradeTests.test_current_service_is_reused_without_restart", "UpgradeTests.test_active_old_service_is_not_restarted"],
+      "blocks": [
+        {
+          "start": 1, "end": 16,
+          "title": "Import first-party management policy and distinguish integers from booleans",
+          "explanation": "The test imports manage from the repository service directory. supports_current_audio must reject absent versions, string '2' and True, while accepting [1,2]. In Python bool is an int subclass, so manage.py uses type(version) is int rather than isinstance(version,int). These calls test a pure metadata predicate, not a live runtime response."
+        },
+        {
+          "start": 17, "end": 24,
+          "title": "Require literal inactive state before sending shutdown",
+          "explanation": "True, None and string 'false' each stand for active or unknown activity. stop_owned must raise RuntimeFailure and the mocked request must never be called. This checks fail-closed policy before the network boundary; it does not test the authenticated shutdown exchange, port release or receipt deletion for a genuinely inactive owned instance."
+        },
+        {
+          "start": 25, "end": 37,
+          "title": "Describe intended compatible-service reuse and its stale fixture boundary",
+          "explanation": "Mocks provide an existing authenticated ready/active v2 service and assert neither stop_owned nor subprocess.Popen is called by start. However current manage.start also calls load_config and requires supports_current_engine(info,config), comparing configFingerprint. This older fixture supplies no fingerprint and does not mock configuration/engine compatibility. Therefore its name and assertions express reuse intent, not a self-contained current proof of the successful reuse branch. No execution or environment-based repair was attempted.",
+          "focus": [{"start": 30, "end": 36}]
+        },
+        {
+          "start": 38, "end": 49,
+          "title": "Refuse to replace an active service lacking current capabilities",
+          "explanation": "The owned-info fixture is ready and active but has no v2 capability list. start must raise and both shutdown request and spawn remain unused, protecting ongoing capture from an automatic upgrade. As in the preceding test, load_config is not mocked, so this is not wholly isolated from current configuration setup. It does not cover successful idle upgrade or fingerprint matching."
+        }
+      ]
+    }
+  ]
+}

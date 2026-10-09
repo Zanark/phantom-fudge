@@ -3,6 +3,8 @@ import test from 'node:test';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { citations, frontmatter, safeRepoPath, slug, validateCatalogue } from './build.mjs';
+import { hash } from './build.mjs';
+import { physicalLines, sourceKind, validateFileAnnotation, validateAtlasManifest, escapeHtml, discoverSources } from './source-atlas.mjs';
 
 test('frontmatter is required and stripped', () => {
   const page = frontmatter('---\ntitle: "Title"\ndescription: "Description"\n---\n# Body');
@@ -60,4 +62,79 @@ test('public paths reject private stores, secrets and traversal', () => {
     '.env.production', '.agent-context/STATE.md', 'tools/Docs/node_modules/private.md'])
     assert.throws(() => safeRepoPath(root, target));
   assert.equal(safeRepoPath(root, 'docs/README.md'), path.join(root, 'docs', 'README.md'));
+});
+
+const annotatedFile = () => {
+  const bytes = Buffer.from('using System;\r\n\r\nreturn 1;\r\n');
+  return { bytes, file: { path: 'src/Example.cs', sourceSha256: hash(bytes),
+    role: 'A small deterministic fixture for annotation validation.', entryPoints: ['Example'],
+    blocks: [{ start: 1, end: 3, title: 'Return a fixed value',
+      explanation: 'The fixture imports System, preserves a blank line and returns one; every physical line must have an explanation owner.',
+      focus: [{ start: 3, end: 3 }] }] } };
+};
+
+test('atlas physical lines agree with trailing-newline and BOM handling', () => {
+  assert.deepEqual(physicalLines(''), []);
+  assert.deepEqual(physicalLines('\uFEFFa\r\n\r\nb\r\n'), ['a', '', 'b']);
+  assert.deepEqual(physicalLines('a\rb\n'), ['a', 'b']);
+  assert.deepEqual(physicalLines('a\n\n'), ['a', '']);
+});
+test('atlas scope distinguishes annotated code, mirrors and generated data', () => {
+  assert.equal(sourceKind('src/App/Main.cs'), 'annotated');
+  assert.equal(sourceKind('tools/Docs/source-atlas.mjs'), 'annotated');
+  assert.equal(sourceKind('services/transcription/requirements.txt'), 'annotated');
+  assert.equal(sourceKind('scripts/Run.txt'), 'possible-mirror');
+  assert.equal(sourceKind('tools/Probe/results/run.json'), 'evidence');
+  assert.equal(sourceKind('src/App/packages.lock.json'), 'lockfile');
+  for (const file of ['.local/token.json', 'tools/Docs/node_modules/index.js',
+    'src/App/bin/generated.cs', 'src/App/obj/AssemblyInfo.cs', 'docs/source-atlas/manifest.json',
+    'tools/.agent-context/STATE.md'])
+    assert.equal(sourceKind(file), null);
+});
+test('atlas accepts a complete authored line partition with an exact source hash', () => {
+  const { bytes, file } = annotatedFile();
+  const result = validateFileAnnotation(file, bytes);
+  assert.equal(result.lines.length, 3);
+  assert.equal(result.nonblankLines, 2);
+  const empty = Buffer.alloc(0);
+  assert.equal(validateFileAnnotation({ ...file, sourceSha256: hash(empty), blocks: [] }, empty).lines.length, 0);
+});
+test('atlas rejects stale source, missing tails, gaps and overlaps', () => {
+  const { bytes, file } = annotatedFile();
+  assert.throws(() => validateFileAnnotation(file, Buffer.from('changed')), /stale/);
+  for (const [start, end] of [[2, 3], [1, 2], [1, 4], [0, 3], [1, 0]])
+    assert.throws(() => validateFileAnnotation({ ...file, blocks: [{ ...file.blocks[0], start, end }] }, bytes));
+  assert.throws(() => validateFileAnnotation({ ...file, blocks: [file.blocks[0], file.blocks[0]] }, bytes));
+});
+test('atlas rejects unbounded or invalid focus ranges and placeholder explanations', () => {
+  const { bytes, file } = annotatedFile();
+  const block = file.blocks[0];
+  for (const focus of [[{ start: 0, end: 1 }], [{ start: 2, end: 4 }], [{ start: 2, end: 1 }]])
+    assert.throws(() => validateFileAnnotation({ ...file, blocks: [{ ...block, focus }] }, bytes));
+  assert.throws(() => validateFileAnnotation({ ...file, blocks: [{ ...block, explanation: 'Does stuff.' }] }, bytes));
+  assert.throws(() => validateFileAnnotation({ ...file, blocks: [{ ...block, unexplained: true }] }, bytes));
+});
+test('atlas rejects traversal and escapes source as text, not executable HTML', () => {
+  const { bytes, file } = annotatedFile();
+  assert.throws(() => validateFileAnnotation({ ...file, path: '../outside.cs' }, bytes));
+  assert.equal(escapeHtml('<script>"&\'</script>'), '&lt;script&gt;&quot;&amp;&#39;&lt;/script&gt;');
+});
+test('atlas discovery includes its own code and verifies canonical script mirrors', async () => {
+  const inventory = await discoverSources();
+  assert.ok(inventory.some(file => file.path === 'tools/Docs/source-atlas.mjs' && file.kind === 'annotated'));
+  assert.ok(inventory.some(file => file.path === 'scripts/Build-Handbook.txt' &&
+    file.kind === 'mirror' && file.canonical === 'scripts/Build-Handbook.ps1'));
+  assert.ok(inventory.every(file => !file.path.includes('node_modules/')));
+});
+test('atlas completion requires all real outputs and matching coverage counts', () => {
+  const counts = { files: 2, lines: 3, nonblankLines: 2, blocks: 2, groups: 1 };
+  const artifacts = ['index.html', 'Phantom-Fudge-Source-Atlas.pdf', 'coverage.json', 'README.md']
+    .map(name => ({ file: `docs/source-atlas/${name}`, sha256: 'a'.repeat(64) }));
+  const manifest = { schemaVersion: 1, complete: true, counts, artifacts,
+    pdf: { ...artifacts[1], pages: 3 } };
+  validateAtlasManifest(manifest, counts);
+  assert.throws(() => validateAtlasManifest({ ...manifest, complete: false }, counts));
+  assert.throws(() => validateAtlasManifest({ ...manifest, artifacts: [] }, counts));
+  assert.throws(() => validateAtlasManifest({ ...manifest, pdf: { ...manifest.pdf, pages: 1 } }, counts));
+  assert.throws(() => validateAtlasManifest({ ...manifest, counts: { ...counts, files: 99 } }, counts));
 });

@@ -6,9 +6,18 @@ Source IDs below resolve in [FEASIBILITY.md](FEASIBILITY.md).
 
 The15:05 request designed the Azure extension; TODO28 now implements its local question draft/snapshot boundary.
 Read [AI-ANSWER-ARCHITECTURE.md](AI-ANSWER-ARCHITECTURE.md) for the complete researched design.
-Current local-only ASR/runtime behavior remains unchanged. The proposal sends only selected frozen
+The current local ASR uses Vosk provisional text plus Whisper small.en final refinement.
+Installed Agency is implemented; the direct Azure proposal sends only selected frozen
 text on Ask, keeps audio local by default, streams to the same HWND and leaves Docker optional/last.
 The source registry for this extension is AI-ANSWER-RESEARCH.md, not the older capture-feasibility IDs.
+
+The October9 source-only selection increment adds main/partial ListBoxes of immutable
+`TranscriptRow` objects, each pairing display text with a structured segment. Direct multi-click
+selection composes raw text in displayed history order through `QuestionDraft.ReplaceSelection`;
+it does not parse timestamps/source labels or create a request. Main rows outlive the smaller
+chooser's eviction while the existing display/export bound remains unchanged.
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-82,112-141;
+[local question contract](LOCAL-QUESTIONS.md).)
 
 ## Why this shape
 
@@ -31,8 +40,17 @@ October8 14:01 adds explicitly selected microphone dictation alongside Computer 
 sends independent source-tagged PCM tracks in one v2 WebSocket; Python owns a decoder per source.
 No mixing, chat scraping, speaker identification, automatic input fallback or cloud ASR is introduced.
 Source labels/partial state are preserved separately; see DUAL-SOURCE-AUDIO.md for the versioned contract.
+October 9 adds independent bounded provisional workers and a separate serial accurate finalizer,
+with disjoint source spans and no speech-schema change. Model/source fingerprints gate reuse of an
+owned idle backend. Diagnostics record local metadata without PCM or transcript text; see DIAGNOSTICS.md.
 
 ## Components and responsibilities
+
+The optional [Clarify first flow](QUESTION-CLARIFICATION.md) adds typed task metadata and a
+bounded local interpretation/reply history. It is off by default, preserves the original draft,
+and requires an explicit action for every correction or confirmation. Ordinary Ask has no
+conversation history. Each Agency transaction still uses a fresh session and the same no-tools
+boundary; this does not introduce an interactive coding-agent session or chat reader.
 
 | Proposed component | Owns | Must not do |
 | --- | --- | --- |
@@ -46,7 +64,7 @@ Source labels/partial state are preserved separately; see DUAL-SOURCE-AUDIO.md f
 | `NoteDocument` | Text, dirty state, undo boundaries, encoding/newline metadata | Own platform capture policy |
 | `NoteStore` | Explicit file I/O and approved opt-in recovery | Autosave to arbitrary source files or discard a failed save |
 | `PlacementStore` | Position/size in logical units plus monitor context, safe bounds | Restore an unreachable grip after monitor changes |
-| `Diagnostics` | Bounded redacted event codes and environment facts | Log text, clipboard, paths, note hashes, or dumps by default |
+| `Diagnostics` | Bounded rotating local JSONL metadata, request/capture correlation, explicit text opt-in | Log bodies, clipboard, paths, note hashes, tokens or dumps by default; record raw audio |
 | Python `manage.py` | Native service startup/reuse/status/idle shutdown with local receipt and authenticated instance identity | Require Docker, kill unrelated processes or interrupt active transcription |
 | Python recognizer adapter | Convert PCM into partial/final events independently of GUI/deployment | Infer that programming language alone improves accuracy |
 
@@ -149,7 +167,7 @@ changes; already recorded frames cannot be revoked.
 
 ## Interaction and shell behavior
 
-The default is now transcript-first Present mode, non-activating, with Notes collapsed.
+The default is now transcript-first Present mode, non-activating, with Notes collapsed and Q/A expanded.
 The same controls can switch to Edit for real keyboard focus. Notes visibility and theme changes
 only update the existing visual tree/resources; they preserve data and do not restart capture.
 Window/child `Cursor=Arrow` with `ForceCursor`, plus owned-window native cursor messages, avoids
@@ -157,6 +175,15 @@ the I-beam without touching global cursor visibility settings. This does not pro
 inclusion. Generic protection errors are written locally rather than shown in unprotected popups.
 Semantic theme mappings live in ThemePalette/ThemeBrushes; canonical provenance and limitations
 are documented in CURSOR-AND-THEMES.md.
+
+Clicking a main transcript row is a deliberate exception to passive reading: it opens Q/A,
+closes source/setup/Notes and calls `SetQuestionEditing(true)`, taking keyboard focus without
+the global Notes transition or transcription stop. Further direct selection after editing is
+rejected with inline retained-draft status until **Clear question**. Ordinary clicks toggle whole
+segments without Ctrl; native keyboard/automation selection uses the same `SelectionChanged`
+handler. The manual chooser/Use selected path remains distinct and can stay passive.
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:84-141;
+[`InitializeQuestionView` / `SetQuestionEditing`](../src/PhantomFudge.App/MainWindow.Questions.cs).)
 
 In Edit mode, preserve keyboard focus, standard text editing, keyboard traversal, and
 accessibility. Use a separate drag grip, not the text area, as the move region.
@@ -176,11 +203,21 @@ with hooks or repeated focus-stealing calls.
 No click-through in v1. `WS_EX_TRANSPARENT` is a painting-order style, not a universal
 cross-process click-through contract [S03]. Transparent rendering is not capture protection.
 
-BackgroundOpacity changes only the root Border brush alpha from26to255 (10-100%), default140
+BackgroundOpacity changes the shared root brush alpha from26to255 (10-100%), default140
 (55%). Window/text opacity remains1; the editor/transcript fills are transparent so there is
 only one tint layer. No HWND/style change is needed when moving the slider. Header and setup/
 confirmation controls retain opaque fills; minimum alpha avoids all-transparent mouse holes.
 Local layered-window getter/capture/hit-test evidence is in IMPLEMENTATION-STATUS.md.
+The requested window is now 1240 x 1520 clamped to monitor work area, with responsive transcript/Q&A
+columns and no outer main-panel scrollbar. Text areas retain their own scrolling. A separate
+white/black reading role preserves canonical theme accents while increasing reading contrast.
+
+Configured Agency keeps one owned ACP provider and prepares one empty session on startup/reveal/
+reload without sending a model prompt. Explicit Ask sends exact JSON question data under a fixed
+answer-only system role; completion closes that question session and prepares a fresh empty one.
+Hide/Clear/protection failure/reload/close dispose owned state. There is no permission wait, model
+tool surface, prior question history, implicit retry or automatic fallback. Measured prepared
+answers and the much slower cold-preparation boundary are separated in QUALITY-UPDATE.md.
 
 No taskbar/Alt-Tab entry does not mean no process, no Task View presence, no tray icon if
 one is explicitly enabled, or no capture-picker entry. Measure those separately.

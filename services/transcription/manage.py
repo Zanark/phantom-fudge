@@ -13,6 +13,8 @@ from urllib.error import HTTPError, URLError
 from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 import uuid
 
+from configuration import load_config, metadata, paths, verify_config
+
 
 ROOT = Path(__file__).resolve().parents[2]
 LOCAL = ROOT / ".local"
@@ -127,6 +129,19 @@ def supports_current_audio(info):
     return isinstance(versions, list) and any(type(version) is int and version == 2 for version in versions)
 
 
+def supports_current_engine(info, config):
+    return info.get("configFingerprint") == metadata(config)["configFingerprint"]
+
+
+def validate_start(config):
+    try:
+        verify_config(config)
+        if config["engine"] == "hybrid-whisper":
+            import faster_whisper
+    except (ImportError, OSError, ValueError):
+        raise RuntimeFailure("Selected local ASR is not provisioned. Run Initialize-Transcription.ps1 -DownloadModel; no fallback or service shutdown occurred.") from None
+
+
 def stop_owned(local_token, record, info):
     if info.get("active") is not False:
         raise RuntimeFailure("Transcription may be active. Click Stop in the app before updating/stopping the local service.")
@@ -147,20 +162,26 @@ def stop_owned(local_token, record, info):
 def start():
     local_token = token()
     with lifecycle_lock():
+        config = load_config()
         record = read_record()
         if port_in_use():
             info = owned_info(local_token, record)
             if info.get("ready") is not True:
                 raise RuntimeFailure("The owned service is not ready. Stop it, check setup, then retry.")
-            if supports_current_audio(info):
+            if supports_current_audio(info) and supports_current_engine(info, config):
                 print("Local Python transcription is already ready for computer and microphone input. Docker is not required.")
                 return
+            if info.get("active") is not False:
+                raise RuntimeFailure("The owned service needs an ASR update but transcription may be active. Stop capture in the app first; no service was changed.")
+            # Provisioning failures must not take a healthy old idle instance down.
+            validate_start(config)
             stop_owned(local_token, record, info)
-            print("Restarting the owned idle service for the updated audio protocol.")
+            print("Restarting the owned idle service for the selected ASR configuration.")
+        elif record is not None:
+            raise RuntimeFailure("A managed service receipt exists but its service is not reachable. No receipt was overwritten and no second process was started; inspect the retained runtime receipt.")
 
-        model = LOCAL / "models" / "vosk-model-small-en-us-0.15"
-        if not (model / "am" / "final.mdl").is_file():
-            raise RuntimeFailure("The local model is absent. Run Initialize-Transcription.ps1 -DownloadModel.")
+        validate_start(config)
+        model = paths(config)[0]
         instance = uuid.uuid4().hex
         record = {"schemaVersion": 1, "instanceId": instance, "pid": None}
         write_record(record)
@@ -173,6 +194,10 @@ def start():
             "PYTHONDONTWRITEBYTECODE": "1",
             "OPENBLAS_NUM_THREADS": "1",
             "OMP_NUM_THREADS": "1",
+            "HF_HUB_OFFLINE": "1",
+            "TRANSFORMERS_OFFLINE": "1",
+            "HF_HUB_DISABLE_TELEMETRY": "1",
+            "HF_HUB_DISABLE_IMPLICIT_TOKEN": "1",
         })
         with (LOCAL / "transcription-service.log").open("wb") as log:
             process = subprocess.Popen(
@@ -193,6 +218,8 @@ def start():
                     raise RuntimeFailure("Local model did not load. Use Stop-Transcription, repair setup and restart.")
                 if not supports_current_audio(info):
                     raise RuntimeFailure("The service does not support the installed client audio protocol. Update the service files.")
+                if not supports_current_engine(info, config):
+                    raise RuntimeFailure("The service did not load the selected ASR configuration. No fallback is accepted.")
                 print("Local Python transcription is ready at 127.0.0.1:8765. Start audio explicitly in the app.")
                 return
             time.sleep(0.15)
@@ -220,7 +247,9 @@ def status():
             print("Local Python transcription is not listening.")
             return
         info = owned_info(token(), read_record())
-        print(json.dumps({key: info[key] for key in ("ready", "active", "pid")}))
+        print(json.dumps({key: info.get(key) for key in (
+            "ready", "active", "pid", "engine", "model", "configFingerprint",
+            "diagnosticsAvailable", "faultCount", "dropCount")}))
 
 
 def main():

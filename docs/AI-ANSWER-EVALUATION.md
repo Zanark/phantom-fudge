@@ -4,6 +4,9 @@
 Existing local ASR measurements are in SPEECH-BENCHMARK.md. No Azure model or Speech endpoint
 has been called for this research, and no new live audio has been captured.
 
+This retained October 8 plan is not a current runtime inventory. See [October 9 results](QUALITY-UPDATE.md)
+for hybrid ASR and prepared Agency evidence; the proposed Azure and live-voice acceptance gates remain separate.
+
 ## Measure the user-visible path
 
 Use one local monotonic clock for client stage events. Keep source-relative sample positions

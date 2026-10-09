@@ -22,6 +22,10 @@ the front page; do not turn it back into a long technical document.
 6. Update the relevant TODO evidence and index. Keep blocked qualification distinct from completed code.
 7. Rebuild the illustrated editions and run their freshness check. Review a representative rendered
    page for each changed chapter and every changed image, not merely the exit code.
+8. Maintain the [source atlas](source-atlas/README.md): read changed first-party files, update their
+   authored block explanations/ranges and reviewed source hashes, and cover newly added files.
+   Blocks partition every physical line; do not auto-rewrite hashes to excuse stale explanations.
+   Generated evidence/locks and byte-identical PowerShell mirrors remain separately classified.
 
 The public journal must be understandable from public repository sources alone. Private continuity
 stores are not a substitute and must not become book inputs.
@@ -52,6 +56,8 @@ npm ci --prefix .\tools\Docs --no-audit --no-fund --ignore-scripts
 .\scripts\Export-HandbookScreenshots.ps1
 
 node --test .\tools\Docs\test-docs.mjs
+node .\tools\Docs\source-atlas.mjs --validate
+node .\tools\Docs\source-atlas.mjs
 .\scripts\Build-Handbook.ps1 -AcceptReviewedSource
 .\scripts\Build-Handbook.ps1 -Check
 ```
@@ -61,7 +67,10 @@ Review the changed source and its claims first. Omit it for an initial build or 
 change that does not alter previously recorded code/tool inputs.
 
 The build blocks on missing chapters, invalid line ranges, missing links/images, stale UI image
-hashes, Mermaid failures, missing internal anchors or horizontal print overflow. It records hashes
+hashes, Mermaid failures, missing internal anchors or horizontal print overflow.
+It now also requires a complete current source atlas. The atlas detects unannotated first-party
+files, gaps/overlaps, stale source hashes, oversized explanation/excerpt ranges and script-mirror drift.
+Its HTML includes all source; its PDF includes all authored explanations and selected excerpts. The handbook records hashes
 for cited source files, chapters, tooling and outputs. This detects drift in **recorded inputs**;
 it cannot discover an uncited new feature or prove that a sentence correctly interprets source.
 Human source review remains required. Re-run the script even if source changes are outside the hash

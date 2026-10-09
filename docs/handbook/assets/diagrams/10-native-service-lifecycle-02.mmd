@@ -3,7 +3,7 @@ config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorde
 ---
 sequenceDiagram
     accTitle: Native cold start does not start capture
-    accDescr: The manager writes ownership before spawn and verifies readiness before the application can explicitly request recording.
+    accDescr: The manager verifies selected models before writing ownership and spawning, then checks readiness and fingerprint without starting capture.
     autonumber
     participant L as Launcher
     participant M as Manager
@@ -11,11 +11,12 @@ sequenceDiagram
     participant S as Python service
     participant A as Native app
     L->>M: start under lifecycle lock
+    M->>M: Verify selected models and dependency
     M->>R: Write new instance UUID
     M->>S: Spawn detached with explicit paths
-    S->>S: Verify and load model
+    S->>S: Verify and load selected models
     M->>S: Authenticated runtime query
-    S-->>M: Instance, ready, speech versions
+    S-->>M: Instance, ready, versions, fingerprint
     M->>R: Record reported PID
     M-->>L: Ready, no audio started
     L->>A: Launch with local configuration

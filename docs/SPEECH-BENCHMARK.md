@@ -1,5 +1,10 @@
 # Local speech-engine benchmark
 
+> **Historical October 8 comparison.** Its inputs, numbers and then-current recommendation below
+> remain unchanged. The October 9 native default now uses Vosk partials plus Whisper small.en finals;
+> [the separate paced quality study](QUALITY-UPDATE.md) measures that change, including failures,
+> finalization latency and synthetic-only limits. Do not merge the two corpora or their WER values.
+
 ## Result: engines, not programming-language quality
 
 Measured on **8 October 2026, 03:40 IST**. All three engines actually ran locally,

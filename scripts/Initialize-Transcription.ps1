@@ -1,11 +1,20 @@
 [CmdletBinding()]
 param(
     [switch]$DownloadModel,
-    [switch]$SkipPythonSetup
+    [switch]$SkipPythonSetup,
+    [ValidateSet('hybrid-whisper', 'vosk')]
+    [string]$Engine = 'hybrid-whisper',
+    [ValidateSet('small.en', 'base.en')]
+    [string]$WhisperModel = 'small.en',
+    [ValidateSet('none', 'technical')]
+    [string]$Vocabulary = 'technical'
 )
 
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
+$Engine = $Engine.ToLowerInvariant()
+$WhisperModel = $WhisperModel.ToLowerInvariant()
+$Vocabulary = $Vocabulary.ToLowerInvariant()
 $Root = Split-Path -Parent $PSScriptRoot
 $Local = Join-Path $Root '.local'
 $Models = Join-Path $Local 'models'
@@ -124,7 +133,7 @@ if (-not $SkipPythonSetup) {
         $RestoreRequired = (Get-Content -LiteralPath $RequirementsReceipt -Raw).Trim() -ne $RequirementsHash
     }
     if (-not $RestoreRequired) {
-        & $Python -c 'import aiohttp, vosk' 2>$null
+        & $Python -c 'import aiohttp, vosk, faster_whisper' 2>$null
         $RestoreRequired = $LASTEXITCODE -ne 0
     }
     if ($RestoreRequired) {
@@ -134,8 +143,24 @@ if (-not $SkipPythonSetup) {
         if ($LASTEXITCODE -ne 0) { throw 'Local transcription dependencies are inconsistent.' }
         $RequirementsHash | Set-Content -LiteralPath $RequirementsReceipt -Encoding ASCII
     }
-    Write-Host 'Local Python runtime, token and pinned model are ready. No Docker is needed; no speech capture was started.'
+}
+$ProvisionPython = Join-Path $Root 'services\transcription\.venv\Scripts\python.exe'
+if (-not (Test-Path -LiteralPath $ProvisionPython -PathType Leaf)) {
+    $ProvisionPython = (Get-Command python -ErrorAction Stop).Source
+}
+if ($Engine -eq 'hybrid-whisper') {
+    $ProvisionArgs = @((Join-Path $Root 'services\transcription\provision_whisper.py'), '--model', $WhisperModel)
+    if ($DownloadModel) { $ProvisionArgs += '--download' }
+    & $ProvisionPython @ProvisionArgs
+    if ($LASTEXITCODE -ne 0) { throw 'Pinned local Whisper verification/provisioning failed. No ASR fallback was selected.' }
+}
+$Config = [ordered]@{ schemaVersion = 1; engine = $Engine; model = $WhisperModel; threads = 4; vocabulary = $Vocabulary }
+$ConfigFile = Join-Path $Local 'transcription-config.json'
+$Config | ConvertTo-Json | Set-Content -LiteralPath ($ConfigFile + '.new') -Encoding UTF8
+Move-Item -LiteralPath ($ConfigFile + '.new') -Destination $ConfigFile -Force
+if ($Engine -eq 'hybrid-whisper') {
+    Write-Host "Configured local $Engine ($WhisperModel, vocabulary $Vocabulary). No Docker, service restart or speech capture occurred."
 }
 else {
-    Write-Host 'Token and pinned model are ready. Python setup was explicitly skipped; no service was started.'
+    Write-Host 'Configured explicitly selected legacy Vosk, without Whisper finalization. No Docker, service restart or speech capture occurred.'
 }

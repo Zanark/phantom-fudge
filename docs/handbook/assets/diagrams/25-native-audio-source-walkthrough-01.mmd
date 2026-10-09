@@ -1,0 +1,37 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#2d333b"
+    primaryTextColor: "#e6edf3"
+    primaryBorderColor: "#6d5dfc"
+    lineColor: "#8b949e"
+    background: "#161b22"
+---
+flowchart TD
+    accTitle: Explicit native capture and source-labelled transport
+    accDescr: After an explicit start and accepted ready response, two selected endpoint owners request the same PCM format. Separate source state feeds one bounded channel and one sender. Validated replies receive a capture GUID before reaching the UI.
+    UI["Explicit Start"] --> Ready["Accepted v2 ready"]
+    Ready --> Computer["Selected render endpoint"]
+    Ready --> Mic["Selected capture endpoint"]
+    Computer --> C["Computer PCM and cadence"]
+    Mic --> M["Mic PCM and cadence"]
+    C --> Queue["Source budgets and one channel"]
+    M --> Queue
+    Queue --> Send["One WebSocket sender"]
+    Send --> Service["Python source decoders"]
+    Service --> Validate["Validate transcript replies"]
+    Validate --> Guid["Stamp capture GUID"]
+    Guid --> View["UI checks current GUID"]
+    style UI fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Ready fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Computer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Mic fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style C fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style M fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Queue fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Send fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Service fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Validate fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Guid fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style View fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

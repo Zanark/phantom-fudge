@@ -1,0 +1,52 @@
+# Exhaustive first-party source explanations
+
+Status: DONE
+Milestone: Book-level statement walkthroughs and searchable source atlas
+Dependencies: 38_LIVING_DOCUMENTATION.todo, 44_TRANSCRIPT_CLICK_SELECTION.todo, 45_OPT_IN_QUESTION_CLARIFICATION.todo
+
+## Purpose
+
+Explain every interesting statement through source-grounded blocks, without hiding unreviewed
+files behind a broad architecture summary. Preserve complete source and explicit coverage.
+
+## Tasks and acceptance
+
+- [x] Inventory first-party runtime, tests, tools, scripts and configuration; separate generated evidence and mirrors.
+- [x] Author contiguous, meaningful explanation blocks for every in-scope physical source line.
+- [x] Add seven deep source walkthrough chapters with code excerpts, invariants, diagrams and failure paths.
+- [x] Build a local searchable escaped-source reader, focused-excerpt PDF and exact-hash coverage validator.
+- [x] Exercise scope, line parsing, stale hashes, gaps/overlaps, mirrors and output completeness using existing Node tests.
+- [x] Validate full coverage and semantically review representative high-risk explanations.
+- [x] Build/review source atlas and expanded illustrated handbook HTML/PDF; confirm freshness and navigation.
+- [x] Update README/docs links, maintenance workflow, public JOURNAL and current-base context.
+
+## Completion evidence
+
+-163first-party files /23686physical lines /22038nonblank lines /956authored blocks across7groups.
+  No missing/overlapping source ranges; all reviewed source hashes match.
+-33generated evidence files and8dependency locks indexed separately;18PStxtmirrors byte-identical.
+-18existing-runner Node tests pass, including stale/missing/overlap/output-manifest negative cases.
+- Source-atlas HTML includes163file sections,956annotations,23686full-source line anchors and one
+  owned browser script. All internal anchors resolve. Identifier search, hidden-file deep links and
+  print-filter reset passed;1440/768/390layouts fit with no browser script error.
+- Atlas PDF476pages,12,370,112bytes at first completed edition; final hash is authoritative in its manifest.
+  Representative pages/excerpts reviewed. Seven new main-book chapters have14newdiagrams and source
+  links; all14code/diagram browser captures and selected PDF pages reviewed. Mainbook has65diagrams.
+- All runtime and non-documentation-tool source hashes unchanged against the request inventory.
+  Existing17synthetic WPF images remain current; no unnecessary app/image capture rerun.
+- Both full HTML/PDF editions built and freshness-checked. No push, release, app restart,
+  service/model/audio/authentication execution or new dependency installation.
+
+## Evidence boundaries
+
+Complete line assignment is not proof of complete semantic understanding. External package
+internals, model weights, private runtime data, actual devices/providers and capture qualification
+are outside this documentation request. No application behavior, service, login or model request
+needs changing to document the project. No commit/push/publication is implied.
+
+## Completion log
+
+- 2026-10-09 11:07 - Owner requested detailed documentation including every interesting code line.
+  Added a separate annotated source companion rather than a raw-code dump in the narrative book.
+- 2026-10-09 - Completed annotated source and expanded handbook locally. Coverage is explicit,
+  not a guarantee that every semantic nuance or external dependency has been independently verified.

@@ -1,0 +1,37 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#2d333b"
+    primaryBorderColor: "#6d5dfc"
+    primaryTextColor: "#e6edf3"
+    lineColor: "#8b949e"
+---
+flowchart TD
+    accTitle: Agency lifecycle and terminal evidence
+    accDescr: Version and initialization lead to an empty selected session. A single explicit prompt streams bounded text. End-turn and close are required before completion. Failure destroys the engine; success may prepare an empty next session.
+    A["Owned layout and wrapper check"] --> B["Initialize ACP"]
+    B --> C["New unique session"]
+    C --> D["Validate and select agent"]
+    D --> E["Empty session ready"]
+    E -->|Explicit request| F["One prompt"]
+    F --> G["Notices then text deltas"]
+    G --> H["Matching end_turn"]
+    H --> I["Close session acknowledged"]
+    I --> J["Completed event"]
+    J -->|Prepare only| C
+    D -->|Invalid configuration| X["Stop engine and delete owned tree"]
+    G -->|Tool or protocol failure| X
+    H -->|Nonanswer or incomplete| X
+    I -->|Close failure| X
+    style A fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style B fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style C fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style D fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style E fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style F fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style G fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style H fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style I fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style J fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style X fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

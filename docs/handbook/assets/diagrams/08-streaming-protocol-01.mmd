@@ -11,7 +11,7 @@ flowchart TB
     R --> P["Receive PCM"]
     P --> P
     P --> Q["Queue stop marker"]
-    Q --> F["Finish every source"]
+    Q --> F["Drain sources and finals"]
     F --> T["Send stopped"]
     S --> E["Safe error"]
     D --> E

@@ -19,9 +19,19 @@ edition's counts, source hashes, citations and artifact hashes; it is the author
 | Engineering practice | [15 Development](15-development-and-testing.md), [16 Distribution](16-distribution-and-troubleshooting.md), [17 Assurance](17-privacy-and-assurance.md), [18 Extensions](18-extending-the-system.md) |
 | Reference and journey | [19 API/configuration](19-api-configuration-reference.md), [20 Glossary/map](20-glossary-and-repository-map.md), [21 Evidence/roadmap](21-evidence-and-roadmap.md), [Development journal](../../JOURNAL.md) |
 | Installed answer providers | [Agency, offline local models, setup and retention](../ANSWER-PROVIDERS.md) |
+| Optional question assistance | [Clarify first, explicit corrections and confirmation](../QUESTION-CLARIFICATION.md) |
+| Cover and privacy limits | [Visual cover, supported Windows controls and feasible protection boundaries](../COVER-AND-PRIVACY.md) |
+| Source walkthroughs | [22 Desktop](22-desktop-source-walkthrough.md), [23 Domain](23-domain-source-walkthrough.md), [24 Providers](24-provider-source-walkthrough.md), [25 Native audio](25-native-audio-source-walkthrough.md), [26 Speech](26-speech-source-walkthrough.md), [27 Operations](27-operations-source-walkthrough.md), [28 Documentation](28-documentation-source-walkthrough.md) |
+| Operational updates | [October 9 quality evidence](../QUALITY-UPDATE.md), [local diagnostics and export](../DIAGNOSTICS.md) |
 
-Each chapter contains diagrams and exact public source references. The onboarding path starts from
-first principles; the principal engineer path starts from invariants and failure boundaries.
+Each chapter contains diagrams and exact public source references.
+The [annotated source atlas](../source-atlas/index.html) adds complete line-numbered first-party
+source, authored explanations of contiguous blocks, focused excerpts and a file/line coverage ledger.
+Its [separate PDF](../source-atlas/Phantom-Fudge-Source-Atlas.pdf) prints the explanations and selected
+snippets rather than duplicating every raw source line. Mechanical coverage is not semantic proof.
+
+The onboarding path starts from first principles; the principal engineer path starts from invariants
+and failure boundaries.
 The future Azure answer chapters are deliberately marked **planned**, not disguised as working code.
 
 ## Illustrations and provenance
@@ -33,7 +43,7 @@ source hashes. These are not desktop captures or evidence that a meeting recorde
 The cover is original schematic artwork.
 
 Screenshots are never captured from the owner's live notes, chats, microphone, meeting or desktop.
-The documentation fixture runs separately and does not start audio capture.
+The documentation fixture runs separately and does not start audio capture or real provider preparation.
 
 ## Keep this book alive
 

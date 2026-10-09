@@ -2,27 +2,39 @@
 config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
 ---
 flowchart TB
-    accTitle: Model identity and mutable decoder ownership
-    accDescr: Verified files create one model, while Computer and Mic retain separate decoder histories serialized on one executor.
-    F["Provisioned files"] --> V["Exact set and hashes"]
-    V --> M["Shared Vosk model"]
-    M --> C["Computer decoder"]
-    M --> D["Mic decoder"]
-    Q["Source-tagged FIFO"] --> W["One executor worker"]
-    W --> C
-    W --> D
-    C --> CS["Computer time and partial"]
-    D --> MS["Mic time and partial"]
-    CS --> P["Validated publication"]
-    MS --> P
-    style F fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    accTitle: Independent provisional work and one bounded finalizer
+    accDescr: Verified Vosk weights serve separate source workers, their owned spans enter a bounded final queue, and Whisper finals share ordered publication with eligible partials.
+    V["Verified configuration"] --> M["Shared Vosk weights"]
+    V --> H["Local Whisper weights"]
+    subgraph C["Computer history"]
+        CQ["PCM queue"] --> CW["Vosk worker"]
+        CW --> CS["Owned span"]
+    end
+    subgraph D["Mic history"]
+        MQ["PCM queue"] --> MW["Vosk worker"]
+        MW --> MS["Owned span"]
+    end
+    M --> CW
+    M --> MW
+    CS --> Q["Bounded final queue"]
+    MS --> Q
+    Q --> W["One finalizer worker"]
+    H --> W
+    CW -.-> P["Ordered publication"]
+    MW -.-> P
+    W --> P
     style V fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style M fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style C fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style D fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style H fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style CQ fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style CW fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style MQ fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style MW fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Q fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style W fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style CS fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style MS fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style P fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style C fill:#161b22,stroke:#30363d,color:#e6edf3
+    style D fill:#161b22,stroke:#30363d,color:#e6edf3
     linkStyle default stroke:#8b949e

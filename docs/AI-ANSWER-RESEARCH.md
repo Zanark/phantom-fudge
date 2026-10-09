@@ -5,6 +5,9 @@ cloud upload, new SDK installation or application implementation occurred in thi
 Evidence comes from the existing local code/benchmark and retrieved public primary references.
 Recommendations and latency targets are not measured Azure performance.
 
+This is the retained October 8 research snapshot, not today's implementation status. October 9
+added native hybrid ASR and prepared installed Agency answers; see [the quality update](QUALITY-UPDATE.md).
+
 ## Executive recommendation
 
 Use the current **C# WPF/WASAPI + native Python ASR** app, then add a local question composer

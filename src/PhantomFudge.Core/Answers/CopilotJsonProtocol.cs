@@ -187,7 +187,8 @@ internal sealed class CopilotJsonProtocol
     }
 
     internal static async IAsyncEnumerable<string> ReadRecordsAsync(TextReader reader,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default, bool allowEmptyLines = false)
+        [EnumeratorCancellation] CancellationToken cancellationToken = default, bool allowEmptyLines = false,
+        int maximumOutputCharacters = MaximumOutputCharacters, int maximumRecords = MaximumRecords)
     {
         var buffer = new char[4096];
         var pending = new StringBuilder();
@@ -200,12 +201,12 @@ internal sealed class CopilotJsonProtocol
             catch (DecoderFallbackException) { throw Protocol(); }
             if (count == 0) break;
             total += count;
-            if (total > MaximumOutputCharacters) throw Limit();
+            if (total > maximumOutputCharacters) throw Limit();
             for (var index = 0; index < count; index++)
             {
                 if (buffer[index] == '\n')
                 {
-                    if (++records > MaximumRecords) throw Limit();
+                    if (++records > maximumRecords) throw Limit();
                     if (pending.Length != 0 && pending[^1] == '\r') pending.Length--;
                     if (pending.Length == 0)
                     {

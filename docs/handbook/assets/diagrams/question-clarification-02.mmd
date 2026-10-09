@@ -1,0 +1,21 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","signalColor":"#8b949e","signalTextColor":"#e6edf3"}}
+---
+sequenceDiagram
+    accTitle: No automatic follow-up request
+    accDescr: The app stores only a completed interpretation and waits for a deliberate reply. Each provider request remains a bounded terminal transaction.
+    autonumber
+    participant User
+    participant App
+    participant Provider
+    User->>App: Enable toggle and Interpret question
+    App->>Provider: Exact question + fixed interpretation metadata
+    Provider-->>App: Complete interpretation
+    App-->>User: Display interpretation and reply controls
+    Note over App,Provider: No request while the user is reading or typing
+    User->>App: Send correction
+    App->>Provider: Exact correction + this clarification history
+    Provider-->>App: Complete revised interpretation
+    User->>App: Yes, answer
+    App->>Provider: Confirmation + reviewed clarification history
+    Provider-->>App: Answer

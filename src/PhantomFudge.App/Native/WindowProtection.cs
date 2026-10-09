@@ -5,7 +5,7 @@ using System.Windows.Interop;
 
 namespace PhantomFudge.App.Native;
 
-public sealed record ProtectionResult(bool ReadbackAvailable, uint? ReadbackAffinity, int ReadbackError);
+public sealed record ProtectionResult(bool ReadbackAvailable, uint? ReadbackAffinity, int ReadbackError, bool PeekPreventionRequested);
 
 internal static class WindowProtection
 {
@@ -14,6 +14,7 @@ internal static class WindowProtection
     internal const long AppWindow = 0x40000;
     private const long NoActivate = 0x08000000;
     private const uint ExcludeFromCapture = 0x11;
+    private const int DisallowPeek = 11;
 
     public static ProtectionResult Configure(Window window, bool nonActivating)
     {
@@ -34,6 +35,8 @@ internal static class WindowProtection
             throw new Win32Exception(Marshal.GetLastPInvokeError());
         if (!SetWindowDisplayAffinity(handle, ExcludeFromCapture))
             throw new Win32Exception(Marshal.GetLastPInvokeError());
+        var preventPeek = 1;
+        Marshal.ThrowExceptionForHR(DwmSetWindowAttribute(handle, DisallowPeek, ref preventPeek, sizeof(int)));
 
         var readback = GetWindowDisplayAffinity(handle, out var affinity);
         var readbackError = readback ? 0 : Marshal.GetLastPInvokeError();
@@ -42,7 +45,7 @@ internal static class WindowProtection
 
         // Flush submitted composition work; recipient capture still requires independent qualification.
         FlushComposition();
-        return new ProtectionResult(readback, readback ? affinity : null, readbackError);
+        return new ProtectionResult(readback, readback ? affinity : null, readbackError, PeekPreventionRequested: true);
     }
 
     public static long ReadStyles(nint handle)
@@ -91,4 +94,6 @@ internal static class WindowProtection
     private static extern int DwmIsCompositionEnabled([MarshalAs(UnmanagedType.Bool)] out bool enabled);
     [DllImport("dwmapi.dll")]
     private static extern int DwmFlush();
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmSetWindowAttribute(nint window, int attribute, ref int value, int size);
 }

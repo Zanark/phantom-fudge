@@ -1,0 +1,30 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#2d333b"
+    primaryBorderColor: "#6d5dfc"
+    primaryTextColor: "#e6edf3"
+    lineColor: "#8b949e"
+---
+flowchart TD
+    accTitle: Separate export history from selected question state
+    accDescr: Current-session callbacks update export text and structured segments. Explicit selection or typing creates a draft, and Ask freezes a copied snapshot before a local-only terminal or provider handoff.
+    Event["Current-session callback"] --> Export["TranscriptBuffer"]
+    Event --> Store["StructuredTranscriptStore"]
+    Store -->|"Explicit selection"| Draft["QuestionDraft"]
+    Store -->|"Selected revisions only"| Draft
+    Typed["Explicit typing"] --> Draft
+    Draft -->|"Ask and Freeze"| Snapshot["QuestionSnapshot"]
+    Snapshot --> Local["Local-only terminal"]
+    Snapshot --> Handoff["Configured provider handoff"]
+    Export -->|"Explicit export"| File["NoteFileStore"]
+    style Event fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Export fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Store fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Draft fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Typed fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Snapshot fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Local fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Handoff fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style File fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

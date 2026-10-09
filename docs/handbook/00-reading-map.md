@@ -18,7 +18,7 @@ inputs, and a researched proposal for explicitly sending a question to an Azure 
 important engineering work is not drawing a rectangle. It is keeping each promise narrow enough
 to implement and each state transition strong enough to preserve data. The current product
 contract records those distinct requirements rather than collapsing them into a claim of
-universal invisibility (`docs\PRODUCT.md:6-31`).
+universal invisibility (`docs\PRODUCT.md:6-33`).
 
 This handbook is intended to support three activities. A new contributor should be able to
 run and navigate the application without guessing. A senior engineer should be able to review
@@ -63,7 +63,7 @@ flowchart LR
 The WPF application owns its native window and starts without an ordinary taskbar/Alt-Tab
 entry. Its startup path distinguishes synthetic diagnostics from normal single-instance
 operation, creates `MainWindow`, installs recovery callbacks, and calls `ShowProtected`
-(`src\PhantomFudge.App\App.xaml.cs:13-82`). The UI is not a browser or a remote webpage.
+(`src\PhantomFudge.App\App.xaml.cs:13-97`). The UI is not a browser or a remote webpage.
 
 The speech path remains local. The native adapter selects explicit audio endpoints, while
 the Python server accepts one authenticated session and uses separate decoder state for
@@ -75,6 +75,16 @@ The launch script can start/reuse the local Python service, but that is not perm
 start audio capture. `-NotesOnly` avoids service startup, and an existing app is revealed
 without rebuilding it (`scripts\Run-PhantomFudge.ps1:17-41`). Docker recipes are a possible later
 deployment of the headless service, not the normal runtime dependency.
+
+The October 9 correction separates provisional speed from final quality: local Vosk partials
+feed bounded disjoint-span Whisper small.en finals. The expanded UI uses responsive reading
+columns and opaque white/black text. Configured Agency prepares one empty session without
+prompting a model; each explicit Ask gets fresh question context. These are implemented changes,
+not universal recognition/latency guarantees. See [measured corrections](../QUALITY-UPDATE.md)
+and [local logging boundaries](../DIAGNOSTICS.md)
+(`src/PhantomFudge.Core/WorkspaceLayout.cs:8-42`;
+`src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:23-78`;
+`services/transcription/accurate.py:33-129`).
 
 ```mermaid
 ---
@@ -88,10 +98,11 @@ flowchart TB
     Mic["Microphone endpoint"] --> Capture
     UI --> Capture
     Capture --> Socket["Authenticated local stream"]
-    Socket --> ASR["Python and independent Vosk decoders"]
+    Socket --> ASR["Local Vosk partials and Whisper finals"]
     ASR --> Text["Source-labelled transcript"]
     Text --> UI
     Text -->|"explicit selection"| Draft["Local question draft and snapshot"]
+    Draft -->|"explicit Ask"| Agency["Installed Agency or local model"]
     Draft -. "manual Ask" .-> Azure["PLANNED Azure answer"]
 ```
 
@@ -130,7 +141,7 @@ The local draft and immutable snapshot now exist. Explicit selected segments or 
 (`src\PhantomFudge.Core\QuestionDraft.cs:18-95`, `src\PhantomFudge.Core\QuestionSnapshot.cs:5-23`).
 Source commit and direct Azure identity remain future work. Installed-provider streaming and setup
 are explained in the new [Agency/local-model chapter](../ANSWER-PROVIDERS.md), separately from Azure
-(`docs\AI-ANSWER-ARCHITECTURE.md:44-138`). A local-only snapshot is not a model request; configured provider Ask crosses its labelled inference boundary.
+(`docs\AI-ANSWER-ARCHITECTURE.md:82-188`). A local-only snapshot is not a model request; configured provider Ask crosses its labelled inference boundary.
 
 ## Reading source citations
 
@@ -153,11 +164,11 @@ If any pair sounds equivalent, revisit the relevant boundary before changing the
 
 ## References
 
-- `docs\OVERVIEW.md:8-52` — current product and qualification summary, moved from the visual front page.
-- `docs\PRODUCT.md:6-31` — requirement and impossibility boundary.
+- `docs\OVERVIEW.md:8-56` — current product and qualification summary, moved from the visual front page.
+- `docs\PRODUCT.md:6-33` — requirement and impossibility boundary.
 - `AGENTS.md:14-43` — engineering distinctions and privacy rules.
-- `src\PhantomFudge.App\App.xaml.cs:13-82` — real startup paths.
+- `src\PhantomFudge.App\App.xaml.cs:13-97` — real startup paths.
 - `src\PhantomFudge.Core\AudioSource.cs:3-30` — source identity.
 - `src\PhantomFudge.Core\TranscriptBuffer.cs:6-97` — partial/final text representation.
 - `scripts\Run-PhantomFudge.ps1:17-41` — launch versus audio/service behavior.
-- `docs\AI-ANSWER-ARCHITECTURE.md:44-138` — planned, not implemented, answer extension.
+- `docs\AI-ANSWER-ARCHITECTURE.md:82-188` — installed-provider architecture and separately planned Azure extension.

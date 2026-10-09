@@ -20,10 +20,12 @@ selected it. "Proposed" is a recommendation to resolve in `TODO\01_PRODUCT_DECIS
 | R11 | DeepSeaFoam/Harbor Daylight toggle plus Plain reset | Canonical semantic palettes, controls and local UI evidence |
 | R12 | Remove I-beam/unnecessary focus cues; investigate shared cursor disappearance | Local Arrow/nonactivation plus separately qualified recipient behavior; no universal guarantee |
 | R13 | Local question and installed-provider answer implemented; direct Azure remains future | Immutable source-scoped request and corresponding same-window answer |
-| R14 | Planned: minimize useful-answer latency without sacrificing question fidelity | Stage-based local/cloud measurement and quality gates |
+| R14 | Complete useful answers targeted below five seconds after readiness; cold preparation reported separately | Bounded exact-text evidence, not a universal SLO or broad quality qualification |
 | R15 | Planned: use Azure where justified with explicit data/identity boundaries | Approved selected-text inference profile; audio remains local by default |
 | R16 | Keep illustrated engineering documentation and a public development journal current | Source-linked chapters, synthetic images, diagrams and generated editions maintained with changes |
 | R17 | Use existing Agency in background or an explicit local model, with no org-data tools | Labelled provider, isolated prompt-only launch, zero-tool surface and bounded streamed output |
+| R19 | Optional, default-off question interpretation before answering | Fixed clarification metadata, original draft retained, explicit Yes/correction replies; no automatic request |
+| R18 | Click several Mic/Computer transcript lines directly to compose a question | Whole-segment toggles, displayed-order raw text, guarded edits and no send until explicit Ask; workstream44 |
 
 The original wish for a window that can "never be detected" is not an implementable
 universal contract. Task Manager, desktop-window enumeration, accessibility tools,
@@ -32,8 +34,9 @@ The user chose Windows 11 scope after being told about this limitation.
 
 ## Proposed v1 experience
 
-One note and one small, resizable surface with background-only translucency and a protected live-transcript pane.
-The current implementation has no cloud answer service, Markdown preview or rich formatting.
+One note and one resizable surface with background-only translucency and a protected live-transcript pane.
+Installed Agency can use its hosted model service; an explicit local-model option remains distinct.
+There is no direct Azure adapter, Markdown preview or rich formatting.
 A quiet header/grip holds Edit/Present,
 Hide, and Settings controls. Settings and find UI stay inside the same protected surface.
 Dark/light colors, font size, wrapping, and always-on-top are small usability options,
@@ -45,7 +48,10 @@ inference after explicit Ask while keeping local ASR, no chat reading, no automa
 answers, and Docker-last. Cloud audio is separately optional. See AI-ANSWER-ARCHITECTURE.md.
 
 Question typing deliberately takes keyboard focus through its own protected transition without
-stopping transcription or enabling notes editing. Snapshot-only mode sends nothing; configured-provider Ask sends only the exact selected question. Accurate armed-Mic finalization remains29. See LOCAL-QUESTIONS.md.
+stopping transcription or enabling notes editing. Direct transcript clicks now enter that same
+transition; they are not passive no-activation gestures. Snapshot-only mode sends nothing;
+configured-provider Ask sends only the exact reviewed question. Accurate armed-Mic finalization
+remains29. See LOCAL-QUESTIONS.md.
 
 October8 11:31 direction: transcript-first replaces notes-first. Start in non-activating Present,
 with notes collapsed, fixed Arrow pointer and a deliberate Edit action for keyboard input.
@@ -84,7 +90,9 @@ input for dictated chat questions; Computer/Mic/Both modes supersede the earlier
 No chat application/clipboard/history is read. Transcription requires explicit Start,
 visible local status, an appropriate right to transcribe the meeting, and explicit Stop.
 Raw audio is not persisted; transcript export is explicit. The default local model is an
-English streaming model; multilingual accuracy and diarization are not assumed.
+English hybrid: Vosk provisional text and Whisper small.en CPU-int8 finals. Multilingual accuracy
+and diarization are not assumed. App diagnostic Text mode is an additional explicit local-retention
+opt-in; default app/backend logs contain metadata only.
 
 Both is the default mode selection, not automatic capture. Independent recognizers label Computer
 and Mic; they do not identify speakers. Selected-device failure stops the session without switching
@@ -111,7 +119,47 @@ Header/setup/confirmation controls remain opaque for readability and recovery. T
 click-through or whole-window fade. Backgrounds that overlap note glyphs can still reduce
 readability; the owner can increase the tint or move the window. The setting is session-only.
 
+October 9 actual-use correction requests twice the former window dimensions: 1240 x 1520, clamped
+to the monitor work area. Wide layouts place transcript and Q/A side by side; long text scrolls
+within its own control, not nested outer main panels. Reading text is white in dark mode and black
+in light/plain modes. The answer shares the Background slider. Capture limitations move behind
+quiet inline Details without suppressing actionable failures. Local synthetic validation is not
+owner acceptance or recorder qualification. See QUALITY-UPDATE.md.
+
 ## User journeys
+
+### October9 10:07: direct multi-line questions
+
+The owner requested clicking Mic or Computer lines in the main transcript to populate the
+question editor, then explicitly expanded the request to **multiple lines**. The implemented
+source path uses ordinary clicks to toggle whole recognition segments without Ctrl, combines
+only selected raw text in displayed history order and opens the initially expanded Q/A editor.
+Wrapped/multiline text remains one segment; timestamp/source decoration is not question content.
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-20,84-141;
+[`InitializeQuestionView`](../src/PhantomFudge.App/MainWindow.Questions.cs).)
+
+Selection closes source/setup/Notes panels and enters independent question editing, without
+stopping transcription, creating a snapshot or sending a request. After a manual edit, direct
+selection changes retain the draft/highlights with inline status until **Clear question**, rather
+than destroying corrections or adding a confirmation popup. The manual **Choose source → Mic /
+Computer / All → Use selected** replacement path remains available.
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:93-141;
+[`UseQuestionSelection_Click`](../src/PhantomFudge.App/MainWindow.Questions.cs).)
+
+Older visible history remains selectable after the smaller chooser evicts its rows; archived
+unfinished partials retain identity, and session separators cannot be selected. New finals follow
+scrolling only when already at the end. Both selection paths enforce one capture session,
+256entries and8192UTF-16 units including newlines atomically, with no truncation. Selected rows
+preserve transparent backgrounds, solid white/black text and a thin accent outline.
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:22-82,112-141;
+[`QuestionDraft`](../src/PhantomFudge.Core/QuestionDraft.cs);
+[`TranscriptRowStyle`](../src/PhantomFudge.App/MainWindow.xaml).)
+
+This is a source-only increment via `scripts\Run-PhantomFudge.ps1`, not a newly packaged or qualified
+release. The historical045022ZIP does not contain it. [Workstream44](../TODO/44_TRANSCRIPT_CLICK_SELECTION.todo)
+retains final evidence/handbook completion separately from implemented behavior.
+
+### Notes and presentation
 
 1. **Prepare:** launch with a generic shell, initialize protection before displaying note
    content, type/paste or open a UTF-8 text file, and arrange the window.
@@ -121,7 +169,8 @@ readability; the owner can increase the tint or move the window. The setting is 
 3. **Present:** explicitly enter read-only, non-activating mode. Read/scroll and drag from
    the grip without stealing slide keyboard focus. No file dialogs, suggestions, or note previews.
 4. **Edit deliberately:** invoke the Edit command/hotkey; the window becomes focusable.
-   This action is explicit, not triggered by accidental pointer movement.
+   This Notes action is separate from clicking transcript rows or using **Type / edit** for a
+   question. No editing transition is triggered merely by pointer movement.
 5. **Hide/recover:** one shortcut hides the surface; relaunching the executable restores
    the existing instance to a visible on-screen position after reinitialization.
 6. **Finish:** exit with explicit unsaved-change/save-failure handling. Hidden does not mean
@@ -141,7 +190,8 @@ history, third-party accessibility UI, and screen-sharing pickers may be outside
 protected HWND. Their risks must be qualified or excluded explicitly.
 
 Keep the native title generic: no note excerpt, document path, or personal filename.
-Diagnostics must use synthetic identifiers rather than note hashes or snippets.
+Default diagnostics use request/capture identities and metadata, never note hashes or snippets.
+Transcript/question/answer bodies require explicit Text mode; notes, audio and tokens remain excluded.
 Real desktop captures remain private unless separately sanitized and authorized.
 
 ## Proposed measurable budgets

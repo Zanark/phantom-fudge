@@ -6,8 +6,8 @@ config:
     textColor: "#e6edf3"
 ---
 flowchart TB
-    accTitle: Existing audio seams, IN PROGRESS Agency-first provider and PLANNED Azure
-    accDescr: Typed events feed display and structured questions. ExactText alone enters the requested Agency-first adapter, still under validation, or optional future Azure. SnapshotOnly currently sends nothing; local installation does not prove offline inference.
+    accTitle: Existing audio seams, persistent Agency ownership and PLANNED Azure
+    accDescr: Typed events feed display and structured questions. Configured manual Ask projects ExactText into the Agency ACP owner, which reuses an engine but not a question session. SnapshotOnly sends nothing; optional Azure remains planned.
     Source["Source identity"] --> Capture["WASAPI owner"]
     Capture --> Socket["Bounded socket"]
     Socket --> Service["Service schema"]
@@ -19,7 +19,7 @@ flowchart TB
     Store -->|Explicit selection| Draft["Local draft"]
     Draft -->|Manual Ask| Frozen["Local Freeze"]
     Frozen --> UI
-    Frozen -. ExactText when configured .-> CLI["IN PROGRESS Agency"]
+    Frozen -->|ExactText when configured| CLI["Agency ACP owner"]
     CLI -. AnswerEvent .-> UI
     Frozen -. Optional ExactText .-> Azure["PLANNED Azure"]
     Azure -. Future events .-> UI

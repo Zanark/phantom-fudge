@@ -40,6 +40,22 @@ public sealed class ThemePaletteTests
         Assert.True(Contrast(palette.ActionText, palette.Accent) >= 4.5);
     }
 
+    [Theory]
+    [InlineData(UiTheme.DeepSeaFoam, "#FFFFFF")]
+    [InlineData(UiTheme.HarborDaylight, "#000000")]
+    [InlineData(UiTheme.Plain, "#000000")]
+    public void ReadingTextUsesExactSolidBlackOrWhiteWithoutReplacingUiPalette(UiTheme theme, string expected)
+    {
+        var palette = ThemePalette.For(theme);
+        Assert.Equal(expected, palette.HighContrastReading);
+        Assert.NotEqual(palette.Text, palette.HighContrastReading);
+        Assert.Equal(3, Convert.FromHexString(palette.HighContrastReading[1..]).Length);
+        Assert.True(Contrast(palette.HighContrastReading, palette.Background) >= 12);
+        Assert.True(Contrast(palette.HighContrastReading, palette.Surface) >= 12);
+        Assert.True(Contrast(palette.HighContrastReading, palette.Input) >= 12);
+        Assert.True(Contrast(palette.HighContrastReading, palette.Selection) >= 7);
+    }
+
     private static double Contrast(string first, string second)
     {
         static double Luminance(string hex)

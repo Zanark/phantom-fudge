@@ -22,7 +22,7 @@ The source enum assigns different wire identities to Computer and Microphone
 (`src\PhantomFudge.Core\AudioSource.cs:3-22`). The transcript store holds separate partials,
 but final IDs are session-global (`src\PhantomFudge.Core\TranscriptBuffer.cs:9-18`,
 `src\PhantomFudge.Core\TranscriptBuffer.cs:48-72`). The native adapter separately protects its lifecycle and invalidates queued starts
-when Stop is requested (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:71-155,185-192`).
+when Stop is requested (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:72-156,186-193`).
 These are concrete mechanisms, not an assumed generic event-driven architecture.
 
 ### The insight in a different language
@@ -52,7 +52,7 @@ def begin_next_session():
 The application implements bounded queues and source-aware frames in `TranscriptionSocket`;
 the server validates each track and finalizes each declared decoder before its stopped event
 (`src\PhantomFudge.App\Audio\TranscriptionSocket.cs:11-71`,
-`services\transcription\server.py:235-338`). The pseudocode's "drain" is therefore a chain
+`services\transcription\server.py:290-505`). The pseudocode's "drain" is therefore a chain
 of ownership transitions, not a delay inserted to make a race less likely.
 
 ## Architecture at review depth
@@ -73,23 +73,25 @@ flowchart TB
     end
     subgraph Local["Local Python process"]
       Admission["Authenticated single-session admission"]
-      Worker["One bounded decoder worker"]
+      Worker["Bounded provisional worker per source"]
       Sources["Independent source recognizers"]
+      Finalizer["Shared serial Whisper finalizer"]
     end
     UI --> Policy
     UI --> Native --> Transport --> Admission --> Worker --> Sources
     Sources --> Transport --> Buffer --> UI
+    Sources --> Finalizer --> Transport
 ```
 
 The separation is intentionally modest. C# is chosen for the native desktop and input
 integration; Python hosts the recognizer and its protocol. The model does not become more
 accurate because Python calls it, nor does C# imply Windows' built-in speech engine. The measured
-engine comparison is explicit about that distinction (`docs\SPEECH-BENCHMARK.md:10-35`).
+engine comparison is explicit about that distinction (`docs\SPEECH-BENCHMARK.md:15-40`).
 
 The local process boundary is useful for dependency isolation and future packaging, but it adds
 protocol, authentication, backpressure and service-lifecycle work. The manager does not identify
 ownership by a PID alone: it authenticates runtime metadata and checks the saved instance ID
-before reuse or shutdown (`services\transcription\manage.py:112-144`).
+before reuse or shutdown (`services\transcription\manage.py:114-159`).
 
 ## Domain model: implemented concepts, not a database
 
@@ -127,14 +129,14 @@ to discuss the boundary (`src\PhantomFudge.App\Audio\TranscriptEvent.cs:1-15`,
 | Arrow cursor policy | Removes the app's I-beam shape cue | Cannot dictate another recorder's cursor stream |
 | Separate Computer/Mic tracks | Source labels and independent recognizer state | More lifecycle/queue accounting; no automatic echo cancellation |
 | Fail on sustained backlog | Avoids silently dropping words while claiming completeness | Session stops instead of degrading invisibly |
-| One local decoder worker | Simple serialized mutable-engine access | Competing sources share CPU; it is not sample-synchronous inference |
+| Independent source workers and serial accurate finalizer | Bound provisional work separately from expensive disjoint-span refinement | Sources still share CPU; this is not sample-synchronous inference or guaranteed accuracy |
 | Explicit local saves | Owner controls persistence | Unsaved content can be lost on a crash; no vault or recovery guarantee |
 | Native Python default | No container prerequisite for a desktop utility | Interpreter/venv/model setup remains an operational responsibility |
 | Proposed direct Azure text call | Smallest initial cloud path for manual Q&A | Identity, data policy, latency and deployment remain unimplemented |
 
 These decisions come from the implementation and current requirements, not a universal design
 pattern checklist. `WindowProtection.Configure` requests affinity on an owned HWND and validates
-readback when available (`src\PhantomFudge.App\Native\WindowProtection.cs:18-45`).
+readback when available (`src\PhantomFudge.App\Native\WindowProtection.cs:19-48`).
 `NoteFileStore` bounds UTF-8 data and checks prior fingerprints around replacement; it is not a
 filesystem transaction manager or protection against every race
 (`src\PhantomFudge.Core\NoteFileStore.cs:16-91`).
@@ -167,10 +169,18 @@ OBS path. The qualification matrix keeps these observations separate
 
 ### A plan is not a runtime component
 
+The October 9 hybrid now implements the source-worker/finalizer separation, with selected verified
+Whisper small.en CPU-int8 finals and no fallback on missing models
+(`services/transcription/accurate.py:33-129`; `services/transcription/configuration.py:11-35,61-70`).
+Configured Agency is also operational: it prepares an empty session without inference and sends
+one exact question only after Ask. Local preparation/diagnostic retention do not make hosted
+inference offline (`src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:23-78`;
+[provider setup](../ANSWER-PROVIDERS.md)).
+
 Azure Ask currently exists in design documents and TODOs. A principal-level diagram should not
 quietly insert an operational cloud box into the implemented path. The planned architecture
 requires immutable question snapshots, source-scoped commit and request-bound streaming; none
-is implied by the current text buffer (`docs\AI-ANSWER-ARCHITECTURE.md:44-138`).
+is implied by the current text buffer (`docs\AI-ANSWER-ARCHITECTURE.md:82-188`).
 
 ## Where to go deep
 
@@ -196,8 +206,8 @@ the coordinator not start a new logical session until the old completion boundar
 - `src\PhantomFudge.Core\AudioSource.cs:3-30` — source identity.
 - `src\PhantomFudge.Core\TranscriptBuffer.cs:6-97` — source partials and session-global IDs.
 - `src\PhantomFudge.Core\NoteFileStore.cs:6-91` — bounded local file behavior.
-- `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:71-192` — native lifecycle ownership.
+- `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:72-193` — native lifecycle ownership.
 - `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:11-71` — transport state/bounds.
-- `services\transcription\server.py:235-338` — source queue and completion.
-- `services\transcription\manage.py:112-144` — authenticated process ownership.
-- `docs\SPEECH-BENCHMARK.md:10-35` — engines versus host languages.
+- `services\transcription\server.py:290-505` — source queue and completion.
+- `services\transcription\manage.py:114-159` — authenticated process ownership.
+- `docs\SPEECH-BENCHMARK.md:15-40` — engines versus host languages.

@@ -68,9 +68,17 @@ Safe error envelopes remain v1-shaped. One source failure aborts the session vis
 
 Bounds scale only with declared source count (maximum2): pending PCM at most64000bytes per
 source /128000total; server frame-queue cap at most32per source. Rate credits and audio-duration
-limits are tracked per source, not one combined stream. Keep one bounded worker and shared
-immutable model; each track has a separate mutable recognizer. Native per-source idle silence
+limits are tracked per source, not one combined stream. The native hybrid default has independent
+bounded provisional workers and one serial accurate finalizer; immutable model weights are shared,
+while each track has separate mutable recognition/span state. Explicit legacy Vosk retains its
+single-worker path. Native per-source idle silence
 may keep recognition moving; server does not invent microphone audio.
+
+Hybrid spans target 15 seconds, at most 16 including a crossing frame. At most two committed spans
+per source include the executing final. Stop releases devices and drains accepted work: the 90-second
+client cap covers the conservative 85-second backend timeout envelope, not the measured normal
+0.480/0.746-second median/p95 Stop. The speech schema remains unchanged; runtime/model/diagnostic
+metadata is separate. See [quality evidence](QUALITY-UPDATE.md) and [service operations](../services/transcription/README.md).
 
 V1 frames remain unprefixed and v1 result envelopes have no source field. Old clients continue
 to behave as computer-only. Source-labelled v2 must not accept a v1 ready/result as success.

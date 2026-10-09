@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using PhantomFudge.App.Audio;
 using PhantomFudge.Core;
+using PhantomFudge.Core.Answers;
 
 namespace PhantomFudge.App;
 
@@ -25,9 +26,11 @@ public partial class MainWindow
     private void InitializeQuestionView()
     {
         questionTranscript.BeginSession(Guid.NewGuid());
+        TranscriptText.ItemsSource = transcriptRows;
         questionViewReady = true;
         RenderQuestionDraft();
         RefreshQuestionSegments();
+        SetQuestionExpanded(true);
     }
 
     private void QuestionToggle_Click(object sender, RoutedEventArgs args) =>
@@ -36,7 +39,10 @@ public partial class MainWindow
     private void SetQuestionExpanded(bool expanded)
     {
         if (!expanded)
+        {
             CancelAnswer();
+            _ = StopAgencyProviderAsync();
+        }
         if (!expanded && questionEditing)
             SetQuestionEditing(false);
         if (expanded)
@@ -45,17 +51,18 @@ public partial class MainWindow
             AudioPanel.Visibility = Visibility.Collapsed;
         }
         QuestionPanel.Visibility = expanded ? Visibility.Visible : Visibility.Collapsed;
-        PartialText.Visibility = expanded ? Visibility.Collapsed : Visibility.Visible;
-        QuestionToggleButton.Content = expanded ? "Close question" : "Question";
+        PartialText.Visibility = Visibility.Visible;
+        QuestionToggleButton.Content = expanded ? "Hide Q/A" : "Show Q/A";
         ResizeQuestionPanel();
+        if (expanded)
+            PrepareAgencyProvider();
     }
 
     private void TranscriptArea_SizeChanged(object sender, SizeChangedEventArgs args) => ResizeQuestionPanel();
 
     private void ResizeQuestionPanel()
     {
-        if (questionViewReady)
-            QuestionScroll.MaxHeight = Math.Max(60, TranscriptArea.ActualHeight * 0.65 - 22);
+        UpdateWorkspaceLayout();
     }
 
     private void QuestionMicFilter_Click(object sender, RoutedEventArgs args) => SetQuestionFilter(AudioSource.Microphone);
@@ -95,6 +102,11 @@ public partial class MainWindow
 
     private void UseQuestionSelection_Click(object sender, RoutedEventArgs args)
     {
+        if (ClarificationLocksQuestion)
+        {
+            QuestionStatus.Text = "Finish or clear the clarification before selecting another question. Original draft retained.";
+            return;
+        }
         var selected = QuestionSegments.SelectedItems.Cast<TranscriptSegment>().Select(item => item.Key).ToHashSet();
         if (selected.Count == 0)
         {
@@ -106,7 +118,7 @@ public partial class MainWindow
             questionDraft.ReplaceSelection(questionTranscript.Segments.Where(item => selected.Contains(item.Key)));
             RenderQuestionDraft();
             QuestionStatus.Text = "Selected text copied locally. Review it before Ask; nothing was sent.";
-            QuestionEditor.BringIntoView();
+            EnsureQuestionReadingVisible();
         }
         catch (Exception error) when (IsQuestionInputFailure(error))
         {
@@ -128,7 +140,8 @@ public partial class MainWindow
                 value.Text, value.StartSeconds, value.EndSeconds);
         try
         {
-            questionDraft.Refresh(questionTranscript);
+            if (!ClarificationLocksQuestion)
+                questionDraft.Refresh(questionTranscript);
         }
         catch (Exception error) when (IsQuestionInputFailure(error))
         {
@@ -162,11 +175,16 @@ public partial class MainWindow
         if (wasVisible)
             TryReveal();
         if (editing && protectionReady && !diagnosticRendering)
-            QuestionEditor.Focus();
+        {
+            if (AwaitingClarificationReply)
+                ClarificationReplyEditor.Focus();
+            else
+                QuestionEditor.Focus();
+        }
         if (editing)
-            QuestionEditor.BringIntoView();
+            EnsureQuestionReadingVisible();
         QuestionStatus.Text = editing
-            ? "Editing the local question takes keyboard focus; transcription continues. Use Done typing to return."
+            ? $"Editing the local {(AwaitingClarificationReply ? "reply" : "question")} takes keyboard focus; transcription continues. Use Done typing to return."
             : "Question remains local. Ask freezes exactly the displayed text.";
     }
 
@@ -174,13 +192,15 @@ public partial class MainWindow
     {
         if (!questionViewReady)
             return;
-        QuestionEditor.IsReadOnly = !questionEditing;
-        QuestionEditor.Focusable = questionEditing;
-        InputMethod.SetIsInputMethodEnabled(QuestionEditor, questionEditing);
-        QuestionEditButton.Content = questionEditing ? "Done typing" : "Type / edit";
-        QuestionEditButton.IsEnabled = protectionReady && !fileBusy;
+        QuestionEditor.IsReadOnly = !questionEditing || ClarificationLocksQuestion;
+        QuestionEditor.Focusable = questionEditing && !ClarificationLocksQuestion;
+        InputMethod.SetIsInputMethodEnabled(QuestionEditor, QuestionEditor.Focusable);
+        QuestionEditButton.Content = questionEditing ? "Done typing" : AwaitingClarificationReply ? "Type reply" : "Type / edit";
+        QuestionEditButton.IsEnabled = protectionReady && !fileBusy &&
+            (!ClarificationLocksQuestion || AwaitingClarificationReply && !AnswerBusy);
         QuestionAskButton.IsEnabled = protectionReady && !fileBusy && !string.IsNullOrWhiteSpace(questionDraft.Text);
         QuestionCopyButton.IsEnabled = questionDraft.Text.Length > 0;
+        QuestionCopyButton.Content = AwaitingClarificationReply ? "Copy original" : "Copy draft";
         UpdateAnswerControls();
     }
 
@@ -188,6 +208,12 @@ public partial class MainWindow
     {
         if (!questionViewReady || renderingQuestion)
             return;
+        if (ClarificationLocksQuestion)
+        {
+            RenderQuestionDraft();
+            QuestionStatus.Text = "Original question retained. Use the clarification reply field, or Clear question to start over.";
+            return;
+        }
         try
         {
             questionDraft.EditText(QuestionEditor.Text);
@@ -224,15 +250,23 @@ public partial class MainWindow
                 (questionDraft.UserEdited ? " | User edited; ASR cannot overwrite" : "") +
                 $" | {questionDraft.SelectedSegments.Count} explicitly selected segments";
             UpdateQuestionInteraction();
+            SyncTranscriptSelection();
         }
         finally { renderingQuestion = false; }
     }
 
     private void QuestionAsk_Click(object sender, RoutedEventArgs args)
     {
-        if (AnswerBusy)
+        if (AwaitingClarificationReply)
         {
-            QuestionStatus.Text = "Cancel and wait for the current answer before another Ask.";
+            QuestionStatus.Text = "Use Send reply or Yes, answer for this interpretation; no duplicate question was sent.";
+            return;
+        }
+        if (AnswerBusy || !ProviderCanAnswer)
+        {
+            QuestionStatus.Text = AnswerBusy
+                ? "Cancel and wait for the current answer before another Ask."
+                : "Agency is preparing or stopped. Select the configured provider or Reload setup; the question remains local.";
             return;
         }
         if (!protectionReady || fileBusy)
@@ -247,8 +281,15 @@ public partial class MainWindow
             QuestionSnapshotText.Text = lastQuestionSnapshot.ExactText;
             QuestionSnapshotPanel.Visibility = Visibility.Visible;
             QuestionStatus.Text = "Snapshot frozen locally. Azure is not connected; no request was sent.";
-            QuestionScroll.ScrollToEnd();
-            StartAnswer(lastQuestionSnapshot);
+            EnsureQuestionReadingVisible();
+            if (clarifyFirst && useAnswerProvider)
+                BeginQuestionClarification(lastQuestionSnapshot);
+            else
+                StartAnswer(lastQuestionSnapshot);
+        }
+        catch (AnswerProviderException error)
+        {
+            QuestionStatus.Text = error.Message;
         }
         catch (Exception error) when (IsQuestionInputFailure(error))
         {
@@ -266,7 +307,9 @@ public partial class MainWindow
         try
         {
             Clipboard.SetText(questionDraft.Text);
-            QuestionStatus.Text = "Only the displayed question was copied to the Windows clipboard.";
+            QuestionStatus.Text = AwaitingClarificationReply
+                ? "Only the original question was copied to the Windows clipboard."
+                : "Only the displayed question was copied to the Windows clipboard.";
         }
         catch (ExternalException)
         {

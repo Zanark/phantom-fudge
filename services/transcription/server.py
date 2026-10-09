@@ -17,6 +17,9 @@ import uuid
 
 from aiohttp import WSMsgType, web
 
+from accurate import FinalSpan, HybridFactory, MAX_SPAN_BYTES
+from configuration import ROOT, load_config, metadata, paths
+from diagnostics import Diagnostics
 from recognizer import Recognition, VoskFactory
 
 
@@ -54,6 +57,9 @@ class Limits:
     bytes_per_second: int = 32000
     burst_frames: int = 200
     frames_per_second: int = 100
+    final_seconds: float = 20.0
+    pending_finals: int = 2
+    stop_seconds: float = 60.0
 
 
 class ProtocolError(Exception):
@@ -107,7 +113,8 @@ def parse_start(value):
 
 
 class Runtime:
-    def __init__(self, token, factory, limits, instance_id=None, managed_stop=None):
+    def __init__(self, token, factory, limits, instance_id=None, managed_stop=None,
+                 engine_metadata=None, diagnostics=None):
         self.token = token.encode("ascii")
         self.factory = factory
         self.limits = limits
@@ -116,17 +123,45 @@ class Runtime:
         self.failed = False
         self.sockets = set()
         self.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="speech")
+        self.final_executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="speech-final")
+        self.source_executors = {}
         self.instance_id = instance_id
         self.managed_stop = managed_stop
+        self.engine_metadata = engine_metadata or {}
+        self.diagnostics = diagnostics
+        self.fault_count = 0
+        self.drop_count = 0
+        self.max_queue_bytes = 0
+        self.max_queue_frames = 0
+        self.max_pending_finals = 0
+
+    def note(self, event, source="service", **counts):
+        if self.diagnostics is not None:
+            self.diagnostics.emit(event, source, fault_count=self.fault_count,
+                                  drop_count=self.drop_count, **counts)
 
     @property
     def ready(self):
         return self.factory is not None and not self.failed and not self.stopping
 
     async def cpu(self, function, *args):
-        future = asyncio.get_running_loop().run_in_executor(self.executor, function, *args)
+        return await self._cpu(self.executor, self.limits.operation_seconds, function, *args)
+
+    async def final_cpu(self, function, *args):
+        return await self._cpu(self.final_executor, self.limits.final_seconds, function, *args)
+
+    async def source_cpu(self, source, function, *args):
+        if source not in SOURCES:
+            raise ProtocolError("bad_frame")
+        if source not in self.source_executors:
+            self.source_executors[source] = ThreadPoolExecutor(
+                max_workers=1, thread_name_prefix="speech-" + source)
+        return await self._cpu(self.source_executors[source], self.limits.operation_seconds, function, *args)
+
+    async def _cpu(self, executor, deadline, function, *args):
+        future = asyncio.get_running_loop().run_in_executor(executor, function, *args)
         try:
-            return await asyncio.wait_for(asyncio.shield(future), self.limits.operation_seconds)
+            return await asyncio.wait_for(asyncio.shield(future), deadline)
         except Exception:
             # A native call cannot safely be killed. Do not enqueue more work behind it.
             self.failed = True
@@ -135,7 +170,11 @@ class Runtime:
         except asyncio.CancelledError:
             # Keep the one-session admission gate until the outstanding call is finished.
             try:
-                await asyncio.wait_for(asyncio.shield(future), self.limits.operation_seconds)
+                await asyncio.wait_for(asyncio.shield(future), deadline)
+            except asyncio.CancelledError:
+                self.failed = True
+                future.add_done_callback(lambda result: result.exception() if not result.cancelled() else None)
+                raise
             except Exception:
                 self.failed = True
                 future.add_done_callback(lambda result: result.exception() if not result.cancelled() else None)
@@ -190,6 +229,18 @@ async def runtime_info(request):
         "pid": os.getpid(),
         "ready": runtime.ready,
         "active": runtime.active,
+        **runtime.engine_metadata,
+        "diagnosticsAvailable": runtime.diagnostics is not None and not runtime.diagnostics.failed,
+        "faultCount": runtime.fault_count,
+        "dropCount": runtime.drop_count,
+        "maxQueueBytes": runtime.max_queue_bytes,
+        "maxQueueFrames": runtime.max_queue_frames,
+        "maxPendingFinals": runtime.max_pending_finals,
+        "maxFinalSeconds": runtime.limits.final_seconds,
+        "maxPendingFinalsPerSource": runtime.limits.pending_finals,
+        "maxStopSeconds": runtime.limits.stop_seconds + max(
+            runtime.limits.final_seconds, runtime.limits.operation_seconds) +
+            2 * runtime.limits.send_seconds + 1,
     }, headers={"Cache-Control": "no-store"})
 
 
@@ -220,6 +271,10 @@ class SourceState:
         self.last_end = 0.0
         self.queued_bytes = 0
         self.queued_frames = 0
+        self.pending_finals = 0
+        self.pending_bytes = 0
+        self.deferred_partial = None
+        self.queue = asyncio.Queue(maxsize=limits.queue_frames)
 
 
 class Session:
@@ -233,6 +288,10 @@ class Session:
         self.queue_bytes = self.limits.queue_bytes * len(self.sources)
         self.queued_bytes = 0
         self.segment_id = 0
+        self.finalizer = getattr(runtime.factory, "finalize", None)
+        self.final_queue = asyncio.Queue(maxsize=self.limits.pending_finals * len(self.sources))
+        self.publish_lock = asyncio.Lock()
+        self.stop_requested_at = None
 
     async def receive(self):
         while True:
@@ -247,8 +306,13 @@ class Session:
             if message.type == WSMsgType.TEXT:
                 if parse_control(message, self.limits) != {"type": "stop"}:
                     raise ProtocolError("bad_frame")
+                self.stop_requested_at = time.monotonic()
                 # Wait for a slot rather than faulting a full, valid audio queue on stop.
-                await self.queue.put(None)
+                if self.finalizer is None:
+                    await self.queue.put(None)
+                else:
+                    for state in self.sources.values():
+                        await state.queue.put(None)
                 return True
             if message.type != WSMsgType.BINARY:
                 raise ProtocolError("bad_frame")
@@ -268,6 +332,7 @@ class Session:
             state.audio_credit = min(self.limits.burst_bytes, state.audio_credit + elapsed * self.limits.bytes_per_second)
             state.frame_credit = min(self.limits.burst_frames, state.frame_credit + elapsed * self.limits.frames_per_second)
             if state.audio_credit < len(pcm) or state.frame_credit < 1:
+                self.runtime.drop_count += 1
                 raise ProtocolError("rate_limit")
             state.audio_credit -= len(pcm)
             state.frame_credit -= 1
@@ -277,16 +342,28 @@ class Session:
             if (self.queued_bytes + len(pcm) > self.queue_bytes
                     or state.queued_bytes + len(pcm) > self.limits.queue_bytes
                     or state.queued_frames >= self.limits.queue_frames):
+                self.runtime.drop_count += 1
                 raise ProtocolError("backlog")
             try:
-                self.queue.put_nowait((source, pcm))
+                if self.finalizer is None:
+                    self.queue.put_nowait((source, pcm))
+                else:
+                    state.queue.put_nowait(pcm)
             except asyncio.QueueFull:
+                self.runtime.drop_count += 1
                 raise ProtocolError("backlog") from None
             self.queued_bytes += len(pcm)
             state.queued_bytes += len(pcm)
             state.queued_frames += 1
+            self.runtime.max_queue_bytes = max(self.runtime.max_queue_bytes, state.queued_bytes)
+            self.runtime.max_queue_frames = max(self.runtime.max_queue_frames, state.queued_frames)
 
     async def publish(self, source, result):
+        # Two workers may publish. Serialize IDs and partial/final ordering on the wire.
+        async with self.publish_lock:
+            await self._publish(source, result)
+
+    async def _publish(self, source, result):
         state = self.sources[source]
         if not isinstance(result, Recognition) or not isinstance(result.text, str) or len(result.text) > 8192:
             raise ProtocolError("decoder_error")
@@ -315,6 +392,19 @@ class Session:
             await send(self.ws, {"type": "partial", **label, "text": result.text}, self.limits)
 
     async def recognize(self):
+        if self.finalizer is not None:
+            workers = [asyncio.create_task(self.recognize_source(source)) for source in self.sources]
+            try:
+                tails = await asyncio.gather(*workers)
+                for source, tail in zip(self.sources, tails):
+                    await self.queue_final(source, tail, stopping=True)
+                await self.final_queue.put(None)
+            finally:
+                for worker in workers:
+                    if not worker.done() and not worker.cancelling():
+                        worker.cancel()
+                await asyncio.gather(*workers, return_exceptions=True)
+            return
         while True:
             item = await self.queue.get()
             if item is None:
@@ -326,28 +416,123 @@ class Session:
                 await send(self.ws, {"type": "stopped"}, self.limits)
                 return
             source, pcm = item
-            self.queued_bytes -= len(pcm)
+            await self.decode_frame(source, pcm)
+
+    async def recognize_source(self, source):
+        state = self.sources[source]
+        while True:
+            pcm = await state.queue.get()
+            if pcm is None:
+                return await self.runtime.source_cpu(source, state.decoder.finish)
+            await self.decode_frame(source, pcm)
+
+    async def decode_frame(self, source, pcm):
+        self.queued_bytes -= len(pcm)
+        state = self.sources[source]
+        state.queued_bytes -= len(pcm)
+        state.queued_frames -= 1
+        begin = time.perf_counter()
+        result = await (self.runtime.cpu(state.decoder.accept, pcm) if self.finalizer is None
+                        else self.runtime.source_cpu(source, state.decoder.accept, pcm))
+        self.runtime.note("decode", source, decode_ms=(time.perf_counter() - begin) * 1000,
+                          audio_ms=len(pcm) / 32, queue_bytes=state.queued_bytes,
+                          queue_frames=state.queued_frames, pending_finals=state.pending_finals)
+        if self.finalizer is None:
+            await self.publish(source, result)
+        elif isinstance(result, FinalSpan):
+            await self.queue_final(source, result, stopping=self.stop_requested_at is not None)
+        else:
+            async with self.publish_lock:
+                if (not isinstance(result, Recognition) or result.final
+                        or not isinstance(result.text, str) or len(result.text) > 8192):
+                    raise ProtocolError("decoder_error")
+                state.deferred_partial = result
+                if state.pending_finals == 0:
+                    await self._publish(source, result)
+
+    async def queue_final(self, source, span, stopping=False):
+        if not isinstance(span, FinalSpan):
+            raise ProtocolError("decoder_error")
+        state = self.sources[source]
+        if stopping:
+            # Stop has no producer left to overrun memory. Drain a slot, don't reject
+            # an accepted tail solely because two earlier spans are still finalizing.
+            while state.pending_finals >= self.limits.pending_finals:
+                await asyncio.sleep(0.005)
+        elif state.pending_finals >= self.limits.pending_finals:
+            self.runtime.drop_count += 1
+            raise ProtocolError("backlog")
+        if state.pending_bytes + len(span.pcm) > self.limits.pending_finals * MAX_SPAN_BYTES:
+            self.runtime.drop_count += 1
+            raise ProtocolError("backlog")
+        state.deferred_partial = None
+        state.pending_finals += 1
+        state.pending_bytes += len(span.pcm)
+        self.runtime.max_pending_finals = max(self.runtime.max_pending_finals, state.pending_finals)
+        try:
+            self.final_queue.put_nowait((source, span))
+        except asyncio.QueueFull:
+            raise ProtocolError("backlog") from None
+
+    async def finalize(self):
+        while True:
+            item = await self.final_queue.get()
+            if item is None:
+                await send(self.ws, {"type": "stopped"}, self.limits)
+                return
+            source, span = item
             state = self.sources[source]
-            state.queued_bytes -= len(pcm)
-            state.queued_frames -= 1
-            await self.publish(source, await self.runtime.cpu(state.decoder.accept, pcm))
+            begin = time.perf_counter()
+            result = await self.runtime.final_cpu(self.finalizer, span)
+            decode_ms = (time.perf_counter() - begin) * 1000
+            if not isinstance(result, Recognition) or not result.final:
+                raise ProtocolError("decoder_error")
+            async with self.publish_lock:
+                await self._publish(source, result)
+                state.pending_finals -= 1
+                state.pending_bytes -= len(span.pcm)
+                if state.pending_finals == 0 and state.deferred_partial is not None:
+                    await self._publish(source, state.deferred_partial)
+            self.runtime.note("finalize", source, decode_ms=decode_ms,
+                              audio_ms=len(span.pcm) / 32, queue_bytes=state.queued_bytes,
+                              queue_frames=state.queued_frames, pending_finals=state.pending_finals)
 
     async def run(self):
         receiver = asyncio.create_task(self.receive())
         worker = asyncio.create_task(self.recognize())
+        final_worker = asyncio.create_task(self.finalize()) if self.finalizer is not None else None
+        tasks = [receiver, worker] + ([final_worker] if final_worker else [])
         try:
-            done, _ = await asyncio.wait((receiver, worker), return_when=asyncio.FIRST_COMPLETED)
-            if worker in done:
-                await worker
-            elif await receiver:
-                await worker
+            pending = set(tasks)
+            stop_deadline = None
+            while pending:
+                timeout = None if stop_deadline is None else max(0, stop_deadline - time.monotonic())
+                done, pending = await asyncio.wait(pending, timeout=timeout, return_when=asyncio.FIRST_COMPLETED)
+                if not done:
+                    raise ProtocolError("decoder_error")
+                for task in done:
+                    result = await task
+                    if task is receiver:
+                        if not result:
+                            self.runtime.note("disconnect")
+                            return
+                        stop_deadline = self.stop_requested_at + self.limits.stop_seconds
+                if worker in done and final_worker is None:
+                    return
+                if final_worker in done:
+                    return
         finally:
-            for task in (receiver, worker):
-                if not task.done():
+            for task in tasks:
+                if not task.done() and not task.cancelling():
                     task.cancel()
-            await asyncio.gather(receiver, worker, return_exceptions=True)
+            await asyncio.gather(*tasks, return_exceptions=True)
             while not self.queue.empty():
                 self.queue.get_nowait()
+            while not self.final_queue.empty():
+                self.final_queue.get_nowait()
+            for state in self.sources.values():
+                while not state.queue.empty():
+                    state.queue.get_nowait()
 
 
 async def transcribe(request):
@@ -378,13 +563,21 @@ async def transcribe(request):
         message = await asyncio.wait_for(ws.receive(), runtime.limits.start_seconds)
         value = parse_control(message, runtime.limits)
         protocol_version, sources = parse_start(value)
-        decoders = {source: await runtime.cpu(runtime.factory) for source in sources}
+        decoders = {}
+        for source in sources:
+            decoders[source] = await (
+                runtime.source_cpu(source, runtime.factory) if getattr(runtime.factory, "finalize", None)
+                else runtime.cpu(runtime.factory))
         ready = {"type": "ready", **FORMAT}
         if protocol_version == 2:
             ready.update(protocolVersion=2, sources=list(sources))
         await send(ws, ready, runtime.limits)
+        runtime.note("session_start")
         await Session(runtime, ws, decoders, protocol_version).run()
+        runtime.note("session_stop")
     except ProtocolError as exc:
+        runtime.fault_count += 1
+        runtime.note("fault", fault=exc.code)
         if exc.code == "decoder_error":
             runtime.failed = True
         if ws.prepared:
@@ -392,10 +585,15 @@ async def transcribe(request):
         else:
             return web.json_response(error(exc.code), status=400, headers=headers)
     except TimeoutError:
+        runtime.fault_count += 1
+        runtime.note("fault", fault="timeout")
         await close_with_error(ws, "timeout", runtime.limits)
     except (ConnectionError, asyncio.CancelledError):
         pass
     except Exception:
+        runtime.failed = True
+        runtime.fault_count += 1
+        runtime.note("fault", fault="decoder_error")
         if ws.prepared:
             await close_with_error(ws, "decoder_error", runtime.limits)
         else:
@@ -430,9 +628,13 @@ async def shutdown(app):
 
 async def cleanup(app):
     app[RUNTIME].executor.shutdown(wait=False, cancel_futures=True)
+    app[RUNTIME].final_executor.shutdown(wait=False, cancel_futures=True)
+    for executor in app[RUNTIME].source_executors.values():
+        executor.shutdown(wait=False, cancel_futures=True)
 
 
-def create_app(token, factory, limits=None, instance_id=None, managed_stop=None):
+def create_app(token, factory, limits=None, instance_id=None, managed_stop=None,
+               engine_metadata=None, diagnostics=None):
     if not re.fullmatch(r"[A-Za-z0-9_-]{32,512}", token):
         raise ValueError("auth")
     if instance_id is not None and uuid.UUID(instance_id).hex != instance_id:
@@ -442,7 +644,8 @@ def create_app(token, factory, limits=None, instance_id=None, managed_stop=None)
         handler_args={"max_line_size": 1024, "max_field_size": 1024, "max_headers": 32,
                       "read_bufsize": 4096, "keepalive_timeout": 5, "auto_decompress": False},
     )
-    app[RUNTIME] = Runtime(token, factory, limits or Limits(), instance_id, managed_stop)
+    app[RUNTIME] = Runtime(token, factory, limits or Limits(), instance_id, managed_stop,
+                           engine_metadata, diagnostics)
     app.router.add_get("/health", health)
     app.router.add_get("/v1/transcribe", transcribe)
     app.router.add_get("/v1/runtime", runtime_info)
@@ -452,16 +655,30 @@ def create_app(token, factory, limits=None, instance_id=None, managed_stop=None)
     return app
 
 
-async def production_app(token, model_path, instance_id=None):
+async def production_app(token, model_path, instance_id=None, config=None):
     def request_exit():
         raise web.GracefulExit()
 
+    config = load_config() if config is None else config
+    identity = metadata(config)
+    diagnostics = Diagnostics(ROOT / ".local" / "diagnostics" / "transcription.jsonl",
+                              identity["engine"], identity["model"])
     app = create_app(token, None, instance_id=instance_id,
-                     managed_stop=request_exit if instance_id else None)
+                     managed_stop=request_exit if instance_id else None,
+                     engine_metadata=identity, diagnostics=diagnostics)
     runtime = app[RUNTIME]
     try:
-        runtime.factory = await asyncio.get_running_loop().run_in_executor(runtime.executor, VoskFactory, model_path)
+        begin = time.perf_counter()
+        if config["engine"] == "hybrid-whisper":
+            runtime.factory = await asyncio.get_running_loop().run_in_executor(
+                runtime.executor, HybridFactory, model_path, paths(config)[1],
+                config["model"], config["threads"], config["vocabulary"])
+        else:
+            runtime.factory = await asyncio.get_running_loop().run_in_executor(runtime.executor, VoskFactory, model_path)
+        runtime.note("model_load", decode_ms=(time.perf_counter() - begin) * 1000)
     except Exception:
+        runtime.fault_count += 1
+        runtime.note("fault", fault="model_unavailable")
         print("Local speech model unavailable; health is not ready.", flush=True)
     return app
 
@@ -470,6 +687,9 @@ def main():
     # Native decoder errors can contain model paths. No content-bearing diagnostics,
     # access logs, exception traces, or native stderr are retained by this service.
     logging.disable(logging.CRITICAL)
+    # Preserve a Python-only generic diagnostic channel while native libraries'
+    # stderr remains suppressed (it can include paths or content-bearing errors).
+    sys.stderr = os.fdopen(os.dup(2), "w", encoding="utf-8")
     with open(os.devnull, "w") as sink:
         os.dup2(sink.fileno(), 2)
     try:

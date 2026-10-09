@@ -1,0 +1,45 @@
+# Local Transcription Quality Correction
+
+Status: DONE
+Milestone: Q2 Accurate local final transcripts
+Dependencies: 26_MICROPHONE_AND_COMPUTER.todo (reference-only)
+
+## Purpose
+
+Replace poor actual-use recognition with a genuinely improved local recognition path, not phrase substitutions.
+
+## Tasks
+
+- [x] Implement an accurate local final-recognition mode with explicit verified model provisioning.
+- [x] Preserve provisional/final identity, per-source offsets, stop drain, bounds and v1/v2 schemas.
+- [x] Ensure compute cannot silently drop or indefinitely queue audio.
+- [x] Detect stale runtime/model configuration and replace only an authenticated owned idle service.
+- [x] Measure provided Two Sum wording plus independent synthetic technical/noise controls.
+- [x] Log metadata for engine/model/decode/audio duration and faults; no raw audio by default.
+
+## Acceptance criteria
+
+- [x] Report all before/after results and end-of-speech-to-final measurements, not batch RTF as live latency.
+- [x] No hardcoded correction to the expected phrase, silent fallback or cloud-audio upload.
+- [x] Synthetic results do not claim real-microphone or accent qualification.
+
+## Completion evidence
+
+- Owner reported intended Two Sum query versus Vosk's "lead good ... to some" text. No original audio exists in this task.
+- Native default: Vosk partials plus verified Whisper small.en CPU-int8 finals, four threads,
+  technical vocabulary, independent bounded source workers/finalizer and15second target spans.
+- Public tools\SpeechBench\results\synthetic-quality-20261009.json retains ablations/failures:
+  rawWER12.04->4.40%,CER6.37->0.263%,finalmedian/p95 2.736/3.017s; normalStop0.480/0.746s.
+  These are two synthetic voices/noise controls, not actual-microphone quality. Homophones remain.
+- Original quality-validation-20261009.json records104service/18benchmark tests; finalservice106pass,
+  zero implicit fallback/cloudASR. Parent-recorded native46 and C#->real hybrid generatedPCM passed:
+  Computer2final/7partial,Mic2final/5partial, no endpoints/audio files.
+- Setup is provisioned; the parent upgraded only the authenticated owned idle service through its
+  normal manager and observed ready/hybrid-small.en/inactive/diagnosticsAvailable. No service restart
+  was performed merely for documentation or packaging.
+
+## Completion log
+
+- 2026-10-09 01:19 - Actual-use accuracy rejected; local quality improvement is required.
+- 2026-10-09 04:42 - Local implementation/provisioning and bounded synthetic evidence complete; real-microphone qualification remains open.
+- 2026-10-09 04:45 - Two logging-failure regression cases added; parent106service tests pass. Prior quality measurements are unchanged.

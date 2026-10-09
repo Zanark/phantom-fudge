@@ -9,7 +9,7 @@ flowchart TB
     Setup --> Spawn["Spawn owned native service"]
     Spawn --> Ready["Wait for authenticated readiness"]
     Port -- yes --> Identity["Authenticate and match instance"]
-    Identity --> Compatible{"Current speech protocol?"}
+    Identity -->     Compatible{"Current protocol and runtime?"}
     Compatible -- yes --> Reuse["Reuse without restart"]
     Compatible -- no --> Active{"Transcription active?"}
     Active -- yes --> Refuse["Refuse interruption"]

@@ -1,0 +1,18 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3"}}
+---
+flowchart LR
+    accTitle: Explicit interpretation before answering
+    accDescr: The toggle chooses interpretation rather than direct answering. Each later correction or confirmation requires another explicit click.
+    Draft["Selected or typed question"] --> Toggle{"Clarify first?"}
+    Toggle -->|Off: Ask| Direct["Direct answer"]
+    Toggle -->|On: Interpret question| Interpret["Model restates intended question"]
+    Interpret --> Review["User reviews"]
+    Review -->|Explicit correction| Interpret
+    Review -->|Explicit Yes| Answer["Answer confirmed question"]
+    style Draft fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Toggle fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Direct fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Interpret fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Review fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Answer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

@@ -1,0 +1,70 @@
+{
+  "mode": "agency_cloud",
+  "model": "gpt-5.4-mini",
+  "reasoningEffort": "low",
+  "modelAttempts": 0,
+  "calls": [],
+  "failure": null,
+  "protocolVersion": 1,
+  "agentVersion": "1.0.92",
+  "capabilities": {
+    "loadSession": true,
+    "mcpCapabilities": {
+      "http": true,
+      "sse": true
+    },
+    "promptCapabilities": {
+      "image": true,
+      "audio": false,
+      "embeddedContext": true
+    },
+    "sessionCapabilities": {
+      "close": {},
+      "list": {}
+    }
+  },
+  "engineReadyMs": 20183.2,
+  "ownedProfileCheck": {
+    "settingsSemanticallyUnchanged": false,
+    "settingsKeys": [
+      "autoUpdate",
+      "bashEnv",
+      "beep",
+      "companyAnnouncements",
+      "customAgents",
+      "disableAllHooks",
+      "experimental",
+      "ide",
+      "memory",
+      "notifications"
+    ],
+    "nonemptyCustomizationCategories": [
+      "profile/agents"
+    ]
+  },
+  "selectedConfiguration": {
+    "mode": "https://agentclientprotocol.com/protocol/session-modes#agent",
+    "model": "gpt-5.4-mini",
+    "reasoning_effort": "low",
+    "agent": "phantom-fudge-answer",
+    "allow_all": "off"
+  },
+  "selectedModelAdvertised": true,
+  "candidateModelsAdvertised": {
+    "gpt-5.4-mini": true,
+    "claude-haiku-5.5": true,
+    "gpt-5.6-sol-fast": true
+  },
+  "reasoningEffortsAdvertised": [
+    "none",
+    "low",
+    "medium",
+    "high",
+    "xhigh"
+  ],
+  "updateTypes": [
+    "available_commands_update",
+    "config_option_update"
+  ],
+  "offlineRequests": []
+}

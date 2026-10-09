@@ -1,0 +1,24 @@
+# No-scroll audio device cards
+
+Status: DONE
+Milestone: Direct audio setup selection
+Dependencies: 26_MICROPHONE_AND_COMPUTER.todo
+
+## Scope and evidence
+
+- [x] Replace fixed-height scrolling device lists with selectable wrapping cards and radio/outline state.
+- [x] Give audio setup the reading workspace; keep other content intact and restore it when closing.
+- [x] Show all cards when space permits; use explicit pages rather than scrollbars for large catalogues.
+- [x] Preserve the original source collections, selected endpoint identity, passive clicks and capture locks.
+- [x] Keep token/guidance under Service setup; expose it automatically for missing-token Start.
+- [x] Cover card bounds, no ScrollViewer, paging selection, themes, busy states, source modes, service and empty states.
+- [x] Refresh source explanations, images, exact citations and both documentation editions.
+
+The synthetic fixture uses23outputs/17microphones and minimum, medium and large layouts without
+opening devices. Visible cards fit; paging alone does not select a device. Very long names can
+ellipsize under severe space constraints without changing stored names/IDs. No universal infinite
+content-without-navigation claim is made. No provider/audio/service/owner-app operation or new ZIP.
+
+## Completion log
+
+- 2026-10-09 12:42 - Owner explicitly rejected scrolling and requested device cards.

@@ -1,0 +1,102 @@
+{
+  "mode": "offline_mock",
+  "model": "claude-haiku-5.5",
+  "reasoningEffort": "low",
+  "modelAttempts": 2,
+  "calls": [
+    {
+      "questionIndex": 0,
+      "sessionNewMs": 480.8,
+      "firstTextAfterPromptMs": 1032.6,
+      "completionAfterPromptMs": 1057.8,
+      "totalFromProcessLaunchMs": 6163.1,
+      "stopReason": "end_turn",
+      "answer": "Warning: No token count multiplier is known for Anthropic model \"claude-haiku-5.5\". Token estimates will use the 1.0 fallback; configure a recognized canonical model ID to enable model-specific token counting.Synthetic answer."
+    },
+    {
+      "questionIndex": 1,
+      "sessionNewMs": 199.1,
+      "firstTextAfterPromptMs": 317.6,
+      "completionAfterPromptMs": 351.8,
+      "totalFromProcessLaunchMs": 6728.6,
+      "stopReason": "end_turn",
+      "answer": "Warning: No token count multiplier is known for Anthropic model \"claude-haiku-5.5\". Token estimates will use the 1.0 fallback; configure a recognized canonical model ID to enable model-specific token counting.Synthetic answer."
+    }
+  ],
+  "failure": null,
+  "protocolVersion": 1,
+  "agentVersion": "1.0.92",
+  "capabilities": {
+    "loadSession": true,
+    "mcpCapabilities": {
+      "http": true,
+      "sse": true
+    },
+    "promptCapabilities": {
+      "image": true,
+      "audio": false,
+      "embeddedContext": true
+    },
+    "sessionCapabilities": {
+      "close": {},
+      "list": {}
+    }
+  },
+  "engineReadyMs": 4618.1,
+  "ownedProfileCheck": {
+    "settingsSemanticallyUnchanged": true,
+    "settingsKeys": [
+      "autoUpdate",
+      "bashEnv",
+      "beep",
+      "customAgents",
+      "disableAllHooks",
+      "experimental",
+      "ide",
+      "memory",
+      "notifications"
+    ],
+    "nonemptyCustomizationCategories": [
+      "profile/agents"
+    ]
+  },
+  "selectedConfiguration": {
+    "mode": "https://agentclientprotocol.com/protocol/session-modes#agent",
+    "agent": "phantom-fudge-answer",
+    "allow_all": "off"
+  },
+  "selectedModelAdvertised": false,
+  "candidateModelsAdvertised": {
+    "gpt-5.4-mini": false,
+    "claude-haiku-5.5": false,
+    "gpt-5.6-sol-fast": false
+  },
+  "reasoningEffortsAdvertised": [],
+  "updateTypes": [
+    "agent_message_chunk",
+    "available_commands_update",
+    "config_option_update",
+    "session_info_update",
+    "usage_update"
+  ],
+  "offlineRequests": [
+    {
+      "toolsCount": 0,
+      "userMessageCount": 1,
+      "assistantMessageCount": 0,
+      "questionEnvelopeCount": 1,
+      "model": "claude-haiku-5.5",
+      "fixedPolicyInSystemRole": true,
+      "questionExact": true
+    },
+    {
+      "toolsCount": 0,
+      "userMessageCount": 1,
+      "assistantMessageCount": 0,
+      "questionEnvelopeCount": 1,
+      "model": "claude-haiku-5.5",
+      "fixedPolicyInSystemRole": true,
+      "questionExact": true
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+# Opt-in question interpretation and explicit confirmation
+
+Status: DONE
+Milestone: Optional assistance for noisy or unwieldy question drafts
+Dependencies: 28_QUESTION_DRAFTS.todo, 39_INSTALLED_CLI_ANSWERS.todo, 42_DIRECT_FAST_ANSWERS.todo
+
+## Purpose
+
+An off-by-default toggle asks the provider to interpret the intended question, then accepts an
+explicit Yes or correction. Default direct answers retain their no-follow-up behavior.
+
+## Tasks and acceptance
+
+- [x] Add default-off inline toggle and separate interpretation/reply UX without overwriting the original.
+- [x] Send fixed task metadata and bounded, explicitly opted-in clarification history only.
+- [x] Interpret first; send another request only for an explicit reply or confirmation.
+- [x] Keep ordinary answering, tool isolation, capture policy, cancellation and source bounds intact.
+- [x] Exercise initial/correction/confirmation, limits, state changes and no-implicit-send with fake providers.
+- [x] Update privacy/setup/handbook/diagrams/images/JOURNAL and final source delivery evidence.
+
+## Completion log
+
+- 2026-10-09 10:33 - Owner explicitly requested optional interpretation plus Yes/correction replies.
+  This is a scoped exception to the prior no-follow-up default, not authorization for automatic sends.
+- 2026-10-09 - Core/provider227targeted tests passed; combined affected Core270passed. Fake ACP/Copilot
+  transports verify mode-gated follow-up text and exact bounded payloads; no live model calls.
+- Combined105245UI fixture passed all16clarification and20selection cases plus prior UI guards.
+  Compact reply layout was initially too short; temporarily reusing narrow transcript space fixed it.
+  Original draft, typed corrections, cancellation, explicit confirmation and snapshot-only tested.
+- Four completed interpretation turns,8192UTF16per field and32768total are enforced without trimming.
+  Default direct/confirmed answering stays strict; history is copied/validated before launching a process.
+- Documentation, synthetic images and full illustrated handbook delivered with44. A Mermaid line-break
+  produced invalid SVG in the first book build; a shorter plain label fixed the source diagram.
+- Source-only delivery;045022ZIP unchanged. Actual model wording/latency, owner UX and capture
+  qualification remain open. No new login, real audio, service operation, commit or push.

@@ -1,6 +1,7 @@
 """Two generated in-memory PCM tracks against a real local model, on an ephemeral test server."""
 
 import asyncio
+import argparse
 import base64
 import json
 import os
@@ -15,9 +16,16 @@ from recognizer import VoskFactory
 from server import FORMAT, create_app
 
 
-async def run(pcm, native_client=None):
+async def run(pcm, native_client=None, accurate=False):
     token = "synthetic_dual_source_probe_" + "x" * 40
-    factory = VoskFactory(ROOT / ".local" / "models" / "vosk-model-small-en-us-0.15")
+    if accurate:
+        from accurate import HybridFactory
+        from configuration import load_config, paths
+        config = load_config()
+        vosk_path, whisper_path = paths(config)
+        factory = HybridFactory(vosk_path, whisper_path, config["model"], config["threads"], config["vocabulary"])
+    else:
+        factory = VoskFactory(ROOT / ".local" / "models" / "vosk-model-small-en-us-0.15")
     app = create_app(token, factory)
     runner = web.AppRunner(app, access_log=None)
     await runner.setup()
@@ -38,14 +46,14 @@ async def run(pcm, native_client=None):
             process = await asyncio.create_subprocess_exec(
                 "dotnet", str(native_client), "--service-v2", uri.replace("http://", "ws://", 1),
                 "--synthetic-tracks-stdin", "--expect-computer", "project meeting",
-                "--expect-microphone", "one two three four five",
+                "--expect-microphone", "question" if accurate else "one two three four five",
                 stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE, env=env,
             )
             payload = json.dumps({source: base64.b64encode(data).decode("ascii")
                                   for source, data in pcm.items()}).encode("utf-8")
             try:
-                stdout, stderr = await asyncio.wait_for(process.communicate(payload), 60)
+                stdout, stderr = await asyncio.wait_for(process.communicate(payload), 120 if accurate else 60)
             except TimeoutError:
                 process.kill()
                 await process.wait()
@@ -54,7 +62,7 @@ async def run(pcm, native_client=None):
                 raise RuntimeError("Synthetic native v2 client failed: " + stderr.decode("utf-8", "replace"))
             print(stdout.decode("utf-8", "replace").strip())
             print(json.dumps({"nativeClientToRealDualModel": "passed",
-                              "realEndpointsOpened": 0, "audioFilesWritten": 0}))
+                              "accurateFinals": accurate, "realEndpointsOpened": 0, "audioFilesWritten": 0}))
             return
         async with ClientSession() as client:
             async with client.ws_connect(uri, headers={"Authorization": "Bearer " + token}) as ws:
@@ -115,6 +123,10 @@ async def run(pcm, native_client=None):
 
 
 def main():
+    arguments = argparse.ArgumentParser()
+    arguments.add_argument("--native-client", type=Path)
+    arguments.add_argument("--accurate", action="store_true")
+    options = arguments.parse_args()
     payload = sys.stdin.buffer.read(4_000_001)
     if len(payload) > 4_000_000:
         raise ValueError("Synthetic input is too large.")
@@ -124,12 +136,10 @@ def main():
     pcm = {source: base64.b64decode(value, validate=True) for source, value in data.items()}
     if any(not value or len(value) % 2 or len(value) > 32000 * 30 for value in pcm.values()):
         raise ValueError("Invalid synthetic PCM length.")
-    native_client = None
-    if len(sys.argv) > 1:
-        if len(sys.argv) != 3 or sys.argv[1] != "--native-client":
-            raise ValueError("Use --native-client <compiled-synthetic-test-client>.")
-        native_client = Path(sys.argv[2]).resolve(strict=True)
-    asyncio.run(run(pcm, native_client))
+    native_client = options.native_client.resolve(strict=True) if options.native_client else None
+    if options.accurate and native_client is None:
+        raise ValueError("--accurate currently requires the strict native-client probe.")
+    asyncio.run(run(pcm, native_client, options.accurate))
 
 
 if __name__ == "__main__":

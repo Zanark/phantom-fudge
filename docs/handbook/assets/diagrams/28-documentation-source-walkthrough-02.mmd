@@ -1,0 +1,19 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","signalColor":"#8b949e","signalTextColor":"#e6edf3"}}
+---
+sequenceDiagram
+    accTitle: Publish only a complete reviewed atlas edition
+    accDescr: Source and annotation validation precede staged HTML/PDF rendering, output replacement and final manifest creation.
+    autonumber
+    participant Author
+    participant Atlas
+    participant Browser
+    participant Book
+    Author->>Atlas: Reviewed annotations and source hashes
+    Atlas->>Atlas: Check inventory, ranges and mirrors
+    Atlas->>Browser: Staged escaped HTML
+    Browser-->>Atlas: PDF and layout observations
+    Atlas->>Atlas: Replace outputs and write manifest
+    Book->>Atlas: Verify complete current edition
+    Atlas-->>Book: Current coverage and output hashes
+    Book->>Book: Build illustrated handbook

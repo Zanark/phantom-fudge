@@ -1,0 +1,37 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#2d333b"
+    primaryBorderColor: "#6d5dfc"
+    primaryTextColor: "#e6edf3"
+    lineColor: "#8b949e"
+---
+flowchart TD
+    accTitle: Normal stop versus failure containment
+    accDescr: Stop drains source queues, tails and accurate finals before stopped. Disconnect, overload or native failure enters cleanup instead; native failure makes the runtime unavailable.
+    Live["Receiving PCM"] --> Stop["Exact stop received"]
+    Stop --> Sentinels["Await source sentinel slots"]
+    Sentinels --> Drain["Workers drain accepted PCM"]
+    Drain --> Tails["Queue canonical stop tails"]
+    Tails --> Finals["Serial finalizer drains FIFO"]
+    Finals --> Ack["Emit stopped"]
+    Live --> Fault["Disconnect or error"]
+    Drain --> Fault
+    Finals --> Fault
+    Fault --> Failed["Native fault marks unready"]
+    Fault --> Cleanup["Cancel and await tasks"]
+    Failed --> Cleanup
+    Ack --> Cleanup
+    Cleanup --> Release["Close and release admission"]
+    style Live fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Stop fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Sentinels fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Drain fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Tails fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Finals fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Ack fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Fault fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Failed fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Cleanup fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Release fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

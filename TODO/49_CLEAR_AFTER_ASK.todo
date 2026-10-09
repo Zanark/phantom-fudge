@@ -1,0 +1,23 @@
+# Clear after Ask with a red outline
+
+Status: DONE
+Milestone: Revised question action grouping
+Dependencies: 48_PRIMARY_ASK_ACTION.todo
+
+## Scope and evidence
+
+- [x] Move Clear question immediately to the right of Ask, retaining its existing handler.
+- [x] Use a two-unit theme-red error border that remains red through hover/focus/press.
+- [x] Keep Edit/Copy on the left and the large accent-filled Ask unchanged.
+- [x] Preserve compact clarification reading and typing; slightly reduce secondary-button padding.
+- [x] Extend synthetic geometry/color and active-reply layout checks, then refresh source annotations and documentation.
+
+The122205synthetic fixture passes the right-action/red-border contract and clarification read/edit
+layouts; answerFontHalved remains true. Earlier compact attempts exposed left-label wrapping;
+four-unit Edit/Copy padding keeps Done typing and Copy original on one row.
+No live model/audio/service operation, owner-app interruption or new ZIP was involved.
+
+## Completion log
+
+- 2026-10-09 12:15 - Owner requested Clear to the right of Ask with a red border. This supersedes
+ 48's earlier rightmost-Ask/left-Clear arrangement, not its larger colored Ask styling.

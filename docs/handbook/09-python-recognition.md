@@ -1,182 +1,200 @@
 ---
-title: "9. Python recognition: shared model, independent histories"
-description: "Trace model verification, serialized Vosk work, source-local decoder state, partial/final publication, 30-second rotation, and failure containment."
+title: "9. Python recognition: fast previews, bounded Whisper finals"
+description: "Trace Vosk provisional text, local Whisper finals, exact PCM ownership, independent source workers, ordered publication, and metadata-only diagnostics."
 outline: deep
 ---
 
-# 9. Python recognition: shared model, independent histories
+# 9. Python recognition: fast previews, bounded Whisper finals
 
-## Why separate the model from its history?
+## Why a preview and a final need different contracts
 
-Two sources need separate recognition histories, not two independently loaded copies of the same model. Computer playback must not become the acoustic context for a dictated Mic question. `VoskFactory` therefore retains one model and creates a new `VoskRecognizer` for each requested source. Each wrapper constructs its own `KaldiRecognizer` and maintains its own sample counter, offset, and last final endpoint. The shared model is treated as immutable by this application; mutable decoder state belongs to one source. (`services\transcription\recognizer.py:41-67`, `VoskFactory`, `VoskRecognizer`; `services\transcription\server.py:378-386`, `transcribe`.)
+The October 9 default separates responsiveness from final recognition quality. Vosk still produces provisional replacements quickly, but its endpoint text is no longer promoted into the authoritative transcript. An endpoint or size boundary instead transfers exact PCM to local Whisper. A final means that this bounded span has completed final recognition—not that every word is correct. This separation is implemented by `HybridRecognizer.accept` returning either `Recognition` or `FinalSpan`, and by `finish` returning PCM rather than Vosk's final spelling. (`services\transcription\accurate.py:33-71`, `HybridRecognizer`.)
 
-This distinction also explains the concurrency design. A single executor worker runs source-decoder operations away from aiohttp's event loop. The sources are logically independent but do not decode simultaneously on separate executor threads. That is a bounded-resource tradeoff, not a claim of equal per-source latency or proof that native libraries never use internal threads. The native manager additionally sets `OPENBLAS_NUM_THREADS` and `OMP_NUM_THREADS` to one. (`services\transcription\server.py:109-142`, `Runtime`; `services\transcription\manage.py:167-176`, `start`.)
+Two sources still need independent histories, not two loaded Vosk models. `VoskFactory` shares model weights while each source gets its own `KaldiRecognizer`; `HybridFactory` adds one shared Whisper finalizer and constructs a fresh hybrid wrapper per source. Neither Computer samples nor its provisional decoder state becomes Mic context. (`services\transcription\recognizer.py:41-67`, factories and decoder state; `services\transcription\server.py:563-576`, `transcribe`; `services\transcription\accurate.py:121-129`, `HybridFactory`.)
 
-## Provisioned identity, not a model chosen at request time
+The old single-executor description is now correct only for explicit legacy Vosk. Hybrid uses independent bounded source queues and single-worker source executors, plus one finalizer executor. The event loop coordinates these stages without executing their native recognition calls inline. The manager's `OPENBLAS_NUM_THREADS=1` and `OMP_NUM_THREADS=1` do not mean Whisper is configured for one CPU thread: its explicit `cpu_threads` default is four, with `num_workers=1`. These limits constrain different layers; they do not guarantee equal source latency. (`services\transcription\server.py:115-181`, `Runtime`; `services\transcription\manage.py:188-201`, `start`; `services\transcription\accurate.py:75-81`, `WhisperFinalizer.__init__`.)
 
-| Pinned item | Repository value | Meaning |
+## The operational configuration—not an implicit fallback
+
+| Setting | Operational default | Allowed alternative or boundary |
 | --- | --- | --- |
-| Engine package | `vosk==0.3.45` | Python dependency pin, not an accuracy guarantee. |
-| HTTP/WebSocket package | `aiohttp==3.14.3` | Transport dependency pin. |
-| Model | `vosk-model-small-en-us-0.15` | Specific English model directory and archive. |
-| Model language/version | `en-US`, `0.15` | Manifest metadata; no automatic language selection. |
-| Archive length | 41,205,931 bytes | Approximately 41.21 MB decimal or 39.30 MiB binary. |
-| License metadata | `Apache-2.0` | Manifest's model-license declaration. |
-| Checksum provenance | Observed official HTTPS download | Explicitly not a publisher-signed checksum. |
+| `engine` | `hybrid-whisper` | Explicit `vosk` selects legacy recognition. |
+| `model` | `small.en` | `base.en` is supported, not silently substituted. |
+| Compute | CPU `int8` | Finalizer constructor fixes device and compute type. |
+| `threads` | `4` | Integer 1–8 in validated configuration. |
+| `vocabulary` | `technical` | `none` disables disclosed general hotwords. |
+| PCM span | 15-second target | 16-second hard maximum, including a crossing frame. |
+| Speech protocol | v1 and v2 | Pipeline version 2 is not a new wire version. |
 
-Package rows come from `requirements.txt`; model rows come from the maintained manifest. The “approximately 40 MB” setup description refers to archive size, not resident model memory. (`services\transcription\requirements.txt:1-20`, pinned dependencies; `services\transcription\model.json:2-10`, manifest metadata; `scripts\Initialize-Transcription.ps1:69-79`, model provisioning.)
+These defaults come from `load_config`, not the standalone finalizer constructor's `vocabulary="none"` argument; production passes the validated selection explicitly. Missing config uses defaults, missing vocabulary receives `technical`, and unknown keys or invalid values fail. An engine environment override is explicit configuration, not failure recovery. (`services\transcription\configuration.py:11-36`, defaults and `load_config`; `services\transcription\accurate.py:75-88`, constructor; `tools\SpeechBench\results\quality-validation-20261009.json:7-10`, speech versions.)
 
-`verify_model` requires a directory, rejects symlinks, enumerates the complete file set, compares it exactly with the manifest, and SHA-256-checks every expected file. Extra files are therefore a mismatch, not harmless metadata. Verification occurs before importing and constructing Vosk's model. The constructor explicitly supplies `model_path`; the source comment explains that language/name discovery could download a model, which is inappropriate in this request-serving path. (`services\transcription\recognizer.py:22-49`, `verify_model`, `VoskFactory.__init__`.)
+The provisional dependency remains Vosk 0.3.45 with the pinned English 0.15 model. Its 41,205,931-byte archive is approximately 40 MB, **not the entire hybrid model footprint**. The original observed hash is an integrity pin, not a publisher signature or an accuracy guarantee. (`services\transcription\requirements.txt:1-20`, dependency pins; `services\transcription\model.json:2-10`, Vosk metadata; `scripts\Initialize-Transcription.ps1:78-88`, original provisioning.)
 
-The provisioning script is a separate consent and mutation boundary: it downloads only when the model/archive is absent and `-DownloadModel` is supplied, validates archive length and hash, refuses to overwrite an existing invalid model directory, and verifies extracted files. A cached archive can be reused without downloading. Neither the service's WebSocket handler nor the recognizer repairs or silently fetches missing weights. (`scripts\Initialize-Transcription.ps1:69-95`, provisioning; `services\transcription\recognizer.py:22-49`, verification and loading; `services\transcription\server.py:455-466`, `production_app`.)
+Both model families are verified before use. Vosk checks an exact file set and SHA-256 identities; Whisper additionally checks declared byte lengths and rejects symlinked files/parents. Runtime supplies an explicit local path and `local_files_only=True`. The separate provisioning command may copy a verified cache or download a pinned revision only with explicit consent; invalid existing files require repair. Request handling never provisions weights, and failure does not switch to Vosk finals. (`services\transcription\recognizer.py:22-49`, `verify_model`, `VoskFactory`; `services\transcription\provision_whisper.py:19-81`, verification/provisioning; `services\transcription\configuration.py:61-70`, `verify_config`; `services\transcription\accurate.py:75-81`, local loading.)
 
 ```mermaid
 ---
 config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
 ---
 flowchart TB
-    accTitle: Model identity and mutable decoder ownership
-    accDescr: Verified files create one model, while Computer and Mic retain separate decoder histories serialized on one executor.
-    F["Provisioned files"] --> V["Exact set and hashes"]
-    V --> M["Shared Vosk model"]
-    M --> C["Computer decoder"]
-    M --> D["Mic decoder"]
-    Q["Source-tagged FIFO"] --> W["One executor worker"]
-    W --> C
-    W --> D
-    C --> CS["Computer time and partial"]
-    D --> MS["Mic time and partial"]
-    CS --> P["Validated publication"]
-    MS --> P
-    style F fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    accTitle: Independent provisional work and one bounded finalizer
+    accDescr: Verified Vosk weights serve separate source workers, their owned spans enter a bounded final queue, and Whisper finals share ordered publication with eligible partials.
+    V["Verified configuration"] --> M["Shared Vosk weights"]
+    V --> H["Local Whisper weights"]
+    subgraph C["Computer history"]
+        CQ["PCM queue"] --> CW["Vosk worker"]
+        CW --> CS["Owned span"]
+    end
+    subgraph D["Mic history"]
+        MQ["PCM queue"] --> MW["Vosk worker"]
+        MW --> MS["Owned span"]
+    end
+    M --> CW
+    M --> MW
+    CS --> Q["Bounded final queue"]
+    MS --> Q
+    Q --> W["One finalizer worker"]
+    H --> W
+    CW -.-> P["Ordered publication"]
+    MW -.-> P
+    W --> P
     style V fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style M fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style C fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style D fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style H fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style CQ fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style CW fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style MQ fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style MW fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Q fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style W fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style CS fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style MS fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style P fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style C fill:#161b22,stroke:#30363d,color:#e6edf3
+    style D fill:#161b22,stroke:#30363d,color:#e6edf3
     linkStyle default stroke:#8b949e
 ```
 
-The diagram combines `VoskFactory` ownership with `Session` source state. Loading the model does not start a decoder for an unrequested source, open a microphone, or create transcript text. (`services\transcription\recognizer.py:41-67`, model/decoder constructors; `services\transcription\server.py:212-235`, `SourceState`, `Session`; `services\transcription\server.py:380-385`, source-decoder construction.)
+Each `SourceState` owns its queue, credits, last partial, pending-final counters, and clock. One source can therefore advance provisional processing while the other is busy. Final work remains serialized and bounded; this is not unlimited parallel decoding. Loading weights alone opens no audio endpoint. (`services\transcription\server.py:263-290`, `SourceState`, `Session`; `services\transcription\server.py:565-574`, source construction; `services\transcription\accurate.py:121-129`, `HybridFactory`.)
 
-## Following one 100 ms frame
+## Following bytes into one exact span
 
-At 16,000 Hz and two bytes per mono sample, 3,200 bytes represent 1,600 samples and `0.1` seconds. `Session.recognize` dequeues a `(source, pcm)` pair, releases its queue accounting, and invokes only that source's `decoder.accept` through `Runtime.cpu`. This separates backpressure accounting from recognition progress: total received bytes can include queued work, while `VoskRecognizer._samples` advances only as frames reach the decoder. (`services\transcription\server.py:274-287`, `Session.receive`; `services\transcription\server.py:317-333`, `Session.recognize`; `services\transcription\recognizer.py:82-84`, `VoskRecognizer.accept`.)
+At 16 kHz mono PCM16, a 3,200-byte frame contains 1,600 samples, or 100 ms. The source worker releases intake accounting when it dequeues the frame, then calls that source's hybrid recognizer. Received duration can include queued work; processed span duration advances only as PCM reaches `accept`. The old intake limits—64,000 bytes and 32 frames/source—therefore do not bound all recognition memory. (`services\transcription\server.py:339-357`, `Session.receive`; `services\transcription\server.py:394-498`, recognition chain; `services\transcription\recognizer.py:82-84`, processed samples; `services\transcription\accurate.py:48-63`, hybrid intake.)
 
-`accept` increments `_samples` by `len(pcm) // 2`, calls `AcceptWaveform`, and branches on endpoint completion and the 30-second history boundary. A normal incomplete result uses `PartialResult()["partial"]`; an endpoint-complete result uses `Result()` and `_final`. Every new decoder enables word results with `SetWords(True)` and disables partial-word results with `SetPartialWords(False)`. The application needs final word times, but exposes partial text rather than partial word alignments. (`services\transcription\recognizer.py:64-96`, decoder methods.)
+`HybridRecognizer` appends each frame once. A provisional endpoint or accumulated 480,000 bytes triggers `_take`: immutable PCM bytes plus exact sample indices, followed by clearing the accumulator and constructing a fresh provisional decoder. No earlier PCM is replayed. `FinalSpan` requires `len(pcm) == 2 × (end_sample − start_sample)` and ordered nonnegative integer indices; malformed ownership is an error, not a best-effort timestamp. (`services\transcription\accurate.py:17-63`, `FinalSpan`, `_take`, `accept`.)
 
-`Recognition` is a small immutable result carrier: text, final flag, start, and end. It does not carry source identity; the enclosing `Session` already knows which source's decoder ran and adds the label during publication. Keeping these responsibilities separate lets recognizer tests focus on timing without needing a WebSocket. (`services\transcription\recognizer.py:14-19`, `Recognition`; `services\transcription\server.py:289-315`, `Session.publish`; `services\transcription\tests\test_recognizer.py:37-75`, `RecognizerTests`.)
+The target is checked after accepting a complete legal frame. For example, 14.9 seconds plus a one-second frame becomes one 15.9-second span; the frame is not split or replayed. The hard ceiling is `16 × 16,000 × 2 = 512,000` bytes. Two pending spans/source permit at most 1,024,000 pending PCM bytes/source, separate from current accumulation, intake, float arrays, and model memory. Stop waits for pending capacity rather than discarding its already accepted tail. (`services\transcription\accurate.py:12-30`, bounds; `services\transcription\accurate.py:48-71`, whole-frame ownership; `tools\SpeechBench\results\synthetic-quality-20261009.json:6597-6603`, observed pending-final limit.)
 
-### Partials are replacements, not append-only sentences
+### The ownership algorithm in JavaScript-shaped pseudocode
 
-The server stores `last_partial` independently for each source and sends only changed partial text. A final resets that source's partial memory to `None`; it does not reset the other track. An empty initial partial can be emitted because `""` differs from `None`. This is useful state information, not evidence of recognized speech. (`services\transcription\server.py:212-220`, `SourceState`; `services\transcription\server.py:301-315`, `Session.publish`.)
-
-Final publication validates the result type, string type, 8,192-character service text limit, finite timestamps, and source-duration ordering before assigning the next global segment ID. These checks protect the wire contract even when a decoder adapter is replaced by a test double or returns invalid data. A final is committed recognition output, not a guarantee that the words are correct. (`services\transcription\server.py:289-315`, `Session.publish`; `services\transcription\tests\test_dual_protocol.py:349-377`, invalid-result and timestamp-regression tests.)
-
-## Bounding continuous-speech history
-
-A stream need not pause conveniently. The wrapper therefore finalizes and recreates its mutable decoder once supplied audio since `_offset` reaches at least 30 seconds. This is a processed-audio threshold, not a wall-clock timer and not a configurable silence detector. The rollover check follows `AcceptWaveform`, so a frame that crosses the boundary is entirely consumed before rotation. (`services\transcription\recognizer.py:82-93`, `VoskRecognizer.accept`.)
-
-Thirty seconds contains `30 × 16,000 = 480,000` samples, or 960,000 PCM bytes per source. These are cumulative processed bytes, **not bytes retained in the server queue**. If the existing decoder ended an utterance, rotation uses `Result()`; otherwise it forces `FinalResult()`. The wrapper then sets `_offset` to cumulative elapsed audio and creates a fresh decoder against the same model. (`services\transcription\recognizer.py:83-90`, `accept`; `services\transcription\server.py:43-47`, queue limits.)
-
-The following JavaScript-shaped pseudocode translates the Python recognition branch:
+This translates the Python wrapper; it is not another runtime implementation. The bounds use PCM bytes, never the v2 source prefix. (`services\transcription\accurate.py:33-71`, `HybridRecognizer`.)
 
 ```javascript
 function accept(pcm) {
-  samples += Math.floor(pcm.length / 2);
-  const complete = decoder.AcceptWaveform(pcm);
-  const elapsed = samples / 16000;
-
-  if (elapsed - offset >= 30) {
-    const result = toFinal(
-      complete ? decoder.Result() : decoder.FinalResult()
-    );
-    offset = elapsed;
-    decoder = newDecoder(sharedModel, 16000);
-    return result;
+  requireLiveEvenFrame(pcm, 32000);
+  if (retained.length + pcm.length > 512000) throw decoderError();
+  retained.append(pcm);
+  const preview = provisional.accept(pcm);
+  requireRecognition(preview);
+  const rotate = retained.length >= 480000;
+  if (preview.final || rotate) {
+    const end = startSample + retained.length / 2;
+    const span = immutableSpan(retained, startSample, end,
+                               rotate ? "rotation" : "endpoint");
+    startSample = end;
+    retained.clear();
+    provisional = provisionalFactory();
+    return span;             // Never promote preview.text to a final.
   }
-  if (complete) return toFinal(decoder.Result());
-  return { text: JSON.parse(decoder.PartialResult()).partial ?? "",
-           final: false };
+  return preview;
 }
 ```
 
-This is explanatory pseudocode, not an additional runtime or language port. `toFinal` represents the timestamp normalization performed by Python's `_final`. (`services\transcription\recognizer.py:69-96`, `VoskRecognizer` methods.)
+The standalone Vosk wrapper still has its 30-second history rotation and word-time clamping. Hybrid normally replaces that provisional decoder earlier, at each owned-span boundary. Its 15-second policy is neither a wall-clock timer nor the native 250 ms callback-silence threshold. Changing these boundaries can split a sentence; byte-exact ownership does not promise linguistically optimal cuts. (`services\transcription\recognizer.py:82-93`, legacy rotation; `src\PhantomFudge.App\Audio\SilenceCadence.cs:11-19`, cadence; `services\transcription\accurate.py:57-61`, hybrid rotation.)
+
+## Whisper finalization and the meaning of time
+
+`WhisperFinalizer` converts little-endian signed 16-bit PCM into float32 by dividing by 32,768. Empty spans and near-digital silence with peak magnitude below `0.001` produce empty finals without inference. This does not use a Vosk spelling guess as proof that speech occurred: quiet/noisy speech classification remains imperfect. A peak magnitude of 32 is classified as near-digital silence; 33 proceeds to model processing. Neither value identifies a speaker. (`services\transcription\accurate.py:90-100`, `WhisperFinalizer.__call__`.)
+
+| Decode control | Fixed policy and reason to distinguish it |
+| --- | --- |
+| Language/task | English transcription, not translation or language discovery. |
+| Search | Beam 5, temperature 0; no adaptive temperature-retry loop. |
+| Context | No initial prompt or previous-text conditioning; optional general hotwords only. |
+| VAD | Enabled; 400 ms minimum silence and 200 ms speech padding, unrelated to WASAPI cadence. |
+| Filtering | No-speech 0.6, log probability −1.0, compression ratio 2.4, hallucination-silence 1 second. |
+| Timing | Word timestamps disabled; returned bounds come from owned sample indices. |
+
+The table is the actual `transcribe` call, not recommended settings invented for this chapter. Technical vocabulary is a disclosed list of terms, not reference sentences, user notes, a postprocessing replacement table, or transcript adaptation. The finalizer consumes the segment generator, rejects nonfinite times/nonstring text, and bounds assembled text before returning. (`services\transcription\accurate.py:83-118`, hotwords, decoding, and result validation.)
+
+Suppose Computer owns `[0, 240000)` samples and then a 100 ms tail `[240000, 241600)`. Their final ranges are `[0, 15]` and `[15, 15.1]` seconds—even if words occupy only part of either interval. Whisper's internal segment times do not replace these ledger boundaries. Mic's independent 1,600 samples still end at 0.1 seconds, not Computer's 15.1. (`services\transcription\accurate.py:41-46`, `_take`; `services\transcription\accurate.py:93-118`, returned times.)
 
 ```mermaid
 ---
 config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","actorLineColor":"#8b949e","signalColor":"#8b949e","signalTextColor":"#e6edf3","noteBkgColor":"#161b22","noteBorderColor":"#30363d","noteTextColor":"#e6edf3"}}
 ---
 sequenceDiagram
-    accTitle: A source rotates without resetting its audio clock
-    accDescr: Computer rotates at thirty processed seconds while Mic retains its separate decoder and shorter clock.
+    accTitle: A pending final does not lose source order
+    accDescr: Computer commits an owned span, newer provisional text waits for its final, and Mic remains an independent publication track.
     autonumber
-    participant S as Session
-    participant C as Computer wrapper
-    participant D as Computer decoder
-    participant M as Mic wrapper
-    S->>M: accept 3200 PCM bytes
-    M-->>S: Partial at 0.1 s processed
-    S->>C: Frame reaching 30 s
-    C->>D: AcceptWaveform
-    D-->>C: Not endpoint-complete
-    C->>D: FinalResult
-    D-->>C: Local word times
-    C->>C: Clamp final, offset = 30
-    C->>C: Create fresh decoder
-    C-->>S: Final ending by 30 s
-    S->>C: Process next 1 s
-    S->>C: finish on Stop
-    C-->>S: Tail in 30 to 31 s
-    S->>M: finish on Stop
-    M-->>S: Tail ending by 0.1 s
+    participant C as Computer worker
+    participant V as Provisional decoder
+    participant Q as Final queue
+    participant W as Whisper worker
+    participant P as Publication gate
+    participant M as Mic worker
+    C->>V: Accept frame reaching 15 s
+    V-->>C: Provisional result
+    C->>C: Take exact span, replace decoder
+    C->>Q: Admit owned span
+    Q->>W: Finalize local PCM
+    C->>V: Accept next frame
+    V-->>C: New provisional text
+    C->>P: Defer while Computer final pending
+    M->>P: Eligible Mic partial
+    W-->>P: Computer final for owned span
+    P->>P: Assign global ID under lock
+    P->>P: Publish eligible deferred partial
 ```
 
-`test_shared_model_has_independent_decoders_rotation_and_timing` verifies the essential property: rotating Computer creates one new decoder without replacing Mic's decoder or advancing Mic's clock. The diagram's timing is based on synthetic fixture behavior, not measured acoustic recognition latency. (`services\transcription\tests\test_recognizer.py:61-75`, shared-model test.)
-
-### Worked absolute-time reconstruction
-
-Suppose thirty one-second frames have reached Computer. The fixture produces a final ending at 30 seconds; `_offset` becomes 30. After one further second, a new decoder word starting locally at `0.05` becomes absolute `30.05`, and its one-second endpoint becomes `31`. The recognizer test asserts those exact values. No raw timestamp from the second decoder is allowed to send the source clock backwards to zero. (`services\transcription\tests\test_recognizer.py:38-51`, continuous-speech rotation test; `services\transcription\recognizer.py:69-89`, `_final`, `accept`.)
-
-For a nonempty word list, `_final` takes the first word's start and last word's end, adding `_offset`. Without words, it uses `_last_end` and cumulative elapsed audio. It rejects nonfinite numbers, then clamps start to at least the previous endpoint and end to at least start, both no later than supplied audio. This bounds the timeline; it does not independently validate acoustic word alignment. (`services\transcription\recognizer.py:69-80`, `_final`.)
-
-The 30-second policy bounds decoder history but introduces a tradeoff: forced finalization can divide continuous speech where the speaker did not pause. The code does not promise linguistically optimal boundaries. Nor should this reset be mistaken for the native 250 ms idle-silence threshold: one concerns decoder history; the other concerns callback-driven PCM supply. (`services\transcription\recognizer.py:85-90`, rotation branch; `src\PhantomFudge.App\Audio\SilenceCadence.cs:11-19`, cadence.)
+`Session` serializes publication because source workers and finalization can now finish independently. `decode_frame` defers a pending source's newest partial, `queue_final` clears obsolete deferred text when committing another span, and `finalize` releases eligible deferred text when pending count reaches zero. Changed partials remain replacements, while `_publish` validates text and monotonic source times before assigning a session-global ID. Trace these named methods together in [the server](../../services/transcription/server.py); the illustrative diagram assumes Mic has no pending final and is not a latency measurement. (`services\transcription\server.py:361-392`, publication; `services\transcription\server.py:263-271`, source state; `services\transcription\accurate.py:48-71`, committed span boundaries.)
 
 ## Failure containment around native work
 
-`Runtime.cpu` submits work to the one-thread executor and awaits a **shielded** future with a five-second default operation timeout. Shielding matters because cancelling an asyncio waiter does not safely terminate the native decoder. On an operation exception or timeout, the runtime becomes failed, the error becomes generic `decoder_error`, and later work is not admitted as a healthy session. If the await itself is cancelled, the method waits again for the outstanding call, retaining admission while that attempt completes or times out. (`services\transcription\server.py:43-51`, limits; `services\transcription\server.py:126-142`, `Runtime.cpu`; `services\transcription\server.py:387-408`, handler cleanup.)
+Native calls remain **shielded** futures: cancelling an asyncio waiter cannot safely kill a decoder. Provisional work has a five-second deadline; final work has its own longer deadline. An exception/timeout marks the runtime failed and produces generic `decoder_error`, not an automatic legacy fallback. Cancellation retains admission while outstanding work is awaited within its bounded cleanup policy. (`services\transcription\server.py:46-54`, provisional limits; `services\transcription\server.py:147-181`, CPU wait machinery; `services\transcription\server.py:578-606`, cleanup; `tools\SpeechBench\results\synthetic-quality-20261009.json:12704`, observed 20-second final-call timeout.)
 
-Model initialization is a distinct case: `production_app` submits `VoskFactory` directly to the executor, not through `Runtime.cpu`. Therefore the five-second per-operation rule must not be attributed to initial model loading. The native manager separately limits its readiness observation to 45 seconds; it retains the receipt if startup exceeds that wait. (`services\transcription\server.py:455-466`, `production_app`; `services\transcription\manage.py:184-200`, `start`.)
+Model initialization is separate: `production_app` loads the selected factory directly on an executor, outside those per-operation waits. The manager's 45-second readiness observation is not a model-inference deadline; it retains ownership evidence on failure. A healthy model selection requires both Vosk and Whisper verification for hybrid. (`services\transcription\server.py:658-683`, `production_app`; `services\transcription\manage.py:209-227`, `start`; `services\transcription\configuration.py:61-70`, `verify_config`.)
 
 | Failure example | Observable policy |
 | --- | --- |
-| Missing or modified model | Factory cannot load; service readiness is unavailable, with no request-time download. (`services\transcription\recognizer.py:22-49`; `services\transcription\server.py:455-465`.) |
-| Second decoder fails to initialize | No ready message for the partially constructed source set; runtime becomes unavailable. (`services\transcription\server.py:380-390`, `transcribe`; `services\transcription\tests\test_dual_protocol.py:282-294`, initialization test.) |
+| Missing or modified model | Factory cannot load; service readiness is unavailable, with no request-time download. (`services\transcription\recognizer.py:22-49`; `services\transcription\server.py:658-682`.) |
+| Second decoder fails to initialize | No ready message for the partially constructed source set; runtime becomes unavailable. (`services\transcription\server.py:565-583`, `transcribe`; `services\transcription\tests\test_dual_protocol.py:282-294`, initialization test.) |
 | Mic decoder raises or hangs | Entire session faults; Computer is not silently retained as the only source. (`services\transcription\tests\test_dual_protocol.py:296-305`, exception test; `services\transcription\tests\test_dual_protocol.py:325-347`, timeout test.) |
 | Mic finish fails after Computer final | The Computer final may already have arrived, but there is no successful `stopped` barrier. (`services\transcription\tests\test_dual_protocol.py:308-315`, finish-failure test.) |
 | Result timestamp is NaN | Rejected rather than serialized as plausible time. (`services\transcription\recognizer.py:75-76`, `_final`; `services\transcription\tests\test_recognizer.py:53-59`, nonfinite test.) |
 
-The service disables logging, access logs, and native stderr retention in production because decoder diagnostics can contain model paths or content. This is a deliberate diagnostic tradeoff, not a universal secure-erasure claim. The client additionally replaces service error text with its own safe message. (`services\transcription\server.py:469-492`, `main`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:397-405`, `ProcessMessage`.)
+### Metadata-only diagnostics, not retained speech
+
+“No diagnostics are persisted” is now incorrect. Production retains allowlisted JSONL at `.local\diagnostics\transcription.jsonl`, rotating at 1 MiB with three backups. Events are model load, session start/stop, decode, finalize, fault, and disconnect. Each record carries schema/time, event/source, engine/model, a safe fault code, and numeric decode/audio duration, queue bytes/frames, pending finals, fault count, and drop count. There is no transcript, waveform, token, path, or arbitrary exception-message field. (`services\transcription\diagnostics.py:12-22`, schema; `services\transcription\diagnostics.py:45-77`, `emit`.)
+
+Writes are locked, symlink destinations are refused, counters must be finite/nonnegative, and I/O failure marks logging unavailable with a generic notice. This does not guarantee secure memory erasure. Content-bearing native stderr/access logs remain suppressed, and native transport still replaces service error text with a safe client message. (`services\transcription\diagnostics.py:24-43`, failure state; `services\transcription\diagnostics.py:59-77`, rotation/I/O; `services\transcription\server.py:686-712`, `main`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:406-414`, `ProcessMessage`.)
 
 ## What the tests can establish
 
-`DecoderFixture` deterministically checks history rotation and time offsets without loading real weights. `RecordingRecognizer` checks source routing, duplicate-partial suppression, and one executor thread. Together they distinguish algorithmic invariants from model quality. Their existence does not mean this documentation task reran them. (`services\transcription\tests\test_recognizer.py:10-75`, fixture/tests; `services\transcription\tests\test_dual_protocol.py:30-54`, `RecordingRecognizer`; `services\transcription\tests\test_dual_protocol.py:150-180`, independence test.)
+Original `DecoderFixture` rotation tests and `RecordingRecognizer` routing tests remain useful for the provisional/legacy path; their single-executor assertion must not be generalized to hybrid scheduling. The October 9 receipt reports 104 service tests and 18 benchmark tests, but this documentation pass reran neither. (`services\transcription\tests\test_recognizer.py:10-75`, fixture/tests; `services\transcription\tests\test_dual_protocol.py:30-54`, `RecordingRecognizer`; `services\transcription\tests\test_dual_protocol.py:150-180`, legacy independence; `tools\SpeechBench\results\quality-validation-20261009.json:4-17`, validation scope.)
 
-The real-model synthetic check requires an explicit cached model and in-memory source fixtures. It verifies shared model/distinct decoders, source-specific expected keywords, absence of the other source's fixture keywords, global IDs, bounded source times, and the final-final-stopped tail. The C# helper independently exercises native v2 transport with source-specific expected phrases. These are stronger integration checks than fake decoders, but still do not qualify real microphone permissions, acoustics, echo cancellation, accents, or arbitrary meeting accuracy. (`services\transcription\tests\real_dual_model_check.py:34-67`, fixture/model setup; `services\transcription\tests\real_dual_model_check.py:84-118`, assertions; `tests\PhantomFudge.Audio.Tests\DualSyntheticServiceCheck.cs:49-79`, native helper.)
+The adopted synthetic run recorded 19 word edits over 432 reference words (**4.40% WER**) and five character edits over 1,900 normalized characters (**0.263% CER**). Unhinted small.en had lower raw WER; the technical vocabulary's compound `LeetCode` spelling costs word edits against `leet code`. Residual `to`/`two` and `some`/`sum` errors remain. Long dual-source stress reached `stopped`, with global IDs 1–14 and zero faults/drops; that validates this run, not arbitrary microphone quality or zero-WER speech. [Chapter 12](12-performance-and-benchmarks.md) preserves the comparisons and failed experiments. (`tools\SpeechBench\results\synthetic-quality-20261009.json:6589-6603`, adopted WER; `tools\SpeechBench\results\synthetic-quality-20261009.json:7831-7835`, CER; `tools\SpeechBench\results\synthetic-quality-20261009.json:8693-8726`, stress; `tools\SpeechBench\results\synthetic-quality-20261009.json:12744-12753`, selection and residuals.)
 
-The current engine is local English streaming recognition. Source identity is not diarization, and no code here commits a selected question to Azure or generates an answer. Those are design-only extensions, not latent behavior unlocked by starting Python. (`services\transcription\model.json:2-4`, language metadata; `docs\DUAL-SOURCE-AUDIO.md:10-17`, boundaries; `docs\ARCHITECTURE.md:7-11`, proposed answer extension.)
+The implementation described here is local English recognition with streaming provisional text and bounded-span finals. Source identity is not diarization, AEC, or a privacy-indicator bypass. Loading Whisper is not evidence of answer-provider readiness, answer latency, or a new speech protocol; the separate Ask/provider lifecycle is outside this chapter's recognition measurements. Actual user-voice and microphone quality remain unverified. (`services\transcription\model.json:2-4`, language metadata; `docs\DUAL-SOURCE-AUDIO.md:10-17`, boundaries; `tools\SpeechBench\results\synthetic-quality-20261009.json:6620-6627`, qualification limits.)
 
 ### Reader checkpoints
 
-1. After 30 seconds of Computer PCM and 100 ms of Mic PCM, which state is shared and which counters differ?
-2. Why is 960,000 processed bytes compatible with a 64,000-byte source queue?
+1. After 15 seconds of Computer PCM and 100 ms of Mic PCM, which weights are shared and which histories differ?
+2. Why is a 512,000-byte owned span compatible with a 64,000-byte source intake queue?
 3. Explain why `asyncio` cancellation cannot be treated as proof that a native decoder stopped executing.
-4. Construct a final word timestamp after rotation and apply both `_offset` and `_last_end` clamping.
+4. Explain why an exact span endpoint is not a forced-aligned word endpoint, then calculate the bounds for a 3,200-byte tail.
+5. Why can technical hotwords improve CER while worsening raw WER against a two-token reference?
 
 ### Source-reading route
 
-Start with [manifest identity](../../services/transcription/model.json) and [recognizer implementation](../../services/transcription/recognizer.py), then [server scheduling/publication](../../services/transcription/server.py), [deterministic recognizer tests](../../services/transcription/tests/test_recognizer.py), and [real synthetic integration](../../services/transcription/tests/real_dual_model_check.py). [Chapter 10](10-native-service-lifecycle.md) explains who provisions and owns the process around this engine.
+Read [configuration identity](../../services/transcription/configuration.py), [provisional Vosk](../../services/transcription/recognizer.py), [span ownership and Whisper](../../services/transcription/accurate.py), [server scheduling](../../services/transcription/server.py), and [metadata diagnostics](../../services/transcription/diagnostics.py). Compare them with the [public quality receipt](../../tools/SpeechBench/results/synthetic-quality-20261009.json). [Chapter 10](10-native-service-lifecycle.md) explains provisioning and process ownership.

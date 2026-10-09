@@ -1,0 +1,17 @@
+{
+  "mode": "agency_acp_empty_session_preparation",
+  "model": "claude-haiku-5.5",
+  "reasoningEffort": "low",
+  "question": null,
+  "modelAttempts": 0,
+  "submittedQuestionRequests": 0,
+  "warmupMs": 20824,
+  "repeatedPreparationMs": 8,
+  "askToFirstTextMs": null,
+  "askToCompletionMs": null,
+  "totalIncludingCleanupMs": 25401,
+  "completed": true,
+  "failure": null,
+  "answer": "",
+  "limitations": "Preparation creates one empty session but submits no model prompt. Question counts are client submissions; opaque upstream retries are unobservable. Synthetic cases do not establish real transcription accuracy, p50/p95, or a latency guarantee."
+}

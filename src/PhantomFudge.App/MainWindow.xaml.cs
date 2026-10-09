@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -13,6 +14,7 @@ using Microsoft.Win32;
 using PhantomFudge.App.Audio;
 using PhantomFudge.App.Native;
 using PhantomFudge.Core;
+using PhantomFudge.Core.Diagnostics;
 
 namespace PhantomFudge.App;
 
@@ -45,11 +47,17 @@ public partial class MainWindow : Window
     private ProtectionResult? lastProtection;
     private PendingAction pending;
 
-    public MainWindow()
+    public MainWindow() : this(false) { }
+
+    internal MainWindow(bool diagnosticMode)
     {
+        diagnosticRendering = diagnosticMode;
         Resources["ControlsFocusable"] = false;
         ThemeBrushes.Apply(Resources, currentTheme);
         InitializeComponent();
+        InitializeCover();
+        InitializeAudioDeviceCards();
+        InitializeDiagnostics();
         InitializeQuestionView();
         InitializeAnswers();
         ApplyTheme(currentTheme);
@@ -62,6 +70,7 @@ public partial class MainWindow : Window
         });
         transcriber.Faulted += value => Dispatch(async () =>
         {
+            LocalDiagnostics.Record(DiagnosticEvent.CaptureFailed, diagnosticCaptureId, code: "capture_fault", provider: "Audio");
             AudioStatus.Text = value;
             await StopTranscriptionAsync();
             AudioStatus.Text = value;
@@ -73,6 +82,14 @@ public partial class MainWindow : Window
         {
             var meter = source == AudioSource.Microphone ? MicrophoneLevel : AudioLevel;
             meter.Value = Math.Clamp(value, 0, 1);
+            var now = Stopwatch.GetTimestamp();
+            if (!lastAudioDiagnostic.TryGetValue(source, out var previous) ||
+                Stopwatch.GetElapsedTime(previous, now).TotalSeconds >= 1)
+            {
+                lastAudioDiagnostic[source] = now;
+                LocalDiagnostics.Record(DiagnosticEvent.AudioLevel, diagnosticCaptureId,
+                    count: (long)(Math.Clamp(value, 0, 1) * 10000), code: source.WireName(), provider: "Audio");
+            }
         });
         RefreshDevices();
         UpdateInteractionControls();
@@ -86,6 +103,7 @@ public partial class MainWindow : Window
             protectionReady = false;
             lastProtection = WindowProtection.Configure(this, PassiveWindow);
             protectionReady = true;
+            ClampWindowToWorkArea();
             if (WindowState == WindowState.Minimized)
                 WindowState = WindowState.Normal;
             if (source is null)
@@ -103,7 +121,8 @@ public partial class MainWindow : Window
             ShowActivated = !PassiveWindow && !diagnosticRendering;
             UpdateInteractionControls();
             Show();
-            ReportStatus("Capture exclusion requested. UNQUALIFIED PREVIEW: compatibility varies by capture method.");
+            ShowCaptureProtectionStatus();
+            PrepareAgencyProvider();
         }
         finally { showing = false; }
     }
@@ -122,11 +141,7 @@ public partial class MainWindow : Window
 
     public void RevealAndReset()
     {
-        var area = SystemParameters.WorkArea;
-        Width = Math.Min(Width, Math.Max(MinWidth, area.Width - 24));
-        Height = Math.Min(Height, Math.Max(MinHeight, area.Height - 24));
-        Left = area.Left + Math.Max(0, (area.Width - Width) / 2);
-        Top = area.Top + Math.Max(0, (area.Height - Height) / 2);
+        ClampWindowToWorkArea(recenter: true);
         TryReveal();
     }
 
@@ -172,6 +187,7 @@ public partial class MainWindow : Window
             else if (wParam.ToInt32() == WindowHotkeys.ToggleEditing)
                 Dispatch(async () =>
                 {
+                    SetCover(false);
                     SetNotesExpanded(true);
                     await TogglePresentationAsync(forceEdit: true);
                 });
@@ -209,7 +225,7 @@ public partial class MainWindow : Window
         questionEditing = false;
         Hide();
         CancelAnswer();
-        await StopTranscriptionAsync();
+        await StopVisibleActivityAsync();
         ReportStatus(message);
     }
 
@@ -220,7 +236,7 @@ public partial class MainWindow : Window
             questionEditing = false;
             Hide();
             CancelAnswer();
-            await StopTranscriptionAsync();
+            await StopVisibleActivityAsync();
         }
         else
             TryReveal();
@@ -228,6 +244,7 @@ public partial class MainWindow : Window
 
     private async Task TogglePresentationAsync(bool forceEdit = false)
     {
+        SetCover(false);
         if (fileBusy)
         {
             ReportStatus("Wait for the file operation to finish.");
@@ -237,7 +254,7 @@ public partial class MainWindow : Window
         questionEditing = false;
         Hide();
         CancelAnswer();
-        await StopTranscriptionAsync();
+        await StopVisibleActivityAsync();
         presenting = next;
         UpdateInteractionControls();
         AudioPanel.Visibility = Visibility.Collapsed;
@@ -254,7 +271,8 @@ public partial class MainWindow : Window
         Resources["ControlsFocusable"] = !PassiveWindow;
         NoteEditor.IsReadOnly = presenting;
         NoteEditor.Focusable = !presenting;
-        TranscriptText.Focusable = !presenting;
+        TranscriptText.Focusable = !PassiveWindow;
+        PartialText.Focusable = !PassiveWindow;
         InputMethod.SetIsInputMethodEnabled(NoteEditor, !presenting);
         FileToolbar.IsEnabled = !presenting && !fileBusy;
         SourceButton.IsEnabled = !fileBusy;
@@ -285,8 +303,8 @@ public partial class MainWindow : Window
         }
         if (action == PendingAction.Exit)
         {
-            await StopAnswerAsync();
-            await StopTranscriptionAsync();
+            SetCover(false);
+            await StopVisibleActivityAsync();
         }
         pending = action;
         if (NotesDirty || (action == PendingAction.Exit && (TranscriptDirty || HasQuestionContent)))
@@ -528,6 +546,12 @@ public partial class MainWindow : Window
 
     private async void Window_PreviewKeyDown(object sender, KeyEventArgs args)
     {
+        if (coverActive && args.Key != Key.Tab && !(args.Key == Key.F4 && Keyboard.Modifiers.HasFlag(ModifierKeys.Alt)))
+        {
+            if (args.Key is not (Key.Space or Key.Enter) || !CoverToggleButton.IsKeyboardFocused)
+                args.Handled = true;
+            return;
+        }
         if (args.Key == Key.Escape && questionEditing)
         {
             SetQuestionEditing(false);
@@ -622,6 +646,11 @@ public partial class MainWindow : Window
         {
             SetNotesExpanded(false);
             AudioPanel.Visibility = Visibility.Visible;
+            if (ServiceToken.Password.Length < 32)
+            {
+                AudioAdvancedPanel.Visibility = Visibility.Visible;
+                AudioAdvancedToggle.Content = "Close service setup";
+            }
             AudioStatus.Text = presenting
                 ? "Select every requested input. Use Edit or the launcher to configure a missing local token."
                 : "Select every requested input and configure the local service token first.";
@@ -641,20 +670,28 @@ public partial class MainWindow : Window
         try
         {
             TranscriptionSocket.ValidateEndpoint(endpoint);
+            var needsSessionSeparator = transcript.HasContent;
             transcript.BeginSession();
             var captureSessionId = Guid.NewGuid();
+            diagnosticCaptureId = captureSessionId;
+            captureStartedAt = Stopwatch.GetTimestamp();
+            LocalDiagnostics.Record(DiagnosticEvent.CaptureStarting, captureSessionId,
+                code: captureMode.ToString(), provider: "Audio");
             questionTranscript.BeginSession(captureSessionId);
+            ArchiveTranscriptPartials(needsSessionSeparator);
             RefreshQuestionSegments();
-            TranscriptText.Text = transcript.Text;
-            PartialText.Text = transcript.Partial;
             TranscriptPlaceholder.Visibility = transcript.HasContent ? Visibility.Collapsed : Visibility.Visible;
             await transcriber.StartAsync(new AudioInputSelection(computer?.Id, microphone?.Id),
                 endpoint, ServiceToken.Password, startCancellation.Token, captureSessionId);
-            TranscriptText.Text = transcript.Text;
+            LocalDiagnostics.Record(DiagnosticEvent.CaptureStarted, captureSessionId,
+                elapsedMs: (long)Stopwatch.GetElapsedTime(captureStartedAt).TotalMilliseconds,
+                code: captureMode.ToString(), provider: "Audio");
         }
         catch (Exception error) when (error is ArgumentException or InvalidOperationException or IOException
             or System.Net.WebSockets.WebSocketException or OperationCanceledException or COMException)
         {
+            LocalDiagnostics.Record(DiagnosticEvent.CaptureFailed, diagnosticCaptureId,
+                code: error.GetType().Name, provider: "Audio");
             AudioStatus.Text = "Transcription could not start. Check the updated local service, selected inputs, token and Windows microphone access.";
         }
         finally
@@ -667,6 +704,7 @@ public partial class MainWindow : Window
 
     private void UpdateAudioControls()
     {
+        UpdateRecordingIndicator(transcriber.IsRunning);
         StartButton.IsEnabled = !audioBusy && !audioStopping && !transcriber.IsRunning && protectionReady;
         StopButton.IsEnabled = !audioStopping && (audioBusy || transcriber.IsRunning);
         var idle = !audioBusy && !audioStopping && !transcriber.IsRunning;
@@ -685,6 +723,7 @@ public partial class MainWindow : Window
             _ => "Computer + Mic"
         };
         ServiceToken.IsEnabled = !presenting && idle;
+        QueueDeviceCards();
         UpdateQuestionInteraction();
     }
 
@@ -721,6 +760,9 @@ public partial class MainWindow : Window
         try
         {
             await transcriber.StopAsync();
+            LocalDiagnostics.Record(DiagnosticEvent.CaptureStopped, diagnosticCaptureId,
+                elapsedMs: captureStartedAt == 0 ? null : (long)Stopwatch.GetElapsedTime(captureStartedAt).TotalMilliseconds,
+                provider: "Audio");
         }
         catch (Exception error) when (error is IOException or InvalidOperationException or OperationCanceledException
             or System.Net.WebSockets.WebSocketException or COMException)
@@ -743,15 +785,21 @@ public partial class MainWindow : Window
             return; // An old dispatcher callback cannot enter a new capture session.
         try
         {
+            if (value.Type is "partial" or "final")
+                LocalDiagnostics.Record(value.Type == "final" ? DiagnosticEvent.TranscriptFinal : DiagnosticEvent.TranscriptPartial,
+                    captureSessionId, count: value.Text.Length, code: (value.Source ?? AudioSource.Computer).WireName(), provider: "Audio");
+            if (value.Type == "final")
+                LocalDiagnostics.RecordContent(DiagnosticContent.TranscriptFinal, value.Text, captureSessionId);
+            var previousLength = transcript.Text.Length;
             if (value.Type == "partial")
                 transcript.SetPartial(value.Text, value.Source ?? AudioSource.Computer);
             else if (value.Type == "final")
                 transcript.AddFinal(value.SegmentId ?? throw new InvalidDataException("Missing segment ID."),
                     value.Text, value.StartSeconds, value.Source ?? AudioSource.Computer);
             UpdateQuestionTranscript(value, captureSessionId);
-            TranscriptText.Text = transcript.Text;
-            TranscriptText.ScrollToEnd();
-            PartialText.Text = transcript.Partial;
+            if (value.Type == "final")
+                AppendFinalTranscriptRow(value, previousLength);
+            RefreshTranscriptPartials();
             TranscriptPlaceholder.Visibility = transcript.HasContent ? Visibility.Collapsed : Visibility.Visible;
         }
         catch (Exception error) when (error is InvalidDataException or InvalidOperationException or ArgumentException)
@@ -816,8 +864,10 @@ public partial class MainWindow : Window
         questionTranscript.Clear();
         RefreshQuestionSegments();
         exportedTranscript = "";
-        TranscriptText.Clear();
-        PartialText.Text = "";
+        renderingTranscriptSelection = true;
+        try { transcriptRows.Clear(); }
+        finally { renderingTranscriptSelection = false; }
+        RefreshTranscriptPartials();
         TranscriptPlaceholder.Visibility = Visibility.Visible;
     }
 
@@ -845,7 +895,9 @@ public partial class MainWindow : Window
         }
         source?.RemoveHook(WindowMessage);
         hotkeys?.Dispose();
-        await StopAnswerAsync();
+        diagnosticHealthTimer.Stop();
+        answerProviderClosing = true;
+        await StopVisibleActivityAsync();
         await transcriber.DisposeAsync();
         Application.Current.Shutdown();
     }
@@ -876,12 +928,15 @@ public partial class MainWindow : Window
             {
                 OutputDevices.ItemsSource = new[]
                 {
-                    new RenderDevice("documentation-output", "Example meeting headphones")
+                    new RenderDevice("documentation-output", "Example meeting headphones"),
+                    new RenderDevice("documentation-speakers", "Example laptop speakers"),
+                    new RenderDevice("documentation-display", "Example HDMI display")
                 };
                 OutputDevices.SelectedIndex = 0;
                 MicrophoneDevices.ItemsSource = new[]
                 {
-                    new MicrophoneDevice("documentation-mic", "Example dictation microphone")
+                    new MicrophoneDevice("documentation-mic", "Example dictation microphone"),
+                    new MicrophoneDevice("documentation-laptop-mic", "Example laptop microphone")
                 };
                 MicrophoneDevices.SelectedIndex = 0;
                 AudioStatus.Text = "Stopped. Synthetic documentation fixture; no audio devices are opened.";
@@ -891,12 +946,13 @@ public partial class MainWindow : Window
             ReceiveTranscript(new TranscriptEvent("final", "This is my dictated question.", 2, 0, 2, AudioSource.Microphone));
             ReceiveTranscript(new TranscriptEvent("partial", "The meeting continues", Source: AudioSource.Computer));
             ReceiveTranscript(new TranscriptEvent("partial", "I am dictating a question", Source: AudioSource.Microphone));
-            var sourceLabelsVisible = TranscriptText.Text.Contains("[Computer]", StringComparison.Ordinal)
-                && TranscriptText.Text.Contains("[Mic]", StringComparison.Ordinal)
-                && PartialText.Text.Contains("[Computer]", StringComparison.Ordinal)
-                && PartialText.Text.Contains("[Mic]", StringComparison.Ordinal);
+            var sourceLabelsVisible = transcriptRows.Any(row => row.DisplayText.Contains("[Computer]", StringComparison.Ordinal))
+                && transcriptRows.Any(row => row.DisplayText.Contains("[Mic]", StringComparison.Ordinal))
+                && partialTranscriptRows.Any(row => row.DisplayText.Contains("[Computer]", StringComparison.Ordinal))
+                && partialTranscriptRows.Any(row => row.DisplayText.Contains("[Mic]", StringComparison.Ordinal));
             await RenderDiagnosticAsync(Path.Combine(directory, "transcript-deepseafoam.png"));
-            var transcriptPrimary = notesCollapsedByDefault && TranscriptText.ActualHeight >= ActualHeight * 0.40;
+            var transcriptPrimary = notesCollapsedByDefault && IsReadingControlReachable(TranscriptText) &&
+                !HasOuterReadingScroll(TranscriptText);
             var mouseActivation = SendMessage(handle, 0x0021, GetForegroundWindow(),
                 new nint((0x0201 << 16) | 1)).ToInt32();
             var cursorHandled = SendMessage(handle, 0x0020, handle, new nint((0x0200 << 16) | 1)) == 1;
@@ -915,8 +971,8 @@ public partial class MainWindow : Window
                 var match = ((SolidColorBrush)Resources["ThemeText"]).Color == ThemeBrushes.Color(palette.Text)
                     && ((SolidColorBrush)Resources["ThemeSurface"]).Color == ThemeBrushes.Color(palette.Surface)
                     && ((SolidColorBrush)Resources["ThemeAccent"]).Color == ThemeBrushes.Color(palette.Accent)
-                    && NoteEditor.Foreground is SolidColorBrush noteBrush && noteBrush.Color == ThemeBrushes.Color(palette.Text)
-                    && TranscriptText.Foreground is SolidColorBrush transcriptBrush && transcriptBrush.Color == ThemeBrushes.Color(palette.Text);
+                    && NoteEditor.Foreground is SolidColorBrush noteBrush && noteBrush.Color == ThemeBrushes.Color(palette.HighContrastReading)
+                    && TranscriptText.Foreground is SolidColorBrush transcriptBrush && transcriptBrush.Color == ThemeBrushes.Color(palette.HighContrastReading);
                 allThemesMatch &= match;
                 themes.Add(new { palette.Name, match, palette.Background, palette.Text, palette.Accent });
                 await RenderDiagnosticAsync(Path.Combine(directory, $"theme-{theme}.png"));
@@ -1022,13 +1078,16 @@ public partial class MainWindow : Window
             UpdateLayout();
             var expandedWithoutActivation = NotesSection.Visibility == Visibility.Visible && presenting;
             await RenderDiagnosticAsync(Path.Combine(directory, "notes-expanded.png"));
-            var savedTranscriptView = TranscriptText.Text;
-            TranscriptText.Text = string.Join(Environment.NewLine, Enumerable.Repeat("Synthetic scrolling line", 100));
+            renderingTranscriptSelection = true;
+            var scrollingRows = Enumerable.Range(0, 100).Select(index => new TranscriptRow($"Synthetic scrolling line {index}", null)).ToArray();
+            TranscriptText.ItemsSource = scrollingRows;
             UpdateLayout();
-            TranscriptText.ScrollToEnd();
+            TranscriptText.ScrollIntoView(scrollingRows[^1]);
             UpdateLayout();
-            var transcriptScrollWorks = TranscriptText.VerticalOffset > 0;
-            TranscriptText.Text = savedTranscriptView;
+            var transcriptScrollWorks = FindTranscriptScrollViewer(TranscriptText)?.VerticalOffset > 0;
+            TranscriptText.ItemsSource = transcriptRows;
+            renderingTranscriptSelection = false;
+            SyncTranscriptSelection();
             NoteEditor.TextWrapping = TextWrapping.NoWrap;
             NoteEditor.Text = new string('W', 250);
             UpdateLayout();
@@ -1081,6 +1140,10 @@ public partial class MainWindow : Window
             }
             var questionChecks = await RunQuestionDiagnosticAsync(directory);
             var answerChecks = await RunAnswerDiagnosticAsync(directory);
+            var clarificationChecks = await RunClarificationDiagnosticAsync(directory);
+            var recordingIndicatorChecks = await RunRecordingIndicatorDiagnosticAsync(directory);
+            var audioDeviceCardChecks = await RunAudioDeviceCardsDiagnosticAsync(directory);
+            var coverChecks = await RunCoverDiagnosticAsync(directory);
             var styles = WindowProtection.ReadStyles(new WindowInteropHelper(this).Handle);
             var acknowledgmentsRemoved = FindName("ConsentCheck") is null && FindName("RehearsalCheck") is null;
             var passed = protectionReady && preserved && readOnly && !ShowInTaskbar && acknowledgmentsRemoved &&
@@ -1110,7 +1173,7 @@ public partial class MainWindow : Window
                     nativeStyles = styles, recordingStarted = transcriber.IsRunning,
                     discoveredRenderEndpoints = discoveredRenderCount,
                     discoveredMicrophoneEndpoints = discoveredMicrophoneCount,
-                    documentationFixture, questionChecks, answerChecks,
+                    documentationFixture, questionChecks, answerChecks, clarificationChecks, recordingIndicatorChecks, audioDeviceCardChecks, coverChecks,
                     limitation = "Synthetic local UI, cursor-shape policy and nonactivation assertions only; " +
                         "no real audio or remote captured-cursor visibility guarantee."
                 }, new JsonSerializerOptions { WriteIndented = true }));

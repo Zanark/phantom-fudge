@@ -1,0 +1,15 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","signalColor":"#8b949e","signalTextColor":"#e6edf3"}}
+---
+sequenceDiagram
+    accTitle: The observed cached-reference boundary
+    accDescr: Fresh traversal sees the cover, but a previously retained in-process value provider can still read the question.
+    autonumber
+    participant Fixture
+    participant Window
+    participant Cached as Retained question peer
+    Fixture->>Window: Cover and refresh root traversal
+    Window-->>Fixture: Cover and Uncover only
+    Fixture->>Cached: Read IValueProvider.Value
+    Cached-->>Fixture: Retained synthetic question
+    Note over Fixture,Cached: Data stays in memory for ongoing work

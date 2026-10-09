@@ -1,0 +1,19 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","signalColor":"#8b949e","signalTextColor":"#e6edf3"}}
+---
+sequenceDiagram
+    accTitle: Visual cover without stopping work
+    accDescr: The same window replaces its workspace with a cover, while existing model and transcript state continue updating.
+    autonumber
+    actor User
+    participant Window
+    participant Workspace
+    participant Work as Existing work
+    User->>Window: Cover
+    Window->>Workspace: Disable and detach
+    Window->>Window: Refresh automation children
+    Window-->>User: NOTEPAD IS READY and Uncover
+    Work->>Workspace: Continue existing updates
+    User->>Window: Uncover
+    Window->>Workspace: Reattach and enable
+    Window-->>User: Show current results

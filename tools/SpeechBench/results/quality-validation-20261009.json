@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "verified_utc": "2026-10-08T21:47:18.2913601Z",
+  "service_tests_passed": 104,
+  "speech_bench_tests_passed": 18,
+  "setup_checked_with": "services\\transcription\\.venv\\Scripts\\python.exe",
+  "service_protocol_versions": [
+    1,
+    2
+  ],
+  "script_twins_identical": true,
+  "script_sha256": "aec360ba326ee09448f8c00935a2c5489cdaa9da6fd49add6fb59845677820d3",
+  "quality_receipt_sha256": "09c5b5904616394a7721daee66a23a585bcc0309c5133fb09eccb3e9a3f3938c",
+  "original_benchmark_sha256": "6e15d03b89416ea026890840c41ff376767dcd5438b064c66f973ca5d7863ab3",
+  "live_port_8765_started_or_stopped": false,
+  "real_audio_endpoint_opened": false,
+  "cloud_asr_used": false,
+  "default_configuration": {
+    "engine": "hybrid-whisper",
+    "model": "small.en",
+    "compute": "CPU int8",
+    "threads": 4,
+    "vocabulary": "technical",
+    "rotation_target_seconds": 15,
+    "max_span_seconds": 16,
+    "rationale": "Retains fast provisional text; stronger local final model reduces errors on this corpus. Disclosed general technical terms improve proper-name spelling and character errors. Raw WER remains visible: LeetCode as one token costs two word edits against leet code, so hinted small.en has a higher raw WER than unhinted small.en, but lower than Vosk. Unrelated and nonspeech final outputs did not regress here.",
+    "remaining": "One synthesized target case uses to instead of two, and two use some instead of sum. Longer speech has additional model errors; byte-exact ownership does not imply zero word errors. Nothing is claimed 100 percent accurate."
+  },
+  "production_identity": {
+    "pipelineVersion": 2,
+    "engine": "hybrid-whisper",
+    "model": "small.en",
+    "modelRevision": "d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+    "computeType": "int8",
+    "threads": 4,
+    "vocabulary": "technical",
+    "runtimeRevision": "76a558d2b19ef33d774452ce931f2e77c9f47f2946af995d8dfa1dc83b6b1381",
+    "vocabularySha256": "b055d754a557778a3962ac8de0a1b16f84f84eeb1eb521599066fb1d63eec219",
+    "configFingerprint": "c3804db9c47db8ccc87b10324b29673fd9184e0bb282fe3ade8c14e4842c28c3"
+  }
+}

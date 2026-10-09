@@ -1,0 +1,33 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#2d333b"
+    primaryBorderColor: "#6d5dfc"
+    primaryTextColor: "#e6edf3"
+    lineColor: "#8b949e"
+---
+flowchart TD
+    accTitle: Bounded local diagnostic record lifecycle
+    accDescr: Facade validation precedes a nonblocking enqueue. Full or disposed queues count drops. The writer measures serialized bytes, rotates and appends, prunes old files, and exposes failures separately.
+    Facade["Metadata or opted-in text"] --> Queue["TryWrite"]
+    Queue -->|"Full or disposed"| Dropped["Increment dropped count"]
+    Queue -->|"Accepted"| Writer["Single reader"]
+    Writer --> Size{"Serialized bytes fit?"}
+    Size -->|"No"| Limit["Drop with record_limit"]
+    Size -->|"Yes"| Append["Rotate and append"]
+    Append --> Prune["Prune old log files"]
+    Prune --> Success["Clear failure code"]
+    Append -->|"I/O failure"| Failure["Drop with diagnostic_io"]
+    Prune -->|"I/O failure"| Failure
+    Writer -->|"Directory I/O failure"| Failure
+    style Facade fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Queue fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Dropped fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Writer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Size fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Limit fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Append fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Prune fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Success fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Failure fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

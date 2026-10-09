@@ -1,0 +1,288 @@
+{
+  "date": "2026-10-09",
+  "status": "Complete: selected fast model passed three exact-text prepared-session trials and all 33 compiled checks. The latest approved startup path uses WarmUpAsync, matching those measurements; no question or inference is submitted during preparation.",
+  "scope": "Synthetic public technical questions only; no audio, real meetings, chats, organization-data tools or new authentication",
+  "agencyVersion": "2026.10.7.4 / bcff2c0f",
+  "copilotEngineVersion": "1.0.92",
+  "transport": "Official ACP stdio NDJSON, protocol version 1",
+  "selectedModel": "gpt-5.6-sol-fast",
+  "selectedReasoningEffort": "low",
+  "controlledSystemAgent": "phantom-fudge-answer",
+  "cloudQuestionCallsSubmitted": 48,
+  "callAccounting": {
+    "initialAuthorization": 3,
+    "expandedIterativeAuthorization": 30,
+    "exactUserTextQualification": 15,
+    "earlierSurrogateBatches": 5,
+    "questionRequestsPerSurrogateBatch": 6,
+    "exactTextBatchRequestCounts": [6, 6, 3],
+    "additionalCatalogPreparationAndHandshakeQuestionRequests": 0,
+    "upstreamRetryAttempts": "Not exposed by ACP; these are client question-submission counts, not inferred server attempts."
+  },
+  "exactUserTextQualification": {
+    "receipt": "latency-suite-20261009-h-exact-fast.json",
+    "intended": "Write me the solution for the leet code problem two sum",
+    "actualAsrTextSuppliedByUser": "okay so right mean the solution for the lead good problem to some",
+    "model": "gpt-5.6-sol-fast",
+    "completionMs": [4066, 4176, 2992],
+    "outcome": "All three outputs answered Two Sum correctly, including the supplied ASR text under an explicit assumption. Each included algorithm, complete C# and complexity, with no follow-up request.",
+    "preparedSampleTargetMet": true,
+    "generalLatencyGuarantee": false,
+    "nextAction": "No further cloud question calls. Retain all earlier wrong-problem, follow-up, overflow and slow results."
+  },
+  "finalMeasuredResult": {
+    "matchedStartupApi": "WarmUpAsync",
+    "latencyReceipt": "latency-suite-20261009-h-exact-fast.json",
+    "correctnessReceipt": "latency-suite-20261009-h-quality.json",
+    "initialEmptySessionPreparationMs": 19987,
+    "preparedFreshSessions": {
+      "samples": 3,
+      "firstProviderTextMs": [1868, 2473, 1016],
+      "completedAndSessionClosedMs": [4066, 4176, 2992],
+      "remainingBetweenQuestionPreparationMs": [396, 483],
+      "remainingPreparationPlusCompletionMs": [4572, 3475],
+      "medianFirstProviderTextMs": 1868,
+      "medianCompletionMs": 4066,
+      "maximumCompletionMs": 4176,
+      "completeUsefulUnder5000Count": 3
+    },
+    "quality": {
+      "intendedTextSamples": 2,
+      "suppliedAsrTextSamples": 1,
+      "standaloneAnswers": 3,
+      "compiledCSharpImplementations": 3,
+      "correctnessChecksPassed": 33,
+      "correctnessChecksFailed": 0,
+      "assumptionStatedForAsrText": true,
+      "hardCodedProblemAnswerOrAsrRewrite": false
+    },
+    "firstAskAfterTransportOnlyStartup": {
+      "optionalAlternativeOnly": true,
+      "selectedFastModelMeasured": false,
+      "haikuObservedMs": 5041,
+      "miniObservedMs": 6470,
+      "underFiveSecondsGuaranteed": false,
+      "explanation": "Retained historical comparison only. Optional transport-only startup leaves session setup on Ask. The corrected approved startup path uses WarmUpAsync and matches H's prepared-session boundary."
+    }
+  },
+  "historicalSurrogateResult": {
+    "latencyReceipt": "latency-suite-20261009-e-haiku.json",
+    "correctnessReceipt": "latency-suite-20261009-e-quality.json",
+    "cold": {
+      "firstProviderTextMs": 23793,
+      "completedAndSessionClosedMs": 24874,
+      "completeUsefulUnder5000Ms": false
+    },
+    "preparedFreshSessions": {
+      "samples": 5,
+      "firstProviderTextMs": [1083, 946, 1073, 1135, 1025],
+      "completedAndSessionClosedMs": [3748, 3200, 2934, 2928, 2994],
+      "remainingPreparationBeforeAskMs": [323, 328, 436, 339, 297],
+      "remainingPreparationPlusCompletionMs": [4071, 3528, 3370, 3267, 3291],
+      "medianFirstProviderTextMs": 1073,
+      "medianCompletionMs": 2994,
+      "maximumCompletionMs": 3748,
+      "completeUsefulUnder5000Count": 5,
+      "withRemainingPreparationUnder5000Count": 5
+    },
+    "quality": {
+      "standaloneAnswers": 6,
+      "compiledCSharpImplementations": 6,
+      "correctnessChecksPassed": 66,
+      "correctnessChecksFailed": 0,
+      "cases": [
+        "basic",
+        "duplicates",
+        "indices",
+        "negative",
+        "zeros",
+        "max-overflow-false-pair",
+        "min-overflow-false-pair",
+        "opposite-extremes",
+        "min-target",
+        "max-target",
+        "no-pair"
+      ],
+      "ambiguousWording": "Answered a concrete illustrative interpretation under an explicit assumption, without requesting further input.",
+      "ambiguousInputProvenance": "Original synthetic variation; not claimed to be the exact owner's reported bad ASR sentence.",
+      "hardCodedProblemAnswerOrAsrRewrite": false
+    }
+  },
+  "allIterativeBatches": [
+    {
+      "batch": "A",
+      "receipt": "latency-suite-20261009-a.json",
+      "model": "gpt-5.4-mini",
+      "completionMs": [33972, 5153, 2928, 4190, 3602, 6179],
+      "outcome": "Correctly named controls received direct answers; ambiguous controls received generic templates/advice. Slow and quality-failed trials retained."
+    },
+    {
+      "batch": "B",
+      "receipt": "latency-suite-20261009-b.json",
+      "model": "gpt-5.4-mini",
+      "completionMs": [3860, 4886, 3316, 5106, 3827, 3757],
+      "outcome": "Stronger generic homophone policy did not reliably fix ambiguous controls; generic advice or missing-input requests persisted."
+    },
+    {
+      "batch": "C",
+      "receipt": "latency-suite-20261009-c.json",
+      "model": "gpt-5.4-mini",
+      "completionMs": [3786, 3053, 3577, 3077, 2879, 2838],
+      "outcome": "Explicit controlled system-role selection improved transport certainty, but ambiguous controls still requested input. Fast nonanswers are not useful-answer passes."
+    },
+    {
+      "batch": "D",
+      "receipt": "latency-suite-20261009-d-haiku.json",
+      "model": "claude-haiku-5.5",
+      "completionMs": [2785, 3847, 3199, 3434, 3337, 3604],
+      "correctnessReceipt": "latency-suite-20261009-d-quality.json",
+      "correctnessChecksPassed": 58,
+      "correctnessChecksFailed": 8,
+      "outcome": "All answers standalone and fast, but reviewed generated code had integer-overflow bugs. Not accepted as the final fully validated result."
+    },
+    {
+      "batch": "E",
+      "receipt": "latency-suite-20261009-e-haiku.json",
+      "model": "claude-haiku-5.5",
+      "completionMs": [24874, 3748, 3200, 2934, 2928, 2994],
+      "correctnessReceipt": "latency-suite-20261009-e-quality.json",
+      "correctnessChecksPassed": 66,
+      "correctnessChecksFailed": 0,
+      "outcome": "General full-range arithmetic policy added. All six surrogate-control answers passed compiled correctness checks; all five prepared trials completed below five seconds. Cold initialization did not. These were not yet the user's exact strings."
+    },
+    {
+      "batch": "F",
+      "receipt": "latency-suite-20261009-f-exact.json",
+      "model": "claude-haiku-5.5",
+      "completionMs": [5041, 5382, 2548, 5559, 2633, 4937],
+      "correctnessReceipt": "latency-suite-20261009-f-quality.json",
+      "correctnessChecksPassed": 44,
+      "correctnessChecksFailed": 2,
+      "outcome": "Exact user strings exposed two wrong-problem guesses and one forbidden follow-up footer. Four Two Sum outputs passed 11 checks each; two wrong-contract outputs were counted as failures, not silently excluded."
+    },
+    {
+      "batch": "G",
+      "receipt": "latency-suite-20261009-g-exact-mini.json",
+      "model": "gpt-5.4-mini",
+      "completionMs": [6470, 3970, 2892, 4353, 3134, 4509],
+      "correctnessReceipt": "latency-suite-20261009-g-quality.json",
+      "correctnessChecksPassed": 56,
+      "correctnessChecksFailed": 10,
+      "outcome": "All six correctly interpreted Two Sum with no follow-up, and five prepared responses were below five seconds. Five implementations omitted the policy's full-int arithmetic safeguard, failing wider-range stress cases beyond usual LeetCode constraints. Not chosen as the final robust profile."
+    },
+    {
+      "batch": "H",
+      "receipt": "latency-suite-20261009-h-exact-fast.json",
+      "model": "gpt-5.6-sol-fast",
+      "completionMs": [4066, 4176, 2992],
+      "correctnessReceipt": "latency-suite-20261009-h-quality.json",
+      "correctnessChecksPassed": 33,
+      "correctnessChecksFailed": 0,
+      "outcome": "Three fresh prepared sessions, two intended-text questions and one supplied-ASR question. All complete useful answers below five seconds, all full-range correctness checks passed. Selected final default; bounded testing stopped."
+    }
+  ],
+  "noInferencePreparation": {
+    "startupApi": "WarmUpAsync",
+    "startupCreatesOneEmptySession": true,
+    "startupEmitsQuestionPrompt": false,
+    "startupSubmitsModelInference": false,
+    "optionalTransportOnlyApi": "WarmUpTransportAsync",
+    "explicitPreparedSessionApi": "WarmUpAsync",
+    "createsOneEmptySession": true,
+    "submitsModelPrompt": false,
+    "automaticallyPreparesNextEmptySessionAfterSuccess": true,
+    "productionDefaultExplicitOverride": null,
+    "productionDefaultVerifiedModel": "gpt-5.6-sol-fast",
+    "latestInitialPreparationMs": 21183,
+    "latestRepeatedPreparationMs": 8,
+    "latestReceipt": "agency-selected-fast-default-preparation.json",
+    "previousInitialPreparationMs": 30195,
+    "previousReceipt": "agency-final-default-preparation.json"
+  },
+  "zeroToolAndIsolationEvidence": {
+    "receipt": "acp-selected-fast-profile-offline.json",
+    "mode": "Installed native engine against loopback fake model endpoint, not a live model latency sample",
+    "toolsCounts": [0, 0],
+    "userMessageCounts": [1, 1],
+    "assistantMessageCounts": [0, 0],
+    "exactQuestionEnvelopePresent": [true, true],
+    "fixedPolicyInSystemRole": [true, true],
+    "realModelCatalogReceipt": "agency-fast-model-catalog.json",
+    "liveToolClientOrPlanNotificationsAccepted": false,
+    "liveUsageCheckpointToolCount": null,
+    "explanation": "The offline endpoint does not advertise a real model catalog. Real catalog discovery and production preparation separately confirmed the selected model. ACP does not expose the one-shot usage_checkpoint; any tool/plan/permission/client request stops the production connection."
+  },
+  "safetyAndBehavior": {
+    "cliToolAllowlist": "phantom_fudge_no_tools",
+    "emptyCliAllowlistUsed": false,
+    "controlledAgentTools": [],
+    "newLoginObserved": false,
+    "loginCommandIssued": false,
+    "silentModelOrProviderFallback": false,
+    "questionFormat": "Fixed general policy plus exactly one serialized userQuestion field preserving ExactText; literal @ and command-like newlines are JSON data.",
+    "controlledRoleSelection": "The CLI --agent flag alone did not select the role in ACP 1.0.92. The provider explicitly selects and verifies it using supported session/set_config_option before any question.",
+    "sourceRefsNotesOrPreviousQuestionsAdded": false,
+    "clarificationBehavior": "One prompt per fresh session; fixed general policy requires standalone assumptions, no ask-user tool or follow-up prompt. Bounded full-answer prose checking rejects known input requests, including footers after code blocks; code-literal prompt strings are not treated as invitations.",
+    "stdin": "ACP stdin remains open as a machine protocol transport. It is not waiting for interactive user input; each question has one prompt, a terminal end_turn, acknowledged close and a 120-second bounded deadline.",
+    "profile": "Owned isolated HOME/USERPROFILE/COPILOT_HOME/work, no ambient MCPs/plugins/custom instructions; only the app-owned validated constant system agent is allowed.",
+    "retention": "Agency/Copilot may retain session artifacts inside the owned engine directory until stop/dispose/error/cancellation/rotation. Sessions close and never receive another question. Engine lifetime is bounded to 32 sessions; owned files are removed on teardown.",
+    "authLimit": "Authentication notices stop the owned process. This does not guarantee that an external wrapper can never display an expired-auth surface."
+  },
+  "validation": {
+    "targetedTestCommand": "dotnet test .\\tests\\PhantomFudge.Core.Tests -c Release --no-build --no-restore --filter \"FullyQualifiedName~Agency|FullyQualifiedName~CopilotJsonProtocol\" --verbosity quiet",
+    "passed": 127,
+    "failed": 0,
+    "skipped": 0,
+    "persistedFinalTestReceipt": ".local\\agency-final-validation\\agency-integration-final.trx",
+    "previousProviderOnlyTestReceipt": ".local\\agency-final-validation\\agency-final.trx",
+    "finalTestRetryNote": "An earlier provider-only run returned partial tool output and was not counted as passing; its persisted rerun passed 123 tests. Parent subsequently rebuilt Core and added integration coverage. The last targeted no-build run against that integration build passed 127 tests; the probe was refreshed without rebuilding Core.",
+    "latencyProbeBuildSucceeded": true,
+    "latencyProbeBuildWarnings": 0,
+    "latencyProbeBuildErrors": 0,
+    "finalTestedCoreAssemblySha256": "22D767EC3E009351C57F0B8C3D6BF17D158FCB19120141F00F7ED3533CDC8AED",
+    "measurementAssemblyDifference": "Batch H explicitly selected the fast model before it became the production default. Its receipt preserves its own assembly hash. The final default and fixed model metadata were subsequently validated by regression tests, actual zero-question preparation and native offline wire qualification.",
+    "coverage": [
+      "Exact question data separation, Unicode fidelity and command/file-reference escaping",
+      "Empty-session warmup and automatic preparation never submit an inferred question",
+      "Transport-only startup warmup emits initialize only, with no session/new or prompt",
+      "EffectiveModel exposes the explicit configured model or verified default without starting a process",
+      "Fresh session IDs, no prior assistant/user history and bounded engine rotation",
+      "Controlled system agent selection and exact model/reasoning/permission verification",
+      "Strict terminal end_turn plus acknowledged session close",
+      "Malformed streams, tools, plans, client requests and configuration mutation rejected",
+      "Input-request nonanswers and post-code follow-up footers beyond 1024 characters rejected",
+      "Cancellation, timeout, warmup stop, abandoned enumerator and owned cleanup",
+      "Version cache invalidation and strict owned-profile/custom-agent validation",
+      "Exactly one provider-first-text event per request"
+    ]
+  },
+  "parentIntegration": [
+    "Retain one AgencyCliAnswerProvider for the selected AnswerSettings; do not recreate it per Ask.",
+    "Per the corrected startup requirement, await WarmUpAsync(CancellationToken) on startup/reveal/reload before showing Ready. It prepares exactly one empty fresh controlled-role session without submitting a user question or model inference. Repeated calls reuse/join existing preparation.",
+    "WarmUpTransportAsync(CancellationToken) remains optional for transport-only diagnostics. It is not the recommended startup API for the measured fast-answer path.",
+    "After success the provider prepares the next empty fresh session internally. Asking while preparation is in progress waits on the same bounded gate.",
+    "Keep AnswerRequest(RequestId, ExactText) unchanged; do not attach SourceRefs, notes, transcripts, prior questions or instructions derived from them.",
+    "Call StopAsync after cancelling on Hide, Clear or protection failure; await cleanup before resuming. DisposeAsync on replacement/reload/application shutdown.",
+    "EffectiveModel is a public read-only instance property equal to settings.Model ?? DefaultModel. DefaultModel and ReasoningEffort are public static getters. Final default is gpt-5.6-sol-fast/low; explicit configured overrides remain explicit and never silently fall back.",
+    "Provider stage codes include acp_prompt_submitted, provider_delta, acp_end_turn_closed, empty_session_ready and fixed model metadata. Keep UI visibility code ui_visible separate from provider_delta.",
+    "ModelStarted marks prompt transport submission, not an unavailable server-internal model start. The provider never logs payload text or flushes the global diagnostics sink.",
+    "Update earlier mini/Haiku default, surrogate-control and transport-only-startup claims. Exact-text qualification selected gpt-5.6-sol-fast. WarmUpAsync is the approved model-free startup readiness API; Ready means its empty session is prepared. Total submitted cloud questions is 48, including all superseded attempts."
+  ],
+  "limitations": [
+    "Final-model evidence is three prepared fresh-session samples, only one using the exact ASR string; this is not a universal SLO, broad accuracy claim or p95 study.",
+    "Cold Agency initialization remains approximately 20-30 seconds. Final default zero-question preparation took 21.183 seconds. The historical 24.874-second cold answer used Haiku, not the final fast default.",
+    "Prepared timing excludes initial startup. Both remaining between-question preparation-plus-completion sums were also below five seconds in H.",
+    "Optional transport-only readiness still leaves first-session setup on Ask. It took 5.041 seconds on Haiku and 6.470 seconds on mini in F/G. Those failures are retained; the corrected preferred startup uses the prepared-session path instead.",
+    "Provider first text/completion is not a measured WPF paint timestamp.",
+    "Generated answers remain model outputs; finite compiled checks do not prove correctness for every future question.",
+    "The exact ASR string was supplied as text by the user. Testing model interpretation of it does not measure microphone or transcription accuracy.",
+    "Pinned Agency/Copilot versions fail closed on incompatible changes rather than enabling unqualified behavior."
+  ],
+  "officialReferences": [
+    "https://docs.github.com/en/copilot/reference/copilot-cli-reference/acp-server",
+    "https://agentclientprotocol.com/protocol/v1/session-setup",
+    "https://agentclientprotocol.com/protocol/v1/session-config-options",
+    "https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/invoke-custom-agents",
+    "https://docs.github.com/en/copilot/reference/custom-agents-configuration"
+  ]
+}

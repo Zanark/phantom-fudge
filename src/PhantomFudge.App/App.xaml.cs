@@ -46,14 +46,14 @@ public partial class App : Application
             }
             if (e.Args is ["--ui-smoke", var uiDirectory])
             {
-                var preview = new MainWindow();
+                var preview = new MainWindow(diagnosticMode: true);
                 MainWindow = preview;
                 Shutdown(await preview.RunUiSmokeAsync(uiDirectory));
                 return;
             }
             if (e.Args is ["--documentation-screenshots", var documentationDirectory])
             {
-                var preview = new MainWindow();
+                var preview = new MainWindow(diagnosticMode: true);
                 MainWindow = preview;
                 Shutdown(await preview.RunUiSmokeAsync(documentationDirectory, documentationFixture: true));
                 return;
@@ -76,8 +76,23 @@ public partial class App : Application
         }
         catch (Exception error) when (error is Win32Exception or IOException or UnauthorizedAccessException
             or InvalidOperationException or PlatformNotSupportedException or OperationCanceledException or COMException
-            or Core.Answers.AnswerProviderException)
+            or Core.Answers.AnswerProviderException or NullReferenceException or System.Windows.Markup.XamlParseException)
         {
+            Core.Diagnostics.LocalDiagnostics.RecordException(Core.Diagnostics.DiagnosticEvent.ConfigurationFailed,
+                error, provider: "Application");
+            if (e.Args is ["--documentation-screenshots" or "--ui-smoke", var diagnosticDirectory])
+            {
+                Directory.CreateDirectory(diagnosticDirectory);
+                await File.WriteAllTextAsync(Path.Combine(diagnosticDirectory, "result.json"),
+                    System.Text.Json.JsonSerializer.Serialize(new
+                    {
+                        passed = false,
+                        startupError = error.GetType().Name,
+                        diagnosticDetails = error.Message.StartsWith("Synthetic local question assertions failed:", StringComparison.Ordinal) ||
+                            error.Message.StartsWith("Synthetic answer lifecycle failed:", StringComparison.Ordinal)
+                                ? error.Message : null
+                    }));
+            }
             LocalFailureNotice.Record(WindowFailure.Startup);
             Shutdown(1);
         }
@@ -85,6 +100,9 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
+        Core.Diagnostics.LocalDiagnostics.Record(Core.Diagnostics.DiagnosticEvent.ApplicationStopped,
+            provider: "Application");
+        Core.Diagnostics.LocalDiagnostics.FlushAndStop();
         instance?.Dispose();
         base.OnExit(e);
     }

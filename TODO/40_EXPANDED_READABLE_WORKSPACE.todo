@@ -1,0 +1,40 @@
+# Expanded Readable Workspace
+
+Status: DONE
+Milestone: Q1 Actual-use correction
+Dependencies: 25_TRANSCRIPT_FIRST_THEMES.todo (reference-only), 39_INSTALLED_CLI_ANSWERS.todo (reference-only)
+
+## Purpose
+
+Address the owner's rejected small, scroll-heavy, low-contrast presentation of the working tool.
+
+## Tasks
+
+- [x] Double requested window dimensions and clamp them to the active monitor's work area.
+- [x] Use reading columns and flexible content rows rather than nested main-pane scrolling.
+- [x] Make transcript/answer reading white in dark mode and black in light/neutral modes.
+- [x] Keep text opaque, themes/cursor/notes/source identity and one-HWND protection policy intact.
+- [x] Answer/Q&A reading surfaces share the Background slider; no opaque container blocks their transparency.
+- [x] Move verbose compatibility detail behind deliberate inline Details; preserve actionable errors.
+- [x] Exercise normal/minimum/resized layout and update actual synthetic illustrations.
+
+## Acceptance criteria
+
+- [x] Primary actions and useful reading space remain reachable at supported dimensions.
+- [x] Foregrounds are exact high-contrast colors; unlimited content is not promised to fit a finite display.
+- [x] No default-focus regression, data loss, permission prompt or unprotected popup is introduced.
+
+## Completion evidence
+
+- Requested1240x1520 clamps to1240x1176 on the observed1920x1200work area. Wide transcript/Q&A
+  columns, exact white/black reading text, quiet Details and10-100% answer-background alpha are implemented.
+- Final source documentation fixture passed fifteen PNG exports, including470x560minimum,
+  responsive/recovery/action reachability/opaque-text/answer-alpha assertions with recordingStarted:false.
+  Final candidate/image hashes are in docs\IMPLEMENTATION-STATUS.md and handbook screenshot manifest.
+- No owner acceptance, recipient/cursor qualification or guarantee of unscrollable unlimited content is inferred.
+
+## Completion log
+
+- 2026-10-09 01:19 - Owner requested2Xsize, less scrolling, stronger reading contrast and a quiet footer.
+- 2026-10-09 03:11 - Owner explicitly requested transparency for the answer view too, while preserving solid text.
+- 2026-10-09 04:42 - Parent final sourceUI passes; local correction complete. Recipient/owner qualification remains open.

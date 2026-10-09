@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -9,6 +10,7 @@ public sealed class CopilotCliAnswerProvider : IAnswerProvider
     private readonly string profileDirectory;
     private readonly string requestRoot;
     private readonly TimeSpan deadline;
+    private readonly Func<ProcessStartInfo, ProcessStartInfo>? transformStartInfo;
 
     public static string ResolveExecutable(string? cliPath = null) => CopilotCliLaunch.ResolveExecutable(cliPath);
 
@@ -24,7 +26,8 @@ public sealed class CopilotCliAnswerProvider : IAnswerProvider
                 throw new AnswerProviderException("copilot_workspace", "The isolated Copilot request directory must be outside every Git repository.");
     }
 
-    internal CopilotCliAnswerProvider(AnswerSettings settings, string profileDirectory, string requestRoot, TimeSpan deadline)
+    internal CopilotCliAnswerProvider(AnswerSettings settings, string profileDirectory, string requestRoot, TimeSpan deadline,
+        Func<ProcessStartInfo, ProcessStartInfo>? transformStartInfo = null)
     {
         settings.Validate();
         if (settings.Mode is not (AnswerProviderMode.Copilot or AnswerProviderMode.LocalModel))
@@ -33,14 +36,17 @@ public sealed class CopilotCliAnswerProvider : IAnswerProvider
         this.profileDirectory = CopilotCliProfile.CheckPath(profileDirectory);
         this.requestRoot = CopilotCliProfile.CheckPath(requestRoot);
         this.deadline = deadline;
+        this.transformStartInfo = transformStartInfo;
     }
 
     public async IAsyncEnumerable<AnswerEvent> StreamAsync(AnswerRequest request,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request);
+        request.Clarification?.ValidateFor(request.ExactText);
         if (request.RequestId == Guid.Empty || string.IsNullOrWhiteSpace(request.ExactText) || request.ExactText.Length > 8192)
             throw new AnswerProviderException("copilot_question", "Provide a nonempty question of at most 8192 characters.");
+        var clarificationPrompt = request.Clarification is null ? null : AgencyAnswerPrompt.Create(request);
         cancellationToken.ThrowIfCancellationRequested();
         CopilotCliProfile.CheckPath(requestRoot);
         var executable = CopilotCliLaunch.ResolveExecutable(settings.CliPath);
@@ -60,10 +66,16 @@ public sealed class CopilotCliAnswerProvider : IAnswerProvider
             await VerifyVersionAsync(executable, localProfile, work, home, token, cancellationToken).ConfigureAwait(false);
             var profile = settings.Mode == AnswerProviderMode.Copilot ? profileDirectory : localProfile;
             await using var process = new CopilotOwnedProcess(
-                CopilotCliLaunch.Create(executable, settings, profile, work, home), token);
+                Transform(CopilotCliLaunch.Create(executable, settings, profile, work, home)), token);
             var parser = new CopilotJsonProtocol();
             long sequence = 0;
-            try { await process.SendAsync(request.ExactText, token).ConfigureAwait(false); }
+            try
+            {
+                if (clarificationPrompt is null)
+                    await process.SendAsync(request.ExactText, token).ConfigureAwait(false);
+                else
+                    await process.SendAsync(clarificationPrompt, token).ConfigureAwait(false);
+            }
             catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested) { throw TimedOut(); }
             await using var records = CopilotJsonProtocol.ReadRecordsAsync(process.Process.StandardOutput, token).GetAsyncEnumerator(token);
             while (await MoveNextAsync(records, token, cancellationToken).ConfigureAwait(false))
@@ -102,7 +114,7 @@ public sealed class CopilotCliAnswerProvider : IAnswerProvider
     {
         try
         {
-            await using var process = new CopilotOwnedProcess(CopilotCliLaunch.Create(executable, settings, profile, work, home, true), token);
+            await using var process = new CopilotOwnedProcess(Transform(CopilotCliLaunch.Create(executable, settings, profile, work, home, true)), token);
             process.Process.StandardInput.Close();
             var output = new StringBuilder();
             var buffer = new char[1024];
@@ -136,6 +148,8 @@ public sealed class CopilotCliAnswerProvider : IAnswerProvider
         try { Directory.CreateDirectory(path); }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { throw CopilotCliProfile.Invalid(); }
     }
+
+    private ProcessStartInfo Transform(ProcessStartInfo info) => transformStartInfo?.Invoke(info) ?? info;
 
     private static AnswerProviderException TimedOut() => new("copilot_timeout", "Copilot exceeded the answer deadline.");
 }

@@ -505,11 +505,11 @@ internal static partial class AudioTests
             _ = await ReceiveAsync(socket, cancellation);
             await Task.Delay(Timeout.InfiniteTimeSpan, cancellation);
         });
-        await using var client = new TranscriptionSocket();
+        await using var client = new TranscriptionSocket(TimeSpan.FromMilliseconds(200));
         int faults = 0;
         client.Faulted += _ => Interlocked.Increment(ref faults);
         await client.ConnectAsync(server.Endpoint, Token);
-        await client.StopAsync().WaitAsync(TimeSpan.FromSeconds(20));
+        await client.StopAsync().WaitAsync(TimeSpan.FromSeconds(3));
         Check(faults == 1 && !client.IsReady, "Missing stopped acknowledgement was not bounded and faulted.");
     }
 

@@ -24,16 +24,27 @@ $scripts = Join-Path $directory 'scripts'
 $service = Join-Path $directory 'services\transcription'
 New-Item -ItemType Directory -Path $docs,$scripts,$service -Force | Out-Null
 Copy-Item -LiteralPath (Join-Path $root 'docs\PACKAGED-README.md') -Destination (Join-Path $directory 'README.md')
-foreach ($name in @('PREVIEW-GUIDE.md','TRANSCRIPTION.md','DUAL-SOURCE-AUDIO.md','CURSOR-AND-THEMES.md','LOCAL-QUESTIONS.md','ANSWER-PROVIDERS.md','THIRD-PARTY-NOTICES.md')) {
+foreach ($name in @('PREVIEW-GUIDE.md','TRANSCRIPTION.md','DUAL-SOURCE-AUDIO.md','CURSOR-AND-THEMES.md','LOCAL-QUESTIONS.md','ANSWER-PROVIDERS.md','QUALITY-UPDATE.md','DIAGNOSTICS.md','THIRD-PARTY-NOTICES.md')) {
     Copy-Item -LiteralPath (Join-Path $root "docs\$name") -Destination $docs
 }
-foreach ($name in @('Initialize-Transcription','Start-Transcription','Stop-Transcription','Run-PhantomFudge','Initialize-Answers')) {
+foreach ($name in @('Initialize-Transcription','Start-Transcription','Stop-Transcription','Run-PhantomFudge','Initialize-Answers','Set-Diagnostics','Show-Diagnostics','Export-Diagnostics')) {
     $source = Join-Path $root "scripts\$name.ps1"
     Copy-Item -LiteralPath $source -Destination $scripts
     Copy-Item -LiteralPath $source -Destination (Join-Path $scripts "$name.txt")
 }
-foreach ($name in @('server.py','recognizer.py','manage.py','model.json','requirements.txt')) {
+foreach ($name in @('server.py','recognizer.py','manage.py','model.json','requirements.txt','accurate.py','configuration.py','diagnostics.py','provision_whisper.py','technical-vocabulary.json','whisper-models.json')) {
     Copy-Item -LiteralPath (Join-Path $root "services\transcription\$name") -Destination $service
+}
+foreach ($relative in @(
+    'tools\SpeechBench\results\synthetic-quality-20261009.json',
+    'tools\SpeechBench\results\quality-validation-20261009.json',
+    'tools\AgencyProbe\results\latency-suite-20261009-h-exact-fast.json',
+    'tools\AgencyProbe\results\latency-suite-20261009-h-quality.json',
+    'tools\AgencyProbe\results\summary-final.json'
+)) {
+    $target = Join-Path $directory $relative
+    New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
+    Copy-Item -LiteralPath (Join-Path $root $relative) -Destination $target
 }
 Compress-Archive -Path (Join-Path $directory '*') -DestinationPath $archive
 $hash = Get-FileHash -LiteralPath $archive -Algorithm SHA256

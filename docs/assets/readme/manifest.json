@@ -5,48 +5,93 @@
   "images": [
     {
       "file": "docs/assets/readme/transcript.png",
-      "sha256": "650f82d64d4e9fdf05a5dcf63fa4bbe3e300839b2032663884d5c9599ed913cf",
+      "sha256": "4af41c001284ef1e40b692038ace1cd5f58a5f9a0e0a9ce24c74bdfe6b7ed5ab",
       "source": "docs/handbook/assets/screenshots/transcript-deepseafoam.png",
-      "sourceSha256": "c57bde169f840da8fca06e721301bad5d3a6642b38fd8d72f9dbebc40d8b2ca7",
+      "sourceSha256": "aa6fedf8289f5a338033a87bd30983a4ecdee4d8b3c2a9c017b34c41e2f7fc7c",
       "background": "#000F13",
-      "width": 620,
-      "height": 760
+      "width": 1240,
+      "height": 1176
     },
     {
       "file": "docs/assets/readme/question.png",
-      "sha256": "1542a918237c54b488e20ac634dacee797cb731d59849645bba2659fe27b7922",
+      "sha256": "14ad5e32236cf350700f83b6aefe457a8bc8b108559250d82b903ac2dabcfbed",
       "source": "docs/handbook/assets/screenshots/answer-synthetic.png",
-      "sourceSha256": "15d6fd274cb05de421596a325cfbd744172eebe5ca0197cf771271c582135c51",
+      "sourceSha256": "f8a5b1d2ad129a3a4a368774be69f1bb17c17fb3973f2da9dff0367dc9bdebfa",
       "background": "#000F13",
-      "width": 620,
-      "height": 760
+      "width": 1240,
+      "height": 1176
+    },
+    {
+      "file": "docs/assets/readme/audio-devices.png",
+      "sha256": "8fc30c260dff20aaddd975661bfbb534665c032fb2d69239114079ddcbc63e58",
+      "source": "docs/handbook/assets/screenshots/audio-setup.png",
+      "sourceSha256": "7ae904da45696e5315a2d9b23b4005ebfa8c3726652ea5dc1eaceb9710e7ddf1",
+      "background": "#000F13",
+      "width": 1240,
+      "height": 1176
+    },
+    {
+      "file": "docs/assets/readme/recording.png",
+      "sha256": "3837ee25830539824b099c2f6f6ea756b66954cd514a4a6063e0cf3f8eb76096",
+      "source": "docs/handbook/assets/screenshots/recording-active.png",
+      "sourceSha256": "0c108a303827277b5b46b5a848ebfef9166278074e86940d6640bad1cdb80139",
+      "background": "#000F13",
+      "width": 1240,
+      "height": 1176
+    },
+    {
+      "file": "docs/assets/readme/selection.png",
+      "sha256": "415057fc7f7eb06389fb2e04f9d63c8e07d08345310f2b1ddf44d8b3c5212b26",
+      "source": "docs/handbook/assets/screenshots/transcript-multiselect.png",
+      "sourceSha256": "747642a5003bb13d537d48027e586f88160e1c467aaf1bdd0ce1e833bbfbd386",
+      "background": "#000F13",
+      "width": 1240,
+      "height": 1176
+    },
+    {
+      "file": "docs/assets/readme/clarification.png",
+      "sha256": "bee8d2c8965ad3b2750a9ae41f26e4de4303fe8be7b060cf61a97cebc7309adb",
+      "source": "docs/handbook/assets/screenshots/question-clarification.png",
+      "sourceSha256": "f1246b49df744041f0bee54966a1d06fbfc83d8d38fc5ad5b1119a88a980109f",
+      "background": "#000F13",
+      "width": 1240,
+      "height": 1176
+    },
+    {
+      "file": "docs/assets/readme/cover.png",
+      "sha256": "51b5fdbee43733c33e80f9f16b5d1a27b4417e47f308cac3a89b130103272c5a",
+      "source": "docs/handbook/assets/screenshots/notepad-cover.png",
+      "sourceSha256": "8b73c205e792fce511cd51db6dbac03cdc276d6dccc0796c26661bcdbe213772",
+      "background": "#000F13",
+      "width": 1240,
+      "height": 1176
     },
     {
       "file": "docs/assets/readme/deepseafoam.png",
-      "sha256": "650f82d64d4e9fdf05a5dcf63fa4bbe3e300839b2032663884d5c9599ed913cf",
+      "sha256": "4af41c001284ef1e40b692038ace1cd5f58a5f9a0e0a9ce24c74bdfe6b7ed5ab",
       "source": "docs/handbook/assets/screenshots/theme-DeepSeaFoam.png",
-      "sourceSha256": "c57bde169f840da8fca06e721301bad5d3a6642b38fd8d72f9dbebc40d8b2ca7",
+      "sourceSha256": "aa6fedf8289f5a338033a87bd30983a4ecdee4d8b3c2a9c017b34c41e2f7fc7c",
       "background": "#000F13",
-      "width": 620,
-      "height": 760
+      "width": 1240,
+      "height": 1176
     },
     {
       "file": "docs/assets/readme/harbor-daylight.png",
-      "sha256": "cd3bb0159b31ca39af874226c4a05e4bb49d2364ebb0840f5eeab75e00363546",
+      "sha256": "be421624550614d2f63397c9da24e8b06e64b1de29ffdbbe601ad8b6184752bc",
       "source": "docs/handbook/assets/screenshots/theme-HarborDaylight.png",
-      "sourceSha256": "f745f765486b1b1a8cd909d6a64b210e72da06a1eb8cf6f289923966e1e183a9",
+      "sourceSha256": "4af8ed8925bd8b960baca6d440579dbc64861ff41297925a0dfa07f13e088808",
       "background": "#F3F2E9",
-      "width": 620,
-      "height": 760
+      "width": 1240,
+      "height": 1176
     },
     {
       "file": "docs/assets/readme/plain.png",
-      "sha256": "c674d34b3a3c0eb001194bfc91191d192bd9a4a6a3afeafaa3ca09950dde5323",
+      "sha256": "2b272f8f6fe03bfddfd2ec9f2309934570384efa2b70a38323fba87ee92f6d95",
       "source": "docs/handbook/assets/screenshots/theme-Plain.png",
-      "sourceSha256": "2d7ecc6f63bab9cf6badd997c82815a9cd1886a5fb340affc3064b65609a1785",
+      "sourceSha256": "f439c26e0cc1f5df942fc49df1817f51740dcaa65724773459eed21697bd9fde",
       "background": "#FAF9F6",
-      "width": 620,
-      "height": 760
+      "width": 1240,
+      "height": 1176
     }
   ]
 }

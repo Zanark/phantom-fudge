@@ -13,9 +13,11 @@ flowchart TB
     end
     subgraph Local["Local Python process"]
       Admission["Authenticated single-session admission"]
-      Worker["One bounded decoder worker"]
+      Worker["Bounded provisional worker per source"]
       Sources["Independent source recognizers"]
+      Finalizer["Shared serial Whisper finalizer"]
     end
     UI --> Policy
     UI --> Native --> Transport --> Admission --> Worker --> Sources
     Sources --> Transport --> Buffer --> UI
+    Sources --> Finalizer --> Transport

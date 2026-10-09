@@ -1,9 +1,11 @@
 [CmdletBinding()]
 param(
-    [switch]$NativeClient
+    [switch]$NativeClient,
+    [switch]$Accurate
 )
 
 $ErrorActionPreference = 'Stop'
+if ($Accurate -and -not $NativeClient) { throw '-Accurate requires -NativeClient.' }
 $Root = Split-Path -Parent $PSScriptRoot
 $Python = Join-Path $Root 'services\transcription\.venv\Scripts\python.exe'
 if (-not (Test-Path -LiteralPath $Python)) { throw 'Prepare the local Python environment first.' }
@@ -35,7 +37,9 @@ try {
         & dotnet build $project -c Release --verbosity minimal
         if ($LASTEXITCODE -ne 0) { throw 'Native dual-source test client build failed.' }
         $client = Join-Path $Root 'tests\PhantomFudge.Audio.Tests\bin\Release\net10.0-windows\PhantomFudge.Audio.Tests.dll'
-        $fixture | ConvertTo-Json -Compress | & $Python $probe --native-client $client
+        $probeArguments = @($probe, '--native-client', $client)
+        if ($Accurate) { $probeArguments += '--accurate' }
+        $fixture | ConvertTo-Json -Compress | & $Python @probeArguments
     }
     else {
         $fixture | ConvertTo-Json -Compress | & $Python $probe

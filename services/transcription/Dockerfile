@@ -6,6 +6,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     OPENBLAS_NUM_THREADS=1 \
     OMP_NUM_THREADS=1 \
     PHANTOM_TRANSCRIPTION_HOST=0.0.0.0 \
+    PHANTOM_TRANSCRIPTION_WORKSPACE=/app \
+    PHANTOM_TRANSCRIPTION_ENGINE=vosk \
     PHANTOM_TRANSCRIPTION_MODEL_PATH=/models/vosk-model-small-en-us-0.15 \
     PHANTOM_TRANSCRIPTION_TOKEN_FILE=/run/secrets/transcription_token
 
@@ -15,6 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt \
     && groupadd --gid 10001 speech \
     && useradd --uid 10001 --gid 10001 --no-create-home --shell /usr/sbin/nologin speech
 COPY services/transcription/server.py services/transcription/recognizer.py services/transcription/healthcheck.py services/transcription/model.json ./
+COPY services/transcription/accurate.py services/transcription/configuration.py services/transcription/diagnostics.py services/transcription/provision_whisper.py services/transcription/whisper-models.json services/transcription/technical-vocabulary.json ./
 
 USER 10001:10001
 EXPOSE 8765

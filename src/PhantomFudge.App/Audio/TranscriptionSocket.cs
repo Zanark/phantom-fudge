@@ -18,7 +18,7 @@ public sealed class TranscriptionSocket : IAsyncDisposable
     internal const int MaximumMessageBytes = 32768;
 
     private static readonly TimeSpan ConnectTimeout = TimeSpan.FromSeconds(10);
-    private static readonly TimeSpan FlushTimeout = TimeSpan.FromSeconds(15);
+    private readonly TimeSpan flushTimeout;
     private static readonly byte[] StartMessage =
         """{"type":"start","sampleRate":16000,"channels":1,"encoding":"pcm_s16le"}"""u8.ToArray();
     private static readonly byte[] StopMessage = """{"type":"stop"}"""u8.ToArray();
@@ -69,6 +69,15 @@ public sealed class TranscriptionSocket : IAsyncDisposable
     public event Action<TranscriptEvent>? TranscriptReceived;
     public event Action<string>? Faulted;
     public bool IsReady => Volatile.Read(ref _hasReady) != 0 && Volatile.Read(ref _faulted) == 0;
+
+    public TranscriptionSocket() : this(TimeSpan.FromSeconds(90)) { }
+
+    internal TranscriptionSocket(TimeSpan flushTimeout)
+    {
+        if (flushTimeout <= TimeSpan.Zero || flushTimeout > TimeSpan.FromSeconds(90))
+            throw new ArgumentOutOfRangeException(nameof(flushTimeout));
+        this.flushTimeout = flushTimeout;
+    }
 
     public static void ValidateEndpoint(Uri endpoint)
     {
@@ -252,7 +261,7 @@ public sealed class TranscriptionSocket : IAsyncDisposable
                 _audio.Writer.TryComplete();
             }
 
-            using var deadline = new CancellationTokenSource(FlushTimeout);
+            using var deadline = new CancellationTokenSource(flushTimeout);
             try
             {
                 if (_hasReady != 0 && _faulted == 0)

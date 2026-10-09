@@ -1,0 +1,956 @@
+{
+  "schemaVersion": 1,
+  "id": "documentation",
+  "title": "Documentation compilers and root configuration",
+  "chapter": "docs/handbook/28-documentation-source-walkthrough.md",
+  "files": [
+    {
+      "path": ".dockerignore",
+      "sourceSha256": "e3ffe61c2f35f6c0cb795ee65ab2ea5ca930b6c88749aa6a1867b8a226573607",
+      "role": "Restricts the root Docker build context to explicitly named transcription-service inputs.",
+      "entryPoints": [
+        "Docker build context processing",
+        "services/transcription/Dockerfile"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 15,
+          "title": "Deny the build context, then reopen service inputs",
+          "explanation": "The initial ** excludes everything. The two parent-directory exceptions are necessary before individual service files can be admitted. Subsequent ! rules name the Dockerfile, dependency list, server, recognizer, health check and model/configuration helpers. This is a build-context allowlist: it prevents the ordinary root context from carrying local models, tokens, notes and unrelated repository content. It is not a runtime permission boundary, and admitting accurate.py does not establish that the optional Docker recipe executes the accurate native configuration.",
+          "focus": [
+            {
+              "start": 1,
+              "end": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": ".gitignore",
+      "sourceSha256": "df45cce886842f6eb67ee01eeadc72d749b81f9a80ad7e29fbc3bda34470e668",
+      "role": "Keeps private continuity, machine-specific state and generated dependency/build outputs outside untracked source discovery.",
+      "entryPoints": [
+        "Git working-tree discovery",
+        "discoverSources"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 15,
+          "title": "Separate durable source from private and regenerated state",
+          "explanation": "The patterns exclude .agent-context and .zmem, then recursive build/virtual-environment/Python cache folders. .local, environment configuration and artifacts remain machine-local. TestResults and IDE user files are not source inputs; node_modules is excluded recursively. These rules guide Git's treatment of untracked files. They do not remove already tracked content, erase disk data, secure a running process or substitute for the atlas reader's separate public-path validation.",
+          "focus": [
+            {
+              "start": 2,
+              "end": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Directory.Build.props",
+      "sourceSha256": "1bb1bc2e04dc4fee54dd8627dde84f43783cab0f3ffc18224fcdacac0137a6d7",
+      "role": "Applies common compile-time correctness and dependency-resolution policy across the C# projects.",
+      "entryPoints": [
+        "MSBuild Directory.Build.props discovery"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 9,
+          "title": "Promote static warnings and record repeatable build inputs",
+          "explanation": "Nullable enables nullable-reference analysis; ImplicitUsings supplies the SDK's standard imports. TreatWarningsAsErrors makes warnings fail a build instead of permitting a successful warning-bearing artifact. Deterministic requests deterministic compilation for fixed inputs. RestorePackagesWithLockFile records resolved dependencies, but neither it nor Deterministic independently freezes the machine, SDK or runtime behavior. These are build-time policies, not substitutes for runtime validation of protocol or filesystem inputs.",
+          "focus": [
+            {
+              "start": 3,
+              "end": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "global.json",
+      "sourceSha256": "bf68d4a0fc2613967f53bd6af5a6570666b755f5f6bf4688a120736ae523ccaa",
+      "role": "Selects the .NET SDK family and roll-forward policy for repository development commands.",
+      "entryPoints": [
+        "dotnet SDK resolver"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 7,
+          "title": "Pin SDK selection without claiming runtime qualification",
+          "explanation": "The sdk object requests10.0.112. latestPatch permits patch-level resolution according to the SDK resolver rather than silently moving to an arbitrary major release, and allowPrerelease:false excludes preview SDK selection. This file governs the SDK used for commands such as build and test; it does not specify the running Desktop Runtime on every user's machine or prove that the Windows capture behavior has been qualified.",
+          "focus": [
+            {
+              "start": 2,
+              "end": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "PhantomFudge.slnx",
+      "sourceSha256": "62e0c1e13581acccab56d253c2e82c315168641b34b69ad3f8ce97bcd644082e",
+      "role": "Groups the production projects, explicit capture spike and existing test projects into one solution.",
+      "entryPoints": [
+        "dotnet build PhantomFudge.slnx",
+        "Visual Studio solution loading"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 13,
+          "title": "Declare solution membership rather than implicit execution",
+          "explanation": "Folder elements organize the capture-proof spike, App/Core and two test projects. Their Project paths are repository-relative inputs to solution loading. Listing the spike here does not run its unprotected positive-control window, and listing the test executables does not open audio devices. Project references, target frameworks and launch behavior live in the referenced project/source files, which receive their own atlas entries.",
+          "focus": [
+            {
+              "start": 5,
+              "end": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "compose.yaml",
+      "sourceSha256": "072523fcbae8d0e1b017bae97bb6bfa595108b56b0b2989cb014f761b5ff6e3e",
+      "role": "Describes optional final-stage container packaging for the legacy local speech service, separate from normal native operation.",
+      "entryPoints": [
+        "Docker Compose",
+        "services/transcription/Dockerfile"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 16,
+          "title": "Bind a specific service and a pre-existing read-only model",
+          "explanation": "The build context is the repository root but .dockerignore restricts its contents. linux/amd64 is an explicit platform selection. The published port binds127.0.0.1 rather than every host interface. The model bind is read-only and create_host_path:false prevents a missing path from silently becoming an empty directory. These declarations do not install Docker or qualify the container; the normal launcher remains native Python.",
+          "focus": [
+            {
+              "start": 8,
+              "end": 16
+            }
+          ]
+        },
+        {
+          "start": 17,
+          "end": 33,
+          "title": "Separate filesystem, privilege, resource and shutdown constraints",
+          "explanation": "The service receives a named token secret and a read-only root filesystem. Dropping ALL capabilities and requesting no-new-privileges address privilege behavior, while init handles container child reaping. restart:no prevents an implicit restart loop. CPU, memory, PID and open-file limits are independent resource budgets. The15-second Compose stop grace period is not the native client's accurate-finalization drain deadline and must not be advertised as measured shutdown performance.",
+          "focus": [
+            {
+              "start": 19,
+              "end": 30
+            }
+          ]
+        },
+        {
+          "start": 34,
+          "end": 48,
+          "title": "Name local networking, bounded container logging and secret input",
+          "explanation": "The service joins local_speech, and the network declaration marks it internal. Logging uses the local driver with bounded size and file count. The top-level secret resolves a machine-local token path; the configuration names the path but does not include its contents. These are optional recipe declarations, not evidence that a container ran or that every host/network exposure is eliminated.",
+          "focus": [
+            {
+              "start": 36,
+              "end": 44
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "docs/handbook/book.json",
+      "sourceSha256": "3c06cef2fa61c42107a13f10ed47a337dc98fd3d36a318d1961b93b50a7eaacc",
+      "role": "Defines the authoritative reading order and generated filenames for the illustrated handbook.",
+      "entryPoints": [
+        "loadBook",
+        "makeHtml",
+        "renderPdf"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 19,
+          "title": "Declare edition metadata and the introductory-to-audio reading sequence",
+          "explanation": "Title, subtitle, edition and language become book metadata. The chapters array is ordered, not an unordered discovery list: orientation, platform behavior, UI/storage and the audio pipeline precede performance/design discussion. The renderer loads each named Markdown file as a real public repository input and assigns an ID derived from its basename. Merely adding a file to the repository does not automatically make it a book chapter.",
+          "focus": [
+            {
+              "start": 2,
+              "end": 9
+            }
+          ]
+        },
+        {
+          "start": 20,
+          "end": 38,
+          "title": "Connect conceptual chapters with the new source walkthroughs",
+          "explanation": "The remaining ordered chapters include proposed Azure boundaries, engineering/reference topics, seven source-level walkthroughs and the installed-provider/clarification guides outside the handbook folder. Relative paths are resolved against the handbook root and checked against the public repository boundary. The source walkthroughs complement the per-file atlas rather than embedding every implementation file as undifferentiated text. The cover/privacy guide is included as an additional full chapter, not only an external link.",
+          "focus": [
+            {
+              "start": 27,
+              "end": 37
+            }
+          ]
+        },
+        {
+          "start": 39,
+          "end": 47,
+          "title": "Append the public journal and select output artifacts",
+          "explanation": "The public root JOURNAL is an appendix, distinct from the private context journal. The outputs object names the HTML and PDF editions used by the compiler, links and freshness manifest. These output names describe generated documentation, not a Windows application release or permission to upload the book. Private stores are forbidden by the path validator even if someone tries to add one here.",
+          "focus": [
+            {
+              "start": 39,
+              "end": 46
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "docs/handbook/catalogue.json",
+      "sourceSha256": "bedabef86682528f823e8a82bd686a2d288249299a5c254cce2ac13bcdd690b6",
+      "role": "Preserves the source-linked research and writing map, with constrained onboarding and subsystem/source-walkthrough sections.",
+      "entryPoints": [
+        "validateCatalogue",
+        "loadBook"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 28,
+          "title": "Keep onboarding first and open",
+          "explanation": "The top-level items collection begins with onboarding and collapsed:false. Its children separate the reading map, principal engineer path and beginner learning path. Every prompt points to actual repository sources. validateCatalogue checks this structural shape, unique titles and source-citation presence; it cannot determine whether the author's interpretation of a cited source is correct.",
+          "focus": [
+            {
+              "start": 3,
+              "end": 12
+            }
+          ]
+        },
+        {
+          "start": 29,
+          "end": 74,
+          "title": "Separate product/platform foundations from desktop content state",
+          "explanation": "Foundations covers product decisions and capture/cursor behavior; desktop covers UI/themes, storage and interacting state machines. The prompts use source paths rather than inventing MVC layers or unimplemented classes. A catalogue prompt is a writing brief, not fresh test evidence, so current implementation and chapter prose must still be read when a historical brief uses older wording.",
+          "focus": [
+            {
+              "start": 49,
+              "end": 57
+            }
+          ]
+        },
+        {
+          "start": 75,
+          "end": 128,
+          "title": "Map streaming ownership and distinguish proposed AI design",
+          "explanation": "Streaming children point to native capture, wire framing, Python recognition and native service lifecycle. Research children point to scoring and the local-question/Azure design boundaries. These are separate concerns: a PCM transport citation does not prove a model answer was sent, and a design document does not establish an Azure deployment. The catalogue guides the deeper source walkthroughs and is checked for hierarchy depth and child-count limits.",
+          "focus": [
+            {
+              "start": 78,
+              "end": 86
+            }
+          ]
+        },
+        {
+          "start": 129,
+          "end": 184,
+          "title": "Connect engineering procedures with reference and evidence",
+          "explanation": "Engineering identifies test runners, distribution, privacy and extension seams. Reference identifies configuration/API definitions, glossary and evidence/roadmap sources. Each child has the same title/name/prompt/children schema, making validation uniform. The catalogue is not itself the dependency graph or authoritative work-item status; those remain in source, receipts and the TODO index.",
+          "focus": [
+            {
+              "start": 133,
+              "end": 141
+            }
+          ]
+        },
+        {
+          "start": 185,
+          "end": 235,
+          "title": "Add dedicated statement-level walkthroughs for seven source domains",
+          "explanation": "The annotated-source section points to the new desktop, domain, provider, native-audio, Python-speech, operations and documentation/compiler chapters. Keeping it at top level avoids burying implementation reference under onboarding. Its seven children respect the maximum-eight-child rule. The writing prompts cite code entry points, while the authored annotation JSON supplies exact full-file line partitions and source hashes.",
+          "focus": [
+            {
+              "start": 185,
+              "end": 196
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Build-Handbook.ps1",
+      "sourceSha256": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
+      "role": "Translates PowerShell switches into the local Node handbook compiler without hiding dependency or build failures.",
+      "entryPoints": [
+        "Build-Handbook.ps1",
+        "Build-Handbook.txt"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 19,
+          "title": "Keep the wrapper narrow and propagate failures",
+          "explanation": "The script requires PowerShell7.2, accepts Check/AcceptReviewedSource/NoPdf switches, resolves paths from its own script directory and checks for the pinned local Mermaid dependency. It constructs an argument array rather than a shell command string, appends only recognized switches and runs Node. A nonzero exit throws instead of printing a successful handoff. The Node entry point now verifies source-atlas freshness before book generation; the wrapper does not run application code or automatically install packages.",
+          "focus": [
+            {
+              "start": 10,
+              "end": 19
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/Docs/package.json",
+      "sourceSha256": "33e27043d4daf6246ceceb9dc2c83b74dd1c5fd3510febb057d5aa2d854bdbf9",
+      "role": "Pins local documentation-rendering dependencies and declares the supported Node engine floor.",
+      "entryPoints": [
+        "npm ci",
+        "npm run build",
+        "npm run check"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 19,
+          "title": "Use local pinned rendering tools rather than a hosted documentation service",
+          "explanation": "The package is private and uses ES modules. The engine requirement selects Node22.13or newer; build/check scripts invoke the existing compiler. markdown-it parses source Markdown, Mermaid renders diagrams, and puppeteer-core drives an already-installed browser rather than downloading one. Exact versions and the adjacent lockfile are installation inputs. The source atlas reuses these dependencies and Node built-ins, not an additional testing or rendering framework.",
+          "focus": [
+            {
+              "start": 7,
+              "end": 18
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/Docs/build.mjs",
+      "sourceSha256": "f334d12a1d7b11b620357bdf590394f8c0586534da5fd6b24f14b01b5e0c093c",
+      "role": "Compiles the conceptual handbook from validated public Markdown, local diagrams and synthetic UI illustrations into current HTML/PDF editions.",
+      "entryPoints": [
+        "main",
+        "scripts/Build-Handbook.ps1",
+        "test-docs.mjs"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 35,
+          "title": "Resolve repository roots and deterministic rendering primitives",
+          "explanation": "ES-module URL conversion locates the tool independently of the caller's working directory. The local theme defines strict Mermaid rendering, deterministic IDs and consistent dark diagram colors. hash computes SHA256 over supplied values; slug normalizes anchors; relative makes portable artifact paths; escape protects interpolated HTML attributes/text. These helpers support reproducible references, but deterministic IDs do not prove diagram semantics.",
+          "focus": [
+            {
+              "start": 31,
+              "end": 35
+            }
+          ]
+        },
+        {
+          "start": 36,
+          "end": 55,
+          "title": "Parse mandatory frontmatter and every cited range",
+          "explanation": "frontmatter strips a display BOM, requires the leading YAML-shaped block and extracts quoted title/description lines without claiming to be a general YAML parser. citations recognizes explicit repository paths and numeric/ranged references, including comma-separated ranges; URLs or arbitrary numbers are not automatically citations. Expanding each comma range separately prevents a valid first range from hiding an invalid later one.",
+          "focus": [
+            {
+              "start": 49,
+              "end": 54
+            }
+          ]
+        },
+        {
+          "start": 56,
+          "end": 74,
+          "title": "Reject malformed catalogue trees instead of guessing structure",
+          "explanation": "validateCatalogue requires an uncollapsed onboarding item first, then walks the hierarchy with depth and child-count limits. Titles must be unique, fields present and children arrays real. Every prompt must contain a recognized source citation. These are structural checks: a prompt with a real line number may still describe an outdated behavior, so source reading remains necessary.",
+          "focus": [
+            {
+              "start": 59,
+              "end": 70
+            }
+          ]
+        },
+        {
+          "start": 75,
+          "end": 115,
+          "title": "Constrain file paths and browser networking",
+          "explanation": "safeRepoPath resolves relative references and rejects traversal, absolute escapes and named private/dependency paths. publicRealPath rechecks the filesystem-resolved target. exists treats only ENOENT as absence and propagates other failures. Browser selection checks an explicit override and standard installed locations, never downloading a browser. offlinePage intercepts requests and permits only file/data/about/blob URLs, leaving external links readable but unfetched.",
+          "focus": [
+            {
+              "start": 75,
+              "end": 82
+            },
+            {
+              "start": 106,
+              "end": 113
+            }
+          ]
+        },
+        {
+          "start": 116,
+          "end": 178,
+          "title": "Load chapters only after metadata, citation and diagram contracts pass",
+          "explanation": "loadBook validates catalogue configuration, resolves chapter/appendix paths and records raw input hashes. Each chapter needs quoted metadata, citations to at least five distinct sources and at least two diagrams. Citation bounds are checked against actual source line counts. Diagram accessibility labels, sequence autonumber and supported Mermaid syntax are enforced. Local Markdown links/images are resolved without allowing private paths; missing ordinary references fail rather than becoming broken placeholders.",
+          "focus": [
+            {
+              "start": 133,
+              "end": 143
+            },
+            {
+              "start": 145,
+              "end": 155
+            }
+          ]
+        },
+        {
+          "start": 179,
+          "end": 218,
+          "title": "Bind the edition to synthetic-image and tooling provenance",
+          "explanation": "The screenshot manifest must assert a documentation fixture without recording, and every recorded UI source hash must match. Image bytes and README derivatives are checked independently. The compiler then hashes its own code/configuration, public guides, relevant script twins and the source-atlas manifest. This catches stale illustrations or linked source editions; it does not turn a WPF visual-tree render into recipient-capture evidence.",
+          "focus": [
+            {
+              "start": 179,
+              "end": 190
+            },
+            {
+              "start": 207,
+              "end": 216
+            }
+          ]
+        },
+        {
+          "start": 219,
+          "end": 260,
+          "title": "Render or reuse diagrams only when all cache inputs agree",
+          "explanation": "Each chapter diagram receives stable output names and a fingerprint containing code, theme and Mermaid version. A cache is reused only when its input fingerprint and actual SVG hash agree; otherwise the owned browser renders again. Generated SVG is checked for basic local content expectations before writing. Editable Mermaid source and all output hashes are retained. The cache validates identity, not whether arrows correspond to real code; the author owns that explanation.",
+          "focus": [
+            {
+              "start": 235,
+              "end": 246
+            }
+          ]
+        },
+        {
+          "start": 261,
+          "end": 306,
+          "title": "Rewrite anchors and render code as text",
+          "explanation": "renderChapter uses MarkdownIt with raw HTML disabled. Heading IDs are namespaced by chapter and duplicate headings get stable suffixes. Links to included chapters become internal anchors; other public paths remain relative references. Image paths are rewritten consistently. Mermaid fences become local SVG figures plus an expandable editable source block; ordinary fences stay code. Escaping titles and paths prevents source text from becoming markup.",
+          "focus": [
+            {
+              "start": 276,
+              "end": 284
+            },
+            {
+              "start": 296,
+              "end": 303
+            }
+          ]
+        },
+        {
+          "start": 307,
+          "end": 322,
+          "title": "Build an offline reader with explicit evidence boundaries",
+          "explanation": "makeHtml embeds the local stylesheet, original cover, edition metadata, status notice, generated contents and rendered chapters. Its status wording distinguishes implementation, measurements, proposals and unknowns and never promises universal capture invisibility. The HTML is a generated artifact with a source-linked table of contents, not a hosted application or a channel that sends meeting data.",
+          "focus": [
+            {
+              "start": 310,
+              "end": 321
+            }
+          ]
+        },
+        {
+          "start": 323,
+          "end": 366,
+          "title": "Check responsive and printable geometry before writing PDF",
+          "explanation": "renderPdf waits for the local page and fonts, checks document width at1440/768/390, then switches to print media. Missing images, overflowing blocks and unresolved internal anchors fail before printing. The tagged A4 PDF includes page numbers and is checked for its signature and plausible page-object count. These checks catch layout failures, not semantic claims; representative rendered pages still require inspection.",
+          "focus": [
+            {
+              "start": 329,
+              "end": 336
+            },
+            {
+              "start": 340,
+              "end": 351
+            }
+          ]
+        },
+        {
+          "start": 367,
+          "end": 385,
+          "title": "Refuse stale or HTML-only editions",
+          "explanation": "check requires a manifest with a PDF. It compares every old input hash with current loading, rejects new unrecorded inputs and hashes each declared output artifact. A stale source or missing PDF cannot be represented as current just because an HTML file exists. Only after these conditions pass does it print the edition's counts.",
+          "focus": [
+            {
+              "start": 371,
+              "end": 382
+            }
+          ]
+        },
+        {
+          "start": 386,
+          "end": 431,
+          "title": "Gate the book on its source atlas and reviewed code changes",
+          "explanation": "main accepts only documented flags, dynamically loads the atlas verifier and requires that companion to be complete/current. It then loads the handbook and either checks or builds. Changed previously recorded code inputs require explicit review acknowledgment. The owned browser renders diagrams, HTML and optional PDF; the manifest records inputs and outputs after completion. finally closes the browser, so a failed generation does not leave a personal-browser attachment or success-shaped fallback.",
+          "focus": [
+            {
+              "start": 388,
+              "end": 399
+            },
+            {
+              "start": 415,
+              "end": 425
+            }
+          ]
+        },
+        {
+          "start": 432,
+          "end": 435,
+          "title": "Run only as the direct CLI entry point",
+          "explanation": "The URL comparison prevents imports by tests or the atlas compiler from launching a handbook build. Direct invocation calls main, prints a concise error message on rejection and sets a nonzero exit code. This separation permits pure helper tests and reuse without executing the application or starting browser work unexpectedly.",
+          "focus": [
+            {
+              "start": 433,
+              "end": 435
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/Docs/handbook.css",
+      "sourceSha256": "0b030e6cce8a9ab1f457c34adc0b42e9cf680b855baadfaa880943289fd04196",
+      "role": "Defines readable screen and print layouts for the illustrated conceptual handbook.",
+      "entryPoints": [
+        "makeHtml",
+        "renderPdf"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 24,
+          "title": "Give the reader a bounded page and navigable hierarchy",
+          "explanation": "Root variables separate ink, muted text, paper, rule and accent roles. Universal border-box sizing and anywhere wrapping stop long source paths from widening the page. The main content width, cover and two-column contents establish reading hierarchy; chapter separators do not alter the underlying source order. Color choices here affect the book, not the application's runtime theme.",
+          "focus": [
+            {
+              "start": 12,
+              "end": 23
+            }
+          ]
+        },
+        {
+          "start": 25,
+          "end": 55,
+          "title": "Render source, tables and real synthetic illustrations legibly",
+          "explanation": "Heading break hints keep titles near following content. Code/pre rules retain monospaced text while allowing long paths and snippets to wrap. Tables have bounded cell styling; images fit the column. Screenshot backgrounds distinguish dark/light synthetic transparency, and diagram figures use a dark surface with captions plus optional editable source. A diagram's max-height is a layout bound, not a guarantee every label is large enough.",
+          "focus": [
+            {
+              "start": 31,
+              "end": 42
+            },
+            {
+              "start": 47,
+              "end": 54
+            }
+          ]
+        },
+        {
+          "start": 56,
+          "end": 64,
+          "title": "Reduce gutters instead of allowing mobile overflow",
+          "explanation": "At narrow screen widths the page gutters and cover padding shrink, the contents becomes one column and tables use smaller cells/text. The source itself and chapter order are unchanged. These rules are exercised by the compiler's viewport-width checks rather than inferred from desktop screenshots.",
+          "focus": [
+            {
+              "start": 57,
+              "end": 64
+            }
+          ]
+        },
+        {
+          "start": 65,
+          "end": 91,
+          "title": "Use a distinct printable edition",
+          "explanation": "The print stylesheet switches to A4 margins, white paper and point-sized typography. Chapters and the cover receive page-break rules, tables repeat headers, source excerpts remain readable and diagrams can occupy a large portrait height. Editable Mermaid details and back-to-top links disappear in print because they are navigation aids. Image-height limits and break hints reduce fragmentation but still require page inspection.",
+          "focus": [
+            {
+              "start": 79,
+              "end": 90
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/Docs/source-atlas.mjs",
+      "sourceSha256": "64cb912798a3d992217d03225af1e9fa135204096ba89672c0aa648e4ffd6298",
+      "role": "Validates complete first-party source explanations and produces searchable full-source HTML plus an annotation-focused PDF.",
+      "entryPoints": [
+        "main",
+        "verifySourceAtlas",
+        "build.main"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 26,
+          "title": "Set public roots, stable identifiers and exact physical-line semantics",
+          "explanation": "The module reuses the handbook's hashing/path/slug helpers and resolves roots from its own URL. Explicit root-input and extension sets define scope. HTML escaping protects all inserted source/annotation text; file IDs append a path hash to avoid simple slug collisions. physicalLines handles BOM display, CRLF/bareCR and exactly one separator-created final empty item, preserving real blank lines while hashing original bytes.",
+          "focus": [
+            {
+              "start": 16,
+              "end": 24
+            }
+          ]
+        },
+        {
+          "start": 27,
+          "end": 46,
+          "title": "Classify provenance and reject path aliases",
+          "explanation": "sourceKind separates first-party annotations, generated results, locks and potential PS text mirrors, and excludes build/private/cache paths. readPublic resolves the requested repository path, checks the real target and refuses symlink aliases rather than silently reading a different file. The classification is explicit coverage policy, not an assertion that ignored/vendor code has been understood.",
+          "focus": [
+            {
+              "start": 27,
+              "end": 36
+            },
+            {
+              "start": 39,
+              "end": 45
+            }
+          ]
+        },
+        {
+          "start": 47,
+          "end": 69,
+          "title": "Inventory current Git names and compare script mirrors byte-for-byte",
+          "explanation": "The NUL-delimited Git listing combines tracked and non-ignored untracked names without shell-string interpolation and bounds command output. Names are deduplicated/sorted. A txt candidate becomes a mirror only if its ps1 canonical file exists in that listing, then exact bytes must agree. Every selected file receives byte count, SHA256 and physical-line count, while generated data retains its separate kind.",
+          "focus": [
+            {
+              "start": 48,
+              "end": 53
+            },
+            {
+              "start": 57,
+              "end": 66
+            }
+          ]
+        },
+        {
+          "start": 70,
+          "end": 114,
+          "title": "Validate authored blocks as a complete ordered partition",
+          "explanation": "Unknown schema fields and placeholder prose fail early. An annotation hash must match the actual bytes; paths must be portable and entry points explicit. Each block must begin at the next expected physical line, remain in bounds and fit its size limit. Focus ranges must stay within that block and contain at most12lines. Updating next=end+1 and checking the final value catches gaps, overlaps and missing tails. An empty source can have zero blocks without inventing code.",
+          "focus": [
+            {
+              "start": 93,
+              "end": 103
+            },
+            {
+              "start": 104,
+              "end": 113
+            }
+          ]
+        },
+        {
+          "start": 115,
+          "end": 154,
+          "title": "Reconcile every assigned source against the live inventory",
+          "explanation": "loadAtlas builds an expected set from annotated inventory entries, loads each authored group, records its bytes and chapter hash, and rejects unknown/duplicate groups or files. Each source is re-read and validated before it is admitted. Missing coverage is reported as an explicit file list, and an empty atlas cannot pass. Counts are derived from validated source and blocks rather than taken from an author's claimed totals.",
+          "focus": [
+            {
+              "start": 138,
+              "end": 149
+            }
+          ]
+        },
+        {
+          "start": 155,
+          "end": 178,
+          "title": "Keep complete source and explanatory excerpts separate",
+          "explanation": "sourceRows escapes each physical line and gives full-source rows stable anchors. renderFile prints each block's explanation and focused snippets, using the first eight lines only when no focus was chosen. The full source lives in an expandable details element, while the deep handbook chapter is linked separately. Source strings are never evaluated as code or parsed as HTML.",
+          "focus": [
+            {
+              "start": 157,
+              "end": 168
+            }
+          ]
+        },
+        {
+          "start": 179,
+          "end": 200,
+          "title": "Generate a searchable offline reference with honest coverage wording",
+          "explanation": "makeHtml reads only the owned local CSS/client, rejects a script-closing sequence in that client and embeds escaped group/file content. Header counts come from validated coverage. Search controls and file navigation are generated locally, and explanatory text explicitly says that mechanical line assignment does not prove every subtle behavior. The only executed script is the owned reader, not any displayed application source.",
+          "focus": [
+            {
+              "start": 180,
+              "end": 190
+            },
+            {
+              "start": 193,
+              "end": 199
+            }
+          ]
+        },
+        {
+          "start": 201,
+          "end": 217,
+          "title": "Launch an installed, owned browser without implicit installation",
+          "explanation": "Browser discovery checks an explicit environment override and standard installed Edge/Chrome locations. Only ENOENT means try the next candidate; other access failures surface. Missing browsers produce an actionable error instead of downloading a renderer. The launched browser is headless with pipe transport and background-network/sync/update behavior disabled; later page interception blocks nonlocal resources.",
+          "focus": [
+            {
+              "start": 208,
+              "end": 215
+            }
+          ]
+        },
+        {
+          "start": 218,
+          "end": 246,
+          "title": "Verify real output completeness before calling an edition current",
+          "explanation": "validateAtlasManifest requires the exact four output identities, a full PDF, plausible page count and matching derived coverage counts. This prevents an empty artifacts array from passing as a complete edition. verifySourceAtlas revalidates authored coverage, compares the entire input-key set and every input hash, then hashes every output. A same-named but edited PDF, stale annotation or newly added source file invalidates freshness.",
+          "focus": [
+            {
+              "start": 218,
+              "end": 229
+            },
+            {
+              "start": 234,
+              "end": 245
+            }
+          ]
+        },
+        {
+          "start": 247,
+          "end": 280,
+          "title": "Select a narrow CLI action and validate before browser work",
+          "explanation": "main recognizes inventory, check, validate and no-pdf modes explicitly. Inventory only reads metadata; validate checks authored coverage without publishing. A build derives counts and escaped HTML before creating PID-owned staging paths. For a full edition, its page allows only local URL schemes, waits for fonts and checks three responsive widths before print rendering. Source files are read, not executed.",
+          "focus": [
+            {
+              "start": 247,
+              "end": 258
+            },
+            {
+              "start": 269,
+              "end": 279
+            }
+          ]
+        },
+        {
+          "start": 281,
+          "end": 315,
+          "title": "Publish bounded evidence and explain exclusions beside the source",
+          "explanation": "PDF generation uses A4, tagging, outlines, a timeout and page footer, then checks the PDF signature and page-object count. Only successful staged output is renamed to the final artifact. The coverage ledger contains each exact file/hash/range and separately lists mirrors/evidence/locks. The generated README explains full-source versus selected-print excerpts, scope exclusions and the requirement to read changed code before updating an annotation hash.",
+          "focus": [
+            {
+              "start": 281,
+              "end": 292
+            },
+            {
+              "start": 296,
+              "end": 306
+            }
+          ]
+        },
+        {
+          "start": 316,
+          "end": 334,
+          "title": "Record output hashes last and clean up only owned staging",
+          "explanation": "Coverage and README outputs are written and hashed, then the manifest records counts, inputs, PDF identity and artifacts. complete is true only with a PDF, so an HTML-only build cannot replace a full handoff silently. finally closes the owned browser and removes the two staged paths. The direct-entry guard lets the handbook/tests import functions without running a second generation, and CLI failures become a nonzero exit status.",
+          "focus": [
+            {
+              "start": 318,
+              "end": 329
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/Docs/source-atlas-client.mjs",
+      "sourceSha256": "15b01c4158c4daf338e396c811a35555d8458d5c4540294340679bcb8bf2faea",
+      "role": "Provides local code/explanation search and stable source-line navigation without sending reader input anywhere.",
+      "entryPoints": [
+        "Inline IIFE in generated atlas HTML"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 18,
+          "title": "Search source and explanation together, then update visible file links",
+          "explanation": "The script locates owned controls, indexes each file section's text once and associates sidebar links by stable file ID. Input is trimmed/lowercased for case-insensitive matching. Filtering changes article/link hidden state and updates an aria-live count; it does not mutate annotations or send a search query to a service. Full source is included in textContent, so exact identifiers are discoverable even when their source panel is collapsed.",
+          "focus": [
+            {
+              "start": 7,
+              "end": 18
+            }
+          ]
+        },
+        {
+          "start": 19,
+          "end": 30,
+          "title": "Resolve a line link even when filtering or details hid it",
+          "explanation": "Hash navigation decodes the fragment with a narrow URIError catch. Unknown targets are ignored as navigation misses, not source-data failures. If a search hid the destination file, the filter is cleared; if the target lies inside full-source details, that element opens before scrolling. Stable IDs permit deep links to physical lines without evaluating source text.",
+          "focus": [
+            {
+              "start": 21,
+              "end": 30
+            }
+          ]
+        },
+        {
+          "start": 31,
+          "end": 35,
+          "title": "Do not accidentally print only the current search result",
+          "explanation": "Before print, the script saves the query, clears it and reapplies filtering so every file is visible. After print it restores the reader's query. Initial hash navigation runs once after listeners are installed. The print stylesheet independently excludes full-source panels, leaving authored explanations and chosen excerpts rather than a duplicate raw-code dump.",
+          "focus": [
+            {
+              "start": 31,
+              "end": 35
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/Docs/source-atlas.css",
+      "sourceSha256": "500c4556d0d6237949274d93fc223636fa176c4c749a865b860241f239d75efe",
+      "role": "Separates the dark searchable code-reader layout from a readable annotation-focused A4 print edition.",
+      "entryPoints": [
+        "makeHtml",
+        "Puppeteer print media"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 16,
+          "title": "Define a readable index and explicit search surface",
+          "explanation": "Shared color roles and border-box sizing establish the dark reference reader. Bounded gutters, wrapping and two-column file navigation keep long source paths manageable. Search is a visible labelled input rather than a hidden keyboard shortcut. The page has no dependency on the runtime application's translucency or native theme resources.",
+          "focus": [
+            {
+              "start": 5,
+              "end": 16
+            }
+          ]
+        },
+        {
+          "start": 17,
+          "end": 30,
+          "title": "Lay out numbered code independently of prose",
+          "explanation": "File and annotation sections have separate rules, while full-source details and excerpts share a dark code surface. Each source row uses a fixed number column and a flexible code column; pre-wrap preserves indentation while anywhere wrapping prevents a long line from widening the page. Targeted rows receive an outline. The hidden attribute is respected explicitly so local search affects both articles and index entries.",
+          "focus": [
+            {
+              "start": 23,
+              "end": 30
+            }
+          ]
+        },
+        {
+          "start": 31,
+          "end": 39,
+          "title": "Adapt small screens and define print-page dimensions",
+          "explanation": "The narrow-screen media rule reduces padding, collapses the index to one column and slightly reduces heading/code sizes. It does not discard text or renumber source lines. The A4 page declaration supplies physical print margins; browser PDF generation uses preferCSSPageSize to honor it.",
+          "focus": [
+            {
+              "start": 31,
+              "end": 39
+            }
+          ]
+        },
+        {
+          "start": 40,
+          "end": 59,
+          "title": "Print explanations and focused excerpts rather than full source twice",
+          "explanation": "Print switches to light paper/ink, point-sized typography and a dedicated cover break. Each file begins a new page, headings avoid dangling breaks, and excerpts avoid splitting when possible. Search, full-source details and top links are hidden; annotation prose remains. Code uses7.7pt for excerpts, with wrapping retained. The compiler and visual review still need to inspect actual rendered output instead of treating CSS as a proof of readability.",
+          "focus": [
+            {
+              "start": 47,
+              "end": 58
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/Docs/test-docs.mjs",
+      "sourceSha256": "9463ce8cf535df4be7e93aebb02c8c1b7584e47ef0e520d8699dabaeb2acaf41",
+      "role": "Exercises documentation parsing, public-path safety and source-atlas coverage/completeness contracts without running application features.",
+      "entryPoints": [
+        "node --test tools/Docs/test-docs.mjs"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 36,
+          "title": "Test actual metadata and citation parsing, including negative controls",
+          "explanation": "The file imports Node's existing assertion/test runner plus the production helpers. Frontmatter tests verify extraction and missing-header failure. Citation tests distinguish source ranges from URLs, expand all comma-separated ranges and retain root solution/spike references. The inputs are small synthetic strings; these tests do not build the handbook or prove prose correctness.",
+          "focus": [
+            {
+              "start": 25,
+              "end": 36
+            }
+          ]
+        },
+        {
+          "start": 37,
+          "end": 66,
+          "title": "Check catalogue limits and public paths",
+          "explanation": "Catalogue cases accept an explicit source-backed onboarding shape and reject missing citations, collapsed onboarding or too many children. Slug/BOM/CRLF checks preserve stable IDs and exact body extraction. Public-path cases deliberately supply traversal, Git/private/context/environment/dependency paths, then verify an ordinary docs path remains accepted. The negative controls exercise actual production helpers rather than copies of their logic.",
+          "focus": [
+            {
+              "start": 59,
+              "end": 65
+            }
+          ]
+        },
+        {
+          "start": 67,
+          "end": 101,
+          "title": "Use a tiny hashed fixture to test physical coverage semantics",
+          "explanation": "annotatedFile constructs original CRLF bytes, a SHA256-bound annotation and a focused return statement. Tests cover display BOMs, empty source, repeated final newlines and classification of implementation, requirement files, mirrors, locks and generated evidence. Complete physical coverage is checked separately from the count of nonblank lines. The fixture's explanation is intentionally synthetic and cannot establish coverage for real project files.",
+          "focus": [
+            {
+              "start": 76,
+              "end": 81
+            },
+            {
+              "start": 94,
+              "end": 101
+            }
+          ]
+        },
+        {
+          "start": 102,
+          "end": 128,
+          "title": "Make missing coverage and unsafe rendering fail explicitly",
+          "explanation": "Mutated source bytes must fail the hash check. Parameterized invalid ranges cover gaps, missing tails, out-of-bounds ends and reversed ranges; duplicate blocks test overlap. Invalid excerpt ranges, placeholder prose, unknown fields and traversal also reject. Escaping is tested with script-shaped text. The live Git inventory case checks discovery of the atlas itself and a byte-verified PS mirror, without invoking either script.",
+          "focus": [
+            {
+              "start": 102,
+              "end": 113
+            },
+            {
+              "start": 115,
+              "end": 120
+            }
+          ]
+        },
+        {
+          "start": 129,
+          "end": 140,
+          "title": "Reject success-shaped incomplete manifests",
+          "explanation": "A small valid manifest provides all four expected artifact identities and matching derived counts. Negative cases remove completion, empty the artifact list, understate the PDF page count or falsify the file count. These checks prevent stale or partial output metadata from masquerading as a finished source atlas; actual bytes are checked separately by verifySourceAtlas.",
+          "focus": [
+            {
+              "start": 129,
+              "end": 140
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

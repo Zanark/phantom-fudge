@@ -7,3 +7,9 @@
 !services/transcription/recognizer.py
 !services/transcription/healthcheck.py
 !services/transcription/model.json
+!services/transcription/accurate.py
+!services/transcription/configuration.py
+!services/transcription/diagnostics.py
+!services/transcription/provision_whisper.py
+!services/transcription/technical-vocabulary.json
+!services/transcription/whisper-models.json

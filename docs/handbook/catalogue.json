@@ -4,18 +4,18 @@
       "title": "onboarding",
       "name": "Onboarding",
       "collapsed": false,
-      "prompt": "Introduce the implemented local conversation companion and planned Azure extension from docs/OVERVIEW.md:8-52, src/PhantomFudge.App/App.xaml.cs:1 and docs/IMPLEMENTATION-STATUS.md:1.",
+      "prompt": "Introduce the implemented local conversation companion and planned Azure extension from docs/OVERVIEW.md:8-56, src/PhantomFudge.App/App.xaml.cs:1 and docs/IMPLEMENTATION-STATUS.md:1.",
       "children": [
         {
           "title": "00-reading-map",
           "name": "Reading Map",
-          "prompt": "Orient readers using docs/OVERVIEW.md:8-52, docs/PRODUCT.md:1 and TODO/00_INDEX.todo:1; distinguish implemented, measured, planned and unqualified.",
+          "prompt": "Orient readers using docs/OVERVIEW.md:8-56, docs/PRODUCT.md:1 and TODO/00_INDEX.todo:1; distinguish implemented, measured, planned and unqualified.",
           "children": []
         },
         {
           "title": "01-principal-engineer-guide",
           "name": "Principal Engineer Guide",
-          "prompt": "Explain the central invariant with Python pseudocode, architecture and domain ER diagrams, using src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:9, src/PhantomFudge.Core/TranscriptBuffer.cs:6, services/transcription/server.py:1 and src/PhantomFudge.App/Native/WindowProtection.cs:10.",
+          "prompt": "Explain the central invariant with Python pseudocode, architecture and domain ER diagrams, using src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:10, src/PhantomFudge.Core/TranscriptBuffer.cs:6, services/transcription/server.py:1 and src/PhantomFudge.App/Native/WindowProtection.cs:10.",
           "children": []
         },
         {
@@ -40,7 +40,7 @@
         {
           "title": "04-windows-capture-and-cursors",
           "name": "Windows Capture and Cursors",
-          "prompt": "Trace HWND affinity, layered windows and nonactivation using src/PhantomFudge.App/Native/WindowProtection.cs:18, Native/CursorPolicy.cs and src/PhantomFudge.App/Diagnostics/CaptureProof.cs:19; use docs/CURSOR-AND-THEMES.md:1 for bounded claims.",
+          "prompt": "Trace HWND affinity, layered windows and nonactivation using src/PhantomFudge.App/Native/WindowProtection.cs:19, Native/CursorPolicy.cs and src/PhantomFudge.App/Diagnostics/CaptureProof.cs:19; use docs/CURSOR-AND-THEMES.md:1 for bounded claims.",
           "children": []
         }
       ]
@@ -78,7 +78,7 @@
         {
           "title": "07-dual-input-capture",
           "name": "Dual-Input Capture",
-          "prompt": "Explain direction-specific WASAPI, cancellation and ownership through src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:9, WasapiInput.cs and tests/PhantomFudge.Audio.Tests/DualSourceTests.cs:1.",
+          "prompt": "Explain direction-specific WASAPI, cancellation and ownership through src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:10, WasapiInput.cs and tests/PhantomFudge.Audio.Tests/DualSourceTests.cs:1.",
           "children": []
         },
         {
@@ -104,18 +104,18 @@
     {
       "title": "research",
       "name": "Performance and Planned AI Answers",
-      "prompt": "Separate measured ASR from planned Azure answers using docs/SPEECH-BENCHMARK.md:1, tools/SpeechBench/metrics.py:1 and docs/AI-ANSWER-ARCHITECTURE.md:1-32.",
+      "prompt": "Separate measured ASR from planned Azure answers using docs/SPEECH-BENCHMARK.md:1, tools/SpeechBench/metrics.py:1 and docs/AI-ANSWER-ARCHITECTURE.md:1-35.",
       "children": [
         {
           "title": "12-performance-and-benchmarks",
           "name": "Performance and Benchmarks",
-          "prompt": "Explain WER/RTF/latency methods from tools/SpeechBench/metrics.py:1, bench.py, SapiBridge.cs and docs/SPEECH-BENCHMARK.md:17.",
+          "prompt": "Explain WER/RTF/latency methods from tools/SpeechBench/metrics.py:1, bench.py, SapiBridge.cs and docs/SPEECH-BENCHMARK.md:22.",
           "children": []
         },
         {
           "title": "13-proposed-azure-answer-flow",
           "name": "Local Questions and Proposed Azure Answers",
-          "prompt": "Distinguish implemented local Freeze from PLANNED commit/provider using src/PhantomFudge.Core/QuestionDraft.cs:90-95, src/PhantomFudge.Core/QuestionSnapshot.cs:5-23 and docs/AI-ANSWER-ARCHITECTURE.md:1-32.",
+          "prompt": "Distinguish implemented local Freeze from PLANNED commit/provider using src/PhantomFudge.Core/QuestionDraft.cs:90-95, src/PhantomFudge.Core/QuestionSnapshot.cs:5-23 and docs/AI-ANSWER-ARCHITECTURE.md:1-35.",
           "children": []
         },
         {
@@ -140,7 +140,7 @@
         {
           "title": "16-distribution-and-troubleshooting",
           "name": "Distribution and Troubleshooting",
-          "prompt": "Trace bundle content and fault branches from scripts/Publish-Preview.ps1:1, Initialize-Transcription.ps1:1, services/transcription/manage.py:93 and docs/PREVIEW-GUIDE.md:1.",
+          "prompt": "Trace bundle content and fault branches from scripts/Publish-Preview.ps1:1, Initialize-Transcription.ps1:1, services/transcription/manage.py:95 and docs/PREVIEW-GUIDE.md:1.",
           "children": []
         },
         {
@@ -165,7 +165,7 @@
         {
           "title": "19-api-configuration-reference",
           "name": "API and Configuration Reference",
-          "prompt": "Inventory verified constants/routes/options from services/transcription/server.py:23, manage.py:17, src/PhantomFudge.Core/AudioSource.cs:1 and scripts/Run-PhantomFudge.ps1:1.",
+          "prompt": "Inventory verified constants/routes/options from services/transcription/server.py:26, manage.py:17, src/PhantomFudge.Core/AudioSource.cs:1 and scripts/Run-PhantomFudge.ps1:1.",
           "children": []
         },
         {
@@ -178,6 +178,55 @@
           "title": "21-evidence-and-roadmap",
           "name": "Evidence and Roadmap",
           "prompt": "Separate code, local synthetic evidence, owner statements and unqualified scope using docs/IMPLEMENTATION-STATUS.md:1, QUALIFICATION.md, SPEECH-BENCHMARK.md and TODO/16_DEVELOPMENT_LEDGER.todo:1.",
+          "children": []
+        }
+      ]
+    },
+    {
+      "title": "annotated-source",
+      "name": "Annotated Source Walkthroughs",
+      "prompt": "Explain the actual important statements and complete first-party file coverage using tools/Docs/source-atlas.mjs:1 and docs/handbook/book.json:1.",
+      "children": [
+        {
+          "title": "22-desktop-source-walkthrough",
+          "name": "Desktop Lifecycle and Interaction Statements",
+          "prompt": "Trace native window, focus, selection and clarification through src/PhantomFudge.App/MainWindow.xaml.cs:1 and src/PhantomFudge.App/MainWindow.Clarification.cs:1.",
+          "children": []
+        },
+        {
+          "title": "23-domain-source-walkthrough",
+          "name": "Domain Invariants and Storage Statements",
+          "prompt": "Explain state and copy boundaries through src/PhantomFudge.Core/QuestionDraft.cs:1, src/PhantomFudge.Core/StructuredTranscriptStore.cs:1 and src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs:1.",
+          "children": []
+        },
+        {
+          "title": "24-provider-source-walkthrough",
+          "name": "Provider Isolation and Protocol Statements",
+          "prompt": "Trace process ownership, exact payloads and ACP terminal handling through src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:1 and src/PhantomFudge.Core/Answers/AnswerClarification.cs:1.",
+          "children": []
+        },
+        {
+          "title": "25-native-audio-source-walkthrough",
+          "name": "Native Audio and Capture Evidence Statements",
+          "prompt": "Trace capture, queue, framing and synthetic evidence through src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:1 and tests/PhantomFudge.Audio.Tests/DualSourceTests.cs:1.",
+          "children": []
+        },
+        {
+          "title": "26-speech-source-walkthrough",
+          "name": "Python Recognition and Service Statements",
+          "prompt": "Explain admission, workers, accurate finalization and idle service ownership through services/transcription/server.py:1, services/transcription/accurate.py:1 and services/transcription/manage.py:1.",
+          "children": []
+        },
+        {
+          "title": "27-operations-source-walkthrough",
+          "name": "Operational Scripts and Measurement Statements",
+          "prompt": "Explain launch/provision/export/qualification and scoring through scripts/Run-PhantomFudge.ps1:1, scripts/Export-Diagnostics.ps1:1 and tools/SpeechBench/metrics.py:1.",
+          "children": []
+        },
+        {
+          "title": "28-documentation-source-walkthrough",
+          "name": "Documentation Compiler and Root Configuration Statements",
+          "prompt": "Explain full line coverage, escaped source rendering, edition freshness and project boundaries through tools/Docs/source-atlas.mjs:1, tools/Docs/build.mjs:31 and Directory.Build.props:1.",
           "children": []
         }
       ]

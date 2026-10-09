@@ -12,7 +12,7 @@ outline: deep
 
 > **`IsRunning == false` does not mean fully stopped, drained, and reusable.**
 
-`Session.RequestStop` immediately sets `Running=false`; `StopSessionAsync` and transport disposal still have substantial work afterward. The UI separately holds `audioStopping` through its awaited Stop path. A documented review found and fixed a stop/restart race by preserving this distinction. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:29,366-426,508-522; src\PhantomFudge.App\MainWindow.xaml.cs:709-736; docs\IMPLEMENTATION-STATUS.md:45-47)
+`Session.RequestStop` immediately sets `Running=false`; `StopSessionAsync` and transport disposal still have substantial work afterward. The UI separately holds `audioStopping` through its awaited Stop path. A documented review found and fixed a stop/restart race by preserving this distinction. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:30,387-447,532-546; src\PhantomFudge.App\MainWindow.xaml.cs:748-778; docs\IMPLEMENTATION-STATUS.md:142-144)
 
 **Newcomer path:** follow the normal Stop sequence before reading the locks. **Principal-engineer path:** inspect queued-start invalidation, ownership after driver timeouts, and the difference between graceful drain and fault abort. The diagrams below name conceptual states; the production code implements them through fields, tasks, locks, and guards, not one central state enum.
 
@@ -26,7 +26,7 @@ outline: deep
 | Audio ownership | `_session`, `_pendingCaptureRelease`, `_captureReleaseFailed` | No active session does not necessarily mean no worker owns a device. |
 | Transport | ready/fault/stop flags, sender/receiver tasks | Closing admission does not mean queued audio has drained. |
 
-These fields live at their relevant boundaries rather than in a generic workflow framework. (src\PhantomFudge.App\MainWindow.xaml.cs:31-46; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:15-22; src\PhantomFudge.App\Audio\TranscriptionSocket.cs:44-67)
+These fields live at their relevant boundaries rather than in a generic workflow framework. (src\PhantomFudge.App\MainWindow.xaml.cs:33-48; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:16-23; src\PhantomFudge.App\Audio\TranscriptionSocket.cs:44-67)
 
 ```mermaid
 ---
@@ -55,17 +55,17 @@ flowchart TB
     style Restart fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
 ```
 
-The “release pending” distinction comes from a concrete Start guard: it rejects while the prior release task is incomplete or a release failure has been recorded. A timed-out operation can finish later; a recorded disposal failure remains a separate restart-blocking condition. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:80-84,387-419,457-462)
+The “release pending” distinction comes from a concrete Start guard: it rejects while the prior release task is incomplete or a release failure has been recorded. A timed-out operation can finish later; a recorded disposal failure remains a separate restart-blocking condition. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:81-85,408-440,478-483)
 
 ## Components: who owns each decision?
 
-`MainWindow` owns user intent and command availability. `LoopbackTranscriber` owns selected inputs and their lifecycle. `WasapiInput` owns an endpoint, capture object, and endpoint-notification registration. `TranscriptionSocket` owns one authenticated connection and bounded audio queue. `TranscriptBuffer` owns accumulated text and session-local ordering. No one layer can safely infer all the others' completion from a single flag. (src\PhantomFudge.App\MainWindow.xaml.cs:613-736; src\PhantomFudge.App\Audio\WasapiInput.cs:11-18,97-119; src\PhantomFudge.App\Audio\TranscriptionSocket.cs:10-47; src\PhantomFudge.Core\TranscriptBuffer.cs:8-11,23-39)
+`MainWindow` owns user intent and command availability. `LoopbackTranscriber` owns selected inputs and their lifecycle. `WasapiInput` owns an endpoint, capture object, and endpoint-notification registration. `TranscriptionSocket` owns one authenticated connection and bounded audio queue. `TranscriptBuffer` owns accumulated text and session-local ordering. No one layer can safely infer all the others' completion from a single flag. (src\PhantomFudge.App\MainWindow.xaml.cs:637-778; src\PhantomFudge.App\Audio\WasapiInput.cs:11-18,97-119; src\PhantomFudge.App\Audio\TranscriptionSocket.cs:10-47; src\PhantomFudge.Core\TranscriptBuffer.cs:8-11,23-39)
 
-The UI invokes `BeginSession` only after its Start guards pass. It rejects Start during startup, stopping, or running; mode selection and transcript clearing apply equivalent busy/stopping restrictions. `UpdateAudioControls` mirrors these rules visually, but handlers also enforce them: disabling a button is not the only protection against reentrant or programmatic calls. (src\PhantomFudge.App\MainWindow.xaml.cs:613-652,668-696,803-808)
+The UI invokes `BeginSession` only after its Start guards pass. It rejects Start during startup, stopping, or running; mode selection and transcript clearing apply equivalent busy/stopping restrictions. `UpdateAudioControls` mirrors these rules visually, but handlers also enforce them: disabling a button is not the only protection against reentrant or programmatic calls. (src\PhantomFudge.App\MainWindow.xaml.cs:637-685,705-735,851-856)
 
 ## Data flow: a normal Stop is a protocol
 
-`StopTranscriptionAsync` returns an already-pending stop task when one exists. Otherwise it sets `audioStopping` *before* cancelling startup and starting cleanup. This gives Hide, Exit, the Stop button, and other callers a shared completion operation rather than independently resetting session state. (src\PhantomFudge.App\MainWindow.xaml.cs:709-736)
+`StopTranscriptionAsync` returns an already-pending stop task when one exists. Otherwise it sets `audioStopping` *before* cancelling startup and starting cleanup. This gives Hide, Exit, the Stop button, and other callers a shared completion operation rather than independently resetting session state. (src\PhantomFudge.App\MainWindow.xaml.cs:748-778)
 
 ```mermaid
 ---
@@ -96,23 +96,23 @@ sequenceDiagram
     UI->>UI: Clear audioStopping and reset meters
 ```
 
-This is the no-fault path. Input shutdown precedes transport drain so normal final capture callbacks can still contribute queued PCM. The sender consumes its channel to completion, then sends `stop`. The receiver accepts `stopped` only after Stop was sent and, for protocol v2, after a post-Stop final from every selected source. An empty final still satisfies that protocol requirement. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:380-421,428-471; src\PhantomFudge.App\Audio\TranscriptionSocket.cs:232-279,313-331,437-465)
+This is the no-fault path. Input shutdown precedes transport drain so normal final capture callbacks can still contribute queued PCM. The sender consumes its channel to completion, then sends `stop`. The receiver accepts `stopped` only after Stop was sent and, for protocol v2, after a post-Stop final from every selected source. An empty final still satisfies that protocol requirement. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:401-442,449-492; src\PhantomFudge.App\Audio\TranscriptionSocket.cs:241-288,322-340,446-474)
 
-The guarantee is conditional: a timeout, device failure, malformed response, or connection loss takes a fault path where final text can be unavailable. The status messages say so rather than reporting a clean complete transcript. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:271-280; src\PhantomFudge.App\MainWindow.xaml.cs:725-728)
+The guarantee is conditional: a timeout, device failure, malformed response, or connection loss takes a fault path where final text can be unavailable. The status messages say so rather than reporting a clean complete transcript. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:280-289; src\PhantomFudge.App\MainWindow.xaml.cs:767-770)
 
 ## Implementation: concurrency tools serve different purposes
 
 ### Serialization does not cancel queued intent
 
-`SemaphoreSlim _lifecycle` serializes asynchronous Start/Stop/Dispose bodies. But a semaphore alone would allow a Start already waiting behind another operation to run after Stop. The controller therefore captures `_stopVersion` before waiting, increments that version in `RequestStop`, and compares it under `_requestLock` before publishing a new session. A queued stale Start is rejected rather than resurrecting recording. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:71-93,158-192)
+`SemaphoreSlim _lifecycle` serializes asynchronous Start/Stop/Dispose bodies. But a semaphore alone would allow a Start already waiting behind another operation to run after Stop. The controller therefore captures `_stopVersion` before waiting, increments that version in `RequestStop`, and compares it under `_requestLock` before publishing a new session. A queued stale Start is rejected rather than resurrecting recording. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:72-94,159-193)
 
-After connection acceptance, each selected input starts on a worker task. Running becomes true only when every requested input started, no stop/failure is recorded, and no input already reported `RecordingStopped`. Thus Both is all-requested-inputs behavior, not “start whichever device happened to succeed.” (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:101-135)
+After connection acceptance, each selected input starts on a worker task. Running becomes true only when every requested input started, no stop/failure is recorded, and no input already reported `RecordingStopped`. Thus Both is all-requested-inputs behavior, not “start whichever device happened to succeed.” (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:102-136)
 
 ### The first fault wins
 
-`SignalFault` uses `Interlocked.CompareExchange` to store one safe failure message. Subsequent simultaneous faults return early. It disables audio admission flags, clears Running, requests cancellation, aborts transport, and schedules serialized cleanup. The cleanup checks that its session is still the controller's current session. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:341-363)
+`SignalFault` uses `Interlocked.CompareExchange` to store one safe failure message. Subsequent simultaneous faults return early. It disables audio admission flags, clears Running, requests cancellation, aborts transport, and schedules serialized cleanup. The cleanup checks that its session is still the controller's current session. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:362-384)
 
-The code explicitly avoids acquiring another input's `AudioGate` while processing a callback failure. Otherwise two failing sources could each hold one gate and wait for the other. Per-input volatile admission flags and transport admission close the path without cross-track lock acquisition. This is a concrete deadlock-avoidance choice, not a reason to remove all synchronization. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:238-249,341-352)
+The code explicitly avoids acquiring another input's `AudioGate` while processing a callback failure. Otherwise two failing sources could each hold one gate and wait for the other. Per-input volatile admission flags and transport admission close the path without cross-track lock acquisition. This is a concrete deadlock-avoidance choice, not a reason to remove all synchronization. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:239-270,362-373)
 
 ### Timeouts bound waiting, not driver execution
 
@@ -121,25 +121,36 @@ The code explicitly avoids acquiring another input's `AudioGate` while processin
 | Connection: 10 seconds | Deadline includes the service's ready response. |
 | Capture startup: 10 seconds | Wait for selected input startup tasks. |
 | Capture stop/release: 5 seconds | Bound waits around release and recording-stop completion. |
-| Transport flush: 15 seconds | Bound sender drain, final acknowledgement, and receiver completion. |
+| Transport flush: 90 seconds | Bound sender drain, accurate finals, acknowledgement and receiver completion; not normal latency. |
 
-These are operation-specific waits, not a promised sum or end-to-end latency SLO. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:20-21,138-152,255-268; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:12-13,111-114,398-405,440-447)
+These are operation-specific waits, not a promised sum or end-to-end latency SLO. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:20-79,147-161,264-277; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:13-14,112-115,419-426,461-468)
 
-A hung driver is not forcibly made safe by cancelling a managed token. Release workers retain ownership and eventually finish startup/join/disposal if the driver returns. Inputs release independently, so a stuck microphone does not prevent the responsive Computer input from being released. The UI thread does not perform these joins. `WasapiInput.Dispose` also attempts notification and endpoint cleanup in nested `finally` blocks. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:109-112,387-421,428-471; src\PhantomFudge.App\Audio\WasapiInput.cs:97-119)
+The accurate backend publishes a conservative 85-second maximum including its drain deadline,
+in-flight native timeout and send/cleanup allowance. The 90-second client bound avoids discarding
+accepted finalizations early. Recorded normal short-case Stop median/p95 were 0.480/0.746 seconds.
+The timeout envelope is not a claim that every Stop waits 90 seconds
+([measured quality and limits](../QUALITY-UPDATE.md)).
+
+Answer preparation is a separate lifecycle: the window keeps one Agency provider, prepares one
+empty session without a model prompt, and cancels/disposes it on Hide/Clear/protection/reload/close.
+Preparation and shutdown block conflicting actions; late answer events cannot revive an old request.
+(`src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:18-128`.)
+
+A hung driver is not forcibly made safe by cancelling a managed token. Release workers retain ownership and eventually finish startup/join/disposal if the driver returns. Inputs release independently, so a stuck microphone does not prevent the responsive Computer input from being released. The UI thread does not perform these joins. `WasapiInput.Dispose` also attempts notification and endpoint cleanup in nested `finally` blocks. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:110-113,408-442,449-492; src\PhantomFudge.App\Audio\WasapiInput.cs:97-119)
 
 ### Fail closed without inventing a complete transcript
 
-The socket budgets two seconds of PCM per source: 64,000 bytes at 16 kHz, mono, 16-bit; total pending PCM is capped at 128,000 bytes. A queue overflow faults the session rather than silently dropping frames and continuing a success-shaped transcript. Released frame arrays are cleared, but this is not a secure-erasure guarantee for every memory copy or crash dump. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:13-18,182-229,543-550; docs\QUALIFICATION.md:139-140)
+The socket budgets two seconds of PCM per source: 64,000 bytes at 16 kHz, mono, 16-bit; total pending PCM is capped at 128,000 bytes. A queue overflow faults the session rather than silently dropping frames and continuing a success-shaped transcript. Released frame arrays are cleared, but this is not a secure-erasure guarantee for every memory copy or crash dump. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:13-18,191-238,552-559; docs\QUALIFICATION.md:139-140)
 
-Endpoint validation restricts the transport to literal loopback, and the HTTP handler disables proxies and redirects. Recognizer error bodies are schema-checked but replaced with fixed local messages rather than displayed verbatim. This limits accidental propagation of paths, secrets, or transcript text through an error surface. It is not a claim that every possible exception everywhere in the app is contained. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:26-31,73-89,389-405)
+Endpoint validation restricts the transport to literal loopback, and the HTTP handler disables proxies and redirects. Recognizer error bodies are schema-checked but replaced with fixed local messages rather than displayed verbatim. This limits accidental propagation of paths, secrets, or transcript text through an error surface. It is not a claim that every possible exception everywhere in the app is contained. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:26-31,82-98,398-414)
 
-Device notifications invalidate only the explicitly selected endpoint, once, and dispatch work away from the notification callback. Default-device changes do not switch input identity. A lost selected source faults the entire session; the app does not quietly substitute a microphone or another playback device. (src\PhantomFudge.App\Audio\RenderEndpointNotification.cs:10-29; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:198-203,341-352)
+Device notifications invalidate only the explicitly selected endpoint, once, and dispatch work away from the notification callback. Default-device changes do not switch input identity. A lost selected source faults the entire session; the app does not quietly substitute a microphone or another playback device. (src\PhantomFudge.App\Audio\RenderEndpointNotification.cs:10-29; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:199-204,362-373)
 
 ## Worked example: the stop/reset race
 
-Suppose session A has accepted final ID 20. Stop makes Running false, but final ID 21 is still returning. If the UI resets `TranscriptBuffer.lastSegmentId` for session B now, the late A final could advance B's ID baseline to 21. B's new final ID 1 would then be ignored by `AddFinal`. Text would disappear from the new session even though the user saw a plausible restart. This is an explanatory interleaving derived from the actual reset/deduplication logic and the recorded bug, not a claim of a newly executed reproduction. (src\PhantomFudge.Core\TranscriptBuffer.cs:23-38,48-56; docs\IMPLEMENTATION-STATUS.md:45-47)
+Suppose session A has accepted final ID 20. Stop makes Running false, but final ID 21 is still returning. If the UI resets `TranscriptBuffer.lastSegmentId` for session B now, the late A final could advance B's ID baseline to 21. B's new final ID 1 would then be ignored by `AddFinal`. Text would disappear from the new session even though the user saw a plausible restart. This is an explanatory interleaving derived from the actual reset/deduplication logic and the recorded bug, not a claim of a newly executed reproduction. (src\PhantomFudge.Core\TranscriptBuffer.cs:23-38,48-56; docs\IMPLEMENTATION-STATUS.md:142-144)
 
-The repaired UI keeps Start, source-mode changes, and Clear blocked through its awaited stop task. A synthetic regression explicitly sets `audioStopping`, attempts those actions, and verifies that the transcript/session selection remain unchanged. Controller-level ownership guards remain necessary underneath this UI protection. (src\PhantomFudge.App\MainWindow.xaml.cs:613-616,668-696,803-808,990-997; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:80-90)
+The repaired UI keeps Start, source-mode changes, and Clear blocked through its awaited stop task. A synthetic regression explicitly sets `audioStopping`, attempts those actions, and verifies that the transcript/session selection remain unchanged. Controller-level ownership guards remain necessary underneath this UI protection. (src\PhantomFudge.App\MainWindow.xaml.cs:637-640,705-735,851-856,1046-1053; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:81-91)
 
 The following **Python-shaped pseudocode is explanatory, not production code**:
 
@@ -158,13 +169,13 @@ def may_start_or_reset():
     return not (state.starting or state.stopping or controller.running)
 ```
 
-C# `Task` tracks completion; `CancellationToken` requests cooperation; `SemaphoreSlim` serializes async ownership transitions; `Interlocked` performs atomic state changes. They are complementary, not interchangeable spellings of “thread safe.” `Dispatcher.BeginInvoke` supplies the separate requirement that WPF control updates run on the UI thread. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:76-93,158-191,341-363; src\PhantomFudge.App\MainWindow.xaml.cs:57-76,151-155)
+C# `Task` tracks completion; `CancellationToken` requests cooperation; `SemaphoreSlim` serializes async ownership transitions; `Interlocked` performs atomic state changes. They are complementary, not interchangeable spellings of “thread safe.” `Dispatcher.BeginInvoke` supplies the separate requirement that WPF control updates run on the UI thread. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:77-94,159-192,362-384; src\PhantomFudge.App\MainWindow.xaml.cs:65-93,166-170)
 
 ## Window and document failures remain separate
 
-Protection invalidation clears readiness and hides before awaiting Stop. It preserves note/transcript memory. Mode changes similarly hide and stop before changing native interaction policy. Exit waits for Stop, then evaluates unsaved work; it does not confuse stopped audio with permission to discard text. Saving has its own `fileBusy` guard and only updates the saved baseline after successful I/O. (src\PhantomFudge.App\MainWindow.xaml.cs:206-249,279-295,396-427)
+Protection invalidation clears readiness and hides before awaiting Stop. It preserves note/transcript memory. Mode changes similarly hide and stop before changing native interaction policy. Exit waits for Stop, then evaluates unsaved work; it does not confuse stopped audio with permission to discard text. Saving has its own `fileBusy` guard and only updates the saved baseline after successful I/O. (src\PhantomFudge.App\MainWindow.xaml.cs:222-266,297-313,414-445)
 
-Protection errors use a generic local notice rather than an unprotected automatic message box. This is an application containment policy for detected failures—not a universal capture boundary, nor crash recovery. (src\PhantomFudge.App\LocalFailureNotice.cs:9-29; src\PhantomFudge.App\MainWindow.xaml.cs:141-145)
+Protection errors use a generic local notice rather than an unprotected automatic message box. This is an application containment policy for detected failures—not a universal capture boundary, nor crash recovery. (src\PhantomFudge.App\LocalFailureNotice.cs:9-29; src\PhantomFudge.App\MainWindow.xaml.cs:156-160)
 
 ## Tests, exercises, and qualification boundaries
 
@@ -175,7 +186,7 @@ Targeted synthetic tests verify:
 - Repeated sessions detach callbacks; simultaneous source faults release both inputs. (tests\PhantomFudge.Audio.Tests\DualSourceTests.cs:658-758)
 - Hung startup retains ownership, hung Stop releases the responsive input, and disposal failures prevent unsafe restart. (tests\PhantomFudge.Audio.Tests\DualSourceTests.cs:762-868)
 
-The maintained evidence records 41 Core tests, 46 native synthetic groups, 71 backend tests, and four manager-upgrade guards. Those are existing results, not tests rerun for this chapter. They do not establish actual microphone permissions, hardware echo behavior, OS microphone-indicator visibility, or remote cursor inclusion. (docs\IMPLEMENTATION-STATUS.md:39-47; docs\QUALIFICATION.md:127-140)
+The maintained evidence records 41 Core tests, 46 native synthetic groups, 71 backend tests, and four manager-upgrade guards. Those are existing results, not tests rerun for this chapter. They do not establish actual microphone permissions, hardware echo behavior, OS microphone-indicator visibility, or remote cursor inclusion. (docs\IMPLEMENTATION-STATUS.md:136-144; docs\QUALIFICATION.md:127-140)
 
 **Exercise:** Why retain `_pendingCaptureRelease` after the visible session stops?  
 **Answer:** A worker may still own a device; allowing another Start would obscure ownership.
@@ -184,7 +195,7 @@ The maintained evidence records 41 Core tests, 46 native synthetic groups, 71 ba
 **Answer:** Continuing would hide a gap in the audio-to-text history. The implemented policy faults instead.
 
 **Exercise:** Does cancelling startup prove its driver worker has terminated?  
-**Answer:** No. Cancellation is cooperative; ownership remains until release completes. These answers follow the guards and cleanup paths described above. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:83-84,387-421; src\PhantomFudge.App\Audio\TranscriptionSocket.cs:227-229)
+**Answer:** No. Cancellation is cooperative; ownership remains until release completes. These answers follow the guards and cleanup paths described above. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:84-85,408-442; src\PhantomFudge.App\Audio\TranscriptionSocket.cs:236-238)
 
 ## References and maintenance checkpoints
 
@@ -197,7 +208,7 @@ Per-source commit and Azure submission still need their own request/session rule
 the complete selected-input session, not a "commit question and ask cloud model" operation. Local
 question selection and immutable Freeze now exist separately; `Clear` changes question identity and
 snapshots retain their own copied state. (`src\PhantomFudge.Core\QuestionDraft.cs:81-95`;
-`src\PhantomFudge.Core\QuestionSnapshot.cs:5-23`; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:158-167)
+`src\PhantomFudge.Core\QuestionSnapshot.cs:5-23`; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:159-168)
 
 Question typing introduces another interaction flag, not a new audio state. It temporarily allows
 keyboard focus in the same protected HWND while keeping notes read-only and the audio lifecycle

@@ -1,0 +1,15 @@
+{
+  "mode": "agency_acp_transport_only",
+  "model": "gpt-5.4-mini",
+  "reasoningEffort": "low",
+  "question": null,
+  "modelAttempts": 0,
+  "warmupMs": 17145,
+  "askToFirstTextMs": null,
+  "askToCompletionMs": 9,
+  "totalIncludingCleanupMs": 18266,
+  "completed": true,
+  "failure": null,
+  "answer": "",
+  "limitations": "One synthetic case; not real transcription accuracy, p50/p95, or a latency guarantee. Warmup submits no model prompt."
+}

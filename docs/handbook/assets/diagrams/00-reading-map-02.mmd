@@ -9,8 +9,9 @@ flowchart TB
     Mic["Microphone endpoint"] --> Capture
     UI --> Capture
     Capture --> Socket["Authenticated local stream"]
-    Socket --> ASR["Python and independent Vosk decoders"]
+    Socket --> ASR["Local Vosk partials and Whisper finals"]
     ASR --> Text["Source-labelled transcript"]
     Text --> UI
     Text -->|"explicit selection"| Draft["Local question draft and snapshot"]
+    Draft -->|"explicit Ask"| Agency["Installed Agency or local model"]
     Draft -. "manual Ask" .-> Azure["PLANNED Azure answer"]

@@ -1,0 +1,50 @@
+# Direct Single-Input Answers Under Five Seconds
+
+Status: DONE
+Milestone: Q3 Measured answer usefulness and latency
+Dependencies: 39_INSTALLED_CLI_ANSWERS.todo
+
+## Purpose
+
+Answer the submitted question directly instead of returning coding-agent workspace plans, with measured latency.
+
+## Tasks
+
+- [x] Add a fixed answer-only policy; question remains exact data, no file/tool inspection.
+- [x] Make reasonable assumptions/default language instead of requesting another input.
+- [x] Reuse a supported prepared transport while creating a fresh isolated context for each question.
+- [x] Prepare one empty fresh session without model prompts and show cold preparation distinctly from answer time.
+- [x] Select a measured suitable model/profile, retaining explicit configuration and no fallback.
+- [x] Iterate controlled synthetic trials for COMPLETE useful responses under5000ms; retain every result.
+- [x] Keep permission/tool requests denied, bounded deadlines, cancellation, no auto-resend and fresh request IDs.
+- [x] Record cold/warm, first text, full text, terminal and cleanup times in local diagnostics.
+
+## Acceptance criteria
+
+- [x] The provided Two Sum intent produces a correct usable solution, not directory commands.
+- [x] One prompt is the only user input; no follow-up, permission or authentication wait is treated as progress.
+- [x] No first-token/filler or truncated answer is substituted for the under-five-second target.
+- [x] If a target is not achieved consistently, its failures and external limits remain explicit.
+
+## Completion evidence
+
+- Earlier70smarker was only connectivity evidence. Initial warm direct-answer trial improved first text
+  but its5.377scompletion missed the new target; that failure remains historical, not discarded.
+- Final default gpt-5.6-sol-fast/low; official persistentACP, fixed controlledSYSTEM role, exact
+  questionJSONdata, zero-tool/permission surface, fresh question sessions and bounded cleanup.
+  Startup/reveal/reload prepares ONE EMPTY session without a model prompt; no automatic Ask.
+- Exact user-text Hreceipt fullanswers4066/4176/2992ms; all3C#solutions compiled and33checks passed.
+  BadASRtext explicitly assumedTwoSum; no hardcoded rewrite. Earlier E used different synthetic
+  wording; exact FHaiku wrong-problem/followup and Gmini overflow failures are retained.
+- tools\AgencyProbe\results\summary-final.json accounts48client model-question submissions;
+  no additional model calls for docs/package. Provider127targetedfake cases passed in retained
+  .local\agency-final-validation\agency-integration-final.trx. Full-suite evidence is in IMPLEMENTATION-STATUS.md.
+- Roughly20-31scold preparation is NOT<5s. Hproves3prepared examples, not a universalSLO,
+  broad quality result, p95 distribution, WPFpaint timestamp or actual microphone interpretation.
+
+## Completion log
+
+- 2026-10-09 01:19 - Owner rejected latency and workspace-command responses.
+- 2026-10-09 - Owner explicitly required repeated optimization to<5s and no additional agent input.
+- 2026-10-09 04:42 - Parent fullCore341passes; local correction complete within H's three prepared examples, not a universalSLO.
+- 2026-10-09 04:45 - Review fix anchors follow-up invitations to line starts; parent finalCore345pass, no new model requests.

@@ -1,0 +1,96 @@
+{
+  "mode": "offline_mock",
+  "model": "gpt-5.4-mini",
+  "reasoningEffort": "low",
+  "modelAttempts": 2,
+  "calls": [
+    {
+      "questionIndex": 0,
+      "sessionNewMs": 403.5,
+      "firstTextAfterPromptMs": 1055.9,
+      "completionAfterPromptMs": 1065.1,
+      "totalFromProcessLaunchMs": 5555.7,
+      "stopReason": "end_turn",
+      "answer": "Synthetic answer."
+    },
+    {
+      "questionIndex": 1,
+      "sessionNewMs": 233.0,
+      "firstTextAfterPromptMs": 323.7,
+      "completionAfterPromptMs": 334.8,
+      "totalFromProcessLaunchMs": 6139.5,
+      "stopReason": "end_turn",
+      "answer": "Synthetic answer."
+    }
+  ],
+  "failure": null,
+  "protocolVersion": 1,
+  "agentVersion": "1.0.92",
+  "capabilities": {
+    "loadSession": true,
+    "mcpCapabilities": {
+      "http": true,
+      "sse": true
+    },
+    "promptCapabilities": {
+      "image": true,
+      "audio": false,
+      "embeddedContext": true
+    },
+    "sessionCapabilities": {
+      "close": {},
+      "list": {}
+    }
+  },
+  "engineReadyMs": 4079.4,
+  "ownedProfileCheck": {
+    "settingsSemanticallyUnchanged": true,
+    "settingsKeys": [
+      "autoUpdate",
+      "bashEnv",
+      "beep",
+      "customAgents",
+      "disableAllHooks",
+      "experimental",
+      "ide",
+      "memory",
+      "notifications"
+    ],
+    "nonemptyCustomizationCategories": [
+      "profile/agents"
+    ]
+  },
+  "selectedConfiguration": {
+    "mode": "https://agentclientprotocol.com/protocol/session-modes#agent",
+    "agent": "phantom-fudge-answer",
+    "allow_all": "off"
+  },
+  "selectedModelAdvertised": false,
+  "updateTypes": [
+    "agent_message_chunk",
+    "available_commands_update",
+    "config_option_update",
+    "session_info_update",
+    "usage_update"
+  ],
+  "offlineRequests": [
+    {
+      "toolsCount": 0,
+      "userMessageCount": 1,
+      "assistantMessageCount": 0,
+      "questionEnvelopeCount": 1,
+      "model": "gpt-5.4-mini",
+      "fixedPolicyInSystemRole": true,
+      "questionExact": true
+    },
+    {
+      "toolsCount": 0,
+      "userMessageCount": 1,
+      "assistantMessageCount": 0,
+      "questionEnvelopeCount": 1,
+      "model": "gpt-5.4-mini",
+      "fixedPolicyInSystemRole": true,
+      "questionExact": true
+    }
+  ]
+}

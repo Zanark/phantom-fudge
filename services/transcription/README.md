@@ -1,13 +1,14 @@
 # Local streaming speech service
 
-Vosk performs real, offline, CPU recognition. Aiohttp exposes the frozen
+The native default uses Vosk for fast provisional text and locally provisioned
+Whisper `small.en` (CPU int8) for accurate finals. Aiohttp exposes the frozen
 [`docs\TRANSCRIPTION.md`](../../docs/TRANSCRIPTION.md) WebSocket protocol.
 The Windows app supplies explicitly selected Computer and/or Microphone PCM tracks.
 The Python service itself cannot open devices, read chats, capture a desktop, identify a
 meeting process or play sound. V2 recognizes independent source-labelled tracks; v1 remains
 compatible with existing computer-only clients. See [DUAL-SOURCE-AUDIO.md](../../docs/DUAL-SOURCE-AUDIO.md).
 No cloud recognition, automatic model discovery, audio recording, transcript
-storage, telemetry, or inference HTTP calls are implemented.
+storage, remote telemetry, or inference HTTP calls are implemented. Local metadata diagnostics are described below.
 
 ## Normal native setup - no Docker
 
@@ -22,8 +23,9 @@ the repository root:
 .\scripts\Stop-Transcription.ps1
 ```
 
-Setup explicitly downloads the official English model only when no verified
-archive/model is cached. Without `-DownloadModel`, model provisioning is cache-only.
+Setup explicitly downloads the pinned Vosk and Whisper English models only when no verified
+model is cached. Whisper `small.en` needs approximately 486 MB on disk; `base.en` is
+approximately 148 MB. Without `-DownloadModel`, provisioning is cache-only.
 It generates a 256-bit cryptographically random token once, never prints or
 rotates an existing token, and restricts its Windows file ACL to the current user.
 It verifies every pinned model file, prepares a service-local Python virtual environment,
@@ -34,14 +36,21 @@ Matching `.txt` copies are provided for PowerShell scripts.
 `Start-Transcription.ps1` now starts **native Python by default**. The main app launcher
 starts/reuses it automatically; `-NotesOnly` avoids service startup. Opening a second app
 instance only reveals the existing window without rebuilding/restarting recognition.
-The C# app captures/transports selected PCM sources; Python/Vosk is the recognizer, not C#.
+The C# app captures/transports selected PCM sources; Python runs the recognizers.
+`.local\transcription-config.json` selects `hybrid-whisper`, model, CPU threads and
+the general technical vocabulary (enabled by default; `-Vocabulary none` disables
+these disclosed individual-word hints). `-WhisperModel base.en` explicitly
+selects the lighter model. `-Engine vosk` explicitly selects the legacy recognizer;
+there is **no silent fallback** when the selected accurate model cannot load.
 
 The manager serializes startup with a local lock, stores a per-launch instance receipt,
 and authenticates `/v1/runtime` before reusing or stopping a process. An unfamiliar service
 on the port is not adopted or killed. `/v1/shutdown` requires the matching instance and
 refuses active transcription. The idle service persists until explicitly stopped.
-The launcher checks authenticated speech-protocol capabilities. It restarts only its own
-idle v1-only service when a new v2 client is installed; active or foreign instances are not killed.
+The launcher checks authenticated speech-protocol capabilities and a fingerprint of
+engine/model/revision/threads/vocabulary/runtime source/dependency pins. It verifies the
+new model before requesting an upgrade of an owned idle service. Active, foreign or
+unauthenticated instances are never interrupted. Running setup alone changes no process.
 
 ## Optional containerization - final stage only
 
@@ -56,6 +65,10 @@ host publication **127.0.0.1:8765 only**, non-root UID/GID 10001, a read-only ro
 filesystem/model, no devices/privileges, dropped capabilities, no-new-privileges,
 2 CPU / 768 MiB / 64 PID limits, and a 15-second graceful-stop deadline.
 The image does not contain the token or model. `.dockerignore` is an allowlist.
+The existing optional container recipe explicitly retains legacy Vosk and its small
+resource limit; the new native Whisper pipeline is not claimed to fit that container.
+The read-only container also has no writable metadata-log volume: this is reported as
+diagnostics unavailable, not as successfully persisted logging. Docker remains unexecuted.
 
 Health: `http://127.0.0.1:8765/health` returns HTTP 200 with
 `{"status":"ready","modelAvailable":true}` only after successful model loading.
@@ -74,6 +87,10 @@ Do not expose this unencrypted local protocol beyond loopback.
 | Native app `PHANTOM_TRANSCRIPTION_URI` | `ws://127.0.0.1:8765/v1/transcribe`; not a server setting |
 
 The provisioned host model is `.local\models\vosk-model-small-en-us-0.15`.
+Whisper files are in `.local\models\faster-whisper-small.en` or `faster-whisper-base.en`.
+The complete file set, byte counts and SHA256 values are checked before loading.
+Runtime loads only explicit local paths with `local_files_only=True`; model downloads
+exist only in the explicit setup helper, never in the recognition pipeline.
 The app uses the same token through its native-launch configuration. Use
 `Authorization: Bearer <token>`; no token is included in any documented command.
 
@@ -99,6 +116,9 @@ inspection, OS dumps, host swap, and malicious local processes are not contained
 
 Native lifecycle endpoints use the same local Bearer authentication, reject browser Origin/query/body,
 and expose only protocol/instance ID/PID/readiness/activity metadata, never model paths or token.
+Additional authenticated metadata includes engine/model/revision/config fingerprint,
+diagnostic availability and numeric queue/fault/drop values, never model paths or tokens.
+No field was added to the strict v1/v2 speech events or ready/stopped messages.
 Only a launcher-managed instance supports graceful idle shutdown. This does not add remote
 administration, arbitrary command execution, microphone capture or any third-party API.
 
@@ -119,14 +139,41 @@ by the server. Only PCM16 little-endian, mono, 16000 Hz is accepted.
   read; the application queue is independently limited to 32 frames / 64000 bytes.
 - Live input token bucket: 32000 bytes/second, 64000-byte burst; 100 frames/second,
   200-frame burst. Fast file uploads are intentionally not accepted.
-- CPU decoding runs on one dedicated executor thread, never the event loop.
-  No unbounded executor submission or outgoing event queue is used. Decoder calls
-  have a 5-second deadline; sends 2 seconds; absent client PCM/control 15 seconds.
+- Accurate-mode provisional decoding has one bounded queue and dedicated executor
+  per selected source, never the event loop. One source's native work cannot block
+  the other source's intake/decode progress. Legacy Vosk retains the single executor.
+  Accurate finalization has a separate serial executor, so Whisper cannot block the
+  PCM intake/Vosk queue. At most two immutable final spans (including the executing
+  one) belong to each source. Accurate-mode rotation targets 15 seconds; a crossing
+  protocol frame can extend the active source buffer to at most 16 seconds.
+  No unbounded per-frame tasks, executor submissions or outgoing event queue are used.
+  Fast decoder calls have a 5-second deadline, Whisper calls 20 seconds, sends 2 seconds,
+  absent client PCM/control 15 seconds. Stop draining has a 60-second overall deadline;
+  an in-flight native call can require up to 20 additional seconds to settle.
+  `/v1/runtime.maxStopSeconds` includes cleanup/send allowance (85 seconds).
+  Clients should allow at least 90 seconds rather than abandoning accepted finals early.
   A timed-out native call cannot safely be killed in Python, so the process refuses
   subsequent work; Docker's stop deadline is the final termination boundary.
-- Eight-hour audio-duration cap. Decoder history is finalized/recreated every
-  30 audio seconds to bound uninterrupted speech; absolute audio timing is retained.
+- Eight-hour audio-duration cap. Accurate-mode decoder history is finalized/recreated
+  after 15 audio seconds (legacy Vosk retains its 30-second explicit guard);
+  absolute audio timing is retained.
   These forced segment boundaries are not speaker or sentence boundaries.
+- Every accurate final owns one disjoint `[start_sample,end_sample)` PCM span.
+  Endpoint/rotation transfers and clears that buffer exactly once; Stop transfers
+  only the residual tail, including an empty tail. Timestamp fields denote owned
+  audio spans, not forced-aligned word boundaries. Models can still misrecognize
+  words at forced cuts; byte-perfect accounting is not a zero-word-error promise.
+  Per-source offsets/reset state stay independent, and final IDs remain global.
+  A forced 30-second synthetic probe produced pathological word repetition, and
+  a temperature-fallback experiment exceeded the 20-second call deadline. Neither
+  policy is the default. The shorter disjoint-span policy was measured separately;
+  no phrase-specific text repair or repeated-word deletion was added.
+  Newer provisional text on a source is withheld while that source's preceding final
+  is pending, preventing an old final from clearing a newer partial in a strict client.
+- Whisper uses Silero VAD, a digital-silence gate, deterministic decoding, no previous
+  transcript conditioning, and no reference sentences. Optional vocabulary is the
+  disclosed list of 29 individual programming terms in `technical-vocabulary.json`;
+  it is not a replacement table. VAD/model failures are visible faults, not empty success.
 - Backlog/rate errors close visibly; audio is never silently dropped to keep up.
   The service creates no synthetic silence: the native capture client supplies it.
 - Stop drains accepted audio, emits a final event (possibly empty), then `stopped`.
@@ -135,7 +182,7 @@ by the server. Only PCM16 little-endian, mono, 16000 Hz is accepted.
 - Rejects nonempty browser Origin, query parameters, and bad/missing/duplicate auth.
   Token comparison uses `hmac.compare_digest`; auth/model/busy failures are safe
   JSON HTTP 401/503/409 responses **before** the WebSocket upgrade.
-- Access logs and Python/native decoder diagnostics are suppressed. Production
+- Access logs and content-bearing Python/native decoder diagnostics are suppressed. Production
   stdout contains only static setup/start failure messages: no waveform, transcript,
   token, filesystem path, request URL, or exception trace.
 
@@ -144,10 +191,28 @@ Error codes: `auth`, `origin`, `busy`, `bad_format`, `bad_frame`, `backlog`,
 `server_stopping`. The native client should surface actionable status, never silently
 restart a session after a fault.
 
+### Metadata-only diagnostics
+
+Native JSONL: `.local\diagnostics\transcription.jsonl`, rotated at 1 MiB with three
+backups (at most four files). Each record contains only `schema_version`, `time_utc`,
+`event`, `source`, `engine`, `model`, `fault`, `decode_ms`, `audio_ms`, `queue_bytes`,
+`queue_frames`, `pending_finals`, `fault_count`, and `drop_count`. There is no audio,
+text, token, path or full exception field. Events are allowlisted model-load,
+session-start/stop, decode, finalize, fault and disconnect metadata.
+I/O failure emits a generic stderr notice and sets authenticated
+`diagnosticsAvailable:false`; it is never reported as successful logging.
+Counters distinguish explicit overrun/rejection from successful accepted-audio processing.
+
 ## Pins, provenance, and license
 
 `requirements.txt` pins all installed Python dependencies. Primary pins are
-**aiohttp 3.14.3**, **Vosk 0.3.45**, tested with host **Python 3.13.14 x64**.
+**aiohttp 3.14.3**, **Vosk 0.3.45**, **faster-whisper 1.2.1**, **CTranslate2 4.6.0**
+and **ONNX Runtime 1.30.0**, tested with host **Python 3.13.14 x64**.
+`whisper-models.json` pins MIT-licensed Systran converted OpenAI Whisper models:
+`small.en` revision `d1d751a5f8271d482d14ca55d9e2deeebbae577f`;
+`base.en` revision `3d3d5dee26484f91867d81cb899cfcf72b96be6c`.
+Model-bin hashes match public LFS metadata; metadata-file hashes were computed from
+the pinned HTTPS revision. These are integrity pins, not publisher signatures.
 The image is `python:3.13.14-slim-bookworm` pinned to its verified registry manifest
 digest in `Dockerfile`. Image availability is not a successful build or runtime test.
 The recipe deliberately targets Linux amd64; ARM64 has not been qualified.
@@ -171,16 +236,34 @@ choose a license for this repository.
 
 ## Validation and current evidence
 
-Current normal-runtime evidence supersedes the earlier Docker-required startup: native setup/start/
+Historical native-runtime evidence superseded the earlier Docker-required startup: native setup/start/
 reuse/status, detached-starter survival, automatic app launch/recovery, and authenticated owned idle
-shutdown pass on this Docker-free host.37service/management tests pass, including wrong-instance,
+shutdown passed on this Docker-free host. At that stage, 37 service/management tests passed, including wrong-instance,
 unmanaged, browser, body/query and active-transcription shutdown rejection.
 Real silent synthetic checks pass through Python and the C# WebSocket client; no playback occurred.
 
 The owner's speed/accuracy comparison is [SPEECH-BENCHMARK.md](../../docs/SPEECH-BENCHMARK.md).
-It compared all3local engines; PythonWhisper base.en reduced WER and complete-file decode time
-relative to Vosk on this small corpus. Vosk remains the existing live streaming engine until a
-chunk/refinement mode is separately evaluated. Programming language alone is not recognition quality.
+That historical complete-file comparison is unchanged. The new
+`tools\SpeechBench\quality_regression.py` and `quality_stress.py` exercise the actual
+hybrid service with two installed synthetic voices, clean/noisy technical and unrelated
+text, nonspeech controls, real-time pacing, dual input, forced rotation and Stop.
+Raw fixtures and detailed operational output stay under `.local\speech-quality`;
+sanitized results go under `tools\SpeechBench\results`. Synthetic results are not
+the user's recording or microphone qualification. Programming language alone is not recognition quality.
+
+The October 9 accurate-profile regression and retained failed experiments are in
+[`synthetic-quality-20261009.json`](../../tools/SpeechBench/results/synthetic-quality-20261009.json).
+The final configuration uses independent source workers, unchanged 32-frame/64000-byte
+source intake limits, a separate bounded Whisper worker, and 15-second rotation.
+On 35 identical two-voice synthetic cases (432 reference words), final raw WER
+fell from 12.04% to 4.40%. Unhinted base.en and small.en ablations remain visible.
+LeetCode compounding is penalized by that raw WER; a separate generic character
+metric is also reported, never substituted for the raw word score.
+The final profile's end-of-speech-to-final median/p95 were 2.736/3.017 seconds.
+This is a quality/latency tradeoff, not a claim that accurate finals beat Vosk's
+approximately one-second endpoint latency. Fast Vosk provisional updates remain.
+Some homophone and long-speech errors remain; neither real microphone quality nor
+100-percent accuracy is claimed. No port-8765 service was started or stopped by this regression.
 
 ```powershell
 .\services\transcription\.venv\Scripts\python.exe -m unittest discover -s .\services\transcription\tests -v

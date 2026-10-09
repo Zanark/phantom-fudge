@@ -1,0 +1,767 @@
+{
+  "schemaVersion": 1,
+  "id": "speech",
+  "title": "Local speech: framing, bounded recognition, ownership and source-level tests",
+  "chapter": "docs/handbook/26-speech-source-walkthrough.md",
+  "files": [
+    {
+      "path": "services/transcription/accurate.py",
+      "sourceSha256": "97d3bcd911e1a495dc265357d57329693d63c85112b8b80719c8b719ad15549a",
+      "role": "Separates fast Vosk hypotheses from final Whisper recognition while assigning every retained PCM byte to a bounded, disjoint source span.",
+      "entryPoints": ["FinalSpan.__post_init__", "HybridRecognizer.accept", "HybridRecognizer.finish", "WhisperFinalizer.__call__", "HybridFactory"],
+      "blocks": [
+        {
+          "start": 1, "end": 31, "title": "Represent immutable, sample-accounted final spans",
+          "explanation": "Imports connect verification, shared Recognition values and the 16000-Hz constant without loading a model at import time. SPAN_SECONDS is a 15-second rotation target; MAX_SPAN_BYTES allows one additional maximum protocol frame, giving 512000 bytes. FinalSpan requires immutable bytes, exact integer nonnegative ordered sample offsets, and exactly two bytes per owned sample. It rejects oversized spans before final inference. The reason field is descriptive; this validator does not enforce a reason enumeration.",
+          "focus": [{"start": 24, "end": 30}]
+        },
+        {
+          "start": 32, "end": 64, "title": "Cut endpoints or rotations without replaying PCM",
+          "explanation": "Each HybridRecognizer owns a provisional decoder, mutable PCM accumulator and absolute source sample cursor. _take copies the accumulated bytes into FinalSpan, advances the cursor and clears the accumulator. accept rejects post-finish, empty, odd or over-one-second input and refuses excess retained memory before appending. A genuine Recognition is required. Either a Vosk endpoint or the 15-second threshold cuts a span; rotation wins the reason when both occur. A fresh decoder follows the cut, so prior native state and PCM are not replayed across a committed boundary. Vosk endpoint text is not returned as authoritative final text.",
+          "focus": [{"start": 53, "end": 62}]
+        },
+        {
+          "start": 65, "end": 89, "title": "Finish retained audio and construct a local-only finalizer",
+          "explanation": "finish is one-shot and returns exactly the retained tail, including an empty tail after an endpoint; it discards the Vosk decoder rather than accepting its FinalResult as accurate text. WhisperFinalizer verifies the pinned directory before importing/constructing faster-whisper, with CPU int8, selected threads, one worker and local_files_only=True. A supplied model bypasses verification/construction for deterministic tests. technical vocabulary loads only the committed terms array and joins it into hotwords; none leaves hotwords absent and other selectors fail. The default constructor vocabulary is none, whereas configuration.DEFAULT selects technical.",
+          "focus": [{"start": 75, "end": 86}]
+        },
+        {
+          "start": 90, "end": 118, "title": "Normalize PCM, gate digital silence and validate generated text",
+          "explanation": "Absolute output time comes from span sample ownership, not model word alignment. Empty PCM returns an empty final immediately. Nonempty signed little-endian int16 samples become float32 by division by 32768; peak amplitude below 0.001 also bypasses the model, which is a near-digital-silence heuristic, not a general speech detector. Inference fixes English transcription, beam size 5, temperature zero, no previous-text conditioning or initial prompt, optional general hotwords, and VAD with 400-ms silence/200-ms padding. Decoder threshold arguments are external-library policy inputs, not guarantees of accuracy. Iterating the lazy segments is part of inference: non-string text/nonfinite times or aggregate text exceeding the conservative 8192-character bound fail. Trimmed nonempty parts are joined, but published times still cover the exact input span.",
+          "focus": [{"start": 99, "end": 108}]
+        },
+        {
+          "start": 119, "end": 129, "title": "Share loaded models, not mutable source recognizers",
+          "explanation": "HybridFactory synchronously loads one verified Vosk factory and one Whisper finalizer, records combined load duration, and exposes finalize as the capability used by server.Session to select its hybrid scheduling branch. Each factory call constructs a new HybridRecognizer from the shared provisional factory. Model load occurs on the runtime executor in production_app, while each source decoder is subsequently constructed on its source executor; this class itself supplies no threading or queue policy.",
+          "focus": [{"start": 122, "end": 129}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/configuration.py",
+      "sourceSha256": "da858b8e6403dd927bcc13c7fdca4374830a765d778336f1303d07a95636777c",
+      "role": "Defines the strict selected-engine configuration and content-sensitive identity used to decide whether an owned runtime can be reused.",
+      "entryPoints": ["load_config", "metadata", "paths", "verify_config"],
+      "blocks": [
+        {
+          "start": 1, "end": 17, "title": "Locate configuration and state the native default",
+          "explanation": "ROOT accepts PHANTOM_TRANSCRIPTION_WORKSPACE or the repository root derived from this file. CONFIG names .local/transcription-config.json without reading it here. The five default fields choose schema 1, hybrid-whisper, small.en, four CPU threads and technical vocabulary; PIPELINE_VERSION is a separate runtime-identity version, currently 2. Imports use the provisioner module's read-only specification/verification helpers; importing those helpers is not a download.",
+          "focus": [{"start": 11, "end": 15}]
+        },
+        {
+          "start": 18, "end": 37, "title": "Accept one narrow configuration shape",
+          "explanation": "An absent file yields a fresh default dictionary; an existing file uses utf-8-sig to tolerate PowerShell's BOM. Only missing vocabulary is backfilled for older configurations. The optional engine environment override is applied before validation. Exact keys exclude extras and missing fields. Exact int tests reject booleans for schema/threads; schema must be 1 and threads 1..8. Engine, model and vocabulary are finite selectors, including explicit legacy vosk and optional base.en. Invalid input raises rather than silently selecting a different engine.",
+          "focus": [{"start": 25, "end": 35}]
+        },
+        {
+          "start": 38, "end": 59, "title": "Fingerprint effective identity and selected runtime source bytes",
+          "explanation": "metadata first resolves the selected Whisper model specification, then records pipeline, engine, effective model/revision, compute type, threads and vocabulary. Vosk reports its own 0.15 identity rather than the otherwise configured Whisper name. runtimeRevision hashes each listed filename plus a NUL separator and raw file bytes in fixed order: server, recognizer, accurate, configuration, diagnostics, provisioner, requirements and both model manifests. It is not a repository-wide fingerprint: manage.py, Dockerfile and healthcheck.py are excluded. Technical vocabulary gets a separate raw-file hash only when selected. Sorted compact JSON of the resulting identity becomes configFingerprint. With legacy Vosk, changing the unused Whisper name alone does not change its effective model identity; threads/vocabulary remain fingerprint fields even though VoskFactory does not consume them.",
+          "focus": [{"start": 46, "end": 57}]
+        },
+        {
+          "start": 60, "end": 70, "title": "Resolve and verify only the selected inference prerequisites",
+          "explanation": "paths builds the fixed Vosk path and the manifest-selected Whisper directory beneath ROOT/.local/models. verify_config always verifies Vosk, because both engines need it, and verifies Whisper only for hybrid-whisper. No directory is downloaded, repaired or substituted by these functions. manage.validate_start additionally checks that faster_whisper imports before replacing an old idle hybrid runtime.",
+          "focus": [{"start": 61, "end": 70}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/diagnostics.py",
+      "sourceSha256": "5cd7f3172d536c7fadf50c2a3039a2e0959ecba06915f59b99d7f5291d90f533",
+      "role": "Writes allowlisted bounded local metadata while isolating ordinary logging I/O failure from speech recognition.",
+      "entryPoints": ["Diagnostics.__init__", "Diagnostics.emit", "Diagnostics._failure"],
+      "blocks": [
+        {
+          "start": 1, "end": 34, "title": "Define the metadata vocabulary and rotation budget",
+          "explanation": "The logger allows seven event names, three source labels, seven numeric counters and the fixed protocol fault codes, rather than accepting arbitrary messages or exception strings. Production rotation uses a 1-MiB current file plus three backups. Constructor guards constrain engine/model labels, retain the caller-selected path and optional test size override, and establish a thread lock and sticky failed flag. These are logging bounds, not a model-memory or total-service-log bound.",
+          "focus": [{"start": 13, "end": 22}]
+        },
+        {
+          "start": 35, "end": 58, "title": "Keep content out of records and failed-stderr notices",
+          "explanation": "_failure first records failed=True, then attempts a fixed stderr sentence; OSError and closed-stream ValueError from that notice are swallowed so full disks cannot turn the notice into a recognition failure. emit rejects unknown event/source/fault or counter names before doing I/O. It creates a UTC ISO timestamp and fixed identity, supplies zero for missing counters, rejects booleans, nonnumeric, nonfinite and negative values, and rounds to three decimals. Unknown content fields are programming errors and still raise ValueError; only supported I/O failures are contained.",
+          "focus": [{"start": 45, "end": 56}]
+        },
+        {
+          "start": 59, "end": 77, "title": "Rotate under a lock and disable logging after an I/O failure",
+          "explanation": "Within one process lock, a previously failed logger returns False without retrying. Otherwise it creates parents, rejects symlink paths/ancestors, and rotates oldest-first by walking backup indices 3 to 1 when appending would exceed the configured size. It appends one UTF-8 JSONL record and returns True. OSError marks logging unavailable and returns False. Rotation does not truncate arbitrary oversized individual records, fsync data, provide secure erasure or coordinate multiple processes; the bounded schema keeps ordinary records small.",
+          "focus": [{"start": 66, "end": 77}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/Dockerfile",
+      "sourceSha256": "5ebf5db78dc52d2538ea381017a58641d9a1f9ab775a5f2947ddb9d2f4a3ce35",
+      "role": "Optional, source-only Linux container recipe explicitly selecting legacy Vosk; it is not the normal native hybrid deployment.",
+      "entryPoints": ["Docker build recipe", "CMD python server.py"],
+      "blocks": [
+        {
+          "start": 1, "end": 13, "title": "Pin the base and select the container's legacy contract",
+          "explanation": "The Python 3.13.14 slim-bookworm base includes an immutable digest. Environment settings disable bytecode and pip version checks, unbuffer Python output and cap OpenBLAS/OMP threads. The service listens on 0.0.0.0 inside the container, uses /app as configuration workspace, explicitly overrides engine to vosk, and expects a mounted Vosk directory and token secret. This does not choose hybrid small.en. Host-loopback publication is supplied by compose.yaml, not by this internal bind address.",
+          "focus": [{"start": 3, "end": 12}]
+        },
+        {
+          "start": 14, "end": 26, "title": "Install packages, copy service code and run without root",
+          "explanation": "Build-time pip installs the complete pinned requirements, including Whisper-related packages even though inference selects Vosk; package fetching is not offline model inference. UID/GID 10001 receives no home and a nologin shell. Both COPY lines include transitive imports, model manifests and vocabulary, but no model bytes, token or native manage.py. EXPOSE is metadata, not host publication. The health command runs every 15 seconds with 3-second timeout, 45-second start period and three retries. SIGTERM and server.py are the stop/start contract. No writable diagnostics directory is created for the nonroot user; the read-only Compose recipe supplies none either, so logging availability must not be assumed. No Docker execution or compatibility qualification is established by this recipe.",
+          "focus": [{"start": 19, "end": 26}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/healthcheck.py",
+      "sourceSha256": "b42fc44506c3d9e440bfb370acafc95be73610147e14dda71dadf4a87a6742a6",
+      "role": "Container health process that checks minimal readiness without authentication, model execution or capture.",
+      "entryPoints": ["module-level health check"],
+      "blocks": [
+        {
+          "start": 1, "end": 12, "title": "Translate exact loopback health JSON into an exit status",
+          "explanation": "A proxy-disabled urllib opener requests literal IPv4 loopback /health with a two-second timeout. Success requires HTTP 200 and exact equality with status=ready/modelAvailable=True; extra fields fail this strict probe. Any exception becomes unhealthy, and sys.exit returns 0 or 1 without printing response content. This module executes on invocation/import rather than through a main guard. It does not authenticate runtime ownership, verify the selected engine fingerprint or exercise recognition; Dockerfile invokes it as a separate process.",
+          "focus": [{"start": 6, "end": 12}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/manage.py",
+      "sourceSha256": "1a41c671ef50b7da12ace1ecf2aea5f708d877b713a4355d9a16056e19ca23f0",
+      "role": "Windows-native lifecycle manager that reuses or replaces only an authenticated workspace-owned idle service, retaining receipts on ambiguous failures.",
+      "entryPoints": ["main", "start", "stop", "status", "owned_info", "stop_owned"],
+      "blocks": [
+        {
+          "start": 1, "end": 44, "title": "Fix the workspace identity and reject credential redirects",
+          "explanation": "The manager anchors its own LOCAL/RECORD/SERVER paths to the repository containing this file and targets literal http://127.0.0.1:8765. Unlike configuration.ROOT, these manager paths do not read the workspace override. NoRedirects raises a safe RuntimeFailure instead of forwarding credentials to a redirect target. token reads only the workspace token file, trims it, and enforces the server-compatible 32..512 URL-safe ASCII character pattern; errors do not echo token content.",
+          "focus": [{"start": 35, "end": 42}]
+        },
+        {
+          "start": 45, "end": 66, "title": "Authenticate bounded management requests without proxies",
+          "explanation": "request adds Bearer authentication and, when requested, the instance header. A new opener disables environment proxies and redirects, uses a two-second timeout, reads at most 4097 bytes and refuses anything over 4096 or not a JSON object. port_in_use makes only a 0.3-second IPv4 TCP reachability check; a listening port is not ownership evidence. owned_info must subsequently authenticate and match the instance. Neither function inspects or terminates OS processes.",
+          "focus": [{"start": 49, "end": 58}]
+        },
+        {
+          "start": 67, "end": 94, "title": "Serialize native lifecycle operations with a Windows byte lock",
+          "explanation": "lifecycle_lock refuses non-Windows use before importing msvcrt. It creates LOCAL and a one-byte lock file, then retries nonblocking exclusive locking of byte zero for at most 50 seconds with 100-ms waits. The context yields only after obtaining the lock and releases it in finally. This coordinates this manager's starts/stops/status calls; it does not itself reserve TCP port 8765 or attest the listening program.",
+          "focus": [{"start": 78, "end": 87}]
+        },
+        {
+          "start": 95, "end": 124, "title": "Retain receipts and authenticate the actual instance rather than a PID",
+          "explanation": "Missing receipts return None; existing receipts must contain schemaVersion equal to 1 and a canonical lowercase UUID-hex string. This is narrower than trusting arbitrary JSON but is not an exact-key or strict-schema-type validator, and pid is not checked. write_record replaces the receipt through a same-directory .tmp file. owned_info refuses an untracked listener before any authenticated request, then checks service name, management protocol version 1 and exact instanceId. The receipt PID is informational, not the authority for an OS kill; source contains no such kill path.",
+          "focus": [{"start": 114, "end": 124}]
+        },
+        {
+          "start": 125, "end": 161, "title": "Check capabilities and stop only confirmed idle instances",
+          "explanation": "supports_current_audio requires an actual integer 2 in a list, rejecting True/2.0 substitutes. supports_current_engine compares the freshly computed configuration/source fingerprint. validate_start verifies required model files and imports faster_whisper for hybrid mode; failures preserve the old service and offer explicit provisioning, never fallback. stop_owned requires active to be exactly False, sends authenticated POST /v1/shutdown with the receipt instance, checks status=stopping, and waits up to 12 seconds for the fixed port to close. Only then does it unlink the receipt. Failure retains the receipt and never terminates a PID.",
+          "focus": [{"start": 145, "end": 153}]
+        },
+        {
+          "start": 162, "end": 183, "title": "Decide reuse versus verified idle upgrade",
+          "explanation": "start reads the token and acquires the lifecycle lock before loading selection/receipt. A reachable listener must be owned and ready. If both speech protocol and fingerprint match, it is reused even if capture is active. A stale runtime must report active exactly False before validation; validating prerequisites precedes stopping it so a missing new model does not destroy a healthy old idle instance. If no port is reachable but a receipt remains, startup refuses to overwrite it or create a second process. After any accepted upgrade, validation runs again before spawn.",
+          "focus": [{"start": 171, "end": 181}]
+        },
+        {
+          "start": 184, "end": 208, "title": "Write ownership before a detached, offline-configured launch",
+          "explanation": "A new random UUID receipt with pid=None is written before Popen so even ambiguous startup leaves an ownership trail. The child receives the explicit token/model paths, literal-loopback host, instance identity, disabled bytecode, bounded BLAS/OMP settings, offline Hugging Face/Transformers flags, and disabled telemetry/implicit tokens. It runs the same Python executable with server.py, repository cwd, null stdin and stdout/stderr in a replaced generic log. Windows DETACHED_PROCESS plus CREATE_NEW_PROCESS_GROUP makes it independent of the launcher. These operations start a headless service, not audio capture; they are described, not executed for this documentation.",
+          "focus": [{"start": 189, "end": 200}, {"start": 202, "end": 208}]
+        },
+        {
+          "start": 209, "end": 228, "title": "Attest startup rather than equating process creation with readiness",
+          "explanation": "The manager waits up to 45 seconds, first rejecting a child that already exited. Once the fixed port listens, owned_info must match the prewritten instance; the reported pid is persisted before readiness, protocol and fingerprint assertions. Unready models, outdated protocol and unexpected selected configuration each produce an explicit failure with no fallback. Timeout retains the instance receipt because slow/hung initialization is neither a successful startup nor permission to spawn again. The observed runtime PID is not compared with Popen.pid here.",
+          "focus": [{"start": 213, "end": 224}]
+        },
+        {
+          "start": 229, "end": 254, "title": "Expose conservative stop and bounded status",
+          "explanation": "stop refuses to discard a receipt for an unreachable service, reports absence only when neither listener nor receipt exists, and otherwise delegates authenticated ownership and idle shutdown. status holds the same lifecycle lock, reports no listener without attempting receipt cleanup, and prints only selected runtime metadata: readiness, activity, PID, engine/model, fingerprint, diagnostics status and counters. It does not expose the token or model filesystem path.",
+          "focus": [{"start": 244, "end": 252}]
+        },
+        {
+          "start": 255, "end": 272, "title": "Dispatch only explicit lifecycle verbs with safe failures",
+          "explanation": "The CLI accepts exactly one of start, stop or status; bad invocation exits 64. Authored RuntimeFailure messages exit 1, and OSError/ValueError receive a fixed generic workspace/setup message instead of raw paths or exception strings. Success exits 0. This catch list is not a blanket guarantee that all conceivable exceptions are sanitized; it covers the intended lifecycle failure classes. The main guard is the only CLI dispatch, so importing manage in tests does not spawn a service.",
+          "focus": [{"start": 259, "end": 268}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/model.json",
+      "sourceSha256": "6785be034f92fa2e661765aa2451b72a9808477201d6d65507507391b1dd5c07",
+      "role": "Pinned Vosk archive and extracted-file integrity manifest shared by explicit setup and read-only model verification.",
+      "entryPoints": ["scripts/Initialize-Transcription.ps1 manifest reader", "recognizer.verify_model"],
+      "blocks": [
+        {
+          "start": 1, "end": 10, "title": "Identify the model, download and checksum provenance",
+          "explanation": "name identifies the model directory/archive; version, language and Apache-2.0 license describe the selected English model. catalogue is a human discovery link, while url is consumed by Initialize-Transcription.ps1 for an explicitly requested download. archiveBytes and archiveSha256 constrain both downloaded and cached ZIP bytes before extraction. hashProvenance explicitly says these are observed official HTTPS bytes, not publisher-signed checksums. Runtime verify_model does not download or validate the ZIP; it reads the extracted files map below.",
+          "focus": [{"start": 2, "end": 10}]
+        },
+        {
+          "start": 11, "end": 27, "title": "Require the complete extracted file set and each digest",
+          "explanation": "The files object maps 14 relative paths to SHA-256 values: README, acoustic model am/final.mdl, two configuration files, four graph/phone assets and six ivector assets. recognizer.verify_model compares the full recursive set of regular files, rejects symlinks and hashes every entry; the setup script independently checks count, reparse points and hashes. These assets are opaque Vosk inputs: this manifest proves expected bytes against the pinned list, not an interpretation of their model internals or recognition quality. Extra regular files inside the model directory fail runtime verification.",
+          "focus": [{"start": 11, "end": 19}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/provision_whisper.py",
+      "sourceSha256": "526507c4d37beede2d8ce3504cf29397a288aaaf4d017066205f8a64fe22147e",
+      "role": "Provides read-only Whisper verification helpers and an explicitly invoked pinned-file provisioning command, with no automatic inference download.",
+      "entryPoints": ["model_spec", "valid_file", "verify_whisper", "provision", "main"],
+      "blocks": [
+        {
+          "start": 1, "end": 37, "title": "Read pinned specifications and verify exact local contents",
+          "explanation": "Despite the opening docstring's 'never imported' wording, accurate.py and configuration.py do import this module's verification/spec helpers. That import does not invoke provision or perform network I/O. model_spec reads the committed model entry. valid_file rejects symlinks including ancestors, requires the pinned byte size, then streams SHA-256. verify_whisper requires a real directory and exactly the four direct child names in the manifest; unexpected children and invalid files fail with model_unavailable. ROOT is derived from this file, not the runtime workspace environment override.",
+          "focus": [{"start": 19, "end": 25}, {"start": 28, "end": 35}]
+        },
+        {
+          "start": 38, "end": 57, "title": "Prefer verified installed or benchmark-cached bytes",
+          "explanation": "provision selects repository-local target and speech-bench cache directories and creates the target. Valid destination files are skipped. An existing invalid destination is not overwritten: explicit removal is required for repair. Each missing file uses a .partial path opened exclusively with xb, tracking whether this invocation created it. A valid cached file can be copied without --download, allowing reuse of already pinned public model bytes. Invalid caches do not count as trusted input; the following branch decides whether network download is authorized.",
+          "focus": [{"start": 43, "end": 54}]
+        },
+        {
+          "start": 58, "end": 82, "title": "Bound and verify an explicit revision-pinned public download",
+          "explanation": "Only the preceding elif download branch reaches the URL built from repository, immutable revision and filename. The request supplies an application User-Agent, no model-service credential or audio/prompt. It uses ordinary urllib behavior, not manage.py's no-proxy/no-redirect opener, so this is not a claim of network isolation. Reads are at most 1 MiB, enforce the exact declared byte count, reject early EOF and one extra byte, then verify the partial's pinned size/hash before replacement. finally deletes only partials created by this call. Complete target verification precedes the metadata-only verified receipt. No-download missing bytes produce an explicit setup error.",
+          "focus": [{"start": 63, "end": 71}, {"start": 74, "end": 79}]
+        },
+        {
+          "start": 83, "end": 98, "title": "Make provisioning an explicit CLI action",
+          "explanation": "argparse restricts --model to base.en/small.en with small.en default; --download is opt-in. main calls provision and returns 1 on OSError/ValueError, printing that setup exception string. Unlike service inference error handling, this explicit setup command does not sanitize all such messages into a fixed protocol error. Importing the module does not run main. scripts/Initialize-Transcription.ps1 invokes this command only for selected hybrid mode and only passes --download when the user selected DownloadModel.",
+          "focus": [{"start": 84, "end": 94}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/recognizer.py",
+      "sourceSha256": "ff50d28182f5073093b27390118f0ad869f74dfbe3c34b49a12e103e1967fd07",
+      "role": "Verifies the local Vosk model and adapts independent native recognizers to the service's Recognition value and source-relative timing.",
+      "entryPoints": ["Recognition", "verify_model", "VoskFactory", "VoskRecognizer.accept", "VoskRecognizer.finish"],
+      "blocks": [
+        {
+          "start": 1, "end": 21, "title": "Define the shared recognition value and sample-rate unit",
+          "explanation": "SAMPLE_RATE fixes 16000 samples per second and MODEL_MANIFEST points beside the module. Frozen Recognition carries text, provisional/final flag and seconds, defaulting to an empty-time provisional result. It is a transport-neutral dataclass, not a validating schema: server.Session._publish and accurate.WhisperFinalizer enforce the relevant output constraints later. Imports only supply hashing/JSON/time validation and paths; Vosk is imported lazily after verification.",
+          "focus": [{"start": 10, "end": 19}]
+        },
+        {
+          "start": 22, "end": 40, "title": "Fail closed on missing, extra, linked or altered model files",
+          "explanation": "verify_model reads the committed files map, requires a nonsymlink directory, enumerates recursively and rejects any symlink entry. Its actual regular-file set must equal the manifest set, so missing and extra files fail before per-file hashing. Each expected target and every ancestor is checked for links before SHA-256 verification. Extra empty directories are not part of the regular-file equality check. No missing asset triggers download, and these integrity checks are not publisher signature verification.",
+          "focus": [{"start": 29, "end": 38}]
+        },
+        {
+          "start": 41, "end": 68, "title": "Share one loaded model while allocating per-source decoder state",
+          "explanation": "VoskFactory verifies first, imports Vosk, suppresses its own logging and passes model_path explicitly; language/name discovery is deliberately avoided because it may download. Calling the factory constructs a VoskRecognizer sharing that model object. Each recognizer separately owns total samples, current native-decoder offset and last final end. _new_decoder creates a KaldiRecognizer at 16 kHz, requests final word timestamps and disables partial-word detail. No acoustic mixing or speaker identification occurs here.",
+          "focus": [{"start": 41, "end": 52}, {"start": 56, "end": 67}]
+        },
+        {
+          "start": 69, "end": 96, "title": "Clamp absolute times and bound continuous native history",
+          "explanation": "_final parses Vosk JSON, offsets first/last word times into the source clock, or uses last_end/current elapsed for no-word results. Nonfinite times fail; start and end are clamped monotonically within submitted PCM duration before updating last_end. accept adds PCM samples before native decoding. After 30 seconds since the current decoder offset, it uses Result or FinalResult, advances the offset and replaces that decoder; otherwise native endpoints return finals and PartialResult supplies provisional text. finish flushes the current decoder. This adapter relies on its callers for PCM framing and does not itself enforce one-shot finish; HybridRecognizer adds that separate lifecycle discipline.",
+          "focus": [{"start": 73, "end": 80}, {"start": 82, "end": 93}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/requirements.txt",
+      "sourceSha256": "753d326b0b350625189027712d66ee2cd9a063e4016f9e0b86fa1347fc78c8f2",
+      "role": "Exact-version Python installation input for native setup and the optional container, included in runtime identity.",
+      "entryPoints": ["scripts/Initialize-Transcription.ps1 pip install", "Dockerfile RUN pip install", "configuration.metadata"],
+      "blocks": [
+        {
+          "start": 1, "end": 20, "title": "Pin protocol, Vosk and supporting packages",
+          "explanation": "aiohttp 3.14.3 and vosk 0.3.45 are the direct server/recognizer imports. The remaining exact pins in this group cover the installed supporting surface: aiohappyeyeballs, aiosignal, attrs, certifi, cffi, charset-normalizer, frozenlist, idna, multidict, propcache, pycparser, requests, srt, tqdm, urllib3, websockets and yarl; colorama is installed only on win32 through its marker. The first-party code does not directly import every listed package, so their names do not imply extra service features. Setup hashes this whole file to decide restore and runs pip check; configuration.metadata also fingerprints it. Version equality is not a wheel hash lock or proof of offline installation.",
+          "focus": [{"start": 1, "end": 9}]
+        },
+        {
+          "start": 21, "end": 35, "title": "Pin final-inference and model tooling without implying model downloads",
+          "explanation": "faster-whisper 1.2.1 is the direct finalizer API and numpy 2.2.6 performs PCM conversion. Exact pins also include ctranslate2, av, onnxruntime, tokenizers and huggingface-hub, followed by filelock, flatbuffers, fsspec, packaging, protobuf, PyYAML, typing_extensions and setuptools. These define the installed inference/support package set, not a locally inspected implementation of VAD or decoding. Docker installs the same list even in explicit Vosk mode. Model bytes are separately verified by model.json/whisper-models.json; runtime construction uses local_files_only and does not treat installing these packages as model readiness.",
+          "focus": [{"start": 21, "end": 29}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/server.py",
+      "sourceSha256": "c847e2d3333100a5243ccdb93ad92e678d429c762563e3e08eabc0a2419b9994",
+      "role": "Authenticated single-session WebSocket service with strict v1/v2 PCM framing, bounded per-source state, independent hybrid workers, serial accurate finalization and explicit terminal/error semantics.",
+      "entryPoints": ["main", "production_app", "create_app", "transcribe", "Session.run", "runtime_info", "managed_shutdown"],
+      "blocks": [
+        {
+          "start": 1, "end": 44, "title": "Define the wire units, canonical source IDs and safe error vocabulary",
+          "explanation": "Imports separate aiohttp transport, executor scheduling, model adapters, configuration and diagnostics. FORMAT fixes mono signed little-endian PCM16 at 16000 Hz, hence 32000 bytes per audio second. SOURCES insertion order is computer then microphone, with prefix bytes 1 and 2 and a reverse lookup. Every public error uses a fixed code/message rather than a caught exception string; auth/origin, resource pressure, timeouts, model/decoder failure and shutdown remain distinct recovery categories. The memory-only statement concerns speech data, not the separate metadata logger or manager log.",
+          "focus": [{"start": 26, "end": 37}]
+        },
+        {
+          "start": 45, "end": 74, "title": "Centralize finite admission, queue and deadline budgets",
+          "explanation": "Limits sets one-second frames (32000 bytes), 1024-byte controls, 32 waiting frames and 64000 queued PCM bytes per source. Handshake/idle/ordinary native/send deadlines are 5/15/5/2 seconds; session_seconds is eight hours of received PCM per source, not an elapsed wall-clock timer. Byte/frame token buckets allow 64000-byte/200-frame bursts replenished at 32000 bytes and 100 frames per second. Accurate calls get 20 seconds, at most two outstanding final spans per source and a 60-second stop budget. Frozen dataclass instances support test replacement. ProtocolError carries only a code; error maps it to the fixed wire shape.",
+          "focus": [{"start": 47, "end": 58}, {"start": 59, "end": 62}]
+        },
+        {
+          "start": 75, "end": 113, "title": "Load bounded tokens and parse exact start schemas",
+          "explanation": "Token-file configuration takes precedence over the environment token; the file read is capped at 514 characters then stripped, and the result must be 32..512 URL-safe ASCII characters. parse_control accepts only text within the UTF-8 byte cap, catches malformed/deep JSON and requires an object. parse_start additionally rejects bool/float sample rates and channels using exact int types. V1 is equality with only type plus FORMAT; adding protocolVersion=1 is invalid. V2 requires actual integer 2 and a nonempty list equal to its canonical source-subset ordering, rejecting duplicates, unknowns and reversed dual order. Full-object equality excludes extra fields before decoder construction.",
+          "focus": [{"start": 101, "end": 112}]
+        },
+        {
+          "start": 114, "end": 160, "title": "Own readiness and separate executor lanes",
+          "explanation": "Runtime owns token bytes, factory, one-session active flag, stopping/failed state, live sockets, metadata logger and aggregate high-water/fault/drop counters. It creates a one-thread legacy/model-load executor and a separate one-thread finalizer executor. Hybrid source_cpu lazily adds at most one single-thread executor per known source. ready requires a factory and neither failed nor stopping; active does not make health unready. note emits allowlisted runtime counters. cpu/final_cpu/source_cpu choose deadlines and executors; independent source lanes exist only for the hybrid branch, not the legacy shared-worker branch.",
+          "focus": [{"start": 150, "end": 159}]
+        },
+        {
+          "start": 161, "end": 199, "title": "Contain native failures without pretending to kill threads",
+          "explanation": "_cpu submits native work then shields the future under a deadline. Exception or timeout marks the whole runtime failed, arranges to observe the eventual future exception and raises generic decoder_error; the native thread may still be running. Cancellation attempts another bounded wait so the admission owner does not immediately abandon in-flight work; repeated cancellation/failure also marks it failed. These are containment rules, not forced native termination. send bounds each JSON send and maps send timeout to backlog. close_with_error best-effort sends the fixed error then closes with policy code 1008, suppressing errors while already failing.",
+          "focus": [{"start": 161, "end": 169}, {"start": 170, "end": 181}, {"start": 187, "end": 198}]
+        },
+        {
+          "start": 200, "end": 245, "title": "Separate public readiness from authenticated runtime identity",
+          "explanation": "/health returns only ready/unavailable and modelAvailable with 200/503 and no-store. authorized requires exactly one Authorization header beginning with exact 'Bearer ', then uses hmac.compare_digest on supplied UTF-8 versus stored ASCII token bytes. runtime_info denies nonempty Origin or bad auth, refuses query/body, and returns service/management version 1 separately from speech versions [1,2], instance/PID, readiness/activity, selected identity and bounded counters. diagnosticsAvailable reflects logger failure without changing recognition readiness. maxStopSeconds is advertised as stop + maximum native deadline + two sends + one second: 85 by default, not an observed performance result.",
+          "focus": [{"start": 210, "end": 215}, {"start": 233, "end": 243}]
+        },
+        {
+          "start": 246, "end": 279, "title": "Guard managed shutdown and allocate independent source clocks",
+          "explanation": "managed_shutdown repeats management auth/origin/query/body checks, requires a configured callback and matching X-Phantom-Instance, and refuses any active transcription. Only then does it mark stopping and schedule exit after 0.2 seconds, allowing the stopping response to leave first. SourceState owns its decoder, byte/sample-derived clock, partial deduplication, independent token credits/refill timestamp, last final time, queue occupancy and accurate-final/deferred-partial accounting. Its bounded asyncio queue is used by hybrid recognition, preventing one track from consuming the other's slots.",
+          "focus": [{"start": 249, "end": 260}, {"start": 266, "end": 277}]
+        },
+        {
+          "start": 280, "end": 318, "title": "Create session bounds and recognize stop before new PCM",
+          "explanation": "Session builds state in decoder/source order, a legacy shared queue and aggregate byte cap scaled only by declared source count, one session-global segment counter, a bounded final queue and publication lock. Presence of factory.finalize selects hybrid behavior. receive applies an idle timeout to each next WebSocket receive and distinguishes disconnect from malformed frames. The only accepted post-start text is exactly {type:stop}. It records the stop clock before awaiting queue capacity, then appends a sentinel to the legacy queue or every hybrid source queue. Waiting instead of put_nowait prevents a valid full queue from turning stop into a backlog fault; no new producer input is read afterward.",
+          "focus": [{"start": 306, "end": 316}]
+        },
+        {
+          "start": 319, "end": 360, "title": "Validate source PCM and charge independent byte/frame budgets",
+          "explanation": "V1 treats binary payloads as computer PCM. V2 removes one source byte and rejects unknown/undeclared prefixes before requiring nonempty, even, at-most-32000-byte PCM. Per-source monotonic elapsed time replenishes separate byte and frame token buckets; pressure faults increment drop_count rather than silently skipping audio. Received PCM duration is checked per source after charging credits. Aggregate/per-source queued bytes and per-source frame caps are tested before put_nowait into the chosen queue. Source prefixes are never charged as audio. Successful enqueues update occupancy and per-source high-water marks; in-flight decoder/spans are bounded separately, not included in queued_bytes.",
+          "focus": [{"start": 321, "end": 327}, {"start": 332, "end": 338}, {"start": 340, "end": 351}]
+        },
+        {
+          "start": 361, "end": 393, "title": "Serialize wire IDs while retaining per-source time and partial state",
+          "explanation": "publish acquires the common lock, then _publish requires Recognition with string text no longer than 8192 Python characters. Only v2 emits source. Finals require finite numeric monotonic times within that source's received duration, with a 0.1-second legacy tolerance and none in v2. Each final, even empty, gets the next global segmentId; its own source last_end advances and partial cache resets. Three-decimal rounding in v2 is additionally clamped to floor(total_bytes/32)/1000 so short PCM is not rounded beyond its duration. A provisional is sent only when its text changes for that source. This checks source-relative clocks, not cross-source synchronized capture times.",
+          "focus": [{"start": 371, "end": 381}, {"start": 382, "end": 389}]
+        },
+        {
+          "start": 394, "end": 428, "title": "Drain legacy serial recognition or launch one worker per hybrid source",
+          "explanation": "Hybrid recognize creates one task per declared source and gathers their returned stop tails. Only after all source workers finish does it enqueue tails in canonical source order, followed by one final-queue sentinel. Worker cleanup cancels/awaits remaining tasks on error. Legacy recognize instead consumes the shared FIFO through runtime.cpu, sequentially calls finish on each decoder at the stop sentinel, requires a final Recognition and emits stopped after their finals. recognize_source consumes only its own queue and uses source_cpu for finish. Canonical tail enqueue order does not reorder accurate endpoint finals already queued earlier.",
+          "focus": [{"start": 394, "end": 401}, {"start": 410, "end": 419}]
+        },
+        {
+          "start": 429, "end": 452, "title": "Release queue occupancy before decoding and defer provisional text safely",
+          "explanation": "decode_frame subtracts waiting-byte/frame counters before native work; one active call per lane is separate from the queue budget. It selects shared legacy or independent source CPU, then logs only timings, audio milliseconds (bytes/32) and counters. Legacy publishes Recognition directly. Hybrid FinalSpan goes to queue_final, using stop-drain behavior once stop_requested_at exists. Other hybrid results must be nonfinal Recognition/string text within 8192 characters before retention. Under the publication lock the latest provisional replaces deferred_partial; it is sent immediately only when no accurate finals for that source are pending. Thus later-source text is not mistaken for a still-pending earlier span.",
+          "focus": [{"start": 440, "end": 451}]
+        },
+        {
+          "start": 453, "end": 499, "title": "Bound accurate work including the executing span and publish it serially",
+          "explanation": "queue_final requires FinalSpan. Normal streaming faults if two per-source finals remain outstanding; after stop it waits for a slot in 5-ms async intervals instead of rejecting an accepted tail. Pending PCM is capped at pending_finals times MAX_SPAN_BYTES per source. Queuing clears obsolete deferred text and increments counters before a bounded shared final FIFO insertion. finalize alone dequeues that FIFO and invokes the one-thread final executor, so actual Whisper calls are serial across sources. Only a final Recognition can be published. Under the lock it emits the final, releases pending accounting, and sends the latest deferred partial when that source has no earlier finals left. The sentinel sends stopped only after all preceding final calls and publications complete.",
+          "focus": [{"start": 457, "end": 467}, {"start": 486, "end": 495}]
+        },
+        {
+          "start": 500, "end": 537, "title": "Supervise successful stop, disconnect and failed worker cleanup",
+          "explanation": "run supervises receive, recognition and optional finalization tasks with FIRST_COMPLETED, awaiting completed task results so their failures propagate. A receiver returning False records disconnect and exits without promising a drained tail. A receiver returning True establishes the deadline from the earlier stop_requested_at; expiry raises decoder_error, not stopped. Important limit: the supervisor learns this deadline only once receive finishes inserting stop sentinels, so it is not a wall-clock timer independently armed at the instant the stop text arrives. The native-call deadlines and cleanup waits remain separate. Finally cancels/awaits tasks and drains all queues; clearing references is not secure erasure or native thread termination.",
+          "focus": [{"start": 508, "end": 519}, {"start": 524, "end": 528}]
+        },
+        {
+          "start": 538, "end": 577, "title": "Reserve admission before upgrading or constructing any decoder",
+          "explanation": "transcribe first rejects nonempty Origin (403), bad auth (401), query/body (400), unready models (503) and an active session (409), with no-store/close headers. active=True is set with no intervening await, covering the WebSocket handshake and initial start wait. The transport cap is a small allowance over one maximum PCM frame plus source/control allowance; compression is disabled and heartbeat/send/writer limits are explicit. After prepare, a valid start must arrive in five seconds. Decoders are constructed in canonical source order on the proper CPU lane, and only successful completion of every constructor permits ready. Session owns the subsequent run; diagnostics records starts/stops without text.",
+          "focus": [{"start": 541, "end": 552}, {"start": 563, "end": 574}]
+        },
+        {
+          "start": 578, "end": 619, "title": "Publish only safe failures and release the one-session gate",
+          "explanation": "Protocol failures increment fault_count and emit the allowlisted code; decoder_error additionally poisons readiness. Prepared sockets receive the safe close/error path; pre-upgrade protocol failures return JSON 400. Handshake TimeoutError is separately timeout; connection/cancellation paths do not echo content. Any other exception makes the runtime failed and exposes only decoder_error or pre-upgrade bad_frame. finally removes/closes the socket with a bounded best effort before clearing active. The safe_errors middleware also converts HTTP exceptions and unexpected route failures into fixed JSON, but is not a general successful-response validator.",
+          "focus": [{"start": 578, "end": 586}, {"start": 593, "end": 600}, {"start": 601, "end": 607}]
+        },
+        {
+          "start": 620, "end": 656, "title": "Define shutdown hooks, small HTTP surfaces and explicit routes",
+          "explanation": "App shutdown marks stopping and best-effort notifies all tracked sockets with server_stopping. Cleanup cancels pending executor futures and uses wait=False; a running native call is not forcibly killed. create_app validates token shape and canonical instance UUID, sets small HTTP body/header/read-buffer limits and disables automatic decompression. It registers only health, transcribe, runtime and shutdown routes, then the shutdown/cleanup hooks. aiohttp itself remains the transport/parser boundary; these source settings do not constitute a full transport implementation audit.",
+          "focus": [{"start": 629, "end": 633}, {"start": 642, "end": 653}]
+        },
+        {
+          "start": 657, "end": 684, "title": "Load only the selected verified engine and retain unavailable health on failure",
+          "explanation": "production_app resolves strict configuration and metadata, creates the metadata logger and an initially factory-less app, and enables managed exit only when an instance was supplied. HybridFactory loads on the model executor with the explicit Vosk path plus configured Whisper path/model/threads/vocabulary; explicit vosk instead loads only VoskFactory. Success records model-load duration. A caught loading failure increments a generic model_unavailable fault and leaves factory absent, so health/admission remain unavailable. There is no catch-and-fallback to the other engine. Configuration/metadata failures before the try instead reach the outer startup failure path.",
+          "focus": [{"start": 672, "end": 683}]
+        },
+        {
+          "start": 685, "end": 721, "title": "Start a literal native bind while suppressing content-bearing native diagnostics",
+          "explanation": "main disables Python logging, duplicates original stderr into a Python stream and redirects OS descriptor 2 to the null device. Python's fixed logging-failure notice can still reach the manager log while native library stderr is suppressed. It requires a valid token and explicit model path, permits only 127.0.0.1 or 0.0.0.0 host strings, and validates an optional canonical instance. The default/native manager bind is loopback; 0.0.0.0 exists for the optional container, so the server is not intrinsically loopback-only. web.run_app uses port 8765, no access log/banner, backlog 16 and eight-second aiohttp shutdown timeout. Generic setup/start failure messages return 2; the main guard avoids starting a listener on import.",
+          "focus": [{"start": 689, "end": 698}, {"start": 709, "end": 717}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/technical-vocabulary.json",
+      "sourceSha256": "b055d754a557778a3962ac8de0a1b16f84f84eeb1eb521599066fb1d63eec219",
+      "role": "Optional committed general technical hotwords, kept distinct from user speech and expected benchmark answers.",
+      "entryPoints": ["accurate.WhisperFinalizer.__init__", "configuration.metadata"],
+      "blocks": [
+        {
+          "start": 1, "end": 10, "title": "Supply general terms rather than hidden phrase correction",
+          "explanation": "schemaVersion=1 and description document the data shape and intent; the current reader directly consumes terms rather than validating those metadata fields. The 29 one- or two-word entries cover product/language names, protocols, structures, algorithms and runtime/database concepts, including literal C# and C++. WhisperFinalizer joins them into one hotwords string only for technical mode and never uses them as an initial prompt or post-recognition substitution table. configuration.metadata hashes the whole file when technical is selected. test_accurate checks exact joined terms, absence of 'two sum'/'Write me' and at most two words per entry; this is not proof that hints cannot bias recognition.",
+          "focus": [{"start": 2, "end": 8}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/Test-SyntheticTranscription.ps1",
+      "sourceSha256": "d3f243d6e19278cda36e7291cd55e087831238bbdd66970189948cbb64acc9e9",
+      "role": "Explicit Windows-generated speech wrapper for an already running service, optionally also exercising the native C# transport.",
+      "entryPoints": ["script param NativeClient", "tests/real_model_check.py invocation"],
+      "blocks": [
+        {
+          "start": 1, "end": 28, "title": "Generate synthetic speech in memory and check the existing endpoint",
+          "explanation": "The wrapper requires the service-local Python executable, constructs System.Speech with 16-kHz mono 16-bit output and saves the previous token-file environment value. Microsoft David Desktop at rate -1 speaks the fixed counting/local-recognition fixture into MemoryStream, then switches output to null. It selects the workspace token path and sends base64 PCM through stdin to real_model_check.py; it does not start the service. Nonzero Python exit becomes a safe wrapper failure. This uses a real local token and already-running model, unlike the isolated dual wrapper; 'synthetic' describes audio, not absence of endpoint/auth side effects.",
+          "focus": [{"start": 19, "end": 28}]
+        },
+        {
+          "start": 29, "end": 53, "title": "Optionally build and feed the native transport test through stdin",
+          "explanation": "NativeClient explicitly builds the Windows audio-test project, launches its Release DLL through dotnet against literal loopback, and supplies the expected numeric phrase. It disables shell execution, redirects stdin and passes the token in the child environment. Raw PCM is copied from the same in-memory stream, then stdin closes to signal EOF. The wrapper waits 60 seconds, terminates only that known process ID on timeout, and rejects nonzero exit. This branch tests a real C#-to-service path, not WASAPI hardware capture, and was not executed during source research.",
+          "focus": [{"start": 39, "end": 50}]
+        },
+        {
+          "start": 54, "end": 59, "title": "Restore caller environment and dispose synthesis resources",
+          "explanation": "The outer finally restores the original PHANTOM_TRANSCRIPTION_TOKEN_FILE even after validation/build failure and disposes both the synthesizer and in-memory stream. The script writes no WAV/transcript itself and routes synthesis to memory rather than speakers. This disposal is ordinary resource release, not a secure-erasure guarantee for managed buffers or child processes.",
+          "focus": [{"start": 55, "end": 59}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/tests/real_dual_model_check.py",
+      "sourceSha256": "1e1c981d3b1c8163cff84717b80aae0b3467a0cef1914d18f2f3be12f3d82b22",
+      "role": "Opt-in cached real Vosk integration using two synthetic stdin tracks and an ephemeral in-process server, not the installed hybrid runtime.",
+      "entryPoints": ["main", "wait_idle", "safe_failure"],
+      "blocks": [
+        {
+          "start": 1, "end": 33, "title": "Declare isolated credentials, source controls and bounded idle waiting",
+          "explanation": "Imports use aiohttp test utilities and the real VoskFactory. TOKEN is a clearly synthetic fixture, not a workspace secret. START declares both canonical v2 sources; disjoint keyword sets distinguish the two generated utterances. wait_idle polls runtime.active with a three-second bound between sessions. The in-process test still loads real local model code and opens an ephemeral loopback listener when explicitly run; no such execution is needed to inspect this source.",
+          "focus": [{"start": 19, "end": 25}]
+        },
+        {
+          "start": 34, "end": 68, "title": "Bound fixture input and assert shared model with distinct decoders",
+          "explanation": "Exactly one explicit cached-model directory argument is required. stdin reads one byte beyond the two-million-byte limit to detect overflow, JSON must contain exactly both source keys, and validated base64 must decode to nonempty even PCM no longer than 640000 bytes per source. The ephemeral app begins unready; runtime.cpu constructs the verified VoskFactory, then a recording wrapper creates source decoders. Health and exact ready are checked, followed by object-identity assertions: shared model, distinct native decoders. This path intentionally uses legacy Vosk final recognition even though the wire protocol is v2.",
+          "focus": [{"start": 35, "end": 45}, {"start": 58, "end": 67}]
+        },
+        {
+          "start": 69, "end": 98, "title": "Send interleaved live-paced tracks while checking exact event shapes",
+          "explanation": "The receiving coroutine has a 40-second deadline, rejects service errors and checks exact partial/final keys plus valid source labels. TaskGroup owns receive alongside an interleaved sender: each 3200-byte/100-ms step sends available computer and microphone chunks with prefix bytes, paced by a common monotonic start. Stop is sent after all source bytes. Finals must have contiguous global IDs and the last three events must be canonical computer tail, microphone tail, stopped. This asserts the Vosk serial-tail behavior of this factory, not general ordering of earlier hybrid endpoint finals.",
+          "focus": [{"start": 84, "end": 95}]
+        },
+        {
+          "start": 99, "end": 120, "title": "Use cross-track negative controls and per-source timing",
+          "explanation": "For each source the test combines only its finals, requires its seven expected words and explicitly rejects any keyword from the other source. It also requires a nonempty streaming partial and monotonic nonoverlapping final times within that source's supplied duration. Evidence retains only duration and event/keyword counts, not text or PCM. This is a finite synthetic source-isolation check, not diarization, acoustic echo cancellation, hardware capture or broad speech-accuracy qualification.",
+          "focus": [{"start": 103, "end": 112}]
+        },
+        {
+          "start": 121, "end": 155, "title": "Exercise fresh microphone-only and legacy silence sessions",
+          "explanation": "After admission returns idle, v2 microphone-only and v1 computer sessions each receive 100 ms of digital silence, then stop. The bounded collector requires the exact empty final with segmentId=1 and 0..0.1 seconds, stopped last, and source fields only in v2. Waiting idle between sessions guards against accidentally reusing decoder state. Authenticated runtime must finally report management protocol 1, ready True and active False. The printed passed object is code produced only on a successful future run; reading this file is not a new passing result.",
+          "focus": [{"start": 138, "end": 149}]
+        },
+        {
+          "start": 156, "end": 167, "title": "Suppress native diagnostics and print only failure type",
+          "explanation": "The main guard disables Python logging and redirects native stderr to the null device before inference. An installed sys.excepthook prints only the exception class, not raw assertion/model text or a traceback, then asyncio.run invokes the explicit check. This error policy applies to this integration harness and should not be confused with the provisioner's setup-error printing.",
+          "focus": [{"start": 158, "end": 167}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/tests/real_model_check.py",
+      "sourceSha256": "899ced30ff362e4c74e03057976e8e478a996224a6804b76d779b6781e809567",
+      "role": "Opt-in synthetic v1 client against the already running authenticated local service, including stop-tail and second-session silence checks.",
+      "entryPoints": ["main", "main.receive"],
+      "blocks": [
+        {
+          "start": 1, "end": 33, "title": "Validate bounded stdin PCM and connect to the actual local endpoint",
+          "explanation": "Imports add the service directory for FORMAT/load_token but do not start server.main. main base64-decodes at most two million stdin bytes with strict alphabet validation and rejects empty/odd/over-20-second PCM. Unlike real_dual_model_check, this read does not fetch an extra byte to detect larger stdin input. It reads the configured real token, disables environment proxies through trust_env=False, checks /health and opens literal loopback with 15-second receive/3-second close deadlines. Exact v1 ready is required. It does not assert a selected engine identity, so the running service determines Vosk versus hybrid.",
+          "focus": [{"start": 16, "end": 24}, {"start": 25, "end": 31}]
+        },
+        {
+          "start": 34, "end": 66, "title": "Pace generated PCM and assert partials, keyword finals and terminal order",
+          "explanation": "A receiving task accumulates events until stopped and rejects error events. The sender emits 3200-byte chunks, sleeping against monotonic 100-ms cadence rather than accelerating a whole fixture, then sends stop and awaits the receiver. Seven lowercase exact whitespace-token keywords must appear in combined finals; punctuation/case normalization is not performed. It requires a nonempty partial, contiguous IDs, final immediately before stopped, and monotonic final times no later than supplied duration. Printed output contains only synthetic input kind, duration/counts and boolean claims derived from assertions. This is not a real-device or general accuracy benchmark.",
+          "focus": [{"start": 49, "end": 60}]
+        },
+        {
+          "start": 67, "end": 92, "title": "Check silence in a second session and sanitize failure output",
+          "explanation": "After a fixed 100-ms gap, a fresh v1 connection receives 100 ms of digital silence then stop. It requires a final to exist with empty text and ID 1, checking prior words/IDs do not leak into the new session, but does not comprehensively assert every intermediate silence event. The main guard catches exceptions and prints only their class; authored assertion details and received content are not printed. Existing service startup, ownership and real token provisioning remain prerequisites outside this harness.",
+          "focus": [{"start": 75, "end": 83}, {"start": 86, "end": 92}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/tests/test_accurate.py",
+      "sourceSha256": "58d339732598f7baec8c3cbd35e4821ce970d7354cb57e9485d8f4b35470a3b8",
+      "role": "Deterministic tests for hybrid span ownership, local-finalizer options, independent workers, bounded stop/error behavior, configuration identity and metadata failure policy.",
+      "entryPoints": ["SpanTests", "WhisperTests", "HybridProtocolTests", "ConfigAndManagerTests", "DiagnosticTests", "DiagnosticProtocolTests"],
+      "blocks": [
+        {
+          "start": 1, "end": 41, "title": "Arrange fake engines and isolated protocol fixtures",
+          "explanation": "Imports bring fake-model support, threading gates, temporary metadata paths, aiohttp TestClient/TestServer, runtime adapters and manager patch points. Synthetic token and exact v2 START avoid real credentials. Provisional accumulates bytes and returns a fixed untrusted hypothesis, with its final flag controlled by endpoint_bytes. This fixture exercises boundary decisions without claiming Vosk acoustic behavior. Test servers are ephemeral local endpoints when tests run; the opening 'No model downloads/endpoints' wording is not evidence that no sockets are used.",
+          "focus": [{"start": 32, "end": 39}]
+        },
+        {
+          "start": 42, "end": 75, "title": "Prove byte partitioning and one-shot hybrid finish",
+          "explanation": "Distinct byte-valued chunks and captured provisional instances form a positive control for exact ownership: concatenated FinalSpan PCM and concatenated decoder inputs must both equal the original sequence. Explicit sample ranges assert adjacent, nonoverlapping spans across endpoints and stop. Calling finish twice or accept after finish must raise. A separate immediate-stop case cuts a full endpoint and checks the tail is empty at the same ending sample, preventing word/PCM replay after an exact boundary. These assertions concern adapter bookkeeping, not real recognition.",
+          "focus": [{"start": 58, "end": 66}, {"start": 68, "end": 74}]
+        },
+        {
+          "start": 76, "end": 115, "title": "Exercise rotation, source independence and invalid span defenses",
+          "explanation": "Sixty-five one-second chunks with a distant provisional endpoint must rotate at 15-second multiples, preserve all bytes and remain under MAX_SPAN_BYTES. A separate computer decoder rotates repeatedly while the microphone retains the same native decoder and tail. Invalid FinalSpan cases cover mismatched length/sample count, negative positions, float positions, mutable bytearray and excess memory. A decoder that throws must propagate failure instead of becoming a successful span. No model files or native decoder are involved.",
+          "focus": [{"start": 76, "end": 86}, {"start": 100, "end": 105}]
+        },
+        {
+          "start": 116, "end": 158, "title": "Assert model-call policy and lazy-generator failure propagation",
+          "explanation": "A Never model throws if called, proving empty/digital silence bypasses inference while retaining absolute span time and final status. Fake transcribe captures options and supplies one segment; the result must use the full owned 0.5..0.6-second span rather than its segment-relative timestamps, with VAD enabled and no prompt/hotwords/history conditioning by default. A lazy generator that fails only during iteration must propagate RuntimeError. Patching verification to fail ensures missing selected models do not silently load a replacement. These tests inspect configured behavior, not real Whisper/VAD quality.",
+          "focus": [{"start": 135, "end": 141}, {"start": 143, "end": 152}]
+        },
+        {
+          "start": 159, "end": 200, "title": "Constrain vocabulary and build controllable accurate work",
+          "explanation": "The vocabulary test compares passed hotwords with the exact committed terms, requires no initial prompt, forbids reference-fragment 'Write me' and 'two sum', and limits every term to two words. This prevents that specific hidden-answer injection, not all possible vocabulary bias. FakeHybridFactory returns real HybridRecognizer bookkeeping around fake provisional decoding. Its finalizer signals started, can wait on a threading gate, delay or throw a private sentinel, records spans, and turns their first byte into text with exact sample-derived times; these controls drive scheduler tests reproducibly.",
+          "focus": [{"start": 168, "end": 174}, {"start": 189, "end": 198}]
+        },
+        {
+          "start": 201, "end": 243, "title": "Own ephemeral test lifecycle and preserve both wire schemas",
+          "explanation": "Each async test gets a fresh fake factory and TestServer; teardown releases any gate before closing the client. start validates exact ready for v1/v2, and collect uses a four-second deadline until error or stopped. The schema test sends one source endpoint then stop for both versions, expects accurate first-byte text plus empty tails (including the silent second source in v2), checks exact final key sets and stopped last, then waits until runtime admission is free. It demonstrates unchanged schemas despite a changed final-recognition engine.",
+          "focus": [{"start": 229, "end": 240}]
+        },
+        {
+          "start": 244, "end": 278, "title": "Check source-owned spans and nonblocking accurate inference",
+          "explanation": "Interleaved distinguishable computer/microphone PCM must yield global contiguous IDs, correct per-source texts, exactly 12800 total finalized bytes and adjacent computer time spans. Another test blocks the finalizer after a computer endpoint, then requires a microphone partial within one second while intake continues. It sends a later computer partial while its final is pending, releases the gate and expects the accurate final before that deferred partial. The gates test scheduling and ordering, not latency of a real model under load.",
+          "focus": [{"start": 250, "end": 257}, {"start": 267, "end": 277}]
+        },
+        {
+          "start": 279, "end": 311, "title": "Prove provisional source workers use independent executor lanes",
+          "explanation": "A factory records canonical construction order and gives its first decoder a blocking accept. After the computer gate is reached, microphone PCM must still yield its partial within 0.5 seconds and runtime must have two source executors. The release event is set in finally so a failing assertion cannot strand the synthetic native call. The normal stop must subsequently reach stopped. This test distinguishes the hybrid implementation from legacy Vosk's intentionally shared one-thread path.",
+          "focus": [{"start": 299, "end": 310}]
+        },
+        {
+          "start": 312, "end": 347, "title": "Distinguish stop-drain waiting, overload failure and decoder failure",
+          "explanation": "Small endpoints plus delayed finalization fill accurate capacity, then stop must drain all 12800 bytes into four nonempty finals with zero drop count. Without stop, three fast endpoints against a slow finalizer must end in backlog, never exceed two outstanding finals and increment both fault/drop counts once. A throwing finalizer must end with generic decoder_error, hide its private exception sentinel and poison runtime readiness rather than pretend successful completion. These are finite constructed overload cases, not an unbounded-duration stress test.",
+          "focus": [{"start": 319, "end": 324}, {"start": 326, "end": 336}, {"start": 338, "end": 346}]
+        },
+        {
+          "start": 348, "end": 389, "title": "Bound final/stop waits and validate deferred text before retaining it",
+          "explanation": "Shrunken final_seconds against a slower fake proves decoder_error and unready on inference timeout. A separate tiny stop_seconds must fault and never emit stopped. Oversized returns one valid span followed by 8193-character provisional text while a final is pending; the collector must get decoder_error and no oversized content, showing deferred data is validated before queueing/publication. The tests do not kill a native thread or exhaust all stop-sentinel-insertion timings; they target these explicit asynchronous paths.",
+          "focus": [{"start": 357, "end": 365}, {"start": 379, "end": 387}]
+        },
+        {
+          "start": 390, "end": 419, "title": "Exercise source-sensitive identity and strict configuration rejection",
+          "explanation": "Starting from hybrid DEFAULT metadata, each model/engine/thread/vocabulary change must prevent reuse, as must missing identity. A patched read_bytes appends one newline to accurate.py in memory, proving runtime source bytes affect fingerprints without altering a source file. Bad configuration examples cover wrong container type, missing fields, unsupported cloud/medium selection, boolean/out-of-range threads and arbitrary vocabulary. Path.exists/read_text are patched so no private local configuration is read. The 'every setting' assertion is scoped to DEFAULT hybrid, not all semantically inactive Vosk settings.",
+          "focus": [{"start": 399, "end": 408}, {"start": 410, "end": 418}]
+        },
+        {
+          "start": 420, "end": 465, "title": "Protect active and unprovisioned old services during upgrades",
+          "explanation": "Patches supply synthetic token, null lifecycle lock, stale runtime metadata and receipt, so manager.start decision logic is tested without spawning or authenticating a service. Active stale runtime must call neither stop nor validation. Idle stale runtime must record verification before a stop stub deliberately aborts execution, proving ordering without entering Popen. When validation itself raises missing prerequisites, stop must not be called. These mock tests do not certify Windows byte-lock behavior or a real upgrade race.",
+          "focus": [{"start": 444, "end": 450}, {"start": 460, "end": 464}]
+        },
+        {
+          "start": 466, "end": 491, "title": "Reuse matching active service and preserve ambiguous receipts",
+          "explanation": "A ready active runtime with current protocol and exact DEFAULT fingerprint must be reused without stopping it. A separate case supplies a receipt but no listener; manager.start must raise, never rewrite the receipt and never call Popen. This protects against assuming an unreachable initializer has exited. The fixtures patch all lifecycle/network decisions and do not inspect real processes or workspace secrets.",
+          "focus": [{"start": 478, "end": 489}]
+        },
+        {
+          "start": 492, "end": 531, "title": "Bound metadata files and reject transcript/exception fields",
+          "explanation": "Each diagnostic test uses a unique synthetic repository-local test folder and teardown deletes its files. Ten records with a 500-byte test cap must leave at most current plus three backups, each within that fixture's size budget. transcript, unknown event and arbitrary exception-like fault names must raise, and parsed output must retain only expected source without the secret sentinel. A patched mkdir failure must return False, latch failed and print one generic notice without the private path. This is controlled filesystem failure coverage, not universal disk/rotation durability assurance.",
+          "focus": [{"start": 504, "end": 515}, {"start": 522, "end": 529}]
+        },
+        {
+          "start": 532, "end": 562, "title": "Keep missing hybrid models and logging loss observable without fallback",
+          "explanation": "Patching HybridFactory to fail before construction must leave health and authenticated transcription at 503/model_unavailable; a VoskFactory spy must never be called and generic output must exclude the private path. Another test injects a failed logger and real configuration metadata, requiring authenticated runtime to report diagnosticsAvailable=False and engine without token/path leakage, while unauthenticated runtime returns 401 with no engine. It proves metadata visibility and no selected-engine fallback, not a full recognition session with disk failure. The main guard enables unittest only on explicit execution.",
+          "focus": [{"start": 533, "end": 544}, {"start": 547, "end": 558}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/tests/test_diagnostics_failure.py",
+      "sourceSha256": "82d05f3f03c2a10ae7a58d6e05dacabfbd83851f625015fd2c8b25b719bc2c7a",
+      "role": "Regression tests ensuring the logger's own generic failure notice cannot throw when both disk and stderr are unusable.",
+      "entryPoints": ["DiagnosticFailureTests.test_failed_disk_and_stderr_do_not_escape_into_recognition", "DiagnosticFailureTests.test_closed_stderr_retains_observable_failure"],
+      "blocks": [
+        {
+          "start": 1, "end": 22, "title": "Inject simultaneous metadata-path and notice failures",
+          "explanation": "The test imports only Diagnostics and arranges a temporary regular file where a log parent directory would need to exist. emit consequently fails mkdir. Patching builtins.print to raise OSError additionally breaks its fallback notice. Assertions require emit=False, sticky failed=True and a later emit=False without escaping. This is a direct logger regression, not an end-to-end audio/model test; the method name describes the intended recognition containment boundary.",
+          "focus": [{"start": 13, "end": 21}]
+        },
+        {
+          "start": 23, "end": 36, "title": "Contain a closed Python stderr stream independently",
+          "explanation": "A second occupied-parent setup uses legacy Vosk labels and replaces sys.stderr with a closed StringIO, causing the failure notice's print to raise ValueError rather than OSError. emit must still return False and expose failed=True. TemporaryDirectory owns fixture cleanup. The main guard invokes unittest when explicitly run, but documentation inspection does not execute either failure injection.",
+          "focus": [{"start": 23, "end": 32}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/tests/test_dual_protocol.py",
+      "sourceSha256": "a5578e8749633577591da17dc8791887ead12f7873f553eac3c44ed4984dd3af",
+      "role": "Strict v2 source/framing, per-source resource-accounting and fault-containment tests using recording fake recognizers and isolated transports.",
+      "entryPoints": ["StartSchemaTests", "DualProtocolTests", "SourceLimitTests", "MemorySocket"],
+      "blocks": [
+        {
+          "start": 1, "end": 56, "title": "Build source-tagged synthetic frames and observable fake decoders",
+          "explanation": "Imports supply async test servers, type replacement and patched timing without model setup. Synthetic auth and canonical START drive production parsers. audio prepends the actual SOURCES byte to distinct PCM. RecordingRecognizer records creation/accept/finish thread IDs, exact frames, total bytes and scripted responses; exception responses raise. finish reports the correct source-duration tail or empty text when untouched. This recorder makes cross-source mixing, ordering and wrong-thread execution observable without claiming acoustic behavior.",
+          "focus": [{"start": 39, "end": 48}]
+        },
+        {
+          "start": 57, "end": 94, "title": "Enumerate canonical source and exact schema controls",
+          "explanation": "Only computer, microphone, or computer-then-microphone nonempty lists may parse. Invalid arrays cover unknown/case-changed labels, duplicates, reversed order and non-string/nested values. Removing any required v2 field or replacing version/rate/channels/type/encoding with wrong types/values, or adding a field, must yield bad_format. The legacy exact object is a positive control. Separate assertions pin production byte/frame bursts/rates, frame/queue bounds and eight-hour PCM-duration limit; they detect accidental changes, not measurements.",
+          "focus": [{"start": 58, "end": 67}, {"start": 74, "end": 85}]
+        },
+        {
+          "start": 95, "end": 149, "title": "Own server lifecycle and assert empty tails for every source mode",
+          "explanation": "Fresh tests capture each factory-created decoder and close the TestClient in teardown. start checks exact v2 ready for selected sources. release waits at most two seconds for admission to clear; stop collects under three seconds and treats any service error as failure. Empty-stop tests cover both single modes and dual mode, requiring one zero-time final per source, canonical IDs and stopped last. Four created objects must all be distinct across these sessions. This factory lacks finalize, so it exercises legacy recognition scheduling with v2 labels.",
+          "focus": [{"start": 137, "end": 148}]
+        },
+        {
+          "start": 150, "end": 201, "title": "Check independent track state inside the legacy shared CPU lane",
+          "explanation": "Different computer/microphone byte patterns are interleaved and compared with exact decoder frame lists. Identical partial text from different tracks must both appear, but an unchanged microphone partial remains suppressed when computer finalizes. Stop tails must have global IDs and source-owned times. All decoder calls/constructors must occur on one non-event-loop thread: this deliberately characterizes the legacy factory path, not hybrid independent lanes. A second interleaved-final case asserts IDs follow publication sequence while each track's clock remains independently monotonic.",
+          "focus": [{"start": 169, "end": 180}, {"start": 192, "end": 200}]
+        },
+        {
+          "start": 202, "end": 255, "title": "Test legal frame edges, millisecond clamping and malformed sources",
+          "explanation": "Each single-source mode sends the minimum two PCM bytes and maximum 32000 PCM bytes, requiring exact byte preservation. Eighteen- and fifty-byte source durations verify v2 rounded end times clamp to 0 and 0.001 seconds rather than exceeding PCM. Bad starts must fail before constructing decoders. Invalid binary cases include empty/prefix-only, unknown IDs, odd payloads, excess PCM and legacy unprefixed data; text controls include repeated start and source-scoped stop. Decoder frame lists must remain empty on rejected input. Undeclared source prefixes must fail in either single-source mode.",
+          "focus": [{"start": 214, "end": 222}, {"start": 235, "end": 246}, {"start": 250, "end": 255}]
+        },
+        {
+          "start": 256, "end": 295, "title": "Assert hard transport ceiling, shared admission and all-decoder readiness",
+          "explanation": "Offering compression must negotiate none; a grossly oversized source frame must close with transport code 1009, distinguished from application bad_frame for modest excess. An active v2 session blocks another caller with HTTP 409/busy; after clean stop/release a v1 session can start and emits unlabeled final/stopped. A factory deliberately failing on the second decoder must produce decoder_error without ready and make health 503. Thus a partially constructed dual session is not admitted as a healthy single-source fallback.",
+          "focus": [{"start": 257, "end": 264}, {"start": 266, "end": 275}, {"start": 283, "end": 294}]
+        },
+        {
+          "start": 296, "end": 348, "title": "Make source and finish failures invalidate the complete session",
+          "explanation": "A microphone accept exception must give a generic error, avoid calling finish on either decoder during abort, mark health unavailable and reject the next admission. A failure in the second finish can occur after the first computer final was sent, but must never be mislabeled stopped. A nonfinal finish result prevents later tail processing. A blocked native accept with a shortened operation deadline must fault health; finally releases the event and waits until the fake native call actually exits. These controls model native calls that outlive async deadlines rather than assuming cancellation kills them.",
+          "focus": [{"start": 308, "end": 315}, {"start": 337, "end": 347}]
+        },
+        {
+          "start": 349, "end": 379, "title": "Reject malformed decoder output and same-source time regression",
+          "explanation": "Fresh ephemeral apps isolate invalid result cases: None, 8193-character text, time past source PCM, negative/reversed bounds, NaN/infinity, an enormous integer and a string timestamp. Each must yield only decoder_error and make health 503; unrelated Python conversion failures are therefore contained too. A separate microphone case first publishes a legitimate final then regresses the next start below the prior end, requiring fault. These tests validate first-party output guards, not the reliability of real decoder result schemas.",
+          "focus": [{"start": 349, "end": 355}, {"start": 357, "end": 366}, {"start": 368, "end": 377}]
+        },
+        {
+          "start": 380, "end": 429, "title": "Use a memory socket to isolate per-source rate accounting",
+          "explanation": "MemorySocket turns prepared byte/string inputs into the same message-type objects receive consumes and stores sent JSON without a network stack. SourceLimitTests directly construct Runtime/Session and assert ProtocolError codes; teardown closes the legacy executor. With refill disabled, one source exhausting its byte or frame allowance cannot consume the other's credit. Assertions inspect queued PCM totals and source credits, confirming prefix bytes are excluded. This bypasses aiohttp scheduling and transport behavior intentionally to isolate arithmetic.",
+          "focus": [{"start": 413, "end": 420}, {"start": 422, "end": 428}]
+        },
+        {
+          "start": 430, "end": 480, "title": "Control time and independently bound duration, bytes and frame counts",
+          "explanation": "Patching monotonic time to one second after zero verifies both tracks independently refill exactly one second of credits. Production-budget cases enqueue two maximum PCM frames per source and assert aggregate capacities scale only with declared sources, without prefix overhead. Reduced session duration rejects only the overrun source; tiny byte/frame limits force backlog at precisely the next same-source enqueue. Tests inspect queue counts and counters after exceptions, not only error labels, which guards against accidentally borrowing an undeclared track's resources.",
+          "focus": [{"start": 430, "end": 441}, {"start": 443, "end": 451}, {"start": 461, "end": 469}]
+        },
+        {
+          "start": 481, "end": 532, "title": "Prevent budget borrowing and drain a full queue before stopped",
+          "explanation": "Two targeted cases show a single track cannot fill the other track's unused byte/frame allowance. The stop case intentionally starts receive without recognition, fills a two-track shared FIFO, consumes the stop message and verifies receive is blocked waiting to insert its sentinel. Starting recognize must then release receive, drain bytes/frames to zero, finish both decoders and emit arrival-ordered partials followed by canonical computer/microphone finals and stopped. finally cancels/awaits remaining tasks. This specifically tests legacy full-queue stop insertion; hybrid final-queue pressure is covered in test_accurate.py.",
+          "focus": [{"start": 511, "end": 522}, {"start": 523, "end": 532}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/tests/test_management.py",
+      "sourceSha256": "4ac15c8ebedec295b913f3c3b448488c75d84ec7a51315d137de26efceb57c8f",
+      "role": "Isolated management endpoint and manager identity tests that distinguish authenticated ownership from merely reaching a port.",
+      "entryPoints": ["ManagementTests", "ManagerTests"],
+      "blocks": [
+        {
+          "start": 1, "end": 37, "title": "Arrange synthetic owned runtime without a real managed process",
+          "explanation": "Synthetic token, canonical instance ID and headers stand in for workspace credentials. EmptyRecognizer can emit a zero-length final without model loading. Each test creates an ephemeral app with a managed_stop callback that sets an asyncio Event rather than exiting or killing a process; teardown closes the client. Thus following endpoint tests exercise authorization and scheduling contracts, not native process launch, Windows locks or actual graceful process exit.",
+          "focus": [{"start": 27, "end": 33}]
+        },
+        {
+          "start": 38, "end": 71, "title": "Require auth, instance identity and nonbrowser management",
+          "explanation": "Unauthenticated runtime metadata must be 401 and omit speech capabilities; authenticated data must include correct service, management/speech versions, instance, readiness/activity and positive PID but no token/path. Both runtime and shutdown reject a browser Origin even with valid token. A wrong instance header and an unmanaged service each refuse shutdown with 409 and do not mark stopping. These checks characterize nonempty Origin handling, not a general browser/OS security boundary.",
+          "focus": [{"start": 42, "end": 52}, {"start": 54, "end": 65}]
+        },
+        {
+          "start": 72, "end": 117, "title": "Refuse active-session shutdown and schedule idle shutdown",
+          "explanation": "An admitted v1 session must block managed shutdown as busy and remain unstopping until the test explicitly sends audio-protocol stop. An idle owned request must immediately make /health unavailable and trigger the callback within one second. A dual session similarly reports one active runtime and management version 1, refuses shutdown without invoking the callback, and emits both canonical tails before stopped. After socket close and bounded idle wait, runtime.active must be False. Empty fake decoders make these lifecycle assertions independent of speech quality.",
+          "focus": [{"start": 85, "end": 90}, {"start": 97, "end": 105}, {"start": 106, "end": 116}]
+        },
+        {
+          "start": 118, "end": 150, "title": "Reject management payloads and unproven manager ownership",
+          "explanation": "Unexpected shutdown body and runtime query each produce 400 without stopping. Manager-only mock tests then refuse a missing receipt before any request, reject an authenticated but mismatched instance, and reject a malformed nonstring receipt ID. Direct invocation of NoRedirects must raise on a foreign redirect destination, proving that handler does not authorize forwarding. No real token, listener at port 8765, receipt mutation or native shutdown is used. There is no unittest.main guard in this file; normal discovery supplies execution.",
+          "focus": [{"start": 127, "end": 138}, {"start": 140, "end": 150}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/tests/test_protocol.py",
+      "sourceSha256": "0d6a405502a3b4346137554f56d47ad1840fa3bc509f81dcac2fafc6fb2ce35c",
+      "role": "Deterministic v1 protocol, admission, framing, timeout and token tests using fake recognition and ephemeral aiohttp servers.",
+      "entryPoints": ["ProtocolTests", "ConfigurationTests", "FakeRecognizer"],
+      "blocks": [
+        {
+          "start": 1, "end": 41, "title": "Make timing and threading observable without a model",
+          "explanation": "The module imports production parser/runtime boundaries and uses an explicitly synthetic token. FakeRecognizer counts PCM samples and records accept thread IDs, returns a final on its second frame and otherwise a stable partial, then emits a zero-duration tail at the accumulated end. This predictable arrangement makes schemas, IDs, timings and executor dispatch assertable independently of external speech libraries. Imports do not invoke server.main or verify a real installed model.",
+          "focus": [{"start": 29, "end": 39}]
+        },
+        {
+          "start": 42, "end": 80, "title": "Assert the complete v1 ready-to-stopped chain",
+          "explanation": "Each async test uses fresh captured decoder instances and an ephemeral server, closing it in teardown. start sends the exact legacy object and compares ready. Two 100-ms PCM frames must yield the synthetic partial then final ID 1 ending at 0.2, with no source/version extras. stop must flush tail ID 2 starting at 0.2 before stopped. Every accept thread must differ from the event-loop thread. This validates legacy wire/executor behavior, not streaming acoustic accuracy.",
+          "focus": [{"start": 68, "end": 79}]
+        },
+        {
+          "start": 81, "end": 126, "title": "Test authentication, nonempty origins and unavailable models before allocation",
+          "explanation": "Missing/malformed/wrong-scheme authentication must return 401 without echoing the synthetic token or creating a decoder. A wrapped compare_digest spy verifies the chosen constant-time API is called, not an empirical timing guarantee. Nonempty example/null/file origins are rejected even with valid token; the test explicitly avoids claiming a whitespace-only header survives HTTP normalization. Query-token use and duplicate Authorization headers are rejected. Clearing factory makes both public health and authenticated admission unavailable, preserving the distinction between listener existence and model readiness.",
+          "focus": [{"start": 90, "end": 94}, {"start": 96, "end": 103}, {"start": 110, "end": 116}, {"start": 118, "end": 125}]
+        },
+        {
+          "start": 127, "end": 175, "title": "Reserve before start and reject permissive legacy schemas",
+          "explanation": "Opening a socket without sending start must already consume admission and return busy to a second caller; after clean stop the next session creates a different recognizer. Invalid rates, floating rate, stereo, boolean channel and wrong encoding must fail before any instance exists. Bad PCM/control fixtures cover empty/odd/oversized PCM, malformed/nonobject JSON, repeated start and excessive control text. Explicit protocolVersion=1, sources or arbitrary extra fields are not accepted as legacy extensions. These cases prevent accidental v1/v2 schema blending.",
+          "focus": [{"start": 144, "end": 152}, {"start": 165, "end": 174}]
+        },
+        {
+          "start": 176, "end": 226, "title": "Distinguish transport, handshake and queue-pressure bounds",
+          "explanation": "The legal 32000-byte frame must produce a one-second final; compression negotiation must remain off, and a 64000-byte message must receive hard transport close 1009. Tiny start/idle deadlines exercise both timeout paths. A sleeping fake decoder and one-frame queue create backlog while /health must still respond 200, showing decode work is off the event loop and ordinary overload is not itself a model-unready verdict. Tests assert observable finite cases, not arbitrary network/CPU responsiveness.",
+          "focus": [{"start": 189, "end": 194}, {"start": 196, "end": 203}, {"start": 214, "end": 225}]
+        },
+        {
+          "start": 227, "end": 265, "title": "Exercise rate, duration, exception and unkillable-call timeouts",
+          "explanation": "A one-frame byte burst with near-zero refill rejects the next frame as rate_limit. A 0.05-second session limit rejects a 0.1-second frame. A decoder throwing a private-content sentinel must expose only decoder_error and health 503. Another decoder sleeps beyond the operation deadline, requiring failed readiness even though its background call later completes; the test waits beyond that sleep to avoid leaving synthetic work running. These checks do not assert a timed-out native call has been killed.",
+          "focus": [{"start": 241, "end": 251}, {"start": 253, "end": 264}]
+        },
+        {
+          "start": 266, "end": 302, "title": "Release admission and test token/model failure without real secrets",
+          "explanation": "Explicit app shutdown must notify server_stopping; a disconnected session must allow another session after cleanup. Configuration tests reject absent/short/overlong/newline-containing environment tokens, accept the synthetic valid one, and patch Path.open with StringIO to prove token-file precedence without reading a real token. An intentionally absent model directory must fail verify_model rather than download. The main guard enables unittest on explicit invocation. None of these source assertions is reported here as a newly executed result.",
+          "focus": [{"start": 288, "end": 298}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/tests/test_recognizer.py",
+      "sourceSha256": "69f10170b4c3676b9377c91ac20afb9b0421b8ed7a29cbb51ba311bb2fcdfb2a",
+      "role": "Native-decoder adapter tests for 30-second rotation, absolute timing and per-source state independence using a Vosk-shaped fake.",
+      "entryPoints": ["RecognizerTests", "DecoderFixture"],
+      "blocks": [
+        {
+          "start": 1, "end": 36, "title": "Provide the narrow fake KaldiRecognizer API",
+          "explanation": "DecoderFixture records each instance, accepts word-option calls as no-ops, counts PCM samples and never reports an endpoint. PartialResult and FinalResult return Vosk-shaped JSON with synthetic text and word time starting at 0.05 seconds. This deliberately forces VoskRecognizer's own 30-second rotation rather than relying on Vosk endpoint behavior. The fake ignores model/rate and therefore cannot verify actual native settings or acoustic output.",
+          "focus": [{"start": 23, "end": 34}]
+        },
+        {
+          "start": 37, "end": 60, "title": "Assert rotation's absolute offset and reject nonfinite times",
+          "explanation": "Twenty-nine one-second frames must remain partial; the thirtieth produces a final ending at 30 seconds and creates a second native decoder. One additional second then finish must yield 30.05..31, proving new relative word times are offset into the source clock and do not regress. A BadTime fixture returns NaN in JSON and finish must raise ValueError. This tests adapter timestamp validation; it is not a measurement of long-speech recognition quality.",
+          "focus": [{"start": 41, "end": 51}, {"start": 53, "end": 59}]
+        },
+        {
+          "start": 61, "end": 79, "title": "Keep microphone state when the shared-model computer rotates",
+          "explanation": "Two VoskRecognizer instances share the identical model object but must have distinct decoders. After a microphone 0.1-second frame, 30 computer seconds rotate only the computer decoder; three total fixture instances must exist and microphone's decoder identity must remain unchanged. Finishing each must report its own duration, 30 versus 0.1. The main guard supplies explicit unittest entry. This establishes mutable-state independence despite model sharing, not simultaneous native-thread safety.",
+          "focus": [{"start": 64, "end": 75}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/tests/Test-DualSyntheticTranscription.ps1",
+      "sourceSha256": "48b9cf7caefca5030c5c95127850b706aa7c17dc7689b66a0185e64ea052b0dd",
+      "role": "Explicit Windows synthesis wrapper supplying two in-memory speech fixtures to an ephemeral cached-Vosk integration check.",
+      "entryPoints": ["script param ModelPath", "real_dual_model_check.py invocation"],
+      "blocks": [
+        {
+          "start": 1, "end": 26, "title": "Require an existing interpreter/model and define two disjoint utterances",
+          "explanation": "The wrapper computes service/repository paths, requires the service-local venv and an existing model directory, defaulting to cached Vosk 0.15. Directory existence here is not integrity proof; VoskFactory verifies the contents in the Python child. System.Speech is configured for 16000-Hz mono PCM16. Ordered computer/microphone phrases have distinct numeric/semantic keywords, supporting cross-track negative assertions. The prior PYTHONDONTWRITEBYTECODE value is saved for restoration. No model download, capture device or installed service is invoked by these arrangements.",
+          "focus": [{"start": 9, "end": 12}, {"start": 16, "end": 24}]
+        },
+        {
+          "start": 27, "end": 51, "title": "Synthesize, append silence, pipe JSON and clean up",
+          "explanation": "Microsoft David Desktop at rate -1 renders each fixed phrase into a fresh MemoryStream, then output switches to null. One second of zero PCM is appended to each stream to exercise endpoints; base64 strings are placed in the ordered fixture object and streams are disposed independently. The child receives compact JSON on stdin and the explicit model path, with bytecode disabled. Nonzero exit raises a wrapper failure. Finally restores the environment and disposes the synthesizer. The Python child owns an ephemeral server and synthetic token; unlike the single wrapper this does not use a real token or persistent service. It still invokes a real model when intentionally executed.",
+          "focus": [{"start": 33, "end": 44}]
+        }
+      ]
+    },
+    {
+      "path": "services/transcription/whisper-models.json",
+      "sourceSha256": "f5979e05428365e3865704713618bf89a36a2d24e9e718430e91d3ee8d338845",
+      "role": "Pinned base.en and small.en artifact identities, sizes and hashes used by provisioning, local verification and runtime fingerprinting.",
+      "entryPoints": ["provision_whisper.model_spec", "provision_whisper.verify_whisper", "configuration.metadata", "configuration.paths"],
+      "blocks": [
+        {
+          "start": 1, "end": 16, "title": "Describe provenance and the optional base.en artifact set",
+          "explanation": "schemaVersion and MIT license are descriptive top-level metadata; model_spec currently indexes models directly rather than validating those fields. hashProvenance distinguishes a pinned HTTPS revision/LFS model hash and independently computed text hashes from publisher-signed checksums. base.en specifies its Hugging Face repository, immutable revision and local directory name. Its exact four files each supply a byte count plus SHA-256: config.json, 145216508-byte model.bin, tokenizer.json and vocabulary.txt. Provision uses repository/revision for URLs and directory for storage; verification enforces sizes/hashes; metadata reports selected revision. This is a supported alternate selection, not default or fallback.",
+          "focus": [{"start": 6, "end": 14}]
+        },
+        {
+          "start": 17, "end": 29, "title": "Pin the default small.en model independently",
+          "explanation": "small.en uses a distinct repository, immutable revision and directory. Its config is 2657 bytes and model.bin 483545366 bytes, while tokenizer/vocabulary share the same declared sizes/hashes as base.en. Each file remains independently verified; similar names or shared token assets do not authorize mixing the model binaries. configuration.DEFAULT chooses small.en, accurate.WhisperFinalizer receives this verified directory, and local_files_only prevents model-name discovery/download during inference. Numeric sizes/hashes are integrity expectations, not a performance or quality claim.",
+          "focus": [{"start": 17, "end": 25}]
+        }
+      ]
+    }
+  ]
+}

@@ -1,120 +1,182 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-08T18:24:20.6726096+00:00",
+  "generatedAtUtc": "2026-10-09T08:33:23.3989276+00:00",
   "captureKind": "WPF RenderTargetBitmap of actual controls using synthetic text and device labels; not a desktop or screen-sharing capture",
   "recordingStarted": false,
   "documentationFixture": true,
-  "appAssemblySha256": "1cf97307abd6b83e5663162fe7542ce2f72f9b841099567720aab60e011d6da3",
+  "appAssemblySha256": "39103f605e4d00d0e939fe9dbedd47adbc1328b31e91a1fb936b656ba6257859",
   "sourceFiles": {
     "src/PhantomFudge.App/App.xaml": "d041b4a7e2f4c6fc5336aa1359757c22c43f62e713bcdc94ec38c7ac10890a33",
-    "src/PhantomFudge.App/App.xaml.cs": "d2cbbfcf02628a7bed2200d7cfc68d48ca9164f746848a9aedd32df124ee82ec",
-    "src/PhantomFudge.App/MainWindow.xaml": "f36633ac29541d44900a82854d614a60d860099ad5568009d5243de58899b4e1",
-    "src/PhantomFudge.App/MainWindow.xaml.cs": "d166264d52a4bd86e9e16ac9fff8e1a1191745c0e1dd77b2d2bdbbde11769726",
-    "src/PhantomFudge.App/MainWindow.Questions.cs": "7dfdca70cd904b47215a44e3928f936243054ef9ae45c3b8049fa1c88727c192",
-    "src/PhantomFudge.App/MainWindow.QuestionDiagnostics.cs": "a9f7bf501df40eafcd703684ec7e1f1cdea342cc038c6682beade44066eb383f",
-    "src/PhantomFudge.App/MainWindow.Answers.cs": "bffea37c9f0fbd9f7c2d4deed677b12fe26a95e3ac32d472434b398b3b404aec",
-    "src/PhantomFudge.App/MainWindow.AnswerDiagnostics.cs": "44643c4ed82bb99372ef94c2af17e2745958ac5d9211e7d7a741b752fffea677",
+    "src/PhantomFudge.App/App.xaml.cs": "1bc989734b7e9a07ae1c3b1f5511a4c1ac9987db536b147ec661cf34e2f4efe0",
+    "src/PhantomFudge.App/MainWindow.xaml": "aa9a056cfb64ef96ae4f0802ae4f5ae33f7f9772a84e0a8c63eeae61bc1d1bf6",
+    "src/PhantomFudge.App/MainWindow.xaml.cs": "b58eca78e98ff6b87b1eb8c7730b5f3862e788fca4c540acbcdf95679d196cd1",
+    "src/PhantomFudge.App/MainWindow.Questions.cs": "d3afa0686c5af5fa12a588061da04abe2d0b84768f52a187792820fc031e9601",
+    "src/PhantomFudge.App/MainWindow.QuestionDiagnostics.cs": "f87b0a7fe816aa8f45667892b1dd79ce0d8d2d16a0979d015d5fd03f1b70b826",
+    "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs": "6639643e434d445af7e486a04a1a64f3858731dad127c7e43a7f1db04879c723",
+    "src/PhantomFudge.App/MainWindow.TranscriptSelectionDiagnostics.cs": "9b2dd7146f3415dcbded1f0f6e884109b6e3ee81098b6b5386cb6040141b098e",
+    "src/PhantomFudge.App/MainWindow.Clarification.cs": "360a83c8f69b83a47589851895d5877c55aad7236109b85115f4e14c7d6278ea",
+    "src/PhantomFudge.App/MainWindow.ClarificationDiagnostics.cs": "4adf057707ccb75c2f7b9089d27362546ab2a40a8a889fee256da9894f367950",
+    "src/PhantomFudge.App/MainWindow.RecordingIndicator.cs": "351d83ad04fb350493b65db8aac3ee63abcb10ac108b655a17db4b7d1ba05e61",
+    "src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs": "16af7fc2dd04f4203c5b66d98b202d4566aca04701676d58091ae1eb6833de56",
+    "src/PhantomFudge.App/MainWindow.AudioDeviceCardsDiagnostics.cs": "6a4a24a3e61edc4823e1883829c030945d949ff9c13e7a40374a7290c9578ab4",
+    "src/PhantomFudge.App/MainWindow.Cover.cs": "a8573efab0dcebe6120e8aaaee42b8d4f0e66a923e7bbfa8b63c967b50918ad1",
+    "src/PhantomFudge.App/MainWindow.CoverDiagnostics.cs": "729f133f4853c3c2402a07aa3dbc25928f15f0e49d360e68b46ace75b2e61eba",
+    "src/PhantomFudge.App/MainWindow.Answers.cs": "a65926885a6514bf9c4cde4679d67d1c9b28f03ad7c76b2e84a043cce026171b",
+    "src/PhantomFudge.App/MainWindow.AnswerDiagnostics.cs": "8b0089b18111f1feb49dc7c9f179019ab479b698aacef13010acd95efa0317ce",
+    "src/PhantomFudge.App/MainWindow.Layout.cs": "b8ffb4ed00be59065a7c31317cc42d050bc61d8ef9683799aeba697f3f45858a",
+    "src/PhantomFudge.App/MainWindow.AnswerLifetime.cs": "695ce25912a421acbbe7e511a93d720a207298c62b7397e70e35db83b066ccb9",
+    "src/PhantomFudge.App/MainWindow.Diagnostics.cs": "c321cfec0df21284a15e390c298babfbfeb8ab147d81e506ba2e9d6b9435748f",
+    "src/PhantomFudge.Core/WorkspaceLayout.cs": "d7cf6bb33938580f922e75e03650fa84e87932aa0322851f6539a132548dffaa",
     "src/PhantomFudge.Core/StructuredTranscriptStore.cs": "8b17e2686e28262373c48e44d565fb5347d07447094e8e16cfb939b43ac1ace6",
     "src/PhantomFudge.Core/QuestionDraft.cs": "51ddfe4ab42936c7b61d23d3a973aa206c6dffe3297bf2d20638b1ea6c11d7e5",
     "src/PhantomFudge.Core/TranscriptSegment.cs": "0bd6ec2f24cb5aa25b9b5a6f474b3254b17139031fc293cce514ff71875a7384",
     "src/PhantomFudge.Core/QuestionSnapshot.cs": "720ff106a4e0ca909cd85b6da1628b6bb990fa54a4ec43c94d0d98d35e5ec736",
-    "src/PhantomFudge.App/ThemeBrushes.cs": "b30cebc67f08e2e9117f2e4f9851ba830785d27f4658e8043f5175a0e9c2266d",
-    "src/PhantomFudge.Core/ThemePalette.cs": "a0debc5a9728548e9aadfbf7a1aced60eedb4127e87d93f01c0cea0357822151",
+    "src/PhantomFudge.App/ThemeBrushes.cs": "538caca7b44d67284cf62546ea9b48be3c80fd1db3c9616ed3ff7985f5b09a71",
+    "src/PhantomFudge.Core/ThemePalette.cs": "35f13ea5defda7d33c29f777f2270bb1dd6a11920d923318aa7f332baa8b7a5e",
     "src/PhantomFudge.Core/AudioSource.cs": "a2b5a65fab05e33c18ac7582bf20d3b750d6e15117cb33b1baff973100679b20",
     "src/PhantomFudge.Core/TranscriptBuffer.cs": "d9d2477acd821aa6b3e075a7c02ab4ec040791bad2c89181e629b4746a11e449",
-    "src/PhantomFudge.App/Native/WindowProtection.cs": "a3abc695cf790e76c43dc04e830ccd93b9b39f5bdd3119d5589d5f9b460442bf",
+    "src/PhantomFudge.App/Native/WindowProtection.cs": "869a41bab3c3f9cf8916b5b4db612f83c9b0d3f654cc1188d2805af2fbf20442",
     "src/PhantomFudge.App/Native/CursorPolicy.cs": "60fdd0df16389f15f2383df9fed2af3a83ecea6581171b85e8da3c175df05610"
   },
   "images": [
     {
       "file": "transcript-deepseafoam.png",
-      "sha256": "c57bde169f840da8fca06e721301bad5d3a6642b38fd8d72f9dbebc40d8b2ca7",
-      "width": 620,
-      "height": 760,
+      "sha256": "aa6fedf8289f5a338033a87bd30983a4ecdee4d8b3c2a9c017b34c41e2f7fc7c",
+      "width": 1240,
+      "height": 1176,
       "kind": "actual-wpf-visual-tree-synthetic-fixture"
     },
     {
       "file": "theme-DeepSeaFoam.png",
-      "sha256": "c57bde169f840da8fca06e721301bad5d3a6642b38fd8d72f9dbebc40d8b2ca7",
-      "width": 620,
-      "height": 760,
+      "sha256": "aa6fedf8289f5a338033a87bd30983a4ecdee4d8b3c2a9c017b34c41e2f7fc7c",
+      "width": 1240,
+      "height": 1176,
       "kind": "actual-wpf-visual-tree-synthetic-fixture"
     },
     {
       "file": "theme-HarborDaylight.png",
-      "sha256": "f745f765486b1b1a8cd909d6a64b210e72da06a1eb8cf6f289923966e1e183a9",
-      "width": 620,
-      "height": 760,
+      "sha256": "4af8ed8925bd8b960baca6d440579dbc64861ff41297925a0dfa07f13e088808",
+      "width": 1240,
+      "height": 1176,
       "kind": "actual-wpf-visual-tree-synthetic-fixture"
     },
     {
       "file": "theme-Plain.png",
-      "sha256": "2d7ecc6f63bab9cf6badd997c82815a9cd1886a5fb340affc3064b65609a1785",
-      "width": 620,
-      "height": 760,
+      "sha256": "f439c26e0cc1f5df942fc49df1817f51740dcaa65724773459eed21697bd9fde",
+      "width": 1240,
+      "height": 1176,
       "kind": "actual-wpf-visual-tree-synthetic-fixture"
     },
     {
       "file": "audio-setup.png",
-      "sha256": "3ae26cd4a9f70b1d9a7eabb8268293cb919e20bd20ac0277a5ea818096b9c86a",
-      "width": 620,
-      "height": 760,
+      "sha256": "7ae904da45696e5315a2d9b23b4005ebfa8c3726652ea5dc1eaceb9710e7ddf1",
+      "width": 1240,
+      "height": 1176,
       "kind": "actual-wpf-visual-tree-synthetic-fixture"
     },
     {
       "file": "notes-expanded.png",
-      "sha256": "01272f050d2d45a29e6803263b9418623a877da86a41b8f02cc1715aedbfaefa",
-      "width": 620,
-      "height": 760,
+      "sha256": "9bd43e712da7124fcfa29fe0edb1f75f0db9d34945d3d7cf867e7e5ba648fc78",
+      "width": 1240,
+      "height": 1176,
       "kind": "actual-wpf-visual-tree-synthetic-fixture"
     },
     {
       "file": "background-10.png",
-      "sha256": "db58353db4abc90ab92206a1a889b72373037ce1cc2d887f4a517f362c1efa00",
-      "width": 620,
-      "height": 760,
+      "sha256": "67416e4333326ba70733d3a0cee116aaba2d9c2c1c3a5f2d6c00ae0de6300f5e",
+      "width": 1240,
+      "height": 1176,
       "kind": "actual-wpf-visual-tree-synthetic-fixture"
     },
     {
       "file": "background-100.png",
-      "sha256": "297d67dffd8bba0156edb00a87febdde4503e4363b840e116cd42e60e4e90550",
-      "width": 620,
-      "height": 760,
+      "sha256": "f892f2faf31d2958375b7124a1b5fe3a0c9f9ceff485d0be6476cd2c11c03e54",
+      "width": 1240,
+      "height": 1176,
       "kind": "actual-wpf-visual-tree-synthetic-fixture"
     },
     {
       "file": "present.png",
-      "sha256": "01272f050d2d45a29e6803263b9418623a877da86a41b8f02cc1715aedbfaefa",
-      "width": 620,
-      "height": 760,
+      "sha256": "9bd43e712da7124fcfa29fe0edb1f75f0db9d34945d3d7cf867e7e5ba648fc78",
+      "width": 1240,
+      "height": 1176,
       "kind": "actual-wpf-visual-tree-synthetic-fixture"
     },
     {
       "file": "question-selection.png",
-      "sha256": "d332a67dd80fc66cf65ff212814aabbc39e826f514bd48c3c87014cf1c83e5d6",
-      "width": 620,
-      "height": 760,
+      "sha256": "d55b4f54b6da174ea189dd9e2e3ed08540b078c43eafd6cf4702b8db4e698259",
+      "width": 1240,
+      "height": 1176,
       "kind": "actual-wpf-visual-tree-synthetic-fixture"
     },
     {
       "file": "question-draft.png",
-      "sha256": "ef0796e5da77d6ac8fd353563c49dec221d4b014c318006fc928d85f5c6604f5",
-      "width": 620,
-      "height": 760,
+      "sha256": "2bb487731645735d846eef8b62429c3e7603612cfb9dadf3b77300ebbb4fb2da",
+      "width": 1240,
+      "height": 1176,
       "kind": "actual-wpf-visual-tree-synthetic-fixture"
     },
     {
       "file": "question-harbordaylight.png",
-      "sha256": "f5de50583b05cc122f3c6c4baafe03186b5a76b1348c46b32b85e35ea1a39aef",
-      "width": 620,
-      "height": 760,
+      "sha256": "952f6d33d7f5acd843772fdcc282fb9ce41e03530e572e6a95a02c2d2a2fffc4",
+      "width": 1240,
+      "height": 1176,
       "kind": "actual-wpf-visual-tree-synthetic-fixture"
     },
     {
       "file": "answer-synthetic.png",
-      "sha256": "15d6fd274cb05de421596a325cfbd744172eebe5ca0197cf771271c582135c51",
-      "width": 620,
-      "height": 760,
+      "sha256": "f8a5b1d2ad129a3a4a368774be69f1bb17c17fb3973f2da9dff0367dc9bdebfa",
+      "width": 1240,
+      "height": 1176,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "answer-background-10.png",
+      "sha256": "e811e166414631b12b0b67f5ca0eb7cce9ab625a086865b30a8b232c720c0cfe",
+      "width": 1240,
+      "height": 1176,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "answer-background-100.png",
+      "sha256": "c3cefc36076b8bfc7c3dfb161feb4f7711ab324a7e45843cff73a7a9823130dc",
+      "width": 1240,
+      "height": 1176,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "transcript-multiselect.png",
+      "sha256": "747642a5003bb13d537d48027e586f88160e1c467aaf1bdd0ce1e833bbfbd386",
+      "width": 1240,
+      "height": 1176,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "question-clarification.png",
+      "sha256": "f1246b49df744041f0bee54966a1d06fbfc83d8d38fc5ad5b1119a88a980109f",
+      "width": 1240,
+      "height": 1176,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "recording-active.png",
+      "sha256": "0c108a303827277b5b46b5a848ebfef9166278074e86940d6640bad1cdb80139",
+      "width": 1240,
+      "height": 1176,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "audio-setup-cards-compact.png",
+      "sha256": "baac0186151b19cad7dde8d485936e14097552f74e986b3db9de2999b9bdf905",
+      "width": 470,
+      "height": 560,
+      "kind": "actual-wpf-visual-tree-synthetic-fixture"
+    },
+    {
+      "file": "notepad-cover.png",
+      "sha256": "8b73c205e792fce511cd51db6dbac03cdc276d6dccc0796c26661bcdbe213772",
+      "width": 1240,
+      "height": 1176,
       "kind": "actual-wpf-visual-tree-synthetic-fixture"
     }
   ],

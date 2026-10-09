@@ -3,9 +3,13 @@ config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333
 ---
 flowchart TB
     accTitle: Content and persistence boundaries
-    accDescr: Notes and source-labelled transcript events remain in memory until an explicit save or export uses the file store.
+    accDescr: Save and Export alone write document files. Structured transcript rows separately supply explicitly selected local drafts and snapshots without changing export formatting.
     Editor["NoteEditor"] --> Save["Explicit Save"]
     Events["Transcript events"] --> Buffer["TranscriptBuffer"]
+    Events --> Segments["Structured segments"]
+    Segments --> Rows["Main selectable rows"]
+    Rows -->|Direct clicks| Draft["Copied local draft"]
+    Draft -->|Explicit Ask| Frozen["Immutable snapshot"]
     Buffer --> Finals["Final text"]
     Buffer --> Partials["Per-source partials"]
     Finals --> Export["Explicit Export"]
@@ -23,3 +27,7 @@ flowchart TB
     style Export fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Store fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style File fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Segments fill:#1e3a5f,stroke:#4a9eed,color:#e0e0e0
+    style Rows fill:#1e3a5f,stroke:#4a9eed,color:#e0e0e0
+    style Draft fill:#2d4a3e,stroke:#4aba8a,color:#e0e0e0
+    style Frozen fill:#2d4a3e,stroke:#4aba8a,color:#e0e0e0

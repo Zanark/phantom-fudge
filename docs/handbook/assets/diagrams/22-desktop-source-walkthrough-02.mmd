@@ -1,0 +1,20 @@
+flowchart TD
+    accTitle: Explicit question and clarification transactions
+    accDescr: Ask freezes a draft. Local mode does not send. Direct mode requests an answer. Optional clarification retains the original and requires an explicit correction or Yes for every further request.
+    Draft["Mutable local draft"] -->|Explicit Ask| Snapshot["Frozen exact text"]
+    Snapshot -->|Snapshot only| Local["Retain locally"]
+    Snapshot -->|Direct mode| Answer["One answer request"]
+    Snapshot -->|Clarify first| Interpret["Interpretation request"]
+    Interpret -->|Valid completed output| Review["Review with original retained"]
+    Review -->|Type only| Review
+    Review -->|Send correction| Interpret
+    Review -->|Explicit Yes| Confirmed["Confirmed answer request"]
+    Confirmed --> Original["Original editor restored"]
+    style Draft fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Snapshot fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Local fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Answer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Interpret fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Review fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Confirmed fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Original fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

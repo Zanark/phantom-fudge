@@ -1,8 +1,105 @@
-# Implementation status - 2026-10-08
+# Implementation status - 2026-10-09
 
 **Local development preview, not a qualified/public release.**
 
-## Installed Agency answer preview implemented locally
+## October9 10:33: optional question interpretation
+
+Current source adds **Clarify first**, off on launch. Interpret the chosen question, review the
+model's proposed meaning, then explicitly send Yes or a correction. The original draft is retained
+separately from the reply. Fixed task metadata and this question's bounded clarification exchanges
+are the only additional context; normal Ask remains history-free. See
+[usage and limits](QUESTION-CLARIFICATION.md) and [workstream45](../TODO/45_OPT_IN_QUESTION_CLARIFICATION.todo).
+Combined source/UI evidence is `.local\handbook-capture-20261009-105245`: all20selection and
+16clarification checks pass, together with the existing question/answer/opacity/cursor/layout guards.
+The final combined affected Core run passed270tests; the earlier provider-focused run passed227.
+Only fake providers/transports and synthetic content were used. No live-model wording or latency
+claim is made. The full illustrated handbook has been rebuilt and reviewed for this source handoff.
+No new ZIP is planned:045022 predates both clarification and direct multi-line selection.
+
+## October9 10:07: source-only multi-line transcript selection
+
+The owner requested direct Mic/Computer transcript clicks, then explicitly added multiple lines.
+Current source implements whole-segment toggles without Ctrl, displayed-history-order composition,
+raw text without generated prefixes, and independent question editing without stopping transcription.
+Q/A is expanded by default. Selection opens it if needed, closes source/setup/Notes panels and takes
+deliberate focus; it does not freeze a snapshot or submit a model question.
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:84-141;
+[`InitializeQuestionView` / `SetQuestionEditing`](../src/PhantomFudge.App/MainWindow.Questions.cs).)
+
+Edited drafts reject further direct selection with inline retained-draft status until **Clear
+question**, preserving highlights rather than destroying corrections. Partial identity/selection
+survives revisions/finalization before editing. Main visible history retains selectable structured
+rows after the256-entry/64000-character chooser eviction; the unchanged250000-character
+final/session display-buffer limit still applies. Archived unfinished rows remain provisional;
+separators are not selectable. New finals follow the scrollbar only when already at the end.
+Native ListBox keyboard/automation selection uses the same composition path.
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-141;
+[`TranscriptBuffer`](../src/PhantomFudge.Core/TranscriptBuffer.cs).)
+
+All selection composition goes through `QuestionDraft.ReplaceSelection`: one capture session,
+at most256entries and8192UTF-16 units including newlines, atomic rejection and no truncation.
+The legacy **Choose source → Mic / Computer / All → Use selected** replacement path remains.
+Selected rows keep shared background alpha, white/black text and thin accent outlines.
+([`QuestionDraft`](../src/PhantomFudge.Core/QuestionDraft.cs);
+[`UseQuestionSelection_Click`](../src/PhantomFudge.App/MainWindow.Questions.cs);
+[`TranscriptRowStyle`](../src/PhantomFudge.App/MainWindow.xaml).)
+
+**Final source validation:** `result.json` and `transcript-selection.json` in
+`.local\handbook-capture-20261009-105245` report PASS. All20direct-selection checks are true,
+including retained draft after Clear transcript; existing question/answer, minimum/responsive
+layout, alpha, cursor and style guards also pass. The receipts report zero real model/cloud
+requests and no recording/audio capture. The parent additionally reports **118PASS** for the
+targeted existing Core question/transcript suite; the later combined run passed270.
+The final exporter refreshed **17WPF +5READMEimages**, including the clarification flow.
+The actual [multi-selection image](handbook/assets/screenshots/transcript-multiselect.png) is linked
+in the guide and handbook; these are synthetic renders, not desktop/meeting captures.
+
+**Runtime is frozen; implementation and synthetic validation are complete.** Final changes after
+the first smoke made retained-edit status visible when Q/A was hidden, added the twentieth
+clear-transcript/draft regression and reset the synthetic fixture for readable answer images.
+Citation migration, full handbook/illustration review and current editions are complete for
+this local source handoff; **TODO44 and45 are DONE** within their scoped evidence boundaries.
+(src/PhantomFudge.App/MainWindow.TranscriptSelectionDiagnostics.cs:11-145;
+[workstream44](../TODO/44_TRANSCRIPT_CLICK_SELECTION.todo).)
+
+**Delivery:** updated source via `scripts\Run-PhantomFudge.ps1`; no new ZIP is planned for this
+small change. Save/copy needed content, close the old app with **X**, then run the checkout.
+The045022ZIP below remains an immutable historical quality candidate and **does not contain
+click selection**. No real mic/model/org access, service operation or new login is part of this
+selection/documentation update. Owner usability, accessibility and recipient capture/cursor gates
+remain open; synthetic UI success does not qualify them.
+
+## Historical October9 quality correction and045022candidate
+
+The current source implements the expanded monitor-clamped reading workspace, exact white/black
+reading text, transparent answers, quiet Details, local hybrid ASR and direct prepared Agency answers.
+See [quality results and limits](QUALITY-UPDATE.md) and [diagnostic retention](DIAGNOSTICS.md).
+
+| Validation boundary | Recorded result |
+| --- | --- |
+| Source UI | Fifteen synthetic WPF images; responsive/minimum/recovery/alpha assertions. Final source identity is in the screenshot manifest. |
+| Local speech | Final106 service + 18 benchmark tests; native46 groups and actual C#→hybrid synthetic PCM integration reported by the runtime implementer. |
+| Speech quality | Synthetic WER 12.04→4.40%, CER 6.37→0.263%; final median/p95 2.736/3.017 s. Actual microphone unqualified. |
+| Agency H exact text | Three complete prepared answers: 4066/4176/2992 ms; 33 compiled correctness checks passed. Cold preparation about 20–31 s, not under five. |
+| Provider regression | Earlier127 targeted fake-provider checks; parent final full Core345/345 passed after all three review fixes. |
+| Diagnostics | Parent's metadata-only export check: 1979 app + 1 speech records, no Text, no upload. |
+| Documentation | Ten existing parser tests pass; full source-rebased edition/freshness tracked by handbook manifest. |
+
+Historical quality candidate: `artifacts\phantom-fudge-0.1.0-preview-win-x64-20261009-045022.zip` (unsigned, local only; no click selection).
+Candidate SHA256: `D24E8D2C5A1AF30E3F72FDA07F535B43D730420A81CE67115645605B7667D553`.
+Candidate size/files: 76,383,294 bytes; 508 files.
+Exact-package fixture: passed all synthetic UI/question/answer checks, including capture-before-cleanup and alpha26/255; modelRequests0, cloudRequests0, no recording/audio.
+Package audit: eleven required service files, eight identical script pairs and five public JSON receipts present; no weights, secrets, private profiles, PCM, context stores, logs or debug symbols.
+
+The parent provisioned selected models and upgraded only the authenticated owned idle service,
+observing ready/hybrid-small.en/inactive/diagnostics available. Documentation does not restart it.
+The old running app is not force-closed: save/copy needed content, close with X, then launch the update.
+Prepared answers are not a universal five-second SLO. All 48 correction-study client submissions,
+earlier wrong/slow answers and speech failures remain in public sanitized receipts. No new model
+prompt, live microphone/playback, organization-data connector, auth flow, upload, commit or push is
+part of documentation or candidate validation. TODO13/32 and broader owner/hardware gates remain open.
+
+## Historical installed Agency answer preview
 
 The21:24 request adds selectable installed answer providers while keeping direct Azure future.
 Common streaming state/UI, constrained installed-provider adapters and setup are implemented.
@@ -14,7 +111,7 @@ reset to SnapshotOnly. A separately authorized Agency-only synthetic prompt then
 with exit0, tool_count0, no tool requests, both builtin MCPs disabled and no new login flow.
 The one observed run took69.881seconds; it is not a performance benchmark. See answer-provider-smoke.json.
 
-Latest local ZIP: `artifacts\phantom-fudge-0.1.0-preview-win-x64-20261008-235421.zip`,
+Historical local ZIP: `artifacts\phantom-fudge-0.1.0-preview-win-x64-20261008-235421.zip`,
 76,252,854bytes/489files, SHA256
 `88D98E7CAFA56B067A521571778D0F661A879DDCBF5EBBE9D412987D2BFA5A69`.
 Core268tests and source/exact-package synthetic UI pass, including early streaming, exact snapshot,
@@ -24,8 +121,8 @@ Setup now selects Agency locally; open Question and Reload setup in this new pre
 No owner app/service was force-stopped. Direct Copilot cloud remains unvalidated; real local-model
 quality/latency and recipient capture qualification remain open. Earlier candidate receipts follow.
 
-The15:05 research is followed by the17:37 implementation authorization. **TODO28 is now local code**:
-structured question selection/typing and immutable Ask snapshots exist. **Ask sends nothing yet**.
+The historical15:05 research was followed by the17:37 implementation authorization. **TODO28 became local code**:
+structured question selection/typing and immutable Ask snapshots existed. **That snapshot-only slice sent nothing**.
 Source commit, Azure auth/client and streamed answers remain future work. No cloud latency result,
 model deployment, account lookup or data upload occurred. See LOCAL-QUESTIONS.md and the latest
 question-preview receipt at the end; older packages below remain historical, not overwritten.
@@ -194,17 +291,17 @@ synthetic text/device labels, without starting capture. Its images are not deskt
 capture-exclusion evidence. The current preview ZIP above was not replaced for this documentation task.
 Edition provenance/counts live in `handbook\manifest.json`; maintenance is required by workflow06.
 
-## Latest implementation: local questions (owner17:37)
+## Historical local-question snapshot slice (owner17:37)
 
 Four Core types supply structured source/session/utterance/revision identity, bounded history,
 selected/typed8192-character drafts, user-edit detachment and immutable deep snapshot copies.
 Native events carry a per-Start local GUID before dispatch, rejecting stale callbacks without changing
 v1/v2 wire schemas. Legacy transcript display/export is unchanged.
 
-The inline Question panel defaults to Mic filtering, requires explicit row selection/Use selected,
-and permits separate question typing without stopping audio or enabling notes editing. Ask freezes
-exact displayed text locally; no provider/network is connected. Copy/Clear and unsaved-exit handling
-are explicit. Armed live-Mic source boundaries await29commit; approved Azure connection30 precedes31.
+At that handoff the inline Question panel defaulted to Mic filtering and required row selection/Use selected,
+and permitted separate question typing without stopping audio or enabling notes editing. Ask froze
+exact displayed text locally; no provider/network was connected in that slice. Copy/Clear and unsaved-exit handling
+were explicit. Armed live-Mic source boundaries still await29commit; approved Azure connection30 precedes31.
 
 Current evidence:137Core tests (96new +41existing),46native synthetic groups, and source/exact-package
 UI checks pass. UI covers source/session isolation, no implicit Ask, frozen partial/final revisions,
@@ -213,9 +310,27 @@ LF/CR/CRLF fidelity, oversize/empty rejection, typing independence, theme preser
 foreground-preservation assertion; an identical-source repeat and later runs passed. The cause was
 not established; no remote cursor, first-frame or owner acceptance is inferred.
 
-Latest local ZIP: `artifacts\phantom-fudge-0.1.0-preview-win-x64-20261008-183107.zip`,
+Historical local ZIP: `artifacts\phantom-fudge-0.1.0-preview-win-x64-20261008-183107.zip`,
 76,205,175bytes/486files, SHA256
 `C5062B6B94F3ABC63901960F1572F1A9141EA128C2CA513E6D26C4C5C3FAB27A`.
 Packaged synthetic evidence: `.local\packaged-question-ui\result.json`. Twelve source-generated UI
 images are maintained with provenance; they are not desktop/meeting captures. Existing owner
 processes/services were not stopped. No upload, publication, Azure operation or real meeting access.
+
+## October9 11:07: annotated source reference
+
+Documentation now includes a [searchable source atlas](source-atlas/index.html) and
+[476-page annotation PDF](source-atlas/Phantom-Fudge-Source-Atlas.pdf):163first-party files,
+23686physical lines and956authored explanation blocks. Each physical line belongs to one
+non-overlapping block; complete escaped source is available in HTML, while the PDF prints
+explanations and focused excerpts.33generated evidence files,8lockfiles and18byte-identical
+PowerShell mirrors are classified separately in the [coverage ledger](source-atlas/coverage.json).
+
+Seven new handbook chapters explain important statements, call chains, invariants, bounds,
+state transitions, failure preservation and test negative controls. The full handbook includes
+65diagrams; final edition counts and hashes live in its manifest. The atlas's local reader supports
+identifier/content search and stable source-line links. Both editions include freshness gates.
+This is documentation/tooling work: all runtime and non-documentation-tool source hashes remained
+unchanged. No application, service, audio, model, authentication or release operation was performed.
+Mechanical line coverage is not a claim of complete semantic understanding or external-library
+qualification. [Workstream46](../TODO/46_ANNOTATED_SOURCE_REFERENCE.todo) records the delivery.

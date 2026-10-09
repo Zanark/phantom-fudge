@@ -1,0 +1,20 @@
+# Reduce transcription typography by one quarter
+
+Status: DONE
+Milestone: Requested transcript density adjustment
+Dependencies: 25_TRANSCRIPT_FIRST_THEMES.todo
+
+## Scope and evidence
+
+- [x] Final transcript20->15WPF font units.
+- [x] Live partial18->13.5normally and14->10.5in compact layouts.
+- [x] Preserve question, answer and device-card fonts, contrast, selection and capture behavior.
+- [x] Assert exact compact/normal sizes in the existing synthetic layout fixture.
+- [x] Refresh affected images, authored source explanations and both documentation editions.
+
+The131703synthetic UI fixture passes the font/layout and prior lifecycle/action/card checks with
+no real audio/model operation. This is source-only; close/relaunch after saving to load the change.
+
+## Completion log
+
+- 2026-10-09 13:15 - Owner requested a25%font reduction for transcriptions.

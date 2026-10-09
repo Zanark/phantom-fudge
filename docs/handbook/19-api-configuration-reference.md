@@ -8,7 +8,7 @@ outline: deep
 
 ## Readiness is not recording
 
-This reference distinguishes three operations that must never be conflated: **provisioning**, **starting an idle service**, and **starting selected audio capture**. The launcher starts/reuses Python, but the window separately requires explicit Start, valid selections, protection readiness, and a token. Both is the initial input-mode selection, not automatic recording. (`scripts\Run-PhantomFudge.ps1:39-55`, launcher; `src\PhantomFudge.App\MainWindow.xaml.cs:33-56`, initial state; `src\PhantomFudge.App\MainWindow.xaml.cs:613-652`, `Start_Click`.)
+This reference distinguishes three operations that must never be conflated: **provisioning**, **starting an idle service**, and **starting selected audio capture**. The launcher starts/reuses Python, but the window separately requires explicit Start, valid selections, protection readiness, and a token. Both is the initial input-mode selection, not automatic recording. (`scripts\Run-PhantomFudge.ps1:39-55`, launcher; `src\PhantomFudge.App\MainWindow.xaml.cs:35-64`, initial state; `src\PhantomFudge.App\MainWindow.xaml.cs:637-685`, `Start_Click`.)
 
 Commands below are reference examples from the repository root, not actions performed to produce this chapter. No credential value is reproduced. Follow [capture](07-dual-input-capture.md), [protocol](08-streaming-protocol.md), [recognition](09-python-recognition.md), and [service ownership](10-native-service-lifecycle.md) for the implementation narratives.
 
@@ -43,7 +43,7 @@ flowchart TB
     linkStyle default stroke:#8b949e
 ```
 
-The final gate is implemented by `StartCoreAsync`: native construction follows successful transport connection, not merely process launch. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:101-114`, `StartCoreAsync`.)
+The final gate is implemented by `StartCoreAsync`: native construction follows successful transport connection, not merely process launch. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:102-115`, `StartCoreAsync`.)
 
 ## 1. Startup commands and argument semantics
 
@@ -65,13 +65,16 @@ The normal operational sequence is:
 | `Initialize-Transcription.ps1` | Verify/provision token and model; normally create/restore the service-local Python environment. |
 | `-DownloadModel` | Permit downloading an absent model archive. A valid cached archive does not require another download. |
 | `-SkipPythonSetup` | Skip environment/dependency setup, **not** token/model work. |
+| `-Engine hybrid-whisper` | Native default: Vosk provisional text plus accurate local Whisper finals; `vosk` is an explicit legacy choice. |
+| `-WhisperModel small.en` | Default accurate model; `base.en` explicitly selects a smaller alternative. |
+| `-Vocabulary technical` | Default disclosed individual-word hints; `none` disables them. |
 | `Start-Transcription.ps1` | Invoke the existing service-local interpreter with `manage.py start`. Missing setup fails; it is not installed here. |
 | `Run-PhantomFudge.ps1 -NoBuild` | Skip source-build work; an executable must already exist. Packaged launches skip build regardless. |
 | `-NotesOnly` | Skip service startup; it does not remove transcription controls or disable a separately running service. |
 | `-PassThru` | Also return the launched process object, including the recovery process on the reveal path. |
 | Start/Stop `-Docker` | Explicit optional container branch; never selected automatically. Start requires existing recipes/engine. |
 
-Definitions: `Initialize-Transcription` parameters/provisioning (`scripts\Initialize-Transcription.ps1:1-15`, `scripts\Initialize-Transcription.ps1:69-140`); native/Docker branches (`scripts\Start-Transcription.ps1:8-36`, `scripts\Stop-Transcription.ps1:8-22`); launcher branches (`scripts\Run-PhantomFudge.ps1:1-57`). The launcher requires PowerShell 7.2 or later, prefers the packaged executable when present, and reveals an existing app at the expected executable path **before** any build/service operation. (`scripts\Run-PhantomFudge.ps1:1-37`, launcher.)
+Definitions: `Initialize-Transcription` parameters/provisioning (`scripts\Initialize-Transcription.ps1:1-24`, `scripts\Initialize-Transcription.ps1:78-165`); native/Docker branches (`scripts\Start-Transcription.ps1:8-36`, `scripts\Stop-Transcription.ps1:8-22`); launcher branches (`scripts\Run-PhantomFudge.ps1:1-57`). The launcher requires PowerShell 7.2 or later, prefers the packaged executable when present, and reveals an existing app at the expected executable path **before** any build/service operation. (`scripts\Run-PhantomFudge.ps1:1-37`, launcher.)
 
 The application itself recognizes three exact two-argument diagnostic patterns: `--capture-proof outputDirectory`, `--ui-smoke outputDirectory`, and `--documentation-screenshots outputDirectory`. These dispatch capture/UI diagnostics, not ordinary headless unit tests. Unmatched argument shapes fall through to normal single-instance startup; there is no implemented `--ask`, input-selection, or automatic-capture CLI switch. (`src\PhantomFudge.App\App.xaml.cs:13-75`, `App.OnStartup`.)
 
@@ -89,13 +92,21 @@ The application itself recognizes three exact two-argument diagnostic patterns: 
 | `OPENBLAS_NUM_THREADS`, `OMP_NUM_THREADS` | Manager sets each to `1`; these are child environment settings, not WebSocket controls. |
 | `PHANTOM_AUDIO_TEST_TOKEN` | Native fixture/playback harness credential; distinct from the application's token-variable name. |
 
-Source: `MainWindow` initialization and `Start_Click` (`src\PhantomFudge.App\MainWindow.xaml.cs:48-56`, `src\PhantomFudge.App\MainWindow.xaml.cs:630-652`); launcher environment (`scripts\Run-PhantomFudge.ps1:43-55`); `load_token`, `main`, and `production_app` (`services\transcription\server.py:69-79`, `services\transcription\server.py:455-485`); manager child environment (`services\transcription\manage.py:167-176`, `start`); harness lookup (`tests\PhantomFudge.Audio.Tests\DualSyntheticServiceCheck.cs:24-27`, `RunDualSyntheticServiceCheckAsync`).
+Source: `MainWindow` initialization and `Start_Click` (`src\PhantomFudge.App\MainWindow.xaml.cs:50-64`, `src\PhantomFudge.App\MainWindow.xaml.cs:659-685`); launcher environment (`scripts\Run-PhantomFudge.ps1:43-55`); `load_token`, `main`, and `production_app` (`services\transcription\server.py:75-85`, `services\transcription\server.py:658-705`); manager child environment (`services\transcription\manage.py:188-201`, `start`); harness lookup (`tests\PhantomFudge.Audio.Tests\DualSyntheticServiceCheck.cs:24-27`, `RunDualSyntheticServiceCheckAsync`).
 
-**Do not infer a port setting:** production `server.main` binds port 8765. The C# validator allows other valid ports on literal `127.0.0.1` or `[::1]`, but that does not reconfigure the server. It rejects `localhost`, remote hosts, `wss`, query credentials, fragments, user information, and normalized/escaped alternate paths. The default native server is IPv4 despite client IPv6-loopback acceptance. Redirects and proxies are disabled. (`services\transcription\server.py:475-492`, `main`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:26-31`, HTTP handler; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:73-89`, `ValidateEndpoint`.)
+**Do not infer a port setting:** production `server.main` binds port 8765. The C# validator allows other valid ports on literal `127.0.0.1` or `[::1]`, but that does not reconfigure the server. It rejects `localhost`, remote hosts, `wss`, query credentials, fragments, user information, and normalized/escaped alternate paths. The default native server is IPv4 despite client IPv6-loopback acceptance. Redirects and proxies are disabled. (`services\transcription\server.py:695-712`, `main`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:26-31`, HTTP handler; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:82-98`, `ValidateEndpoint`.)
 
-Initialization generates 32 random bytes as 64 hexadecimal characters and restricts the Windows token DACL to the current user. Existing invalid tokens require explicit repair, not silent rotation. Manager/server validation requires `[A-Za-z0-9_-]{32,512}`; the native socket's broader lexical check is not the server's credential contract. Never put credentials in URLs or command arguments. (`scripts\Initialize-Transcription.ps1:33-67`, token setup; `services\transcription\manage.py:33-40`, `token`; `services\transcription\server.py:69-79`, `load_token`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:108-135`, `ConnectCoreAsync`.)
+Initialization generates 32 random bytes as 64 hexadecimal characters and restricts the Windows token DACL to the current user. Existing invalid tokens require explicit repair, not silent rotation. Manager/server validation requires `[A-Za-z0-9_-]{32,512}`; the native socket's broader lexical check is not the server's credential contract. Never put credentials in URLs or command arguments. (`scripts\Initialize-Transcription.ps1:42-76`, token setup; `services\transcription\manage.py:35-42`, `token`; `services\transcription\server.py:75-85`, `load_token`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:117-144`, `ConnectCoreAsync`.)
 
 Engine/model pins are `vosk==0.3.45`, `aiohttp==3.14.3`, and English `vosk-model-small-en-us-0.15`. The archive is 41,205,931 bytes; its recorded hash is observed download identity, not a publisher-signed checksum. Runtime verifies the exact manifest file set and hashes before explicit-path model loading. (`services\transcription\requirements.txt:1-2`, dependency pins; `services\transcription\model.json:2-10`, manifest; `services\transcription\recognizer.py:22-49`, `verify_model`, `VoskFactory`.)
+
+Those are the provisional/legacy pins, not the entire hybrid footprint. The native default also
+uses faster-whisper 1.2.1, CPU-int8 small.en and four CPU threads. Configuration lives in
+`.local\transcription-config.json`; schema/engine/model/thread/vocabulary fields are validated,
+both model families are checked before load, and missing accurate files never trigger fallback.
+(`services/transcription/configuration.py:11-35,61-70`;
+`services/transcription/accurate.py:75-81`;
+`services/transcription/provision_whisper.py:19-81`.)
 
 ## 3. Native management contract
 
@@ -103,9 +114,9 @@ Engine/model pins are `vosk==0.3.45`, `aiohttp==3.14.3`, and English `vosk-model
 .\services\transcription\.venv\Scripts\python.exe .\services\transcription\manage.py status
 ```
 
-`manage.py` accepts exactly one verb: `start`, `stop`, or `status`; exit codes are `0` success, `1` runtime failure, and `64` invalid usage. Status reports `ready`, `active`, and `pid` when it authenticates a listener; no listener produces a textual status instead. (`services\transcription\manage.py:217-239`, `status`, `main`.)
+`manage.py` accepts exactly one verb: `start`, `stop`, or `status`; exit codes are `0` success, `1` runtime failure, and `64` invalid usage. Status reports `ready`, `active`, and `pid` when it authenticates a listener; no listener produces a textual status instead. (`services\transcription\manage.py:244-268`, `status`, `main`.)
 
-Start/Stop/Status share a workspace byte-range lock. Ownership requires the receipt's UUID plus authenticated service name and management version, not merely a PID or occupied port. A ready v2-capable instance is reused, including an active one. Automatic replacement is limited to an owned, ready, explicitly idle instance lacking speech v2. Active, ambiguous, foreign, or unready instances are not silently repaired. (`services\transcription\manage.py:65-90`, `lifecycle_lock`; `services\transcription\manage.py:112-159`, ownership/capability/start decisions.)
+Start/Stop/Status share a workspace byte-range lock. Ownership requires the receipt's UUID plus authenticated service name and management version, not merely a PID or occupied port. Reuse requires current speech capability and engine/model/source/dependency/vocabulary fingerprint. Automatic replacement is limited to an authenticated owned idle instance after verifying the selected models. Active, ambiguous, foreign, or unready instances are not silently repaired. (`services\transcription\manage.py:67-92`, `lifecycle_lock`; `services\transcription\manage.py:114-179`, ownership/capability/start decisions.)
 
 The Python decision can be read as this JavaScript pseudocode:
 
@@ -113,14 +124,15 @@ The Python decision can be read as this JavaScript pseudocode:
 if (listenerExists()) {
   const info = authenticateReceiptInstance();
   require(info.ready === true);
-  if (supportsSpeechV2(info)) return; // Reuse, not record.
+  if (supportsSpeechV2(info) && matchesRuntimeFingerprint(info)) return;
   require(info.active === false);
+  verifySelectedModels();
   await authenticatedShutdownAndPortClosure();
 }
 await spawnWithNewReceiptAndVerifyReadiness();
 ```
 
-Management waits are phase-specific: lock acquisition 50 seconds, HTTP request 2 seconds, startup observation 45 seconds, shutdown-port wait 12 seconds. Failed shutdown/startup preserves ownership evidence rather than killing an arbitrary OS process. The request reader caps JSON at 4,096 bytes and forbids redirects/proxies. (`services\transcription\manage.py:43-90`, request/lock; `services\transcription\manage.py:130-200`, stop/start.)
+Management waits are phase-specific: lock acquisition 50 seconds, HTTP request 2 seconds, startup observation 45 seconds, shutdown-port wait 12 seconds. Failed shutdown/startup preserves ownership evidence rather than killing an arbitrary OS process. The request reader caps JSON at 4,096 bytes and forbids redirects/proxies. (`services\transcription\manage.py:45-92`, request/lock; `services\transcription\manage.py:145-227`, stop/start.)
 
 ## 4. HTTP routes
 
@@ -131,7 +143,13 @@ Management waits are phase-specific: lock acquisition 50 seconds, HTTP request 2
 | `POST /v1/shutdown` | Bearer plus matching `X-Phantom-Instance`; no body; idle managed instance returns `{"status":"stopping"}`. |
 | `GET /v1/transcribe` | Authenticated WebSocket upgrade; one active session, reserved before the start handshake. |
 
-These routes are registered by `create_app`. Runtime/shutdown/transcription reject query strings and bodies. Authentication requires exactly one Bearer header; nonempty browser Origin is rejected—403 on transcription, 401 on management. An identity mismatch or active shutdown attempt yields 409; unavailable speech yields 503. (`services\transcription\server.py:162-209`, `health`, `authorized`, management handlers; `services\transcription\server.py:353-378`, `transcribe`; `services\transcription\server.py:435-452`, `create_app`.)
+Authenticated runtime metadata additionally exposes engine/model/revision, configuration fingerprint,
+diagnostic availability and numeric queue/fault/drop bounds, including `maxStopSeconds:85`.
+This does **not** add fields to strict v1/v2 ready/stopped/speech messages or expose model paths.
+(`services/transcription/configuration.py:39-58`;
+[runtime contract](../../services/transcription/README.md#protocol-privacy-and-resource-behavior).)
+
+These routes are registered by `create_app`. Runtime/shutdown/transcription reject query strings and bodies. Authentication requires exactly one Bearer header; nonempty browser Origin is rejected—403 on transcription, 401 on management. An identity mismatch or active shutdown attempt yields 409; unavailable speech yields 503. (`services\transcription\server.py:201-260`, `health`, `authorized`, management handlers; `services\transcription\server.py:538-563`, `transcribe`; `services\transcription\server.py:636-655`, `create_app`.)
 
 ## 5. Speech v1/v2 messages and bytes
 
@@ -145,7 +163,7 @@ Both versions use `/v1/transcribe`. Send one of these complete text messages aft
 {"type":"start","protocolVersion":2,"sampleRate":16000,"channels":1,"encoding":"pcm_s16le","sources":["computer","microphone"]}
 ```
 
-V1 is Computer-only. V2 source subsets must be nonempty, unique, and canonically ordered: Computer alone, Mic alone, or Computer then Mic. Version/rate/channel values must be integers; extra fields or unknown sources fail. `ready` echoes the accepted start fields with a different `type`; v2 clients reject downgrade. (`services\transcription\server.py:94-106`, `parse_start`; `services\transcription\server.py:378-385`, ready construction; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:407-426`, `ProcessMessage`.)
+V1 is Computer-only. V2 source subsets must be nonempty, unique, and canonically ordered: Computer alone, Mic alone, or Computer then Mic. Version/rate/channel values must be integers; extra fields or unknown sources fail. `ready` echoes the accepted start fields with a different `type`; v2 clients reject downgrade. (`services\transcription\server.py:100-112`, `parse_start`; `services\transcription\server.py:563-574`, ready construction; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:416-435`, `ProcessMessage`.)
 
 | Item | V1 | V2 |
 | --- | --- | --- |
@@ -157,10 +175,10 @@ V1 is Computer-only. V2 source subsets must be nonempty, unique, and canonically
 | Partial fields | `type`, `text` | Also `source` |
 | Final fields | `type`, `text`, `segmentId`, `startSeconds`, `endSeconds` | Also `source` |
 
-The server strips the prefix before validation/accounting. At 32,000 PCM bytes/second, 100 ms means 3,200 PCM bytes or 3,201 v2 message bytes; neither duration nor queue credit includes the prefix. (`services\transcription\server.py:23-25`, source/format constants; `services\transcription\server.py:255-287`, `Session.receive`; `services\transcription\server.py:289-315`, `Session.publish`; `src\PhantomFudge.Core\AudioSource.cs:3-23`, wire identities.)
+The server strips the prefix before validation/accounting. At 32,000 PCM bytes/second, 100 ms means 3,200 PCM bytes or 3,201 v2 message bytes; neither duration nor queue credit includes the prefix. (`services\transcription\server.py:26-28`, source/format constants; `services\transcription\server.py:319-357`, `Session.receive`; `services\transcription\server.py:361-392`, `Session.publish`; `src\PhantomFudge.Core\AudioSource.cs:3-23`, wire identities.)
 
 Final IDs increase globally across the session, while final times and replacement partials are source-local. Thus Computer ending at 5 seconds followed by Mic ending at 2 seconds is valid. Labels identify inputs, not speakers. `{"type":"stop"}` stops the entire session; source-scoped commit and speech v3 remain **unimplemented**. The desktop Ask action freezes a snapshot and optionally invokes its configured installed answer
-provider; it is not a speech-protocol control or a direct Azure request. (`services\transcription\server.py:247-252`, control handling; `services\transcription\server.py:289-327`, publication/drain; `docs\DUAL-SOURCE-AUDIO.md:10-17`, identity boundary; `docs\AI-ANSWER-ARCHITECTURE.md:320-365`, proposed commit.)
+provider; it is not a speech-protocol control or a direct Azure request. (`services\transcription\server.py:306-316`, control handling; `services\transcription\server.py:361-417`, publication/drain; `docs\DUAL-SOURCE-AUDIO.md:10-17`, identity boundary; `docs\AI-ANSWER-ARCHITECTURE.md:461-506`, proposed commit.)
 
 ```mermaid
 ---
@@ -191,7 +209,7 @@ sequenceDiagram
     S-->>C: stopped
 ```
 
-Stop waits for a queue slot rather than discarding accepted PCM. Each declared source receives a final, even if empty, before `stopped`. Native drain has its own timeout and requires v2 stop-final evidence from every source; disconnection is not equivalent to completed drain. (`services\transcription\server.py:247-252`, `Session.receive`; `services\transcription\server.py:317-327`, `Session.recognize`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:232-280`, `StopAsync`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:454-465`, `ProcessMessage`.)
+Stop waits for a queue slot rather than discarding accepted PCM. Each declared source receives a final, even if empty, before `stopped`. Native drain has its own timeout and requires v2 stop-final evidence from every source; disconnection is not equivalent to completed drain. (`services\transcription\server.py:306-316`, `Session.receive`; `services\transcription\server.py:394-498`, `Session.recognize`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:241-289`, `StopAsync`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:463-474`, `ProcessMessage`.)
 
 ## 6. Resource defaults are code limits, not CLI knobs
 
@@ -203,16 +221,23 @@ Stop waits for a queue slot rather than discarding accepted PCM. Each declared s
 | Server source rate credit | 64,000-byte burst, 32,000 bytes/s refill; 200-frame burst, 100 frames/s refill |
 | Server start / idle / decoder / send waits | 5 / 15 / 5 / 2 seconds |
 | Source duration ceiling | 28,800 seconds of received PCM, not wall time |
-| Native connection / final-drain waits | 10 / 15 seconds |
+| Native connection / final-drain waits | 10 / 90 seconds; backend conservative maximum 85 seconds, not normal latency |
 | Native capture startup / release waits | 10 / 5 seconds; separate from socket waits |
 | Native idle-silence cadence | At least 250 ms without real packets, at least 100 ms between synthetic frames |
-| Recognizer history rotation | At least 30 seconds of processed source audio since the previous rotation |
+| Recognizer history rotation | Hybrid targets 15-second disjoint spans, at most 16 with a crossing frame; explicit legacy Vosk uses 30 seconds |
 | Native response limit | 32,768 bytes, JSON depth 8 |
 | Text limits | Server 8,192 Python characters; native 16,384 .NET string characters |
 
-Defaults are declared in `Limits` and native constants/parser, not environment overrides. Per-source queue quotas cannot borrow another source's spare capacity. For 3,200-byte frames, the byte quota is twenty queued frames; tiny two-byte frames instead reach the server's frame quota first. (`services\transcription\server.py:42-56`, `Limits`; `services\transcription\server.py:225-287`, `Session`; `services\transcription\server.py:289-292`, text validation; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:13-43`, constants/channel; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:343-366`, `ReceiveAsync`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:430-440`, transcript parser.)
+Defaults are declared in `Limits` and native constants/parser, not environment overrides. Per-source queue quotas cannot borrow another source's spare capacity. For 3,200-byte frames, the byte quota is twenty queued frames; tiny two-byte frames instead reach the server's frame quota first. (`services\transcription\server.py:45-59`, `Limits`; `services\transcription\server.py:280-357`, `Session`; `services\transcription\server.py:361-369`, text validation; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:13-43`, constants/channel; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:352-375`, `ReceiveAsync`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:439-449`, transcript parser.)
 
-Capture waits, silence scheduling, and decoder rotation are distinct mechanisms, not one end-to-end deadline or acoustic endpoint setting. A timed-out native release retains worker ownership and blocks unsafe restart; a delayed silence tick does not backfill elapsed time. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:12-14`, constants; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:81-84`, restart gate; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:292-312`, `SupplySilenceAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:387-405`, `FinishSessionAsync`; `src\PhantomFudge.App\Audio\SilenceCadence.cs:11-19`, scheduling; `services\transcription\recognizer.py:82-90`, rotation.)
+Hybrid provisional decoding has independent bounded source workers and a separate serial finalizer.
+At most two immutable final spans per source include the executing span. The final native-call
+deadline is 20 seconds, distinct from the provisional five-second decoder wait. A failed/timed-out
+native call is not silently retried as success. Span ownership is exact audio accounting, not
+word-aligned timestamps or an accuracy guarantee (`services/transcription/accurate.py:33-118`;
+[recognition lifecycle](09-python-recognition.md)).
+
+Capture waits, silence scheduling, and decoder rotation are distinct mechanisms, not one end-to-end deadline or acoustic endpoint setting. A timed-out native release retains worker ownership and blocks unsafe restart; a delayed silence tick does not backfill elapsed time. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:13-15`, constants; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:82-85`, restart gate; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:313-333`, `SupplySilenceAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:408-426`, `FinishSessionAsync`; `src\PhantomFudge.App\Audio\SilenceCadence.cs:11-19`, scheduling; `services\transcription\recognizer.py:82-90`, rotation.)
 
 ## 7. Testing commands: choose the evidence layer
 
@@ -232,13 +257,13 @@ The native harness is an executable, not an xUnit project; ordinary arguments fi
 | Harness `--service-v2 URI --synthetic-tracks-stdin --expect-computer phrase --expect-microphone phrase` | JSON stdin containing two base64 PCM tracks, at most 60 seconds each; checks source-specific finals. |
 | `scripts\Test-PlaybackTranscription.ps1 -AllowPlayback` | **Audible/hardware test:** plays synthetic speech and captures all default render-device output. Explicit approval and paused unrelated audio are required. |
 
-These distinctions follow the actual wrappers and runners: `Test-DualSourceSynthetic` (`scripts\Test-DualSourceSynthetic.ps1:1-43`), probe `run` (`tools\DualSourceProbe\probe.py:18-57`), cached-model wrapper (`services\transcription\tests\Test-DualSyntheticTranscription.ps1:1-45`), v1 runner (`tests\PhantomFudge.Audio.Tests\Program.cs:78-136`), v2 runner (`tests\PhantomFudge.Audio.Tests\DualSyntheticServiceCheck.cs:10-79`), and playback wrapper/runner (`scripts\Test-PlaybackTranscription.ps1:1-14`; `tests\PhantomFudge.Audio.Tests\PlaybackCheck.cs:39-78`, `RunAsync`). The `--playback` executable branch itself has no `-AllowPlayback` switch: do not bypass the consent-bearing wrapper.
+These distinctions follow the actual wrappers and runners: `Test-DualSourceSynthetic` (`scripts\Test-DualSourceSynthetic.ps1:1-47`), probe `run` (`tools\DualSourceProbe\probe.py:19-65`), cached-model wrapper (`services\transcription\tests\Test-DualSyntheticTranscription.ps1:1-45`), v1 runner (`tests\PhantomFudge.Audio.Tests\Program.cs:78-136`), v2 runner (`tests\PhantomFudge.Audio.Tests\DualSyntheticServiceCheck.cs:10-79`), and playback wrapper/runner (`scripts\Test-PlaybackTranscription.ps1:1-14`; `tests\PhantomFudge.Audio.Tests\PlaybackCheck.cs:39-78`, `RunAsync`). The `--playback` executable branch itself has no `-AllowPlayback` switch: do not bypass the consent-bearing wrapper.
 
 The repository's testing contract explicitly requires consent and paused unrelated audio for playback; ordinary development tests must not open the live microphone. (`AGENTS.md:65-67`, unattended-test boundaries.)
 
 ## 8. Errors and recovery interpretation
 
-Service errors have exactly `type: "error"`, `code`, and a fixed safe `message`. The client replaces remote error text with its own generic message. Protocol errors normally attempt close code 1008; oversized transport messages can close with 1009 instead. (`services\transcription\server.py:26-66`, catalogue/`error`; `services\transcription\server.py:155-159`, `close_with_error`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:397-405`, error handling; `services\transcription\tests\test_dual_protocol.py:257-264`, transport-ceiling test.)
+Service errors have exactly `type: "error"`, `code`, and a fixed safe `message`. The client replaces remote error text with its own generic message. Protocol errors normally attempt close code 1008; oversized transport messages can close with 1009 instead. (`services\transcription\server.py:29-72`, catalogue/`error`; `services\transcription\server.py:194-198`, `close_with_error`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:406-414`, error handling; `services\transcription\tests\test_dual_protocol.py:257-264`, transport-ceiling test.)
 
 | Code | Meaning and first distinction to check |
 | --- | --- |
@@ -251,7 +276,7 @@ Service errors have exactly `type: "error"`, `code`, and a fixed safe `message`.
 | `decoder_error`, `model_unavailable` | Recognition failure versus unavailable readiness/model; neither invokes cloud fallback. |
 | `server_stopping` | Service shutdown notification, not a successful transcription-completion acknowledgement. |
 
-The meanings come from `ERRORS` and their enforcing paths. A decoder-operation failure marks runtime readiness failed; an idle-only managed restart cannot safely terminate a stuck native call. Repair and restart are deliberate operational steps, not promises of automatic recovery. (`services\transcription\server.py:26-39`, `ERRORS`; `services\transcription\server.py:126-142`, `Runtime.cpu`; `services\transcription\server.py:237-287`, receive limits; `services\transcription\server.py:422-428`, shutdown; `services\transcription\manage.py:130-144`, `stop_owned`.)
+The meanings come from `ERRORS` and their enforcing paths. A decoder-operation failure marks runtime readiness failed; an idle-only managed restart cannot safely terminate a stuck native call. Repair and restart are deliberate operational steps, not promises of automatic recovery. (`services\transcription\server.py:29-42`, `ERRORS`; `services\transcription\server.py:147-181`, `Runtime.cpu`; `services\transcription\server.py:296-357`, receive limits; `services\transcription\server.py:620-626`, shutdown; `services\transcription\manage.py:145-159`, `stop_owned`.)
 
 ### Checkpoints and reference boundary
 
@@ -263,5 +288,12 @@ draft ceiling. `Freeze` validates nonblank exact text and creates an immutable l
 no cloud setting or provider. Azure answers and v3 remain proposals, not available configuration
 options. (`src\PhantomFudge.Core\StructuredTranscriptStore.cs:13-22`;
 `src\PhantomFudge.Core\QuestionDraft.cs:8-9,90-103`; `docs\QUALIFICATION.md:1-7`.)
+
+That is the local `Freeze` operation, not the whole Ask integration. Installed Agency is explicitly
+configured separately and uses one exact question per fresh session. Startup prepares one empty
+session, never an inferred model prompt (`src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:23-78`).
+Default local logs omit bodies; text opt-in, safe summary and local export are documented in
+[Diagnostics](../DIAGNOSTICS.md) and implemented with bounded records
+(`src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs:20-24,40-69,132-159`).
 
 For direct lookup, use the [manager](../../services/transcription/manage.py), [HTTP/session implementation](../../services/transcription/server.py), [native transport](../../src/PhantomFudge.App/Audio/TranscriptionSocket.cs), [initialization script](../../scripts/Initialize-Transcription.ps1), and [fixture entry points](../../tests/PhantomFudge.Audio.Tests/Program.cs). All references resolve to maintained source, not generated receipts or local credentials.

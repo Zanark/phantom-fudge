@@ -6,8 +6,8 @@ config:
     textColor: "#e6edf3"
 ---
 flowchart TB
-    accTitle: PLANNED answer workstream dependencies
-    accDescr: Research and local drafts are complete, while commit, connection, streaming answers, evaluation and resilience remain planned.
+    accTitle: Implemented installed answers and remaining workstream dependencies
+    accDescr: Research, drafts and installed answers exist. Commit, direct Azure, broader evaluation, resilience and owner/recorder qualification remain separate gates.
     Research["27 Research DONE"] --> Draft["28 Local draft DONE"]
     Draft --> Installed["39 Installed Agency or local model"]
     Installed --> UI
@@ -15,7 +15,7 @@ flowchart TB
     Draft --> Commit["29 PLANNED commit"]
     Draft --> Client["31 PLANNED client"]
     Auth --> Client
-    Draft --> UI["32 PLANNED UI"]
+    Draft --> UI["32 UI qualification OPEN"]
     Client --> UI
     Commit --> Measure["33 PLANNED evaluation"]
     Client --> Measure

@@ -13,13 +13,13 @@ description: "Source and packaged operation, explicit setup, recoverability, and
 
 `Publish-Preview.ps1` builds a self-contained win-x64 application into a timestamped directory,
 copies a selected documentation/script/service allowlist, and creates a ZIP plus SHA256 output
-(`scripts\Publish-Preview.ps1:1-41`). The exact list matters: copying the repository wholesale
+(`scripts\Publish-Preview.ps1:1-52`). The exact list matters: copying the repository wholesale
 would also risk models, token files, captures, temporary data and unrelated development tooling.
 
 The native runtime and Python runtime are different dependencies. Self-contained .NET publishing
 includes the .NET runtime needed by the executable. It does not install Python, create the
-service's venv or embed the ASR model. Those operations are owned by explicit initialization
-(`scripts\Initialize-Transcription.ps1:110-140`).
+service's venv or embed either ASR model. Those operations are owned by explicit initialization
+(`scripts\Initialize-Transcription.ps1:119-165`).
 
 ## Artifact flow
 
@@ -43,7 +43,7 @@ flowchart TB
 The final arrows are deliberately not automatic. A passing local smoke test is not signing,
 distribution authorization, enterprise-policy acceptance or four-product capture qualification.
 The implementation-status document identifies the actual local candidate and its remaining
-boundaries (`docs\IMPLEMENTATION-STATUS.md:1-122`).
+boundaries (`docs\IMPLEMENTATION-STATUS.md:1-219`).
 
 ## Source checkout versus extracted bundle
 
@@ -66,13 +66,17 @@ An already-running source instance is revealed rather than rebuilt underneath th
 The initializer checks a pinned archive size/hash and verifies the extracted model files.
 An existing damaged model is not silently overwritten. Token creation uses random bytes,
 does not rotate an existing valid token automatically, and restricts the Windows DACL
-(`scripts\Initialize-Transcription.ps1:17-67`, `:69-109`).
+(`scripts\Initialize-Transcription.ps1:26-76`, `:69-109`).
 
 The recorded archive hash is an observed integrity value from a known public download,
 not a publisher-signed guarantee. That distinction is explained in the service guide
-(`services\transcription\README.md:120-170`).
+(`services\transcription\README.md:140-235`).
 
-The model can be reused from the local cache. Dependency repair is controlled by the requirements
+Vosk and Whisper models can be reused from verified local caches. The native default is
+hybrid-whisper/small.en/int8/four threads/technical vocabulary; explicit legacy Vosk or base.en
+are configuration choices, not automatic fallbacks. The new allowlisted runtime includes
+accurate/configuration/diagnostics/provisioning modules and both model/vocabulary manifests.
+(`services/transcription/configuration.py:11-35,61-70`.) Dependency repair is controlled by the requirements
 hash/import check and stays in the service's venv. Setup does not mean recording; launching
 the service still leaves audio idle until the user presses Start.
 
@@ -80,8 +84,9 @@ the service still leaves audio idle until the user presses Start.
 
 A listening port may belong to another workspace or process. The manager authenticates
 `/v1/runtime`, checks the service identifier/management version and matches the saved instance
-ID before reuse or shutdown (`services\transcription\manage.py:112-144`). A stale owned idle
-service can be restarted for the supported speech protocol, but active transcription is refused.
+ID before reuse or shutdown (`services\transcription\manage.py:114-159`). A stale owned idle
+service can be restarted for a changed speech protocol, engine/model/source fingerprint, but
+active transcription is refused and the selected model is verified before replacement.
 
 ```mermaid
 ---
@@ -95,7 +100,7 @@ flowchart TB
     Setup --> Spawn["Spawn owned native service"]
     Spawn --> Ready["Wait for authenticated readiness"]
     Port -- yes --> Identity["Authenticate and match instance"]
-    Identity --> Compatible{"Current speech protocol?"}
+    Identity -->     Compatible{"Current protocol and runtime?"}
     Compatible -- yes --> Reuse["Reuse without restart"]
     Compatible -- no --> Active{"Transcription active?"}
     Active -- yes --> Refuse["Refuse interruption"]
@@ -104,7 +109,7 @@ flowchart TB
 
 This design refuses ambiguity instead of adopting an arbitrary process. The manager's status
 output intentionally reports only readiness/activity/PID, not token or transcript content
-(`services\transcription\manage.py:217-239`).
+(`services\transcription\manage.py:244-268`).
 
 ## Troubleshooting by symptom
 
@@ -124,7 +129,7 @@ That notice is diagnostic data, not saved notes.
 Check the selected input mode, every requested device, local token, model and service version.
 In Both mode, a missing microphone must not silently become Computer-only. The native adapter
 validates selection and waits for protocol readiness before opening inputs
-(`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:71-155`).
+(`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:72-156`).
 
 ### Nothing is transcribed
 
@@ -139,6 +144,22 @@ The application may be releasing native inputs, draining accepted audio or waiti
 recognition. IsRunning is not a complete shutdown contract. A hung native call cannot be safely
 treated as disposed merely because a UI timeout expired. The source retains ownership and
 blocks unsafe restart rather than using a success-shaped fallback.
+
+### Answers are slow or return no useful solution
+
+Separate provider preparation, first text, complete answer/session close and UI assignment.
+Startup/reveal/reload prepares one empty Agency session without inference; cold preparation can
+take roughly 20–31 seconds. Wait for Ready, then Ask. Three prepared exact-text GPT-5.6 Sol Fast / low
+responses completed below five seconds; this does not guarantee future latency. Earlier fast wrong
+answers and slow cases remain in [the quality record](../QUALITY-UPDATE.md).
+(`src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:23-78`.)
+
+Default [local diagnostics](../DIAGNOSTICS.md) provide request/capture IDs, stages, counts and safe
+errors, not conversation bodies. `Show-Diagnostics.ps1` excludes synthetic UI timings by default.
+`Export-Diagnostics.ps1` strips Text unless explicitly requested and includes only four allowlisted
+metadata-only speech logs from that workspace; it does not upload anything
+(`scripts/Export-Diagnostics.ps1:14-80`;
+`src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs:20-24,40-69`).
 
 ### Docker is missing
 
@@ -158,10 +179,10 @@ references. Freshness tooling detects changed inputs, but semantic review remain
 
 ## References
 
-- `scripts\Publish-Preview.ps1:1-41` — package recipe.
-- `scripts\Initialize-Transcription.ps1:17-140` — model/token/runtime setup.
+- `scripts\Publish-Preview.ps1:1-52` — package recipe.
+- `scripts\Initialize-Transcription.ps1:26-165` — model/token/runtime setup.
 - `scripts\Run-PhantomFudge.ps1:8-57` — source/package launch selection.
-- `services\transcription\manage.py:112-239` — instance ownership, reuse and stop.
+- `services\transcription\manage.py:114-268` — instance ownership, reuse and stop.
 - `src\PhantomFudge.App\Native\SingleInstance.cs:18-75` — window recovery channel.
 - `src\PhantomFudge.App\LocalFailureNotice.cs:1-30` — non-content failure notice.
-- `docs\IMPLEMENTATION-STATUS.md:1-122` — candidate evidence and limits.
+- `docs\IMPLEMENTATION-STATUS.md:1-219` — candidate evidence and limits.

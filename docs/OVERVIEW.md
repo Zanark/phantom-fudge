@@ -19,17 +19,21 @@ to choose a detailed guide.
 | --- | --- | --- |
 | Computer / Mic / Both | Explicitly chosen inputs, separate labelled tracks, no recording before Start | [Dual-source audio](DUAL-SOURCE-AUDIO.md) |
 | Live transcript and notes | Transcript-first interface with optional plain-text notes and explicit save/export | [Preview guide](PREVIEW-GUIDE.md) |
-| Questions and answers | Select/compose exact text; freeze locally or Ask an explicitly configured provider | [Question composer](LOCAL-QUESTIONS.md), [provider setup](ANSWER-PROVIDERS.md) |
-| Appearance | DeepSeaFoam, Harbor Daylight and Plain B/W; adjustable background-only translucency | [Themes and cursor behavior](CURSOR-AND-THEMES.md) |
+| Questions and answers | Click several Mic/Computer lines, review one draft, then freeze locally or Ask an explicitly configured provider | [Question composer](LOCAL-QUESTIONS.md), [provider setup](ANSWER-PROVIDERS.md) |
+| Question clarification | Off by default; request an interpretation, then explicitly send Yes or a correction | [Clarify first](QUESTION-CLARIFICATION.md) |
+| Appearance | Larger responsive reading columns; white/black reading text; all reading surfaces share background translucency | [Themes and cursor behavior](CURSOR-AND-THEMES.md) |
 | Recovery | Hide/reveal shortcut and second-launch recovery without an ordinary taskbar entry | [Controls and recovery](PREVIEW-GUIDE.md) |
-| Recognition | Native C# capture/UI with local Python/Vosk, not a mandatory Docker deployment | [Speech service](../services/transcription/README.md) |
+| Recognition | Native C# capture/UI; local Vosk provisional text plus Whisper small.en finals, no mandatory Docker | [Speech service](../services/transcription/README.md) |
+| Diagnosis | Rotating local metadata, optional text retention and explicit metadata-only export | [Diagnostics](DIAGNOSTICS.md) |
 
 The input identities are `Computer` and `Microphone`, not identified speakers
 (`src/PhantomFudge.Core/AudioSource.cs:3-30`, `AudioSourceNames`). Native startup connects the
 local transport before constructing the selected capture inputs
-(`src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:67-127`, `StartCoreAsync`).
+(`src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:68-128`, `StartCoreAsync`).
 The Python recognizer loads an explicit local model path and produces partial/final text
 (`services/transcription/recognizer.py:41-96`, `VoskFactory`, `VoskRecognizer`).
+The hybrid wrapper transfers disjoint PCM spans to the local Whisper finalizer; verified selected
+models are required rather than silently falling back (`services/transcription/accurate.py:33-129`).
 
 ## Capture exclusion has limits
 
@@ -39,7 +43,7 @@ or protect against cameras and hardware recorders. Do not treat it as a security
 
 `WindowProtection.Configure` requests `WDA_EXCLUDEFROMCAPTURE` on the owned HWND, applies
 tool-window/nonactivation styles and checks available readback. Its composition flush is not
-recipient-side observation (`src/PhantomFudge.App/Native/WindowProtection.cs:18-45`).
+recipient-side observation (`src/PhantomFudge.App/Native/WindowProtection.cs:19-48`).
 
 The target is Windows 11 first, with Teams, Zoom, Google Meet and OBS qualified separately.
 The actual product/backend matrix remains unqualified. Local synthetic capture observations and
@@ -71,8 +75,10 @@ flowchart TB
     Start["Explicit Start"] --> Capture["C# selected WASAPI inputs"]
     Computer["Computer output"] --> Capture
     Mic["Microphone"] --> Capture
-    Capture --> Python["Local Python and Vosk"]
+    Capture --> Python["Local Vosk provisional workers"]
+    Python --> Whisper["Local Whisper finalizer"]
     Python --> Transcript["Source-labelled transcript"]
+    Whisper --> Transcript
     Transcript --> Window["WPF reading surface"]
 ```
 
@@ -94,7 +100,7 @@ From the repository root in PowerShell 7, follow the [preview guide](PREVIEW-GUI
 .\scripts\Run-PhantomFudge.ps1
 ```
 
-Setup creates a service-local Python environment and explicitly downloads the public model when
+Setup creates a service-local Python environment and explicitly downloads the verified public models when
 needed. The launcher starts or reuses native Python; it does not start audio capture. `-NotesOnly`
 skips service startup. Stop this workspace's idle service with:
 
@@ -107,6 +113,9 @@ source versus packaged execution, and uses a loopback endpoint
 (`scripts/Run-PhantomFudge.ps1:17-57`). Save/close an older running instance before trying a newer
 preview. Never terminate it to force an update while unsaved notes may exist.
 
+The direct multi-click selection increment is **source-only** through that launcher. No new ZIP is
+planned; the immutable historical045022ZIP does not contain it. See [current status](IMPLEMENTATION-STATUS.md).
+
 **Docker is optional and last.** It is not on the normal transcription path or the native-release
 critical path. A cloud account is not needed for current local operation. Public dependency/model
 downloads during setup are distinct from uploading meeting audio.
@@ -114,17 +123,24 @@ downloads during setup are distinct from uploading meeting audio.
 ## Appearance and interaction
 
 The Background slider changes the content tint from 10% to 100%, defaulting to 55%, while keeping
-text solid. Lower opacity reveals the actual content behind the surface; it does not create
+text solid, including the answer pane. The default requested window is 1240 x 1520 clamped to the
+monitor; wide layouts put transcript and Q/A side by side. Lower opacity reveals the actual content behind the surface; it does not create
 click-through or guarantee readability over every slide.
 
 The sun/moon control switches DeepSeaFoam and Harbor Daylight; Plain B/W restores the neutral
 palette. The theme values and two-theme transition are explicit in `ThemePalette.For` and
-`NextThemed` (`src/PhantomFudge.Core/ThemePalette.cs:10-28`).
+`NextThemed` (`src/PhantomFudge.Core/ThemePalette.cs:11-29`).
+The October 9 reading role deliberately overrides text to exact white in dark mode and black in
+light/plain modes; it does not recolor the whole canonical palette.
 
 The default Present view is non-activating and uses an arrow cursor. Global Edit enables note
 typing and stops transcription. Question **Type / edit** is deliberately separate: it permits
 keyboard focus without stopping audio or enabling note editing. Done typing/Escape returns to
-passive interaction (`src/PhantomFudge.App/MainWindow.Questions.cs:143-182`).
+passive interaction (`src/PhantomFudge.App/MainWindow.Questions.cs:156-201`).
+Main-transcript clicks now enter that same deliberate question-focus path, not passive scrolling.
+Q/A is expanded initially; direct selection closes source/setup/Notes to expose the editor.
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:125-141;
+[`InitializeQuestionView`](../src/PhantomFudge.App/MainWindow.Questions.cs).)
 
 ## Local questions, selectable providers and future Azure
 
@@ -140,30 +156,46 @@ config:
 ---
 flowchart LR
     accTitle: Local question state and the unconnected Azure boundary
-    accDescr: Selection or typing creates a draft. Explicit Ask freezes exact text and uses the selected installed provider; direct Azure remains future work.
-    Selected["Selected segments"] --> Draft["Editable local draft"]
+    accDescr: Direct multi-click selection or typing creates a local draft. Explicit Ask alone freezes exact text and may use the selected installed provider; direct Azure remains future work.
+    Selected["Click several transcript rows"] --> Draft["Editable local draft"]
     Typed["Typed question"] --> Draft
     Draft --> Ask["Explicit Ask"]
     Ask --> Snapshot["Immutable local snapshot"]
     Snapshot --> Provider["Configured Copilot or local model"]
     Snapshot -. "future adapter" .-> Azure["PLANNED direct Azure"]
+    style Selected fill:#1e3a5f,stroke:#4a9eed,color:#e0e0e0
+    style Draft fill:#2d4a3e,stroke:#4aba8a,color:#e0e0e0
+    style Typed fill:#1e3a5f,stroke:#4a9eed,color:#e0e0e0
+    style Ask fill:#5a4a2e,stroke:#d4a84b,color:#e0e0e0
+    style Snapshot fill:#2d4a3e,stroke:#4aba8a,color:#e0e0e0
+    style Provider fill:#2d2d3d,stroke:#7a7a8a,color:#e0e0e0
+    style Azure fill:#2d2d3d,stroke:#7a7a8a,color:#e0e0e0
 ```
 
 Only intended segments enter the draft. Manual edits prevent later ASR from overwriting its text;
 `Freeze` validates and copies the exact local question
 (`src/PhantomFudge.Core/QuestionDraft.cs:48-95`). The current Ask handler displays that snapshot
 or sends only its exact question through an explicitly configured provider
-(`src/PhantomFudge.App/MainWindow.Questions.cs:231-250`).
+(`src/PhantomFudge.App/MainWindow.Questions.cs:258-284`).
+
+Ordinary clicks toggle whole segments without Ctrl and compose raw text in displayed history
+order, including older visible rows beyond chooser eviction. After editing, direct changes are
+rejected with inline retained-draft status until **Clear question**; selection alone never freezes
+or sends. The manual **Choose source → Mic / Computer / All → Use selected** path remains.
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-82,84-141.)
 
 Accurate armed-Mic finalization and approved direct Azure identity/provider integration remain
 separate TODOs. Copilot CLI runs on the machine but normally uses GitHub cloud inference; offline
 inference requires a separately installed local model endpoint. See [provider setup](ANSWER-PROVIDERS.md). Read the [implemented local workflow](LOCAL-QUESTIONS.md), then the
 [remaining Azure architecture](AI-ANSWER-ARCHITECTURE.md), [identity/data boundaries](AI-ANSWER-PRIVACY.md)
-and [latency evaluation plan](AI-ANSWER-EVALUATION.md). No model is claimed fastest without measurement.
+and [latency evaluation plan](AI-ANSWER-EVALUATION.md). Agency now prepares an empty session without a
+model prompt, then uses a fresh question context per Ask. Three prepared GPT-5.6 Sol Fast / low
+answers completed in 2.992–4.176 seconds with 33 passing compiled checks; cold preparation remains
+about 20–31 seconds. [The correction record](QUALITY-UPDATE.md) preserves failures and test limits.
 
 ## Engineering and deeper reading
 
-The stack is C#/WPF on .NET 10, NAudio and local Python/Vosk. Keep private notes, transcripts,
+The stack is C#/WPF on .NET 10, NAudio and local Python/Vosk/Whisper. Keep private notes, transcripts,
 model files and local tokens out of Git. Save/export deliberately; the preview does not promise
 automatic recovery of unsaved text.
 

@@ -15,7 +15,7 @@ The initial request was a draggable speaker-notes window that would not appear i
 share. The useful part of that request is implementable on supported Windows capture paths.
 The absolute version—no software can ever detect or record the surface—is not. The product
 contract therefore separates plain-text editing, movement, shell presentation, captured pixels,
-platform support and actual product qualification (`docs\PRODUCT.md:6-31`).
+platform support and actual product qualification (`docs\PRODUCT.md:6-33`).
 
 That separation made later changes tractable. Transcription became the main view. Notes became
 collapsible. The owner removed repetitive permission/rehearsal acknowledgments. Translucency
@@ -51,7 +51,7 @@ flowchart TB
 ```
 
 The native mechanism uses an owned HWND and display affinity. It does not make the process
-cease to exist (`src\PhantomFudge.App\Native\WindowProtection.cs:18-45`). Similarly, the
+cease to exist (`src\PhantomFudge.App\Native\WindowProtection.cs:19-48`). Similarly, the
 source enum means "where samples came from", not "who was speaking"
 (`src\PhantomFudge.Core\AudioSource.cs:3-30`). Precision in nouns prevents precision failures
 in code and documentation.
@@ -108,7 +108,7 @@ flowchart LR
 The owner observed an I-beam over text and a disappearing cursor in a shared view. The app
 now uses Arrow and a non-activating default, but those local changes do not control every
 recorder's cursor stream. The design deliberately records that remaining uncertainty rather
-than renaming it success (`docs\CURSOR-AND-THEMES.md:1-45`).
+than renaming it success (`docs\CURSOR-AND-THEMES.md:1-62`).
 
 At the same time, normal functionality must not be sacrificed to a privacy slogan. Notes must
 still be editable after an explicit Edit action. Device rows must still be selectable without
@@ -125,7 +125,7 @@ An authored workflow can be complete while execution is not started
 This is especially important for the Azure plan. The proposed path sends a frozen, explicit
 question to a streamed model request. It does not authorize automatic meeting uploads, resource
 creation or model calls simply because the diagram exists
-(`docs\AI-ANSWER-ARCHITECTURE.md:44-138`).
+(`docs\AI-ANSWER-ARCHITECTURE.md:82-188`).
 
 ## A worked change-impact exercise
 
@@ -144,15 +144,15 @@ a second device object. A complete change asks:
 That checklist explains why the dual-input change involved native capture, protocol, Python
 state, transcript storage, UI, tests and documentation rather than one checkbox. The contract
 is written down before pretending that all those surfaces agree
-(`docs\DUAL-SOURCE-AUDIO.md:28-108`).
+(`docs\DUAL-SOURCE-AUDIO.md:28-116`).
 
 ## References
 
-- `docs\PRODUCT.md:6-31` — distinct requirements and limits.
+- `docs\PRODUCT.md:6-33` — distinct requirements and limits.
 - `TODO\16_DEVELOPMENT_LEDGER.todo:1-90` — dated scope/evidence history.
-- `src\PhantomFudge.App\Native\WindowProtection.cs:18-45` — actual window mechanism.
+- `src\PhantomFudge.App\Native\WindowProtection.cs:19-48` — actual window mechanism.
 - `src\PhantomFudge.Core\AudioSource.cs:3-30` — input identities.
 - `scripts\Start-Transcription.ps1:1-24` — native default.
 - `scripts\Run-PhantomFudge.ps1:1-41` — launch options.
-- `docs\DUAL-SOURCE-AUDIO.md:1-108` — microphone supersession and protocol.
-- `docs\AI-ANSWER-ARCHITECTURE.md:44-138` — proposed answer boundary.
+- `docs\DUAL-SOURCE-AUDIO.md:1-116` — microphone supersession and protocol.
+- `docs\AI-ANSWER-ARCHITECTURE.md:82-188` — proposed answer boundary.

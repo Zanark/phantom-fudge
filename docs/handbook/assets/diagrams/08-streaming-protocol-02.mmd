@@ -3,23 +3,30 @@ config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorde
 ---
 sequenceDiagram
     accTitle: Stop cannot overtake accepted PCM
-    accDescr: The client drains sends, the server queues a sentinel, and both source tails precede stopped.
+    accDescr: Stop follows accepted PCM in both source queues, both worker tails join the finalizer queue, and its terminal marker follows every final.
     autonumber
     participant C as Client
     participant R as Receiver
-    participant Q as Server queue
-    participant W as CPU worker
+    participant W as Computer worker
+    participant M as Mic worker
+    participant J as Join coordinator
+    participant F as Finalizer
     C->>C: Complete audio channel
     C->>R: Remaining source frames
-    R->>Q: Append accepted PCM
+    R->>W: Queue Computer PCM
+    R->>M: Queue Mic PCM
     C->>R: stop
-    R->>Q: Await slot, append sentinel
-    Q->>W: Earlier PCM in FIFO order
-    W-->>C: Partials or finals
-    Q->>W: Stop sentinel
-    W->>W: Finish Computer
-    W-->>C: Computer final
-    W->>W: Finish Mic
-    W-->>C: Mic final
-    W-->>C: stopped
+    R->>W: Await slot, append stop marker
+    R->>M: Await slot, append stop marker
+    par Independent source drains
+        W->>W: Decode queued PCM, finish
+        W-->>J: Computer tail span
+    and
+        M->>M: Decode queued PCM, finish
+        M-->>J: Mic tail span
+    end
+    J->>F: Queue both tails after earlier spans
+    J->>F: Append terminal marker
+    F-->>C: All remaining ordered finals
+    F-->>C: stopped
     C->>C: Complete bounded drain

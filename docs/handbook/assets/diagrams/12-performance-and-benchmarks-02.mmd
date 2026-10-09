@@ -7,9 +7,12 @@ config:
 ---
 flowchart TB
     accTitle: Throughput and live latency have different boundaries
-    accDescr: Complete-file decoding measures RTF; paced PCM observes stream-start events; the full application has additional stages.
+    accDescr: Complete-file decoding measures RTF, the old paced probe measures stream-start events, and October 9 uses a clean speech-end reference while device and UI stages remain unmeasured.
     File["Complete file"] --> Decode["Timed decode"] --> RTF["File RTF"]
-    Pace["Paced PCM"] --> Events["Partial and final"] --> Start["From stream start"]
+    Pace["Historical paced PCM"] --> Events["Partial and final"] --> Start["From stream start"]
+    New["October 9 paced PCM"] --> Final["Last nonempty final"]
+    Clean["Clean speech-end marker"] --> Lag["Final minus speech end"]
+    Final --> Lag
     Device["Device delivery"] -.-> Queue["Transport queue"]
     Queue -.-> ASR["ASR processing"]
     ASR -.-> UI["WPF rendering"]
@@ -19,6 +22,10 @@ flowchart TB
     style Pace fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Events fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Start fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style New fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Final fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Clean fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Lag fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Device fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Queue fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style ASR fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

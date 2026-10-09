@@ -1,0 +1,57 @@
+{
+  "model": "gpt-5.6-sol-fast",
+  "configuredModel": "gpt-5.6-sol-fast",
+  "reasoningEffort": "low",
+  "profile": "concise-standalone-prepared-session",
+  "startup": "prepared_empty_session",
+  "questionSource": "User-provided public-safe intended and ASR strings, preserved exactly",
+  "providerAssemblySha256": "947DAC8995DD34A5EFF2DCB7F6B09393A0D0B48DABDC7D18291B1DF7D2588D83",
+  "submittedQuestionRequests": 3,
+  "failure": null,
+  "totalMs": 32715,
+  "trials": [
+    {
+      "trial": 1,
+      "state": "prepared_fresh_session",
+      "question": "Write me the solution for the leet code problem two sum",
+      "preparationBeforeAskMs": 19987,
+      "firstProviderTextMs": 1868,
+      "completedAndSessionClosedMs": 4066,
+      "streamCleanupMs": 4083,
+      "completed": true,
+      "failure": null,
+      "preliminaryUsefulAnswer": true,
+      "completeUsefulUnder5000Ms": true,
+      "answer": "Use a dictionary to store each number\u2019s index. For every element, check whether its complement (\u0060target - number\u0060) has already appeared.\n\n\u0060\u0060\u0060csharp\nusing System;\nusing System.Collections.Generic;\n\npublic class Solution\n{\n    public int[] TwoSum(int[] nums, int target)\n    {\n        var indices = new Dictionary\u003Clong, int\u003E();\n\n        for (int i = 0; i \u003C nums.Length; i\u002B\u002B)\n        {\n            long complement = (long)target - nums[i];\n\n            if (indices.TryGetValue(complement, out int j))\n                return new[] { j, i };\n\n            indices.TryAdd(nums[i], i);\n        }\n\n        throw new ArgumentException(\u0022No valid pair exists.\u0022);\n    }\n}\n\u0060\u0060\u0060\n\n**Time:** \u0060O(n)\u0060 \u00B7 **Space:** \u0060O(n)\u0060"
+    },
+    {
+      "trial": 2,
+      "state": "prepared_fresh_session",
+      "question": "okay so right mean the solution for the lead good problem to some",
+      "preparationBeforeAskMs": 396,
+      "firstProviderTextMs": 2473,
+      "completedAndSessionClosedMs": 4176,
+      "streamCleanupMs": 4183,
+      "completed": true,
+      "failure": null,
+      "preliminaryUsefulAnswer": true,
+      "completeUsefulUnder5000Ms": true,
+      "answer": "**Assumption: you mean LeetCode\u2019s \u201CTwo Sum.\u201D** Store each number\u2019s index in a hash map; for every element, check whether its required complement was previously seen.\n\n\u0060\u0060\u0060csharp\nusing System;\nusing System.Collections.Generic;\n\npublic class Solution\n{\n    public int[] TwoSum(int[] nums, int target)\n    {\n        var seen = new Dictionary\u003Clong, int\u003E();\n\n        for (int i = 0; i \u003C nums.Length; i\u002B\u002B)\n        {\n            long complement = (long)target - nums[i];\n\n            if (seen.TryGetValue(complement, out int j))\n                return new[] { j, i };\n\n            seen[(long)nums[i]] = i;\n        }\n\n        return Array.Empty\u003Cint\u003E();\n    }\n}\n\u0060\u0060\u0060\n\n**Complexity:** \u0060O(n)\u0060 time and \u0060O(n)\u0060 space."
+    },
+    {
+      "trial": 3,
+      "state": "prepared_fresh_session",
+      "question": "Write me the solution for the leet code problem two sum",
+      "preparationBeforeAskMs": 483,
+      "firstProviderTextMs": 1016,
+      "completedAndSessionClosedMs": 2992,
+      "streamCleanupMs": 2998,
+      "completed": true,
+      "failure": null,
+      "preliminaryUsefulAnswer": true,
+      "completeUsefulUnder5000Ms": true,
+      "answer": "Use a hash map to store each number\u2019s index. For every element, check whether its complement (\u0060target - nums[i]\u0060) was previously seen.\n\n\u0060\u0060\u0060csharp\nusing System;\nusing System.Collections.Generic;\n\npublic class Solution\n{\n    public int[] TwoSum(int[] nums, int target)\n    {\n        var indices = new Dictionary\u003Clong, int\u003E();\n\n        for (int i = 0; i \u003C nums.Length; i\u002B\u002B)\n        {\n            long complement = (long)target - nums[i];\n\n            if (indices.TryGetValue(complement, out int j))\n                return new[] { j, i };\n\n            indices.TryAdd(nums[i], i);\n        }\n\n        return Array.Empty\u003Cint\u003E();\n    }\n}\n\u0060\u0060\u0060\n\n**Complexity:** \u0060O(n)\u0060 time and \u0060O(n)\u0060 space."
+    }
+  ],
+  "limitations": "Synthetic cases only. All failed/slow trials retained. Prepared-session timing excludes measured pre-Ask initialization. Preliminary usefulness requires separate code review and execution checks. ACP stays open as a protocol transport, not an interactive question prompt."
+}

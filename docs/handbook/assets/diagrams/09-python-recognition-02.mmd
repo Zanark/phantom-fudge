@@ -2,25 +2,24 @@
 config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","actorBkg":"#2d333b","actorBorder":"#6d5dfc","actorTextColor":"#e6edf3","actorLineColor":"#8b949e","signalColor":"#8b949e","signalTextColor":"#e6edf3","noteBkgColor":"#161b22","noteBorderColor":"#30363d","noteTextColor":"#e6edf3"}}
 ---
 sequenceDiagram
-    accTitle: A source rotates without resetting its audio clock
-    accDescr: Computer rotates at thirty processed seconds while Mic retains its separate decoder and shorter clock.
+    accTitle: A pending final does not lose source order
+    accDescr: Computer commits an owned span, newer provisional text waits for its final, and Mic remains an independent publication track.
     autonumber
-    participant S as Session
-    participant C as Computer wrapper
-    participant D as Computer decoder
-    participant M as Mic wrapper
-    S->>M: accept 3200 PCM bytes
-    M-->>S: Partial at 0.1 s processed
-    S->>C: Frame reaching 30 s
-    C->>D: AcceptWaveform
-    D-->>C: Not endpoint-complete
-    C->>D: FinalResult
-    D-->>C: Local word times
-    C->>C: Clamp final, offset = 30
-    C->>C: Create fresh decoder
-    C-->>S: Final ending by 30 s
-    S->>C: Process next 1 s
-    S->>C: finish on Stop
-    C-->>S: Tail in 30 to 31 s
-    S->>M: finish on Stop
-    M-->>S: Tail ending by 0.1 s
+    participant C as Computer worker
+    participant V as Provisional decoder
+    participant Q as Final queue
+    participant W as Whisper worker
+    participant P as Publication gate
+    participant M as Mic worker
+    C->>V: Accept frame reaching 15 s
+    V-->>C: Provisional result
+    C->>C: Take exact span, replace decoder
+    C->>Q: Admit owned span
+    Q->>W: Finalize local PCM
+    C->>V: Accept next frame
+    V-->>C: New provisional text
+    C->>P: Defer while Computer final pending
+    M->>P: Eligible Mic partial
+    W-->>P: Computer final for owned span
+    P->>P: Assign global ID under lock
+    P->>P: Publish eligible deferred partial

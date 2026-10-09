@@ -17,7 +17,51 @@ public sealed class AnswerRunTests
         var run = Create();
         Assert.Equal(run.Snapshot.ExactText, run.Request.ExactText);
         Assert.NotEqual(Guid.Empty, run.Request.RequestId);
-        Assert.Equal(2, typeof(AnswerRequest).GetProperties().Length);
+        Assert.Null(run.Request.Clarification);
+        Assert.Equal(["Clarification", "ExactText", "RequestId"],
+            typeof(AnswerRequest).GetProperties().Select(property => property.Name).Order());
+    }
+
+    [Fact]
+    public void ClarificationIsFrozenPerRunAndCurrentReplyRemainsSeparateFromHistory()
+    {
+        var history = new List<ClarificationTurn> { new("Original noisy question", "First interpretation") };
+        var draft = new QuestionDraft();
+        draft.EditText("  Explicit correction\r\n🙂");
+        var snapshot = draft.Freeze();
+        var run = new AnswerRun(snapshot, "Synthetic", new(false, history));
+        history.Clear();
+        draft.EditText("A different draft");
+        Assert.Same(snapshot, run.Snapshot);
+        Assert.Equal("  Explicit correction\r\n🙂", run.Request.ExactText);
+        Assert.False(run.Request.Clarification!.Confirmed);
+        Assert.Equal("Original noisy question", Assert.Single(run.Request.Clarification.History).UserText);
+        Assert.Null(new AnswerRun(draft.Freeze(), "Synthetic").Request.Clarification);
+    }
+
+    [Fact]
+    public void ConfirmationStatusBelongsToTheRequest()
+    {
+        var draft = new QuestionDraft();
+        draft.EditText("Yes");
+        var run = new AnswerRun(draft.Freeze(), "Synthetic",
+            new(true, [new("Noisy question", "Confirmed interpretation")]));
+        Assert.True(run.Request.Clarification!.Confirmed);
+        Assert.Equal("Yes", run.Request.ExactText);
+    }
+
+    [Fact]
+    public void ClarificationIsValidatedBeforeTheRunIsCreated()
+    {
+        var draft = new QuestionDraft();
+        draft.EditText(new string('q', QuestionDraft.MaximumCharacters));
+        var text = new string('h', QuestionDraft.MaximumCharacters);
+        var clarification = new AnswerClarification(true, [new(text, text), new(text, text)]);
+        Assert.Equal("clarification_context_limit", Assert.Throws<AnswerProviderException>(() =>
+            new AnswerRun(draft.Freeze(), "Synthetic", clarification)).Code);
+        draft.EditText("\ud800");
+        Assert.Equal("clarification_unicode", Assert.Throws<AnswerProviderException>(() =>
+            new AnswerRun(draft.Freeze(), "Synthetic", new(false, []))).Code);
     }
 
     [Fact]

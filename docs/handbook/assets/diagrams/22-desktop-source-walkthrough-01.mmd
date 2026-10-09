@@ -1,0 +1,21 @@
+flowchart TD
+    accTitle: Protected reveal and deliberate recovery
+    accDescr: Ordinary startup either requests reveal from the owner or configures the owned window. Observed invalidation hides content and stops activity before deliberate recovery.
+    Start["Ordinary startup"] --> Owner{"Instance owner?"}
+    Owner -->|No| Recover["Send REVEAL and exit"]
+    Owner -->|Yes| Configure["ShowProtected"]
+    Recover -.-> Configure
+    Configure --> Native["Styles and affinity"]
+    Native -->|Accepted| Show["Show current surface"]
+    Native -->|Failure| Hidden["Hidden failure state"]
+    Show -->|Display or session event| Hidden
+    Hidden --> Stop["Start capture and answer cleanup"]
+    Stop -->|Deliberate recovery| Configure
+    style Start fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Owner fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Recover fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Configure fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Native fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Show fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Hidden fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Stop fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

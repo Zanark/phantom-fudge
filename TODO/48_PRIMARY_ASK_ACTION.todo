@@ -1,0 +1,23 @@
+# Prominent isolated Ask action
+
+Status: DONE
+Milestone: Question action hierarchy
+Dependencies: 40_EXPANDED_READABLE_WORKSPACE.todo
+
+## Scope and evidence
+
+- [x] Place Ask alone in the rightmost action column, with an8-unit gap from secondary controls.
+- [x] Increase the target to148wide/minimum44high and15-unit semibold type.
+- [x] Use theme accent fill and contrasting action text, with hover/focus/pressed borders and disabled dimming.
+- [x] Preserve mode-specific labels, focus policy, readiness guards and explicit-send behavior.
+- [x] Exercise all themes and minimum/responsive geometry, then refresh images, source atlas and handbook.
+
+The synthetic120725fixture reports primaryAskAction=true, retains answerFontHalved=true and passes
+the existing question/answer/clarification/layout/opacity guards. No audio or live model was used.
+Source-only update; owner app/service and immutable historical ZIP remain untouched.
+
+## Completion log
+
+- 2026-10-09 12:04 - Owner requested Ask alone on the right, larger and with a colored background.
+- 2026-10-09 12:15 - Later49moves Clear immediately after Ask with a red border; Ask is no longer
+  the rightmost control. Its larger accent styling and existing guarded handler remain.

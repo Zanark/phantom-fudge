@@ -1,0 +1,46 @@
+# Local Request and Speech Diagnostics
+
+Status: DONE
+Milestone: Q4 Observable local failures
+Dependencies: None
+
+## Purpose
+
+Make backend stages and failures inspectable without silently recording conversations or leaking credentials.
+
+## Tasks
+
+- [x] Add bounded nonblocking rotating app JSONL logs with request/capture correlation.
+- [x] Record startup/config/error, audio level/clipping, transcript counts and answer-stage timings.
+- [x] Record safe exception type/method information without raw exception messages.
+- [x] Add explicit text opt-in, metadata-only summary and safe local export scripts.
+- [x] Integrate backend model/decode metrics and document their distinct clock/identity semantics.
+- [x] Exercise rotation, drops, IO failures, UI reporting and actual request lifecycle coverage.
+- [x] Update source/package documentation and retain a clear statement about unavailable historical logs.
+
+## Acceptance criteria
+
+- [x] Logging starts automatically in the updated app; no false claim of retroactive traces.
+- [x] No raw audio, notes, tokens, provider stderr or conversation text in default logs.
+- [x] Text content is explicit local opt-in; export excludes it by default and never uploads.
+- [x] Missing/dropped logs are visible, not silently reported as complete diagnostics.
+
+## Completion evidence
+
+- Four initial logger cases pass. Old workspace speech log had zero bytes and completed Agency request
+  directories had been deleted; the reported old interaction cannot be reconstructed from them.
+- AppmetadataJSONL rotates2MiBx10,queue1024; capture/request correlation, ASRcounts/RMS/clipping,
+  provider/firsttext/UIassignment/terminal/cleanup and safe exception frames are present.
+- Backendlogs rotate1MiBplus3backups and use their actual metadata-only schema. They contain no
+  app correlationID; correlate UTC/source/stage cautiously, not by inventing shared identifiers.
+- Explicit Set-Diagnostics -Mode Text retains finaltranscript/question/answer locally, never audio,
+  notes/tokens/providerstderr. Show-Diagnostics excludesui_fixture by default; Export-Diagnostics
+  stripsTextbydefault and includes only four allowlisted workspace speechlogs. Nothing uploads.
+- Parentexportverification observed1979app+1speech records with noText. Docs/package tooling adds
+  DIAGNOSTICS.md and allthree diagnostic script/txtpairs; final assertions are in IMPLEMENTATION-STATUS.md.
+
+## Completion log
+
+- 2026-10-09 01:19 - Owner required diagnostics immediately after an unhelpful real-use interaction.
+- 2026-10-09 04:42 - Parent fullCore341/sourceUI pass; safe local export verified. Local diagnostics complete, not retroactive evidence.
+- 2026-10-09 04:45 - Logging failure remains observable even if generic stderr also fails; parent106Python/345Core tests pass.

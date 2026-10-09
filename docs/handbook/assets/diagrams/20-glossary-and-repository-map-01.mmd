@@ -12,6 +12,7 @@ flowchart TB
     Audio --> Server["server.py"]
     Manager --> Server
     Server --> Recognizer["recognizer.py"]
+    Server --> Hybrid["accurate.py: Vosk partials, Whisper finals"]
     Tests["tests"] -.-> Core
     Tests -.-> Audio
     style Scripts fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
@@ -22,4 +23,5 @@ flowchart TB
     style Audio fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Server fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Recognizer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Hybrid fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Tests fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

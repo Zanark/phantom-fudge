@@ -3,15 +3,18 @@ config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333
 ---
 flowchart LR
     accTitle: Transcript-first visual tree
-    accDescr: One window contains opaque controls, a translucent content tint, and inline optional panels.
+    accDescr: One window contains opaque controls, a translucent content tint, selectable transcript rows and an initially expanded question panel. Direct clicks compose a question without submitting it.
     Window["MainWindow"] --> Tint["Root background tint"]
     subgraph Tree["One WPF content tree"]
         Tint --> Header["Caption and mode"]
         Tint --> Themes["Themes and opacity"]
         Tint --> Audio["Inputs and audio setup"]
-        Tint --> Transcript["Growing transcript"]
-        Transcript --> Final["Final text"]
-        Transcript --> Partial["Unfinished text"]
+        Tint --> Transcript["Left: growing transcript"]
+        Tint --> Question["Right: Q/A (expanded)"]
+        Transcript --> Final["Selectable final rows"]
+        Transcript --> Partial["Selectable unfinished rows"]
+        Final -->|Click to compose| Question
+        Partial -->|Click to compose| Question
         Tint --> Notes["Collapsed notes"]
         Tint --> Notices["Inline status and confirmation"]
     end
@@ -22,6 +25,7 @@ flowchart LR
     style Themes fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Audio fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Transcript fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Question fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Final fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Partial fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Notes fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

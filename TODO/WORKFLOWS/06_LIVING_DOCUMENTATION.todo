@@ -24,10 +24,13 @@ fixtures, prior edition manifest and public evidence. See docs\DOCUMENTATION-MAI
    device labels and provenance. Never capture user notes, desktop, chats or real audio.
 5. Append significant decisions, corrections and evidence to root JOURNAL.md and the TODO ledger.
 6. Run existing documentation parser tests if tooling changes; keep ps1/txt script twins identical.
-7. Review changed source against prose, then build the complete HTML/PDF edition with
+7. Read and update affected source-atlas annotations, source hashes and contiguous line partitions;
+   add newly discovered first-party files. Run tools\Docs\source-atlas.mjs to build its complete
+   HTML/PDF companion before the handbook. Do not inflate coverage by counting mirrors as new logic.
+8. Review changed source against prose, then build the complete HTML/PDF edition with
    Build-Handbook.ps1 -AcceptReviewedSource. Use -NoPdf only for intermediate editing.
-8. Inspect changed rendered pages/images, resolve missing links/diagrams/layout and run -Check.
-9. Record actual evidence and limitations in the feature task/index. Persist only designated context.
+9. Inspect changed rendered pages/images, resolve missing links/diagrams/layout and run -Check.
+10. Record actual evidence and limitations in the feature task/index. Persist only designated context.
 
 ## Stop conditions
 
@@ -58,3 +61,4 @@ journal/ledger entry, full local HTML/PDF and current manifest. No publication i
 ## Completion log
 
 - 2026-10-08 - Authored and integrated the ongoing living-documentation procedure.
+- 2026-10-09 - Added authored all-file source coverage and separate annotated-source HTML/PDF freshness.

@@ -1,0 +1,15 @@
+{
+  "mode": "agency_acp_production_provider",
+  "model": "gpt-5.4-mini",
+  "reasoningEffort": "low",
+  "question": "Explain to some problem and give optimal solution.",
+  "modelAttempts": 1,
+  "warmupMs": 23397,
+  "askToFirstTextMs": 5737,
+  "askToCompletionMs": 7171,
+  "totalIncludingCleanupMs": 41299,
+  "completed": true,
+  "failure": null,
+  "answer": "I need the actual problem statement to give an optimal solution.\n\nIf you paste the full question, I\u2019ll explain the approach, provide runnable C# code, and include time and space complexity.",
+  "limitations": "One synthetic case; not real transcription accuracy, p50/p95, or a latency guarantee. Warmup submits no model prompt."
+}

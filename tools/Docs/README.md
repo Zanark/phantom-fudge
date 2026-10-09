@@ -13,6 +13,7 @@ Use PowerShell7 and Node24 (the initial edition used Node24.13.0). From the repo
 # Install only when missing or after dependency changes:
 npm ci --prefix .\tools\Docs --no-audit --no-fund --ignore-scripts
 node --test .\tools\Docs\test-docs.mjs
+node .\tools\Docs\source-atlas.mjs
 .\scripts\Build-Handbook.ps1
 .\scripts\Build-Handbook.ps1 -Check
 ```
@@ -29,7 +30,7 @@ It captures the WPF visual tree with synthetic content/device labels, never the 
 opens capture endpoints nor starts speech. Do not run simultaneous .NET builds sharing `obj`.
 No existing owner app is closed; a timeout terminates only the fixture's own PID.
 
-The screenshot exporter also runs `Export-ReadmeImages.ps1`. It composites five verified synthetic
+The screenshot exporter also runs `Export-ReadmeImages.ps1`. It composites ten verified synthetic
 renders onto their palette backgrounds so GitHub's light/dark page backgrounds do not wash out
 transparent UI text. Reuse current captures without opening the app with:
 
@@ -66,6 +67,33 @@ empty placeholder. Fix the source and rebuild; do not edit generated files to su
 An HTML-only manifest reports `intermediate-html-only`; `-Check` rejects it until a full PDF build.
 
 ## Inputs, outputs and provenance
+
+### Annotated source companion
+
+`source-atlas.mjs` discovers first-party files from the local Git working tree and reads authored
+JSON under `docs\source-atlas\annotations`. Every physical line of each in-scope implementation,
+test, tool or configuration file must belong to one contiguous explanation block. Source hashes
+bind those explanations to actual bytes. Focused snippets are at most12lines; the HTML also exposes
+the complete escaped source with stable line anchors and local search.
+
+The companion emits `docs\source-atlas\index.html`, `Phantom-Fudge-Source-Atlas.pdf`, `coverage.json`,
+README and a freshness manifest. Its PDF contains explanations and focused excerpts, not every
+raw source line. Lockfiles/generated results are indexed separately. `.txt` script mirrors must
+match their annotated `.ps1` byte-for-byte. External dependencies, caches, private state, models and
+runtime data are not claimed as annotated source.
+
+```powershell
+node .\tools\Docs\source-atlas.mjs --inventory
+node .\tools\Docs\source-atlas.mjs --validate
+node .\tools\Docs\source-atlas.mjs
+node .\tools\Docs\source-atlas.mjs --check
+```
+
+`--inventory` only lists discovered identities; `--validate` checks authored coverage without a
+browser; `--no-pdf` creates an explicitly incomplete intermediate edition. The handbook's build/check
+first verifies a full current companion, so regenerate it before the conceptual book. No mode
+executes application code, benchmarks, models or audio. Use the existing Node test file for compiler
+regressions. Coverage checks cannot prove explanation quality; read and review the source.
 
 Each chapter requires quoted `title`/`description` frontmatter, at least five distinct public source
 citations and two diagrams. Citation paths and ranges are checked; prose interpretation still needs

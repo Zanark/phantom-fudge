@@ -31,7 +31,13 @@ Produce the exact installable/runnable candidate that final qualification will t
 
 ## Completion evidence
 
-- Latest installed-Agency answer preview235421:76,252,854bytes/489files, SHA256
+- October9quality-correction candidate: artifacts\phantom-fudge-0.1.0-preview-win-x64-20261009-045022.zip.
+  SHA256: D24E8D2C5A1AF30E3F72FDA07F535B43D730420A81CE67115645605B7667D553.
+  Size/files: 76,383,294bytes/508files; unsigned and local only.
+  Exact extracted-package synthetic UI/question/answer checks pass; model/cloud/audio0. Required service/scripts/receipts present, private artifacts absent.
+  Current book/source provenance: docs\handbook\manifest.json; recipient/clean-machine/owner gates stay open.
+
+- Historical installed-Agency answer preview235421:76,252,854bytes/489files, SHA256
   88D98E7CAFA56B067A521571778D0F661A879DDCBF5EBBE9D412987D2BFA5A69.
   Exact-package synthetic answer/UI checks pass with no model/audio calls; native profiles/logs/
   token/model files remain excluded. Includes Initialize-Answers script and ANSWER-PROVIDERS guide.

@@ -109,3 +109,91 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
   88D98E7CAFA56B067A521571778D0F661A879DDCBF5EBBE9D412987D2BFA5A69.
   Core268 and source/exact-package synthetic UI pass. Expanded handbook has provider setup chapter;
   no further real model calls, auth attempts or force-restart of the owner's app were performed.
+
+- 2026-10-09 01:19/03:11 actual-use corrections: expanded monitor-clamped1240x1520 requested workspace,
+  reading columns/no outer main-panel scroll, white/black solid text, quiet Details and answer alpha.
+  Local ASR now Voskpartials+Whispersmall.enint8/fourthreads/technicalvocab with bounded independent
+  workers and finalizer. SyntheticWER12.04->4.40%,finalp50/p95 2.736/3.017s; no real-mic claim.
+- Direct-answer behavior now fixed controlledSYSTEM role over persistent officialACP, one exact
+  JSONquestion/freshsession, no tools/followupinput. Startup prepares one empty session/no prompt.
+  FinalH gpt-5.6-sol-fast/low exactusertext fullanswers4066/4176/2992ms and33compiledchecks passed.
+  All48client submissions/failedcases retained; cold20-31s is not underfive. E's different wording,
+  F's wrongproblem/followup and G's overflow failures are not erased.
+- Appmetadata diagnostics2MiBx10/queue1024 and metadata-onlybackend logs are bounded; text is
+  explicit optin, export stripsTextbydefault and never uploads. Old interaction logs unavailable,
+  not retroactively reconstructed. Earlier127provider checks, finalCore345/service106pass; candidate/book identities are
+  maintained in docs\IMPLEMENTATION-STATUS.md. Owner app/service is not interrupted by docs work.
+
+- 2026-10-09 10:07 request - Owner requested clicking Mic/Computer lines directly, then explicitly
+  expanded to multiple lines. Workstream44depends on28+40. Main/partial ListBoxes now pair immutable
+  display rows with structured segments; ordinary clicks toggle whole segments in displayed order,
+  preserving raw text, old visible history and partial/final identity without parsing labels.
+- Direct selection opens Q/A and independent question editing without stopping transcription or
+  creating/sending a snapshot. Manual edits block further direct changes until Clear question,
+  with inline retained-draft status/no popup. Shared ReplaceSelection limits remain one capture
+  session,256entries and8192UTF-16 units including newlines, atomic reject/no truncation.
+- New finals follow only an end-position scrollbar. White/black text, shared alpha and thin selected
+  outlines remain; manual Choose source -> Mic/Computer/All -> Use selected remains available.
+  First full synthetic screenshot/UI pass is reported by the runtime implementer. Guides/book prose,
+  actual synthetic multi-selection image links, README and root JOURNAL updated; final evidence,
+  screenshot provenance/citation migration and handbook build stay with the parent.44IN_PROGRESS.
+- This increment is delivered in updated SOURCE through scripts\Run-PhantomFudge.ps1; no new ZIP.
+  Historical045022ZIP remains immutable and does not contain click selection. No real mic/model/org
+  access, new login, service operations or force-close of the owner's app for this docs handoff.
+- 2026-10-09 10:30 evidence handoff - Final source/UI receipts in
+  .local\handbook-capture-20261009-101632\result.json and transcript-selection.json PASS:
+  all20direct-selection booleans plus existing question/answer/minimum/responsive/alpha/cursor/style
+  guards true, zero real model/cloud requests and no audio capture. Parent reports targeted Core118PASS
+  and16WPF/5READMEimages refreshed. Runtime frozen after hidden-Q/A edit-status correction and the
+  clear-transcript/draft regression/fixture reset.44implementation+synthetic validation complete;
+  citation migration, full book/illustration review, freshness and final status remain pending parent.
+- 2026-10-09 10:33 - Owner requested optional question-interpretation metadata and explicit
+  Yes/correction replies. Added45; default direct answers remain no-follow-up. Original draft and
+  reply are separate, metadata is a fixed instruction plus bounded opted-in exchanges, never logs/
+  device data/unselected transcript. Core/provider and same-window UI implementation underway;
+  no new model/audio/authentication/service operation or publication implied.
+- 2026-10-09 - Combined44/45delivered locally:270affected Core cases,20selection/16clarification
+  UIcases and existing guards passed. Fixed compact reply readability and invalid generated SVG label.
+ 17WPF+5READMEimages and51diagrams; full book/citation migration complete. Source only, no newZIP,
+  model/audio/service/login/commit/push. Existing045022and48priorliveprobe receipts remain historical.
+- 2026-10-09 11:07 - Owner requested detailed explanations for every interesting code line.
+  Inventoried first-party code/tests/configuration/scripts, created seven disjoint source walkthrough
+  scopes and authored block-annotation schema. Added searchable escaped-source HTML/PDF compiler,
+  complete physical-line/hash coverage gates and existing-runner regressions. Runtime source stays
+  unchanged; generated evidence, dependency locks and PS mirrors are classified separately.
+  Final authored coverage, edition rendering and visual review remain workstream46 completion gates.
+- 2026-10-09 -46DONE:163first-party files,23686physical lines,956authored blocks;33evidence/8lockfiles/
+  18PStxtmirrors explicitly classified.18Node checks and actualreader search/anchors/print/three-width
+  checks pass. Sourceatlas476pagePDF +expandedhandbook65diagrams built/reviewed. Runtimehashesunchanged;
+  no model/audio/service/login/restart/commit/push. Future source changes must maintain atlas explanations.
+- 2026-10-09 11:55 -47answerfont:20->10normal and18->9compact, withmatchingXAML/responsive
+  assignment. Existing syntheticUI asserts exactsizes; transcript/questionfonts unchanged.
+  Images/sourceannotations/book updated; no realmodel/audio/service/userappoperation or newZIP.
+- 2026-10-09 12:04 -48Askvisualhierarchy: isolatedrightcolumn,148wide/min44high,15semibold,
+  ThemeAccent/ActionTextfillwithaccessiblefocus/disabledstates. Synthetic120725primaryAskAction
+  passesallthemes/minimum/responsivelayouts;47halfsizeanswerfont retained. No sendsemanticschanged.
+- 2026-10-09 12:15 -49ClearafterAsk: separatefinalcolumn,98wide/min44high,2-unitThemeErrorborder.
+  Edit/Copyremainleftwith4-unitpaddingtosupportlongclarificationlabelsatminimumwidth.122205UIpasses
+  redborder/rightgeometryandread/editreplychecks. No handler/provider/audio changes or newZIP.
+- 2026-10-09 12:30 -50redrecordingdot:12-unitellipsebesideTRANSCRIPT, ThemeErrorfillwithsolid
+  highcontrastoutline. UpdateAudioControlsusesactualIsRunning; stopped/starting/fault/drainnotactive.
+ 123448syntheticUIpassesallthemes/lifecycle/oldguards,0audio/model.18WPF+5READMEimages andfull
+  sourceatlas/bookupdated; no nativecapture/service/userapp/ZIP operation.
+- 2026-10-09 12:42 -51replacesaudio64-highlistswithwrappingcardsinfullreadingspace. NoScrollViewer;
+  measuredcapacityusesexplicitpagesforoverflowandretainsselectedsourceobjects. Token/guidanceunder
+  Service setup, missingtokenopensit. Synthetic23output/17micviewport/selection/lock/theme/mode/
+  service/emptycasespasswithoutaudio. Images,authoredsource,citations/booksupdated; no newZIP.
+- 2026-10-09 13:15 -52transcriptfont25%reduction:20->15final,18->13.5partial,14->10.5compact.
+  Existingquestion/answer/cardfonts preserved.131703syntheticfont/layoutandpriorguardspass;
+  images/sourceatlas/handbookupdated,0audio/model/service/userapp/ZIPoperation.
+- 2026-10-09 13:23 -53cover: ownerexplicitlychosecontinuingtranscription/answers. SameHWNDswaps
+  detached/disabledworkspaceforNOTEPADISREADY+Uncover. Originaltitle/processretained; no OSconcealment.
+ 134234syntheticchecks passfreshUIAtree/backgroundupdates/pixels/compact/state;cachedpeerstillreads
+  question. SupportedResetChildrenCachefixesstaleWindowpeerchildren; notcached-clientsecrecy.
+  Feasibilitymatrix/docs/sourceannotations in progress; no live model/audio/recipientprobe.
+- 2026-10-09 -53completedwithsupportedDWM_DISALLOW_PEEKsetteraccepted andaffinityreadback17.
+  Final140313passes15coverassertions;cachedpeerValueReadableremainstrue. Fullpublicfeasibility
+  matrixandbook/sourceatlasupdated; no processdisguise/globalUIAdisable/driver/injection work.
+- 2026-10-09 14:18 -54READMEvisualworkflow: devicecards, recordingdot, multi-select, optional
+  clarification, answer andcover. Added5opaqueverifiedderivatives(10total); sourceimagesunchanged.
+  Image-firstprose,themegallery,setup/privacylinksmaintained. No app/audio/model/service/login/upload.

@@ -9,6 +9,8 @@ flowchart TB
     App --> Local["Authenticated local Python"]
     Local --> App
     App --> Files["Explicit local saves"]
+    App --> Logs["Local metadata; text opt-in"]
+    App -->|"explicit exact question"| Hosted["Configured Agency model service"]
     App --> Display["Windows compositor"]
     Display --> Recorder["External recorder"]
     Recorder --> Audience["Recipient"]

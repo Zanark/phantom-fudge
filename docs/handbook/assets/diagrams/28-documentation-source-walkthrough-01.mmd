@@ -1,0 +1,23 @@
+---
+config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3","clusterBkg":"#161b22","clusterBorder":"#30363d"}}
+---
+flowchart TB
+    accTitle: Source coverage is classified before it is counted
+    accDescr: Git names are scoped to public first-party files, then separated into explained code, byte-checked mirrors and generated records.
+    Git["Git working-tree names"] --> Scope["Public scope and real-path checks"]
+    Scope --> Code["First-party code and config"]
+    Scope --> Mirror["PowerShell text mirrors"]
+    Scope --> Records["Generated evidence and lockfiles"]
+    Code --> Blocks["Authored contiguous ranges"]
+    Mirror --> Equality["Compare canonical bytes"]
+    Blocks --> Ledger["Coverage ledger"]
+    Equality --> Ledger
+    Records --> Ledger
+    style Git fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Scope fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Code fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Mirror fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Records fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Blocks fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Equality fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Ledger fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

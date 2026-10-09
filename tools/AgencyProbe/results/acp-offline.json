@@ -1,0 +1,90 @@
+{
+  "mode": "offline_mock",
+  "model": "gpt-5.4-mini",
+  "reasoningEffort": "low",
+  "modelAttempts": 2,
+  "calls": [
+    {
+      "questionIndex": 0,
+      "sessionNewMs": 416.7,
+      "firstTextAfterPromptMs": 1033.9,
+      "completionAfterPromptMs": 1048.4,
+      "totalFromProcessLaunchMs": 5665.7,
+      "stopReason": "end_turn",
+      "answer": "Synthetic answer."
+    },
+    {
+      "questionIndex": 1,
+      "sessionNewMs": 216.4,
+      "firstTextAfterPromptMs": 343.6,
+      "completionAfterPromptMs": 355.8,
+      "totalFromProcessLaunchMs": 6247.8,
+      "stopReason": "end_turn",
+      "answer": "Synthetic answer."
+    }
+  ],
+  "failure": null,
+  "protocolVersion": 1,
+  "agentVersion": "1.0.92",
+  "capabilities": {
+    "loadSession": true,
+    "mcpCapabilities": {
+      "http": true,
+      "sse": true
+    },
+    "promptCapabilities": {
+      "image": true,
+      "audio": false,
+      "embeddedContext": true
+    },
+    "sessionCapabilities": {
+      "close": {},
+      "list": {}
+    }
+  },
+  "engineReadyMs": 4195.8,
+  "ownedProfileCheck": {
+    "settingsSemanticallyUnchanged": true,
+    "settingsKeys": [
+      "autoUpdate",
+      "bashEnv",
+      "beep",
+      "customAgents",
+      "disableAllHooks",
+      "experimental",
+      "ide",
+      "memory",
+      "notifications"
+    ],
+    "nonemptyCustomizationCategories": []
+  },
+  "selectedConfiguration": {
+    "mode": "https://agentclientprotocol.com/protocol/session-modes#agent",
+    "allow_all": "off"
+  },
+  "selectedModelAdvertised": false,
+  "updateTypes": [
+    "agent_message_chunk",
+    "available_commands_update",
+    "session_info_update",
+    "usage_update"
+  ],
+  "offlineRequests": [
+    {
+      "toolsCount": 0,
+      "userMessageCount": 1,
+      "assistantMessageCount": 0,
+      "questionEnvelopeCount": 1,
+      "model": "gpt-5.4-mini",
+      "questionExact": true
+    },
+    {
+      "toolsCount": 0,
+      "userMessageCount": 1,
+      "assistantMessageCount": 0,
+      "questionEnvelopeCount": 1,
+      "model": "gpt-5.4-mini",
+      "questionExact": true
+    }
+  ]
+}

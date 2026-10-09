@@ -3,6 +3,7 @@ using System.Diagnostics;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using PhantomFudge.Core;
+using PhantomFudge.Core.Diagnostics;
 
 namespace PhantomFudge.App.Audio;
 
@@ -242,6 +243,26 @@ public sealed class LoopbackTranscriber : IAsyncDisposable
                 if (data.BytesRecorded < 0 || data.BytesRecorded > data.Buffer.Length || (data.BytesRecorded & 1) != 0)
                     throw new InvalidOperationException();
                 long now = Stopwatch.GetTimestamp();
+                if (input.StatisticsStarted == 0)
+                    input.StatisticsStarted = now;
+                input.StatisticsSamples += data.BytesRecorded / 2;
+                for (var sampleOffset = 0; sampleOffset < data.BytesRecorded; sampleOffset += 2)
+                {
+                    var sample = BinaryPrimitives.ReadInt16LittleEndian(data.Buffer.AsSpan(sampleOffset, 2));
+                    if (sample is >= 32760 or <= -32760)
+                        input.StatisticsClipped++;
+                }
+                if (Stopwatch.GetElapsedTime(input.StatisticsStarted, now).TotalSeconds >= 1)
+                {
+                    var elapsed = (long)Stopwatch.GetElapsedTime(input.StatisticsStarted, now).TotalMilliseconds;
+                    LocalDiagnostics.Record(DiagnosticEvent.AudioSamples, session.Id, elapsed,
+                        input.StatisticsSamples, input.Source.WireName(), "Audio");
+                    LocalDiagnostics.Record(DiagnosticEvent.AudioClippedSamples, session.Id, elapsed,
+                        input.StatisticsClipped, input.Source.WireName(), "Audio");
+                    input.StatisticsStarted = now;
+                    input.StatisticsSamples = 0;
+                    input.StatisticsClipped = 0;
+                }
                 input.Silence.ObservePacket(now);
                 for (int offset = 0; offset < data.BytesRecorded; offset += TranscriptionSocket.MaximumFrameBytes)
                 {
@@ -487,6 +508,9 @@ public sealed class LoopbackTranscriber : IAsyncDisposable
         public volatile bool AcceptAudio;
         public bool StartSucceeded;
         public long LastMeter;
+        public long StatisticsStarted;
+        public long StatisticsSamples;
+        public long StatisticsClipped;
         public float Level;
     }
 

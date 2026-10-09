@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Media;
 using PhantomFudge.Core.Answers;
 
 namespace PhantomFudge.App;
@@ -31,6 +32,15 @@ public partial class MainWindow
 
     private async Task<object> RunAnswerDiagnosticAsync(string directory)
     {
+        var shutdownOrder = new List<string>();
+        var releaseProvider = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var shutdown = BeginConcurrentShutdown(
+            () => { shutdownOrder.Add("capture"); return Task.CompletedTask; },
+            () => { shutdownOrder.Add("provider"); return releaseProvider.Task; });
+        var captureStopsBeforeProviderCleanup = shutdownOrder.SequenceEqual(new[] { "capture", "provider" }) &&
+            !shutdown.IsCompleted;
+        releaseProvider.SetResult();
+        await shutdown;
         LoadAnswerSettings(() => throw new System.IO.InvalidDataException("Synthetic invalid config"));
         var invalidConfigDisabled = !useAnswerProvider && !answerSettingsValid;
         SetQuestionExpanded(true);
@@ -58,7 +68,25 @@ public partial class MainWindow
         var completed = first.State == AnswerRunState.Completed && first.Text.Contains("recover applications", StringComparison.Ordinal);
         AnswerProviderNotice.Text = "SYNTHETIC UI FIXTURE: no CLI, local model or cloud request was started.";
         AnswerRunLabel.Text = "Synthetic provider illustration - not an actual model response";
-        QuestionScroll.ScrollToEnd();
+        EnsureQuestionReadingVisible();
+        var originalBackground = BackgroundOpacity.Value;
+        BackgroundOpacity.Value = 10;
+        var transparentAnswer = await RenderDiagnosticAsync(System.IO.Path.Combine(directory, "answer-background-10.png"));
+        var answerPoint = AnswerText.TranslatePoint(
+            new Point(AnswerText.ActualWidth - 30, AnswerText.ActualHeight - 30), this);
+        var answerDpi = VisualTreeHelper.GetDpi(this);
+        var answerRect = new Int32Rect((int)(answerPoint.X * answerDpi.DpiScaleX),
+            (int)(answerPoint.Y * answerDpi.DpiScaleY), 1, 1);
+        var answerPixel = new byte[4];
+        transparentAnswer.CopyPixels(answerRect, answerPixel, 4, 0);
+        var answerLowAlpha = answerPixel[3];
+        BackgroundOpacity.Value = 100;
+        var opaqueAnswer = await RenderDiagnosticAsync(System.IO.Path.Combine(directory, "answer-background-100.png"));
+        opaqueAnswer.CopyPixels(answerRect, answerPixel, 4, 0);
+        var answerOpacityWorks = answerLowAlpha is > 0 and < 60 && answerPixel[3] == 255 &&
+            AnswerText.Opacity == 1 && Opacity == 1 &&
+            AnswerText.Foreground is SolidColorBrush { Color.A: 255 };
+        BackgroundOpacity.Value = originalBackground;
         await RenderDiagnosticAsync(System.IO.Path.Combine(directory, "answer-synthetic.png"));
         var oldWidth = Width;
         var oldHeight = Height;
@@ -66,9 +94,26 @@ public partial class MainWindow
         Height = MinHeight;
         UpdateLayout();
         await Dispatcher.InvokeAsync(UpdateLayout, System.Windows.Threading.DispatcherPriority.Render);
-        var minimumAnswerLayout = TranscriptText.ActualHeight > 0 && QuestionScroll.ViewportHeight > 0 &&
-            QuestionPanel.TranslatePoint(new Point(0, QuestionPanel.ActualHeight), this).Y <=
-                NotesToggleButton.TranslatePoint(new Point(0, 0), this).Y;
+        var minimumAnswerLayout = IsReadingControlReachable(TranscriptText) &&
+            IsReadingControlReachable(QuestionEditor) && IsReadingControlReachable(QuestionSnapshotText) &&
+            IsReadingControlReachable(AnswerText) && IsReadingControlReachable(AnswerCancelButton) &&
+            IsReadingControlReachable(AnswerCopyButton) && IsReadingControlReachable(QuestionAskButton) &&
+            !HasOuterReadingScroll(AnswerText) && !HasOuterReadingScroll(AnswerCancelButton);
+        await WriteReadingLayoutDiagnosticAsync(directory, "answer-minimum-layout");
+        var answerFontHalved = AnswerText.FontSize == 9;
+        var responsiveAnswerLayout = true;
+        foreach (var size in new[] { (Width: 900d, Height: 600d), (Width: 1240d, Height: 760d), (Width: 620d, Height: 900d) })
+        {
+            Width = size.Width;
+            Height = size.Height;
+            UpdateLayout();
+            await Dispatcher.InvokeAsync(UpdateLayout, System.Windows.Threading.DispatcherPriority.Render);
+            answerFontHalved &= AnswerText.FontSize == 10;
+            responsiveAnswerLayout &= IsReadingControlReachable(QuestionEditor) &&
+                IsReadingControlReachable(QuestionSnapshotText) && IsReadingControlReachable(AnswerText) &&
+                IsReadingControlReachable(QuestionAskButton) && IsReadingControlReachable(AnswerCopyButton) &&
+                !HasOuterReadingScroll(AnswerText) && AnswerText.Text == first.Text;
+        }
         Width = oldWidth;
         Height = oldHeight;
         UpdateLayout();
@@ -89,12 +134,13 @@ public partial class MainWindow
         configuredAnswerSettings = new(AnswerProviderMode.SnapshotOnly);
         answerSettingsValid = false;
         UpdateAnswerControls();
-        var passed = invalidConfigDisabled && minimumAnswerLayout && streamingEarly && busyAskBlocked && exactSnapshot && completed && cancelled && rejectedStale && cleared;
+        var passed = answerFontHalved && captureStopsBeforeProviderCleanup && answerOpacityWorks && invalidConfigDisabled && minimumAnswerLayout && responsiveAnswerLayout && streamingEarly &&
+            busyAskBlocked && exactSnapshot && completed && cancelled && rejectedStale && cleared;
         if (!passed)
             throw new InvalidOperationException("Synthetic answer lifecycle failed: " +
-                System.Text.Json.JsonSerializer.Serialize(new { invalidConfigDisabled, minimumAnswerLayout, streamingEarly, busyAskBlocked, exactSnapshot,
+                System.Text.Json.JsonSerializer.Serialize(new { answerFontHalved, captureStopsBeforeProviderCleanup, answerOpacityWorks, answerLowAlpha, invalidConfigDisabled, minimumAnswerLayout, responsiveAnswerLayout, streamingEarly, busyAskBlocked, exactSnapshot,
                     completed, cancelled, rejectedStale, cleared }));
-        return new { passed, invalidConfigDisabled, minimumAnswerLayout, streamingEarly, busyAskBlocked, exactSnapshot, completed, cancelled, rejectedStale,
+        return new { passed, answerFontHalved, captureStopsBeforeProviderCleanup, answerOpacityWorks, answerLowAlpha, invalidConfigDisabled, minimumAnswerLayout, responsiveAnswerLayout, streamingEarly, busyAskBlocked, exactSnapshot, completed, cancelled, rejectedStale,
             cleared, modelRequests = 0, audioCaptured = false };
     }
 }

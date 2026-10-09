@@ -1,6 +1,6 @@
 ---
 title: "7. Dual-input capture: two sources, one owned session"
-description: "Trace explicit input selection through WASAPI construction, PCM callbacks, independent silence, cancellation, and bounded native teardown."
+description: "Trace explicit WASAPI acquisition, independent PCM and silence, hybrid recognition boundaries, cancellation, and bounded native teardown."
 outline: deep
 ---
 
@@ -10,13 +10,13 @@ outline: deep
 
 Imagine listening to computer playback while dictating a question into a microphone. Adding the samples together would discard the distinction the reader needs: which text came from playback, and which came from dictation? Phantom Fudge instead preserves two acquisition paths. `WasapiInput` selects render loopback for Computer and a capture endpoint for Microphone; each becomes a separate source-tagged stream. This is input attribution, **not speaker identification**. Several people can speak through Computer, and playback can acoustically reappear in Mic. The implementation contains no mixing or acoustic-echo-cancellation stage. (`src\PhantomFudge.App\Audio\WasapiInput.cs:20-55`, `WasapiInput`; `docs\DUAL-SOURCE-AUDIO.md:8-23`, “Design and boundaries”.)
 
-The equally important distinction is **selection versus capture**. `MainWindow` defaults `captureMode` to `Both`, populates device lists, and subscribes to notifications; its constructor does not start recording. `Start_Click` checks the requested selections, protection readiness, and token before calling the transcriber. Merely launching the idle Python service is not permission to acquire audio. (`src\PhantomFudge.App\MainWindow.xaml.cs:33-78`, `MainWindow`; `src\PhantomFudge.App\MainWindow.xaml.cs:613-652`, `Start_Click`; `scripts\Run-PhantomFudge.ps1:39-55`, launcher.)
+The equally important distinction is **selection versus capture**. `MainWindow` defaults `captureMode` to `Both`, populates device lists, and subscribes to notifications; its constructor does not start recording. `Start_Click` checks the requested selections, protection readiness, and token before calling the transcriber. Merely launching the idle Python service is not permission to acquire audio. (`src\PhantomFudge.App\MainWindow.xaml.cs:35-95`, `MainWindow`; `src\PhantomFudge.App\MainWindow.xaml.cs:637-685`, `Start_Click`; `scripts\Run-PhantomFudge.ps1:39-55`, launcher.)
 
 This chapter follows that boundary from a deliberate Start to the last endpoint release. [Chapter 8](08-streaming-protocol.md) continues at the socket; [chapter 9](09-python-recognition.md) follows the independent recognizers.
 
 ## The ownership map
 
-The class name `LoopbackTranscriber` preserves its computer-only history, but its `Session` now owns an array of `Input` objects. Each input owns its endpoint ID, callback handlers, audio lock, silence cadence, startup task, recording-stopped completion, and latest level. The session owns one transport and shared cancellation/failure state. This divides mutable audio state without dividing the user's Start/Stop transaction. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:475-523`, `Input` and `Session`.)
+The class name `LoopbackTranscriber` preserves its computer-only history, but its `Session` now owns an array of `Input` objects. Each input owns its endpoint ID, callback handlers, audio lock, silence cadence, startup task, recording-stopped completion, and latest level. The session owns one transport and shared cancellation/failure state. This divides mutable audio state without dividing the user's Start/Stop transaction. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:496-547`, `Input` and `Session`.)
 
 ```mermaid
 ---
@@ -38,7 +38,7 @@ flowchart TB
     S --> W
     CA --> T["Source-tagged transport"]
     MA --> T
-    T --> P["Local Python service"]
+    T --> P["Local hybrid service"]
     style U fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style S fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style R fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
@@ -54,22 +54,22 @@ flowchart TB
     linkStyle default stroke:#8b949e
 ```
 
-The diagram describes ownership and data flow, not synchronized acoustic clocks. The endpoint branches are constructed independently after transport readiness. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:101-127`, `StartCoreAsync`.)
+The diagram describes ownership and data flow, not synchronized acoustic clocks. The endpoint branches are constructed independently after transport readiness. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:102-128`, `StartCoreAsync`.)
 
 | API or type | Exact role and consequence |
 | --- | --- |
 | `AudioSource` | Byte values `Computer = 1`, `Microphone = 2`; wire/display names are centralized. (`src\PhantomFudge.Core\AudioSource.cs:3-30`, `AudioSourceNames`.) |
 | `AudioInputSelection` | Nullable Computer/Microphone IDs represent the requested subset. (`src\PhantomFudge.App\Audio\TranscriptEvent.cs:5-7`, record declarations.) |
-| `StartAsync(string, Uri, string, CancellationToken)` | Legacy Computer-only, protocol-v1 entry point. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:64-65`, `StartAsync`.) |
-| `StartAsync(AudioInputSelection, …)` | Protocol v2, including either single-source mode. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:67-69`, `StartAsync`.) |
-| `SourceLevelChanged` | Reports a source and its latest normalized RMS value. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:267-290`, `PublishLevel`, `CalculateLevel`.) |
-| `LevelChanged` | Compatibility aggregate: maximum of latest input levels, not a mixed waveform's RMS. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:267-277`, `PublishLevel`.) |
+| `StartAsync(string, Uri, string, CancellationToken)` | Legacy Computer-only, protocol-v1 entry point. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:65-66`, `StartAsync`.) |
+| `StartAsync(AudioInputSelection, …)` | Protocol v2, including either single-source mode. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:68-70`, `StartAsync`.) |
+| `SourceLevelChanged` | Reports a source and its latest normalized RMS value. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:288-311`, `PublishLevel`, `CalculateLevel`.) |
+| `LevelChanged` | Compatibility aggregate: maximum of latest input levels, not a mixed waveform's RMS. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:288-298`, `PublishLevel`.) |
 
 ## The Start journey: readiness before native acquisition
 
-`ValidateSelection` rejects an empty subset, whitespace IDs, and identical IDs for both requested inputs. `WasapiInput.MatchesSelection` then requires exact ordinal ID equality, the correct direction, and `DeviceState.Active`. Enumeration does not silently choose the current Windows default at capture time. The UI may initially select the first enumerated device, but the actual start uses that explicit ID. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:141-156`, `ValidateSelection`; `src\PhantomFudge.App\Audio\WasapiInput.cs:64-74`, `MatchesSelection`; `src\PhantomFudge.App\MainWindow.xaml.cs:550-578`, `RefreshDevices`.)
+`ValidateSelection` rejects an empty subset, whitespace IDs, and identical IDs for both requested inputs. `WasapiInput.MatchesSelection` then requires exact ordinal ID equality, the correct direction, and `DeviceState.Active`. Enumeration does not silently choose the current Windows default at capture time. The UI may initially select the first enumerated device, but the actual start uses that explicit ID. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:142-157`, `ValidateSelection`; `src\PhantomFudge.App\Audio\WasapiInput.cs:64-74`, `MatchesSelection`; `src\PhantomFudge.App\MainWindow.xaml.cs:574-602`, `RefreshDevices`.)
 
-Startup first reserves a session and connects its transport. Only after `ConnectAsync` accepts the service's `ready` response are input startup tasks scheduled. Native construction itself is inside `Task.Run`, not just `StartRecording`. The source comment identifies why: NAudio captures the construction-time synchronization context, so constructing on the WPF dispatcher could make a later native join depend on the very UI thread waiting for completion. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:86-114`, `StartCoreAsync`.)
+Startup first reserves a session and connects its transport. Only after `ConnectAsync` accepts the service's `ready` response are input startup tasks scheduled. Native construction itself is inside `Task.Run`, not just `StartRecording`. The source comment identifies why: NAudio captures the construction-time synchronization context, so constructing on the WPF dispatcher could make a later native join depend on the very UI thread waiting for completion. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:87-115`, `StartCoreAsync`.)
 
 ```mermaid
 ---
@@ -108,7 +108,7 @@ sequenceDiagram
     UI->>UI: Clear audioStopping
 ```
 
-`Running` becomes true only when every startup succeeded, no input already reported `RecordingStopped`, no fault exists, and Stop was not requested. This is not a promise that the two devices started at the same physical instant. Audio acceptance is enabled inside each worker before its `StartRecording` call, whereas the aggregate running state is established after all startup tasks complete. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:111-124`, `StartCoreAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:194-218`, `StartCapture`.)
+`Running` becomes true only when every startup succeeded, no input already reported `RecordingStopped`, no fault exists, and Stop was not requested. This is not a promise that the two devices started at the same physical instant. Audio acceptance is enabled inside each worker before its `StartRecording` call, whereas the aggregate running state is established after all startup tasks complete. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:112-125`, `StartCoreAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:195-219`, `StartCapture`.)
 
 ## A callback, measured in bytes rather than intuition
 
@@ -121,23 +121,29 @@ The format yields:
 - A 48,000-byte callback represents 1.5 seconds of this PCM. `OnAudio` splits it into 32,000 and 16,000 bytes; the v2 transport adds a source byte to each, producing 32,001- and 16,001-byte binary messages.
 - Two live sources produce 64,000 PCM bytes/second before framing overhead—not a 32 kHz mixed track.
 
-These are calculations from `WaveFormat`, the socket constants, and the callback chunking loop, not measured hardware callback sizes. (`src\PhantomFudge.App\Audio\WasapiInput.cs:53-54`, constructor; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:13-18`, constants; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:233-257`, `OnAudio`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:208-217`, `TryEnqueueAudio`.)
+These are calculations from `WaveFormat`, the socket constants, and the callback chunking loop, not measured hardware callback sizes. (`src\PhantomFudge.App\Audio\WasapiInput.cs:53-54`, constructor; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:13-18`, constants; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:234-278`, `OnAudio`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:217-226`, `TryEnqueueAudio`.)
 
-`OnAudio` rejects invalid lengths, records packet arrival under that input's `AudioGate`, and enqueues copied chunks. Copying matters because a capture callback's buffer is reusable: the sender must not later observe a buffer that the capture implementation or caller has overwritten. A full transport budget faults the session rather than pretending the missing chunk was silence. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:238-250`, `OnAudio`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:182-229`, `TryEnqueueAudio`.)
+`OnAudio` rejects invalid lengths, records packet arrival under that input's `AudioGate`, and enqueues copied chunks. Copying matters because a capture callback's buffer is reusable: the sender must not later observe a buffer that the capture implementation or caller has overwritten. A full transport budget faults the session rather than pretending the missing chunk was silence. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:239-271`, `OnAudio`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:191-238`, `TryEnqueueAudio`.)
 
-Metering is throttled to approximately one update per 100 ms of callback time. Samples are read little-endian, divided by 32,768, squared, averaged, and square-rooted. Alternating `+16,384` and `−16,384` therefore yields RMS `0.5`, not zero; opposite signs cancel in an arithmetic mean but not in energy. `LevelAsync` tests that exact distinction. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:252-289`, `OnAudio`, `CalculateLevel`; `tests\PhantomFudge.Audio.Tests\Program.cs:202-209`, `LevelAsync`.)
+Metering is throttled to approximately one update per 100 ms of callback time. Samples are read little-endian, divided by 32,768, squared, averaged, and square-rooted. Alternating `+16,384` and `−16,384` therefore yields RMS `0.5`, not zero; opposite signs cancel in an arithmetic mean but not in energy. `LevelAsync` tests that exact distinction. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:273-310`, `OnAudio`, `CalculateLevel`; `tests\PhantomFudge.Audio.Tests\Program.cs:202-209`, `LevelAsync`.)
 
 ## Silence cadence is transport continuity, not endpoint tuning
 
-An idle track has its own 100 ms periodic timer. `SilenceCadence.TrySchedule` permits one silence frame only after at least 250 ms without a real packet and at least 100 ms since the previous synthetic frame. A real packet resets both timestamps. The shared per-input lock prevents a recent packet and silence decision from racing within that track. (`src\PhantomFudge.App\Audio\SilenceCadence.cs:5-19`, `SilenceCadence`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:292-317`, `SupplySilenceAsync`.)
+An idle track has its own 100 ms periodic timer. `SilenceCadence.TrySchedule` permits one silence frame only after at least 250 ms without a real packet and at least 100 ms since the previous synthetic frame. A real packet resets both timestamps. The shared per-input lock prevents a recent packet and silence decision from racing within that track. (`src\PhantomFudge.App\Audio\SilenceCadence.cs:5-19`, `SilenceCadence`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:313-338`, `SupplySilenceAsync`.)
 
 For example, after a packet at 1,000 ms, a decision at 1,249 ms fails; one at 1,250 ms may succeed. A delayed decision at 10,000 ms still emits only one 3,200-byte frame—it does not manufacture every missing interval. Timer scheduling can place the actual decision later than the threshold. Computer activity does not reset Mic's cadence, and vice versa. The corresponding synthetic tests check both the threshold and cross-source independence. (`tests\PhantomFudge.Audio.Tests\Program.cs:212-225`, `SilenceCadenceAsync`; `tests\PhantomFudge.Audio.Tests\DualSourceTests.cs:502-523`, `DualInputPolicyAsync`.)
 
-Consequently, these timestamps describe **callback arrival and supplied PCM**, not acoustic onset measurements. Cadence does not change Vosk endpoint settings; its implementation only creates zero PCM. Decoder-history rotation is a separate 30-second mechanism covered in chapter 9. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:14`, `SilenceFrame`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:304-312`, `SupplySilenceAsync`; `services\transcription\recognizer.py:82-93`, `VoskRecognizer.accept`.)
+Consequently, these timestamps describe **callback arrival and supplied PCM**, not acoustic onset measurements. Cadence does not change Vosk endpoint settings; its implementation only creates zero PCM. The Vosk wrapper retains its separate 30-second history reset, but that is **not the current hybrid span policy**. Hybrid recognition cuts owned PCM at an endpoint or a 15-second target, with a 16-second maximum, and replaces the provisional decoder at each cut. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:15`, `SilenceFrame`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:325-333`, `SupplySilenceAsync`; `services\transcription\recognizer.py:82-93`, `VoskRecognizer.accept`; `services\transcription\accurate.py:12-14`, span constants; `services\transcription\accurate.py:48-71`, `HybridRecognizer.accept`, `finish`.)
+
+### What the October 9 accuracy change does—and does not—change
+
+The default recognizer now uses Vosk for provisional text and local Whisper `small.en` for finals, configured as CPU int8 with four threads and disclosed general technical vocabulary. This changes interpretation **after acquisition**; it does not replace WASAPI, merge the inputs, repair microphone acoustics, or make a provisional spelling authoritative. `HybridRecognizer.finish` hands retained PCM to the finalizer rather than promoting Vosk's last guess. (`services\transcription\configuration.py:11-36`, defaults and `load_config`; `services\transcription\accurate.py:65-88`, `finish`, `WhisperFinalizer.__init__`.)
+
+At 32,000 bytes/second, the 15-second target represents 480,000 PCM bytes per source. A maximum-size frame may cross that target, so `FinalSpan` allows at most 512,000 bytes. These retained recognition spans are distinct from the native transport's pending-byte budget. A responsive meter proves callback energy, not successful Whisper finalization; similarly, an empty final may represent silence while still closing an owned time interval. The finalizer uses exact sample-span boundaries, not microphone onset or word-alignment measurements. (`services\transcription\accurate.py:17-30`, `FinalSpan`; `services\transcription\accurate.py:41-63`, span extraction; `services\transcription\accurate.py:90-118`, `WhisperFinalizer.__call__`.)
 
 ## Cancellation must invalidate tomorrow's queued Start
 
-A semaphore alone would serialize requests but could allow a Start already queued behind another operation to run after the user's Stop. `_stopVersion` solves that ordering problem. Start snapshots it before waiting; Stop increments it before waiting for lifecycle ownership. A queued Start with an old version is rejected before allocating its session. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:71-93`, `StartCoreAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:158-191`, `StopAsync`, `RequestStop`.)
+A semaphore alone would serialize requests but could allow a Start already queued behind another operation to run after the user's Stop. `_stopVersion` solves that ordering problem. Start snapshots it before waiting; Stop increments it before waiting for lifecycle ownership. A queued Start with an old version is rejected before allocating its session. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:72-94`, `StartCoreAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:159-192`, `StopAsync`, `RequestStop`.)
 
 The following Python-shaped pseudocode translates that C# algorithm; it is not another implementation:
 
@@ -169,23 +175,27 @@ async def stop():
 
 | Boundary | Implemented behavior |
 | --- | --- |
-| Normal Stop | Clear `Running`, cancel startup/silence, release inputs, then dispose the transport through its drain path. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:366-426`, `StopSessionAsync`, `FinishSessionAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:508-522`, `Session.RequestStop`.) |
-| Startup wait | Ten-second capture-start wait, cancellable; this cannot forcibly terminate a native call. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:12-13`, constants; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:111-114`, `StartCoreAsync`.) |
-| Native release | Independent release workers; aggregate five-second wait. A hung input does not prevent the responsive input's worker from releasing it. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:387-405`, `FinishSessionAsync`.) |
-| Late native return | Worker awaits its startup task, stops capture, waits for recording completion when applicable, disposes, and detaches handlers. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:428-472`, `ReleaseInputAsync`.) |
-| Unsafe restart | Outstanding release blocks another Start; cleanup failure sets a sticky guard. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:81-84`, `StartCoreAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:458-462`, `ReleaseInputAsync`.) |
+| Normal Stop | Clear `Running`, cancel startup/silence, release inputs, then dispose the transport through its drain path. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:387-447`, `StopSessionAsync`, `FinishSessionAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:532-546`, `Session.RequestStop`.) |
+| Startup wait | Ten-second capture-start wait, cancellable; this cannot forcibly terminate a native call. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:13-14`, constants; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:112-115`, `StartCoreAsync`.) |
+| Native release | Independent release workers; aggregate five-second wait. A hung input does not prevent the responsive input's worker from releasing it. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:408-426`, `FinishSessionAsync`.) |
+| Late native return | Worker awaits its startup task, stops capture, waits for recording completion when applicable, disposes, and detaches handlers. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:449-493`, `ReleaseInputAsync`.) |
+| Unsafe restart | Outstanding release blocks another Start; cleanup failure sets a sticky guard. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:82-85`, `StartCoreAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:479-483`, `ReleaseInputAsync`.) |
 
-Five seconds is **not an end-to-end Stop deadline**: transport final-drain has its own 15-second timeout. Nor does timing out prove the operating system released the endpoint. Ownership remains with the outstanding worker; the user-facing fault asks for app closure rather than silently opening another device. (`src\PhantomFudge.App\Audio\TranscriptionSocket.cs:20-21`, timeouts; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:255-280`, `StopAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:387-413`, `FinishSessionAsync`.)
+Five seconds is **not an end-to-end Stop deadline**: transport final-drain has a separate maximum wait, now 90 seconds for the hybrid backend's conservative 85-second pending-work envelope. This is a failure-containment ceiling, not normal latency. Nor does timing out prove the operating system released the endpoint. Ownership remains with the outstanding worker; the user-facing fault asks for app closure rather than silently opening another device. (`src\PhantomFudge.App\Audio\TranscriptionSocket.cs:20-79`, transport timeout ownership; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:264-289`, `StopAsync`; `src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:408-434`, `FinishSessionAsync`; `tools\SpeechBench\results\synthetic-quality-20261009.json:12733-12742`, production setup check and `max_stop_seconds`.)
 
-The UI therefore maintains `audioStopping` independently of `IsRunning`. It disables Start and input changes until the stop task finishes. Without that distinction, `transcript.BeginSession()` could reset final-ID and partial state while old-session finals were still arriving. (`src\PhantomFudge.App\MainWindow.xaml.cs:613-644`, `Start_Click`; `src\PhantomFudge.App\MainWindow.xaml.cs:668-736`, audio controls and stop methods; `src\PhantomFudge.Core\TranscriptBuffer.cs:23-39`, `BeginSession`.)
+For comparison, the adopted synthetic short-case run measured Stop-to-`stopped` median **0.480 seconds** and p95 **0.746 seconds**. Its long dual-source stress drained in **3.419 seconds**. Neither measures physical endpoint release or an actual user's Stop gesture through WPF; the distinct measurements must not be collapsed into “Stop takes 90 seconds” or “all stops complete within 746 ms.” (`tools\SpeechBench\results\synthetic-quality-20261009.json:6614-6618`, adopted stop distribution; `tools\SpeechBench\results\synthetic-quality-20261009.json:8693-8726`, long stress.)
 
-For faults, `SignalFault` publishes only the first failure, disables both inputs, aborts transport, and queues cleanup. It deliberately avoids acquiring the other input's audio lock from a callback: simultaneous failures would otherwise risk lock inversion. Normal final-drain guarantees do not apply to this abort path. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:341-364`, `SignalFault`.)
+The UI therefore maintains `audioStopping` independently of `IsRunning`. It disables Start and input changes until the stop task finishes. Without that distinction, `transcript.BeginSession()` could reset final-ID and partial state while old-session finals were still arriving. (`src\PhantomFudge.App\MainWindow.xaml.cs:637-674`, `Start_Click`; `src\PhantomFudge.App\MainWindow.xaml.cs:705-778`, audio controls and stop methods; `src\PhantomFudge.Core\TranscriptBuffer.cs:23-39`, `BeginSession`.)
+
+For faults, `SignalFault` publishes only the first failure, disables both inputs, aborts transport, and queues cleanup. It deliberately avoids acquiring the other input's audio lock from a callback: simultaneous failures would otherwise risk lock inversion. Normal final-drain guarantees do not apply to this abort path. (`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:362-385`, `SignalFault`.)
 
 ## Failure scenarios and evidence limits
 
 Unplugging either selected endpoint stops the whole session; changing the Windows default does not switch it. `RenderEndpointNotification` filters by ID, invalidates once, and dispatches cleanup notification onto the thread pool so the Core Audio callback returns promptly. (`src\PhantomFudge.App\Audio\RenderEndpointNotification.cs:10-30`, notification methods.)
 
 Synthetic tests exercise denied construction, failed startup, concurrent device loss, hung startup/stop, and failed disposal. `DualCaptureAsync` additionally checks readiness-before-opening, copied PCM, independent silence, and levels. These are executable descriptions of ownership guarantees—not evidence that every microphone driver behaves correctly. No tests were run for this documentation task. (`tests\PhantomFudge.Audio.Tests\DualSourceTests.cs:526-602`, `DualCaptureAsync`; `tests\PhantomFudge.Audio.Tests\DualSourceTests.cs:702-868`, failure scenarios.)
+
+The October 9 public validation receipt records **104 service tests and 18 benchmark tests**, with no real endpoint or cloud ASR. The accompanying operator handoff separately reports **46 native checks** and a real C# → hybrid v2 generated-PCM integration: Computer produced two finals/seven partials and Mic two finals/five partials. Those native counts are handoff evidence, not fields in the Python receipt or executions performed by this documentation pass. Generated PCM reaching real models is stronger than a fake decoder, but remains different from acquiring the user's voice. (`tools\SpeechBench\results\quality-validation-20261009.json:4-17`, recorded test scope; `tools\SpeechBench\results\synthetic-quality-20261009.json:6620-6627`, synthetic qualification limits.)
 
 Actual microphone permission behavior, echo, recorder-visible OS privacy indicators, and hardware quality remain separate qualification questions. Source labels cannot remove echo, suppress Windows indicators, or establish who spoke. (`docs\DUAL-SOURCE-AUDIO.md:10-26`, boundaries; `docs\QUALIFICATION.md:1-7`, qualification status.)
 
@@ -195,6 +205,7 @@ Actual microphone permission behavior, echo, recorder-visible OS privacy indicat
 2. Compute the two wire-message lengths for a 40,000-byte Computer callback. Which byte is excluded from PCM duration?
 3. Explain why a Mic stop hang must not block Computer release, yet must block a fresh session.
 4. At 300 ms of callback silence, what can be inferred about supplied PCM—and what cannot be inferred about acoustic timing?
+5. Why can a correct source label and byte-exact final span coexist with an incorrect “to” instead of “two”? Distinguish acquisition, ownership, and recognition quality.
 
 ### Source-reading route
 

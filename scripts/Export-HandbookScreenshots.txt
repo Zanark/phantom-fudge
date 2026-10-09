@@ -27,7 +27,8 @@ $names = @(
     'transcript-deepseafoam.png', 'theme-DeepSeaFoam.png', 'theme-HarborDaylight.png',
     'theme-Plain.png', 'audio-setup.png', 'notes-expanded.png',
     'background-10.png', 'background-100.png', 'present.png',
-    'question-selection.png', 'question-draft.png', 'question-harbordaylight.png', 'answer-synthetic.png'
+    'question-selection.png', 'question-draft.png', 'question-harbordaylight.png', 'answer-synthetic.png',
+    'answer-background-10.png', 'answer-background-100.png', 'transcript-multiselect.png', 'question-clarification.png', 'recording-active.png', 'audio-setup-cards-compact.png', 'notepad-cover.png'
 )
 $images = @()
 foreach ($name in $names) {
@@ -51,7 +52,14 @@ $sourceFiles = @(
     'src\PhantomFudge.App\App.xaml', 'src\PhantomFudge.App\App.xaml.cs',
     'src\PhantomFudge.App\MainWindow.xaml', 'src\PhantomFudge.App\MainWindow.xaml.cs',
     'src\PhantomFudge.App\MainWindow.Questions.cs', 'src\PhantomFudge.App\MainWindow.QuestionDiagnostics.cs',
+    'src\PhantomFudge.App\MainWindow.TranscriptSelection.cs', 'src\PhantomFudge.App\MainWindow.TranscriptSelectionDiagnostics.cs',
+    'src\PhantomFudge.App\MainWindow.Clarification.cs', 'src\PhantomFudge.App\MainWindow.ClarificationDiagnostics.cs',
+    'src\PhantomFudge.App\MainWindow.RecordingIndicator.cs',
+    'src\PhantomFudge.App\MainWindow.AudioDeviceCards.cs', 'src\PhantomFudge.App\MainWindow.AudioDeviceCardsDiagnostics.cs',
+    'src\PhantomFudge.App\MainWindow.Cover.cs', 'src\PhantomFudge.App\MainWindow.CoverDiagnostics.cs',
     'src\PhantomFudge.App\MainWindow.Answers.cs', 'src\PhantomFudge.App\MainWindow.AnswerDiagnostics.cs',
+    'src\PhantomFudge.App\MainWindow.Layout.cs', 'src\PhantomFudge.App\MainWindow.AnswerLifetime.cs',
+    'src\PhantomFudge.App\MainWindow.Diagnostics.cs', 'src\PhantomFudge.Core\WorkspaceLayout.cs',
     'src\PhantomFudge.Core\StructuredTranscriptStore.cs', 'src\PhantomFudge.Core\QuestionDraft.cs',
     'src\PhantomFudge.Core\TranscriptSegment.cs', 'src\PhantomFudge.Core\QuestionSnapshot.cs',
     'src\PhantomFudge.App\ThemeBrushes.cs', 'src\PhantomFudge.Core\ThemePalette.cs',

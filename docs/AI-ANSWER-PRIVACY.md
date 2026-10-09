@@ -1,7 +1,12 @@
 # Azure answer boundary and identity design
 
 Research date:2026-10-08. **Design only; no Azure resource, sign-in, inference call or upload
-was performed.** The application still has no implemented answer feature.
+was performed for this design.** Installed-provider answers are now implemented separately.
+
+The optional, default-off [Clarify first mode](QUESTION-CLARIFICATION.md) is an explicitly requested
+exception to the single-question-only payload: it includes a fixed instruction and this question's
+bounded interpretation/reply history. It does not authorize unrelated transcript, logs or machine
+metadata. Direct Azure is still future work and must preserve this distinction if implemented.
 
 ## The proposed default
 

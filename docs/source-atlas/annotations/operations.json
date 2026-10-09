@@ -1,0 +1,2144 @@
+{
+  "schemaVersion": 1,
+  "id": "operations",
+  "title": "Operations, synthetic measurement, and installed-CLI probe source",
+  "chapter": "docs/handbook/27-operations-source-walkthrough.md",
+  "files": [
+    {
+      "path": "scripts/Export-Diagnostics.ps1",
+      "sourceSha256": "527dc6c39e9206bb6c49d6569f9b7ce0913a7882ed6d7d04bd8bd330eba0f800",
+      "role": "Create a local, field-allowlisted diagnostic export without copying arbitrary application state or uploading it.",
+      "entryPoints": [
+        "Export-Diagnostics.ps1"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 18,
+          "title": "Separate export consent from diagnostic collection",
+          "explanation": "The script requires PowerShell 7.2, stops on errors, and reads only the app diagnostic directory under LocalApplicationData. A missing directory fails before creating an export. A second-resolution timestamp selects a new workspace-local destination; collision is rejected rather than overwriting an earlier export. The default key list contains event identity, correlation, timing, counts, codes and provider/content-kind metadata. IncludeText adds only the Text field: it does not enable collection retroactively and is independent of Set-Diagnostics.ps1's persistent includeText setting.",
+          "focus": [
+            {
+              "start": 11,
+              "end": 15
+            }
+          ]
+        },
+        {
+          "start": 19,
+          "end": 42,
+          "title": "Project app JSONL records through an explicit allowlist",
+          "explanation": "Only events-*.jsonl files are enumerated. File-level reparse points are refused, and shared ReadWrite/Delete access permits reading while the app appends or rotates. Strict UTF-8 decoding can still fail; only ArgumentException from JSON conversion is treated as a skippable malformed line. Records without an Event property are also counted as invalid. A new ordered object is populated with allowed existing properties and serialized, so unknown top-level keys are dropped rather than copied. Values under allowed keys are not independently sanitized or schema-validated here. Finally disposes the opened reader/writer; failure can leave a partial export directory rather than an all-or-nothing snapshot.",
+          "focus": [
+            {
+              "start": 28,
+              "end": 38
+            }
+          ]
+        },
+        {
+          "start": 43,
+          "end": 55,
+          "title": "Select only four backend log generations",
+          "explanation": "The speech source is workspace .local/diagnostics, not the app's per-user directory. The backend allowlist deliberately omits text, paths and tokens and includes decode/audio milliseconds plus queue/fault/drop counters. Enumeration is four literal names: the active transcription.jsonl and backups .1 through .3. Absent generations are harmless; file redirection is rejected. Shared readers again accommodate an active writer, but the export is not a transaction across generations.",
+          "focus": [
+            {
+              "start": 43,
+              "end": 50
+            }
+          ]
+        },
+        {
+          "start": 56,
+          "end": 72,
+          "title": "Filter backend records without introducing a text mode",
+          "explanation": "The lower-case event property identifies backend records. Malformed JSON and missing event properties increment the common invalid-line counter, while accepted rows copy only backendKeys. IncludeText never expands this backend list. Backend records are written as compact JSON and counted separately from app events. The reader and writer are disposed in finally. This is a field-selection boundary that relies on the producer's bounded schema, not a general anonymizer for arbitrary hostile log values.",
+          "focus": [
+            {
+              "start": 60,
+              "end": 69
+            }
+          ]
+        },
+        {
+          "start": 73,
+          "end": 83,
+          "title": "Record what the export included and did not do",
+          "explanation": "The manifest records export time, separate app/backend row counts, malformed/incomplete lines, the requested text inclusion flag, and uploaded=false. The latter describes this local script's behavior: there is no upload call. Warnings disclose skipped rows and the privacy consequence of IncludeText. textIncluded reflects the switch, not proof that Text existed in the source logs; switching collection back to Metadata does not erase older text-bearing records.",
+          "focus": [
+            {
+              "start": 73,
+              "end": 83
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Export-HandbookScreenshots.ps1",
+      "sourceSha256": "2d21f69f63ccf8d94f6aef2e1932e345f9d918aabe91920c9214737ceec4acf2",
+      "role": "Import allowlisted synthetic WPF visual-tree images with source provenance, not desktop or recorder evidence.",
+      "entryPoints": [
+        "Export-HandbookScreenshots.ps1"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 24,
+          "title": "Build an isolated fixture and gate image import on its receipt",
+          "explanation": "The script uses a separate .local output build and timestamped fixture directory rather than the normal app binary path. It starts the owned executable with --documentation-screenshots, which App.OnStartup dispatches into diagnosticMode and RunUiSmokeAsync(documentationFixture:true) before normal single-instance startup. A 45-second deadline stops only that process ID. Before importing anything, the script requires exit zero, passed=true, documentationFixture=true, and no recordingStarted flag. These are fixture assertions, not independent proof of external capture exclusion.",
+          "focus": [
+            {
+              "start": 15,
+              "end": 24
+            }
+          ]
+        },
+        {
+          "start": 25,
+          "end": 50,
+          "title": "Import seventeen named images and record their dimensions",
+          "explanation": "An explicit filename list includes themes, opacity endpoints, Notes, audio setup, question selection/draft/clarification and synthetic answers. Each must exist before its own copy. PNG width and height are read from byte offsets 16..23 and reversed for BitConverter's little-endian interpretation; the code assumes fixture-produced PNGs rather than validating arbitrary image formats. Per-image SHA256, dimensions and visual-tree-fixture kind form the receipt. The loop is incremental: a missing later image can leave earlier copies, so it is not transactional.",
+          "focus": [
+            {
+              "start": 36,
+              "end": 47
+            }
+          ]
+        },
+        {
+          "start": 51,
+          "end": 72,
+          "title": "Bind illustrations to a reviewed set of UI source files",
+          "explanation": "The source allowlist names XAML, startup/window partials, question and answer behavior, domain transcript/layout types, theme files and native protection/cursor policy. Every file is hashed under a portable forward-slash key. This records exactly these inputs, not every dependency of the renderer; an omitted future UI source would need an explicit list update. Runtime source is read for provenance, not copied into the screenshot directory.",
+          "focus": [
+            {
+              "start": 69,
+              "end": 72
+            }
+          ]
+        },
+        {
+          "start": 73,
+          "end": 90,
+          "title": "Publish scoped provenance and derive README images",
+          "explanation": "The manifest records schema version, UTC generation time, built PhantomFudge.dll hash, source hashes and image records. It explicitly describes RenderTargetBitmap over synthetic controls, with no recording and no real device names, speech service or cloud request claimed by the fixture. Its limitation is appearance only, not recorder compatibility. Once the manifest is written, Export-ReadmeImages.ps1 verifies selected images and creates opaque derivatives. A derivative failure can therefore occur after screenshot import and manifest creation.",
+          "focus": [
+            {
+              "start": 76,
+              "end": 85
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Export-ReadmeImages.ps1",
+      "sourceSha256": "8de5b17da8b62acd28dd4d93c5585fc91913df3d2c1f7ae28381a794ce2b48a3",
+      "role": "Composite approved transparent synthetic UI renders onto fixed palette backgrounds for README legibility.",
+      "entryPoints": [
+        "Export-ReadmeImages.ps1"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 25,
+          "title": "Require a non-recording fixture and declare ten derivatives",
+          "explanation": "The input is the handbook screenshot manifest, which must identify a documentation fixture and must not report recording. System.Drawing performs composition; no screen-capture API appears here. Ten explicit mappings include the original transcript/answer/themes plus device cards, the recording indicator, multi-selection, clarification and cover workflow. Dark surfaces receive #000F13, Harbor Daylight #F3F2E9 and Plain #FAF9F6, preventing transparent screenshot pixels from inheriting an unsuitable GitHub background. These are separate synthetic examples, not a continuous live meeting.",
+          "focus": [
+            {
+              "start": 8,
+              "end": 16
+            },
+            {
+              "start": 17,
+              "end": 24
+            }
+          ]
+        },
+        {
+          "start": 26,
+          "end": 44,
+          "title": "Verify provenance before unscaled composition",
+          "explanation": "For each mapping, the current source SHA256 must match exactly one manifest image entry; missing or duplicate entries fail along with mismatched bytes. The output bitmap preserves the source dimensions, clears to the declared opaque palette color, and draws the original unscaled at (0,0). This changes background compositing, not layout or text scale. Graphics is disposed even when drawing fails; the surrounding finally blocks later release the bitmap and original image.",
+          "focus": [
+            {
+              "start": 29,
+              "end": 33
+            },
+            {
+              "start": 37,
+              "end": 44
+            }
+          ]
+        },
+        {
+          "start": 45,
+          "end": 63,
+          "title": "Connect each output hash to its input hash",
+          "explanation": "Each derivative record carries its portable output path/hash, source path/hash, background and dimensions. Nested finally blocks prevent image handles from retaining input/output file locks. The final manifest names the transformation and expressly denies desktop/capture-exclusion evidence. Like screenshot import, generation is incremental: a failure midway does not roll back images already saved, and the manifest is written only after the full loop.",
+          "focus": [
+            {
+              "start": 45,
+              "end": 55
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Initialize-Answers.ps1",
+      "sourceSha256": "cc21c6d9e913a7019d7b6d7a944399f005ec0ad90a98fa522979905f851962b3",
+      "role": "Persist an explicit answer-provider choice and optionally perform separate Copilot sign-in without submitting a question.",
+      "entryPoints": [
+        "Initialize-Answers.ps1"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 21,
+          "title": "Reject implicit provider and endpoint choices",
+          "explanation": "Provider is mandatory and limited to SnapshotOnly, Agency, Copilot or LocalModel. Connect is valid only for Copilot. Model accepts at most 128 identifier characters, not whitespace or arbitrary CLI arguments. LocalModel requires a model identifier and a literal HTTP loopback /v1 endpoint: localhost names, HTTPS and non-loopback hosts do not match. The regex allows one-to-five port digits but does not itself enforce the TCP numeric port range; runtime settings validation is a later boundary. Other providers reject LocalEndpoint.",
+          "focus": [
+            {
+              "start": 11,
+              "end": 21
+            }
+          ]
+        },
+        {
+          "start": 22,
+          "end": 43,
+          "title": "Use the app's preparation entry point rather than a personal CLI profile",
+          "explanation": "Per-user state and a dedicated copilot-profile are selected. SnapshotOnly skips executable preparation entirely. Other modes prefer the packaged PhantomFudge.exe or build a separate .local/answer-setup-build executable. AgencyPath applies only to Agency; CliPath covers Copilot and LocalModel, with auto used when absent. ProcessStartInfo disables shell execution and requests no window. ArgumentList passes either --prepare-agency or --prepare-answer-profile and a single path choice, avoiding shell-concatenated command text.",
+          "focus": [
+            {
+              "start": 37,
+              "end": 43
+            }
+          ]
+        },
+        {
+          "start": 44,
+          "end": 60,
+          "title": "Bound owned preparation and validate the returned executable",
+          "explanation": "Only the newly started setup process is waited on and killed as a tree after 30 seconds. Nonzero exit fails before enabling new settings; disposal is unconditional. The script then consumes answer-setup.json written by App.OnStartup, chooses agencyPath or cliPath, and requires a nonempty existing file. It does not accept an arbitrary profile path from the receipt. These checks prepare an installed provider; they do not prove authentication, model availability or successful inference.",
+          "focus": [
+            {
+              "start": 45,
+              "end": 53
+            },
+            {
+              "start": 54,
+              "end": 59
+            }
+          ]
+        },
+        {
+          "start": 61,
+          "end": 83,
+          "title": "Make sign-in a separate explicit cloud action",
+          "explanation": "Connect launches the resolved Copilot executable in the dedicated profile and announces that a browser may open. The child environment removes named Copilot/GitHub/Agency/Node/npm/IDE/telemetry families plus shell startup variables, then sets COPILOT_HOME, HOME and USERPROFILE to the app profile and disables auto-update. This is a targeted scrub, not a complete environment allowlist. The login verb receives no question. Login waits without a scripted deadline; nonzero completion prevents writing answers.json, though preparation and login may already have changed profile state.",
+          "focus": [
+            {
+              "start": 67,
+              "end": 78
+            }
+          ]
+        },
+        {
+          "start": 84,
+          "end": 103,
+          "title": "Replace settings only after prerequisite work succeeds",
+          "explanation": "The ordered configuration writes mode, resolved CLI path, optional model, LocalModel-only endpoint and resolved Agency path, using null for unused values. A GUID-named temporary file is moved over answers.json and cleaned up in finally, avoiding direct streaming into the active settings file. AnswerConfiguration.Load consumes this file and performs its own validation. The message requires Reload setup; selecting Copilot without Connect is permitted but may remain unauthenticated. Neither this write nor successful setup is an Ask request.",
+          "focus": [
+            {
+              "start": 85,
+              "end": 91
+            },
+            {
+              "start": 93,
+              "end": 99
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Initialize-Transcription.ps1",
+      "sourceSha256": "aec360ba326ee09448f8c00935a2c5489cdaa9da6fd49add6fb59845677820d3",
+      "role": "Provision verified local speech assets and settings while separating model download consent, Python restoration and later service startup.",
+      "entryPoints": [
+        "Initialize-Transcription.ps1",
+        "Test-Model"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 25,
+          "title": "Choose explicit engine, model and vocabulary settings",
+          "explanation": "The defaults are hybrid-whisper, small.en and technical vocabulary; accepted alternatives are legacy vosk, base.en and none. Inputs are normalized to lower case before persistence. DownloadModel controls model acquisition and SkipPythonSetup controls environment restoration; they are independent switches. Workspace paths derive from the script directory, while the Vosk manifest supplies the extracted directory and archive names. Selecting legacy Vosk still requires the Vosk asset but later skips Whisper provisioning.",
+          "focus": [
+            {
+              "start": 2,
+              "end": 10
+            }
+          ]
+        },
+        {
+          "start": 26,
+          "end": 40,
+          "title": "Verify the Vosk file tree before trusting it",
+          "explanation": "Test-Model requires a model directory, an exact recursive file count matching the manifest property count, no descendant reparse-point entries, and every named manifest file with its expected SHA256. Count equality plus named-file verification detects extras as well as omissions. A false result triggers the later repair policy rather than accepting whatever model happens to load. This helper's descendant reparse scan is not a claim that every ancestor is validated; production recognizer.verify_model applies its own verification before loading.",
+          "focus": [
+            {
+              "start": 28,
+              "end": 37
+            }
+          ]
+        },
+        {
+          "start": 41,
+          "end": 76,
+          "title": "Create or validate a token without silently rotating it",
+          "explanation": "Setup creates the model directory, then only creates a missing token. Thirty-two cryptographic random bytes become 64 lowercase hex characters; FileMode.CreateNew and FileShare.None prevent overwrite/adoption during creation. Disposing streams and clearing variables reduce retained references, not guaranteed secure erasure. On Windows only the DACL is changed: inheritance is disabled, existing access rules removed and the current SID given FullControl without changing owner/audit sections. Existing tokens must match 32..512 URL-safe identifier characters. Invalid tokens require explicit removal rather than automatic rotation that would invalidate a running client.",
+          "focus": [
+            {
+              "start": 43,
+              "end": 53
+            },
+            {
+              "start": 63,
+              "end": 72
+            }
+          ]
+        },
+        {
+          "start": 77,
+          "end": 105,
+          "title": "Use a verified cache or require explicit model download",
+          "explanation": "If extracted Vosk verification fails, a missing archive requires DownloadModel. Download writes a .partial file, checks exact byte length and SHA256, then renames; finally removes leftover partial content. A cached archive receives the same checks. An invalid cached ZIP is not replaced automatically, and an existing invalid model directory is never overwritten. Only the verified archive is extracted and the extracted tree is rechecked. Thus a no-download invocation may still extract a valid cached ZIP, while a corrupt installation fails visibly instead of silently choosing another engine.",
+          "focus": [
+            {
+              "start": 85,
+              "end": 93
+            },
+            {
+              "start": 95,
+              "end": 104
+            }
+          ]
+        },
+        {
+          "start": 106,
+          "end": 118,
+          "title": "Record asset provenance rather than service health",
+          "explanation": "The receipt copies model name/version/license/source, archive hash/size and hash provenance from the manifest, marks the verified model files, and records UTC verification time. It is written after Vosk verification but before Python or Whisper work. Consequently this receipt does not certify the whole setup, dependency consistency, Whisper availability or a ready service; a later stage can still fail.",
+          "focus": [
+            {
+              "start": 107,
+              "end": 118
+            }
+          ]
+        },
+        {
+          "start": 119,
+          "end": 146,
+          "title": "Restore Python when the requirements receipt or imports demand it",
+          "explanation": "Unless SkipPythonSetup is set, setup creates a service-local venv using the discovered host python and checks its exit status. The error recommends Python 3.13 but this block does not inspect the host version. A SHA256 receipt for requirements.txt plus import checks for aiohttp, vosk and faster_whisper decides whether pip install and pip check run; the receipt is written only after both succeed. This is not a full package-content audit. Crucially pip may access a package index even without DownloadModel: that flag gates model downloads, not all network use.",
+          "focus": [
+            {
+              "start": 135,
+              "end": 144
+            }
+          ]
+        },
+        {
+          "start": 147,
+          "end": 156,
+          "title": "Delegate pinned Whisper verification with no implicit fallback",
+          "explanation": "Provisioning prefers the service venv, falling back to a discovered host interpreter if the venv is absent, including after SkipPythonSetup. Hybrid mode passes the selected name to provision_whisper.py and forwards --download only when explicitly selected. That helper can copy a verified SpeechBench cache or validate existing files without downloading. Nonzero exit aborts with a no-fallback message. The provisioning module performs byte/hash checks; setup does not load an ASR model or start inference.",
+          "focus": [
+            {
+              "start": 151,
+              "end": 155
+            }
+          ]
+        },
+        {
+          "start": 157,
+          "end": 166,
+          "title": "Commit the selected profile after all requested verification",
+          "explanation": "Only after provisioning succeeds is schemaVersion 1, engine, model, threads=4 and vocabulary written to a .new file and moved over transcription-config.json. The model field remains present even for vosk, matching configuration.load_config's exact-key contract. Success messages distinguish hybrid finalization from explicit legacy Vosk and state that no service restart, capture or Docker action happened here. A later Start-Transcription invocation decides whether an owned idle service needs updating.",
+          "focus": [
+            {
+              "start": 157,
+              "end": 160
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Publish-Preview.ps1",
+      "sourceSha256": "0ded1fb6e02460f97d1e01e43f118f98ff39d81ad3f7f8097921a1ab0d3bcf69",
+      "role": "Create a local, unqualified self-contained Windows preview with explicit supplementary-file allowlists.",
+      "entryPoints": [
+        "Publish-Preview.ps1"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 21,
+          "title": "Publish into a new timestamped win-x64 directory",
+          "explanation": "Runtime is restricted to win-x64; the timestamped name identifies a 0.1.0 preview, not a qualified release. Existing directory or ZIP collisions fail. dotnet publish requests Release, self-contained output, and no debug symbols. A nonzero exit labels partial output unusable rather than compressing it. Self-contained applies to the .NET application; Python, local models and provider executables are not thereby bundled or installed.",
+          "focus": [
+            {
+              "start": 14,
+              "end": 20
+            }
+          ]
+        },
+        {
+          "start": 22,
+          "end": 34,
+          "title": "Copy only named guides and canonical script bytes",
+          "explanation": "The package README comes from PACKAGED-README.md, followed by nine explicitly named focused guides. Eight operational scripts are copied twice from each canonical .ps1 source: once as .ps1 and once as .txt. The packaged .txt twins therefore receive the canonical bytes rather than trusting a separately edited source alias. This convention supports readable mirrors without maintaining a second implementation; source-tree alias equality remains a separate parent validation responsibility.",
+          "focus": [
+            {
+              "start": 30,
+              "end": 34
+            }
+          ]
+        },
+        {
+          "start": 35,
+          "end": 48,
+          "title": "Allowlist runtime Python and selected historical evidence",
+          "explanation": "Eleven named speech runtime/configuration files are added, followed by five explicitly selected SpeechBench/AgencyProbe result files. The result contents are copied, not recomputed or independently validated by this script. There is no recursive workspace copy: tokens, .local caches, venvs, general probe outputs, source tests and optional Compose recipes are not included by these supplementary lists. dotnet's published app output is a separate input boundary from these lists.",
+          "focus": [
+            {
+              "start": 35,
+              "end": 44
+            }
+          ]
+        },
+        {
+          "start": 49,
+          "end": 52,
+          "title": "Hash a local archive without promotion or upload",
+          "explanation": "Compress-Archive packages the assembled directory contents and SHA256 identifies the resulting bytes. Output explicitly says local unqualified preview. There is no signing, installer registration, upload, recipient capture test or owner acceptance step. Running this script in future would build current source; it does not retroactively change what an older timestamped ZIP contains.",
+          "focus": [
+            {
+              "start": 49,
+              "end": 52
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Run-PhantomFudge.ps1",
+      "sourceSha256": "2e80b7f5f59a7a152639f58fb2c18d90e1e959c9d1320c2dd8253a2fa2282d82",
+      "role": "Launch the native app or request recovery of the matching instance without rebuilding or restarting its service.",
+      "entryPoints": [
+        "Run-PhantomFudge.ps1"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 27,
+          "title": "Prioritize existing-window recovery before any setup side effect",
+          "explanation": "The launcher prefers a root-level packaged executable, otherwise the fixed Release net10.0-windows path. It enumerates PhantomFudge processes but filters by that exact executable path, rather than killing or adopting by name. When a match exists, a new process of the same executable requests reveal through App.OnStartup and SingleInstance's same-user pipe. It returns immediately without build, token loading or Start-Transcription. PassThru returns the recovery child, not the original long-lived process; the script's message confirms a request, not successful visible recovery.",
+          "focus": [
+            {
+              "start": 17,
+              "end": 26
+            }
+          ]
+        },
+        {
+          "start": 28,
+          "end": 41,
+          "title": "Build only a new source launch and keep NotesOnly narrow",
+          "explanation": "A fresh source launch builds unless NoBuild is set; packaged launches never build here. Both routes then require the executable to exist. Unless NotesOnly is selected, the script invokes Start-Transcription before opening the app. NotesOnly skips this launcher action; it is not a separate app mode that forbids later audio actions, removes existing tokens or disables configured answer providers. A service-start failure prevents the normal app launch.",
+          "focus": [
+            {
+              "start": 29,
+              "end": 40
+            }
+          ]
+        },
+        {
+          "start": 42,
+          "end": 57,
+          "title": "Pass loopback connection data through the child environment",
+          "explanation": "ProcessStartInfo uses no shell and the workspace working directory. If the token file exists, its trimmed value must be at least 32 characters before being set only on the child environment; this check is intentionally less complete than initialize/manage token validation. Missing token files do not themselves fail this block. The URI is pinned to ws://127.0.0.1:8765/v1/transcribe, then the app starts and optionally returns its Process. Service readiness is not an instruction to capture; recording remains an explicit app action.",
+          "focus": [
+            {
+              "start": 46,
+              "end": 55
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Set-Diagnostics.ps1",
+      "sourceSha256": "22a0bde8181d1a882d7ac8e7ce12807d7defda1399927fbf305bfc992b3403dc",
+      "role": "Persist the local diagnostic text-retention opt-in independently of exports.",
+      "entryPoints": [
+        "Set-Diagnostics.ps1"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 15,
+          "title": "Write exactly one settings boolean via a temporary file",
+          "explanation": "Metadata is the default; Text is the only alternative. The per-user PhantomFudge directory receives a GUID-named temporary JSON file containing includeText, then Move-Item replaces diagnostics.json. Finally removes an orphan temporary file. LocalDiagnostics.ReloadSettings reads this one-field contract and defaults text retention off before parsing; writing the file alone does not mutate a running app's current in-memory setting.",
+          "focus": [
+            {
+              "start": 8,
+              "end": 14
+            }
+          ]
+        },
+        {
+          "start": 16,
+          "end": 21,
+          "title": "Disclose plaintext retention and the reload boundary",
+          "explanation": "The output tells the operator to click Diagnostics or restart. Text mode is explicitly described as retaining final transcripts, submitted questions and answers locally in plaintext, not raw audio. Metadata mode excludes those bodies from future collection. No existing log deletion or secure erasure occurs when changing modes, and Export-Diagnostics still has its own independent IncludeText switch.",
+          "focus": [
+            {
+              "start": 16,
+              "end": 21
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Show-Diagnostics.ps1",
+      "sourceSha256": "e25bb9390a16b11d4b03b98a116aafeaf3547fc3cccfaef09e50f4f74c251ec0",
+      "role": "Display correlated answer timing metadata without displaying transcript, prompt or answer bodies.",
+      "entryPoints": [
+        "Show-Diagnostics.ps1"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 25,
+          "title": "Read rotated app JSONL without blocking active writers",
+          "explanation": "Last is constrained to 1..100 and defaults to ten; IncludeSynthetic changes the later selection, not logging. All matching app log files are loaded into an in-memory list, with file-level reparse rejection, shared ReadWrite/Delete access and strict UTF-8. ArgumentException during JSON parsing increments invalid; records lacking a truthy Event are simply omitted. Readers are disposed even on error. This is a small-log reporting helper, not a streaming query with memory bounded by Last.",
+          "focus": [
+            {
+              "start": 13,
+              "end": 24
+            }
+          ]
+        },
+        {
+          "start": 26,
+          "end": 37,
+          "title": "Select recent Ask starts and join by request identity",
+          "explanation": "Without IncludeSynthetic, only AnswerStarted records whose Code is user_ask qualify. Starts are sorted newest first, capped by Last, then correlated to all records sharing CorrelationId. FirstAnswerText is further restricted to app_received, distinguishing application reception from provider-internal timing. First text and first visible use encounter order, whereas terminal Completed/Failed/Cancelled events are sorted by UTC and the latest is chosen. Missing events yield missing fields rather than invented zero latency; rotated-away records can make a request incomplete.",
+          "focus": [
+            {
+              "start": 26,
+              "end": 37
+            }
+          ]
+        },
+        {
+          "start": 38,
+          "end": 51,
+          "title": "Report independent first-text, UI and terminal milestones",
+          "explanation": "The output object includes start UTC, provider, run kind, request ID, FirstTextMs, UiTextMs, TerminalMs and terminal result/code. It does not print Text even if a log was collected in Text mode. A content-opt-in AnswerCompleted record can also satisfy the terminal selector and lack ElapsedMs, so the summary is not a guaranteed complete timing report for every retained event mixture. Malformed-line warnings explain ignored records without echoing their bodies.",
+          "focus": [
+            {
+              "start": 38,
+              "end": 48
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Start-Transcription.ps1",
+      "sourceSha256": "13249d0994de8d004e0f3cf789e35f110f78547cb78780573bde5159ab98a91e",
+      "role": "Select native service management by default, with Docker confined to an explicit alternative branch.",
+      "entryPoints": [
+        "Start-Transcription.ps1"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 16,
+          "title": "Delegate ordinary startup to the workspace-local manager",
+          "explanation": "Without Docker, the required interpreter is services/transcription/.venv/Scripts/python.exe. Absence is a setup failure, not a reason to install Docker, capture a microphone or use cloud speech. The script invokes manage.py start, checks its exit code and returns before any Docker inspection. manage.start authenticates and fingerprints an existing service, validates replacement assets before an idle restart, and refuses untracked or active incompatible instances.",
+          "focus": [
+            {
+              "start": 8,
+              "end": 15
+            }
+          ]
+        },
+        {
+          "start": 17,
+          "end": 27,
+          "title": "Treat optional Docker prerequisites as explicit errors",
+          "explanation": "The opt-in branch requires source-checkout Compose recipes, an installed docker command, a responsive engine and Compose v2. Calls suppress incidental version output and stop on nonzero exit. No installer or engine-start command is present. Because Publish-Preview does not copy compose.yaml, ordinary packaged operation is intentionally the native branch.",
+          "focus": [
+            {
+              "start": 18,
+              "end": 27
+            }
+          ]
+        },
+        {
+          "start": 28,
+          "end": 36,
+          "title": "Wait for optional container health without starting capture",
+          "explanation": "The Docker branch checks that the local token and Vosk final.mdl exist, then runs Compose up with build, detach and a 120-second health wait. These existence checks alone are not model integrity verification; container/runtime loading is a later boundary. A nonzero exit is not treated as a healthy service or a cloud fallback. The success message provides the literal-loopback WebSocket URI and requires explicit Start capture in the Windows app.",
+          "focus": [
+            {
+              "start": 28,
+              "end": 36
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Stop-Transcription.ps1",
+      "sourceSha256": "1fae50158aabf4a343ff617996d7d227bf122e2751c3b2ea6b234c3bb1b3db93",
+      "role": "Stop the explicitly selected service deployment through its manager, not by process-name termination.",
+      "entryPoints": [
+        "Stop-Transcription.ps1"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 16,
+          "title": "Keep Compose shutdown separate from native ownership",
+          "explanation": "Docker selects a dedicated branch requiring the workspace recipe and docker command, then calls Compose down with the explicit project directory/file. Failure is reported and the branch returns without calling the native manager. This branch does not perform manage.py's authenticated idle-service checks; it must not be described as sharing all native shutdown safeguards.",
+          "focus": [
+            {
+              "start": 8,
+              "end": 15
+            }
+          ]
+        },
+        {
+          "start": 17,
+          "end": 22,
+          "title": "Let authenticated native management decide whether shutdown is safe",
+          "explanation": "The native branch requires the local venv and invokes manage.py stop. The script itself never kills a process. manage.stop combines the runtime receipt with authenticated service identity, requires active=false, sends an instance-bound shutdown request and retains the receipt if shutdown cannot be confirmed. The wrapper's failure message directs the user to stop app capture first; missing Python changes no service process.",
+          "focus": [
+            {
+              "start": 17,
+              "end": 22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Test-DualSourceSynthetic.ps1",
+      "sourceSha256": "6f5082703591ae17e7ed46ea2e42396239dbe68f0572eb4936902b9bfdf74038",
+      "role": "Generate separate Computer/Microphone synthetic PCM inputs for the dual-source protocol probe without opening real capture endpoints.",
+      "entryPoints": [
+        "Test-DualSourceSynthetic.ps1"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 17,
+          "title": "Validate harness mode before synthesizing PCM",
+          "explanation": "Accurate requires NativeClient, preventing an unsupported flag combination from silently taking the Python-only route. The service-local interpreter must already exist. System.Speech synthesis is configured for 16 kHz, 16-bit mono, establishing 32000 bytes per second for the downstream protocol. An ordered fixture map preserves named Computer and Microphone entries; neither selection opens those devices.",
+          "focus": [
+            {
+              "start": 7,
+              "end": 16
+            }
+          ]
+        },
+        {
+          "start": 18,
+          "end": 33,
+          "title": "Give the two tracks distinct in-memory phrases",
+          "explanation": "Microsoft David Desktop at rate -1 synthesizes an ordinary project-plan phrase for computer and a question/counting phrase for microphone. Each owns a separate MemoryStream. SetOutputToAudioStream routes speech into memory, SetOutputToNull detaches it, and the bytes are base64-encoded under the source label. Finally disposes every stream. Missing installed voice is an error; the script neither downloads voices nor substitutes real audio.",
+          "focus": [
+            {
+              "start": 21,
+              "end": 32
+            }
+          ]
+        },
+        {
+          "start": 34,
+          "end": 51,
+          "title": "Route the same fixture to Python or the built native client",
+          "explanation": "The default passes compressed JSON on stdin to tools/DualSourceProbe/probe.py. NativeClient first builds the audio-test project, passes its Release DLL to --native-client, and optionally forwards --accurate. The final exit check rejects failed recognition and the outer finally disposes the synthesizer. This wrapper arranges inputs and enforces process success; protocol/source assertions belong to the selected downstream harness. Synthetic success is not microphone, echo, device-selection or meeting accuracy evidence.",
+          "focus": [
+            {
+              "start": 36,
+              "end": 47
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Test-NativeLifecycle.ps1",
+      "sourceSha256": "dea9926a573cd2e11c1449460ad4147c9890a40a17c3611e4362111833d90d40",
+      "role": "Exercise minimize/hide/relaunch/close recovery on owned blank app instances without adopting an existing user session.",
+      "entryPoints": [
+        "Test-NativeLifecycle.ps1",
+        "Start-OwnInstance",
+        "Wait-Condition",
+        "PhantomLifecycleProbe.FindVisible"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 23,
+          "title": "Refuse tests that would collide with a user app or service",
+          "explanation": "AppRoot can target an existing package; otherwise the checkout root is used. The executable is packaged-first, with the fixed Release path as fallback, and this test does not build it. Any running process named PhantomFudge blocks testing, a broader guard than the launcher's exact-path filter. UseLauncher additionally refuses an existing listener on port 8765 so that final cleanup does not adopt an already-running speech service. These are preflight checks, not a system-wide race-proof reservation.",
+          "focus": [
+            {
+              "start": 16,
+              "end": 22
+            }
+          ]
+        },
+        {
+          "start": 24,
+          "end": 44,
+          "title": "Observe only windows belonging to the owned process ID",
+          "explanation": "The embedded C# P/Invoke helper enumerates top-level windows and returns the first visible HWND whose process ID matches the requested owned process. IsWindowVisible, IsIconic and PostMessage provide explicit visibility/minimize observations and bounded command injection into that window. No note text, screenshots or global keyboard input is collected. This verifies native lifecycle behavior, not the absence of readable pixels in a remote recorder.",
+          "focus": [
+            {
+              "start": 34,
+              "end": 42
+            }
+          ]
+        },
+        {
+          "start": 45,
+          "end": 67,
+          "title": "Create owned processes and poll bounded conditions",
+          "explanation": "Only the first UseLauncher launch calls Run-PhantomFudge -NoBuild -PassThru; mixed informational/process output is separated and exactly one Process object is required. Subsequent launches execute the app directly with the inherited transcription token removed. Wait-Condition polls every 50 ms for up to eight wall-clock seconds, producing a specific failure instead of hanging. Removing the token does not rewrite per-user answer settings or create a general app sandbox.",
+          "focus": [
+            {
+              "start": 47,
+              "end": 58
+            },
+            {
+              "start": 61,
+              "end": 67
+            }
+          ]
+        },
+        {
+          "start": 68,
+          "end": 88,
+          "title": "Require relaunch to restore the original minimized HWND",
+          "explanation": "The first process is registered in an owned list and must expose a visible window. WM_SYSCOMMAND/SC_MINIMIZE is posted, IsIconic must become true, and a second process must exit successfully within ten seconds. The original handle must then be visible and non-minimized. This asserts recovery of the first window rather than accepting a replacement window from the second process; it does not measure the proposed product p95 recovery budget.",
+          "focus": [
+            {
+              "start": 79,
+              "end": 88
+            }
+          ]
+        },
+        {
+          "start": 89,
+          "end": 113,
+          "title": "Verify hidden-window recovery and clean up only owned launches",
+          "explanation": "WM_HOTKEY with ID 1 invokes the app's hide command; invisibility is observed, a third launch must exit successfully, and the original HWND must reappear. WM_CLOSE then requires a clean first-process exit. Finally iterates only the tracked Process objects, stopping remaining IDs and disposing handles. If UseLauncher produced a runtime receipt, Stop-Transcription delegates service cleanup to authenticated native management. The PASS text concerns blank-window lifecycle and no captured notes/audio, not owner UX approval or recipient-side exclusion.",
+          "focus": [
+            {
+              "start": 89,
+              "end": 96
+            },
+            {
+              "start": 105,
+              "end": 113
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/Test-PlaybackTranscription.ps1",
+      "sourceSha256": "d6c6537f5cc1f8be22b9b9b888be82d52d8ba2b8f9912b72d91c0027177a9c23",
+      "role": "Gate a synthetic playback/real-loopback experiment behind explicit consent because the selected output device may contain unrelated sound.",
+      "entryPoints": [
+        "Test-PlaybackTranscription.ps1"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 16,
+          "title": "Require the playback switch before even building the harness",
+          "explanation": "AllowPlayback is mandatory and also checked for a true value, so explicitly passing false cannot bypass consent. The failure text explains the material difference from file-only tests: this experiment plays synthetic speech and captures all output on the selected default device. Only after the gate does it build the audio test executable and require success. The script does not automatically pause unrelated audio or prove that only its fixture will be captured.",
+          "focus": [
+            {
+              "start": 7,
+              "end": 15
+            }
+          ]
+        },
+        {
+          "start": 17,
+          "end": 38,
+          "title": "Prepare synthetic input and an expected phrase without printing the token",
+          "explanation": "The fixed David voice at rate -1 writes the counting/test phrase as 16 kHz mono 16-bit PCM into a MemoryStream. The child dotnet invocation receives --playback, the literal-loopback endpoint and an expected counting substring via ArgumentList. UseShellExecute=false and redirected stdin allow binary transfer without a shell quoting protocol. The local token is assigned to PHANTOM_AUDIO_TEST_TOKEN on the child environment, not passed on its command line or logged.",
+          "focus": [
+            {
+              "start": 29,
+              "end": 38
+            }
+          ]
+        },
+        {
+          "start": 39,
+          "end": 59,
+          "title": "Feed PCM, close stdin and enforce an owned-process deadline",
+          "explanation": "After starting the child, the stream is rewound, copied into stdin and stdin is closed to delimit the fixture. A 60-second wait bounds normal test completion; timeout stops that process ID and throws. Nonzero exit rejects the expected result. Process, synthesizer and memory stream are disposed in nested finally blocks. These cleanup paths do not claim downstream process-tree termination or universal cleanup if failure occurs before the wait; no external service is stopped here.",
+          "focus": [
+            {
+              "start": 40,
+              "end": 50
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/CopilotProbe/agency_profile_probe.py",
+      "sourceSha256": "71cf8dca3dd33e703e57aca82a55389c1632a94e32f63fa1770473dde3c9b7c6",
+      "role": "Inspect installed Agency version/config compatibility using a throwaway profile, not a model or authentication session.",
+      "entryPoints": [
+        "module-level probe"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 18,
+          "title": "Create a uniquely owned configuration with an empty plugin selection",
+          "explanation": "This is top-level executable code, not a guarded import-only module: importing it would create directories and later launch subprocesses. A nanosecond suffix gives the probe its own root and home. The TOML declares phantom-fudge-answer, an empty mcps table and plugins.default=[] so config checking does not use a personal plugin selection. These are local probe artifacts adjacent to the helper, not the production app's provider profile.",
+          "focus": [
+            {
+              "start": 9,
+              "end": 18
+            }
+          ]
+        },
+        {
+          "start": 19,
+          "end": 28,
+          "title": "Restrict inherited environment and avoid portable-path claims",
+          "explanation": "Only a small Windows execution/temp environment allowlist survives; HOME, USERPROFILE and both AppData roots are redirected to the owned home. Update checks, AEC and online Copilot mode are explicitly disabled. The executable is a hard-coded machine-local Agency installation, so this script is a historical inspection aid rather than a portable discovery/setup command. The documentation deliberately describes that path without repeating user-specific local identity.",
+          "focus": [
+            {
+              "start": 19,
+              "end": 27
+            }
+          ]
+        },
+        {
+          "start": 29,
+          "end": 41,
+          "title": "Check version and config without launching an engine",
+          "explanation": "Two commands run: --version and config check with --skip-remotes, no AEC and an owned log directory. stdin is disabled, output is captured, and each process has a 30-second timeout. Results are printed with actual return code and decoded streams; nonzero codes are recorded rather than asserted as test failures. The finally removes the owned directory for failures inside this try, but earlier setup errors occur before it. No login, prompt or model-engine invocation is requested; external CLI adherence remains outside this source-only review.",
+          "focus": [
+            {
+              "start": 30,
+              "end": 41
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/CopilotProbe/probe.py",
+      "sourceSha256": "8be267386db50d1453b8e733d42864bdc56eec77a5b3ecb41fe88cc8a8016929",
+      "role": "Observe an installed Copilot CLI against synthetic loopback streaming/error/tool/redirect responses and controlled context sentinels.",
+      "entryPoints": [
+        "main",
+        "Handler.do_POST"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 28,
+          "title": "Declare a deliberately constrained installed-CLI experiment",
+          "explanation": "The imports support a local HTTP server, subprocess capture and owned temporary state. Settings disable hooks, memory, IDE autoconnection, updates, bash environment loading and notifications, while custom-agent discovery is configured local-only rather than claimed absent. CLI flags further disable custom instructions, built-in MCPs, remote behavior and ask-user, request JSON streaming, and deny shell/write/url tools. The empty available-tools flag is an experimental baseline later rewritten by the tools option, not a proven no-tools guarantee for every CLI version.",
+          "focus": [
+            {
+              "start": 22,
+              "end": 28
+            }
+          ]
+        },
+        {
+          "start": 29,
+          "end": 70,
+          "title": "Seed controlled probes for attachment and home-context leakage",
+          "explanation": "The caller supplies an executable and selects text/tool/error/truncated/redirect behavior, tool-flag spelling, prompt syntax and optional home skills. A unique state tree holds a child home, synthetic parent home, empty working directory and fixed nonprivate sentinel file. Optional SKILL.md/AGENTS.md sentinels are written only under that tree. Prompts compare plain input, unquoted or quoted @file references, and /help. These cases investigate preprocessing before provider inference; they do not read actual notes or personal skills. Keep explicitly preserves the synthetic receipts.",
+          "focus": [
+            {
+              "start": 49,
+              "end": 58
+            },
+            {
+              "start": 61,
+              "end": 69
+            }
+          ]
+        },
+        {
+          "start": 71,
+          "end": 99,
+          "title": "Observe request structure and synthesize redirect/error responses",
+          "explanation": "The handler suppresses default HTTP logging, parses each POST and records path, requested model, tool count/names and user messages. Authorization is reduced to present/absent rather than copying its value. It records whether either controlled sentinel entered the body and whether the redirect server received it. Redirect mode issues a 307 to another ephemeral literal-loopback server; error mode or additional nonredirect requests receive a synthetic 400. This is an observation harness with trusted synthetic inputs, not a hardened public HTTP service.",
+          "focus": [
+            {
+              "start": 78,
+              "end": 87
+            }
+          ]
+        },
+        {
+          "start": 100,
+          "end": 117,
+          "title": "Exercise incremental Unicode, tool calls and missing terminal markers",
+          "explanation": "Successful HTTP responses stream OpenAI-shaped SSE deltas: assistant role, two text chunks including a Unicode emoji, or a synthetic shell tool-call request. Each delta is flushed with a 150 ms gap to make streaming visible. Truncated mode closes before finish_reason and [DONE]; otherwise the final marker distinguishes tool_calls from stop. This tests how the installed CLI reacts, including denial of an offered tool call, without making a real model request. The source does not itself assert that the CLI denied tools correctly.",
+          "focus": [
+            {
+              "start": 103,
+              "end": 110
+            },
+            {
+              "start": 111,
+              "end": 116
+            }
+          ]
+        },
+        {
+          "start": 118,
+          "end": 134,
+          "title": "Bind both fake endpoints to loopback and isolate child settings",
+          "explanation": "Two ThreadingHTTPServers bind 127.0.0.1 with OS-assigned ports and daemon threads. A Windows environment allowlist is retained, then HOME/USERPROFILE, AppData and COPILOT_HOME are redirected to the child home. The earlier parent-home assignment is overwritten, so parent sentinel behavior must be interpreted from actual requests rather than the option label alone. Offline mode and an OpenAI completions base URL route to the fake server with model synthetic. The tools choice varies empty, bare or nonexistent-sentinel available-tools syntax before Popen starts the owned CLI in an empty cwd.",
+          "focus": [
+            {
+              "start": 125,
+              "end": 134
+            }
+          ]
+        },
+        {
+          "start": 135,
+          "end": 152,
+          "title": "Bound the child and retain only explicitly requested receipts",
+          "explanation": "communicate writes the synthetic prompt to stdin and captures output with a 35-second timeout. Timeout invokes taskkill by the owned PID with tree termination, then waits up to five more seconds. The finally shuts down both local HTTP servers for this communication phase. stdout, stderr and request observations are written and printed; unless Keep was requested, the state tree is removed. Measured seconds include later shutdown/write overhead, not just time to first token. Cleanup is not one encompassing finally: startup, second communicate or decode/write failures can leave owned state, and no passing assertion is manufactured from the printed observations.",
+          "focus": [
+            {
+              "start": 135,
+              "end": 142
+            },
+            {
+              "start": 143,
+              "end": 148
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/bench.py",
+      "sourceSha256": "e4129a6b46a33a43e07ee324327c687312be7a7bfc3de9184382df582d69a68e",
+      "role": "Compare installed SAPI, verified production Vosk and locally provisioned Whisper on shared file-only fixtures, separating accuracy from load/decode/delivery timing.",
+      "entryPoints": [
+        "main",
+        "provision",
+        "make_fixtures",
+        "load_cases",
+        "worker",
+        "verify_results",
+        "run"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 33,
+          "title": "Fix workspace paths, public model revision and native-thread requests",
+          "explanation": "ROOT/HERE/LOCAL separate checked-in helper source from ignored .local/speech-bench data. The historical benchmark pins Systran faster-whisper-base.en to a specific revision and uses the production Vosk directory. Environment values disable telemetry and implicit Hugging Face tokens, select a private HF cache and request two native threads across several libraries. These assignments happen on import, so this module is not side-effect-free; offline flags are added specifically inside worker, while provision is the explicit download command.",
+          "focus": [
+            {
+              "start": 22,
+              "end": 32
+            }
+          ]
+        },
+        {
+          "start": 34,
+          "end": 65,
+          "title": "Provide JSON/hash helpers, an output boundary and a CPU-affinity request",
+          "explanation": "write creates parent directories and writes readable UTF-8 JSON; read accepts a BOM; sha hashes complete file bytes. local_output resolves the requested path and rejects anything outside resolved .local/speech-bench, including lexical parent escapes. It is a path-location guard, not encryption or an OS sandbox, and write itself does not enforce it. On Windows affinity pins the current process to mask 15, the lowest four logical CPUs, and raises a Win32 error on failure; non-Windows leaves affinity unchanged.",
+          "focus": [
+            {
+              "start": 50,
+              "end": 54
+            },
+            {
+              "start": 57,
+              "end": 63
+            }
+          ]
+        },
+        {
+          "start": 66,
+          "end": 97,
+          "title": "Bridge SAPI and isolate the explicit public-model download",
+          "explanation": "sapi invokes powershell.exe without profile or interaction, passes mode/output/repeats plus optional input, enforces a 600-second subprocess timeout, then reads its JSON. provision imports Hugging Face only when selected, obtains metadata for the pinned revision without a token and downloads six allowed filename patterns with two workers. It hashes observed top-level files and records bytes, revision, source, upstream, license and timestamp. Its provenance explicitly says post-HTTPS observed hashes, not publisher-signed checksums. The production provision_whisper manifest is a separate, stricter installation contract.",
+          "focus": [
+            {
+              "start": 77,
+              "end": 85
+            },
+            {
+              "start": 88,
+              "end": 95
+            }
+          ]
+        },
+        {
+          "start": 98,
+          "end": 124,
+          "title": "Reject implicit resampling and arrange installed-voice jobs",
+          "explanation": "pcm_from_wav accepts only uncompressed 16 kHz, mono, two-byte samples and returns raw frames; it never silently converts a 44.1 kHz file. make_fixtures probes installed voices, chooses at most the first two enabled en-US entries and refuses an empty set without installing a voice pack. Each corpus row expands to a voice-specific ID and PCM destination, preserving text/category and voice identity. Synthesis status must be ok before any generated PCM is consumed.",
+          "focus": [
+            {
+              "start": 99,
+              "end": 103
+            },
+            {
+              "start": 110,
+              "end": 119
+            }
+          ]
+        },
+        {
+          "start": 125,
+          "end": 153,
+          "title": "Produce deterministic clean and 15 dB noise WAV cases",
+          "explanation": "Raw little-endian int16 speech is converted to float64 and padded with 4000 leading and 16000 trailing samples: 250 ms and one second at 16 kHz. Speech RMS uses only original samples whose absolute amplitude is at least 100. Seeded Gaussian noise is normalized by its realized RMS and scaled by speech_rms/10^(15/20), then added across the padded signal. Counts track clipping before rounding/saturation to int16. Both conditions get a WAV, hash, duration=len(pcm)/32000, category, voice, seed, RMS and SNR metadata. This assumes synthesized speech has active samples; it does not validate an empty active set.",
+          "focus": [
+            {
+              "start": 127,
+              "end": 138
+            }
+          ]
+        },
+        {
+          "start": 154,
+          "end": 177,
+          "title": "Normalize corpus paths and reject missing or ambiguous cases",
+          "explanation": "load_cases rejects duplicate IDs, resolves relative audio paths against the manifest's directory, enforces WAV format, recomputes SHA256 and derives duration from actual PCM bytes. Empty PCM or a nonstring reference is rejected; an empty string reference is allowed, retaining nonspeech insertion accounting. Missing voice, condition and category default to owner-supplied, and an empty corpus fails. Input files need not be inside LOCAL: the private-output guard protects destinations, not permission to read or publish arbitrary owner-supplied recordings. Existing manifest hashes are replaced here, unlike later verify_results comparison.",
+          "focus": [
+            {
+              "start": 158,
+              "end": 169
+            }
+          ]
+        },
+        {
+          "start": 178,
+          "end": 206,
+          "title": "Load production Vosk with separated import, verification and load timings",
+          "explanation": "worker sets affinity and offline environment flags, validates cases and preloads WAV PCM before timing model work. It imports recognizer.py by a named module spec, registers it in sys.modules and executes it so the benchmark uses production VoskRecognizer semantics rather than a reimplementation. verify_model checks the pinned Vosk tree before the native model loads by explicit path. Import, verification and cold load are separately timed; the result records production-source SHA256, installed Vosk version and the model manifest. No unverified model discovery or download is selected.",
+          "focus": [
+            {
+              "start": 190,
+              "end": 198
+            },
+            {
+              "start": 199,
+              "end": 205
+            }
+          ]
+        },
+        {
+          "start": 207,
+          "end": 231,
+          "title": "Measure Vosk decoding and optionally emulate 100 ms delivery",
+          "explanation": "Each decode gets a fresh production recognizer sharing the loaded model. Chunks are 3200 bytes, exactly 100 ms of mono 16-bit 16 kHz PCM. audio_fed_seconds uses bytes/32000; paced mode sleeps until the cumulative scheduled delivery time before acceptance. Partial events are recorded only when text changes, finals reset that suppression, and nonempty finals are concatenated. finish flushes the tail and records a separate finish event. Returned text is final-only; partial event timing and final text accuracy remain different outputs.",
+          "focus": [
+            {
+              "start": 213,
+              "end": 224
+            }
+          ]
+        },
+        {
+          "start": 232,
+          "end": 256,
+          "title": "Verify cached Whisper and keep preprocessing out of decode time",
+          "explanation": "The Whisper branch reads the earlier download receipt and verifies every listed file hash, but does not compare an exact directory file set here. It loads only the explicit local path on CPU int8 with two threads and one worker. Reported parameters fix English, beam 5, temperature zero, VAD off and no previous-text conditioning. PCM-to-float32 division by 32768 occurs once outside timed decoding. Joining the lazy segment iterator forces inference to finish inside decode; returning a generator without consuming it would undercount work. This historical batch profile differs from the production hybrid's VAD and optional technical vocabulary.",
+          "focus": [
+            {
+              "start": 235,
+              "end": 244
+            },
+            {
+              "start": 247,
+              "end": 255
+            }
+          ]
+        },
+        {
+          "start": 257,
+          "end": 280,
+          "title": "Separate warm repeats from the optional paced experiment",
+          "explanation": "One decode of the first case is timed as warmup and excluded from repeat rows. Each later case/repeat stores text, decode duration, emitted events and freshly computed WER fields. Only Vosk supports the additional paced path: it selects at most two clean cases, falling back to the first two cases, and stores those delivery measurements separately from batch decode rows. Therefore enabling paced does not turn the summary real-time factor into user-visible streaming latency.",
+          "focus": [
+            {
+              "start": 260,
+              "end": 267
+            },
+            {
+              "start": 269,
+              "end": 278
+            }
+          ]
+        },
+        {
+          "start": 281,
+          "end": 300,
+          "title": "Verify the fixture identity before recomputing results",
+          "explanation": "verify_results reads summary and cases, requires the cases.json hash recorded at measurement time, and verifies every audio file against its retained hash. For each engine in the recorded order, unavailable engines are skipped rather than declared successful. A set of (case ID, repeat) pairs begins coverage validation; duplicate rows are an explicit error. This command reads local evidence and recomputes assertions; it does not rerun inference or establish external model truth.",
+          "focus": [
+            {
+              "start": 284,
+              "end": 291
+            },
+            {
+              "start": 292,
+              "end": 300
+            }
+          ]
+        },
+        {
+          "start": 301,
+          "end": 318,
+          "title": "Check exact row coverage, scoring and repeat timing sums",
+          "explanation": "Every row is rescored from the recorded reference and hypothesis, including normalized token arrays and edit counts. Decode time must be finite and positive. The set of pairs must equal the Cartesian product of case IDs and repeat indices, so missing or extra repeats cannot silently improve results. Accuracy is recomputed from repeat zero only, while timing is summed for each repeat and compared exactly to stored totals. The success message is narrower than full receipt validation: medians, condition aggregates, package/source hashes and all provenance fields are not independently rechecked in this function.",
+          "focus": [
+            {
+              "start": 302,
+              "end": 311
+            },
+            {
+              "start": 312,
+              "end": 315
+            }
+          ]
+        },
+        {
+          "start": 319,
+          "end": 348,
+          "title": "Run engines as independent subprocess experiments",
+          "explanation": "run constrains the output folder, loads cases once and persists their normalized manifest. SAPI uses the bridge and receives Python metrics afterward; Vosk/Whisper launch this module's worker with explicit manifest, output and repeat arguments. The parent measures total subprocess duration in addition to child timings. Subprocess/OSError failures become unavailable results instead of fabricated empty successful rows. Other exceptions, such as invalid JSON or inconsistent case data, are not caught by this branch. Each engine result is persisted even if unavailable.",
+          "focus": [
+            {
+              "start": 336,
+              "end": 345
+            }
+          ]
+        },
+        {
+          "start": 349,
+          "end": 370,
+          "title": "Weight accuracy by words and throughput by total audio duration",
+          "explanation": "Successful engines sum decode seconds across all cases for each repeat, take the median total, and divide by corpus audio duration for real_time_factor. Accuracy uses repeat zero exactly once, preventing warm repeats from multiplying the word denominator. Condition aggregates use the same first-repeat rows. A changed-text list flags nondeterministic hypotheses across repeats. An engine can be fast in batch yet slow to publish finals; RTF here excludes warmup, load and the separate paced delivery experiment.",
+          "focus": [
+            {
+              "start": 355,
+              "end": 363
+            },
+            {
+              "start": 364,
+              "end": 369
+            }
+          ]
+        },
+        {
+          "start": 371,
+          "end": 391,
+          "title": "Keep a reproducibility receipt distinct from sanitized publication",
+          "explanation": "A PowerShell CIM query records CPU/OS/memory, while the receipt records command arguments, Python/platform, installed package versions, requested affinity/threads, source-file hashes and fixture-manifest hash. All top-level files in HERE are hashed, not semantically interpreted. This private summary can contain local paths through command arguments and error strings; it is not an automatically share-safe public receipt. The hardware query uses check=true outside the engine error handler, so failure can prevent summary creation even after per-engine results exist.",
+          "focus": [
+            {
+              "start": 378,
+              "end": 388
+            }
+          ]
+        },
+        {
+          "start": 392,
+          "end": 425,
+          "title": "Expose explicit provision, fixture, verification and measurement commands",
+          "explanation": "The required subcommand prevents merely invoking the script from guessing an operation. provision is labelled public model download; fixtures generates local synthetic audio; verify recalculates existing evidence. run and worker accept explicit manifest/output paths, one-to-five repeats and paced selection; worker supports Vosk/Whisper, while run also offers SAPI. Dispatch applies local_output to externally chosen output paths. No command opens a microphone or playback device through this file, but fixtures starts Windows synthesis and provision performs network I/O, so neither is a passive source-inspection action.",
+          "focus": [
+            {
+              "start": 412,
+              "end": 421
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/corpus.json",
+      "sourceSha256": "3e3313d4e1249ecea55bec163f7759f440e5e5e0b4963af385fcaa424c6a8e12",
+      "role": "Provide original short English synthesis references for the historical common-input engine comparison.",
+      "entryPoints": [
+        "bench.make_fixtures"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 4,
+          "title": "Stable ordinary-meeting references",
+          "explanation": "The JSON array begins with three ordinary meeting sentences about an agenda, reviewing questions and a design timeline. Each object has a stable id, a category grouping and text that becomes both the TTS job and scoring reference. bench.make_fixtures prefixes the id with the selected voice and later appends clean/noise condition. These authored phrases are synthetic corpus inputs, not transcripts or evidence of real meeting recognition.",
+          "focus": [
+            {
+              "start": 2,
+              "end": 4
+            }
+          ]
+        },
+        {
+          "start": 5,
+          "end": 7,
+          "title": "Include technical nouns without engine-specific substitutions",
+          "explanation": "Three technical rows cover database/deployment, Kubernetes/cache/retries and authentication/token/timeout vocabulary. They use the same fields and synthesis/scoring pipeline as ordinary text. Category labels enable grouping but do not alter the recognizer or normalize technical mistakes away; the corpus itself is not supplied as a recognition grammar or Whisper hint.",
+          "focus": [
+            {
+              "start": 5,
+              "end": 7
+            }
+          ]
+        },
+        {
+          "start": 8,
+          "end": 10,
+          "title": "Use spoken number references and close the corpus",
+          "explanation": "The final two rows use written-out cardinal counts and clock/duration phrases. This gives metrics.normalize a common reference when an engine emits digits instead of words. The array has eight entries total; with two installed voices and two conditions the fixture generator yields 32 speech cases, but the historical generator also permits one voice, so 32 is not guaranteed on every machine.",
+          "focus": [
+            {
+              "start": 8,
+              "end": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/metrics.py",
+      "sourceSha256": "46db0d4c45ca8389f4ae9d108bb30acf0c6a7bebd648675f315eaeaa3beab4d1",
+      "role": "Apply one English normalization and deterministic minimum-edit WER implementation to every measured engine.",
+      "entryPoints": [
+        "normalize",
+        "errors",
+        "aggregate"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 14,
+          "title": "Publish the scoring contract alongside every result",
+          "explanation": "The module imports Unicode normalization, regular expressions and the pinned external num2words converter. NORMALIZATION is a human-readable receipt field documenting case/punctuation/numeral handling and explicitly excluding stop-word removal, engine-specific substitutions and acronym expansion. It describes an English word metric, not multilingual tokenization or semantic equivalence.",
+          "focus": [
+            {
+              "start": 8,
+              "end": 13
+            }
+          ]
+        },
+        {
+          "start": 15,
+          "end": 27,
+          "title": "Normalize spelling consistently without repairing recognition errors",
+          "explanation": "NFKC and lowercase precede percent replacement. A digit-grouping comma regex removes eligible separators before digit/decimal matches become English cardinal words through num2words. ASCII and curly apostrophes disappear; the final [a-z]+ extraction splits other punctuation and retains only ASCII alphabetic runs. Thus 9:30 becomes separate nine/thirty numerals and dont matches don't, but LeetCode remains one token while leet code remains two. Non-English letters and hyphenated compounds do not receive language-aware treatment.",
+          "focus": [
+            {
+              "start": 16,
+              "end": 25
+            }
+          ]
+        },
+        {
+          "start": 28,
+          "end": 48,
+          "title": "Track edit types through a minimum-cost dynamic program",
+          "explanation": "Both sides are normalized first. Each matrix cell stores total edits, substitutions, deletions and insertions; the first column represents deleting the reference prefix and the first row inserting the hypothesis prefix. Matching tokens copy the diagonal tuple. Otherwise three predecessor candidates add exactly one corresponding edit. min compares total cost only and preserves candidate order for ties: substitution, then deletion, then insertion. This makes the reported edit decomposition deterministic, not merely the total distance. Space/time grow with the product of token counts.",
+          "focus": [
+            {
+              "start": 40,
+              "end": 48
+            }
+          ]
+        },
+        {
+          "start": 49,
+          "end": 62,
+          "title": "Preserve empty-reference insertions and word-weighted totals",
+          "explanation": "The returned row includes normalized token arrays and WER=(S+D+I)/reference_words. When the reference is empty, WER is None but insertions/errors remain visible; when insertions are numerous, WER may exceed one. aggregate sums reference lengths and edit counts before dividing, rather than averaging per-case rates. A one-word failed case plus four correct reference words produces 1/5, not the misleading unweighted mean of 1 and 0. Empty-reference hallucinations still contribute errors to a mixed-corpus aggregate.",
+          "focus": [
+            {
+              "start": 50,
+              "end": 55
+            },
+            {
+              "start": 58,
+              "end": 62
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/quality_receipt.py",
+      "sourceSha256": "8d75cf7ab62f01a2b4e4912967fbe8b580af1101e7d7dc832ca1581d4a8d3e17",
+      "role": "Recompute and compact selected synthetic quality results, preserving failed experiments and separating WER from whitespace-insensitive CER.",
+      "entryPoints": [
+        "character_errors",
+        "compact",
+        "main"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 24,
+          "title": "Add generic character distance without changing primary WER",
+          "explanation": "The module reuses normalize/errors/aggregate rather than defining an engine-specific score. character_errors concatenates normalized words, deliberately removing whitespace distinctions, and computes Levenshtein distance with only previous/current rows. Insertion, deletion and substitution each cost one. The output contains reference character count, errors and a nullable rate. LeetCode versus leet code can have zero CER while retaining WER edits; two versus to still costs character edits. Empty references retain insertion counts without dividing by zero.",
+          "focus": [
+            {
+              "start": 14,
+              "end": 23
+            }
+          ]
+        },
+        {
+          "start": 25,
+          "end": 54,
+          "title": "Project rows through a publication allowlist and rescore hypotheses",
+          "explanation": "compact selects named top-level measurements and row fields, dropping local PCM paths and normalized token arrays from the public rows. It preserves the actual synthetic reference and hypothesis, timing, hash, category and fault data. Stored WER components must match fresh errors(reference,text), then a secondary character score is computed and pooled by summed character counts. Category totals remain word-weighted. Top-level identity/versions/limitations/source dictionaries are copied as supplied rather than recursively sanitized; the path-free claim assumes the trusted synthetic runner's schema, not arbitrary input JSON.",
+          "focus": [
+            {
+              "start": 33,
+              "end": 43
+            },
+            {
+              "start": 46,
+              "end": 52
+            }
+          ]
+        },
+        {
+          "start": 55,
+          "end": 71,
+          "title": "Require the same cases and fault-free paced comparisons",
+          "explanation": "main reads six fixed run labels, including historical bounded/shared versus parallel variants, and compacts each. Row ID order must match the first run, as must every PCM hash/reference pair; stored aggregate WER must equal recomputed totals. Nonzero queue fault/drop counters or any row faults reject a run from the comparable paced set. These checks prevent silently comparing different speech or omitting an obvious failed run, but they do not independently enforce a Cartesian case/repeat matrix as bench.verify_results does.",
+          "focus": [
+            {
+              "start": 61,
+              "end": 71
+            }
+          ]
+        },
+        {
+          "start": 72,
+          "end": 86,
+          "title": "Retain rejected experiments and invalidate their misleading Stop delta",
+          "explanation": "Six specific long/rotation/fallback/shared/parallel stress receipts and the production setup check are read. For sampling and shared-intake failures, the old stop delta is preserved under an explicitly unusable field and valid stop_to_stopped_seconds becomes None because no stopped acknowledgement occurred. The setup check must be ready/stopped with zero faults/drops and share the final measured configuration fingerprint. This compiler consumes historical evidence; the documentation does not infer those runs occurred anew.",
+          "focus": [
+            {
+              "start": 78,
+              "end": 86
+            }
+          ]
+        },
+        {
+          "start": 87,
+          "end": 99,
+          "title": "Separate byte-ownership success from rotation-coverage success",
+          "explanation": "Selected successful stress variants must end stopped without errors. For each source, contiguous boundaries, a final cursor covering all samples and equal input/decoded-PCM hashes are required. The adopted long stress also needs at least four rotation spans. The original natural-endpoint run receives a preserved explanation: correct shutdown and PCM ownership did not demonstrate forced 30-second rotation because natural endpoints occurred first. Coverage failure is not rewritten as model failure, nor quietly erased.",
+          "focus": [
+            {
+              "start": 87,
+              "end": 95
+            }
+          ]
+        },
+        {
+          "start": 100,
+          "end": 116,
+          "title": "Disclose fixed experiment context and scoring limits",
+          "explanation": "The receipt schema/title/date, hardware description and safety/scoring prose are explicitly authored constants, not fresh hardware detection in this function. They state CPU int8/four-thread inference, shared-host timing uncertainty, synthetic voices, no real recording/cloud ASR and no reference-sentence hints. Primary WER keeps compound-word differences; secondary CER removes whitespace generically. Latency is defined against the last clean active sample; first-row cold behavior and nonspeech insertions are disclosed. Copying these constants is not validation of a different machine or dataset.",
+          "focus": [
+            {
+              "start": 112,
+              "end": 116
+            }
+          ]
+        },
+        {
+          "start": 117,
+          "end": 130,
+          "title": "Preserve the experiment history rather than selecting only a success",
+          "explanation": "The output includes measured runs, the chosen dual-long stress and a named experiments_retained dictionary covering natural endpoints, rejected long windows, sampling retries, shared intake and shorter windows. The interpretation is a hard-coded historical explanation of why bounded source workers and shorter finalization spans were adopted. Statements such as insertion counts and native deadlines describe the expected archived experiment narrative; this source read did not open the evidence=true receipts or reproduce those numbers. The compiler's earlier checks validate only the specified invariants.",
+          "focus": [
+            {
+              "start": 124,
+              "end": 130
+            }
+          ]
+        },
+        {
+          "start": 131,
+          "end": 153,
+          "title": "State the selected profile and publish a bounded local receipt",
+          "explanation": "The production setup check and fixed default selection document hybrid small.en CPU-int8, four threads, technical vocabulary, a 15-second target and 16-second span ceiling. The rationale keeps raw WER visible despite a compound spelling improving CER, and remaining text explicitly admits homophone and long-speech errors. write emits one checked-in-results destination, unlike the private runner outputs, then prints its hash and per-run error totals. This is deliberate publication of synthetic measurements, not authorization to run it on arbitrary private recordings.",
+          "focus": [
+            {
+              "start": 132,
+              "end": 142
+            },
+            {
+              "start": 144,
+              "end": 149
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/quality_regression.py",
+      "sourceSha256": "a08ddbe7ca1900bd6e44e8734428de2c73c3ee31d0fc550b8cb5200b0ecfe4cc",
+      "role": "Measure the real local speech-service path on generated PCM through ephemeral test servers, with explicit batch/paced timing boundaries.",
+      "entryPoints": [
+        "fixtures",
+        "measure",
+        "main",
+        "measure.receive"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 35,
+          "title": "Select production modules and offline defaults without invoking them yet",
+          "explanation": "Paths separate service code, this helper and .local/speech-quality outputs. The service directory is inserted into sys.path so later imports use local production modules. Import-time environment settings request offline model access, no telemetry/implicit token, four OpenMP threads and one OpenBLAS thread. write and sha are simple directory/JSON/hash helpers; write has no local_output confinement check. These environment assignments and later native-library behavior must not be mistaken for an OS-enforced network sandbox.",
+          "focus": [
+            {
+              "start": 15,
+              "end": 24
+            }
+          ]
+        },
+        {
+          "start": 36,
+          "end": 61,
+          "title": "Require two installed voices for the quality corpus",
+          "explanation": "fixtures imports the shared SAPI bridge helper, then resets OMP_NUM_THREADS to four because bench's import requests two threads. It does not undo all bench environment assignments; in particular other thread variables may retain bench values. At least two enabled en-US voices are required, unlike historical bench's one-voice allowance. Eight corpus rows per selected voice become uniquely identified TTS jobs written under .local/speech-quality. Only a successful synthesis receipt permits PCM processing. No voice pack, microphone or speaker playback is used by this path.",
+          "focus": [
+            {
+              "start": 39,
+              "end": 47
+            },
+            {
+              "start": 52,
+              "end": 60
+            }
+          ]
+        },
+        {
+          "start": 62,
+          "end": 84,
+          "title": "Anchor latency to clean speech before adding noise",
+          "explanation": "Active clean int16 samples are those with magnitude at least 100. Adding the 4000-sample lead-in yields speech_start_seconds and the exclusive speech_end_seconds=(4000+last_active_index+1)/16000. The padded signal adds 250 ms before and 1.5 seconds after the original. Noise uses a deterministic per-job seed and realized-RMS scaling to 15 dB; clipping/rounding produces raw little-endian PCM. Cases retain hashes, relative paths, reference/voice/category/condition and byte-derived duration. Fixed clean boundaries keep the noise condition from redefining when speech ended, but active-sample existence is assumed.",
+          "focus": [
+            {
+              "start": 63,
+              "end": 69
+            },
+            {
+              "start": 70,
+              "end": 77
+            }
+          ]
+        },
+        {
+          "start": 85,
+          "end": 100,
+          "title": "Add nonspeech negative controls",
+          "explanation": "Three three-second fixtures are added: 96000 zero bytes, seeded Gaussian noise with standard deviation 250 over 48000 samples, and a 440 Hz sine wave of amplitude 2000. They have empty references, no voice and no speech-start/end timestamp. Any recognized final words remain insertion errors rather than disappearing into an undefined per-case WER. With two voices, eight phrases and two conditions there are 32 speech cases plus these three controls. This is a small deterministic synthetic design, not environmental-noise qualification.",
+          "focus": [
+            {
+              "start": 85,
+              "end": 96
+            }
+          ]
+        },
+        {
+          "start": 101,
+          "end": 133,
+          "title": "Instantiate real factories while separating paced from oversized batch queues",
+          "explanation": "measure imports production configuration, Vosk/Hybrid factories, diagnostics and server types. It labels the selected model/vocabulary and batch/paced mode, hashes selected sources and computes production identity. Factory construction is timed including model verification/load; hybrid uses four threads. Each run gets its own diagnostics file and ephemeral aiohttp TestServer with a fixed synthetic token. Paced mode uses default Limits; batch expands queue/burst bytes to 64 MiB and frames to 8192. The comment correctly denies that this larger batch capacity proves production queue sufficiency.",
+          "focus": [
+            {
+              "start": 121,
+              "end": 132
+            }
+          ]
+        },
+        {
+          "start": 134,
+          "end": 159,
+          "title": "Verify each PCM file and timestamp a strict WebSocket handshake",
+          "explanation": "Every case of every repeat is rehashed before sending. The client authenticates to /v1/transcribe, sends the exact v1 start format and requires ready to equal the strict expected object, not merely contain a success field. ready_seconds includes connection/handshake work; stream_start begins afterward. A concurrent receive task records each event's wall seconds relative to stream_start and stops on stopped or error within 150 seconds. This distinguishes setup latency from streamed-final latency and preserves error events rather than treating them as text.",
+          "focus": [
+            {
+              "start": 137,
+              "end": 148
+            },
+            {
+              "start": 151,
+              "end": 157
+            }
+          ]
+        },
+        {
+          "start": 160,
+          "end": 190,
+          "title": "Pace bytes by cumulative duration and record every case outcome",
+          "explanation": "3200-byte chunks represent 100 ms; paced mode sleeps to absolute cumulative deadlines, avoiding per-chunk sleep drift. After the final send, the harness timestamps and sends stop, waits for the terminal receive event, closes the socket and waits up to two seconds for runtime.active to clear. Only nonempty final events compose the hypothesis; first partial/final, last final and WER are stored. End-of-speech latency is last_final minus the fixed clean speech end, and exists only in paced mode. This runner's stop delta uses the last event even if it is error; faults must therefore be consulted, unlike quality_stress's stricter stopped-only delta. Progress is saved after every row.",
+          "focus": [
+            {
+              "start": 160,
+              "end": 171
+            },
+            {
+              "start": 182,
+              "end": 187
+            }
+          ]
+        },
+        {
+          "start": 191,
+          "end": 211,
+          "title": "Preserve cold first rows, all repeats and queue diagnostics",
+          "explanation": "The receipt records identity, normalization, actual installed versions, source hashes, load/verify time and every row. Limitations identify the synthetic source, no endpoint/playback/cloud ASR, no reference prompts, selected vocabulary and the clean amplitude threshold. There is no warmup discard: the first model call is cold and later rows warm. totals aggregates all row scores, unlike bench.run's repeat-zero-only accuracy. Queue high-water marks and fault/drop counters come from the real service runtime and help distinguish model quality from capacity failure.",
+          "focus": [
+            {
+              "start": 200,
+              "end": 211
+            }
+          ]
+        },
+        {
+          "start": 212,
+          "end": 222,
+          "title": "Report finite-sample latency summaries and close the owned test server",
+          "explanation": "For first partial, speech-end-to-final and stop delta, non-None values are sorted. p50 uses statistics.median; p95 uses the nearest-rank element ceil(n*0.95)-1, clamped to index zero; max is the largest observed value. Empty sets yield None, not zero. These are dataset order statistics, not confidence intervals or a universal SLO, and cold rows are included. The receipt is written and a compact summary printed; finally closes the owned aiohttp client/server even after a measurement error.",
+          "focus": [
+            {
+              "start": 212,
+              "end": 221
+            }
+          ]
+        },
+        {
+          "start": 223,
+          "end": 241,
+          "title": "Expose fixture generation separately from measurement",
+          "explanation": "The CLI requires fixtures or measure, restricts engine/model/vocabulary choices, defaults to hybrid small.en, one repeat, unpaced measurement and no vocabulary hint. This differs intentionally from production setup's technical default. repeats is an unconstrained integer here, and suffix is raw text appended to output labels; this is trusted local experiment tooling rather than a validated multi-user service or the confined historical bench CLI. asyncio.run executes measurement only after the explicit mode dispatch.",
+          "focus": [
+            {
+              "start": 226,
+              "end": 237
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/quality_setup_check.py",
+      "sourceSha256": "a87a7fc1c934f7ef0653778ebf70563461e9b33b606579dbdf71e211806e1aa8",
+      "role": "Check the persisted selected ASR profile through production_app using synthetic PCM and an ephemeral service.",
+      "entryPoints": [
+        "run",
+        "run.collect"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 27,
+          "title": "Assert the exact persisted profile and isolate only diagnostics",
+          "explanation": "run loads the real configuration and requires exact equality with schemaVersion 1, hybrid-whisper, small.en, four threads and technical vocabulary. It does not rewrite configuration. A synthetic token and .local setup-check logger are supplied; patch replaces only server.Diagnostics while production_app constructs the real service/factory. TestServer starts on an ephemeral port, leaving the normal 8765 manager outside this experiment. Successful construction is not a statement that a live desktop session was exercised.",
+          "focus": [
+            {
+              "start": 17,
+              "end": 26
+            }
+          ]
+        },
+        {
+          "start": 28,
+          "end": 44,
+          "title": "Check runtime identity before selecting one known synthetic case",
+          "explanation": "An authenticated /v1/runtime request must report ready, the selected engine/model/vocabulary and diagnosticsAvailable. The harness chooses voice-1-requested-two-sum-clean from the generated fixture manifest, reads its PCM and opens an authenticated v1 transcription socket. The ready message must exactly match FORMAT. Unlike quality_regression.measure, this file does not independently compare the PCM hash before sending; it assumes the prepared local fixture set.",
+          "focus": [
+            {
+              "start": 30,
+              "end": 41
+            }
+          ]
+        },
+        {
+          "start": 45,
+          "end": 63,
+          "title": "Pace a single request and require the expected technical spelling",
+          "explanation": "A 90-second collector records messages until stopped or error. The sender uses 3200-byte chunks and cumulative byte/32000 scheduling, then sends stop. Nonempty final text is concatenated; the terminal event must be stopped and the string must contain case-sensitive LeetCode. This is a focused default-wiring assertion, not exact full-sentence equality, zero WER or broad speech quality. The socket is closed after the checks, with outer client cleanup handling failures.",
+          "focus": [
+            {
+              "start": 53,
+              "end": 62
+            }
+          ]
+        },
+        {
+          "start": 64,
+          "end": 82,
+          "title": "Record factory identity and leave final cross-run comparison to the receipt compiler",
+          "explanation": "The receipt includes computed identity, runtime identity fields, readiness/diagnostic availability, server maxStopSeconds, the synthetic case, final text, stopped state and fault/drop counters. It states ephemeral-only ports and isolated logging. This function records counters but does not assert they are zero here; quality_receipt.main later enforces that plus the configuration fingerprint match to the final measured profile. Finally closes the client; the module guard is the only direct execution entry.",
+          "focus": [
+            {
+              "start": 65,
+              "end": 74
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/quality_stress.py",
+      "sourceSha256": "83dde820c697dfb98f6b2b16d154294a42aeab1394ec054b6a9ce91cbe2ea461",
+      "role": "Stress two real hybrid recognizers with paced synthetic long streams and prove ordered, byte-exact final-span ownership independently of recognition accuracy.",
+      "entryPoints": [
+        "run",
+        "Factory.__call__",
+        "Factory.finalize",
+        "run.receive"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 37,
+          "title": "Label production and injected experiments and honor the current span ceiling",
+          "explanation": "The runner imports shared offline/path helpers and lazily imports real service/factory types. If forced rotation requests more than production SPAN_SECONDS, it rejects the probe, so accepted CLI choices do not all remain runnable under today's 15-second ceiling. Config and fingerprint use the selected model/vocabulary plus production defaults. Labels distinguish natural long speech, forced rotation, decoder fallback and optional suffix. Archived 30-second results remain historical experiments, not instructions to bypass the current span guard.",
+          "focus": [
+            {
+              "start": 26,
+              "end": 36
+            }
+          ]
+        },
+        {
+          "start": 38,
+          "end": 55,
+          "title": "Construct asymmetric source streams with references in the same order",
+          "explanation": "Computer takes voice-1 clean cases twice, cropping each PCM to the stored active speech-start/end sample interval; Microphone takes voice-2 clean cases once with original padding. Concatenated references follow the same case/repetition order. This makes Computer longer and removes artificial inter-utterance silence while Mic stops sending sooner. The comment mentioning forced 30-second rotation is historical; actual rotation is governed by current production code and explicit probe settings. Fixture hashes are not revalidated in this assembly loop.",
+          "focus": [
+            {
+              "start": 45,
+              "end": 54
+            }
+          ]
+        },
+        {
+          "start": 56,
+          "end": 77,
+          "title": "Optionally instrument a decoder-temperature experiment",
+          "explanation": "A real HybridFactory verifies/loads the selected model. decoder_fallback wraps its Whisper model so temperature becomes (0.0,0.2,0.4), then lazily records each returned segment's temperature, compression ratio and average log probability while yielding it unchanged. This is an opt-in experimental modification, not normal production fallback or reference-text substitution. Load time ends after wrapper construction. Ownership maps, per-source running hashes and span rows are initialized for later finalized spans.",
+          "focus": [
+            {
+              "start": 62,
+              "end": 73
+            }
+          ]
+        },
+        {
+          "start": 78,
+          "end": 111,
+          "title": "Associate every FinalSpan object with its source",
+          "explanation": "Factory assigns sources in SOURCES iteration order, relying on the service to request recognizers in that same order. In forced Computer mode, RotationProbe still performs real provisional decoding but suppresses natural final flags until its sample count reaches rotation_seconds*16000; HybridRecognizer's independent production ceiling still applies. The Decoder wrapper intercepts returned FinalSpan objects, optionally relabels their reason as rotation, and maps object identity to source. finish registers the retained tail too. No PCM text replacement is involved, but endpoint injection must not be presented as natural behavior.",
+          "focus": [
+            {
+              "start": 87,
+              "end": 93
+            },
+            {
+              "start": 98,
+              "end": 109
+            }
+          ]
+        },
+        {
+          "start": 112,
+          "end": 136,
+          "title": "Hash exactly what finalization consumed and require strict v2 readiness",
+          "explanation": "finalize pops the span's source owner, calls the real Whisper finalizer, then updates that source's running hash with span.pcm and records sample boundaries, byte count, decode duration and reason. A failed finalizer does not add a successful span. The ephemeral service uses default limits, isolated diagnostics and a synthetic token. The client starts protocol v2 with all named sources and requires the complete exact ready shape, establishing the source-tagged path before timing.",
+          "focus": [
+            {
+              "start": 112,
+              "end": 120
+            },
+            {
+              "start": 128,
+              "end": 133
+            }
+          ]
+        },
+        {
+          "start": 137,
+          "end": 163,
+          "title": "Drive 40 ms source packets and distinguish Stop from fault termination",
+          "explanation": "The receiver runs with a 240-second deadline and timestamps events until stopped or error. The sender iterates 1280-byte offsets, representing 40 ms per source, sleeps to cumulative audio time, and prefixes each nonempty chunk with the one-byte source code. Shorter Mic input naturally ends while Computer continues. If a terminal event already arrived, no stop is sent; otherwise stop_sent tracks the explicit request. The receiver is awaited and the socket closed before inspecting runtime data. This is a real bounded-intake stress path, not the enlarged batch queue.",
+          "focus": [
+            {
+              "start": 146,
+              "end": 155
+            },
+            {
+              "start": 156,
+              "end": 162
+            }
+          ]
+        },
+        {
+          "start": 164,
+          "end": 179,
+          "title": "Audit sample coverage and text accuracy as independent dimensions",
+          "explanation": "For each source, finalized spans must start at the previous end beginning at zero. The final cursor is compared to input_bytes/2, while summed span bytes and independent input versus finalized-PCM SHA256 values are recorded. The all_samples_owned_once field alone only tests the last cursor; the later conjunction with contiguity and hash equality is what gives the intended ownership assurance. Nonempty source-specific finals are joined and scored against the assembled reference. Exact bytes and contiguous sample ranges do not imply correct words.",
+          "focus": [
+            {
+              "start": 167,
+              "end": 177
+            }
+          ]
+        },
+        {
+          "start": 180,
+          "end": 212,
+          "title": "Persist failures before asserting terminal, ownership and global-ID invariants",
+          "explanation": "The receipt records identity, packet size, span ledger, endpoint injection policy, rotations, optional decoder measurements, final IDs, runtime counters and limitations. stop_to_stopped_seconds exists only when Stop was actually sent and the terminal event is stopped; a fault is not given a successful Stop latency. Receipt writing precedes assertions so a failing experiment remains inspectable. Assertions require stopped/no errors, per-source contiguity/coverage/hash equality, final segment IDs exactly 1..N globally, and some rotation coverage when injection was requested. Finally closes the owned test client.",
+          "focus": [
+            {
+              "start": 188,
+              "end": 198
+            },
+            {
+              "start": 201,
+              "end": 210
+            }
+          ]
+        },
+        {
+          "start": 213,
+          "end": 225,
+          "title": "Keep stress variations opt-in rather than automatic recovery",
+          "explanation": "The guarded CLI defaults to small.en and no vocabulary, with explicit force-rotation and decoder-fallback flags, a 15-second rotation choice and optional suffix. Although argparse lists 15/20/30, run's current production-span guard rejects forced values above 15. A nonforced run does not use rotation_seconds to override the production recognizer. The suffix is trusted experiment-label text, not a path-sanitized public API. asyncio.run creates a fresh event loop for this intentionally active measurement.",
+          "focus": [
+            {
+              "start": 215,
+              "end": 225
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/quality-corpus.json",
+      "sourceSha256": "f3cdf8ef64be1b2a5826ada32a5e33b519f91bdb54627ffcda2a05531687d3a0",
+      "role": "Define a targeted technical-speech regression with unrelated controls, synthesized rather than taken from private recordings.",
+      "entryPoints": [
+        "quality_regression.fixtures"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 2,
+          "title": "Preserve the requested phrase as a synthetic target",
+          "explanation": "The first array entry has a stable requested-two-sum ID, owner-text-synthetic category and the exact authored phrase with leet code and two sum. quality_regression.fixtures synthesizes this text in two installed voices; quality_setup_check later selects the voice-1 clean ID. It is a source text input, not an uploaded owner recording, and the reference is not supplied as a recognizer prompt.",
+          "focus": [
+            {
+              "start": 2,
+              "end": 2
+            }
+          ]
+        },
+        {
+          "start": 3,
+          "end": 6,
+          "title": "Vary the technical context instead of repeating one target",
+          "explanation": "Four technical rows cover a two-sum/hash-map explanation, target-number selection, binary-search-tree complexity and asynchronous timeout/queue vocabulary. Each id distinguishes a case, category supports category_totals, and text becomes TTS input plus scoring reference. The fixed fields are consumed by the generic job expansion; no per-case recognizer tuning or answer-code evaluation is performed.",
+          "focus": [
+            {
+              "start": 3,
+              "end": 6
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "end": 10,
+          "title": "Retain unrelated and homophone negative controls",
+          "explanation": "Three unrelated rows cover ordinary prose, write/right and some/sum homophones, and a tea-or-coffee question. They make vocabulary-hint regressions outside programming language observable rather than rewarding only the desired proper-name spelling. The closed array has eight phrases; the generator adds clean/noisy variants for two voices and separate silence/noise/tone controls. Passing this small corpus still says nothing conclusive about real microphone acoustics, accents or long meetings.",
+          "focus": [
+            {
+              "start": 7,
+              "end": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/quality-requirements.txt",
+      "sourceSha256": "152fa973daa62223551cac8624f23482556a39d86c3fbf686c4780e0aa41123a",
+      "role": "Extend the historical benchmark's direct dependency pins with the HTTP/WebSocket test-server package used by quality runners.",
+      "entryPoints": [
+        "pip requirements reader",
+        "quality_regression.measure",
+        "quality_stress.run"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 2,
+          "title": "Reuse benchmark pins and add the ephemeral-service dependency",
+          "explanation": "The -r directive includes sibling requirements.txt rather than duplicating its pins; aiohttp is additionally fixed at 3.14.3 for TestClient/TestServer and WebSocket measurements. This two-line file is a pip input, not executable Python and not a complete transitive hash lock. It does not provision models, authorize tests or guarantee the same environment as the separately pinned production service requirements.",
+          "focus": [
+            {
+              "start": 1,
+              "end": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/requirements.txt",
+      "sourceSha256": "496a9f164d54cdb716c398eb8072b45d358edba0042740ec5d53f505599a6d0f",
+      "role": "Pin the direct historical file-benchmark dependencies for recognizable engine and scoring versions.",
+      "entryPoints": [
+        "pip requirements reader",
+        "bench.worker",
+        "bench.provision",
+        "metrics.normalize"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 7,
+          "title": "Pin engines, CPU runtime, provisioning and numerical/scoring support",
+          "explanation": "vosk 0.3.45 supplies the production provisional recognizer; faster-whisper 1.2.1 and ctranslate2 4.6.0 supply the CPU-int8 comparison. huggingface-hub 0.34.4 serves the explicit provision command. numpy 2.2.6 handles synthetic PCM/noise and float conversion; num2words 0.5.14 is part of the shared scoring semantics, so changing it can change normalized references. setuptools 75.8.0 pins packaging support rather than a benchmark algorithm. These exact direct versions improve reproducibility but do not lock every transitive wheel or provide package hashes.",
+          "focus": [
+            {
+              "start": 1,
+              "end": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/sapi.ps1",
+      "sourceSha256": "2ef64cab29533eec89d77b6009d9ec6527ca9da5244ad4f736e8b3389811f86b",
+      "role": "Host the C# System.Speech bridge in Windows PowerShell for file-only voice discovery, synthesis and recognition.",
+      "entryPoints": [
+        "sapi.ps1",
+        "SpeechBench.SapiBridge.Run"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 12,
+          "title": "Constrain mode and load the installed Windows speech assemblies",
+          "explanation": "Mode is limited to synthesize/recognize/probe and defaults to discovery; OutputJson is mandatory, InputJson optional, and Repeats defaults to two without its own numeric range. The current PowerShell process alone receives affinity mask 15. System.Speech and System.Web.Extensions are loaded, then Add-Type compiles the local SapiBridge.cs with those references and calls Run. bench.sapi chooses powershell.exe intentionally for these Windows/.NET Framework assemblies. Direct invocation does not enforce bench.local_output, so destinations are trusted caller input.",
+          "focus": [
+            {
+              "start": 7,
+              "end": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/SapiBridge.cs",
+      "sourceSha256": "095a1d0ac24664c28f444df729c9862220a36c9548380b68183cfffeb10fe1bf",
+      "role": "Expose installed Windows speech discovery and file/memory-only synthesis/dictation to the Python benchmark through JSON.",
+      "entryPoints": [
+        "SapiBridge.Run",
+        "SapiBridge.Synthesize",
+        "SapiBridge.Decode",
+        "SapiBridge.Recognize"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 22,
+          "title": "Use a fixed PCM format and a simple cross-process serializer",
+          "explanation": "The imports cover speech synthesis/recognition, JSON, byte streams, timers and event synchronization. SapiBridge is static because PowerShell Add-Type calls it directly. JavaScriptSerializer's MaxJsonLength is int.MaxValue, avoiding small default receipt limits but not providing bounded untrusted-input handling. Format creates 16000 Hz, sixteen-bit mono audio for synthesis, matching Python's byte/second calculations. This bridge depends on installed Windows speech assemblies rather than a NuGet-managed model.",
+          "focus": [
+            {
+              "start": 17,
+              "end": 21
+            }
+          ]
+        },
+        {
+          "start": 23,
+          "end": 52,
+          "title": "Describe installed speech support and serialize availability failures",
+          "explanation": "Run always records assembly/CLR versions and installed recognizer/voice metadata, disposing the discovery synthesizer. For synthesize or recognize it invokes the respective worker; probe has no worker and becomes ok. Exceptions inside the dispatch try become status=unavailable with ex.ToString, preserving actual errors rather than substituting output. Discovery before the try and the final file write can still throw. The full error string is suitable for private experiment output, not assumed path-free publication.",
+          "focus": [
+            {
+              "start": 39,
+              "end": 50
+            }
+          ]
+        },
+        {
+          "start": 53,
+          "end": 74,
+          "title": "Synthesize references to raw PCM without a playback destination",
+          "explanation": "Input JSON is a list of job dictionaries. One synthesizer at rate zero selects each job's installed voice, writes to a fresh MemoryStream in the fixed format, speaks the text, detaches output and writes raw PCM bytes to the named path. Nested using blocks dispose streams and synthesis state. The result records the job count. Paths and field types are trusted harness inputs; this helper does not create destination parents or validate jobs as a public service would.",
+          "focus": [
+            {
+              "start": 59,
+              "end": 69
+            }
+          ]
+        },
+        {
+          "start": 75,
+          "end": 91,
+          "title": "Translate callback-driven recognition into one file result",
+          "explanation": "Decode owns a read-only MemoryStream over WAV bytes and an AutoResetEvent. SpeechRecognized appends only nonblank recognized text; RecognizeCompleted captures the engine error and signals completion. Both handlers are attached before starting recognition in the next block, so completion cannot race past an unattached listener. The returned sentence is composed from recognized events, not an arbitrary final partial. External System.Speech callback ordering and native behavior remain library boundaries.",
+          "focus": [
+            {
+              "start": 79,
+              "end": 90
+            }
+          ]
+        },
+        {
+          "start": 92,
+          "end": 112,
+          "title": "Bound asynchronous dictation and detach all event handlers",
+          "explanation": "The engine reads the provided WAV stream and runs RecognizeMode.Multiple. A 60-second timeout triggers cancellation and up to five seconds for its completion signal, then throws even if cancellation completes. A callback-reported error is rethrown. Finally always unsubscribes handlers and clears input, avoiding accumulation across repeated Decode calls; using then disposes the event and stream. Joined parts are returned only after successful completion. There is no microphone input or speaker output in this function.",
+          "focus": [
+            {
+              "start": 93,
+              "end": 101
+            },
+            {
+              "start": 103,
+              "end": 108
+            }
+          ]
+        },
+        {
+          "start": 113,
+          "end": 141,
+          "title": "Load installed dictation and disclose adaptation uncertainty",
+          "explanation": "Recognize selects the first installed en-US recognizer and records unavailable rather than installing one when absent. Cases and WAV bytes are loaded before the cold-load stopwatch. Engine construction, dictation grammar, silence/babble limits and attempted AdaptationOn=0 are inside load timing. The end-silence thresholds are 500 ms; initial silence is five seconds and babble fifteen. Failure to disable adaptation is recorded as a string and does not fail the run, so this path cannot promise adaptation was always off.",
+          "focus": [
+            {
+              "start": 128,
+              "end": 138
+            }
+          ]
+        },
+        {
+          "start": 142,
+          "end": 165,
+          "title": "Warm once, then time complete file decodes",
+          "explanation": "The first case is decoded once as a separately timed warmup, not a scored repeat row. Nested repeat/case loops time the complete Decode call with Stopwatch and save ID, repeat index, actual recognized text and elapsed seconds. The parent bench.run adds common WER afterward. Engine disposal is scoped by using and successful completion sets status=ok. This bridge assumes a nonempty case list and valid repeats supplied by the harness; direct callers do not receive the Python manifest validation automatically.",
+          "focus": [
+            {
+              "start": 142,
+              "end": 145
+            },
+            {
+              "start": 147,
+              "end": 157
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/test_harness.py",
+      "sourceSha256": "91c0d692da5cb0b71ad8d18c2b6c5f27d4b2f14c70e2ea72f9fc83f8939d42d0",
+      "role": "Specify local-output, WAV-format and corpus-identity guards using mocks instead of real audio or models.",
+      "entryPoints": [
+        "HarnessTests",
+        "unittest.main"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 15,
+          "title": "Reject obvious output escapes and accept a private child path",
+          "explanation": "The test imports bench, then calls only its path helper. It expects ValueError for a repository-root output and a LOCAL/../ escape, while a LOCAL child returns the resolved intended path. This tests lexical/resolved containment without writing files. It does not demonstrate ACL privacy, encryption, concurrent path-swap safety or enforcement by every quality helper; bench's import-time environment assignments still occur.",
+          "focus": [
+            {
+              "start": 9,
+              "end": 14
+            }
+          ]
+        },
+        {
+          "start": 16,
+          "end": 27,
+          "title": "Use a near-valid WAV mock to reject 44.1 kHz input",
+          "explanation": "A mocked wave context reports mono, two-byte uncompressed samples but 44100 Hz. pcm_from_wav must raise rather than resampling, isolating sample rate as the changed field. The path is unused and no audio device/file decode runs. This single case does not independently cover stereo, compressed data, wrong sample width or malformed WAV headers, even though production code checks their format tuple.",
+          "focus": [
+            {
+              "start": 17,
+              "end": 26
+            }
+          ]
+        },
+        {
+          "start": 28,
+          "end": 42,
+          "title": "Reject duplicate IDs and empty corpora before inference",
+          "explanation": "Two dictionaries deliberately share an ID while using different filenames/references. read, pcm_from_wav and sha are mocked, and the expected Duplicate ValueError proves identity validation rather than file availability. A separate mocked empty list must fail. These are guard tests, not model accuracy or waveform integrity tests; the module guard runs unittest only on explicit execution.",
+          "focus": [
+            {
+              "start": 28,
+              "end": 38
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/test_metrics.py",
+      "sourceSha256": "1a779b217559c5dba062c6969f5fcff79bfb530cb6be8922aefbe521a35b5418",
+      "role": "Lock common normalization, edit counts and word-weighted aggregation semantics with small deterministic examples.",
+      "entryPoints": [
+        "MetricsTests",
+        "unittest.main"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 18,
+          "title": "Keep punctuation, numbers and apostrophes engine-neutral",
+          "explanation": "Tests require case/punctuation variants to score zero, digits including time/decimal/percent to normalize like their English spoken forms, grouped 1,000 to match one thousand, and ASCII/curly apostrophes to produce dont. Assertions compare normalized values rather than accepting an engine-specific rewrite. They cover selected English examples, not all num2words formats, Unicode scripts or malformed numeric punctuation.",
+          "focus": [
+            {
+              "start": 7,
+              "end": 17
+            }
+          ]
+        },
+        {
+          "start": 19,
+          "end": 33,
+          "title": "Retain each edit type and undefined empty-reference rates",
+          "explanation": "Single substitution, deletion and insertion examples isolate their counters. An empty hypothesis deletes all three reference words. An empty reference retains a hello insertion but has None WER instead of a division error. cat versus dog horse bird asserts WER=3, preserving insertions rather than clamping accuracy to a percentage range. These tests constrain numeric semantics, not the quality of any ASR engine.",
+          "focus": [
+            {
+              "start": 19,
+              "end": 25
+            },
+            {
+              "start": 27,
+              "end": 32
+            }
+          ]
+        },
+        {
+          "start": 34,
+          "end": 45,
+          "title": "Prevent averaging case percentages and check a mixed alignment",
+          "explanation": "One wrong one-word case plus a correct four-word case must aggregate to one error over five words, WER 0.2. The assertion explicitly rules out an unweighted average of per-case WER. A mixed cat/dog and omitted/added-word example requires three edits. That example checks total distance, not all possible tie decompositions; deterministic tie policy is read from metrics.errors itself. The final guard invokes unittest only on direct execution.",
+          "focus": [
+            {
+              "start": 34,
+              "end": 41
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tools/SpeechBench/test_quality_receipt.py",
+      "sourceSha256": "bfdcf31f0e1f2e04681aee2b4543ae4eef218edd93dd5e7e4a85bec8c375de25",
+      "role": "Guard the secondary character metric against special-case reference repair and hidden hallucination/repetition errors.",
+      "entryPoints": [
+        "QualityReceiptTests",
+        "unittest.main"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 12,
+          "title": "Show generic whitespace tolerance with real-error negative controls",
+          "explanation": "leet code/LeetCode and any compound/AnyCompound both require zero character edits, demonstrating a generic join-normalized-words rule rather than a LeetCode-only exception. lead code and to some must still produce errors against leet code and two sum. The tests exercise pure scoring functions, not a recognizer; importing quality_receipt also imports helper modules and their environment setup but does not enter their main functions.",
+          "focus": [
+            {
+              "start": 7,
+              "end": 11
+            }
+          ]
+        },
+        {
+          "start": 13,
+          "end": 21,
+          "title": "Retain hallucinations and all character edit operations",
+          "explanation": "An empty reference with hallucination must retain thirteen inserted characters while the rate is None. abc/ac, abc/adc and abc/abxc require one deletion, substitution and insertion respectively through the common distance implementation. These examples ensure whitespace removal does not erase genuine spelling changes; they do not validate public receipt field allowlists or cross-engine input equality.",
+          "focus": [
+            {
+              "start": 13,
+              "end": 20
+            }
+          ]
+        },
+        {
+          "start": 22,
+          "end": 30,
+          "title": "Count repeated phrases rather than deduplicating model output",
+          "explanation": "Repeating tea or coffee twice against one reference occurrence must add three word insertions and nonzero character distance. This guards against a superficially flattering deduplication step that would hide model repetition. The file then closes with a normal unittest entry guard. No test is claimed to have run during this documentation task, and these cases do not qualify timing, audio devices or live providers.",
+          "focus": [
+            {
+              "start": 22,
+              "end": 26
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#2d333b"
+    primaryBorderColor: "#6d5dfc"
+    primaryTextColor: "#e6edf3"
+    lineColor: "#8b949e"
+---
+flowchart TD
+    accTitle: Admission and hybrid recognition lanes
+    accDescr: One admitted socket validates frames and routes computer and microphone PCM to independent provisional workers. Their spans share one serial finalizer and publication lock.
+    Client["Literal-loopback client"] --> Gate["Origin, auth, ready, busy"]
+    Gate --> Start["Reserve slot and parse start"]
+    Start --> Intake["Validate and charge PCM"]
+    Intake --> CQ["Computer bounded queue"]
+    Intake --> MQ["Microphone bounded queue"]
+    CQ --> CW["Computer Vosk worker"]
+    MQ --> MW["Microphone Vosk worker"]
+    CW --> FQ["Bounded span FIFO"]
+    MW --> FQ
+    FQ --> WF["Serial Whisper finalizer"]
+    CW --> Pub["Locked publication"]
+    MW --> Pub
+    WF --> Pub
+    style Client fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Gate fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Start fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Intake fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style CQ fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style MQ fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style CW fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style MW fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style FQ fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style WF fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Pub fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

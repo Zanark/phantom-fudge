@@ -10,15 +10,18 @@ config:
 ---
 sequenceDiagram
     accTitle: A bounded answer request and explicit cancellation
-    accDescr: The UI sends one exact question, accepts identified text deltas, and cancels the owned process without retrying when the user cancels.
+    accDescr: Startup prepares one empty session without inference. Explicit Ask sends one exact question. Completion closes its session and prepares a fresh empty one; cancellation stops the owned process.
     autonumber
     participant Owner
     participant UI as Protected window
     participant Adapter
     participant CLI as Owned CLI process
+    UI->>Adapter: Prepare configured Agency
+    Adapter->>CLI: Initialize ACP and one empty session
+    CLI-->>UI: Ready, no model prompt
     Owner->>UI: Ask configured provider
     UI->>Adapter: Request ID and ExactText
-    Adapter->>CLI: Restricted invocation and stdin
+    Adapter->>CLI: One session/prompt with exact JSON question
     CLI-->>Adapter: Identified text events
     Adapter-->>UI: Text deltas
     alt Explicit cancellation
@@ -26,7 +29,8 @@ sequenceDiagram
         UI->>Adapter: Cancel request
         Adapter->>CLI: Stop owned process tree
         UI->>UI: Keep partial marked incomplete
-    else Successful terminal event and exit
-        CLI-->>Adapter: Completed
+    else Successful end_turn and session close
+        CLI-->>Adapter: Closed question session
         Adapter-->>UI: Completed
+        Adapter->>CLI: Prepare next empty session, no prompt
     end

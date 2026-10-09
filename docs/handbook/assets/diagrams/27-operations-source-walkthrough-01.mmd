@@ -1,0 +1,26 @@
+flowchart TD
+    accTitle: Launcher recovery and service ownership
+    accDescr: A matching executable requests reveal before build or service work. Fresh launches may start the authenticated native manager; unknown or active incompatible services are refused.
+    Launch["Run-PhantomFudge"] --> Existing{"Matching executable running?"}
+    Existing -->|Yes| Reveal["Launch recovery child"]
+    Reveal --> Pipe["Same-user REVEAL pipe"]
+    Existing -->|No| Build["Build source if required"]
+    Build --> Notes{"NotesOnly?"}
+    Notes -->|Yes| App["Start app"]
+    Notes -->|No| Manager["Native manage.py start"]
+    Manager --> Guard{"Owned and compatible?"}
+    Guard -->|Ready match| App
+    Guard -->|Fresh workspace or verified idle upgrade| Start["Validate and start service"]
+    Start --> App
+    Guard -->|Unknown or active incompatible| Refuse["Refuse changes"]
+    style Launch fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Existing fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Reveal fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Pipe fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Build fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Notes fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style App fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Manager fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Guard fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Start fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Refuse fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

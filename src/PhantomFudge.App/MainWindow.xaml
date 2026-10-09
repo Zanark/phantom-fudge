@@ -2,24 +2,121 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
-        Title="Phantom Fudge" Width="620" Height="760" MinWidth="470" MinHeight="560"
+        Title="Phantom Fudge" Width="1240" Height="1520" MinWidth="470" MinHeight="560"
         WindowStyle="None" AllowsTransparency="True" ShowInTaskbar="False"
         Background="Transparent" Foreground="{DynamicResource ThemeText}" Topmost="True"
         ShowActivated="False" Cursor="Arrow" ForceCursor="True"
-        WindowStartupLocation="CenterScreen" PreviewKeyDown="Window_PreviewKeyDown"
-        Closing="Window_Closing" Closed="Window_Closed">
+        WindowStartupLocation="Manual" PreviewKeyDown="Window_PreviewKeyDown"
+        SizeChanged="Workspace_SizeChanged" Closing="Window_Closing" Closed="Window_Closed">
+    <Window.Resources>
+        <Style x:Key="AudioDeviceCard" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+            <Setter Property="Width" Value="180" />
+            <Setter Property="Height" Value="68" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="AutomationProperties.Name" Value="{Binding Name}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="DeviceCardFace" Background="{DynamicResource ThemeInput}"
+                                BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="2"
+                                CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <Grid>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="16" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                <Ellipse x:Name="DeviceRadio" Width="9" Height="9" Stroke="{DynamicResource ThemeBorder}"
+                                         Fill="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                <ContentPresenter Grid.Column="1" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="DeviceCardFace" Property="BorderBrush" Value="{DynamicResource ThemeAccent}" />
+                                <Setter TargetName="DeviceRadio" Property="Fill" Value="{DynamicResource ThemeAccent}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="DeviceCardFace" Property="Background" Value="{DynamicResource ThemeHover}" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="DeviceCardFace" Property="BorderBrush" Value="{DynamicResource ThemeHeading}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="DeviceCardFace" Property="Opacity" Value="0.45" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="AudioDeviceCards" TargetType="ListBox" BasedOn="{StaticResource {x:Type ListBox}}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource AudioDeviceCard}" />
+            <Setter Property="ItemsPanel"><Setter.Value><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></Setter.Value></Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate><TextBlock Text="{Binding Name}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"
+                                             FontSize="12" Foreground="{DynamicResource ThemeHighContrastReading}" /></DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox"><Border Background="{TemplateBinding Background}" ClipToBounds="True"><ItemsPresenter /></Border></ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Thickness x:Key="TranscriptRowPadding">6,3</Thickness>
+        <DataTemplate x:Key="TranscriptRowTemplate">
+            <TextBlock Text="{Binding DisplayText}" TextWrapping="Wrap"
+                       Foreground="{DynamicResource ThemeHighContrastReading}" />
+        </DataTemplate>
+        <Style x:Key="TranscriptRowStyle" TargetType="ListBoxItem">
+            <Setter Property="Focusable" Value="{DynamicResource ControlsFocusable}" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Padding" Value="{DynamicResource TranscriptRowPadding}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Row" Background="Transparent" BorderBrush="Transparent"
+                                BorderThickness="3,1,1,1" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeBorder}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeAccent}" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource ThemeHeading}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSelectable}" Value="False">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="38" ResizeBorderThickness="6"
                             GlassFrameThickness="0" CornerRadius="0" />
     </shell:WindowChrome.WindowChrome>
     <Border x:Name="WindowSurface" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1">
         <Grid>
+            <Border x:Name="WorkspaceHost">
+        <Grid x:Name="WorkspaceRoot">
             <Grid.RowDefinitions>
                 <RowDefinition Height="38" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" MinHeight="100" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -32,17 +129,19 @@
                 <TextBlock Margin="13,0" VerticalAlignment="Center" FontWeight="SemiBold"
                            Foreground="{DynamicResource ThemeHeading}"
                            Text="Phantom Fudge" IsHitTestVisible="False" />
-                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,2,5,2"
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,2,77,2"
                             shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                    <Button x:Name="DiagnosticsButton" Content="Diagnostics" Click="Diagnostics_Click"
+                            AutomationProperties.Name="Open local diagnostic log folder" />
                     <Button x:Name="ModeButton" Content="Edit" Click="Mode_Click"
                             AutomationProperties.Name="Switch editing or presentation mode" />
                     <Button Content="Hide" Click="Hide_Click" AutomationProperties.Name="Hide window" />
                     <Button Content="X" Click="Exit_Click" AutomationProperties.Name="Exit application" />
                 </StackPanel>
             </Grid>
-            <Border Grid.Row="1" Background="{DynamicResource ThemeSurface}" Padding="10,5">
-                <StackPanel>
-                    <WrapPanel>
+            <Border Grid.Row="1" Background="{DynamicResource ThemeSurface}" Padding="8,3">
+                <WrapPanel>
+                    <StackPanel Orientation="Horizontal">
                         <Button x:Name="ThemeToggleButton" Click="ThemeToggle_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock x:Name="ThemeToggleIcon" FontFamily="Segoe UI Symbol"
@@ -51,214 +150,435 @@
                             </StackPanel>
                         </Button>
                         <Button x:Name="PlainThemeButton" Content="Plain B/W" Click="PlainTheme_Click" />
-                        <TextBlock x:Name="ThemeName" VerticalAlignment="Center" Margin="9,0,0,0"
+                        <TextBlock x:Name="ThemeName" VerticalAlignment="Center" Margin="7,0"
                                    Foreground="{DynamicResource ThemeMuted}" FontSize="11" />
-                    </WrapPanel>
-                    <StackPanel Orientation="Horizontal" Margin="4,5,0,1">
-                    <TextBlock Text="Background" VerticalAlignment="Center" FontSize="11" />
-                    <Slider x:Name="BackgroundOpacity" Minimum="10" Maximum="100" Value="55"
-                            TickFrequency="5" IsSnapToTickEnabled="True" SmallChange="5" LargeChange="10"
-                            Width="155" Margin="8,0" VerticalAlignment="Center"
-                            ValueChanged="BackgroundOpacity_ValueChanged"
-                            AutomationProperties.Name="Background opacity percent, lower means more transparent" />
-                    <TextBlock Text="{Binding Value, ElementName=BackgroundOpacity, StringFormat={}{0:0}%}"
-                               VerticalAlignment="Center" FontSize="11" Width="36" />
-                    <TextBlock Text="lower = see through" VerticalAlignment="Center" FontSize="11" />
                     </StackPanel>
-                </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="7,3">
+                        <TextBlock Text="Background" VerticalAlignment="Center" FontSize="11" />
+                        <Slider x:Name="BackgroundOpacity" Minimum="10" Maximum="100" Value="55"
+                                TickFrequency="5" IsSnapToTickEnabled="True" SmallChange="5" LargeChange="10"
+                                Width="140" Margin="8,0" VerticalAlignment="Center"
+                                ValueChanged="BackgroundOpacity_ValueChanged"
+                                AutomationProperties.Name="Background opacity percent, lower means more transparent" />
+                        <TextBlock Text="{Binding Value, ElementName=BackgroundOpacity, StringFormat={}{0:0}%}"
+                                   VerticalAlignment="Center" FontSize="11" Width="36" />
+                    </StackPanel>
+                </WrapPanel>
             </Border>
-            <Border x:Name="ConfirmPanel" Grid.Row="2" Margin="12,4" Visibility="Collapsed"
+            <Border x:Name="ConfirmPanel" Grid.Row="2" Margin="10,4" Visibility="Collapsed"
                     Background="{DynamicResource ThemeSurface}" BorderBrush="{DynamicResource ThemeWarning}"
                     BorderThickness="1" Padding="8">
-                    <StackPanel>
-                        <TextBlock Text="There are unsaved notes, transcript, or question text." TextWrapping="Wrap"
-                                   Foreground="{DynamicResource ThemeWarning}" />
-                        <TextBlock x:Name="ConfirmEditHint" Text="Use Edit to save/export. Copy question text before discarding it."
-                                   TextWrapping="Wrap" Foreground="{DynamicResource ThemeMuted}" FontSize="11" />
-                        <WrapPanel>
-                            <Button Content="Save notes" Click="ConfirmSave_Click" />
-                            <Button Content="Export transcript" Click="ConfirmExport_Click" />
-                            <Button Content="Discard and continue" Click="ConfirmDiscard_Click" />
-                            <Button Content="Cancel" Click="ConfirmCancel_Click" />
-                        </WrapPanel>
-                    </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="There are unsaved notes, transcript, or question text." TextWrapping="Wrap"
+                               Foreground="{DynamicResource ThemeWarning}" />
+                    <TextBlock x:Name="ConfirmEditHint" Text="Use Edit to save/export. Copy question text before discarding it."
+                               TextWrapping="Wrap" Foreground="{DynamicResource ThemeMuted}" FontSize="11" />
+                    <WrapPanel>
+                        <Button Content="Save notes" Click="ConfirmSave_Click" />
+                        <Button Content="Export transcript" Click="ConfirmExport_Click" />
+                        <Button Content="Discard and continue" Click="ConfirmDiscard_Click" />
+                        <Button Content="Cancel" Click="ConfirmCancel_Click" />
+                    </WrapPanel>
+                </StackPanel>
             </Border>
-            <StackPanel Grid.Row="3" Margin="12,8,12,0">
+            <StackPanel Grid.Row="3" Margin="10,4,10,0">
                 <WrapPanel>
-                    <TextBlock Text="LIVE TRANSCRIPT" FontSize="13" FontWeight="SemiBold" Margin="0,0,12,0"
-                               Foreground="{DynamicResource ThemeHeading}"
-                               VerticalAlignment="Center" DockPanel.Dock="Left" />
+                    <TextBlock Text="TRANSCRIPT" FontSize="12" FontWeight="SemiBold" Margin="0,0,6,0"
+                               Foreground="{DynamicResource ThemeHeading}" VerticalAlignment="Center" />
+                    <Ellipse x:Name="RecordingIndicator" Width="12" Height="12" Margin="0,0,7,0"
+                             Fill="{DynamicResource ThemeError}" Stroke="{DynamicResource ThemeHighContrastReading}" StrokeThickness="1"
+                             VerticalAlignment="Center" Visibility="Hidden" IsHitTestVisible="False"
+                             AutomationProperties.Name="Recording selected audio"
+                             AutomationProperties.HelpText="Selected inputs are being transcribed; no audio file is saved." />
                     <Button x:Name="StartButton" Content="Start" Click="Start_Click" />
                     <Button x:Name="StopButton" Content="Stop" Click="Stop_Click" IsEnabled="False" />
                     <Button x:Name="SourceButton" Content="Audio setup" Click="AudioSetup_Click" />
                     <Button x:Name="ExportButton" Content="Export" Click="Export_Click" IsEnabled="False" />
-                    <Button x:Name="QuestionToggleButton" Content="Question" Click="QuestionToggle_Click"
-                            AutomationProperties.Name="Open or close the local question composer" />
+                    <Button x:Name="QuestionToggleButton" Content="Hide Q/A" Click="QuestionToggle_Click"
+                            AutomationProperties.Name="Show or hide the question and answer reading pane" />
                 </WrapPanel>
-                <WrapPanel x:Name="InputModeControls" Margin="0,3">
-                    <TextBlock Text="Inputs:" VerticalAlignment="Center" Margin="0,0,6,0"
-                               Foreground="{DynamicResource ThemeMuted}" />
-                    <Button x:Name="ComputerModeButton" Content="Computer" Click="ComputerMode_Click" />
-                    <Button x:Name="MicrophoneModeButton" Content="Mic" Click="MicrophoneMode_Click" />
-                    <Button x:Name="BothModeButton" Content="Both" Click="BothMode_Click" />
-                    <TextBlock x:Name="InputModeLabel" Text="Computer + Mic" VerticalAlignment="Center"
-                               Foreground="{DynamicResource ThemeHeading}" Margin="8,0,0,0" />
-                </WrapPanel>
-                <Border x:Name="AudioPanel" Visibility="Collapsed" Background="{DynamicResource ThemeSurface}"
-                        BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1" Padding="8" Margin="0,4">
-                    <ScrollViewer MaxHeight="185" VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
-                        <StackPanel x:Name="ComputerDeviceSection">
-                        <DockPanel>
-                            <TextBlock Text="Computer playback device" VerticalAlignment="Center" />
-                            <Button Content="Refresh" Click="RefreshDevices_Click" HorizontalAlignment="Right" />
-                        </DockPanel>
-                        <ListBox x:Name="OutputDevices" DisplayMemberPath="Name" MaxHeight="70"
-                                 PreviewMouseLeftButtonDown="OutputDevices_PreviewMouseLeftButtonDown"
-                                 AutomationProperties.Name="Playback output device" />
-                        </StackPanel>
-                        <StackPanel x:Name="MicrophoneDeviceSection" Margin="0,5,0,0">
-                            <DockPanel>
-                                <TextBlock Text="Microphone for your dictated questions" VerticalAlignment="Center" />
-                                <Button Content="Refresh" Click="RefreshDevices_Click" HorizontalAlignment="Right" />
-                            </DockPanel>
-                            <ListBox x:Name="MicrophoneDevices" DisplayMemberPath="Name" MaxHeight="60"
-                                     PreviewMouseLeftButtonDown="OutputDevices_PreviewMouseLeftButtonDown"
-                                     AutomationProperties.Name="Microphone input device" />
-                        </StackPanel>
-                        <TextBlock Text="Separate Computer/Mic tracks. Use headphones to reduce echo; no chat access."
-                                   FontSize="11" TextWrapping="Wrap" Margin="0,4"
-                                   Foreground="{DynamicResource ThemeMuted}" />
-                        <TextBlock Text="Computer input includes other apps/sidetone. Windows may show a microphone privacy indicator."
-                                   FontSize="11" TextWrapping="Wrap" Margin="0,4" />
-                        <TextBlock Text="Local service token (session only)" FontSize="11" />
-                        <PasswordBox x:Name="ServiceToken" Padding="4" Margin="0,3" IsEnabled="False"
-                                     AutomationProperties.Name="Local transcription service token" />
-                        <TextBlock x:Name="AudioEditHint" Text="Edit mode enables token entry and transcript export."
-                                   FontSize="11" Foreground="{DynamicResource ThemeMuted}" TextWrapping="Wrap" />
-                        <Button Content="Clear transcript" Click="ClearTranscript_Click"
-                                HorizontalAlignment="Left" />
-                    </StackPanel>
-                    </ScrollViewer>
-                </Border>
-                <Grid Margin="0,3">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="92" />
                     </Grid.ColumnDefinitions>
-                    <StackPanel>
-                        <TextBlock Text="Computer" FontSize="10" Foreground="{DynamicResource ThemeMuted}" />
-                        <ProgressBar x:Name="AudioLevel" Minimum="0" Maximum="1" Height="3"
-                                     AutomationProperties.Name="Computer playback audio level" />
-                    </StackPanel>
-                    <StackPanel Grid.Column="2">
-                        <TextBlock Text="Mic" FontSize="10" Foreground="{DynamicResource ThemeMuted}" />
-                        <ProgressBar x:Name="MicrophoneLevel" Minimum="0" Maximum="1" Height="3"
-                                     AutomationProperties.Name="Microphone dictation audio level" />
-                    </StackPanel>
+                    <WrapPanel x:Name="InputModeControls">
+                        <TextBlock Text="Inputs:" VerticalAlignment="Center" Margin="0,0,4,0"
+                                   Foreground="{DynamicResource ThemeMuted}" FontSize="11" />
+                        <Button x:Name="ComputerModeButton" Content="Computer" Click="ComputerMode_Click" />
+                        <Button x:Name="MicrophoneModeButton" Content="Mic" Click="MicrophoneMode_Click" />
+                        <Button x:Name="BothModeButton" Content="Both" Click="BothMode_Click" />
+                        <TextBlock x:Name="InputModeLabel" Text="Computer + Mic" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource ThemeHeading}" Margin="6,0,0,0" FontSize="11" />
+                    </WrapPanel>
+                    <Grid Grid.Column="1" Margin="5,2,0,2" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="PC" FontSize="10" Foreground="{DynamicResource ThemeMuted}" />
+                            <ProgressBar x:Name="AudioLevel" Minimum="0" Maximum="1" Height="3"
+                                         AutomationProperties.Name="Computer playback audio level" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Mic" FontSize="10" Foreground="{DynamicResource ThemeMuted}" />
+                            <ProgressBar x:Name="MicrophoneLevel" Minimum="0" Maximum="1" Height="3"
+                                         AutomationProperties.Name="Microphone dictation audio level" />
+                        </StackPanel>
+                    </Grid>
                 </Grid>
                 <TextBlock x:Name="AudioStatus" Text="Stopped. Start explicitly to capture the selected inputs locally."
-                           FontSize="11" TextWrapping="Wrap" Margin="0,3"
-                           Foreground="{DynamicResource ThemeMuted}" />
+                           FontSize="11" TextWrapping="Wrap" Margin="0,2" Foreground="{DynamicResource ThemeMuted}" />
             </StackPanel>
-            <Grid x:Name="TranscriptArea" Grid.Row="4" Margin="12,7,12,8" SizeChanged="TranscriptArea_SizeChanged">
+            <Grid x:Name="TranscriptArea" Grid.Row="4" Margin="10,5,10,5" SizeChanged="TranscriptArea_SizeChanged">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="TranscriptColumn" Width="*" />
+                    <ColumnDefinition x:Name="QuestionColumn" Width="1.15*" />
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition x:Name="TranscriptReadingRow" Height="*" />
+                    <RowDefinition x:Name="QuestionReadingRow" Height="0" />
                 </Grid.RowDefinitions>
-                <TextBox x:Name="TranscriptText" IsReadOnly="True" IsReadOnlyCaretVisible="False"
-                         Focusable="False" FontFamily="Segoe UI" FontSize="20" BorderThickness="0"
-                         Background="Transparent" Padding="6" TextWrapping="Wrap" AcceptsReturn="True"
-                         VerticalScrollBarVisibility="Auto" AutomationProperties.Name="Final live transcript" />
-                <TextBlock x:Name="TranscriptPlaceholder" Text="Your meeting transcript will appear here."
-                           Margin="6" Foreground="{DynamicResource ThemeMuted}" TextWrapping="Wrap"
-                           IsHitTestVisible="False" />
-                <TextBlock x:Name="PartialText" Grid.Row="1" TextWrapping="Wrap" FontStyle="Italic"
-                           FontSize="18" Foreground="{DynamicResource ThemeHeading}" MaxHeight="75" Margin="6,5"
-                           AutomationProperties.Name="Unfinished recognition, may change" />
-                <Border x:Name="QuestionPanel" Grid.Row="2" Visibility="Collapsed" Margin="0,6,0,0"
+                <Grid x:Name="TranscriptPane">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Click lines to build a question; click again to deselect."
+                              FontSize="11" Foreground="{DynamicResource ThemeMuted}" TextWrapping="Wrap" Margin="6,0,6,3" />
+                    <ListBox x:Name="TranscriptText" Grid.Row="1" SelectionMode="Multiple"
+                             FontFamily="Segoe UI" FontSize="15" BorderThickness="0" Cursor="Arrow"
+                             Foreground="{DynamicResource ThemeHighContrastReading}" Opacity="1"
+                             Background="Transparent" Padding="0" HorizontalContentAlignment="Stretch"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                             ScrollViewer.CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel"
+                             ItemTemplate="{StaticResource TranscriptRowTemplate}" ItemContainerStyle="{StaticResource TranscriptRowStyle}"
+                             PreviewMouseLeftButtonDown="TranscriptRows_PreviewMouseLeftButtonDown"
+                             SelectionChanged="TranscriptRows_SelectionChanged"
+                             AutomationProperties.Name="Final live transcript; select multiple lines for the question" />
+                    <TextBlock x:Name="TranscriptPlaceholder" Grid.Row="1" Text="Your meeting transcript will appear here."
+                              Margin="6" Foreground="{DynamicResource ThemeMuted}" TextWrapping="Wrap"
+                              IsHitTestVisible="False" />
+                    <ListBox x:Name="PartialText" Grid.Row="2" SelectionMode="Multiple" FontStyle="Italic" Cursor="Arrow"
+                             FontSize="13.5" Foreground="{DynamicResource ThemeHighContrastReading}" Opacity="1"
+                             Background="Transparent" BorderThickness="0" Padding="6,3" MaxHeight="82"
+                             HorizontalContentAlignment="Stretch"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                             ItemTemplate="{StaticResource TranscriptRowTemplate}" ItemContainerStyle="{StaticResource TranscriptRowStyle}"
+                             PreviewMouseLeftButtonDown="TranscriptRows_PreviewMouseLeftButtonDown"
+                             SelectionChanged="TranscriptRows_SelectionChanged"
+                             AutomationProperties.Name="Unfinished recognition, may change; select multiple lines for the question" />
+                </Grid>
+                <Border x:Name="QuestionPanel" Grid.Column="1" Margin="10,0,0,0"
                         BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1"
-                        Background="{DynamicResource ThemeSurface}" Padding="7">
-                    <ScrollViewer x:Name="QuestionScroll" MaxHeight="280" VerticalScrollBarVisibility="Auto">
-                        <StackPanel>
-                           <TextBlock Text="QUESTION AND ANSWER" FontWeight="SemiBold" Foreground="{DynamicResource ThemeHeading}" />
-                           <TextBlock x:Name="AnswerProviderNotice" Text="Snapshot only: nothing is sent. Configure an answer provider to enable responses."
-                                      FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource ThemeMuted}" Margin="0,3" />
-                           <WrapPanel>
-                               <Button x:Name="AnswerSnapshotMode" Content="Snapshot only" Click="AnswerSnapshotMode_Click" />
-                               <Button x:Name="AnswerConfiguredMode" Content="Use configured provider" Click="AnswerConfiguredMode_Click" />
-                               <Button x:Name="AnswerReloadSettings" Content="Reload setup" Click="AnswerReloadSettings_Click" />
-                           </WrapPanel>
-                           <WrapPanel>
-                               <Button x:Name="QuestionMicFilter" Content="Mic segments" Click="QuestionMicFilter_Click" />
-                               <Button x:Name="QuestionComputerFilter" Content="Computer segments" Click="QuestionComputerFilter_Click" />
-                               <Button x:Name="QuestionAllFilter" Content="All sources" Click="QuestionAllFilter_Click" />
-                               <Button Content="Use selected" Click="UseQuestionSelection_Click" />
-                           </WrapPanel>
-                           <TextBlock Text="Select only the intended segments. Selection never starts recording."
-                                      FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource ThemeMuted}" />
-                           <ListBox x:Name="QuestionSegments" Height="82" SelectionMode="Multiple"
-                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                    PreviewMouseLeftButtonDown="QuestionSegments_PreviewMouseLeftButtonDown"
-                                    AutomationProperties.Name="Explicit question segment selection">
-                               <ListBox.ItemTemplate>
-                                   <DataTemplate>
-                                       <TextBlock Text="{Binding DisplayText}" TextWrapping="Wrap" FontSize="12" />
-                                   </DataTemplate>
-                               </ListBox.ItemTemplate>
-                           </ListBox>
-                           <WrapPanel Margin="0,4,0,0">
-                               <Button x:Name="QuestionEditButton" Content="Type / edit" Click="QuestionEdit_Click" />
-                               <Button x:Name="QuestionAskButton" Content="Ask as shown" Click="QuestionAsk_Click" />
-                               <Button x:Name="QuestionCopyButton" Content="Copy draft" Click="QuestionCopy_Click" />
-                               <Button Content="Clear question" Click="QuestionClear_Click" />
-                           </WrapPanel>
-                           <TextBox x:Name="QuestionEditor" Height="78" Margin="0,4" Padding="5"
-                                    AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
-                                    IsReadOnly="True" Focusable="False" UndoLimit="50"
-                                    TextChanged="QuestionEditor_TextChanged" DataObject.Pasting="QuestionEditor_Pasting"
-                                    AutomationProperties.Name="Editable local question, maximum 8192 characters" />
-                           <TextBlock x:Name="QuestionProvenance" FontSize="11" TextWrapping="Wrap"
-                                      Foreground="{DynamicResource ThemeMuted}" />
-                           <TextBlock x:Name="QuestionStatus" Text="Choose segments or use Type / edit."
-                                      FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource ThemeHeading}" Margin="0,3" />
-                           <StackPanel x:Name="QuestionSnapshotPanel" Visibility="Collapsed">
-                               <TextBlock x:Name="QuestionSnapshotLabel" Text="Frozen snapshot - local only, not sent" FontSize="11"
-                                          Foreground="{DynamicResource ThemeWarning}" />
-                               <TextBox x:Name="QuestionSnapshotText" Height="65" IsReadOnly="True" Focusable="False"
-                                        AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
-                                        AutomationProperties.Name="Immutable local question snapshot" />
-                           </StackPanel>
-                           <StackPanel x:Name="AnswerPanel" Visibility="Collapsed" Margin="0,6,0,0">
-                               <WrapPanel>
-                                   <TextBlock Text="ANSWER" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,8,0" />
-                                   <Button x:Name="AnswerCancelButton" Content="Cancel answer" Click="AnswerCancel_Click" />
-                                   <Button x:Name="AnswerCopyButton" Content="Copy answer" Click="AnswerCopy_Click" />
-                               </WrapPanel>
-                               <TextBlock x:Name="AnswerRunLabel" TextWrapping="Wrap" FontSize="11" Foreground="{DynamicResource ThemeMuted}" />
-                               <TextBox x:Name="AnswerText" Height="150" IsReadOnly="True" Focusable="False"
-                                        TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
-                                        FontSize="16" Padding="5" Background="Transparent"
-                                        AutomationProperties.Name="Provider answer, plain text" />
-                               <TextBlock x:Name="AnswerStatus" TextWrapping="Wrap" FontSize="11"
-                                          Foreground="{DynamicResource ThemeWarning}" Margin="0,3" />
-                           </StackPanel>
+                        Background="Transparent" Padding="6">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <WrapPanel>
+                            <TextBlock Text="QUESTION / ANSWER" FontWeight="SemiBold" FontSize="12"
+                                       Foreground="{DynamicResource ThemeHeading}" VerticalAlignment="Center" Margin="0,0,6,0" />
+                            <Button x:Name="QuestionSourceToggle" Content="Choose source" Click="QuestionSourceToggle_Click"
+                                    AutomationProperties.Name="Show or hide explicit transcript segment selection" />
+                            <Button x:Name="ProviderSetupToggle" Content="Setup / details" Click="ProviderSetupToggle_Click"
+                                    AutomationProperties.Name="Show or hide answer provider setup and provenance" />
+                            <CheckBox x:Name="ClarifyFirstToggle" Content="Clarify first" IsChecked="False"
+                                      VerticalAlignment="Center" Margin="5,0" Click="ClarifyFirst_Click"
+                                      AutomationProperties.Name="Clarify first; opt in to an interpretation instruction and explicit clarification replies" />
+                        </WrapPanel>
+                        <Grid x:Name="QuestionSourcePanel" Grid.Row="1" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <WrapPanel>
+                                <Button x:Name="QuestionMicFilter" Content="Mic" Click="QuestionMicFilter_Click" />
+                                <Button x:Name="QuestionComputerFilter" Content="Computer" Click="QuestionComputerFilter_Click" />
+                                <Button x:Name="QuestionAllFilter" Content="All" Click="QuestionAllFilter_Click" />
+                                <Button x:Name="QuestionUseSelectionButton" Content="Use selected" Click="UseQuestionSelection_Click" />
+                            </WrapPanel>
+                            <ListBox x:Name="QuestionSegments" Grid.Row="1" Height="76" SelectionMode="Multiple"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     PreviewMouseLeftButtonDown="QuestionSegments_PreviewMouseLeftButtonDown"
+                                     AutomationProperties.Name="Explicit question segment selection; never automatically selected or sent">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DisplayText}" TextWrapping="Wrap" FontSize="12"
+                                                   Foreground="{DynamicResource ThemeHighContrastReading}" />
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
+                        <StackPanel x:Name="ProviderSetupPanel" Grid.Row="2" Visibility="Collapsed">
+                            <TextBlock x:Name="AnswerProviderNotice" Text="Snapshot only: nothing is sent. Configure an answer provider to enable responses."
+                                       FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource ThemeMuted}" Margin="0,3" />
+                            <WrapPanel>
+                                <Button x:Name="AnswerSnapshotMode" Content="Snapshot only" Click="AnswerSnapshotMode_Click" />
+                                <Button x:Name="AnswerConfiguredMode" Content="Use configured provider" Click="AnswerConfiguredMode_Click">
+                                    <Button.ContentTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" TextWrapping="Wrap" MaxWidth="280" />
+                                        </DataTemplate>
+                                    </Button.ContentTemplate>
+                                </Button>
+                                <Button x:Name="AnswerReloadSettings" Content="Reload setup" Click="AnswerReloadSettings_Click" />
+                            </WrapPanel>
+                            <TextBlock x:Name="QuestionProvenance" FontSize="11" TextWrapping="Wrap"
+                                       Foreground="{DynamicResource ThemeMuted}" />
+                            <TextBlock x:Name="AnswerRunLabel" TextWrapping="Wrap" FontSize="11" Foreground="{DynamicResource ThemeMuted}" />
+                            <TextBox x:Name="ClarificationContextText" Visibility="Collapsed" IsReadOnly="True" Focusable="False"
+                                     Height="100" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Background="Transparent"
+                                     Foreground="{DynamicResource ThemeHighContrastReading}"
+                                     AutomationProperties.Name="Clarification instruction and history included with an explicit reply" />
                         </StackPanel>
-                    </ScrollViewer>
+                        <Grid x:Name="QuestionActionsGrid" Grid.Row="3" Margin="0,2,0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <WrapPanel x:Name="QuestionSecondaryActions" VerticalAlignment="Center">
+                                <Button x:Name="QuestionEditButton" Content="Type / edit" Click="QuestionEdit_Click" Padding="4,4" />
+                                <Button x:Name="QuestionCopyButton" Content="Copy draft" Click="QuestionCopy_Click" Padding="4,4" />
+                            </WrapPanel>
+                            <Button x:Name="QuestionAskButton" Grid.Column="2" Content="Ask as shown" Click="QuestionAsk_Click"
+                                    Width="148" MinHeight="44" FontSize="15" FontWeight="SemiBold" Padding="14,8"
+                                    VerticalAlignment="Center" Background="{DynamicResource ThemeAccent}"
+                                    Foreground="{DynamicResource ThemeActionText}" BorderBrush="{DynamicResource ThemeAccent}">
+                                <Button.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center" />
+                                    </DataTemplate>
+                                </Button.ContentTemplate>
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="PrimaryFace" Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2"
+                                                CornerRadius="5" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="PrimaryFace" Property="BorderBrush" Value="{DynamicResource ThemeHeading}" />
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                                <Setter TargetName="PrimaryFace" Property="BorderBrush" Value="{DynamicResource ThemeHeading}" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="PrimaryFace" Property="BorderBrush" Value="{DynamicResource ThemeActionText}" />
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="PrimaryFace" Property="Opacity" Value="0.45" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button x:Name="QuestionClearButton" Grid.Column="3" Content="Clear question" Click="QuestionClear_Click"
+                                    Width="98" MinHeight="44" Margin="6,2,2,2" VerticalAlignment="Center"
+                                    BorderBrush="{DynamicResource ThemeError}" BorderThickness="2">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="ClearFace" Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="5" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="ClearFace" Property="Background" Value="{DynamicResource ThemeHover}" />
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                                <Setter TargetName="ClearFace" Property="Background" Value="{DynamicResource ThemeHover}" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="ClearFace" Property="Background" Value="{DynamicResource ThemeSelection}" />
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="ClearFace" Property="Opacity" Value="0.45" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                        <Grid x:Name="QuestionReadingGrid" Grid.Row="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition x:Name="QuestionSnapshotColumn" Width="0" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition x:Name="QuestionDraftRow" Height="1.4*" />
+                                <RowDefinition x:Name="QuestionSnapshotRow" Height="0" />
+                                <RowDefinition Height="3*" />
+                            </Grid.RowDefinitions>
+                            <TextBox x:Name="QuestionEditor" Margin="0,0,0,4" Padding="6" FontSize="18"
+                                     Foreground="{DynamicResource ThemeHighContrastReading}" Opacity="1"
+                                     Background="Transparent" AcceptsReturn="True" TextWrapping="Wrap"
+                                     VerticalScrollBarVisibility="Auto" IsReadOnly="True" Focusable="False" UndoLimit="50"
+                                     TextChanged="QuestionEditor_TextChanged" DataObject.Pasting="QuestionEditor_Pasting"
+                                     AutomationProperties.Name="Editable local question, maximum 8192 characters" />
+                             <Grid x:Name="ClarificationReplyPanel" Visibility="Collapsed" Margin="0,0,0,4">
+                                 <Grid.RowDefinitions>
+                                     <RowDefinition Height="Auto" />
+                                     <RowDefinition Height="*" />
+                                     <RowDefinition Height="Auto" />
+                                 </Grid.RowDefinitions>
+                                 <TextBlock x:Name="ClarificationReplyHint" FontSize="11" TextWrapping="Wrap"
+                                           Foreground="{DynamicResource ThemeHeading}" />
+                                 <TextBox x:Name="ClarificationReplyEditor" Grid.Row="1" FontSize="18" Padding="4"
+                                         Background="Transparent" Foreground="{DynamicResource ThemeHighContrastReading}"
+                                         TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                                         IsReadOnly="True" Focusable="False"
+                                         TextChanged="ClarificationReply_TextChanged" DataObject.Pasting="ClarificationReply_Pasting"
+                                         AutomationProperties.Name="Clarification reply; type Yes or a correction, then explicitly send" />
+                                 <WrapPanel Grid.Row="2">
+                                     <Button x:Name="ClarificationSendReply" Content="Send reply" Click="ClarificationSendReply_Click" />
+                                     <Button x:Name="ClarificationConfirm" Content="Yes, answer" Click="ClarificationConfirm_Click" />
+                                 </WrapPanel>
+                             </Grid>
+                            <Grid x:Name="QuestionSnapshotPanel" Grid.Row="1" Visibility="Collapsed"
+                                  IsVisibleChanged="ReadingContent_VisibilityChanged" Margin="0,0,0,4">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock x:Name="QuestionSnapshotLabel" Text="Frozen snapshot - local only, not sent" FontSize="11"
+                                           TextWrapping="Wrap" Foreground="{DynamicResource ThemeMuted}" />
+                                <TextBox x:Name="QuestionSnapshotText" Grid.Row="1" IsReadOnly="True" Focusable="False" FontSize="16"
+                                         Foreground="{DynamicResource ThemeHighContrastReading}" Opacity="1"
+                                         Background="Transparent" Padding="5" AcceptsReturn="True" TextWrapping="Wrap"
+                                         VerticalScrollBarVisibility="Auto" AutomationProperties.Name="Immutable local question snapshot" />
+                            </Grid>
+                            <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="Your answer appears here after Ask. Nothing starts automatically."
+                                       TextWrapping="Wrap" Foreground="{DynamicResource ThemeMuted}" Margin="6,12">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Visibility, ElementName=AnswerPanel}" Value="Visible">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <Grid x:Name="AnswerPanel" Grid.Row="2" Grid.ColumnSpan="2" Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <WrapPanel>
+                                    <TextBlock x:Name="AnswerHeading" Text="ANSWER" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,8,0"
+                                               Foreground="{DynamicResource ThemeHeading}" />
+                                    <Button x:Name="AnswerCancelButton" Content="Cancel answer" Click="AnswerCancel_Click" />
+                                    <Button x:Name="AnswerCopyButton" Content="Copy answer" Click="AnswerCopy_Click" />
+                                </WrapPanel>
+                                <TextBox x:Name="AnswerText" Grid.Row="1" IsReadOnly="True" Focusable="False"
+                                         TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                                         Foreground="{DynamicResource ThemeHighContrastReading}" Opacity="1"
+                                         FontSize="10" Padding="6" Background="Transparent"
+                                         AutomationProperties.Name="Provider answer, plain text" />
+                                <TextBlock x:Name="AnswerStatus" Grid.Row="2" TextWrapping="Wrap" FontSize="11"
+                                           Foreground="{DynamicResource ThemeWarning}" Margin="0,2" />
+                            </Grid>
+                        </Grid>
+                        <TextBlock x:Name="QuestionStatus" Grid.Row="5" Text="Choose source text or use Type / edit."
+                                   FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource ThemeHeading}" Margin="0,2,0,0" />
+                    </Grid>
+                </Border>
+                <Border x:Name="AudioPanel" Grid.ColumnSpan="2" Grid.RowSpan="2" Visibility="Collapsed"
+                        Background="{DynamicResource ThemeSurface}" BorderBrush="{DynamicResource ThemeBorder}"
+                        BorderThickness="1" Padding="8" IsVisibleChanged="AudioPanel_IsVisibleChanged">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" /><RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Margin="2,0,2,6">
+                            <TextBlock Text="AUDIO DEVICES" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource ThemeHeading}" />
+                            <TextBlock Text="Click a card to select it. Extra devices use pages, never scrolling." FontSize="11"
+                                       TextWrapping="Wrap" Foreground="{DynamicResource ThemeMuted}" />
+                        </StackPanel>
+                        <UniformGrid x:Name="AudioDeviceGroups" Grid.Row="1" Columns="2">
+                            <Grid x:Name="ComputerDeviceSection" Margin="0,0,5,0">
+                                <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                                <DockPanel>
+                                    <Button Content="Refresh" Click="RefreshDevices_Click" DockPanel.Dock="Right" />
+                                    <TextBlock Text="Computer" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                </DockPanel>
+                                <ListBox x:Name="OutputDevices" Grid.Row="1" Style="{StaticResource AudioDeviceCards}"
+                                         PreviewMouseLeftButtonDown="OutputDevices_PreviewMouseLeftButtonDown"
+                                         SelectionChanged="AudioDeviceCard_Selected" SizeChanged="AudioDeviceCards_SizeChanged"
+                                         AutomationProperties.Name="Playback output device cards" />
+                                <TextBlock x:Name="OutputDevicesEmpty" Grid.Row="1" Text="No playback devices found. Connect one, then Refresh."
+                                           Visibility="Collapsed" TextWrapping="Wrap" Margin="8" IsHitTestVisible="False"
+                                           Foreground="{DynamicResource ThemeMuted}" />
+                                <Grid x:Name="OutputDevicePager" Grid.Row="2" Height="32" Visibility="Collapsed">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                                    <Button x:Name="OutputPreviousPage" Content="&lt;" Tag="-1" Click="OutputDevicePage_Click" AutomationProperties.Name="Previous playback device cards" />
+                                    <TextBlock x:Name="OutputDevicePageText" Grid.Column="1" FontSize="10" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                    <Button x:Name="OutputNextPage" Grid.Column="2" Content="&gt;" Tag="1" Click="OutputDevicePage_Click" AutomationProperties.Name="Next playback device cards" />
+                                </Grid>
+                            </Grid>
+                            <Grid x:Name="MicrophoneDeviceSection" Margin="5,0,0,0">
+                                <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                                <DockPanel>
+                                    <Button Content="Refresh" Click="RefreshDevices_Click" DockPanel.Dock="Right" />
+                                    <TextBlock Text="Microphone" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                </DockPanel>
+                                <ListBox x:Name="MicrophoneDevices" Grid.Row="1" Style="{StaticResource AudioDeviceCards}"
+                                         PreviewMouseLeftButtonDown="OutputDevices_PreviewMouseLeftButtonDown"
+                                         SelectionChanged="AudioDeviceCard_Selected" SizeChanged="AudioDeviceCards_SizeChanged"
+                                         AutomationProperties.Name="Microphone input device cards" />
+                                <TextBlock x:Name="MicrophoneDevicesEmpty" Grid.Row="1" Text="No microphones found. Connect one, then Refresh."
+                                           Visibility="Collapsed" TextWrapping="Wrap" Margin="8" IsHitTestVisible="False"
+                                           Foreground="{DynamicResource ThemeMuted}" />
+                                <Grid x:Name="MicrophoneDevicePager" Grid.Row="2" Height="32" Visibility="Collapsed">
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                                    <Button x:Name="MicrophonePreviousPage" Content="&lt;" Tag="-1" Click="MicrophoneDevicePage_Click" AutomationProperties.Name="Previous microphone device cards" />
+                                    <TextBlock x:Name="MicrophoneDevicePageText" Grid.Column="1" FontSize="10" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                    <Button x:Name="MicrophoneNextPage" Grid.Column="2" Content="&gt;" Tag="1" Click="MicrophoneDevicePage_Click" AutomationProperties.Name="Next microphone device cards" />
+                                </Grid>
+                            </Grid>
+                        </UniformGrid>
+                        <WrapPanel Grid.Row="2" Margin="0,5,0,0">
+                            <Button x:Name="AudioAdvancedToggle" Content="Service setup" Click="AudioAdvanced_Click" />
+                            <Button Content="Clear transcript" Click="ClearTranscript_Click" />
+                            <Button Content="Done" Click="AudioSetup_Click" />
+                        </WrapPanel>
+                        <StackPanel x:Name="AudioAdvancedPanel" Grid.Row="3" Visibility="Collapsed">
+                            <TextBlock Text="Local service token (session only)" FontSize="11" />
+                            <PasswordBox x:Name="ServiceToken" Padding="4" Margin="0,2" IsEnabled="False"
+                                         AutomationProperties.Name="Local transcription service token" />
+                            <TextBlock x:Name="AudioEditHint" Text="Edit mode enables token entry and transcript export."
+                                       FontSize="11" Foreground="{DynamicResource ThemeMuted}" TextWrapping="Wrap" />
+                            <TextBlock Text="Separate local tracks; no chat access. Computer includes other apps/sidetone. Use headphones; Windows may show a mic indicator."
+                                       FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource ThemeMuted}" />
+                        </StackPanel>
+                    </Grid>
                 </Border>
             </Grid>
             <Border Grid.Row="5" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="0,1,0,0"
-                    Background="{DynamicResource ThemeSurface}" Padding="9,3">
+                    Background="{DynamicResource ThemeSurface}" Padding="7,1">
                 <DockPanel>
                     <Button x:Name="NotesToggleButton" Content="Notes &#x25B8;" Click="NotesToggle_Click"
                             AutomationProperties.Name="Expand or collapse speaker notes" DockPanel.Dock="Left" />
                     <TextBlock x:Name="DocumentStatus" Text="New note / no automatic saving" FontSize="11"
-                               Foreground="{DynamicResource ThemeMuted}" Margin="8,0" VerticalAlignment="Center" />
+                               Foreground="{DynamicResource ThemeMuted}" Margin="6,0" VerticalAlignment="Center" />
                 </DockPanel>
             </Border>
-            <Grid x:Name="NotesSection" Grid.Row="6" Visibility="Collapsed" Margin="12,4,12,6">
+            <Grid x:Name="NotesSection" Grid.Row="6" Visibility="Collapsed" Margin="10,3,10,5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -283,18 +603,55 @@
                 </StackPanel>
                 <TextBox x:Name="NoteEditor" Grid.Row="2" Padding="7"
                          FontFamily="Consolas" FontSize="18" AcceptsReturn="True" AcceptsTab="True"
+                         Foreground="{DynamicResource ThemeHighContrastReading}" Opacity="1"
                          IsReadOnly="True" Focusable="False"
                          TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
                          HorizontalScrollBarVisibility="Auto" BorderThickness="0" Background="Transparent"
                          UndoLimit="100" TextChanged="Note_TextChanged" DataObject.Pasting="Note_Pasting"
                          AutomationProperties.Name="Speaker notes" />
             </Grid>
-            <StackPanel Grid.Row="7" Margin="12,1,12,8">
-                <TextBlock x:Name="StatusText" Text="Initializing capture exclusion..."
-                           FontSize="11" Foreground="{DynamicResource ThemeWarning}" TextWrapping="Wrap" />
-                <TextBlock Text="Ctrl+Alt+Space: hide/reveal  /  Ctrl+Alt+E: edit notes  /  relaunch: recover"
-                           FontSize="10" Foreground="{DynamicResource ThemeMuted}" TextWrapping="Wrap" Margin="0,4,0,0" />
+            <StackPanel Grid.Row="7" Margin="10,1,10,5">
+                <TextBlock x:Name="StatusText" Text="" FontSize="11"
+                           Foreground="{DynamicResource ThemeWarning}" TextWrapping="Wrap">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <WrapPanel>
+                    <TextBlock x:Name="ProtectionStatusText" Text="Capture protection pending" FontSize="10"
+                               Foreground="{DynamicResource ThemeMuted}" VerticalAlignment="Center" />
+                    <Button x:Name="ProtectionDetailsButton" Content="Details" Click="ProtectionDetails_Click"
+                            FontSize="10" Padding="5,2" MinHeight="20"
+                            AutomationProperties.Name="Show or hide capture protection limitations" />
+                    <TextBlock Text="Ctrl+Alt+Space: hide / recover" FontSize="10"
+                               Foreground="{DynamicResource ThemeMuted}" VerticalAlignment="Center" Margin="8,0,0,0" />
+                </WrapPanel>
+                <Border x:Name="ProtectionDetailsPanel" Visibility="Collapsed" Padding="6"
+                        Background="{DynamicResource ThemeSurface}" BorderBrush="{DynamicResource ThemeBorder}" BorderThickness="1">
+                    <TextBlock Text="Capture exclusion is requested from Windows, not guaranteed. This unqualified preview has not passed recipient-side tests for every capture method. Screen sharing, recording, window pickers, cursor, accessibility and OS indicators can behave differently. See the capture boundaries in the documentation."
+                               FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource ThemeText}" />
+                </Border>
             </StackPanel>
+        </Grid>
+            </Border>
+            <Border x:Name="CoverHost">
+                <Grid x:Name="CoverView" Background="Transparent">
+                    <TextBlock x:Name="CoverMessage" Text="NOTEPAD IS READY" FontSize="24" FontWeight="SemiBold"
+                               Foreground="{DynamicResource ThemeHighContrastReading}" TextWrapping="Wrap" TextAlignment="Center"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Margin="24,50,24,24"
+                               AutomationProperties.Name="NOTEPAD IS READY" />
+                </Grid>
+            </Border>
+            <Button x:Name="CoverToggleButton" Content="Cover" Width="68" Height="32" Margin="0,2,5,0"
+                    HorizontalAlignment="Right" VerticalAlignment="Top" Click="CoverToggle_Click"
+                    shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                    AutomationProperties.Name="Show notepad cover; transcription and answers keep running" />
         </Grid>
     </Border>
 </Window>

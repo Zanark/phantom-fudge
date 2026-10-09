@@ -1,0 +1,120 @@
+{
+  "phase": "Historical initial three-question authorization; superseded by summary-final.json",
+  "supersededBy": "summary-final.json",
+  "date": "2026-10-09",
+  "scope": "Synthetic public questions only; no audio, meeting, chat or organization-data tools",
+  "agencyVersion": "2026.10.7.4 / bcff2c0f",
+  "copilotEngineVersion": "1.0.92",
+  "transport": "Official ACP stdio NDJSON, protocol version 1",
+  "selectedModel": "gpt-5.4-mini",
+  "selectedReasoningEffort": "low",
+  "cloudQuestionCallsSubmitted": 3,
+  "remainingAuthorizedCloudQuestionCalls": 0,
+  "noInferencePreparation": {
+    "submitsModelPrompt": false,
+    "createsConversation": false,
+    "verifiedInitialWarmupMs": 17145,
+    "verifiedRepeatedWarmupMs": 9,
+    "receipt": "agency-transport-only-fixed.json"
+  },
+  "latency": {
+    "firstDirectTwoSum": {
+      "coldEngineReadyMs": 31256.2,
+      "newSessionMs": 3581.0,
+      "promptToFirstProviderTextMs": 2683.9,
+      "coldLaunchToFirstProviderTextMs": 37521.1,
+      "promptToTerminalMs": 4593.6,
+      "coldLaunchToTerminalMs": 39434.1
+    },
+    "secondDirectTwoSumFreshSessionSameProcess": {
+      "newSessionMs": 1471.0,
+      "promptToFirstProviderTextMs": 1474.6,
+      "askToFirstProviderTextMs": 2945.6,
+      "promptToTerminalMs": 3906.1,
+      "askToTerminalMs": 5377.1
+    },
+    "ambiguousSyntheticWordingProductionProvider": {
+      "warmupMs": 23397,
+      "askToFirstProviderTextMs": 5737,
+      "askToCompletedAndSessionClosedMs": 7171,
+      "totalIncludingProviderDisposalMs": 41299
+    },
+    "limitations": [
+      "Provider first text is not a measured WPF paint timestamp.",
+      "ACP exposes prompt submission, not the server's actual model-call-start timestamp.",
+      "These are three different synthetic questions, not a matched repeated p50/p95 study.",
+      "The historical 69.881-second Sonnet marker smoke used a different prompt and was not a paired baseline.",
+      "Cold initialization remains variable and can take tens of seconds; no guaranteed sub-five-second claim.",
+      "The app does not request retries; opaque upstream retry attempts are not observable through ACP."
+    ]
+  },
+  "quality": {
+    "firstTwoAnswers": "Direct algorithm explanations, C# implementations and O(n) time/space; no workspace exploration or tool commands",
+    "generatedCSharp": "Both actual returned implementations compiled; 12 checks passed across standard, duplicate, negative, zero and no-pair cases",
+    "ambiguousQuestion": "Asked for the missing problem statement rather than inventing a Two Sum correction",
+    "ambiguousInputProvenance": "Original synthetic variation, not claimed to be an exact copy of the owner's reported bad ASR sentence",
+    "hardCodedProductionSolution": false
+  },
+  "zeroToolEvidence": {
+    "installedEngineOfflineWireRequests": 2,
+    "toolsCounts": [0, 0],
+    "userMessageCounts": [1, 1],
+    "exactEnvelopePresent": [true, true],
+    "liveToolNotificationsSeen": false,
+    "liveUsageCheckpointToolCount": null,
+    "explanation": "Pinned engine's actual offline POSTs confirmed empty tool lists and isolated fresh sessions. ACP does not expose the one-shot JSON usage_checkpoint; live tool/client requests are rejected, not permitted."
+  },
+  "safety": {
+    "allowlist": "phantom_fudge_no_tools",
+    "emptyAllowlistUsed": false,
+    "newLoginObserved": false,
+    "loginCommandIssued": false,
+    "providerFallback": false,
+    "questionFormat": "Fixed direct-answer policy plus one JSON userQuestion field preserving ExactText; @ escaped as JSON data",
+    "sourceRefsNotesOrPreviousQuestionsAdded": false,
+    "profile": "Fresh owned HOME/USERPROFILE/COPILOT_HOME/work, no MCPs/plugins/custom instructions, fixed safety settings, no conversation resume/load",
+    "retention": "Agency/Copilot may retain their own session artifacts inside the isolated engine directory until Stop/Dispose/rotation. Every conversation is closed and never reused. At most 32 conversations per owned engine; all owned files removed on shutdown, cancellation or failure.",
+    "authLimit": "Authentication notices stop the owned process; this is not a universal guarantee that an external wrapper can never display expired-auth UI."
+  },
+  "validation": {
+    "command": "dotnet test .\\tests\\PhantomFudge.Core.Tests -c Release --no-restore --filter \"FullyQualifiedName~Agency|FullyQualifiedName~CopilotJsonProtocol\" --verbosity quiet",
+    "passed": 99,
+    "failed": 0,
+    "buildWarnings": 0,
+    "coverage": [
+      "Exact envelope and invalid Unicode rejection",
+      "No question/session during warmup",
+      "Fresh session IDs and no prior user-message history",
+      "Strict terminal end_turn plus acknowledged session/close",
+      "Tool, permission, plan and stale-session rejection",
+      "Explicit model/reasoning/permission confirmation before question submission",
+      "Cancellation, timeout, warmup-stop, iterator abandonment and cleanup",
+      "Version-cache invalidation and bounded engine rotation",
+      "Exactly one provider-first-text timing event",
+      "Owned-profile customization rejection"
+    ],
+    "regressionFoundAndFixed": "No-prompt production validation found Agency's cosmetic companyAnnouncements field. Semantic settings validation now preserves every safety field while permitting only a bounded display-only announcement array; actual repeated warmup passed afterward."
+  },
+  "parentIntegrationRequired": [
+    "Retain one AgencyCliAnswerProvider instance for the current AnswerSettings instead of constructing it for every Ask.",
+    "Call public WarmUpAsync(CancellationToken) when the explicit Agency configuration is loaded or revealed. It prepares only the transport, never an inferred question.",
+    "Continue passing the unchanged AnswerRequest(RequestId, ExactText) to StreamAsync. No common contract change is required.",
+    "Call public StopAsync() after cancelling the active run on Hide, Clear and protection failure. Await cleanup before starting another run.",
+    "Call DisposeAsync() on provider replacement, configuration reload and window/application close.",
+    "Show preparing/ready states without blocking typing. An Ask during warmup waits on the same owned provider gate.",
+    "Diagnostics use ProviderLaunch, ProviderVersion, ProviderReady, ModelStarted code acp_prompt_submitted, FirstAnswerText code provider_delta, AnswerCompleted and RequestCleanup. Keep the app-visible timestamp distinct, e.g. code ui_visible.",
+    "Default Agency model is now explicitly gpt-5.4-mini with low effort; an explicitly configured different model must still confirm low effort and restricted permissions. No silent fallback."
+  ],
+  "receipts": [
+    "acp-offline.json",
+    "acp-live.json",
+    "agency-provider-live.json",
+    "agency-transport-only.json",
+    "acp-profile-qualification.json",
+    "agency-transport-only-fixed.json"
+  ],
+  "officialReferences": [
+    "https://docs.github.com/en/copilot/reference/copilot-cli-reference/acp-server",
+    "https://agentclientprotocol.com/protocol/v1/session-setup"
+  ]
+}

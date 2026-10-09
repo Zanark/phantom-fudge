@@ -1,0 +1,26 @@
+flowchart TD
+    accTitle: Synthetic measurement paths and score preservation
+    accDescr: Original text becomes file-only PCM. Historical batch timing and paced service timing remain separate before common scoring and guarded synthetic receipt compilation.
+    Text["Authored corpus"] --> Sapi["Installed SAPI voices"]
+    Sapi --> Pcm["Hashed PCM and controls"]
+    Pcm --> Batch["Historical batch workers"]
+    Pcm --> Quality["Ephemeral production service"]
+    Batch --> Throughput["Load warmup decode RTF"]
+    Quality --> Timing["Ready partial final Stop times"]
+    Quality --> Ledger["Dual-source span ledger"]
+    Throughput --> Scores["Shared normalized WER"]
+    Timing --> Scores
+    Scores --> Receipt["Checked synthetic receipt"]
+    Ledger --> Receipt
+    Receipt --> Cer["Secondary CER and retained failures"]
+    style Text fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Sapi fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Pcm fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Batch fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Quality fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Throughput fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Timing fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Ledger fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Scores fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Receipt fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Cer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

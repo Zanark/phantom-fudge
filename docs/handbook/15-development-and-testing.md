@@ -71,7 +71,7 @@ Do not assume `dotnet test` alone executes its scenarios.
 The initialization script verifies the model manifest, creates a random local token if absent,
 restricts its Windows ACL, and creates/repairs the service-local Python environment as needed.
 Model download is explicit; it is not performed silently while handling live audio
-(`scripts\Initialize-Transcription.ps1:12-44`, `:65-140`).
+(`scripts\Initialize-Transcription.ps1:21-53`, `:65-140`).
 
 Use the documented setup command once, then ordinary builds/runs. Existing lock files should
 be respected. If a restore fails, inspect the actual failure rather than changing TLS settings
@@ -123,7 +123,7 @@ cache files even when they use different final output directories. Compile once,
 The documentation fixture must never use real notes or chat content. It has its own command
 line path and validates a synthetic/no-recording result before copying images
 (`src\PhantomFudge.App\App.xaml.cs:47-59`,
-`scripts\Export-HandbookScreenshots.ps1:1-81`). A screenshot request is not authorization to
+`scripts\Export-HandbookScreenshots.ps1:1-89`). A screenshot request is not authorization to
 capture a meeting or disable display affinity.
 
 ## Failure tests worth keeping
@@ -143,7 +143,7 @@ synthetic sentence does not prove every cancellation path.
 
 Record source identity, environment, exact command, pass/failure, sample size and limitations.
 The implementation-status document is a bounded receipt, not a badge that everything is safe
-(`docs\IMPLEMENTATION-STATUS.md:1-92`).
+(`docs\IMPLEMENTATION-STATUS.md:1-189`).
 
 For capture, an in-process `RenderTargetBitmap` image proves UI appearance. A cropped GDI
 fixture proves only the sampled local path. Neither proves what a remote participant sees.
@@ -165,6 +165,6 @@ supposed to be capturable.
 - `tests\PhantomFudge.Core.Tests\PhantomFudge.Core.Tests.csproj:1-24` — xUnit runner.
 - `tests\PhantomFudge.Audio.Tests\PhantomFudge.Audio.Tests.csproj:1-13` — executable harness.
 - `tests\PhantomFudge.Audio.Tests\Program.cs:18-71` — synthetic group execution.
-- `scripts\Initialize-Transcription.ps1:12-140` — environment/model/token setup.
+- `scripts\Initialize-Transcription.ps1:21-165` — environment/model/token setup.
 - `scripts\Test-NativeLifecycle.ps1:16-113` — owned-process testing.
 - `docs\QUALIFICATION.md:1-26` — evidence separation.

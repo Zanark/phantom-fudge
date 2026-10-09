@@ -1,0 +1,364 @@
+{
+  "reviewedSource": [
+    {
+      "trial": 1,
+      "sourceSha256": "9094b994ad3ec5d580fedb2f10416ba6a8daa7a0a27afcfc19f285845c4f5bb3"
+    },
+    {
+      "trial": 2,
+      "sourceSha256": "87eddf8651ed9cab1b3604fccc39ebce9263b344824f93dedd9eef173f7839bc"
+    },
+    {
+      "trial": 3,
+      "sourceSha256": "5c66ed7a28ce786e1ed742321e4774dacdbc7e8b75fe97556e558a1243e1c5cb"
+    },
+    {
+      "trial": 4,
+      "sourceSha256": "8f3641095516e9b783381f8834bdc25ad0732f9e36ec40b0a5e7fda4d8e24318"
+    },
+    {
+      "trial": 5,
+      "sourceSha256": "87eddf8651ed9cab1b3604fccc39ebce9263b344824f93dedd9eef173f7839bc"
+    },
+    {
+      "trial": 6,
+      "sourceSha256": "87eddf8651ed9cab1b3604fccc39ebce9263b344824f93dedd9eef173f7839bc"
+    }
+  ],
+  "compiled": true,
+  "checks": [
+    {
+      "trial": 1,
+      "name": "basic",
+      "passed": true
+    },
+    {
+      "trial": 1,
+      "name": "duplicates",
+      "passed": true
+    },
+    {
+      "trial": 1,
+      "name": "indices",
+      "passed": true
+    },
+    {
+      "trial": 1,
+      "name": "negative",
+      "passed": true
+    },
+    {
+      "trial": 1,
+      "name": "zeros",
+      "passed": true
+    },
+    {
+      "trial": 1,
+      "name": "max-overflow-false-pair",
+      "passed": false
+    },
+    {
+      "trial": 1,
+      "name": "min-overflow-false-pair",
+      "passed": false
+    },
+    {
+      "trial": 1,
+      "name": "opposite-extremes",
+      "passed": true
+    },
+    {
+      "trial": 1,
+      "name": "min-target",
+      "passed": true
+    },
+    {
+      "trial": 1,
+      "name": "max-target",
+      "passed": true
+    },
+    {
+      "trial": 1,
+      "name": "no-pair",
+      "passed": true
+    },
+    {
+      "trial": 2,
+      "name": "basic",
+      "passed": true
+    },
+    {
+      "trial": 2,
+      "name": "duplicates",
+      "passed": true
+    },
+    {
+      "trial": 2,
+      "name": "indices",
+      "passed": true
+    },
+    {
+      "trial": 2,
+      "name": "negative",
+      "passed": true
+    },
+    {
+      "trial": 2,
+      "name": "zeros",
+      "passed": true
+    },
+    {
+      "trial": 2,
+      "name": "max-overflow-false-pair",
+      "passed": false
+    },
+    {
+      "trial": 2,
+      "name": "min-overflow-false-pair",
+      "passed": false
+    },
+    {
+      "trial": 2,
+      "name": "opposite-extremes",
+      "passed": true
+    },
+    {
+      "trial": 2,
+      "name": "min-target",
+      "passed": true
+    },
+    {
+      "trial": 2,
+      "name": "max-target",
+      "passed": true
+    },
+    {
+      "trial": 2,
+      "name": "no-pair",
+      "passed": true
+    },
+    {
+      "trial": 3,
+      "name": "basic",
+      "passed": true
+    },
+    {
+      "trial": 3,
+      "name": "duplicates",
+      "passed": true
+    },
+    {
+      "trial": 3,
+      "name": "indices",
+      "passed": true
+    },
+    {
+      "trial": 3,
+      "name": "negative",
+      "passed": true
+    },
+    {
+      "trial": 3,
+      "name": "zeros",
+      "passed": true
+    },
+    {
+      "trial": 3,
+      "name": "max-overflow-false-pair",
+      "passed": false
+    },
+    {
+      "trial": 3,
+      "name": "min-overflow-false-pair",
+      "passed": false
+    },
+    {
+      "trial": 3,
+      "name": "opposite-extremes",
+      "passed": true
+    },
+    {
+      "trial": 3,
+      "name": "min-target",
+      "passed": true
+    },
+    {
+      "trial": 3,
+      "name": "max-target",
+      "passed": true
+    },
+    {
+      "trial": 3,
+      "name": "no-pair",
+      "passed": true
+    },
+    {
+      "trial": 4,
+      "name": "basic",
+      "passed": true
+    },
+    {
+      "trial": 4,
+      "name": "duplicates",
+      "passed": true
+    },
+    {
+      "trial": 4,
+      "name": "indices",
+      "passed": true
+    },
+    {
+      "trial": 4,
+      "name": "negative",
+      "passed": true
+    },
+    {
+      "trial": 4,
+      "name": "zeros",
+      "passed": true
+    },
+    {
+      "trial": 4,
+      "name": "max-overflow-false-pair",
+      "passed": true
+    },
+    {
+      "trial": 4,
+      "name": "min-overflow-false-pair",
+      "passed": true
+    },
+    {
+      "trial": 4,
+      "name": "opposite-extremes",
+      "passed": true
+    },
+    {
+      "trial": 4,
+      "name": "min-target",
+      "passed": true
+    },
+    {
+      "trial": 4,
+      "name": "max-target",
+      "passed": true
+    },
+    {
+      "trial": 4,
+      "name": "no-pair",
+      "passed": true
+    },
+    {
+      "trial": 5,
+      "name": "basic",
+      "passed": true
+    },
+    {
+      "trial": 5,
+      "name": "duplicates",
+      "passed": true
+    },
+    {
+      "trial": 5,
+      "name": "indices",
+      "passed": true
+    },
+    {
+      "trial": 5,
+      "name": "negative",
+      "passed": true
+    },
+    {
+      "trial": 5,
+      "name": "zeros",
+      "passed": true
+    },
+    {
+      "trial": 5,
+      "name": "max-overflow-false-pair",
+      "passed": false
+    },
+    {
+      "trial": 5,
+      "name": "min-overflow-false-pair",
+      "passed": false
+    },
+    {
+      "trial": 5,
+      "name": "opposite-extremes",
+      "passed": true
+    },
+    {
+      "trial": 5,
+      "name": "min-target",
+      "passed": true
+    },
+    {
+      "trial": 5,
+      "name": "max-target",
+      "passed": true
+    },
+    {
+      "trial": 5,
+      "name": "no-pair",
+      "passed": true
+    },
+    {
+      "trial": 6,
+      "name": "basic",
+      "passed": true
+    },
+    {
+      "trial": 6,
+      "name": "duplicates",
+      "passed": true
+    },
+    {
+      "trial": 6,
+      "name": "indices",
+      "passed": true
+    },
+    {
+      "trial": 6,
+      "name": "negative",
+      "passed": true
+    },
+    {
+      "trial": 6,
+      "name": "zeros",
+      "passed": true
+    },
+    {
+      "trial": 6,
+      "name": "max-overflow-false-pair",
+      "passed": false
+    },
+    {
+      "trial": 6,
+      "name": "min-overflow-false-pair",
+      "passed": false
+    },
+    {
+      "trial": 6,
+      "name": "opposite-extremes",
+      "passed": true
+    },
+    {
+      "trial": 6,
+      "name": "min-target",
+      "passed": true
+    },
+    {
+      "trial": 6,
+      "name": "max-target",
+      "passed": true
+    },
+    {
+      "trial": 6,
+      "name": "no-pair",
+      "passed": true
+    }
+  ],
+  "failure": null,
+  "passed": 56,
+  "failed": 10
+}

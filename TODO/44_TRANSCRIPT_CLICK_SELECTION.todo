@@ -1,0 +1,68 @@
+# Direct multi-line transcript questions
+
+Status: DONE
+Milestone: Direct question composition
+Dependencies: 28_QUESTION_DRAFTS.todo, 40_EXPANDED_READABLE_WORKSPACE.todo
+
+## Purpose
+
+Click one or more Mic/Computer transcript lines directly to populate the question editor.
+
+## Tasks and acceptance
+
+- [x] Click toggles each whole transcript segment without Ctrl; combine Mic/Computer in displayed order.
+- [x] Retain immutable TranscriptRow/TranscriptSegment identity and exact raw text, not parsed prefixes.
+- [x] Use QuestionDraft.ReplaceSelection for one session,256entries/8192UTF-16 units including newlines;
+  reject atomically without truncation.
+- [x] Retain visible history beyond smaller chooser eviction; preserve archived unfinished identity
+  and exclude separators from selection.
+- [x] Partial/final updates preserve selection until edits; direct changes after editing retain the
+  draft/highlights with inline status until Clear question. Frozen requests remain unchanged.
+- [x] Open Q/A and independent question editing, closing source/setup/Notes without stopping
+  transcription or sending/creating a snapshot. Preserve the manual Choose source/Use selected path.
+- [x] Preserve transparent backgrounds, high-contrast text and accent outlines; new finals follow only
+  when already at end. Native keyboard/automation SelectionChanged uses the same composition path.
+- [x] Update usage/architecture/handbook prose, README, product/status, index and public journal.
+- [x] Finish synthetic interaction/test evidence and final screenshot re-export:20direct-selection
+  checks and existing UI guards pass; targeted Core118pass;16WPF/5READMEimages refreshed.
+- [x] Migrate baseline citations, rebuild/review the full handbook and refreshed illustrations,
+  and run its final freshness check.
+- [x] Record final handoff/status after evidence review; do not infer owner or capture qualification.
+
+## Implementation and delivery
+
+- Direct rows/composition: src\PhantomFudge.App\MainWindow.TranscriptSelection.cs.
+- Synthetic fixture: src\PhantomFudge.App\MainWindow.TranscriptSelectionDiagnostics.cs;
+  actual image docs\handbook\assets\screenshots\transcript-multiselect.png.
+- Draft limits/lifetimes: unchanged QuestionDraft, TranscriptSegment, StructuredTranscriptStore and
+  TranscriptBuffer in src\PhantomFudge.Core. Main history follows the250000-character final/session
+  buffer bound, not the chooser's256entry/64000character retention window.
+- Source-only via scripts\Run-PhantomFudge.ps1. No new ZIP planned. Historical045022ZIP is immutable
+  and does not contain click selection; save/copy needed content and close the old app before launch.
+
+## Evidence boundary
+
+- Final combined source/UI PASS: .local\handbook-capture-20261009-105245\result.json and
+  transcript-selection.json. All20direct-selection booleans are true, including Clear transcript
+  retaining the copied question; existing question/answer/minimum/responsive/alpha/cursor/style
+  guards also pass. Receipts report zero model/cloud requests and no recording/audio capture.
+- Parent reports targeted existing Core question/transcript suite118PASS and exporter refresh of
+  16synthetic WPF images plus5READMEderivatives. Runtime is frozen; this is source-only evidence,
+  not a new package, live-device validation, recipient qualification or owner acceptance.
+- Combined citation migration, full handbook/illustration review and local completion are finished.
+- Documentation review uses read-only source and the supplied synthetic image. No live microphone,
+  model/org access, new login, service operation or recorder qualification was performed for it.
+- Existing numeric references were migrated once from the retained pre-selection source baseline.
+  New selection facts use reviewed source ranges or named-method links; do not repeat the migration.
+
+## Completion log
+
+- 2026-10-09 10:07 request - Owner requested direct transcript-line selection, then explicitly added
+  multiple lines. Source behavior and scoped prose are implemented; final evidence/book handoff open.
+- 2026-10-09 10:30 evidence handoff - Final source/UI20checks and targeted Core118PASS; exporter
+  refreshed16WPF/5READMEimages. After the first smoke, final changes exposed retained-edit status
+  when Q/A was hidden and added the clear-transcript/draft regression with a readable fixture reset.
+  Implementation and synthetic validation complete; runtime frozen, citation/book stage pending.
+- 2026-10-09 - Combined handoff completed with45:270affected Core tests,20selection checks,
+  16clarification checks and all existing UI guards;17WPF+5READMEimages,51diagrams and full HTML/PDF.
+  Recipient/owner/live-model qualification remains separate; no new ZIP or service change.

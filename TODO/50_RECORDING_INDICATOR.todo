@@ -1,0 +1,23 @@
+# Active transcription recording indicator
+
+Status: DONE
+Milestone: Visible live-capture state
+Dependencies: 26_MICROPHONE_AND_COMPUTER.todo
+
+## Scope and evidence
+
+- [x] Add a red12-unit recording dot beside the transcript heading/Start controls.
+- [x] Drive it from transcriber.IsRunning during the existing control/status lifecycle.
+- [x] Keep it hidden while stopped/starting and after stop/fault; preserve a stable layout slot.
+- [x] Provide an accessible name and high-contrast outline without a popup or new window.
+- [x] Exercise synthetic stopped/starting/active/stopped presentation across all themes.
+- [x] Update source annotations, images, guides and both documentation editions.
+
+The123448synthetic fixture passes recordingIndicatorChecks and all existing layout/lifecycle guards.
+The active screenshot explicitly identifies synthetic state; no input endpoint or model was opened.
+The indicator means active transcription, not raw-audio persistence or physical-driver qualification.
+Source-only delivery; owner app/service and historical ZIP remain unchanged.
+
+## Completion log
+
+- 2026-10-09 12:30 - Owner requested a red icon while transcription is in recording mode.

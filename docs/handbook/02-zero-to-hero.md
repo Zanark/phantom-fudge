@@ -75,7 +75,7 @@ It passes the token through the child environment rather than printing it
 
 Then follow `App.OnStartup`: a normal launch establishes per-user ownership and either reveals
 the existing process or constructs a new protected window
-(`src\PhantomFudge.App\App.xaml.cs:62-82`). This explains why double-clicking an updated EXE
+(`src\PhantomFudge.App\App.xaml.cs:62-97`). This explains why double-clicking an updated EXE
 while an old instance is running does not necessarily replace the old UI.
 
 ### Path B: one utterance
@@ -84,7 +84,7 @@ An explicit Start selects inputs. PCM bytes are tagged with their source, sent o
 local socket, decoded independently, and returned as partial/final events. The buffer must
 clear only the partial corresponding to a final's source. Do not read "partial" as a promise
 that every character is settled (`src\PhantomFudge.Core\TranscriptBuffer.cs:14-19`,
-`src\PhantomFudge.Core\TranscriptBuffer.cs:41-72`; `docs\DUAL-SOURCE-AUDIO.md:28-76`).
+`src\PhantomFudge.Core\TranscriptBuffer.cs:41-72`; `docs\DUAL-SOURCE-AUDIO.md:28-84`).
 
 ```mermaid
 ---
@@ -151,8 +151,8 @@ An `await` does not mean "nothing else can happen." The WPF dispatcher can proce
 user action while an operation awaits I/O. Conversely, doing CPU recognition on an event loop
 can prevent other requests from being handled. The server therefore uses a bounded worker
 for native recognition, while native startup is kept away from a blocked WPF dispatcher
-(`services\transcription\server.py:109-142`,
-`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:109-127`).
+(`services\transcription\server.py:115-181`,
+`src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:110-128`).
 
 Three questions prevent many mistakes:
 
@@ -185,7 +185,7 @@ the default suite (`tests\PhantomFudge.Audio.Tests\Program.cs:18-71`).
 The documentation command renders actual WPF controls with synthetic text/device labels. It is
 not a Snipping Tool workaround for capturing someone else's private window
 (`src\PhantomFudge.App\App.xaml.cs:54-59`,
-`scripts\Export-HandbookScreenshots.ps1:1-81`).
+`scripts\Export-HandbookScreenshots.ps1:1-89`).
 
 ## How to avoid learning the wrong lesson
 
@@ -203,7 +203,7 @@ test/documentation improvement that follows one real invariant end to end.
 - `src\PhantomFudge.Core\PhantomFudge.Core.csproj:1-5` — platform-independent policy layer.
 - `src\PhantomFudge.Core\AudioSource.cs:3-30` — typed input identity.
 - `scripts\Run-PhantomFudge.ps1:8-57` — launch/reuse/token boundary.
-- `src\PhantomFudge.App\App.xaml.cs:13-82` — entry paths.
+- `src\PhantomFudge.App\App.xaml.cs:13-97` — entry paths.
 - `services\transcription\requirements.txt:1-20` — Python dependency baseline.
 - `tests\PhantomFudge.Audio.Tests\Program.cs:18-71` — synthetic test entry.
-- `docs\DUAL-SOURCE-AUDIO.md:28-76` — byte contract.
+- `docs\DUAL-SOURCE-AUDIO.md:28-84` — byte contract.

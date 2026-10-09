@@ -14,6 +14,11 @@ New-Item -ItemType Directory -Force -Path $destination | Out-Null
 $variants = @(
     @{ source = 'transcript-deepseafoam.png'; file = 'transcript.png'; background = '#000F13' },
     @{ source = 'answer-synthetic.png'; file = 'question.png'; background = '#000F13' },
+    @{ source = 'audio-setup.png'; file = 'audio-devices.png'; background = '#000F13' },
+    @{ source = 'recording-active.png'; file = 'recording.png'; background = '#000F13' },
+    @{ source = 'transcript-multiselect.png'; file = 'selection.png'; background = '#000F13' },
+    @{ source = 'question-clarification.png'; file = 'clarification.png'; background = '#000F13' },
+    @{ source = 'notepad-cover.png'; file = 'cover.png'; background = '#000F13' },
     @{ source = 'theme-DeepSeaFoam.png'; file = 'deepseafoam.png'; background = '#000F13' },
     @{ source = 'theme-HarborDaylight.png'; file = 'harbor-daylight.png'; background = '#F3F2E9' },
     @{ source = 'theme-Plain.png'; file = 'plain.png'; background = '#FAF9F6' }

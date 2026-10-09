@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "description": "Optional general programming vocabulary. Individual terms only; never reference sentences, prior transcripts or user content.",
+  "terms": [
+    "LeetCode", "GitHub", "Python", "Java", "JavaScript", "TypeScript", "C#", "C++",
+    "SQL", "API", "JSON", "HTTP", "array", "hash map", "dictionary", "linked list",
+    "binary search", "stack", "queue", "recursion", "algorithm", "asynchronous",
+    "thread", "mutex", "cache", "timeout", "exception", "compiler", "database"
+  ]
+}

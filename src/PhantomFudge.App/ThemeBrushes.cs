@@ -17,7 +17,8 @@ internal static class ThemeBrushes
             ["ThemeAccent"] = palette.Accent, ["ThemeHover"] = palette.Hover,
             ["ThemeSelection"] = palette.Selection, ["ThemeSelectionText"] = palette.SelectionText,
             ["ThemeActionText"] = palette.ActionText, ["ThemeInput"] = palette.Input,
-            ["ThemeWarning"] = palette.Warning, ["ThemeError"] = palette.Error
+            ["ThemeWarning"] = palette.Warning, ["ThemeError"] = palette.Error,
+            ["ThemeHighContrastReading"] = palette.HighContrastReading
         };
         foreach (var (key, value) in colors)
             resources[key] = Brush(value);

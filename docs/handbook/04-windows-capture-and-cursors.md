@@ -8,7 +8,7 @@ outline: deep
 
 ## Overview: four questions, not one invisibility switch
 
-A presentation aid has two audiences: the person reading its local window and the people receiving a captured presentation. Those audiences do not necessarily receive the same pixels. Phantom Fudge asks Windows to exclude its window from supported capture paths; it does not make the process nonexistent, encrypt the desktop, or control another program's recording implementation. `WindowProtection.Configure` performs a native configuration operation, not a recipient-side test. This distinction is the foundation of the feature, rather than a disclaimer added after it. (src\PhantomFudge.App\Native\WindowProtection.cs:18-46)
+A presentation aid has two audiences: the person reading its local window and the people receiving a captured presentation. Those audiences do not necessarily receive the same pixels. Phantom Fudge asks Windows to exclude its window from supported capture paths; it does not make the process nonexistent, encrypt the desktop, or control another program's recording implementation. `WindowProtection.Configure` performs a native configuration operation, not a recipient-side test. This distinction is the foundation of the feature, rather than a disclaimer added after it. (src\PhantomFudge.App\Native\WindowProtection.cs:19-49)
 
 Keep four observations separate:
 
@@ -19,13 +19,13 @@ Keep four observations separate:
 | Does a sharing picker list it? | The particular picker's behavior; not established by tool-window style |
 | What does the audience actually receive? | Independent recipient frames and recordings for that exact configuration |
 
-The qualification plan explicitly separates these dimensions. A successful API call cannot fill in the other three columns. Nor does a visible local Arrow establish that a recorder includes the pointer. (docs\QUALIFICATION.md:9-26; docs\CURSOR-AND-THEMES.md:21-37)
+The qualification plan explicitly separates these dimensions. A successful API call cannot fill in the other three columns. Nor does a visible local Arrow establish that a recorder includes the pointer. (docs\QUALIFICATION.md:9-26; docs\CURSOR-AND-THEMES.md:38-54)
 
 **Newcomer path:** follow startup, then read the cursor section. **Principal-engineer path:** inspect the native error semantics, invalidation ordering, and evidence limits. [Chapter 11](11-state-machines-and-failure-containment.md) connects this window lifecycle to asynchronous audio shutdown.
 
 ## Architecture: one content surface, several independent policies
 
-The production surface is a topmost, layered WPF window with a generic title, no ordinary taskbar entry, transparent window background, and custom move/resize chrome. The root content is not click-through. Capture affinity belongs to the native window handle, whereas text controls and inline panels belong to its WPF visual tree. A panel inside that tree is not equivalent to a separate native dialog. (src\PhantomFudge.App\MainWindow.xaml:1-15,70-85,107-143)
+The production surface is a topmost, layered WPF window with a generic title, no ordinary taskbar entry, transparent window background, and custom move/resize chrome. The root content is not click-through. Capture affinity belongs to the native window handle, whereas text controls and inline panels belong to its WPF visual tree. A panel inside that tree is not equivalent to a separate native dialog. (src\PhantomFudge.App\MainWindow.xaml:1-110,168-183,500-570)
 
 ```mermaid
 ---
@@ -51,24 +51,31 @@ flowchart LR
     style Evidence fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
 ```
 
-The dotted edge means “requires separate evidence,” not “automatically proves.” The implementation behind the solid edges is `OnStartup`, `ShowProtected`, and `WindowMessage`. (src\PhantomFudge.App\App.xaml.cs:62-75; src\PhantomFudge.App\MainWindow.xaml.cs:81-109,159-189)
+The dotted edge means “requires separate evidence,” not “automatically proves.” The implementation behind the solid edges is `OnStartup`, `ShowProtected`, and `WindowMessage`. (src\PhantomFudge.App\App.xaml.cs:62-75; src\PhantomFudge.App\MainWindow.xaml.cs:98-128,174-205)
 
 ## Components and ownership
 
 | Component | Responsibility and important boundary |
 | --- | --- |
-| `App.OnStartup` | Chooses the owning instance and calls `ShowProtected`; ordinary startup does not use `StartupUri`. (src\PhantomFudge.App\App.xaml.cs:62-83; src\PhantomFudge.App\App.xaml:1-4) |
-| `WindowProtection` | Checks Windows 11/DWM, adjusts native styles, requests affinity, and interprets readback. (src\PhantomFudge.App\Native\WindowProtection.cs:18-46) |
+| `App.OnStartup` | Chooses the owning instance and calls `ShowProtected`; ordinary startup does not use `StartupUri`. (src\PhantomFudge.App\App.xaml.cs:62-98; src\PhantomFudge.App\App.xaml:1-4) |
+| `WindowProtection` | Checks Windows 11/DWM, adjusts native styles, requests affinity, and interprets readback. (src\PhantomFudge.App\Native\WindowProtection.cs:19-49) |
 | `CursorPolicy` | Loads the standard Windows Arrow and sets the current cursor shape. (src\PhantomFudge.App\Native\CursorPolicy.cs:6-24) |
 | `WindowHotkeys` | Registers fixed Ctrl+Alt shortcuts with no-repeat behavior; does not hook arbitrary keystrokes. (src\PhantomFudge.App\Native\WindowHotkeys.cs:6-25) |
 | `SingleInstance` | Uses per-user instance naming and a narrow current-user pipe command. (src\PhantomFudge.App\Native\SingleInstance.cs:18-59) |
 | `LocalFailureNotice` | Writes a fixed generic failure message instead of opening a content-bearing error window. (src\PhantomFudge.App\LocalFailureNotice.cs:5-29) |
 
-The architecture document names additional target abstractions, including a surface registry. They should not be mistaken for classes already implemented: current orchestration lives principally in `MainWindow`. (docs\ARCHITECTURE.md:35-75; src\PhantomFudge.App\MainWindow.xaml.cs:19-46)
+The architecture document names additional target abstractions, including a surface registry. They should not be mistaken for classes already implemented: current orchestration lives principally in `MainWindow`. (docs\ARCHITECTURE.md:47-93; src\PhantomFudge.App\MainWindow.xaml.cs:21-48)
 
 ## Data flow: configuring before first show
 
-`App.OnStartup` constructs the window explicitly. `ShowProtected` marks protection unready, calls `Configure`, and only then marks it ready and invokes `Show`. The constructor prepares resources, handlers, and device enumeration; it does not start audio. Thus window creation, device discovery, visible presentation, and recording are distinct operations. (src\PhantomFudge.App\App.xaml.cs:70-75; src\PhantomFudge.App\MainWindow.xaml.cs:48-109,613-652)
+The current native setup also requests `DWMWA_DISALLOW_PEEK=true` for this HWND. This suppresses
+the documented taskbar-hover Peek surface where honored; it is not a process-hiding or arbitrary
+recorder-preview policy. A failing HRESULT follows the existing protection failure path.
+The local fixture establishes setter acceptance, not observed shell/recipient pixels.
+([Native setup](../../src/PhantomFudge.App/Native/WindowProtection.cs),
+[cover/privacy evidence](../COVER-AND-PRIVACY.md).)
+
+`App.OnStartup` constructs the window explicitly. `ShowProtected` marks protection unready, calls `Configure`, and only then marks it ready and invokes `Show`. The constructor prepares resources, handlers, and device enumeration; it does not start audio. Thus window creation, device discovery, visible presentation, and recording are distinct operations. (src\PhantomFudge.App\App.xaml.cs:70-75; src\PhantomFudge.App\MainWindow.xaml.cs:50-128,637-685)
 
 ```mermaid
 ---
@@ -98,48 +105,48 @@ sequenceDiagram
     end
 ```
 
-`Configure` calls `EnsureHandle`, which obtains an HWND without requiring an already-visible content window. It checks Windows build 22000 or later and requires desktop composition. It preserves unrelated extended-style bits, adds `WS_EX_TOOLWINDOW`, removes `WS_EX_APPWINDOW`, and conditionally sets `WS_EX_NOACTIVATE`. `SetWindowPos` refreshes the frame without moving, resizing, reordering, or activating it. (src\PhantomFudge.App\Native\WindowProtection.cs:12-36)
+`Configure` calls `EnsureHandle`, which obtains an HWND without requiring an already-visible content window. It checks Windows build 22000 or later and requires desktop composition. It preserves unrelated extended-style bits, adds `WS_EX_TOOLWINDOW`, removes `WS_EX_APPWINDOW`, and conditionally sets `WS_EX_NOACTIVATE`. `SetWindowPos` refreshes the frame without moving, resizing, reordering, or activating it. (src\PhantomFudge.App\Native\WindowProtection.cs:12-37)
 
-The affinity setter requests `0x11`, `WDA_EXCLUDEFROMCAPTURE`. A failed setter throws. A successful getter returning anything else also throws. An unavailable getter is recorded in `ProtectionResult`; it is not treated identically to contradictory readback. Finally, `DwmFlush` checks submitted composition work. None of these calls creates an independently observed capture-frame barrier. (src\PhantomFudge.App\Native\WindowProtection.cs:35-45,70; docs\ARCHITECTURE.md:110-113)
+The affinity setter requests `0x11`, `WDA_EXCLUDEFROMCAPTURE`. A failed setter throws. A successful getter returning anything else also throws. An unavailable getter is recorded in `ProtectionResult`; it is not treated identically to contradictory readback. Finally, `DwmFlush` checks submitted composition work. None of these calls creates an independently observed capture-frame barrier. (src\PhantomFudge.App\Native\WindowProtection.cs:36-48,73; docs\ARCHITECTURE.md:128-131)
 
 ### Why the native wrapper checks zero carefully
 
-`GetWindowLong`/`SetWindowLong` can return zero without implying failure. The wrapper clears the last-error slot first, performs the appropriate 32- or 64-bit call, then throws only when a zero result accompanies a nonzero error. This preserves the distinction between a legitimate zero value and an API failure. C# `nint` represents a native-sized integer; it is not the HWND's logical identity across arbitrary future replacements. (src\PhantomFudge.App\Native\WindowProtection.cs:48-68)
+`GetWindowLong`/`SetWindowLong` can return zero without implying failure. The wrapper clears the last-error slot first, performs the appropriate 32- or 64-bit call, then throws only when a zero result accompanies a nonzero error. This preserves the distinction between a legitimate zero value and an API failure. C# `nint` represents a native-sized integer; it is not the HWND's logical identity across arbitrary future replacements. (src\PhantomFudge.App\Native\WindowProtection.cs:51-71)
 
 ## Implementation: focus policy is not pointer capture policy
 
-Present starts with `presenting = true`. The window uses `ShowActivated=false`; native setup adds `WS_EX_NOACTIVATE`; `WM_MOUSEACTIVATE` returns `MA_NOACTIVATE` (`3`). These mechanisms reduce accidental foreground takeover while retaining deliberate pointer interaction. They do not forward clicks through the app. Edit reverses the interaction policy, enables note focus and input methods, and deliberately focuses the editor after successful reveal. (src\PhantomFudge.App\MainWindow.xaml.cs:31,179-183,229-266)
+Present starts with `presenting = true`. The window uses `ShowActivated=false`; native setup adds `WS_EX_NOACTIVATE`; `WM_MOUSEACTIVATE` returns `MA_NOACTIVATE` (`3`). These mechanisms reduce accidental foreground takeover while retaining deliberate pointer interaction. They do not forward clicks through the app. Edit reverses the interaction policy, enables note focus and input methods, and deliberately focuses the editor after successful reveal. (src\PhantomFudge.App\MainWindow.xaml.cs:33,195-199,245-284)
 
 Cursor shape is handled at two levels:
 
 1. WPF declares Arrow and `ForceCursor` on the window and text controls.
 2. `WindowMessage` handles `WM_SETCURSOR` for the owned HWND by calling `CursorPolicy.SetArrow`.
 
-The native policy loads resource `32512`, the standard Arrow. It does not replace system cursor resources or manipulate global visibility counters. Arrow is also used in Edit; editable text and an I-beam are not inseparable concepts. (src\PhantomFudge.App\MainWindow.xaml:6-9; src\PhantomFudge.App\App.xaml:48-76; src\PhantomFudge.App\MainWindow.xaml.cs:161-165; src\PhantomFudge.App\Native\CursorPolicy.cs:8-24)
+The native policy loads resource `32512`, the standard Arrow. It does not replace system cursor resources or manipulate global visibility counters. Arrow is also used in Edit; editable text and an I-beam are not inseparable concepts. (src\PhantomFudge.App\MainWindow.xaml:6-9; src\PhantomFudge.App\App.xaml:48-76; src\PhantomFudge.App\MainWindow.xaml.cs:176-180; src\PhantomFudge.App\Native\CursorPolicy.cs:8-24)
 
-A recorder may include, exclude, or separately composite cursor imagery. Consequently, the reported remote cursor disappearance remains unresolved until tested in the actual sharing product and mode. Local foreground preservation, native Arrow equality, and content-exclusion samples answer different questions. (docs\CURSOR-AND-THEMES.md:23-37)
+A recorder may include, exclude, or separately composite cursor imagery. Consequently, the reported remote cursor disappearance remains unresolved until tested in the actual sharing product and mode. Local foreground preservation, native Arrow equality, and content-exclusion samples answer different questions. (docs\CURSOR-AND-THEMES.md:40-54)
 
 ### Invalidation hides before waiting
 
-Display/DPI messages, selected session changes, and suspend/resume notifications dispatch `InvalidateAsync`. It clears `protectionReady`, hides immediately, then awaits audio Stop. That ordering avoids leaving content intentionally visible while cleanup drains. It cannot revoke frames already captured or make OS notifications instantaneous. Reveal deliberately re-runs `Configure`. (src\PhantomFudge.App\MainWindow.xaml.cs:184-213,133-145)
+Display/DPI messages, selected session changes, and suspend/resume notifications dispatch `InvalidateAsync`. It clears `protectionReady`, hides immediately, then awaits audio Stop. That ordering avoids leaving content intentionally visible while cleanup drains. It cannot revoke frames already captured or make OS notifications instantaneous. Reveal deliberately re-runs `Configure`. (src\PhantomFudge.App\MainWindow.xaml.cs:200-229,148-160)
 
-Ordinary Hide also stops transcription, but does not destroy the document or exit the process. Mode switching hides, stops audio, changes editability, and reconfigures before showing again. Theme, opacity, and Notes expansion are different operations: they update existing controls rather than changing this native policy. (src\PhantomFudge.App\MainWindow.xaml.cs:216-250,454-493)
+Ordinary Hide also stops transcription, but does not destroy the document or exit the process. Mode switching hides, stops audio, changes editability, and reconfigures before showing again. Theme, opacity, and Notes expansion are different operations: they update existing controls rather than changing this native policy. (src\PhantomFudge.App\MainWindow.xaml.cs:232-267,472-511)
 
-If reveal setup fails, `TryReveal` starts invalidation and records a fixed failure notice. Unsaved text remains in the running process, not in an automatic recovery file. `LocalFailureNotice.Record` overwrites one timestamped generic notice under `%LOCALAPPDATA%\PhantomFudge\last-window-error.txt`; it does not serialize the exception, note, transcript, or filename. Failure to write that notice produces another fixed console message. (src\PhantomFudge.App\MainWindow.xaml.cs:141-145; src\PhantomFudge.App\LocalFailureNotice.cs:9-29)
+If reveal setup fails, `TryReveal` starts invalidation and records a fixed failure notice. Unsaved text remains in the running process, not in an automatic recovery file. `LocalFailureNotice.Record` overwrites one timestamped generic notice under `%LOCALAPPDATA%\PhantomFudge\last-window-error.txt`; it does not serialize the exception, note, transcript, or filename. Failure to write that notice produces another fixed console message. (src\PhantomFudge.App\MainWindow.xaml.cs:156-160; src\PhantomFudge.App\LocalFailureNotice.cs:9-29)
 
 ### Recovery without a taskbar button
 
-The shortcuts are Ctrl+Alt+Space for visibility and Ctrl+Alt+E for deliberate editing. Registration failures produce an inline status while preserving second-launch recovery. These are fixed defaults, not a currently implemented configurable-hotkey UI. (src\PhantomFudge.App\MainWindow.xaml.cs:96-120,167-177; src\PhantomFudge.App\Native\WindowHotkeys.cs:12-17)
+The shortcuts are Ctrl+Alt+Space for visibility and Ctrl+Alt+E for deliberate editing. Registration failures produce an inline status while preserving second-launch recovery. These are fixed defaults, not a currently implemented configurable-hotkey UI. (src\PhantomFudge.App\MainWindow.xaml.cs:114-139,182-193; src\PhantomFudge.App\Native\WindowHotkeys.cs:12-17)
 
 `SingleInstance` derives a name from the current Windows SID, creates a session-local mutex, and exposes a `CurrentUserOnly` named pipe. A second launch sends six bytes, `REVEAL`, with a five-second connection deadline. The listener reads a six-byte command with a two-second request deadline; it does not deserialize notes, paths, scripts, or executable commands. This is narrow recovery IPC, not a general command server. (src\PhantomFudge.App\Native\SingleInstance.cs:18-75)
 
-`RevealAndReset` sizes and centers against `SystemParameters.WorkArea`, then uses the protected reveal path. That is useful recovery, but not persisted, mixed-monitor placement restoration. Minimum window dimensions still constrain what fits on a small work area. (src\PhantomFudge.App\MainWindow.xaml.cs:123-130; docs\IMPLEMENTATION-STATUS.md:171-179)
+`RevealAndReset` invokes monitor-aware clamping before protected reveal. `CurrentMonitorWorkArea` converts the HWND's nearest monitor work rectangle into WPF units, falling back to `SystemParameters.WorkArea` only when a handle or monitor query is unavailable. Recovery accounts for minimized restore bounds and can reduce minimum dimensions to fit a constrained work area; it is not persisted placement restoration or broad mixed-monitor qualification. (src\PhantomFudge.App\MainWindow.xaml.cs:142-145; src\PhantomFudge.App\MainWindow.Layout.cs:14-53; src\PhantomFudge.Core\WorkspaceLayout.cs:17-42)
 
 ### Why auxiliary surfaces change the problem
 
-Capture policy is applied to the HWND passed to the native setter, not to an abstract application identity. Consequently, moving a find box from an inline panel into a separate popup would change the surface inventory even if it looked almost identical. The current find and unsaved-confirmation controls are elements of `MainWindow.xaml`; text-box context menus and spell checking are disabled in the application style. These choices reduce additional app-generated surfaces, but do not establish that every framework helper, input-method candidate, or accessibility window has been qualified. (src\PhantomFudge.App\Native\WindowProtection.cs:23-36; src\PhantomFudge.App\MainWindow.xaml:70-85,278-283; src\PhantomFudge.App\App.xaml:48-50; docs\QUALIFICATION.md:120-122,139-140)
+Capture policy is applied to the HWND passed to the native setter, not to an abstract application identity. Consequently, moving a find box from an inline panel into a separate popup would change the surface inventory even if it looked almost identical. The current find and unsaved-confirmation controls are elements of `MainWindow.xaml`; text-box context menus and spell checking are disabled in the application style. These choices reduce additional app-generated surfaces, but do not establish that every framework helper, input-method candidate, or accessibility window has been qualified. (src\PhantomFudge.App\Native\WindowProtection.cs:24-37; src\PhantomFudge.App\MainWindow.xaml:168-183,598-603; src\PhantomFudge.App\App.xaml:48-50; docs\QUALIFICATION.md:120-122,139-140)
 
-Native Open/Save dialogs are a deliberate exception available through Edit. Their behavior must not be described as inheriting the main window's capture assurance merely because `ShowDialog(this)` supplies an owner. The current UI explicitly refuses saving/exporting in Present and reports the dialog boundary after Open. This is a concrete example of preferring a narrower, understandable workflow over an unsupported “everything this process draws is private” promise. (src\PhantomFudge.App\MainWindow.xaml.cs:279-284,345-362,371-377,765-771)
+Native Open/Save dialogs are a deliberate exception available through Edit. Their behavior must not be described as inheriting the main window's capture assurance merely because `ShowDialog(this)` supplies an owner. The current UI explicitly refuses saving/exporting in Present and reports the dialog boundary after Open. This is a concrete example of preferring a narrower, understandable workflow over an unsupported “everything this process draws is private” promise. (src\PhantomFudge.App\MainWindow.xaml.cs:297-302,363-380,389-395,813-819)
 
 ## Worked example: a display change during transcription
 
@@ -162,13 +169,13 @@ def reveal():
         record_generic_local_notice()
 ```
 
-In C#, `Task` represents eventual completion, while `Dispatcher.BeginInvoke` schedules work on the WPF UI thread. The code must arrange both: a native notification must not directly manipulate controls on an arbitrary thread, and waiting for Stop must not precede Hide. `Dispatch` and `InvalidateAsync` express those responsibilities separately. (src\PhantomFudge.App\MainWindow.xaml.cs:151-155,184-213)
+In C#, `Task` represents eventual completion, while `Dispatcher.BeginInvoke` schedules work on the WPF UI thread. The code must arrange both: a native notification must not directly manipulate controls on an arbitrary thread, and waiting for Stop must not precede Hide. `Dispatch` and `InvalidateAsync` express those responsibilities separately. (src\PhantomFudge.App\MainWindow.xaml.cs:166-170,200-229)
 
 ## Tests, limitations, and review questions
 
 `CaptureProof.RunAsync` establishes an unprotected synthetic positive control and an underlying baseline, then samples four show cycles with four protected frames each. Its outcome is deliberately named `PASS_LOCAL_GDI_SAMPLES_ONLY`; `Grab` uses cropped GDI `BitBlt`. This is not continuous first-frame coverage or qualification of Teams, Zoom, Meet, OBS, or their cursor streams. Do not run this visible positive-control fixture during an actual presentation merely to read the chapter. (src\PhantomFudge.App\Diagnostics\CaptureProof.cs:19-114,168-199)
 
-`RunUiSmokeAsync` separately checks initial foreground preservation, passive styles, `MA_NOACTIVATE`, and the Arrow policy. Its rendered PNGs are visual-tree diagnostics, not independent capture evidence. All meeting-product qualification rows remain open in the maintained matrix. (src\PhantomFudge.App\MainWindow.xaml.cs:863-905,1126-1139; docs\QUALIFICATION.md:28-53)
+`RunUiSmokeAsync` separately checks initial foreground preservation, passive styles, `MA_NOACTIVATE`, and the Arrow policy. Its rendered PNGs are visual-tree diagnostics, not independent capture evidence. All meeting-product qualification rows remain open in the maintained matrix. (src\PhantomFudge.App\MainWindow.xaml.cs:915-961,1189-1202; docs\QUALIFICATION.md:28-53)
 
 **Question:** Does successful getter value `17` establish universal exclusion?  
 **Answer:** No. It confirms a configuration readback; recorder behavior still needs independent evidence.
@@ -177,7 +184,7 @@ In C#, `Task` represents eventual completion, while `Dispatcher.BeginInvoke` sch
 **Answer:** No. The implemented failure path hides and preserves memory, emitting only a generic notice.
 
 **Question:** Can a local Arrow test close the remote-cursor issue?  
-**Answer:** No. Record the sharing backend, source type, pointer-capture setting, and actual recipient frames. These answers follow the configuration, failure, and qualification contracts above. (src\PhantomFudge.App\Native\WindowProtection.cs:38-45; src\PhantomFudge.App\LocalFailureNotice.cs:11-24; docs\QUALIFICATION.md:134-140)
+**Answer:** No. Record the sharing backend, source type, pointer-capture setting, and actual recipient frames. These answers follow the configuration, failure, and qualification contracts above. (src\PhantomFudge.App\Native\WindowProtection.cs:41-48; src\PhantomFudge.App\LocalFailureNotice.cs:11-24; docs\QUALIFICATION.md:134-140)
 
 ## References and maintenance checkpoints
 

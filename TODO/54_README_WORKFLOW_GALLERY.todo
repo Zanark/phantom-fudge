@@ -1,0 +1,20 @@
+# Current workflow on the visual README
+
+Status: DONE
+Milestone: Image-first product handoff
+Dependencies: 53_NOTEPAD_COVER_AND_PRIVACY.todo
+
+## Scope and evidence
+
+- [x] Show device cards, recording state, multi-line selection, optional clarification, answer and cover.
+- [x] Preserve concise image-first layout, theme gallery, setup/source links and truthful privacy wording.
+- [x] Generate five new opaque derivatives from existing verified synthetic WPF source images.
+- [x] Keep source/output hashes and canonical PowerShell/text mirrors current.
+- [x] Render the README locally for desktop/mobile and retain full source-atlas/handbook freshness.
+
+No WPF app restart, audio, model, service, login or new screenshot capture is needed: source images
+are current. Each workflow frame is a separate synthetic example, not one actual conversation.
+
+## Completion log
+
+- 2026-10-09 14:18 - Owner requested updated README images for the current workflow.

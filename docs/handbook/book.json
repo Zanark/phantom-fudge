@@ -26,7 +26,16 @@
     "19-api-configuration-reference.md",
     "20-glossary-and-repository-map.md",
     "21-evidence-and-roadmap.md",
-    "../ANSWER-PROVIDERS.md"
+    "22-desktop-source-walkthrough.md",
+    "23-domain-source-walkthrough.md",
+    "24-provider-source-walkthrough.md",
+    "25-native-audio-source-walkthrough.md",
+    "26-speech-source-walkthrough.md",
+    "27-operations-source-walkthrough.md",
+    "28-documentation-source-walkthrough.md",
+    "../ANSWER-PROVIDERS.md",
+    "../QUESTION-CLARIFICATION.md",
+    "../COVER-AND-PRIVACY.md"
   ],
   "appendices": [
     "../../JOURNAL.md"

@@ -6,27 +6,18 @@ config:
     textColor: "#e6edf3"
 ---
 flowchart TB
-    accTitle: Proposed timing around installed Agency prompting and PLANNED Azure
-    accDescr: Ask, snapshot, setup readiness, launcher dispatch, text and rendering are separate observation points. The successful Agency smoke records process elapsed time only, not these proposed GUI timing stages or a model benchmark.
-    subgraph Client["Proposed local timing points"]
-        Q0["Q0 Ask"] --> Q1["Q1 Snapshot"]
-        Q1 --> N0["Setup readiness"]
-        N0 --> N1["N1 Provider dispatch"]
-        N3["N3 Text delta"] --> N4["N4 Rendered"]
-        N4 --> N5["N5 Useful sentence"]
-        N5 --> N6["N6 Terminal state"]
-    end
-    subgraph Remote["Explicit execution choices"]
-        CLI["Installed CLI launcher"]
-        Cloud["Agency model service"]
-        LocalModel["Loopback model"]
-        Azure["PLANNED direct Azure"]
-    end
-    N1 -. ExactText .-> CLI
-    CLI -. Agency choice .-> Cloud
-    CLI -. LocalModel choice .-> LocalModel
-    CLI -. AnswerEvent .-> N3
-    N1 -. Optional future .-> Azure
+    accTitle: Provider timing is not WPF paint or useful-answer qualification
+    accDescr: Explicit Ask freezes text before provider work. ACP prompt submission, first text, acknowledged session close and WPF control assignment are distinct boundaries. Usefulness is scored separately; the H benchmark does not measure the UI or optional Azure path.
+    Q0["Explicit Ask"] --> Q1["Exact snapshot"]
+    Q1 --> N0["Provider and readiness"]
+    N0 --> N1["ACP prompt submitted"]
+    N1 --> Cloud["Agency remote model"]
+    Cloud --> N3["First provider text"]
+    N3 --> Close["end_turn and close"]
+    Close --> N6["Completed event"]
+    N3 --> N4["WPF text assigned"]
+    N6 -. Offline review .-> N5["Usefulness and tests"]
+    N0 -. Optional future .-> Azure["PLANNED direct Azure"]
     Azure -. Future events .-> N3
     style Q0 fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Q1 fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
@@ -36,10 +27,7 @@ flowchart TB
     style N4 fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style N5 fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style N6 fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style CLI fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Close fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Cloud fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style LocalModel fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Azure fill:#2d333b,stroke:#6d5dfc,color:#e6edf3,stroke-dasharray:5 5
-    style Client fill:#161b22,stroke:#30363d,color:#e6edf3
-    style Remote fill:#161b22,stroke:#30363d,color:#e6edf3,stroke-dasharray:5 5
     linkStyle default stroke:#8b949e

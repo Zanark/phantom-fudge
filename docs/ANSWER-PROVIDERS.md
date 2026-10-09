@@ -6,11 +6,17 @@ description: "Explicit background prompting through the installed Agency app, wi
 # Answer providers
 
 The question composer is provider-independent. A frozen question becomes an `AnswerRequest`
-containing a new request ID and **ExactText only**, not notes, original selected-source text,
+containing a new request ID and, by default, **ExactText only**, not notes, original selected-source text,
 transcript history or audio. `IAnswerProvider` streams text and an explicit terminal event.
 Azure can be added through another adapter without replacing capture, draft editing or answer UI.
 (`src/PhantomFudge.Core/Answers/AnswerContracts.cs:1-13`;
-`src/PhantomFudge.Core/Answers/AnswerRun.cs:14-28`.)
+`src/PhantomFudge.Core/Answers/AnswerRun.cs:14-29`.)
+
+**Opt-in exception:** [Clarify first](QUESTION-CLARIFICATION.md) adds a fixed interpretation
+instruction and, for explicit replies, this question's bounded clarification exchanges.
+It is off on launch. No machine metadata, unselected transcript or unrelated history is attached.
+Interpretation requests can ask a short clarifying question; normal and confirmed-answer requests
+retain the no-follow-up rule. Each user reply starts a separate request, never automatic stdin input.
 
 ## Local installation is not necessarily local inference
 
@@ -40,7 +46,7 @@ Model routing/authentication is separate from access to organization data: Agenc
 a remote authenticated model service. If its existing authentication is unavailable, the answer
 must fail visibly rather than selecting another account or initiating a new sign-in.
 
-Install the CLI separately using the
+Only for either direct Copilot choice, install that CLI separately using the
 [official installation guide](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli).
 For Windows, the documented standalone installation is:
 
@@ -48,11 +54,12 @@ For Windows, the documented standalone installation is:
 winget install GitHub.Copilot
 ```
 
-Phantom Fudge does not issue CLI installation/update commands, download model weights or sign in silently.
+The Agency path does not require this separate installation or a new GitHub login.
+Answer-provider setup does not install/update CLIs, download answer-model weights or sign in silently.
 Agency itself may resolve its managed engine and service metadata as part of a normal launch;
 the observed startup included an engine-resolution step. That is not organization-data retrieval. Configure
-the desired answer provider with `scripts\Initialize-Answers.ps1`, then choose **Reload setup**
-in the Question panel. Setup is not an inference request.
+the desired answer provider with `scripts\Initialize-Answers.ps1`, then open **Setup / details**
+in **QUESTION / ANSWER** and choose **Reload setup**. Setup is not an inference request.
 
 For the requested existing-Agency path, the setup entry point is:
 
@@ -63,7 +70,8 @@ For the requested existing-Agency path, the setup entry point is:
 This resolves the installed `agency.exe` and writes non-secret application settings. It does not
 perform login. The answer launch is the supported `agency copilot` command in a separate
 background process, with a new prompt-only profile rather than your personal coding-session
-configuration. Use **Question → Reload setup** afterward. SnapshotOnly remains a deliberate no-send
+configuration. Use **Show Q/A** if collapsed, then **Setup / details → Reload setup** afterward.
+SnapshotOnly remains a deliberate no-send
 mode:
 
 ```powershell
@@ -80,10 +88,11 @@ Copilot login. If Agency's model-service credentials expire, do not assume the a
 every wrapper-managed auth surface: stop the request and resolve normal Agency access separately.
 An observed no-new-login run is not a universal guarantee about future Agency versions.
 
-The adapter pins the exercised Agency build **2026.10.7.4 / `bcff2c0f`**. Different versions fail
-before prompt submission until qualified. It conservatively rejects `@` references and lines
-starting with `/`, `!` or `&`, rather than risk interpreting question text as files or commands.
-Rephrase those inputs as ordinary text instead of granting tools.
+The adapter pins the exercised Agency build **2026.10.7.4 / `bcff2c0f`** and verifies supported
+ACP configuration before prompting. Different versions fail until qualified. Question text is
+serialized as a JSON data field; opted-in clarification history uses separate typed metadata.
+`@` is escaped, and command-like lines are not shell input.
+This supersedes the earlier blanket rejection of `@` and slash-like questions without granting tools.
 
 ### Observed integration result
 
@@ -92,9 +101,9 @@ Its receipt showed one model call, no model tools (`tool_count:0`), no tool requ
 GitHub MCP descriptors disabled. No new sign-in flow occurred in that run. No meeting text, notes,
 audio, repository content, mail, chat or organization-data tool was submitted.
 
-This was a functional smoke check, **not a speed benchmark**. It does not establish p50/p95,
-real-question usefulness or cached-auth availability on another machine. No second Agency model
-request was made just to obtain a faster number. The earlier direct-Copilot attempt failed at a
+This was a historical functional smoke check, **not a speed benchmark**. It did not establish p50/p95,
+real-question usefulness or cached-auth availability on another machine. Later separately authorized
+quality trials are recorded below; the original smoke receipt remains unchanged. The direct-Copilot attempt failed at a
 customization/tool gate and remains a failed result, not evidence of a working cloud adapter.
 
 Settings are stored separately from questions under `%LOCALAPPDATA%\PhantomFudge\answers.json`.
@@ -148,6 +157,39 @@ compatibility yourself; unsupported context lengths or model capabilities should
 
 ## What an Ask does
 
+### October 9 direct-answer correction
+
+The owner reported an unacceptable response consisting of a directory-inspection plan instead of a
+Two Sum solution. A printed command is not proof that a tool ran, but it is still a failed answer.
+The revised path uses a fixed standalone-answer system role, selected and verified through official
+ACP, plus a persistent transport with fresh question sessions. The prompt is the only user input;
+the agent must make reasonable stated assumptions rather than request another interaction.
+The generic policy contains no hardcoded Two Sum answer or phrase-replacement table
+(`src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs:8-97`, `Policy`, `Create`).
+
+The default is **GPT-5.6 Sol Fast / low**, unless a model was explicitly configured. Startup, reveal
+and Reload setup prepare **one empty session, with no model prompt**. The UI reports preparation
+separately; wait for Ready before Ask. After success, the provider prepares the next fresh empty
+session without retaining previous question/answer context. Hide, Clear, protection failure,
+replacement and close tear down owned provider state
+(`src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:23-128`).
+
+The final exact-text H batch returned three **complete useful answers in 4066, 4176 and 2992 ms**,
+including the owner's malformed ASR string under an explicit Two Sum assumption. All three returned
+C# implementations compiled and passed 33 ordinary/full-integer-boundary checks. Initial empty-session
+preparation took about 20–31 seconds, **not under five seconds**. These are provider completion/session
+close times, not independently measured WPF paint times or an all-question latency SLO.
+
+All 48 client question submissions in the correction study remain accounted for. Earlier E/Haiku
+success used different synthetic wording; F exact-text Haiku exposed wrong-problem/follow-up failures,
+and G mini exposed arithmetic-overflow failures. They were not discarded or promoted as equivalent
+to H. No further model calls are needed for packaging. Read [all results and limits](QUALITY-UPDATE.md)
+and the source-checkout `tools\AgencyProbe\results\summary-final.json`.
+
+Always-on [local diagnostics](DIAGNOSTICS.md) now record stage timings and safe errors. Text bodies
+remain an explicit local opt-in. No new sign-in, organization-data tool or automatic model fallback
+is permitted to make a benchmark faster.
+
 1. Freeze exactly the displayed draft.
 2. Show its provider and immutable question beside the answer.
 3. Start one bounded request. No natural final, question mark, editing event or reveal sends it.
@@ -156,13 +198,13 @@ compatibility yourself; unsupported context lengths or model capabilities should
 
 Cancel, Hide, Clear, close and protection invalidation cancel the active request. Later events cannot
 append to a cancelled or different request. Partial text stays visibly incomplete unless explicitly
-cleared. Another Ask requires the previous process to finish cleanup; there is no retry or
+cleared. Another Ask requires the previous request to finish cleanup; there is no retry or
 automatic continuation.
 
 The answer is capped at32,768UTF-16 code units; the overall request has a120second deadline.
 The8,192-unit question limit remains separate from model token/context limits. Copy is an explicit
 Windows clipboard action, not automatic posting to a meeting or chat.
-(`src/PhantomFudge.Core/Answers/AnswerRun.cs:10-79`;
+(`src/PhantomFudge.Core/Answers/AnswerRun.cs:10-80`;
 `src/PhantomFudge.Core/QuestionDraft.cs:8-9,90-103`.)
 
 ```mermaid
@@ -210,7 +252,8 @@ versions/configuration must fail rather than silently omitting required restrict
 The engine's system prompt and service metadata still exist: "ExactText only" describes which
 **application content** is supplied, not an assertion that the remote service receives no other
 protocol/system information. `--log-level none` does not promise zero retention. The external CLI can
-retain session data in its dedicated profile, and cloud data is subject to the selected service's
+retain session data in its dedicated profile during the bounded engine lifetime (up to 32 sessions);
+owned files are removed on teardown, not after every successful Ask. Cloud data is subject to the selected service's
 policies. Protect that profile like transcripts; do not commit it or copy it into preview packages.
 
 ```mermaid
@@ -226,15 +269,18 @@ config:
 ---
 sequenceDiagram
     accTitle: A bounded answer request and explicit cancellation
-    accDescr: The UI sends one exact question, accepts identified text deltas, and cancels the owned process without retrying when the user cancels.
+    accDescr: Startup prepares one empty session without inference. Explicit Ask sends one exact question. Completion closes its session and prepares a fresh empty one; cancellation stops the owned process.
     autonumber
     participant Owner
     participant UI as Protected window
     participant Adapter
     participant CLI as Owned CLI process
+    UI->>Adapter: Prepare configured Agency
+    Adapter->>CLI: Initialize ACP and one empty session
+    CLI-->>UI: Ready, no model prompt
     Owner->>UI: Ask configured provider
     UI->>Adapter: Request ID and ExactText
-    Adapter->>CLI: Restricted invocation and stdin
+    Adapter->>CLI: One session/prompt with exact JSON question
     CLI-->>Adapter: Identified text events
     Adapter-->>UI: Text deltas
     alt Explicit cancellation
@@ -242,9 +288,10 @@ sequenceDiagram
         UI->>Adapter: Cancel request
         Adapter->>CLI: Stop owned process tree
         UI->>UI: Keep partial marked incomplete
-    else Successful terminal event and exit
-        CLI-->>Adapter: Completed
+    else Successful end_turn and session close
+        CLI-->>Adapter: Closed question session
         Adapter-->>UI: Completed
+        Adapter->>CLI: Prepare next empty session, no prompt
     end
 ```
 
@@ -255,19 +302,19 @@ Workstreams30/31 retain the future direct Azure identity/provider integration. W
 accurate source-specific Mic finalization. Immediate **Ask as shown** does not claim to solve
 the last acoustic sample still in a device buffer.
 
-The local speech service stays native Python/Vosk. There is no new requirement for Docker,
+The local speech service uses native Python/Vosk provisional text and Whisper small.en finals. There is no new requirement for Docker,
 cloud speech, chat scraping, generated speech, tool execution or automatic web browsing.
 
 ## Primary references
 
-Implementation source: `AgencyCliAnswerProvider.StreamAsync` constructs an owned workspace and
-streams only accepted records (`src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:59-116`).
+Implementation source: `AgencyCliAnswerProvider` owns the reusable isolated workspace and
+streams only accepted records (`src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:77-326`).
 `AgencyAnswerProfile` defines the minimal profile and explicit engine arguments
-(`src/PhantomFudge.Core/Answers/AgencyAnswerProfile.cs:9-25`).
+(`src/PhantomFudge.Core/Answers/AgencyAnswerProfile.cs:21-37`).
 `AgencyCliLaunch` preserves Agency's normal AppData cache access while isolating child homes and
-excluding ambient tokens/provider settings (`src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs:43-63`).
-The literal-input/version checks and authentication-notice guard are constraints on the tested
-wrapper, not a sandbox claim (`src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:137-181`;
+excluding ambient tokens/provider settings (`src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs:40-60`).
+Version checks and the authentication-notice guard constrain the tested
+wrapper, not an OS sandbox (`src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:425-454`;
 `src/PhantomFudge.Core/Answers/AgencyJsonProtocol.cs:50-68`).
 
 - [CLI programmatic reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-programmatic-reference)

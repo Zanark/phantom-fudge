@@ -81,6 +81,10 @@ Use synthetic PCM for dual-source integration. Playback testing requires explici
 - Review changed rendered pages and illustrations. Hash/range checks cannot establish semantic accuracy.
   Keep new/changed `.ps1` scripts byte-identical to their `.txt` twins.
 - Follow `TODO\WORKFLOWS\06_LIVING_DOCUMENTATION.todo`; this obligation continues after workstream38.
+- Maintain `docs\source-atlas\annotations`: every in-scope first-party file needs meaningful,
+  contiguous source-line explanations tied to reviewed hashes. Build the atlas with
+  `node .\tools\Docs\source-atlas.mjs` before the handbook; never merely refresh hashes to bypass
+  stale prose. Complete line coverage is a mechanical property, not proof of semantic correctness.
 - Keep the root README image-first and concise. Put setup/explanations in docs\OVERVIEW.md and
   focused guides; link them through docs\README.md. Preserve brief local-Ask/capture-limit wording.
   Refresh theme-safe README image derivatives with scripts\Export-ReadmeImages.ps1 after UI image changes.

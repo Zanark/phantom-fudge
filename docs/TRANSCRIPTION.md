@@ -11,7 +11,7 @@ Normal operation is native C# plus native Python, with no meeting audio sent to 
 Meeting -> selected render endpoint -> WASAPI loopback ---- Computer track --+
 Dictated question -> selected capture endpoint -> WASAPI -- Mic track ------+
        -> one authenticated loopback WebSocket (separate v2 source frames)
-       -> independent native Python/Vosk recognizers
+       -> independent Python/Vosk provisional workers + bounded local Whisper finalizer
        -> labelled partial/final text in the SAME capture-excluded WPF window
 ```
 
@@ -25,11 +25,17 @@ C# is not the current speech-decoding engine. A loopback protocol separates thes
 The same headless Python service can later be containerized without changing the C# client.
 Windows containers do not provide the interactive desktop required by this application.
 
-Initial engine: Vosk's offline streaming API with an explicitly installed English model.
-Its partial results make it suitable for a CPU-first prototype without chunk-boundary text
-stitching. Accuracy, names/technical vocabulary, latency, and accents require real evaluation;
-small-model speed is not a promise of accurate meeting transcripts. Larger/language-specific
-models can be provisioned separately. Do not download a model implicitly during a live meeting.
+The October 9 native default is hybrid: Vosk provisional text plus Whisper small.en CPU-int8
+final text, with four threads and disclosed general technical vocabulary. Each source owns
+bounded disjoint PCM spans; rotation targets 15 seconds (at most 16 with a crossing frame).
+Independent bounded source workers and a separate serial finalizer keep recognition off the
+event loop. Slow work faults visibly rather than silently dropping speech or growing forever.
+Explicit legacy Vosk remains an option; a missing accurate model never triggers silent fallback.
+Models are provisioned and verified before capture, not downloaded during a meeting.
+
+Synthetic paced WER improved from 12.04% to 4.40%, with final median/p95 2.736/3.017 seconds.
+These are synthesized voice/noise controls, not the owner's microphone. Residual homophone and
+boundary errors remain. See [quality evidence and all ablations](QUALITY-UPDATE.md).
 
 ## Frozen v1 wire contract
 
@@ -38,7 +44,8 @@ models can be provisioned separately. Do not download a model implicitly during 
 - Start text frame:
   `{"type":"start","sampleRate":16000,"channels":1,"encoding":"pcm_s16le"}`.
 - Server confirms `{"type":"ready","sampleRate":16000,"channels":1,"encoding":"pcm_s16le"}`.
-  Optional model metadata is allowed. Capture begins only after this confirmation.
+  The ready object remains strict; model/runtime identity is available separately through
+  authenticated `/v1/runtime`. Capture begins only after this confirmation.
 - Audio: binary frames, nonempty/even byte counts, maximum 32000 bytes per frame.
 - Partial: `{"type":"partial","text":"..."}` replaces the current unfinished line.
 - Final: `{"type":"final","text":"...","segmentId":1,"startSeconds":0.0,"endSeconds":1.2}`.
@@ -70,8 +77,9 @@ request, no permission/preflight checkbox, confirmation dialog or repeat acknowl
 shown or required by Start/Present. This does not remove technical protection or device checks.
 
 Keep transcript text in memory, separate from editable notes. No automatic audio files, transcript
-autosave, telemetry, third-party HTTP calls, speaker labels, or fabricated confidence. Explicit export
-uses the existing safe save path and is disabled during Present mode.
+autosave, telemetry, inference HTTP calls, speaker identity labels, or fabricated confidence. Explicit export
+uses the existing safe save path and is disabled during Present mode. App diagnostics omit recognized
+words by default; optional Text mode is explicit local retention. Backend logs remain metadata-only.
 
 An absent model, invalid token, unavailable service, unsupported format, device loss, disconnect,
 full queue, decoder failure, or malformed message must produce an actionable visible state.
@@ -80,15 +88,23 @@ Never fall back to an unselected source/device or cloud recognition.
 ## Native service lifecycle
 
 Initialize-Transcription prepares a local Python virtual environment, pinned dependencies, the
-explicit model and local token. Start-Transcription starts/reuses this workspace's native service.
+verified models, nonsecret engine configuration and local token. Start-Transcription starts/reuses this workspace's native service.
 Run-PhantomFudge invokes it automatically unless NotesOnly is requested. No audio starts until
 the owner's explicit Start action in the app.
 
 The manager uses a local lifecycle lock and a per-launch random instance ID. Authenticated runtime
 metadata must match this workspace's receipt before reuse or stop. Stop-Transcription requests a
 graceful idle shutdown; active transcription and unrelated/untracked services are left alone.
+Runtime/model/source fingerprints detect outdated owned services; replacement occurs only after
+the selected model is verified and the authenticated owned service is idle.
 The service remains idle after closing the UI until explicitly stopped. Neither a service
 startup nor direct recognizer benchmark opens a microphone or playback endpoint.
+
+Stop releases capture before draining accepted finalizations. The client's 90-second upper bound
+covers the service's conservative 85-second timeout/cleanup envelope; normal synthetic stop
+median/p95 were 0.480/0.746 seconds. No final-delivery guarantee is made after a broken connection.
+Local rotating metadata captures engine/decode/queue/fault timing without PCM or transcript bodies;
+see [diagnostics](DIAGNOSTICS.md).
 
 ## Deferred Docker packaging requirements
 
@@ -101,6 +117,8 @@ Pin service dependencies and provide reproducible unit/protocol tests plus a fut
 Do not claim a successful Docker run when the Docker CLI/engine is unavailable. At implementation
 start on this machine, Docker was not installed; a native service run is not container evidence.
 That missing Docker runtime is not a blocker for native transcription or the native release.
+The existing optional container recipe explicitly selects legacy Vosk; its old memory/CPU budget
+is not claimed sufficient for the new native Whisper profile.
 
 ## Engine comparison, independent of output mute
 

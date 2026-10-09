@@ -3,15 +3,32 @@
 ## Current interaction model
 
 The app starts in read-only, non-activating Present mode. The transcript occupies the main
-reading area; Notes is collapsed. Click Notes to expand/collapse without changing its text,
+reading area; Q/A is expanded and Notes is collapsed. Click Notes to expand/collapse without changing its text,
 or use Edit / Ctrl+Alt+E to open editable notes deliberately. Audio setup can be opened
 without activating the window; token typing and file dialogs still require Edit.
 
 The default surface uses `ShowActivated=false`, `WS_EX_NOACTIVATE`, and `MA_NOACTIVATE`.
-Buttons/selectors are not keyboard-focusable in Present, but work with the pointer. Edit
-restores normal keyboard accessibility. The app never forwards clicks into another app.
+Buttons/selectors are not keyboard-focusable while Present is passive, but work with the pointer.
+Global Edit or independent question editing restores keyboard access. The app never forwards clicks into another app.
 Changing themes, opacity or notes visibility does not start/stop audio or recreate the HWND.
 Changing Edit/Present mode still stops transcription, as before.
+
+**Direct transcript clicks deliberately take focus.** Click several Mic/Computer rows to toggle
+whole segments without Ctrl and populate the question in displayed history order. This opens Q/A
+and enters the same independent transition as **Type / edit**, not global Notes Edit: transcription
+continues and nothing is sent. **Done typing** / Escape restores passive interaction. After an edit,
+further direct selection changes retain the draft/highlights with inline status until **Clear
+question**. The manual **Choose source → Mic / Computer / All → Use selected** route can remain passive.
+This distinction is intentional, not evidence that all clicks preserve foreground focus.
+(src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:84-141;
+[`SetQuestionEditing`](../src/PhantomFudge.App/MainWindow.Questions.cs).)
+
+The October 9 requested window is 1240 x 1520, clamped to the current monitor work area
+(1240 x 1176 on the observed 1920 x 1200 work area). Wide layouts use transcript and Q/A columns.
+The main panels have no nested outer scrollbar; each long text area still scrolls. Primary actions
+remain visible at the tested minimum 470 x 560. This is local fixture evidence, not owner acceptance.
+Capture status is now a quiet requested-state footer with deliberate inline **Details**; actual
+failures remain actionable. See [the correction record](QUALITY-UPDATE.md).
 
 All app text controls declare an Arrow cursor, with inherited `ForceCursor=true`; the native
 window's cursor messages use the standard Windows arrow. No custom/fake captured cursor,
@@ -50,15 +67,22 @@ DeepSeaFoam. The current name stays visible. Theme and opacity choices are sessi
 
 Themes update semantic brushes for text, surfaces, borders, hover/pressed/selected states,
 input fields, scrollbars, slider, progress meter and notices. Opaque controls keep their
-reading contrast; only the root content tint uses the Background slider. Text stays solid.
+reading contrast; the root tint and answer-reading tint share the Background slider. Question,
+transcript and notes backgrounds do not add opaque content containers. Text stays solid.
 At low opacity, contrast depends on whatever is behind the window: no universal accessibility
 claim is made for transparent content.
+
+Main transcript selections use a thin accent outline, not an opaque fill over the content.
+White/black glyphs and shared background alpha remain unchanged; keyboard focus has its own
+outline state. See `TranscriptRowTemplate` / `TranscriptRowStyle` in
+[MainWindow.xaml](../src/PhantomFudge.App/MainWindow.xaml) and [the multi-click guide](LOCAL-QUESTIONS.md).
 
 | Role | DeepSeaFoam | Harbor Daylight | Plain B/W |
 | --- | --- | --- | --- |
 | Background | `#000F13` | `#F3F2E9` | `#FAF9F6` |
 | Surface | `#001E26` | `#E3ECE7` | `#F0F0EC` |
-| Reading text | `#93A1A1` | `#355451` | `#202B30` |
+| General UI text | `#93A1A1` | `#355451` | `#202B30` |
+| Transcript/question/answer/notes reading | `#FFFFFF` | `#000000` | `#000000` |
 | Heading | `#EEE8D5` | `#173D3A` | `#202B30` |
 | Accent | `#00A591` | `#006F63` | `#202B30` |
 | Border | `#586E75` | `#6B857E` | `#879A99` |
@@ -68,6 +92,8 @@ Palette provenance: the owner's canonical DeepSeaFoam repository, read-only, rev
 SpriteCanvas/Solarized lineage; Harbor Daylight is its adopted 2026-09-24 companion.
 This is an original WPF mapping, not a claim that prior native app exports already existed.
 No artwork, music, logos, or external fonts were copied.
+The exact white/black reading role is the owner's October 9 readability override; it is not
+misrepresented as an unchanged canonical palette swatch.
 
 - [Dark canonical JSON](https://github.com/Zanark/DeepSeaFoam/blob/e0c17e626e990ce34372317ef96a3d686c31f947/palette/deepseafoam.json):
   SHA256 `EC2508A8ACE73F92CA365D5A221EAFE8B5039E760312B344E325E672B50CB376`.

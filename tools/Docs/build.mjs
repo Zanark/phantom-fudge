@@ -211,6 +211,7 @@ async function loadBook() {
     'scripts/Build-Handbook.ps1', 'scripts/Build-Handbook.txt',
     'scripts/Export-HandbookScreenshots.ps1', 'scripts/Export-HandbookScreenshots.txt',
     'scripts/Export-ReadmeImages.ps1', 'scripts/Export-ReadmeImages.txt',
+    'docs/source-atlas/manifest.json',
     'TODO/38_LIVING_DOCUMENTATION.todo', 'TODO/WORKFLOWS/06_LIVING_DOCUMENTATION.todo'])
     await record(safeRepoPath(root, file));
   return { config, pages, inputs: Object.fromEntries([...inputs].sort(([a], [b]) => a.localeCompare(b))) };
@@ -386,6 +387,8 @@ async function check(book) {
 export async function main(args = process.argv.slice(2)) {
   const allowed = new Set(['--check', '--accept-reviewed-source', '--force-diagrams', '--no-pdf']);
   if (args.some(arg => !allowed.has(arg))) throw new Error('Unknown handbook build argument.');
+  const { verifySourceAtlas } = await import('./source-atlas.mjs');
+  await verifySourceAtlas();
   const book = await loadBook();
   if (args.includes('--check')) return check(book);
   const manifestFile = path.join(bookRoot, 'manifest.json');

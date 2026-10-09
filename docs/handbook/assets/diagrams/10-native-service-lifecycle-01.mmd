@@ -5,12 +5,12 @@ flowchart TB
     accTitle: Three independent lifecycle boundaries
     accDescr: Provisioning enables a service, service readiness enables an explicit capture request, and capture stop precedes idle service shutdown.
     subgraph P["Provisioning"]
-        I["Explicit initialization"] --> V["Token and verified model"]
+        I["Explicit initialization"] --> V["Token and verified models"]
         V --> E["Local Python environment"]
     end
     subgraph S["Service ownership"]
         E --> L["Lifecycle lock"]
-        L --> O["Authenticate ownership"]
+        L --> O["Ownership and fingerprint"]
         O --> R["Ready idle service"]
     end
     subgraph A["Application session"]

@@ -1,0 +1,43 @@
+# Visual notepad cover and supported privacy boundaries
+
+Status: DONE
+Milestone: Covered workspace with ongoing transcription and answers
+Dependencies: 44_TRANSCRIPT_CLICK_SELECTION.todo, 45_OPT_IN_QUESTION_CLARIFICATION.todo
+
+## User decision
+
+Cover is purely visual. Existing transcription, answer streaming and other work continue behind it.
+The exact message is NOTEPAD IS READY; one top-bar toggle restores the workspace.
+
+## Tasks
+
+- [x] Same-HWND Cover/Uncover hosts with detached, disabled workspace; preserve all content/lifetimes.
+- [x] Block hidden editing/file shortcuts; restore editing and device setup; expose required exit confirmations.
+- [x] Keep affinity/styles unchanged and an accessible return control.
+- [x] Refresh normal automation children synchronously; preserve normal accessibility on uncover.
+- [x] Demonstrate bounded fresh-tree behavior and retained cached-peer readability with synthetic data.
+- [x] Do not misreport covered answers as visible.
+- [x] Publish evidence-backed feasibility/priority matrix for capture, accessibility, process, preview and copy surfaces.
+- [x] Add the supported same-HWND DWMWA_DISALLOW_PEEK request without claiming universal preview exclusion.
+- [x] Finish source annotations, exact citations, images, handbook and final handoff.
+
+## Evidence and boundaries
+
+The134234fixture passed visual pixels, compact geometry, same HWND/styles, fake answer/transcript
+continuation, state restoration and fresh in-process peer traversal. cachedPeerValueReadable=true:
+retained data is not secret from an already-held reference. No real audio/model/capture probe ran.
+The later135359fixture also confirms PeekPreventionRequested=true after native setter success;
+actual taskbar-hover/recipient behavior remains unqualified. Final screenshot provenance records
+the current exact source/assembly hashes.
+Final140313fixture passes all15cover assertions after the generic accessible Uncover label.
+Process/window enumeration, memory, cached external clients, hardware capture and recipient
+qualification remain outside any invisibility claim. No drivers, hooks, process disguise,
+global accessibility disable or recorder/security-tool interference.
+
+## Completion log
+
+- 2026-10-09 13:23 - Owner requested a reversible notepad cover.
+- Owner explicitly chose to keep transcription/answers running, then requested a feasibility review
+  of stronger hiding. Corrected the premise of universal invisibility before implementation.
+- Delivered the supported visual/accessibility/Peek measures and a category-by-category feasibility
+  matrix. Unsupported global process/capture concealment is explicitly not claimed or implemented.

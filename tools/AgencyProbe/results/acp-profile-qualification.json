@@ -1,0 +1,45 @@
+{
+  "mode": "agency_cloud",
+  "model": "gpt-5.4-mini",
+  "reasoningEffort": "low",
+  "modelAttempts": 0,
+  "calls": [],
+  "failure": null,
+  "protocolVersion": 1,
+  "agentVersion": "1.0.92",
+  "capabilities": {
+    "loadSession": true,
+    "mcpCapabilities": {
+      "http": true,
+      "sse": true
+    },
+    "promptCapabilities": {
+      "image": true,
+      "audio": false,
+      "embeddedContext": true
+    },
+    "sessionCapabilities": {
+      "close": {},
+      "list": {}
+    }
+  },
+  "engineReadyMs": 16919.5,
+  "ownedProfileCheck": {
+    "settingsSemanticallyUnchanged": false,
+    "settingsKeys": [
+      "autoUpdate",
+      "bashEnv",
+      "beep",
+      "companyAnnouncements",
+      "customAgents",
+      "disableAllHooks",
+      "experimental",
+      "ide",
+      "memory",
+      "notifications"
+    ],
+    "nonemptyCustomizationCategories": []
+  },
+  "updateTypes": [],
+  "offlineRequests": []
+}

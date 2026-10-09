@@ -32,11 +32,8 @@ internal static class AgencyCliLaunch
             info.ArgumentList.Add(argument);
         foreach (var argument in AgencyAnswerProfile.CandidateArguments)
             info.ArgumentList.Add(argument);
-        if (settings.Model is not null)
-        {
-            info.ArgumentList.Add("--model");
-            info.ArgumentList.Add(settings.Model);
-        }
+        info.ArgumentList.Add("--model");
+        info.ArgumentList.Add(settings.Model ?? AgencyAnswerProfile.DefaultModel);
         return info;
     }
 

@@ -67,7 +67,7 @@ features arrived faster than real sharing environments could be qualified.
 
 **Public record:** initial decisions and scope appear in `TODO/16_DEVELOPMENT_LEDGER.todo:75-85`;
 the convention's bounded survey and evidence semantics are in `docs/TODO-CONVENTIONS.md:1-73`.
-The current capture-claim limits are stated in `docs/OVERVIEW.md:34-52`.
+The current capture-claim limits are stated in `docs/OVERVIEW.md:38-56`.
 
 ## 2026-10-08, 00:32 onward - Implementation, and a new primary signal
 
@@ -94,7 +94,7 @@ system changes. Later testing therefore relied on generated PCM and isolated syn
 No public release or push followed from creating a local ZIP.
 
 **Public record:** the historical implementation/evidence table and approved playback boundary are
-in `docs/IMPLEMENTATION-STATUS.md:115-169`; the authorization and subsequent restrictions are preserved
+in `docs/IMPLEMENTATION-STATUS.md:212-266`; the authorization and subsequent restrictions are preserved
 in `TODO/16_DEVELOPMENT_LEDGER.todo:66-74`.
 
 ## 03:01 - A hidden window must still be recoverable
@@ -123,7 +123,7 @@ protection setup and unsaved-content safeguards remained. Nor did it turn an ext
 into recorded compatibility evidence. The lasting requirement is **not to reintroduce permission or
 rehearsal prompts** under a different name during future feature work.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:108-113` records the change and local artifact;
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:205-210` records the change and local artifact;
 `docs/DEVELOPMENT-WORKFLOW.md:95-102` preserves the durable behavioral requirement.
 
 ## 03:12 - Seeing through the surface without washing out the text
@@ -142,7 +142,7 @@ first-frame guarantee.
 The lesson was to treat rendering changes as changes to the capture-evidence boundary, not just
 visual polish.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:97-106` identifies the layered result and limitations;
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:194-203` identifies the layered result and limitations;
 the implementation is explored in [chapter05](docs/handbook/05-desktop-ui-and-themes.md).
 
 ## 03:25 - Correcting Docker's place in the architecture
@@ -162,7 +162,7 @@ was moved after native release17. Runtime22 became the required operational path
 prevented infrastructure work from blocking the thing the owner actually wanted to run.
 
 **Public record:** native operation and the Docker correction are recorded in
-`docs/IMPLEMENTATION-STATUS.md:76-95`; the current dependency graph is in `TODO/00_INDEX.todo`.
+`docs/IMPLEMENTATION-STATUS.md:173-192`; the current dependency graph is in `TODO/00_INDEX.todo`.
 
 ## The muted-laptop experiment - Compare engines, not language stereotypes
 
@@ -192,7 +192,7 @@ that today's harness hash differs from the historical receipt rather than rewrit
 
 **Public record:** [the full benchmark report](docs/SPEECH-BENCHMARK.md) and
 [chapter12](docs/handbook/12-performance-and-benchmarks.md). Summary measurements and their limit
-are recorded in `docs/IMPLEMENTATION-STATUS.md:82-85`.
+are recorded in `docs/IMPLEMENTATION-STATUS.md:179-182`.
 
 ## 11:31 - Transcription moves to the foreground
 
@@ -217,7 +217,7 @@ packaged separately.
 **Still unresolved:** recipient-side cursor disappearance needs qualification in the actual
 recorder/sharing mode. No implementation change justified the requested absolute invisibility claim.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:57-74`, [cursor/theme notes](docs/CURSOR-AND-THEMES.md)
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:154-171`, [cursor/theme notes](docs/CURSOR-AND-THEMES.md)
 and workstreams24/25.
 
 ## 13:47-14:01 - Small UI questions clarify the evidence
@@ -258,7 +258,7 @@ manager-upgrade guards, plus real generated dual PCM and C#-to-Python v2 recogni
 microphone/render endpoint or chat content was opened for this work. Hardware permissions, echo,
 OS microphone indicators and recipient behavior remain to be qualified.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:33-55`,
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:130-152`,
 `docs/DUAL-SOURCE-AUDIO.md:1-30` and [chapters07-11](docs/handbook/07-dual-input-capture.md).
 
 ## 15:05 - An answer feature is researched before it is built
@@ -286,8 +286,8 @@ Four design documents, workstreams27-37 and workflows04/05 capture the plan. Onl
 DONE. There is no implemented Ask button, composer, Azure client, source commit or answer pane.
 No Azure account/resource discovery, sign-in, inference or upload was performed.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:27-31`,
-`docs/AI-ANSWER-ARCHITECTURE.md:44-138` and the four linked [AI design documents](docs/README.md).
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:124-128`,
+`docs/AI-ANSWER-ARCHITECTURE.md:82-188` and the four linked [AI design documents](docs/README.md).
 
 ## 16:11 - Turn the implementation into a teachable engineering record
 
@@ -322,7 +322,7 @@ so the reader gained responsive wrapping. Those corrections improved the actual 
 than treating a successful export as sufficient. Nothing was uploaded or published.
 
 The documentation-only fixture does not replace the most recent user preview ZIP. That preview
-remains the145231 dual-source bundle identified in `docs/IMPLEMENTATION-STATUS.md:49-55`.
+remains the145231 dual-source bundle identified in `docs/IMPLEMENTATION-STATUS.md:146-152`.
 The book does not implement Azure Ask, qualify remote cursors, or move Docker earlier.
 
 ```mermaid
@@ -462,3 +462,375 @@ release, not a prerequisite for transcription.
 The next journal entry should say what actually happened, identify its public evidence and preserve
 these boundaries until new evidence changes them. A useful engineering history is allowed to say
 "not yet," "the earlier approach was wrong," and "this result covers only this case."
+
+## 2026-10-09, 01:19 and 03:11 - Correcting the actual-use experience
+
+The owner rejected the small, scroll-heavy window, low-contrast text, inaccurate technical
+dictation and slow Agency responses that described workspace inspection instead of solving the
+question. The later request explicitly included transparency for the answer area. A printed
+command was not proof that a tool executed, but the response was still a failed answer.
+
+The requested window is now 1240 x 1520, twice the previous dimensions, clamped to the monitor:
+the observed 1920 x 1200 work area fits 1240 x 1176. Wide views put transcript and Q/A beside one
+another. Main actions do not sit inside nested outer scrolling panels; long text still scrolls
+within its own control. Reading text is opaque white in the dark theme and black in light/plain
+themes. The answer shares the 10–100% Background slider. A quiet requested-state footer plus inline
+Details replaces persistent warning clutter without claiming capture certification.
+
+The local speech pipeline now separates fast Vosk partials from Whisper small.en CPU-int8 finals.
+Verified models, four CPU threads, disclosed general technical vocabulary, independent bounded
+source workers and a separate finalizer preserve strict v1/v2 messages. Finalization owns disjoint
+PCM spans, targets 15 seconds, and fails visibly under sustained backlog rather than silently
+dropping audio. Earlier long-window repetition, deadline and shared-queue failures are retained.
+
+On the new two-voice synthetic/noise corpus, raw WER moved from 12.04% to 4.40%, CER from 6.37% to
+0.263%, and speech-end-to-final median/p95 were 2.736/3.017 seconds. Normal Stop median/p95 were
+0.480/0.746 seconds; the 90-second client cap covers a conservative 85-second backend failure/
+cleanup envelope, not typical latency. Compound-token spelling and homophones remain imperfect.
+No original microphone recording exists here, and these results do not qualify the owner's voice,
+room or device. The earlier October 8 benchmark remains a different experiment.
+
+Agency now uses a fixed answer-only system role over official persistent ACP, with one exact JSON
+question per fresh session and no tool/permission surface. Ambiguous wording should receive a
+brief stated assumption and a concrete answer, not a request for another input. The app prepares
+one empty isolated session on startup/reveal/reload without submitting a model prompt, then keeps
+the provider rather than paying the full cold launcher cost for every Ask. Question history does
+not carry into the next session. Hide/Clear/protection failure/reload/close tear down owned state.
+
+The final H batch used the owner's exact intended question and reported ASR string without
+rewriting either. GPT-5.6 Sol Fast / low returned three complete answers in 4066, 4176 and 2992 ms;
+the malformed case explicitly assumed LeetCode Two Sum. All three C# implementations compiled and
+passed 33 ordinary/full-integer-boundary checks. The selected default changed accordingly. Forty-
+eight client question submissions are accounted for across the authorized study; no extra model
+calls were made for documentation or packaging.
+
+This is not a universal five-second SLO: initial empty-session preparation took roughly 20–31
+seconds. Earlier Haiku E success used different synthetic wording; F exact text exposed wrong-
+problem/follow-up failures, and G mini exposed overflow failures. Those results remain visible.
+The final three prepared-session examples are not a broad quality distribution or measured WPF
+paint latency. They test interpretation of text supplied by the owner, not recognition of audio.
+
+New rotating local diagnostics record safe stage/error/count/level metadata and request/capture
+correlation. App logs are bounded to 2 MiB per file, ten files and a 1024-record queue. Backend
+metadata rotates separately at 1 MiB with three backups and no transcript text. Text is an explicit
+app opt-in; notes, raw audio and tokens remain excluded. Metadata export removes Text by default,
+includes only allowlisted speech logs and never uploads. Old empty/deleted logs cannot reconstruct
+the reported interaction retroactively.
+
+The updated guides, source-linked book and synthetic UI illustrations follow these changes.
+The current local candidate and final validation identities are recorded in
+[implementation status](docs/IMPLEMENTATION-STATUS.md), not substituted for clean-machine,
+recipient/cursor, actual-microphone, accessibility or owner acceptance. Save/copy needed content
+and close the old app before updating; no user's running instance was force-closed.
+
+**Public evidence:** [quality correction](docs/QUALITY-UPDATE.md),
+[diagnostics](docs/DIAGNOSTICS.md), [answer results](tools/AgencyProbe/results/summary-final.json),
+[speech results](tools/SpeechBench/results/synthetic-quality-20261009.json) and workstreams
+[40](TODO/40_EXPANDED_READABLE_WORKSPACE.todo), [41](TODO/41_LOCAL_SPEECH_QUALITY.todo),
+[42](TODO/42_DIRECT_FAST_ANSWERS.todo), [43](TODO/43_LOCAL_DIAGNOSTICS.todo).
+
+Final review corrected three concrete failure paths: shutdown now initiates capture Stop before
+awaiting provider cleanup; a failed diagnostic write remains observable even if fallback stderr also
+fails; and follow-up detection anchors invitations to line starts rather than rejecting quoted
+phrases inside otherwise valid answers. The parent reports final Core345, service106, native46 and
+benchmark18 passes, plus the synthetic source UI including capture-before-cleanup and answer alpha.
+No additional model request or real audio was needed. The runtime was then frozen for local packaging;
+these bounded checks do not close owner, microphone or recipient-side qualification.
+
+The authorized local candidate is `phantom-fudge-0.1.0-preview-win-x64-20261009-045022.zip`:
+76,383,294 bytes and 508 files, SHA256
+`D24E8D2C5A1AF30E3F72FDA07F535B43D730420A81CE67115645605B7667D553`.
+Its exact extracted executable passed synthetic UI/question/answer checks, including capture Stop
+before provider cleanup and answer-background alpha. The fixture reported zero model/cloud requests
+and no recording/audio. The archive includes the required service helpers, diagnostic script pairs
+and five allowlisted public quality receipts, not weights, tokens, private profiles, PCM, logs,
+context stores or debug symbols. It is unsigned, not uploaded, and not a qualified release.
+
+## 2026-10-09, 10:07 request - Click several transcript lines to compose a question
+
+The owner wanted to click a Mic or Computer line directly in the main transcript and have it
+populate the question editor, then explicitly expanded the request to **multiple lines**. The
+manual source chooser alone made this unnecessarily indirect. The updated source now lets ordinary
+clicks toggle whole recognition segments without Ctrl and combines their raw text in displayed
+history order, not click order. A wrapped/multiline segment stays one selection; generated
+timestamps/source labels are not copied into the question.
+
+The implementation pairs immutable display rows with structured segment identity rather than
+parsing rendered text. Main visible history remains selectable after the smaller256-entry/
+64000-character chooser evicts records, while the unchanged display/export buffer still bounds
+accumulated history. Archived unfinished partials retain identity and provisional status;
+session separators cannot be selected. Selected partials follow revisions and finalization until
+the user edits. New finals follow the scrollbar only when already at the end, so choosing older
+history does not continually jump to new speech.
+
+A click opens Q/A, closes source/setup/Notes and enters independent question editing. This is a
+deliberate focus action, not passive no-activation. It does not stop transcription, enable Notes
+editing, freeze a snapshot or send anything. Once the user edits the question, direct selection
+changes retain that draft and its highlights with inline status until **Clear question**.
+No popup or repeated rehearsal/permission confirmation replaces the guard. The manual **Choose
+source → Mic / Computer / All → Use selected** replacement path remains available.
+
+Both paths use `QuestionDraft.ReplaceSelection`: one capture session, at most256entries and
+8192UTF-16 units including inserted newlines. Rejection is atomic, not truncation. Existing
+snapshots remain immutable. The selected outline keeps shared transparency and solid white/black
+reading text instead of covering the row with an opaque highlight.
+
+**Evidence and limits:** the runtime implementer reports the first full synthetic screenshot/UI
+run passed. The supplied actual WPF [multi-selection image](docs/handbook/assets/screenshots/transcript-multiselect.png)
+is now linked from the guide and UI chapter. It uses synthetic content, no real audio input and no
+model request; it is not recorder or owner-acceptance evidence. Final test evidence, image
+re-export/provenance, baseline-citation migration and handbook build/review remain the parent's
+handoff work. Workstream44 stays **IN_PROGRESS**.
+
+This is an **updated-source** delivery through `scripts\Run-PhantomFudge.ps1`, with no new ZIP planned.
+The045022ZIP above is preserved as the historical quality candidate and does not include click
+selection. Save/copy needed content and close the old app before launching updated source.
+No real microphone/model/org access, service operation or new login was part of this selection
+documentation work; no running owner instance was force-closed.
+
+**Public sources:** [direct selection](src/PhantomFudge.App/MainWindow.TranscriptSelection.cs),
+[synthetic diagnostic](src/PhantomFudge.App/MainWindow.TranscriptSelectionDiagnostics.cs),
+[draft rules](src/PhantomFudge.Core/QuestionDraft.cs),
+[local workflow](docs/LOCAL-QUESTIONS.md) and [workstream44](TODO/44_TRANSCRIPT_CLICK_SELECTION.todo).
+
+### 10:30 evidence handoff - Source validation complete, book stage pending
+
+The final source/UI receipts in `.local\handbook-capture-20261009-101632` report PASS for all20
+direct-selection checks and the existing question/answer, minimum/responsive layout, alpha,
+cursor and style guards. They report zero model/cloud requests and no recording/audio capture.
+The parent also reports118passing targeted Core question/transcript tests and an exporter refresh
+of16synthetic WPF images plus5READMEderivatives.
+
+After the first smoke, the final changes made the retained-edit status visible when Q/A had been
+hidden, added the twentieth check that clearing the transcript retains the copied question, and
+reset the synthetic fixture for readable answer images. Runtime is now frozen. Implementation
+and synthetic validation are complete; citation migration, full handbook/illustration review,
+freshness and final handoff remain with the parent. Workstream44 stays IN_PROGRESS for that stage,
+not because the source/UI checks failed. No new ZIP, live model/audio run or capture qualification
+is implied by these results.
+
+## 10:33 - Optional interpretation before a solution
+
+The owner requested a toggle for questions whose general meaning survived transcription but whose
+wording would be cumbersome to edit. With **Clarify first** enabled, the provider should restate the
+intended question; the owner can then type Yes or a correction before asking for the solution.
+This explicitly supersedes the no-follow-up requirement only for this opt-in mode. Normal Ask
+remains direct and history-free.
+
+The design keeps the original draft separate from a reply field and attaches only a fixed task
+instruction plus this clarification conversation. It is not permission to add device information,
+logs, notes, organization data or unselected transcript. Every interpretation, correction and final
+confirmation is a separate explicit request; no agent waits for interactive permission and the app
+never automatically submits a reply. Cancelled or incomplete interpretations cannot enter history.
+
+Implementation uses typed, bounded metadata behind the existing provider interface and same-HWND
+controls. The toggle is off on launch; changing destination or turning it off resets the clarification
+thread. Original question text remains available. Four interpretation rounds and a character budget
+bound retention; model guesses still require the owner's review.
+
+The earlier under-five-second measurements describe direct answers, not this multi-request loop.
+No new live model, authentication, audio or organization-data operation is authorized merely by
+implementing it. Current implementation/evidence and usage are recorded in
+[workstream45](TODO/45_OPT_IN_QUESTION_CLARIFICATION.todo) and
+[the clarification chapter](docs/QUESTION-CLARIFICATION.md).
+
+### Combined source delivery
+
+Both selection44 and clarification45 are complete locally. The combined affected Core run passed270
+tests, after227provider-focused cases; the final105245synthetic UI fixture passed20selection and
+16clarification cases plus the existing layout, alpha, cursor and answer lifecycle guards.
+The first clarification layout was too short at470x560. Reusing the narrow transcript area while
+replying made both the interpretation and reply readable without adding an outer scrollbar.
+
+The updated edition includes17synthetic WPF images,5READMEderivatives,51diagrams and a dedicated
+Clarify first chapter. Source citations were migrated once from the preserved pre-selection baseline.
+The first book attempt caught an invalid SVG generated from a line-break label; shortening that
+diagram label corrected it. The HTML/PDF and representative pages were then rebuilt and reviewed.
+The edition manifest remains authoritative for final counts and hashes.
+
+This remains a source-only handoff. The old045022ZIP was not modified; save/copy needed content,
+close the old app with X and use the source launcher. No live model, audio, service, authentication
+or organization-data operation was performed, and no commit or push was issued.
+
+## 11:07 - From a handbook to an annotated source reference
+
+The owner asked for deeper documentation covering every interesting line of code. The existing
+conceptual handbook explained the system, but a chapter list could not demonstrate whether a
+helper, diagnostic branch, test or operational script had been overlooked.
+
+The new approach separates explanation from measurable coverage. Seven source walkthroughs trace
+desktop interaction, domain state/storage, providers, native audio, Python recognition, operational
+scripts and the documentation compiler. A separate annotated source atlas pairs each first-party
+file with authored contiguous explanation blocks, important statement excerpts and complete
+line-numbered source. The HTML is searchable; its PDF emphasizes explanations rather than printing
+the entire repository twice.
+
+The compiler checks the live local Git inventory, exact source hashes, complete non-overlapping
+physical-line partitions, bounded excerpts and byte-identical PowerShell text mirrors. Generated
+evidence receipts and dependency lockfiles remain explicitly classified rather than counted as
+new authored code explanations. External package internals, private runtime data, model weights
+and actual device/provider behavior are outside this source-reading claim.
+
+This distinction matters: complete line assignment is not proof that every nuance is understood.
+The prose still explains actual guards, counter units, mutation order, failure preservation,
+ownership and test negative controls, with uncertainty stated. Tests and diagram freshness cannot
+substitute for that reading. Runtime source was held unchanged; this work does not run a meeting,
+an audio endpoint, a model or a capture proof.
+
+The existing Node documentation runner now also checks the atlas compiler's path/scope, line
+splitting, escaping, stale-source, gap/overlap and incomplete-output behavior. The main handbook
+requires a complete current atlas before it can declare its edition current. See
+[workstream46](TODO/46_ANNOTATED_SOURCE_REFERENCE.todo), the
+[source reader](docs/source-atlas/index.html) and the
+[documentation walkthrough](docs/handbook/28-documentation-source-walkthrough.md).
+
+### Source-reference delivery
+
+The finished atlas covers163first-party files and23686physical lines through956authored blocks
+across seven source groups.33generated evidence files and8dependency lockfiles are indexed separately;
+18PowerShell text mirrors match their canonical scripts. No runtime or non-documentation-tool
+source changed during this work.
+
+The searchable HTML contains complete escaped source, stable line links and local search across
+code and explanations. Its476-page PDF carries explanations and focused excerpts. The expanded
+conceptual handbook adds seven source walkthroughs and14diagrams, bringing the illustrated edition
+to65diagrams. Edition manifests, rather than these rounded narrative descriptions, own final
+hashes and counts.
+
+The existing Node test runner passed18documentation tests. The rendered reader contains all163file
+sections,956annotation blocks and23686source-line anchors; internal links, identifier search,
+filtered deep links and print-filter restoration behaved as intended. Reader widths1440/768/390
+fit without horizontal document overflow. Representative atlas/PDF pages and all seven new
+handbook chapters' code/diagram views were inspected.
+
+These are documentation and tooling results, not new microphone, model, container or recipient
+capture evidence. The owner-facing app was not restarted; no credentials, local service, runtime
+models or historical result receipts were changed. No commit, push or publication was performed.
+
+## 11:55 - Reduce only the answer typography
+
+The owner requested a50%smaller font in the answer field. Its normal size is now10WPF units rather
+than20; its compact size is9rather than18. Both the XAML default and responsive layout assignment
+changed, so resizing does not restore the larger text. Transcript and question text are unchanged.
+Clarification interpretations use the same answer reader and inherit the smaller type.
+
+The existing synthetic fixture now checks those exact sizes alongside layout/alpha/lifecycle
+behavior. Updated images, source annotations and the two documentation editions accompany this
+source-only adjustment. No model/audio/service operation, app force-close or new ZIP was involved.
+
+## 12:04 - Make Ask unmistakably the primary action
+
+The owner wanted Ask alone on the right, larger and with a colored background. The question action
+row now separates Type/edit, Copy and Clear on the left from a148-unit-wide, minimum44-high Ask
+target on the right. Its15-unit semibold label sits on the current theme's accent color with the
+matching action-text color. Hover/focus/press use the border; disabled state remains visibly dimmed.
+
+The same control still switches between Ask provider, Freeze locally, Interpret question and Reply
+below. Existing readiness and explicit-send guards are unchanged. The synthetic UI fixture checks
+the actual template colors, larger dimensions, right edge and separation from every secondary
+action across themes and representative layouts. The smaller answer font from11:55 remains intact.
+Updated images, source explanations/citations and both documentation editions accompany this
+source-only change; no live model/audio/service operation or user-app interruption was performed.
+
+## 12:15 - Put Clear after Ask, with a red border
+
+The owner refined the action order: Clear belongs immediately to Ask's right, outlined in red.
+The large accent-filled Ask is preserved, while Clear receives the final action column, a98-unit
+width,44-unit minimum height and two-unit theme-error border. Hover/focus/press change its face
+without replacing that red outline. Edit and Copy remain on the left.
+
+The first compact clarification layout wrapped the longer left-side labels and reduced reply
+height. Narrower horizontal padding on those two secondary controls fixed the actual layout.
+The synthetic fixture now checks both reading and typing a clarification reply, as well as
+right-side ordering, red border, existing lifecycle guards and the earlier half-size answer text.
+Source annotations, images and the two documentation editions follow the same change. The clear
+handler and provider behavior are unchanged; no real model/audio/service or owner-app operation ran.
+
+## 12:30 - Make active transcription visible
+
+The owner requested a red recording icon once transcription starts. A12-unit red dot now appears
+beside the transcript heading and Start control while the transcriber reports Running. Selecting
+Computer/Mic/Both or waiting for startup does not light it. Stop/fault status hides it through the
+existing control-refresh path, while reserved hidden space prevents the toolbar from shifting.
+
+The dot has a solid contrast outline and an accessible recording-state name. It means active
+transcription, not that the application is saving raw audio. The synthetic UI fixture checks
+stopped, starting, active and stopped-again presentation across themes and produces an explicitly
+labelled example without opening an audio endpoint. Source explanations, screenshots and both
+documentation editions are updated; no live model, service or owner-app operation was performed.
+
+## 12:42 - Replace scrolling device lists with cards
+
+The owner again emphasized no scrolling, this time for audio setup. The old64-unit-high device
+lists are replaced by selectable cards with wrapped names, accent outlines and radio dots.
+Setup temporarily uses the reading area, giving both sources enough room for normal catalogues
+without moving the app's recovery controls off-screen.
+
+Large catalogues and small windows need a finite navigation boundary. Measured card capacity now
+uses Previous/Next pages rather than scrollbars. Paging collapses off-page containers but preserves
+the full collections and selected endpoint objects; a page label identifies the chosen card's page.
+Only an explicit card click changes selection. Starting/running/stopping capture still locks it.
+
+The existing token field and guidance moved under Service setup, with automatic expansion when
+Start finds a missing token. Empty catalogues have explicit messages. Extremely long names may
+ellipsize in constrained cards without changing the actual name or endpoint ID.
+
+Synthetic23-output/17-microphone checks exercise card bounds, no-scroll templates, selection
+preservation, passive foreground, themes, lifecycle locks, source modes, service controls and empty
+states. Updated images and detailed source/book explanations accompany the change. No real input,
+model, service, owner-app restart, package release or push was involved.
+
+## 13:15 - Reduce transcription text by one quarter
+
+The owner requested25%smaller transcription text. Final Computer/Mic rows now use15WPF font units
+rather than20. Live partials use13.5rather than18, and compact partials use10.5rather than14.
+The responsive assignment and XAML defaults agree; question, answer and device-card text are unchanged.
+
+The existing synthetic layout fixture asserts those exact sizes while retaining its selection,
+focus, theme and lifecycle checks. Images, authored source explanations and the full documentation
+editions follow the change. No real audio/model/service operation or owner-app restart was performed.
+
+## 13:23 - A book cover, not an invisibility promise
+
+The owner requested a top-bar toggle that replaces the workspace with **NOTEPAD IS READY**.
+When asked about ongoing work, they explicitly chose to keep transcription and answers running.
+They then asked for broader screen-reader/process/capture hiding. The premise was corrected:
+Windows capture affinity is limited, and a visible app is not universally undetectable.
+
+The implementation swaps two hosts on the same protected HWND. It detaches and disables the
+workspace, retaining its objects and async activity, and exposes only the message and Uncover.
+Normal Hide/Exit behavior remains distinct. Pending file/confirmation operations prevent cover
+activation; hidden workspace shortcuts are blocked; Uncover restores current content and editing.
+Answers completed while covered do not acquire a false first-visible timestamp.
+
+An initial synthetic accessibility check showed that detachment alone left cached window-peer
+children. The supported ResetChildrenCache/InvalidatePeer sequence fixed fresh root traversal.
+However, a separately retained in-process value provider could still read the old question.
+That result is documented, not hidden: the cover reduces current-tree exposure but cannot retract
+cached data or erase retained memory.
+
+The134234fixture passed same-HWND/style, cover-pixel, compact-layout, background transcript/fake
+answer, editing and setup restoration checks with no real audio/model calls. The feasibility guide
+separates this evidence from external UIA clients, remote recipient capture, process inspection,
+OS microphone indicators, files, clipboard copies and provider retention.
+
+The supported native `DWMWA_DISALLOW_PEEK` request was then added for taskbar-hover previews.
+Its setter succeeded in the local fixture alongside affinity readback17, and failures follow the
+existing protection-setup path. This is not a captured hover/recipient observation. Process disguise,
+global accessibility suppression, drivers/injection and recorder/security-tool interference were
+not implemented. The completed guide ranks practical controls and deferred qualification honestly.
+
+## 14:18 - Put the updated workflow on the front page
+
+The owner requested new README images for the current workflow. The front page now walks through
+device cards, the red transcription indicator, multi-line question selection, optional clarification,
+the prominent Ask/red-bordered Clear controls and the notepad cover. Three paired image rows keep
+the page visual; setup and deeper explanations remain links rather than a front-page wall of text.
+
+Five new palette-backed derivatives reuse the verified synthetic WPF images, bringing the README
+set to ten. They preserve source pixels and dimensions and record source/output hashes. The frames
+are labelled as separate synthetic examples, not one real meeting or continuous model interaction.
+Cover's continuing-work behavior and the lack of universal invisibility remain explicit.
+
+Only documentation and its image allowlist changed. No app, capture endpoint, service, model,
+authentication flow, upload, commit or push was run for this update.

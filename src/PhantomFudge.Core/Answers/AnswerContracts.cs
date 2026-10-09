@@ -2,7 +2,7 @@ namespace PhantomFudge.Core.Answers;
 
 public enum AnswerEventKind { TextDelta, Completed }
 
-public sealed record AnswerRequest(Guid RequestId, string ExactText);
+public sealed record AnswerRequest(Guid RequestId, string ExactText, AnswerClarification? Clarification = null);
 
 public sealed record AnswerEvent(Guid RequestId, long Sequence, AnswerEventKind Kind, string Text = "");
 

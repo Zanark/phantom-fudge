@@ -1,0 +1,764 @@
+{
+  "schemaVersion": 1,
+  "id": "domain",
+  "title": "Domain values, bounded state, local storage and diagnostics",
+  "chapter": "docs/handbook/23-domain-source-walkthrough.md",
+  "files": [
+    {
+      "path": "src/PhantomFudge.Core/AudioSource.cs",
+      "sourceSha256": "a2b5a65fab05e33c18ac7582bf20d3b750d6e15117cb33b1baff973100679b20",
+      "role": "Separates a concrete input identity from a capture-mode choice, so Both is not mistaken for a third transcript source.",
+      "entryPoints": ["AudioSource", "AudioCaptureMode", "AudioSourceNames.WireName", "AudioSourceNames.DisplayName"],
+      "blocks": [
+        {
+          "start": 1, "end": 15, "title": "Two byte-valued sources, three selection modes",
+          "explanation": "AudioSource explicitly assigns Computer=1 and Microphone=2 with byte storage; zero is not a declared source. AudioCaptureMode is a separate enum whose Both value selects inputs rather than labeling one segment. Keeping the types separate prevents source provenance from becoming an ambiguous mixed-track label. These declarations do not open either device.",
+          "focus": [{"start": 3, "end": 14}]
+        },
+        {
+          "start": 16, "end": 31, "title": "Stable wire names and human labels with rejecting defaults",
+          "explanation": "WireName maps only the two valid inputs to lowercase protocol tokens; DisplayName uses Computer and Mic for presentation. Both switch defaults throw rather than silently reinterpret an unknown numeric value. The label names identify capture inputs, not people or diarized speakers, and transcript identity must never be recovered by parsing these labels.",
+          "focus": [{"start": 18, "end": 23}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs",
+      "sourceSha256": "9f0bf913d48eef5e538f38f17cd3789fd0027aea3d76ff9c7e868f61d91d2e44",
+      "role": "Provides a bounded local JSONL writer and a separate metadata-first facade with explicit content opt-in, observable drops and generic I/O failure reporting.",
+      "entryPoints": ["JsonlDiagnosticLog.TryWrite", "JsonlDiagnosticLog.Dispose", "LocalDiagnostics.ReloadSettings", "LocalDiagnostics.Record", "LocalDiagnostics.RecordContent", "LocalDiagnostics.RecordException", "LocalDiagnostics.FlushAndStop"],
+      "blocks": [
+        {
+          "start": 1, "end": 24, "title": "Typed events and a record capable of holding optional content",
+          "explanation": "Imports supply clocks, UTF-8, JSON and channels. DiagnosticEvent names lifecycle, audio, transcript, question and answer milestones; DiagnosticContent limits the facade's content categories to final transcript, submitted question and answer. DiagnosticRecord carries UTC and monotonic clocks, process ID, correlation/related IDs, optional elapsed/count values and optional strings. Text is possible in the raw record: the record type itself neither redacts nor requires opt-in. LoggingDropped is declared here but the writer below increments a counter rather than emitting that event automatically.",
+          "focus": [{"start": 18, "end": 24}]
+        },
+        {
+          "start": 25, "end": 58, "title": "Create a bounded channel and one background drain",
+          "explanation": "The writer retains a full directory path, rotation settings, channel/task and interlocked or volatile status fields. Filenames include UTC time, process ID and a GUID to distinguish logger instances. Defaults are 2,097,152 bytes per file, ten files and 1,024 queued records; guards require at least 1,024 bytes, two files and one slot. SingleReader=true matches one WriteAsync consumer. FullMode.Wait does not make the public TryWrite block: it makes a full channel reject that non-waiting call. Capacity counts record objects, not their aggregate memory or UTF-8 bytes.",
+          "focus": [{"start": 43, "end": 54}]
+        },
+        {
+          "start": 59, "end": 70, "title": "Never wait for capacity on the producer path",
+          "explanation": "TryWrite rejects null synchronously. A disposed writer or unsuccessful channel TryWrite increments dropped atomically and returns false; accepted enqueue returns true, not proof of eventual disk persistence. A producer racing disposal may be rejected by the completed channel. No privacy or record-size validation happens here, so callers bypassing LocalDiagnostics can submit arbitrary DiagnosticRecord.Text.",
+          "focus": [{"start": 60, "end": 68}]
+        },
+        {
+          "start": 71, "end": 101, "title": "Serialize, measure bytes, rotate, append and report failures",
+          "explanation": "The single reader creates the directory for each record and rejects a reparse-point attribute on that directory. It serializes before measuring UTF-8 bytes, including the platform newline; an oversized record is dropped with record_limit without appending. Rotation occurs before an append that would exceed the current file limit. BOM-free append is followed by Prune, then failureCode is cleared on success. IOException and UnauthorizedAccessException increment drops, set diagnostic_io and emit a generic Trace message without the exception body. If append succeeds but pruning fails, the drop count still increases although the record may exist on disk. Other exceptions are not caught by this filter; this is neither universal fault suppression nor a race-free filesystem security sandbox.",
+          "focus": [{"start": 80, "end": 91}]
+        },
+        {
+          "start": 102, "end": 130, "title": "Retention, bounded shutdown wait and JSON representation",
+          "explanation": "Prune enumerates events-*.jsonl across the directory, excludes reparse-point files and this instance's current file, orders the rest by newest LastWriteTimeUtc and deletes everything beyond maximumFiles-1. Thus retention is not scoped to the instance identity; concurrent writers or skipped links are outside a strict directory-wide size guarantee. Dispose is idempotent via Interlocked.Exchange, completes the channel and waits at most three seconds for draining. Timeout sets flush_timeout but does not cancel the drain. A faulted writer can make Wait throw. JSON omits null fields and serializes enums as strings.",
+          "focus": [{"start": 113, "end": 122}]
+        },
+        {
+          "start": 131, "end": 160, "title": "Lazy local sink and fail-closed text settings",
+          "explanation": "Paths live under LocalApplicationData/PhantomFudge; inspecting failure/drop properties does not create the Lazy sink. ReloadSettings first disables text, then treats a missing file as metadata-only. It rejects files longer than 1,024 bytes and requires a JSON object with exactly one property named includeText whose value is Boolean. Extra or duplicate properties therefore fail the count check. Only after successful parsing is text enabled. Parse/open errors propagate to the application handler; resetting first prevents a previously enabled value surviving a failed reload. This checks stream length before parsing, not a locked immutable settings snapshot.",
+          "focus": [{"start": 148, "end": 159}]
+        },
+        {
+          "start": 161, "end": 170, "title": "Validate metadata before instantiating the sink",
+          "explanation": "Record accepts defined events, nonnegative optional elapsed/count values, SafeCode-compatible codes and a fixed provider allowlist. Invalid input throws before Sink.Value is accessed. Accepted records receive fresh UTC, Stopwatch ticks and process ID; relatedId permits a second correlation. TryWrite's Boolean result is deliberately not returned, so health is observed through dropped/failure properties. SafeCode constrains syntax and length, not semantic secrecy: an allowed single-word string is not automatically safe to log.",
+          "focus": [{"start": 165, "end": 169}]
+        },
+        {
+          "start": 171, "end": 185, "title": "Explicitly enabled content has a separate truncation policy",
+          "explanation": "RecordContent validates null and enum input even when text logging is disabled, then returns without creating a sink unless includeText is true. It maps the three content kinds onto transcript-final, question-frozen and answer-completed events. Count records the original .NET string length; Text keeps at most 32,768 UTF-16 code units, with content_opt_in or content_truncated marking the decision. This is not byte-based or grapheme-aware truncation and can split a surrogate pair. Serialized-byte limits are applied later by JsonlDiagnosticLog.",
+          "focus": [{"start": 177, "end": 184}]
+        },
+        {
+          "start": 186, "end": 203, "title": "Exception identity and bounded sanitized stack frames",
+          "explanation": "RecordException sends the exception type name through Record, never error.Message or ToString. It follows at most four InnerException levels and takes at most eight frames from each StackTrace constructed without file information. Declaring-type and method names are joined, non-ASCII/non-allowed punctuation is replaced with underscores, and the result is capped at 96 characters. Depth is recorded as Count. This preserves structural failure clues without paths or arguments, but unusual exception type names can fail Record's SafeCode validation and method names remain metadata rather than content redaction.",
+          "focus": [{"start": 192, "end": 200}]
+        },
+        {
+          "start": 204, "end": 213, "title": "Stop only an existing sink and constrain metadata tokens",
+          "explanation": "FlushAndStop does not instantiate a logger just to shut it down. It disposes the existing Lazy value and does not replace it, so later valid records target that disposed sink and are counted as drops. SafeCode permits null or a 1..96-character ASCII alphanumeric token plus underscore, hyphen, period and colon; empty strings, spaces, slashes and arbitrary Unicode are rejected. The facade is a controlled logging API, not an encryption or authorization mechanism.",
+          "focus": [{"start": 205, "end": 212}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Core/NoteFileStore.cs",
+      "sourceSha256": "b77d315514d7fdbe492123fac1819c16fa1dd33d114807cff2eda04135d88658",
+      "role": "Reads and explicitly writes bounded strict UTF-8 notes, preserving BOM choice and using byte fingerprints to detect observed external changes.",
+      "entryPoints": ["NoteFileStore.Fits", "NoteFileStore.ReadAsync", "NoteFileStore.WriteAsync", "NoteFileStore.VerifyUnchangedAsync"],
+      "blocks": [
+        {
+          "start": 1, "end": 25, "title": "A byte budget, strict encoder and conflict-specific exception",
+          "explanation": "NoteSnapshot returns text, BOM presence and a SHA-256 fingerprint; its positional record is an immutable-value style carrier with generated init properties, unlike the getter-only transcript classes. NoteConflictException is an IOException with a generic message. StrictUtf8 uses no automatic BOM and throws on invalid encoding input. Fits measures UTF-8 bytes, subtracting three bytes when a BOM is requested; an unpaired surrogate yields false through EncoderFallbackException. Null is not caught by that filter. The 1 MiB limit is not a character count.",
+          "focus": [{"start": 12, "end": 23}]
+        },
+        {
+          "start": 26, "end": 45, "title": "Bound the read while streaming and hash original bytes",
+          "explanation": "ReadAsync opens an asynchronous sequential stream with FileShare.ReadWrite, reads 16,384-byte chunks and checks the accumulated byte length before appending each chunk. It therefore rejects growth beyond 1 MiB rather than trusting initial file size. After buffering, it detects a leading UTF-8 BOM, decodes the remaining bytes strictly and hashes the complete bytes including that BOM. Text/newlines are not normalized. Shared access allows concurrent writers; the returned fingerprint describes bytes actually read, not a guaranteed point-in-time filesystem snapshot.",
+          "focus": [{"start": 34, "end": 44}]
+        },
+        {
+          "start": 46, "end": 60, "title": "Validate and prepare a same-directory temporary before writing",
+          "explanation": "WriteAsync rejects text that does not fit before filesystem mutation; invalid surrogate input is reported with the same InvalidDataException message as overflow. It resolves the target path, chooses a GUID-named .phantom temporary in the target directory, encodes text and explicitly prepends BOM bytes when requested. The first VerifyUnchangedAsync runs before the temporary exists. A null expectedFingerprint means create-only, not permission to overwrite an arbitrary existing file.",
+          "focus": [{"start": 50, "end": 60}]
+        },
+        {
+          "start": 61, "end": 81, "title": "Flush, recheck, honor cancellation, publish and clean up",
+          "explanation": "CreateNew plus FileShare.None protects the temporary's creation and handle. The code writes bytes, awaits a flush, requests Flush(true), and closes the stream before a second fingerprint check. A cancellation check immediately precedes File.Move; overwrite is enabled only when an expected fingerprint was supplied. The result hashes the exact bytes prepared. Finally deletes any remaining temporary on success or failure. This is optimistic replacement, not compare-and-swap: another writer can change the target after the second check and before Move. Cleanup failures can propagate, and these calls do not establish crash-proof directory-entry durability.",
+          "focus": [{"start": 66, "end": 74}]
+        },
+        {
+          "start": 82, "end": 97, "title": "Creation and replacement have different conflict contracts",
+          "explanation": "With no expected fingerprint, any existing target is a conflict; otherwise absence is also a conflict, preventing silent recreation of a deleted file. An existing target is reread through the same bounded strict UTF-8 reader and compared with StringComparer.Ordinal. Hashes detect byte differences including BOM changes, not only visual text changes. Access, invalid encoding and oversize failures from ReadAsync can propagate as their own errors instead of NoteConflictException. No lock is held across verification and publication.",
+          "focus": [{"start": 86, "end": 95}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Core/PhantomFudge.Core.csproj",
+      "sourceSha256": "95b6a79adb4ad8329d8eb4c1873f012cc4f4934a0f0573b0e42b01222d7201db",
+      "role": "Defines the .NET Core library project without a WPF target or direct package declarations.",
+      "entryPoints": ["MSBuild project evaluation"],
+      "blocks": [
+        {
+          "start": 1, "end": 5, "title": "Minimal SDK-style net10.0 library",
+          "explanation": "Microsoft.NET.Sdk consumes this project and targets net10.0. No OutputType, WPF flag or PackageReference is declared here; shared Directory.Build.props supplies nullable analysis, implicit usings, warnings-as-errors, deterministic builds and lockfile restore settings. This file is the build declaration, not evidence of a successful build or portability of every provider implementation compiled into Core.",
+          "focus": [{"start": 1, "end": 5}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Core/QuestionDraft.cs",
+      "sourceSha256": "51ddfe4ab42936c7b61d23d3a973aa206c6dffe3297bf2d20638b1ea6c11d7e5",
+      "role": "Owns explicitly selected or typed question state, preserves user edits against recognition refresh and freezes an exact local snapshot.",
+      "entryPoints": ["QuestionDraft.ReplaceSelection", "QuestionDraft.EditText", "QuestionDraft.Refresh", "QuestionDraft.Clear", "QuestionDraft.Freeze"],
+      "blocks": [
+        {
+          "start": 1, "end": 17, "title": "Caller-serialized question state and two independent ceilings",
+          "explanation": "A draft starts with a fresh question GUID, revision zero, empty text and a read-only empty selection. Limits are 8,192 .NET string-length units and 256 selected segments, so even zero-length provenance is bounded. IsProvisional means any selected copy is not final; it does not mean currently active capture, and a typed-only draft is not provisional. The class comment requires one serialized caller, normally the UI dispatcher; there is no internal synchronization.",
+          "focus": [{"start": 8, "end": 16}]
+        },
+        {
+          "start": 18, "end": 36, "title": "Stage explicit selection without touching committed state",
+          "explanation": "ReplaceSelection enumerates into local collections. Null input/items fail, and all entries must belong to one capture session. A HashSet deduplicates by the complete TranscriptSegmentKey while preserving the first occurrence and the caller's order; a later revision with the same key does not silently win. The count guard applies after deduplication. Each accepted segment and key is copied. Cross-session, count and enumeration failures occur before assignments to the draft.",
+          "focus": [{"start": 26, "end": 35}]
+        },
+        {
+          "start": 37, "end": 46, "title": "Compose before commit and make explicit replacement reset editing",
+          "explanation": "Compose can reject oversized combined text before state changes. Equal text plus value-equal selected records is a no-op only while UserEdited is false. Otherwise checked revision arithmetic is evaluated before publishing the read-only array, text and reset edit flag. Reselecting after a user edit deliberately reenables selected ASR refresh, even if some visible text happens to match. Replacement does not change QuestionId.",
+          "focus": [{"start": 38, "end": 45}]
+        },
+        {
+          "start": 47, "end": 59, "title": "Identical text is still an explicit edit",
+          "explanation": "EditText validates before mutation and increments Revision only when the string differs exactly. It always sets UserEdited=true, even if the user reasserts the same text. This flag is a policy change independent of numeric revision: subsequent Refresh must not overwrite text or provenance. No trimming, newline rewriting or Unicode normalization occurs, and existing selected copies remain available as original provenance.",
+          "focus": [{"start": 50, "end": 58}]
+        },
+        {
+          "start": 60, "end": 79, "title": "Refresh only selected nonfinal keys with newer revisions",
+          "explanation": "A null store fails; an edited draft or empty selection returns immediately. Current store records are indexed by full key, and the draft walks its own selection order. Only a previously nonfinal selection with the same current key and strictly greater revision is replaced by a copy; missing/evicted records and selected finals remain unchanged. Value equality avoids revision inflation. Compose and checked arithmetic run before committing, so an oversized ASR update preserves the old text, selection object and revision rather than truncating the question.",
+          "focus": [{"start": 67, "end": 78}]
+        },
+        {
+          "start": 80, "end": 97, "title": "Clear identity explicitly and freeze without sending",
+          "explanation": "Clear generates a new question GUID, resets revision/text/edit state and drops selected references, preventing late refresh from repopulating an empty selection. Freeze validates the existing text, rejects whitespace-only questions, and constructs a snapshot with the current ID/revision, exact string, source copies and flags plus Stopwatch.GetTimestamp. It neither increments the draft revision nor calls a provider. Repeated freezes can therefore share ID/revision but are distinct snapshot objects with capture-time timestamps.",
+          "focus": [{"start": 90, "end": 95}]
+        },
+        {
+          "start": 98, "end": 126, "title": "Count UTF-16 units and only the separators actually emitted",
+          "explanation": "ValidateText rejects null and strings longer than 8,192 UTF-16 code units, not bytes or graphemes. Compose skips only zero-length strings, not whitespace strings, and uses a long accumulator. It adds Environment.NewLine.Length only between nonempty segment texts, matching the later string.Join exactly. A replacement overflow is ArgumentException with parameter segments; a refresh overflow is InvalidOperationException describing retained state. The join is delayed until the budget passes, and selected empty records remain in provenance even though they contribute no separators.",
+          "focus": [{"start": 109, "end": 120}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Core/QuestionSnapshot.cs",
+      "sourceSha256": "720ff106a4e0ca909cd85b6da1628b6bb990fa54a4ec43c94d0d98d35e5ec736",
+      "role": "Carries an immutable local question value whose exact text and copied provenance are independent of later draft/store mutations.",
+      "entryPoints": ["QuestionSnapshot.QuestionSnapshot (internal)", "QuestionSnapshot.ExactText", "QuestionSnapshot.SourceRefs"],
+      "blocks": [
+        {
+          "start": 1, "end": 24, "title": "Freeze value identity, exact text, provenance and clock together",
+          "explanation": "The internal constructor stores the question GUID, draft revision and exact string without rewriting them, deep-copies every TranscriptSegment and its key into a read-only array, and captures provisional/edit flags plus a supplied monotonic timestamp. All exposed properties are getter-only. Strings are immutable, so sharing ExactText is safe; wrapping only the original caller list would not have been enough. Validation belongs to QuestionDraft.Freeze rather than being repeated here. SourceRefs can retain original ASR text after an edit and are local provenance, not a request payload to serialize indiscriminately.",
+          "focus": [{"start": 8, "end": 14}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Core/StructuredTranscriptStore.cs",
+      "sourceSha256": "8b17e2686e28262373c48e44d565fb5347d07447094e8e16cfb939b43ac1ace6",
+      "role": "Maintains a bounded caller-serialized selection model with stable local keys, source epochs, immutable revisions and session-global final deduplication.",
+      "entryPoints": ["StructuredTranscriptStore.BeginSession", "StructuredTranscriptStore.SetPartial", "StructuredTranscriptStore.AddFinal", "StructuredTranscriptStore.Clear", "StructuredTranscriptStore.Segments"],
+      "blocks": [
+        {
+          "start": 1, "end": 23, "title": "Bound retained selection history, not the complete export",
+          "explanation": "The store has positive configurable segment and character budgets, defaulting to 256 and 64,000. It tracks latest epochs per source, a list of immutable records, a lifetime local-ID counter and a session-global final-ID high-water mark. Segments returns a newly copied array with a read-only wrapper: membership cannot mutate, while immutable record instances may be shared. SessionId starts empty, requiring BeginSession before valid events are accepted. Caller serialization is a precondition, not a lock implemented here.",
+          "focus": [{"start": 13, "end": 22}]
+        },
+        {
+          "start": 24, "end": 35, "title": "Start another session without inventing finals",
+          "explanation": "BeginSession rejects an empty GUID, the current GUID and any GUID still present in retained segments. It first constructs a replacement list that closes every active partial by adding a revision while keeping IsFinal false. It then clears epochs, resets the protocol high-water mark and installs the new session ID. Existing finals/history survive and the local-ID counter does not reset. This is not a permanent registry of every GUID ever seen: IDs absent after eviction or Clear cannot be detected by the retained-history check.",
+          "focus": [{"start": 26, "end": 33}]
+        },
+        {
+          "start": 36, "end": 64, "title": "Apply partial updates transactionally around a stable key",
+          "explanation": "SetPartial validates even before checking whether an event is stale. Obsolete session/epoch returns false. PrepareUpdate stages source-epoch closures, then FindPartial locates the active utterance for that source/epoch. Changed text replaces its record with checked revision+1; identical text preserves revision. A nonempty new utterance allocates a checked local ID and revision one, whereas an empty partial without an existing utterance creates no row. ApplyUpdate must succeed before epoch and ID counters are committed. True means accepted, including unchanged or empty input, not necessarily a visible change.",
+          "focus": [{"start": 47, "end": 58}]
+        },
+        {
+          "start": 65, "end": 101, "title": "Settle partials and advance one session-global final mark",
+          "explanation": "AddFinal validates source/text/epoch, positive protocol ID and optional timing before rejecting stale events or IDs at/below the global high-water mark. It settles only the matching active source/epoch, retaining the key and incrementing revision even when final text is unchanged or empty. An empty final replaces guessed text with empty, not the prior guess. Without a partial, only nonempty finals create rows. Capacity is applied before counters are changed. The accepted protocol ID advances even for empty finals with no row, keeping duplicate memory constant while relying on in-order, session-global protocol delivery.",
+          "focus": [{"start": 80, "end": 91}]
+        },
+        {
+          "start": 102, "end": 118, "title": "Clear callbacks' current session and centralize input guards",
+          "explanation": "Clear empties retained rows and epoch/final tracking and sets SessionId to Guid.Empty, but intentionally leaves lastLocalSegmentId intact for this store object's lifetime. Earlier array snapshots retain their contents. ValidateEvent calls session, source, text and epoch guards in that order; malformed obsolete events therefore throw instead of silently returning false. Clearing does not know about QuestionDraft copies and cannot erase them.",
+          "focus": [{"start": 103, "end": 110}]
+        },
+        {
+          "start": 119, "end": 133, "title": "Source-specific epoch transitions and unfinished records",
+          "explanation": "IsCurrent requires the active session and an epoch not lower than the last accepted epoch for that input. PrepareUpdate closes active records only for the affected source whose epoch differs; a microphone restart does not close Computer. ClosePartial preserves key, text and timing, uses checked revision arithmetic, clears protocol metadata and relies on the default isActive=false without claiming finality. FindPartial uses active/source/epoch fields, not rendered text or a protocol final ID. Old sessions have already had active rows closed by BeginSession.",
+          "focus": [{"start": 120, "end": 129}]
+        },
+        {
+          "start": 134, "end": 147, "title": "Evict historical rows but protect live and incoming state",
+          "explanation": "ApplyUpdate sums Text.Length into a long, then repeatedly removes the first list entry that is inactive and is not the changed key until both budgets fit. This is retained-list order, not timestamp sorting or LRU. Active partials and the just-updated/finalized row cannot be sacrificed to make their own update appear successful. If no candidate exists, it throws while the original list and counters remain intact. Only the final assignment publishes the staged list. Whole segments are evicted; text is never truncated.",
+          "focus": [{"start": 136, "end": 145}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Core/ThemePalette.cs",
+      "sourceSha256": "35f13ea5defda7d33c29f777f2270bb1dd6a11920d923318aa7f332baa8b7a5e",
+      "role": "Names semantic UI color roles independently of WPF brushes, retaining a distinct solid reading color.",
+      "entryPoints": ["ThemePalette.For", "ThemePalette.NextThemed"],
+      "blocks": [
+        {
+          "start": 1, "end": 10, "title": "Color roles are data, not a rendering subsystem",
+          "explanation": "UiTheme declares DeepSeaFoam, HarborDaylight and Plain. The positional record names Background/Surface/Input fills; Text/Muted/Heading reading hierarchy; Border/Accent/Hover/Selection interaction colors; SelectionText/ActionText foregrounds; Warning/Error statuses; and a separate HighContrastReading foreground. Name is display metadata. The properties are generated init properties on a record, not mutable WPF resources; ThemeBrushes.Apply is the consumer that converts these strings to brushes.",
+          "focus": [{"start": 5, "end": 9}]
+        },
+        {
+          "start": 11, "end": 26, "title": "Three complete fixed palettes with rejecting lookup",
+          "explanation": "For returns a complete new palette for each supported enum. DeepSeaFoam uses a dark blue-green background and white HighContrastReading; HarborDaylight uses light green/cream surfaces and black reading; Plain uses near-white/gray surfaces and black reading. The ordinary Text colors remain softer and separate from reading white/black. Warning and Error keep dedicated role colors even in Plain. Unsupported enum values throw, avoiding a silent fallback that would hide configuration mistakes. These RGB constants do not encode opacity or establish contrast over a composited desktop.",
+          "focus": [{"start": 13, "end": 24}]
+        },
+        {
+          "start": 27, "end": 30, "title": "Toggle companions rather than cycling through every theme",
+          "explanation": "NextThemed maps DeepSeaFoam to HarborDaylight and every other input to DeepSeaFoam. Thus Plain exits into the themed pair rather than being the third stop in a cycle. Unlike For, this helper does not reject an invalid enum value; its fallback is part of the actual expression.",
+          "focus": [{"start": 28, "end": 29}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Core/TranscriptBuffer.cs",
+      "sourceSha256": "d9d2477acd821aa6b3e075a7c02ab4ec040791bad2c89181e629b4746a11e449",
+      "role": "Preserves human-readable transcript/export text with separate source partials and reject-on-overflow behavior instead of structured-history eviction.",
+      "entryPoints": ["TranscriptBuffer.BeginSession", "TranscriptBuffer.SetPartial", "TranscriptBuffer.AddFinal", "TranscriptBuffer.ExportText", "TranscriptBuffer.Clear"],
+      "blocks": [
+        {
+          "start": 1, "end": 22, "title": "Committed text and source-ordered live text are separate",
+          "explanation": "A StringBuilder holds committed export history with a 250,000 UTF-16-unit budget, while a dictionary holds current partials by numeric source key. Partial and UnfinishedText omit empty values and sort source keys, so output ordering is deterministic rather than arrival order. UnfinishedText explicitly labels uncertain recognition. Text snapshots the builder as a string; HasContent also checks nonempty partial rendering. The 250,000 cap is not a cap on ExportText including extra live partials and markers.",
+          "focus": [{"start": 13, "end": 21}]
+        },
+        {
+          "start": 23, "end": 40, "title": "Preflight session archival before clearing partials",
+          "explanation": "BeginSession first refuses a latched full buffer. It prepares unfinished recognition with platform newlines and a session separator whose literal newlines are LF, then checks the entire prospective append before mutation. Overflow sets IsFull and throws while preserving text and partials. Success archives partials, appends a separator only when prior content exists, resets final deduplication and clears the live dictionary. This buffer has no capture GUID; the application and StructuredTranscriptStore enforce session identity.",
+          "focus": [{"start": 27, "end": 38}]
+        },
+        {
+          "start": 41, "end": 57, "title": "Partial replacement and final validation precede mutation",
+          "explanation": "SetPartial bounds one string at 16,384 UTF-16 units and replaces only the selected source entry. AddFinal resolves a source key, rejects nonpositive IDs, oversized text and nonfinite/negative/over-30-day start offsets, then rejects IDs at/below one global mark before clearing any partial. The optional source supports an unlabeled legacy track. Unlike TranscriptValidation.Text, these methods access value.Length directly rather than providing an explicit null guard.",
+          "focus": [{"start": 48, "end": 56}]
+        },
+        {
+          "start": 58, "end": 74, "title": "Format elapsed hours, reject overflow and settle one source",
+          "explanation": "The timestamp computes total integer hours separately from TimeSpan's minute/second components, preventing a 25-hour offset from wrapping to hour one. InvariantCulture stabilizes numeric formatting. Empty final text produces no line. Prospective formatted line length includes source label, timestamp and newline; overflow sets IsFull and throws before consuming the ID or removing the partial. Accepted finals advance the ID and clear only their source. Return value means a line was appended, so an accepted empty final returns false, unlike StructuredTranscriptStore.AddFinal.",
+          "focus": [{"start": 62, "end": 72}]
+        },
+        {
+          "start": 75, "end": 97, "title": "Explicit export, reset and validated legacy source mapping",
+          "explanation": "ExportText returns committed text plus labeled unfinished recognition without modifying either store. Clear removes text/partials, resets the global final mark and releases IsFull. SourceKey maps null to unlabeled zero and the two enum sources to one/two; other numeric values throw InvalidDataException. SourcePrefix converts valid nonzero keys through DisplayName. IsFull is a restart/status latch: SetPartial and AddFinal do not directly test it, so do not describe it as a universal mutation lock.",
+          "focus": [{"start": 75, "end": 85}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Core/TranscriptSegment.cs",
+      "sourceSha256": "0bd6ec2f24cb5aa25b9b5a6f474b3254b17139031fc293cce514ff71875a7384",
+      "role": "Defines immutable structured identity/revision values and centralized validation, keeping display labels separate from provenance.",
+      "entryPoints": ["TranscriptSegmentKey.TranscriptSegmentKey", "TranscriptSegment.TranscriptSegment", "TranscriptSegment.DisplayText", "TranscriptSegment.Copy", "TranscriptValidation"],
+      "blocks": [
+        {
+          "start": 1, "end": 21, "title": "Identity is the full session/source/epoch/local-ID tuple",
+          "explanation": "The key constructor validates a nonempty capture GUID, recognized source, nonnegative epoch and positive local segment ID before assigning getter-only properties. Record value equality includes all four fields; a reused protocol number, identical text or the same microphone cannot identify a segment across sessions/epochs. The key carries no revision because later recognition revises one identity instead of making the user's selection point elsewhere.",
+          "focus": [{"start": 5, "end": 14}]
+        },
+        {
+          "start": 22, "end": 50, "title": "Validate text, timing and final/partial consistency",
+          "explanation": "A segment is a sealed record with a 16,384-unit text ceiling and 2,592,000-second timing ceiling. Construction requires a key and positive revision, then validates text/timing. Finals must have a positive protocol ID; partials cannot claim any protocol final ID; finals cannot be active partials. A nonfinal inactive segment is legal and represents unfinished historical recognition. Only after all guards pass are the supplied fields assigned unchanged. Optional partial timings are not prohibited, and empty text is valid.",
+          "focus": [{"start": 31, "end": 40}]
+        },
+        {
+          "start": 51, "end": 66, "title": "Read-only records, display-only abbreviations and defensive copies",
+          "explanation": "All exposed segment fields are getter-only. DisplayText derives its session suffix, source label and Final/Partial/Unfinished partial label from structured fields, then appends literal text; it does not parse embedded labels. The last eight GUID hex digits are only a visual discriminator and are not collision-free identity. Copy constructs another validated segment and clones Key with an empty with-expression. Strings can be shared safely because they are immutable, while callers receive distinct segment/key objects.",
+          "focus": [{"start": 60, "end": 65}]
+        },
+        {
+          "start": 67, "end": 89, "title": "Reusable session/source/epoch/text guards",
+          "explanation": "TranscriptValidation rejects an empty session GUID with the caller's parameter name, rejects every source except Computer/Microphone, and rejects negative epochs. Text must be nonnull and within the length ceiling, but blank or whitespace text is allowed for recognition settlement. string.Length measures UTF-16 code units and this validator does not reject unpaired surrogates, normalize combining characters or measure encoded bytes; NoteFileStore's strict UTF-8 policy is a different boundary.",
+          "focus": [{"start": 82, "end": 89}]
+        },
+        {
+          "start": 90, "end": 104, "title": "Optional timing remains finite, bounded and ordered",
+          "explanation": "Timing validates start and end independently, accepting missing values. When both exist, end cannot precede start; equality is allowed. Seconds rejects NaN, either infinity, negative offsets and values above the inclusive 30-day ceiling. These values are seconds rather than wall-clock timestamps or Stopwatch ticks. A missing endpoint is not synthesized from the other.",
+          "focus": [{"start": 91, "end": 102}]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.Core/WorkspaceLayout.cs",
+      "sourceSha256": "d7cf6bb33938580f922e75e03650fa84e87932aa0322851f6539a132548dffaa",
+      "role": "Computes finite, work-area-constrained window geometry and the reading-column breakpoint without depending on WPF.",
+      "entryPoints": ["WorkspaceLayout.UseReadingColumns", "WorkspaceLayout.FitToWorkArea"],
+      "blocks": [
+        {
+          "start": 1, "end": 16, "title": "Pure geometry result and named layout constants",
+          "explanation": "WorkspaceBounds is a readonly record struct returning position, dimensions and adjusted minima. Defaults request 1240 by 1520, nominal minima are 470 by 560, the two-column threshold is inclusive at 900, and nominal edge inset is 12. UseReadingColumns only compares width and does not validate it. Units are the caller's coordinate space; MainWindow.Layout converts monitor device coordinates into WPF coordinates before calling FitToWorkArea.",
+          "focus": [{"start": 8, "end": 15}]
+        },
+        {
+          "start": 17, "end": 32, "title": "Reject invalid work areas and relax minima for small screens",
+          "explanation": "FitToWorkArea accepts optional requested size/position but first requires all work-area coordinates/dimensions to be finite and dimensions positive. Its exception always names workWidth, even if another component is invalid. Insets are the smaller of 12 and a quarter of that dimension, leaving usable space even in tiny areas. MinimumWidth/Height are reduced to available space rather than forcing a nominal minimum offscreen. Negative monitor origins are valid.",
+          "focus": [{"start": 22, "end": 32}]
+        },
+        {
+          "start": 33, "end": 44, "title": "Normalize requested size before clamping its position",
+          "explanation": "Nonfinite requested dimensions fall back to desired dimensions; finite values clamp between adjusted minima and available bounds. Missing/nonfinite coordinates center the already-fitted size, while valid coordinates are preserved as far as possible. Final position clamps use that fitted size, keeping the window inside the inset work area. The function returns values only; native monitor discovery, DPI conversion and applying Width/Height remain the desktop caller's responsibilities.",
+          "focus": [{"start": 33, "end": 42}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/LocalDiagnosticsTests.cs",
+      "sourceSha256": "26b07c9ed531977a4512032d1ae7e56ce03b7c19b2d8b77be3130a3605a02217",
+      "role": "Exercises synthetic JSONL flushing, rotation, observable I/O failure and selected metadata rejection controls without live content.",
+      "entryPoints": ["LocalDiagnosticsTests.MetadataLogFlushesAndDoesNotInventContent", "LocalDiagnosticsTests.RotationBoundsFilesAndRecordSize", "LocalDiagnosticsTests.IoFailureIsObservableWithoutThrowingAwayAppState", "LocalDiagnosticsTests.ArbitraryStringsCannotBeWrittenAsMetadata"],
+      "blocks": [
+        {
+          "start": 1, "end": 25, "title": "Dispose drains one metadata record with no Text field",
+          "explanation": "A unique temporary directory isolates the logger. The test enqueues a synthetic AnswerStarted record, leaves the using scope to drain it, reads exactly one line/file, parses JSON and checks enum spelling, Count=42 and absence of Text. The finally block deletes the fixture. This checks null omission and a simple successful drain, not that the raw sink rejects supplied text or that all shutdowns meet the timeout.",
+          "focus": [{"start": 14, "end": 21}]
+        },
+        {
+          "start": 26, "end": 41, "title": "Rotation controls with a queue deliberately larger than the workload",
+          "explanation": "The test configures 1,024-byte files, three retained files and 200 queue slots, then submits 100 small metadata records, requiring every enqueue to succeed. After disposal, it checks one to three files and every length within 1..1,024 bytes, then cleans up. Despite the method name, no individually oversized record is submitted: this proves ordinary-record file-size rotation, not record_limit handling, channel saturation, exact retained content or competing writers.",
+          "focus": [{"start": 32, "end": 37}]
+        },
+        {
+          "start": 42, "end": 57, "title": "A file at the directory path is a deliberate I/O obstacle",
+          "explanation": "The fixture writes a harmless ordinary file where a directory is expected, enqueues ApplicationStarted and disposes to wait for processing. It asserts diagnostic_io and exactly one dropped record, while cleanup removes the obstacle. The using declaration causes a second disposal at scope exit, exercising idempotence incidentally. It does not construct application state despite the test name, and does not test directory links, permission recovery or a timed-out flush.",
+          "focus": [{"start": 48, "end": 53}]
+        },
+        {
+          "start": 58, "end": 66, "title": "Negative controls run before the static sink is touched",
+          "explanation": "A code containing spaces, an unrecognized provider string and a negative audio count each must throw ArgumentException through LocalDiagnostics.Record. IncludeText must remain false in this test context. These deliberately rejected calls need not create a real static log. They do not prove semantic redaction of an allowed token, validate diagnostics.json parsing, exercise content opt-in/truncation or inspect sanitized exception frames.",
+          "focus": [{"start": 61, "end": 64}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/NoteFileStoreTests.cs",
+      "sourceSha256": "4dbd7966bb9f3bd758d8bf5a3dbb981d5eb1ac9606a4e5ec1fe718fbfed337f5",
+      "role": "Specifies strict UTF-8/BOM fidelity, optimistic conflict behavior and preservation of prior files under bounded synthetic failures.",
+      "entryPoints": ["NoteFileStoreTests.RoundTripsTextAndBom", "NoteFileStoreTests.ChangedFileIsNotOverwritten", "NoteFileStoreTests.ByteLimitAccountsForBomAndMultibyteText", "NoteFileStoreTests.CancellationDoesNotReplacePriorFile"],
+      "blocks": [
+        {
+          "start": 1, "end": 25, "title": "Isolated directory and byte-sensitive round-trip fixtures",
+          "explanation": "Each test instance creates a GUID-named temporary directory and deletes it recursively on disposal. The two BOM cases write a synthetic string containing CRLF, LF, accented text, a surrogate-pair emoji and a combining sequence. Readback must preserve exact text/BOM and match the writer's fingerprint. A single remaining file checks that a successful path leaves no temporary. It does not simulate an external writer during the read.",
+          "focus": [{"start": 18, "end": 24}]
+        },
+        {
+          "start": 26, "end": 55, "title": "Creation refusal, changed-file refusal and matching-hash replacement",
+          "explanation": "Three controls distinguish modes: an existing file plus null expected fingerprint must retain existing text; an external rewrite after the initial snapshot must retain external text and leave only one file; a matching fingerprint must permit replacement and produce a different fingerprint. These checks exercise before/after operations sequentially. They establish observed-conflict behavior, not an atomic lock against changes in the final verification-to-move gap.",
+          "focus": [{"start": 39, "end": 44}]
+        },
+        {
+          "start": 56, "end": 79, "title": "Deletion, malformed bytes and oversized opens are not normalized away",
+          "explanation": "Deleting a previously saved file must make replacement with its old fingerprint fail, and the path must remain absent rather than silently recreated. Bytes FF FE FF deliberately fail strict UTF-8 decoding. A MaximumBytes+1 file must raise InvalidDataException during read. These are distinct failure classes; the tests do not assume every read failure is a NoteConflictException or a recoverable encoding conversion.",
+          "focus": [{"start": 60, "end": 64}]
+        },
+        {
+          "start": 80, "end": 98, "title": "Save preflight preserves original and counts encoded bytes",
+          "explanation": "An oversized ASCII save must throw while original content and the one-file directory remain intact. Fits separately accepts exactly 1 MiB of ASCII without BOM, rejects the same text with three BOM bytes, rejects 1 MiB characters of two-byte accented text and rejects an unpaired high surrogate. This is the negative control against confusing UTF-16 string length with UTF-8 storage length; it is not a complete Unicode normalization or all-boundary test matrix.",
+          "focus": [{"start": 92, "end": 97}]
+        },
+        {
+          "start": 99, "end": 111, "title": "Already-cancelled replacement leaves the old file",
+          "explanation": "The test creates an original snapshot, cancels a CancellationTokenSource before WriteAsync, expects an OperationCanceledException subtype, and verifies original bytes and no temporary leftovers. Cancellation is arranged before the call rather than injected between temporary flush and rename; the test does not prove every possible cancellation race or power-loss outcome.",
+          "focus": [{"start": 103, "end": 109}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/PhantomFudge.Core.Tests.csproj",
+      "sourceSha256": "b111c7f1e9b4a481f241b2d67f7019b8c46dcc490e22d4c07c6be248924b5b4f",
+      "role": "Declares the .NET 10 xUnit test assembly and its direct Core project dependency.",
+      "entryPoints": ["MSBuild test-project evaluation"],
+      "blocks": [
+        {
+          "start": 1, "end": 24, "title": "Test host, global assertion namespace and library reference",
+          "explanation": "The SDK project targets net10.0, enables implicit usings/nullable analysis and marks itself nonpackable. It references Microsoft.NET.Test.Sdk 17.14.1, xunit 2.9.3 and xunit.runner.visualstudio 3.1.4. The Using item makes Xunit attributes/assertions available without per-file using statements, and ProjectReference compiles tests against the first-party Core library. Directory.Build.props contributes shared settings. Package implementations and locks are outside these annotations; declarations do not demonstrate a restored or passing test run.",
+          "focus": [{"start": 10, "end": 21}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/QuestionDraftTests.cs",
+      "sourceSha256": "de91a57c34928b88ef8a16753c20a2ba2e020a1ae9a27fda90e7c9aa762c215e",
+      "role": "Defines explicit selection, exact composition, edit ownership, atomic rejection and refresh isolation through synthetic transcript mutations.",
+      "entryPoints": ["QuestionDraftTests.SelectionPreservesExplicitOrderAndDeduplicatesByKey", "QuestionDraftTests.RefreshChangesOnlySelectedPartialAndFinalizesItsSameKey", "QuestionDraftTests.UserEditsPreventLateAsrFromChangingTextOrProvenance", "QuestionDraftTests.OversizedFinalRefreshKeepsPreviousDraftInspectable", "QuestionDraftTests.ClearInvalidatesQuestionIdentityAndPreventsLateRefreshResurrection"],
+      "blocks": [
+        {
+          "start": 1, "end": 22, "title": "An available transcript is not implicit question permission",
+          "explanation": "Two fixed GUIDs define independent synthetic sessions. The first test populates a store with a final, creates a draft and calls Refresh without selecting anything. It requires a nonempty question ID but revision zero, empty text/selection, false flags and Freeze rejection. This is a negative control for hidden whole-transcript import, not a UI click or network test.",
+          "focus": [{"start": 14, "end": 21}]
+        },
+        {
+          "start": 23, "end": 51, "title": "Caller order and first occurrence beat transcript order or newest revision",
+          "explanation": "The first selection is deliberately third/first/third/second/first; expected text and keys are third/first/second with one revision and distinct copied segment/key objects. A second test supplies two versions of the same partial key and requires the first chosen text/revision, not the newer hidden alternative. Together these reject sorting, duplicate concatenation and latest-revision substitution inside ReplaceSelection.",
+          "focus": [{"start": 44, "end": 50}]
+        },
+        {
+          "start": 52, "end": 80, "title": "Only explicitly selected inputs contribute literal text",
+          "explanation": "A store contains remote context, unrelated prior microphone text and a selected microphone partial. Selecting the partial alone must exclude both others; explicitly adding remote context includes it in the supplied order but still excludes unrelated microphone text. Another fixture embeds a Computer label in microphone text, whitespace/newlines and a decomposed accent. Composition and Freeze preserve the string exactly while provenance remains Microphone, disproving label parsing and normalization.",
+          "focus": [{"start": 73, "end": 79}]
+        },
+        {
+          "start": 81, "end": 115, "title": "No-op replacement and defensive collection copies",
+          "explanation": "Repeating the same segment twice must preserve revision one, selection object identity and QuestionId. The next test replaces the input array entry after selection, checks copied segment/key objects with equal values, attempts IList.Add/index replacement and expects NotSupportedException, then clears the draft while retaining the old collection snapshot. These controls test both caller-array aliasing and read-only collection mutation, not merely property setter absence.",
+          "focus": [{"start": 103, "end": 113}]
+        },
+        {
+          "start": 116, "end": 148, "title": "Refresh follows one selected key from partial to final",
+          "explanation": "The test selects a microphone partial, introduces an unselected Computer partial, revises the microphone and checks both draft and source revision two with the same key. Repeating Refresh is a no-op. Final ID nine then yields revision three, final metadata and no provisional flag while keeping QuestionId. A new microphone utterance must not join the draft. This is explicit evidence against source-wide or latest-utterance retargeting.",
+          "focus": [{"start": 135, "end": 146}]
+        },
+        {
+          "start": 149, "end": 186, "title": "Refresh preserves selection order and cannot overwrite a correction",
+          "explanation": "One test selects Mic before Computer although store order is reversed, finalizes both and requires Mic-first composition. The next edits a selected partial to a whitespace-sensitive correction, sends a different ASR final and requires exact corrected text, unchanged selected collection/revision and original ASR provenance still provisional. User editing freezes provenance refresh as well as visible text; it does not rewrite the original partial into a final.",
+          "focus": [{"start": 174, "end": 185}]
+        },
+        {
+          "start": 187, "end": 219, "title": "Edit intent is independent of changed characters and can be reset explicitly",
+          "explanation": "Reasserting identical text sets UserEdited without increasing revision; later different partial text must not enter the draft. A separate test selects ASR, edits to corrected text, then explicitly replaces from the store: UserEdited becomes false, ASR text returns and a subsequent ASR update is accepted at draft revision four. These paired controls define the policy switch and its authorized reversal rather than assuming every EditText increments revision.",
+          "focus": [{"start": 195, "end": 201}]
+        },
+        {
+          "start": 220, "end": 254, "title": "Typed questions stay source-free and empty replacement is not Clear",
+          "explanation": "A typed-only exact string must survive Refresh despite available unselected ASR and freeze with no source refs or provisional status. Empty ReplaceSelection explicitly removes typed/selected state, resets edit/provisional flags and increments revision while retaining the same QuestionId; repeating it is a no-op. The fixture text says bytes, but the assertion compares .NET strings, not a serialized byte payload.",
+          "focus": [{"start": 244, "end": 252}]
+        },
+        {
+          "start": 255, "end": 284, "title": "Empty finals remove guesses and empty records add no separators",
+          "explanation": "A selected guess receives an empty final: text must become empty, the same key remains with final status, Freeze must fail and a later utterance must not resurrect it. The next test selects five finals with only two nonempty texts, requiring exactly one platform separator while retaining all five provenance records. This distinguishes text composition from provenance count and prevents an empty final being treated as no update.",
+          "focus": [{"start": 263, "end": 273}]
+        },
+        {
+          "start": 285, "end": 324, "title": "Session closure and eviction do not fabricate or retarget selections",
+          "explanation": "After a session change, a selected unfinished partial refreshes to inactive but remains provisional, keeps the original session/key and has no protocol final ID; unrelated new-session final text is excluded. A second test selects an old final in a one-slot store, evicts it, clears/restarts the store and requires the same selection object/text/revision and old-session provenance at Freeze. These cases show copied selection independence from current store membership.",
+          "focus": [{"start": 292, "end": 300}]
+        },
+        {
+          "start": 325, "end": 359, "title": "Missing unfinished copies persist and mixed sessions fail atomically",
+          "explanation": "An old partial is closed and evicted before Refresh in a one-slot store; the selected copy remains the same object and provisional, not retargeted to a new-session partial. Because it cannot refresh from a missing key, its historical IsActive flag is not asserted as current truth. A cross-session replacement then deliberately follows an edited draft and must fail with parameter segments while preserving text, collection identity, revision, QuestionId and UserEdited.",
+          "focus": [{"start": 350, "end": 357}]
+        },
+        {
+          "start": 360, "end": 385, "title": "Nulls and a throwing iterator cannot partially publish a selection",
+          "explanation": "Null enumerable, an enumerable containing a valid item then null, and null Refresh store are checked with parameter-name assertions. A separate FailingSelection iterator yields one otherwise valid new segment and then throws; old text, selected collection identity and revision must remain intact. This tests staging across enumeration itself, not just prevalidating a materialized list.",
+          "focus": [{"start": 375, "end": 383}]
+        },
+        {
+          "start": 386, "end": 420, "title": "Single and joined selection limits preserve the prior state",
+          "explanation": "A selected string of 8,193 units is legal as transcript text but too large for a question; rejection must preserve an edited draft and its flags/revision, with segments and 8192 in the diagnostic. The next case constructs two strings that total exactly 8,192 including Environment.NewLine.Length, accepts and freezes them, then adds one more segment and requires atomic rejection. This is the negative control for omitting separator cost from the budget.",
+          "focus": [{"start": 408, "end": 418}]
+        },
+        {
+          "start": 421, "end": 464, "title": "Edit rejection and oversized final refresh retain an inspectable draft",
+          "explanation": "Null and 8,193-unit EditText calls must leave the unedited selected draft intact; exactly 8,192 units are accepted and frozen. Separately, an oversized final is accepted into the transcript store but Refresh must throw InvalidOperationException with a retained-state message, leaving the short selected partial, ID/revision and provisional flag. Freeze still captures that old short text. An explicit shorter edit then blocks further refresh, demonstrating recovery without truncation or hidden provenance replacement.",
+          "focus": [{"start": 449, "end": 459}]
+        },
+        {
+          "start": 465, "end": 487, "title": "A rejected long partial can recover on a newer shorter revision",
+          "explanation": "The draft combines a 4,000-unit final and a short partial; expanding the partial to 4,200 exceeds the question budget once joined, so Refresh must retain old text, collection identity and revision one. A later shorter partial succeeds, advances the draft only to revision two, and carries source revision three. This separates skipped source revisions from successfully published draft revisions.",
+          "focus": [{"start": 476, "end": 485}]
+        },
+        {
+          "start": 488, "end": 516, "title": "Empty provenance is count-bounded and Unicode whitespace cannot freeze",
+          "explanation": "Selecting 256 unique empty finals is allowed but a 257th must fail without changing the selected collection/revision. Concatenating duplicate copies of those same 256 remains a no-op because deduplication precedes count enforcement. Blank, ASCII whitespace and em-space/nonbreaking-space drafts are valid editable strings but Freeze rejects them. This distinguishes selection cardinality from composed text length and blank-question policy from text storage validation.",
+          "focus": [{"start": 492, "end": 502}]
+        },
+        {
+          "start": 517, "end": 558, "title": "Clear prevents late refresh resurrection and helpers keep fixtures synthetic",
+          "explanation": "After selection/edit, Clear must create a different nonempty question GUID, reset revision and all state, and prevent a late final from repopulating the draft. A second Clear must create another identity. FailingSelection is the real iterator negative control: it yields uncommitted content then throws. Final builds valid microphone finals with matching synthetic protocol IDs; Started creates an explicit session with optional capacity. These helpers involve no devices, model or network and do not prove concurrent caller safety.",
+          "focus": [{"start": 543, "end": 550}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/QuestionSnapshotTests.cs",
+      "sourceSha256": "1bc3da32943fdb2776fb43830758f5e2bf876d3456f16a3c6e2325f74454a9da",
+      "role": "Verifies exact frozen text, bounded monotonic creation timing, copied provenance and independence from every later local mutation in the fixtures.",
+      "entryPoints": ["QuestionSnapshotTests.FreezeCapturesExactDisplayedRevisionAndMonotonicCreationTime", "QuestionSnapshotTests.SnapshotSurvivesLateAsrEditsClearsEvictionAndCaptureRestart", "QuestionSnapshotTests.SourceRefsAreDeepCopiedReadOnlyAndCarryFullProvenance", "QuestionSnapshotTests.EditedSnapshotKeepsOriginalAsrTextAndRevisionAsProvenance"],
+      "blocks": [
+        {
+          "start": 1, "end": 28, "title": "Freeze samples one revision without normalizing text",
+          "explanation": "Fixed GUIDs support later fixtures. This test types tabs, a combining accent, a snowman, CRLF and trailing spaces, brackets Freeze with Stopwatch.GetTimestamp and requires exact ID/revision/text plus creation time within that interval. Typed-only SourceRefs are empty, WasProvisional false and UserEdited true. Revision remains one. It tests monotonic-clock sampling, not UTC conversion or uniqueness of successive tick values.",
+          "focus": [{"start": 14, "end": 25}]
+        },
+        {
+          "start": 29, "end": 71, "title": "A saved snapshot survives an aggressive mutation chain",
+          "explanation": "The fixture freezes a selected partial, then revises/finalizes ASR, evicts it with another source in a one-slot store, edits/clears the draft, clears/restarts the store and selects a new-session partial. Assertions require the original exact text, question identity, revision, timestamp and provisional/edit flags to remain unchanged, with the original session/epoch/source revision and no final ID. This sequential stress chain tests aliasing isolation; it does not test unsynchronized threads.",
+          "focus": [{"start": 58, "end": 69}]
+        },
+        {
+          "start": 72, "end": 100, "title": "Deep copying includes keys and all final provenance",
+          "explanation": "An epoch-three partial becomes protocol final 27 with fractional start/end times. After selection and Freeze, the snapshot record must be value-equal to the store record but not the same object as either store or draft record, and its key must also be distinct. Revision, protocol ID, epoch and timing are checked explicitly. IList replacement, Clear and Add must throw. These controls test list and nested-record boundaries rather than only comparing text.",
+          "focus": [{"start": 85, "end": 96}]
+        },
+        {
+          "start": 101, "end": 121, "title": "Corrected payload and original ASR provenance intentionally differ",
+          "explanation": "The user corrects a selected partial before a late ASR final. Refresh is blocked by edit ownership, and Freeze must contain corrected ExactText at draft revision two while SourceRefs retain uncorrected source revision one without protocol metadata. WasProvisional stays true because it describes selected provenance, not whether corrected prose is usable. This is the negative control against serializing SourceRefs as though they were the intended question.",
+          "focus": [{"start": 109, "end": 119}]
+        },
+        {
+          "start": 122, "end": 145, "title": "Repeated Freeze is not another edit or another question identity",
+          "explanation": "Two freezes of the first typed revision must be distinct objects sharing QuestionId and SnapshotRevision while leaving the draft at revision one. Editing to second text increments revision for the next snapshot without changing the prior one. Clear followed by another edit creates a different QuestionId and starts revision one again. The test does not assert strict timestamp increase or record equality between repeated snapshots.",
+          "focus": [{"start": 127, "end": 138}]
+        },
+        {
+          "start": 146, "end": 165, "title": "Cross-source snapshots exclude unselected history",
+          "explanation": "The store contains unrelated microphone text, explicit Computer context and a new microphone question. Selection deliberately chooses question then context; Freeze must keep that text/source order, exactly two refs, provisional status and no edit flag. An explicit DoesNotContain assertion guards against adding the unrelated earlier microphone final. Available same-source history is not implicit authorization.",
+          "focus": [{"start": 155, "end": 163}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/SourceTranscriptTests.cs",
+      "sourceSha256": "fb2556b3ff32a93f0893b14f2c773c46eba912323b4421e21e99a10b5dcaf825",
+      "role": "Checks source-aware human-readable transcript behavior separately from structured selection identity.",
+      "entryPoints": ["SourceTranscriptTests.PartialsRemainIndependentAcrossSources", "SourceTranscriptTests.DuplicateGlobalIdsCannotEraseOtherSourceText", "SourceTranscriptTests.LabelsDescribeInputNotSpeaker"],
+      "blocks": [
+        {
+          "start": 1, "end": 35, "title": "Finalize one track and preserve both unfinished tracks on restart",
+          "explanation": "Computer and Mic partials are set together. Finalizing Computer must append its timestamp/source label, remove only its old partial and preserve Mic; finalizing Mic removes the rest, with 0.5 seconds rendered as second zero. A restart fixture archives both unfinished tracks with explicit labels, empties the live view and accepts a new final ID one. These are formatter/state tests, not proof of actual simultaneous capture.",
+          "focus": [{"start": 13, "end": 19}]
+        },
+        {
+          "start": 36, "end": 57, "title": "Empty finals and duplicate IDs must not erase another input",
+          "explanation": "An empty microphone final returns false for no appended line yet clears only Mic, leaving Computer and no committed text. In the second control, a Computer final consumes ID one, and a duplicate Mic final with that same global ID must neither append replayed text nor clear the pending Mic partial. The assertions distinguish accepted empty settlement from rejected duplicate behavior despite both returning false.",
+          "focus": [{"start": 50, "end": 55}]
+        },
+        {
+          "start": 58, "end": 89, "title": "Clear, invalid source rejection and literal input labels",
+          "explanation": "Clear removes both tracks and committed text, resets HasContent and allows ID one again. Numeric source 99 must fail in partial/final buffer APIs and WireName. The two data rows pin computer/Computer and microphone/Mic wire/display mappings. Labels represent inputs, not speakers; these tests neither infer diarization nor check a device permission UI. DisplayName's invalid default exists in source but is not separately asserted here.",
+          "focus": [{"start": 76, "end": 87}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/StructuredTranscriptModelTests.cs",
+      "sourceSha256": "f68e4e66fafe48a56a3c1a6fa2dcfb27c85ec4eeb59d20faf69bcd4aee4f9093",
+      "role": "Checks immutable public model shape, full key equality and explicit rejection of inconsistent identity, metadata and timing.",
+      "entryPoints": ["StructuredTranscriptModelTests.KeyEqualityUsesEveryIdentityField", "StructuredTranscriptModelTests.KeyAndSegmentExposeOnlyReadOnlyProperties", "StructuredTranscriptModelTests.DisplayLabelsComeFromStructuredFieldsNotText", "StructuredTranscriptModelTests.DirectSegmentConstructionValidatesTiming"],
+      "blocks": [
+        {
+          "start": 1, "end": 25, "title": "Change one key field at a time and inspect setter absence",
+          "explanation": "The equality test holds three identity fields constant while changing session, source, epoch or local ID in turn, and requires each to produce an unequal key. Reflection then requires no SetMethod on public properties of TranscriptSegmentKey, TranscriptSegment and QuestionSnapshot. This catches accidental public/init setters on those types, but does not by itself prove nested collection immutability; separate draft/snapshot tests exercise that.",
+          "focus": [{"start": 10, "end": 15}]
+        },
+        {
+          "start": 26, "end": 52, "title": "Constructor guards expose precise invalid parameters",
+          "explanation": "Invalid key cases use empty GUID, numeric source zero, epoch -1 and local ID zero. Invalid segment cases use null key, revision zero, null text and 16,385-unit text. Each checks both exception type and parameter name, showing constructor validation before an invalid value object can escape. No UTF-8 encoding or grapheme validity is tested by these string-length controls.",
+          "focus": [{"start": 43, "end": 50}]
+        },
+        {
+          "start": 53, "end": 73, "title": "Finality cannot be inferred without valid final metadata",
+          "explanation": "The theory supplies null, zero and negative protocol IDs to a final and requires protocolSegmentId errors. A separate negative control rejects a partial that claims final ID one and a final that also claims isActive=true. These cases preserve the distinction between active provisional, closed unfinished and final states; they do not require every inactive segment to be final.",
+          "focus": [{"start": 65, "end": 71}]
+        },
+        {
+          "start": 74, "end": 98, "title": "Rendered source/finality labels cannot override structured fields",
+          "explanation": "Literal text containing Computer and Final labels is put in an active microphone partial; expected DisplayText prepends the real Mic/Partial fields and keeps the misleading text literal. A second fixture uses equal text/source in two sessions and checks the eight-digit session suffix and unfinished/partial/final labels. Distinct chosen suffixes demonstrate display discrimination for these fixtures, not global uniqueness of an abbreviated GUID.",
+          "focus": [{"start": 77, "end": 81}]
+        },
+        {
+          "start": 99, "end": 107, "title": "Direct construction also rejects bad timing",
+          "explanation": "Creating finals directly, without StructuredTranscriptStore, must reject NaN start, positive-infinity end and reversed finite timing. This ensures validation is a model invariant rather than only an ingestion guard. The broader optional-boundary matrix lives in StructuredTranscriptStoreTests; this test does not assert every numeric edge.",
+          "focus": [{"start": 102, "end": 105}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/StructuredTranscriptStoreTests.cs",
+      "sourceSha256": "3865576ec4357b95cb7c1b366d89fb667967cb38f4318d1aa39e01725eef7753",
+      "role": "Exercises session/epoch identity, staged partial/final updates, protected eviction, bounded duplicate handling and precise invalid-input rejection.",
+      "entryPoints": ["StructuredTranscriptStoreTests.PartialRevisionsAndFinalKeepOneLocalIdentity", "StructuredTranscriptStoreTests.NewEpochClosesOnlyItsSourceAndRejectsObsoleteEpochs", "StructuredTranscriptStoreTests.CapacityFailureDoesNotChangeTextRevisionEpochOrConsumeFinalId", "StructuredTranscriptStoreTests.MixedFloodRespectsBothLimitsOnEveryUpdate"],
+      "blocks": [
+        {
+          "start": 1, "end": 29, "title": "Explicit start and positive capacity preconditions",
+          "explanation": "Synthetic fixed GUIDs identify two sessions. An unstarted store must remain empty and return false for valid partial/final events from a nonempty session, rather than implicitly adopting it. Four capacity rows reject zero/negative segment or character budgets with the exact parameter name. These cases distinguish absent active session from malformed event input.",
+          "focus": [{"start": 11, "end": 16}]
+        },
+        {
+          "start": 30, "end": 78, "title": "Stable local identity survives revised text and real protocol IDs",
+          "explanation": "A first partial is active/nonfinal at revision one without protocol metadata; identical text is accepted unchanged. Revised text creates revision two while the old record retains its original string. Final protocol ID 72 keeps the local key, adds timing and revision three, and is explicitly unequal to the local ID. A later partial has a new key/revision one. A final-only fixture uses protocol ID 200 but local ID one, proving the two numbering systems are independent.",
+          "focus": [{"start": 50, "end": 59}]
+        },
+        {
+          "start": 79, "end": 107, "title": "Cross-source partial isolation and session-global duplicate rejection",
+          "explanation": "Finalizing Computer must leave Mic's record active and equal to its prior value. A second test establishes final ID ten, then sends Mic duplicate ten with a higher epoch and older nine with empty text. Both must return false without changing the snapshot or poisoning epoch zero; real final eleven is then accepted. This is a targeted negative control for applying source/epoch state before the global duplicate guard.",
+          "focus": [{"start": 98, "end": 105}]
+        },
+        {
+          "start": 108, "end": 148, "title": "New sessions close partials, reject old callbacks and reject retained GUID reuse",
+          "explanation": "Session restart retains an old final and converts the old partial to inactive unfinished with same key/text, revision+1 and no protocol final ID. Old-session partial/final callbacks return false, while the new session accepts final ID one with a new local ID and display suffix. Invalid empty/current/retained session starts throw without altering the existing state. The reuse test only covers IDs still current or retained, not a durable all-history GUID registry.",
+          "focus": [{"start": 118, "end": 129}]
+        },
+        {
+          "start": 149, "end": 189, "title": "Clear invalidates callbacks; epoch change affects only its own source",
+          "explanation": "Clear must empty the store and current GUID, reject old callbacks and preserve an earlier array snapshot; restarting cannot reuse the old local ID. The epoch test starts both inputs, advances Mic to epoch one, keeps Computer equal, closes old Mic without finality and allocates a different Mic key. Old-epoch partial/final callbacks return false without consuming final ID 50; epoch-one final ID one and Computer epoch-zero updates still work.",
+          "focus": [{"start": 176, "end": 187}]
+        },
+        {
+          "start": 190, "end": 220, "title": "New-epoch finals are new utterances, while empty partials reuse existing keys",
+          "explanation": "An epoch-two final arriving after an epoch-zero guess must leave that old guess inactive/nonfinal and create a new final in epoch two. The next test accepts an empty partial on an empty track without adding a row, then creates a guess, changes it to empty and revises again; the existing key survives and revisions advance two then three. Empty input is therefore neither always ignored nor always a new segment.",
+          "focus": [{"start": 208, "end": 218}]
+        },
+        {
+          "start": 221, "end": 250, "title": "Empty final settlement and a ten-thousand-event deduplication flood",
+          "explanation": "An empty Mic final must leave Computer untouched, settle the same Mic key to empty/final/inactive, and not create a new entry on the next empty final. A flood alternates sources across 10,000 increasing empty final IDs in a two-slot/ten-unit store; no rows should exist, yet replayed ID one and duplicate ID 10,000 must be rejected. The test observes bounded segment state, not a heap profiler, while source code explains the constant-size high-water mark.",
+          "focus": [{"start": 241, "end": 248}]
+        },
+        {
+          "start": 251, "end": 272, "title": "Evict complete historical rows instead of trimming incoming text",
+          "explanation": "A two-row store accepts three finals and must retain second/third; replaying the evicted first protocol ID still fails. A six-character store accepts aaa and bbb, then cccc, requiring both prior rows to disappear and the incoming string to remain whole. These controls independently exercise count and text budgets, retention order and deduplication independent of retained content.",
+          "focus": [{"start": 265, "end": 269}]
+        },
+        {
+          "start": 273, "end": 301, "title": "Protect live keys from remote churn and growing text",
+          "explanation": "A live selected Mic partial is held while 100 Computer finals churn through a two-slot store. Its key must stay first and survive later revision/finalization with global final 101. A separate eight-character budget lets a growing Mic partial evict an old Computer final but not change the partial key. These tests show why live rows are ineligible victims; they do not mean closed unfinished history is permanently pinned.",
+          "focus": [{"start": 275, "end": 286}]
+        },
+        {
+          "start": 302, "end": 341, "title": "Capacity failure cannot consume epochs, keys or final IDs",
+          "explanation": "With two live partials near the text budget, a growth failure and an oversized new-epoch final must leave the prior records unchanged; the same final ID eight then succeeds in old epoch zero. A one-slot store rejects both another live partial and an incoming final without discarding Mic; an empty Computer update and Mic final ID one still succeed. Finally, a single too-large incoming row cannot evict history and commit a truncated result: failure preserves old state and the same final ID can later carry fitting text.",
+          "focus": [{"start": 304, "end": 313}]
+        },
+        {
+          "start": 342, "end": 368, "title": "Closed partial eviction and read-only array snapshot lifetime",
+          "explanation": "In a one-slot store, starting a new session closes the old guess and allows a new partial to evict it; callbacks from the old session remain rejected. Another fixture casts Segments to IList, requires read-only mutation failures, then revises/clears the store while the previously captured snapshot still shows original text and revision one. This verifies array membership isolation and immutable records without requiring a deep clone on every Segments getter.",
+          "focus": [{"start": 358, "end": 366}]
+        },
+        {
+          "start": 369, "end": 397, "title": "Check both budgets after every event and reject unknown sources",
+          "explanation": "A fixed live Mic key coexists with 500 Computer finals whose text lengths cycle through zero to nineteen. After each event the test asserts 1..7 segments, 0..80 text units and the same live key, catching intermediate bound violations rather than checking only the final state. Numeric sources zero, three and 255 must fail both ingestion methods with source parameter errors and leave the store empty. This is deterministic single-caller testing, not a concurrent load benchmark.",
+          "focus": [{"start": 375, "end": 381}]
+        },
+        {
+          "start": 398, "end": 427, "title": "Reject null/oversized input but retain maximum exact text",
+          "explanation": "After arranging a keep partial, null and 16,385-unit text failures on both APIs must preserve the prior snapshot, and final ID one remains available. Another test builds exactly 16,384 units with leading space/tab and trailing CRLF, accepts it as partial and as int.MaxValue final, and requires exact equality. These assertions rule out trimming/truncation and ID consumption on rejected input; they do not validate every Unicode scalar sequence.",
+          "focus": [{"start": 418, "end": 425}]
+        },
+        {
+          "start": 428, "end": 454, "title": "Empty session, negative epoch and invalid final IDs are errors, not stale events",
+          "explanation": "Both ingestion methods must identify an empty session parameter and negative sourceEpoch precisely, leaving no rows. Final IDs zero, -1 and int.MinValue separately require segmentId errors. These tests specify argument validation before current-session/duplicate handling: malformed data is not quietly categorized as an obsolete callback.",
+          "focus": [{"start": 432, "end": 440}]
+        },
+        {
+          "start": 455, "end": 481, "title": "Bad timing preserves state and does not burn a final ID",
+          "explanation": "NaN, both infinities, -0.1 and 2,592,001 are each tested independently as start and end, checking exact parameter names and preservation of a keep partial. Reversed finite timing must name endSeconds, after which the same final ID one succeeds with start zero/end MaximumSeconds. The retry is the negative control against consuming identity before validating timing.",
+          "focus": [{"start": 464, "end": 470}]
+        },
+        {
+          "start": 482, "end": 504, "title": "Optional and inclusive timing bounds plus explicit-session helper",
+          "explanation": "The matrix accepts both endpoints absent, only one endpoint present, zero-duration at zero and zero-duration at the 30-day maximum, retaining exact nullable values. It also accepts long.MaxValue as source epoch; epochs are identifiers, not durations. Started constructs a store with supplied budgets and calls BeginSession with the fixed GUID, ensuring every other fixture that uses it has an explicit start. This matrix is source-read evidence of intended assertions, not a claim that tests were run here.",
+          "focus": [{"start": 488, "end": 495}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/ThemePaletteTests.cs",
+      "sourceSha256": "3bbb5308677f535c629c9909df63e1f1879a6e915a8165aed891cc1d57247f53",
+      "role": "Pins palette role constants, toggle policy and mathematical contrast checks for opaque RGB pairs.",
+      "entryPoints": ["ThemePaletteTests.CanonicalRoleColorsAreStable", "ThemePaletteTests.ThemeToggleAlternatesCompanionsAndExitsPlain", "ThemePaletteTests.OpaqueReadingAndSelectionPairsHaveSufficientContrast", "ThemePaletteTests.ReadingTextUsesExactSolidBlackOrWhiteWithoutReplacingUiPalette"],
+      "blocks": [
+        {
+          "start": 1, "end": 30, "title": "Canonical role values, companion toggling and invalid palette rejection",
+          "explanation": "Three data rows pin Background, Surface, Text and Accent for every theme. Toggle assertions require the two themed palettes to alternate and Plain to exit to DeepSeaFoam. For((UiTheme)99) must throw rather than silently select Plain. These tests pin only the listed four canonical roles here, not every palette field, and do not test invalid NextThemed input.",
+          "focus": [{"start": 19, "end": 29}]
+        },
+        {
+          "start": 31, "end": 58, "title": "Ordinary and high-contrast reading roles have different assertions",
+          "explanation": "Every theme must achieve computed contrast at least 4.5 for Text/Background, SelectionText/Selection and ActionText/Accent. HighContrastReading must be exact white for dark or black for light/plain, distinct from ordinary Text and a three-byte RGB color. It must reach at least 12 against Background/Surface/Input and seven against Selection. These are opaque color-pair assertions, not rendered WPF accessibility approval or contrast guarantees over arbitrary translucent backdrops.",
+          "focus": [{"start": 49, "end": 56}]
+        },
+        {
+          "start": 59, "end": 75, "title": "Compute contrast using linearized sRGB luminance",
+          "explanation": "The helper parses hex RGB, scales channels to 0..1, linearizes values using the 0.04045 threshold with either division by 12.92 or the 2.4-power curve, then weights RGB by 0.2126/0.7152/0.0722. Contrast is (lighter+0.05)/(darker+0.05). There is no alpha blending, font-size/rendering model or desktop-background sampling, explaining the deliberately opaque scope of the tests.",
+          "focus": [{"start": 63, "end": 73}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/TranscriptBufferTests.cs",
+      "sourceSha256": "4ebd424f1684c9d8fd623322e19153427fb2b94858ca93034baeae20c1a91558",
+      "role": "Tests export-oriented replacement, restart preservation, formatting and reject-on-capacity behavior using unlabeled synthetic input.",
+      "entryPoints": ["TranscriptBufferTests.FinalClearsPartialAndDeduplicatesSegmentIds", "TranscriptBufferTests.FailedRestartAtCapacityPreservesUnfinishedRecognition", "TranscriptBufferTests.LongSessionTimestampDoesNotWrapToZeroHours", "TranscriptBufferTests.LimitStopsInsteadOfDiscardingEarlierWords"],
+      "blocks": [
+        {
+          "start": 1, "end": 27, "title": "Partial replacement, unfinished export and duplicate final controls",
+          "explanation": "Setting a then a sentence must replace the current partial without appending committed text, while ExportText labels it unfinished. A final hello at second two clears the partial and appends exactly one timestamped line. Repeating ID one with both identical text and deliberately different replayed data returns false, guarding against deduplication based only on string equality.",
+          "focus": [{"start": 20, "end": 25}]
+        },
+        {
+          "start": 28, "end": 64, "title": "Restart retains history and refuses an oversized archival append",
+          "explanation": "Restart after a final keeps old text and a session separator while permitting final ID one again. Restart with an unfinished partial archives it explicitly rather than finalizing or dropping it. The capacity control fills fifteen 16,000-unit finals, adds another 16,000-unit partial, captures ExportText, then expects BeginSession failure with identical export text and retained content. It exercises preflight ordering before partial clear, not automatic persistence to disk.",
+          "focus": [{"start": 55, "end": 62}]
+        },
+        {
+          "start": 65, "end": 92, "title": "Reject invalid offsets/IDs and preserve total elapsed hours",
+          "explanation": "Offset rows cover negative one, NaN, positive infinity and one second beyond the 30-day ceiling; ID rows reject zero and negative one. Each expects InvalidDataException. A positive control at 90,001 seconds must start with 25:00:01, exposing a formatter that incorrectly used a TimeSpan hour component modulo 24. This is text-format validation, not clock synchronization.",
+          "focus": [{"start": 85, "end": 90}]
+        },
+        {
+          "start": 93, "end": 117, "title": "Overflow rejects incoming history and latches restart until clear",
+          "explanation": "After fifteen 16,000-unit finals, the next final must throw, set IsFull and leave all prior committed text unchanged. BeginSession must also refuse while full. Clear resets full/content state and makes restart legal again. The final test rejects a 16,385-unit partial. These assertions verify this path's preservation; they do not claim IsFull blocks every subsequent SetPartial/AddFinal call or that ExportText including partials is capped at 250,000.",
+          "focus": [{"start": 100, "end": 108}]
+        }
+      ]
+    },
+    {
+      "path": "tests/PhantomFudge.Core.Tests/WorkspaceLayoutTests.cs",
+      "sourceSha256": "3b1261c8523b8218a3359dddec3118f53d653f8a981b8696a57d264cfc404d69",
+      "role": "Pins desired geometry, work-area containment, recovery positions and the responsive reading threshold with pure numeric fixtures.",
+      "entryPoints": ["WorkspaceLayoutTests.WindowAndMinimumStayInsideWorkArea", "WorkspaceLayoutTests.RecoveryMovesAnOffscreenWindowWithoutIncreasingItsSize", "WorkspaceLayoutTests.NarrowWorkspaceStacksReadingPanes", "WorkspaceLayoutTests.UnsetWindowCoordinatesUseCenteredDesiredBounds"],
+      "blocks": [
+        {
+          "start": 1, "end": 33, "title": "Large desired size with bounded minima across monitor geometries",
+          "explanation": "The first test pins the desired dimensions to twice 620 by 760, expects full desired size in a large work area and retains nominal minima. Five area rows include ordinary monitors, negative origins and a screen smaller than nominal minima. Assertions require position containment, dimensions at least the returned minima and no larger than work area or desired size. These are pure geometry cases, not real monitor/DPI or native-window tests.",
+          "focus": [{"start": 25, "end": 31}]
+        },
+        {
+          "start": 34, "end": 61, "title": "Preserve valid user placement, recover offscreen and pin the breakpoint",
+          "explanation": "A valid 720-by-620 window at 100,150 must remain unchanged. An offscreen 600-by-600 window requested at 9000,-1000 on a negative-origin monitor is moved to -612,12 without enlarging it, testing both inset edges. Width rows 470/899 are stacked and 900/1240 use columns, making threshold inclusivity explicit. Tests check returned values, not actual WPF panel visibility.",
+          "focus": [{"start": 45, "end": 51}]
+        },
+        {
+          "start": 62, "end": 80, "title": "Invalid work width differs from unset requested geometry",
+          "explanation": "Zero, negative, NaN and positive-infinity work widths must throw; those are invalid available spaces, not missing preferences. By contrast NaN requested size/coordinates are allowed and normalize to desired width, fitted height and centered coordinates, yielding 1240 by 1016 at 340,12 in a 1920-by-1040 area. The test matrix does not independently exercise every invalid work coordinate or extreme finite arithmetic case.",
+          "focus": [{"start": 71, "end": 78}]
+        }
+      ]
+    }
+  ]
+}

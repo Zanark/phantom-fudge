@@ -15,7 +15,7 @@ description: "A bounded threat and evidence model for local audio, window exclus
 "Private" can mean that notes are absent from a recipient's frames, audio stays local, a token
 is not logged, a file is encrypted, or a process is not listed. Those are different properties.
 The current product explicitly does not promise process invisibility or a security/DRM boundary
-(`docs\PRODUCT.md:130-145`).
+(`docs\PRODUCT.md:179-195`).
 
 The first useful threat-model step is therefore to state what is controlled. The app owns
 its HWND and can request display affinity. It owns the selected capture objects and can require
@@ -37,6 +37,8 @@ flowchart TB
     App --> Local["Authenticated local Python"]
     Local --> App
     App --> Files["Explicit local saves"]
+    App --> Logs["Local metadata; text opt-in"]
+    App -->|"explicit exact question"| Hosted["Configured Agency model service"]
     App --> Display["Windows compositor"]
     Display --> Recorder["External recorder"]
     Recorder --> Audience["Recipient"]
@@ -49,14 +51,22 @@ the local service.
 
 ## Window and cursor controls
 
+The visual **Cover** is not a process or screen-reader invisibility feature. It detaches the disabled
+workspace and refreshes the current window-peer children while retaining data and ongoing work.
+Fresh in-process traversal sees the cover, but an already-retained value provider still reads the
+synthetic question. The native protection path also requests `DWMWA_DISALLOW_PEEK`; setter acceptance
+is not shell-preview or recipient qualification. The [complete feasibility matrix](../COVER-AND-PRIVACY.md)
+separates these implemented measures from cached clients, process/memory inspection, unsupported
+capture paths and physical observation.
+
 `WindowProtection.Configure` checks the platform/composition path, updates owned-window styles,
 requests exclusion and records readback. It does not inject into a recorder or change a global
-system privacy setting (`src\PhantomFudge.App\Native\WindowProtection.cs:18-45`).
+system privacy setting (`src\PhantomFudge.App\Native\WindowProtection.cs:19-48`).
 
 The cursor policy chooses the standard Arrow for the app, while the default Present mode avoids
 unnecessary activation. The owner still reported a recipient-side disappearing pointer, and
 that exact sharing configuration remains unqualified. Local shape/foreground observations
-are useful but not substitutes for recipient frames (`docs\CURSOR-AND-THEMES.md:1-45`,
+are useful but not substitutes for recipient frames (`docs\CURSOR-AND-THEMES.md:1-62`,
 `src\PhantomFudge.App\Native\CursorPolicy.cs:1-25`).
 
 Automatic protection failures should not reveal the application through a new unprotected
@@ -79,8 +89,8 @@ secure memory erasure, immunity to dumps, or control over host swap/administrato
 
 The server uses a bounded local token, constant-time comparison, a one-active-session admission
 rule and explicit frame limits. Management operations additionally match an instance identity;
-they are not arbitrary process-control APIs (`services\transcription\server.py:65-176`,
-`services\transcription\manage.py:112-144`).
+they are not arbitrary process-control APIs (`services\transcription\server.py:71-215`,
+`services\transcription\manage.py:114-159`).
 
 A malicious process running as the same user or an administrator is not contained by calling
 the service "localhost." The token and current-user boundaries reduce accidental/cross-context
@@ -89,7 +99,8 @@ not open microphones or read chats; the C# client owns the selected device opera
 
 ## Storage boundaries
 
-Notes and transcripts are not automatically persisted in the current preview. Explicit file
+Notes are not automatically persisted. Transcripts remain memory-only unless explicitly exported
+or diagnostic Text mode is enabled. Default logs record metadata without conversation bodies. Explicit file
 saves are bounded UTF-8 operations with conflict checks and same-directory replacement
 (`src\PhantomFudge.Core\NoteFileStore.cs:16-91`). Ordinary file deletion does not establish
 secure erasure from SSDs, backups or snapshots. An unsaved warning prevents one kind of data loss,
@@ -98,6 +109,13 @@ not every crash.
 Do not log note hashes as a supposedly harmless substitute for text. A short predictable
 question can be dictionary-tested against a hash. Use random correlation IDs and counts
 where diagnostics need identity without content.
+
+App logs rotate at 2 MiB with at most ten files and a 1024-record nonblocking queue; dropped/failed
+records are observable. Backend logs rotate separately at 1 MiB with three backups and never include
+transcript text. Their identities are independent: correlate UTC/source/stages without inventing a
+shared session ID. Text opt-in does not add notes, audio, tokens or provider stderr. Local export
+removes Text by default and never uploads (`src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs:20-24,40-110`;
+`scripts/Export-Diagnostics.ps1:14-80`; [diagnostics](../DIAGNOSTICS.md)).
 
 ## Evidence ladder
 
@@ -132,19 +150,23 @@ The local question implementation does not cross that boundary. It copies only e
 structured segments or typed text, and freezes the displayed draft on explicit Ask. Source references
 stay local, including original text that may differ after editing. A future provider must use
 `ExactText` as its question payload; serializing the complete snapshot would defeat that separation.
-No provider or authentication client is currently connected to the composer.
+Snapshot-only mode sends nothing. An explicitly configured Agency provider is connected and normally
+uses hosted inference, while the local-model option has a separate loopback endpoint. Neither is a
+direct Azure adapter. Startup/reveal/reload may prepare one empty Agency session without a prompt;
+only explicit Ask sends question data (`src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:23-78`).
 (`src\PhantomFudge.Core\QuestionDraft.cs:18-95`;
 `src\PhantomFudge.Core\QuestionSnapshot.cs:5-23`; [local guide](../LOCAL-QUESTIONS.md).)
 
 The future Ask design intentionally sends a chosen immutable question, not the whole transcript.
 Cloud audio is optional and separately configured. Model text is displayed as data, not executed
 as code or used to choose tools/URLs. The desktop is a public client and must not contain a
-distributed application secret (`docs\AI-ANSWER-PRIVACY.md:1-88`).
+distributed application secret (`docs\AI-ANSWER-PRIVACY.md:1-93`).
 
 `store:false` is not universal zero retention, and a resource's nominal region does not necessarily
 pin all Global deployment processing to that region. Those statements belong in the product
 contract before cloud execution, not after an incident. At this edition, Azure Ask is design
-only; no deployed identity/profile or cloud latency result exists.
+only; no direct Azure identity/profile or Azure latency result exists. Installed Agency has its own
+bounded measured results, not evidence that an Azure deployment or universal five-second SLO exists.
 
 ## Review questions
 
@@ -156,11 +178,11 @@ only; no deployed identity/profile or cloud latency result exists.
 
 ## References
 
-- `docs\PRODUCT.md:130-145` — privacy scope.
-- `src\PhantomFudge.App\Native\WindowProtection.cs:18-45` — owned-window policy.
+- `docs\PRODUCT.md:179-195` — privacy scope.
+- `src\PhantomFudge.App\Native\WindowProtection.cs:19-48` — owned-window policy.
 - `src\PhantomFudge.App\Native\CursorPolicy.cs:1-25` — standard cursor behavior.
 - `src\PhantomFudge.App\LocalFailureNotice.cs:1-30` — generic local error notice.
-- `services\transcription\server.py:65-176` — protocol/authentication boundaries.
-- `services\transcription\manage.py:112-144` — owned shutdown.
+- `services\transcription\server.py:71-215` — protocol/authentication boundaries.
+- `services\transcription\manage.py:114-159` — owned shutdown.
 - `src\PhantomFudge.Core\NoteFileStore.cs:16-91` — local file semantics.
-- `docs\AI-ANSWER-PRIVACY.md:1-88` — proposed cloud boundary.
+- `docs\AI-ANSWER-PRIVACY.md:1-93` — proposed cloud boundary.
