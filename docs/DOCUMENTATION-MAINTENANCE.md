@@ -25,7 +25,8 @@ the front page; do not turn it back into a long technical document.
 8. Maintain the [source atlas](source-atlas/README.md): read changed first-party files, update their
    authored block explanations/ranges and reviewed source hashes, and cover newly added files.
    Blocks partition every physical line; do not auto-rewrite hashes to excuse stale explanations.
-   Generated evidence/locks and byte-identical PowerShell mirrors remain separately classified.
+   Authored website HTML/CSS/JavaScript and media configuration are included. Named generated
+   tutorial/caption exports, evidence/locks and byte-identical PowerShell mirrors remain separately classified.
 
 The public journal must be understandable from public repository sources alone. Private continuity
 stores are not a substitute and must not become book inputs.

@@ -214,7 +214,7 @@
     },
     {
       "path": "docs/handbook/catalogue.json",
-      "sourceSha256": "3c8d4eea3b57f1341c8d29352535b75089ae66990c80e00824834285c7ce5d0f",
+      "sourceSha256": "bcbfbe3fa3625e09e3ccdce5c1433d0269abfcfef7dfa3905d2355875ba2b622",
       "role": "Preserves the source-linked research and writing map, with constrained onboarding and subsystem/source-walkthrough sections.",
       "entryPoints": [
         "validateCatalogue",
@@ -261,7 +261,7 @@
           "start": 135,
           "end": 208,
           "title": "Connect engineering procedures with reference and evidence",
-          "explanation": "Engineering identifies test runners, installation, distribution, the static website, privacy and extension seams. The website node binds its guide to hash-verified assembly, public tutorial projection, loopback serving, explicit edit/provenance maps and browser evidence limits; it deliberately does not describe a live deployment. Reference retains configuration/API, glossary, evidence and the card/recording/cover workflow. Uniform title/name/prompt/children nodes guide writing, not authoritative work-item status. Native installation and its distinct runtime gates remain separate from tutorial-media publication.",
+          "explanation": "Engineering connects test, installation, distribution, website, privacy and extension guides. The website brief preserves DeepSeaFoam ghosts/effects while reducing visible copy, maps eight demos, distinguishes authored inputs from generated exports and follows nested-original versus bundled-web identity through assembly and review. Pending acceptance and publication stay explicit. Reference retains API/configuration, glossary, evidence and card/recording/cover workflow. These uniform writing nodes are not work-item status or proof of native qualification or live hosting.",
           "focus": [
             {
               "start": 153,
@@ -587,7 +587,7 @@
     },
     {
       "path": "tools/Docs/source-atlas.mjs",
-      "sourceSha256": "c10bdf23e7aec1238b0ba952c236976e66694c24d6163774666650c7d61a712b",
+      "sourceSha256": "a26845c6ef19eda4a606cf4b4911139c159891ab4564a9686fbd8565efa2e8f9",
       "role": "Validates complete first-party source explanations and produces searchable full-source HTML plus an annotation-focused PDF.",
       "entryPoints": [
         "main",
@@ -597,185 +597,185 @@
       "blocks": [
         {
           "start": 1,
-          "end": 26,
+          "end": 29,
           "title": "Set public roots, stable identifiers and exact physical-line semantics",
-          "explanation": "The module reuses the handbook's hashing/path/slug helpers and resolves roots from its own URL. Explicit extension sets now include Inno .iss programs and Windows .manifest configuration, preventing installed-app behavior from escaping first-party coverage. HTML escaping protects inserted source/prose; file IDs append a path hash. physicalLines handles BOM, CRLF/bareCR and exactly one separator-created final empty item while hashes still bind the original bytes.",
+          "explanation": "The module reuses the handbook's hash/path/slug helpers and resolves roots from its own URL. Extension policy includes Inno programs and Windows manifests. The generatedSiteInputs set names eight tutorial/caption/provenance exports individually rather than exempting all website assets. HTML escaping protects displayed text; IDs append a path hash. physicalLines normalizes BOM/line separators and removes only the final separator-created empty item; hashes still bind original bytes.",
           "focus": [
             {
-              "start": 16,
-              "end": 24
+              "start": 19,
+              "end": 27
             }
           ]
         },
         {
-          "start": 27,
-          "end": 32,
+          "start": 30,
+          "end": 35,
           "title": "Link root guides and handbook chapters without losing their directory",
           "explanation": "atlasChapterLink accepts an ASCII Markdown basename directly under docs or docs/handbook, rejects traversal, URLs and other nested paths, then computes a POSIX link relative to the atlas. INSTALLATION.md remains ../INSTALLATION.md rather than an invented ../handbook/INSTALLATION.md. Group admission, HTML walkthrough links and generated README links share this helper; readPublic separately checks real repository paths and symlink aliases.",
           "focus": [
             {
-              "start": 27,
-              "end": 31
+              "start": 30,
+              "end": 34
             }
           ]
         },
         {
-          "start": 33,
-          "end": 52,
+          "start": 36,
+          "end": 56,
           "title": "Classify provenance and reject path aliases",
-          "explanation": "sourceKind separates first-party annotations, generated results, locks and potential PS text mirrors, and excludes build/private/cache paths. readPublic resolves the requested repository path, checks the real target and refuses symlink aliases rather than silently reading a different file. The classification is explicit coverage policy, not an assertion that ignored/vendor code has been understood.",
+          "explanation": "sourceKind includes site alongside the established implementation roots, so authored HTML/CSS/JavaScript and media.json need annotations. After excluding private/cache paths, it recognizes only the explicitly named generated website exports; other asset code/config remains first-party. Results, locks and possible PS mirrors retain distinct kinds, while unrecognized binary formats are outside source annotation. readPublic validates the repository path and real target and refuses symlink aliases.",
           "focus": [
             {
-              "start": 33,
-              "end": 42
+              "start": 36,
+              "end": 46
             },
             {
-              "start": 45,
-              "end": 51
+              "start": 49,
+              "end": 55
             }
           ]
         },
         {
-          "start": 53,
-          "end": 75,
+          "start": 57,
+          "end": 79,
           "title": "Inventory current Git names and compare script mirrors byte-for-byte",
           "explanation": "The NUL-delimited Git listing combines tracked and non-ignored untracked names without shell-string interpolation and bounds command output. Names are deduplicated/sorted. A txt candidate becomes a mirror only if its ps1 canonical file exists in that listing, then exact bytes must agree. Every selected file receives byte count, SHA256 and physical-line count, while generated data retains its separate kind.",
           "focus": [
             {
-              "start": 54,
-              "end": 59
+              "start": 58,
+              "end": 63
             },
             {
-              "start": 63,
-              "end": 72
+              "start": 67,
+              "end": 76
             }
           ]
         },
         {
-          "start": 76,
-          "end": 120,
+          "start": 80,
+          "end": 124,
           "title": "Validate authored blocks as a complete ordered partition",
           "explanation": "Unknown schema fields and placeholder prose fail early. An annotation hash must match the actual bytes; paths must be portable and entry points explicit. Each block must begin at the next expected physical line, remain in bounds and fit its size limit. Focus ranges must stay within that block and contain at most12lines. Updating next=end+1 and checking the final value catches gaps, overlaps and missing tails. An empty source can have zero blocks without inventing code.",
           "focus": [
             {
-              "start": 99,
-              "end": 109
+              "start": 103,
+              "end": 113
             },
             {
-              "start": 110,
-              "end": 119
+              "start": 114,
+              "end": 123
             }
           ]
         },
         {
-          "start": 121,
-          "end": 159,
+          "start": 125,
+          "end": 163,
           "title": "Reconcile every assigned source against the live inventory",
           "explanation": "loadAtlas builds an expected set from annotated inventory entries, loads each authored group, records its bytes and chapter hash, and rejects unknown/duplicate groups or files. Each source is re-read and validated before it is admitted. Missing coverage is reported as an explicit file list, and an empty atlas cannot pass. Counts are derived from validated source and blocks rather than taken from an author's claimed totals. Chapter admission uses the same bounded relative-link helper as rendering, including root installation guides.",
           "focus": [
             {
-              "start": 143,
-              "end": 154
+              "start": 147,
+              "end": 158
             }
           ]
         },
         {
-          "start": 160,
-          "end": 183,
+          "start": 164,
+          "end": 187,
           "title": "Keep complete source and explanatory excerpts separate",
           "explanation": "sourceRows escapes each physical line and gives full-source rows stable anchors. renderFile prints each block's explanation and focused snippets, using the first eight lines only when no focus was chosen. The full source lives in an expandable details element, while the deep handbook chapter is linked separately. Source strings are never evaluated as code or parsed as HTML.",
           "focus": [
             {
-              "start": 162,
-              "end": 173
+              "start": 166,
+              "end": 177
             }
           ]
         },
         {
-          "start": 184,
-          "end": 205,
+          "start": 188,
+          "end": 209,
           "title": "Generate a searchable offline reference with honest coverage wording",
           "explanation": "makeHtml reads only the owned local CSS/client, rejects a script-closing sequence in that client and embeds escaped group/file content. Header counts come from validated coverage. Search controls and file navigation are generated locally, and explanatory text explicitly says that mechanical line assignment does not prove every subtle behavior. The only executed script is the owned reader, not any displayed application source.",
           "focus": [
             {
-              "start": 185,
-              "end": 195
+              "start": 189,
+              "end": 199
             },
             {
-              "start": 198,
-              "end": 204
+              "start": 202,
+              "end": 208
             }
           ]
         },
         {
-          "start": 206,
-          "end": 222,
+          "start": 210,
+          "end": 226,
           "title": "Launch an installed, owned browser without implicit installation",
           "explanation": "Browser discovery checks an explicit environment override and standard installed Edge/Chrome locations. Only ENOENT means try the next candidate; other access failures surface. Missing browsers produce an actionable error instead of downloading a renderer. The launched browser is headless with pipe transport and background-network/sync/update behavior disabled; later page interception blocks nonlocal resources.",
           "focus": [
             {
-              "start": 213,
-              "end": 220
+              "start": 217,
+              "end": 224
             }
           ]
         },
         {
-          "start": 223,
-          "end": 251,
+          "start": 227,
+          "end": 255,
           "title": "Verify real output completeness before calling an edition current",
           "explanation": "validateAtlasManifest requires the exact four output identities, a full PDF, plausible page count and matching derived coverage counts. This prevents an empty artifacts array from passing as a complete edition. verifySourceAtlas revalidates authored coverage, compares the entire input-key set and every input hash, then hashes every output. A same-named but edited PDF, stale annotation or newly added source file invalidates freshness.",
           "focus": [
             {
-              "start": 223,
-              "end": 234
+              "start": 227,
+              "end": 238
             },
             {
-              "start": 239,
-              "end": 250
+              "start": 243,
+              "end": 254
             }
           ]
         },
         {
-          "start": 252,
-          "end": 285,
+          "start": 256,
+          "end": 289,
           "title": "Select a narrow CLI action and validate before browser work",
           "explanation": "main recognizes inventory, check, validate and no-pdf modes explicitly. Inventory only reads metadata; validate checks authored coverage without publishing. A build derives counts and escaped HTML before creating PID-owned staging paths. For a full edition, its page allows only local URL schemes, waits for fonts and checks three responsive widths before print rendering. Source files are read, not executed.",
           "focus": [
             {
-              "start": 252,
-              "end": 263
+              "start": 256,
+              "end": 267
             },
             {
-              "start": 274,
-              "end": 284
+              "start": 278,
+              "end": 288
             }
           ]
         },
         {
-          "start": 286,
-          "end": 320,
+          "start": 290,
+          "end": 324,
           "title": "Publish bounded evidence and explain exclusions beside the source",
-          "explanation": "PDF generation uses A4, tagging, outlines, a timeout and page footer, then checks the PDF signature and page-object count. Only successful staged output is renamed to the final artifact. The coverage ledger contains each exact file/hash/range and separately lists mirrors/evidence/locks. The generated README explains full-source versus selected-print excerpts, scope exclusions and the requirement to read changed code before updating an annotation hash.",
+          "explanation": "PDF generation uses A4, tagging, outlines, a timeout and page footer, then checks the PDF signature and page-object count. Only successful staged output is renamed locally. The coverage ledger contains exact file/hash/ranges and separately lists generated exports, mirrors, evidence and locks. The generated README explains full-source versus selected-print excerpts, website inclusion, named generated-data exclusions and the need to read changed source before updating its reviewed hash.",
           "focus": [
             {
-              "start": 286,
-              "end": 297
+              "start": 290,
+              "end": 301
             },
             {
-              "start": 301,
-              "end": 311
+              "start": 305,
+              "end": 315
             }
           ]
         },
         {
-          "start": 321,
-          "end": 339,
+          "start": 325,
+          "end": 343,
           "title": "Record output hashes last and clean up only owned staging",
           "explanation": "Coverage and README outputs are written and hashed, then the manifest records counts, inputs, PDF identity and artifacts. complete is true only with a PDF, so an HTML-only build cannot replace a full handoff silently. finally closes the owned browser and removes the two staged paths. The direct-entry guard lets the handbook/tests import functions without running a second generation, and CLI failures become a nonzero exit status.",
           "focus": [
             {
-              "start": 323,
-              "end": 334
+              "start": 327,
+              "end": 338
             }
           ]
         }
@@ -888,7 +888,7 @@
     },
     {
       "path": "tools/Docs/test-docs.mjs",
-      "sourceSha256": "dce266e75d4e62ef096ca2ab9500b7694de61503636e4ec163b7c64b6a6cb4c3",
+      "sourceSha256": "259877beb0d52eaef5dc0e8e94671cf1bc31cbfe499a54f8401724b1559bd8f6",
       "role": "Exercises documentation parsing, public-path safety and source-atlas coverage/completeness contracts without running application features.",
       "entryPoints": [
         "node --test tools/Docs/test-docs.mjs"
@@ -920,9 +920,9 @@
         },
         {
           "start": 67,
-          "end": 103,
-          "title": "Use a tiny hashed fixture to test physical coverage semantics",
-          "explanation": "annotatedFile constructs original CRLF bytes, a SHA256-bound explanation and a focused return statement. Tests cover BOMs, empty source, trailing newlines and classification of code/configuration, requirements, mirrors, locks and evidence. Explicit Inno script and Windows manifest cases protect the installer coverage extension. Complete physical assignment remains distinct from nonblank counts and semantic understanding; the synthetic fixture does not establish real project-file coverage.",
+          "end": 118,
+          "title": "Check physical coverage and explicit website classification",
+          "explanation": "annotatedFile supplies tiny CRLF bytes, a hash-bound explanation and a focused return statement. Tests distinguish physical/nonblank/empty lines and code, installer configuration, locks, mirrors and evidence. Website cases require authored pages/player/configuration and arbitrary new asset code to remain annotated, reject private/cache/binary paths, and classify only eight named tutorial/caption/provenance exports as generated. This tests policy, not semantic understanding of those actual files.",
           "focus": [
             {
               "start": 76,
@@ -930,47 +930,47 @@
             },
             {
               "start": 96,
-              "end": 103
+              "end": 107
             }
           ]
         },
         {
-          "start": 104,
-          "end": 130,
+          "start": 119,
+          "end": 150,
           "title": "Make missing coverage and unsafe rendering fail explicitly",
-          "explanation": "Mutated source bytes must fail the hash check. Parameterized invalid ranges cover gaps, missing tails, out-of-bounds ends and reversed ranges; duplicate blocks test overlap. Invalid excerpt ranges, placeholder prose, unknown fields and traversal also reject. Escaping is tested with script-shaped text. The live Git inventory case checks discovery of the atlas itself and a byte-verified PS mirror, without invoking either script.",
+          "explanation": "Mutated bytes, gaps, missing tails, invalid/overlapping ranges, bad excerpts, placeholder prose, unknown fields and traversal must reject. Script-shaped source must escape as text. The live Git inventory checks the atlas, a byte-verified PS mirror, six actual authored website files and all eight generated exports without executing them. This catches a policy that passes isolated sourceKind tests but fails to discover the real working-tree files.",
           "focus": [
             {
-              "start": 104,
-              "end": 115
+              "start": 119,
+              "end": 130
             },
             {
-              "start": 117,
-              "end": 122
+              "start": 139,
+              "end": 150
             }
           ]
         },
         {
-          "start": 131,
-          "end": 142,
+          "start": 151,
+          "end": 162,
           "title": "Reject success-shaped incomplete manifests",
           "explanation": "A small valid manifest provides all four expected artifact identities and matching derived counts. Negative cases remove completion, empty the artifact list, understate the PDF page count or falsify the file count. These checks prevent stale or partial output metadata from masquerading as a finished source atlas; actual bytes are checked separately by verifySourceAtlas.",
           "focus": [
             {
-              "start": 131,
-              "end": 142
+              "start": 151,
+              "end": 162
             }
           ]
         },
         {
-          "start": 143,
-          "end": 150,
+          "start": 163,
+          "end": 170,
           "title": "Keep root guide links correct while refusing unsafe chapter identities",
           "explanation": "The new test calls the actual shared helper for both a root installation guide and a handbook chapter, requiring their distinct correct relative links. Null, traversal, hidden nested paths, an external URL and a non-Markdown suffix must throw. This catches the previous basename-only link that pointed installer readers at a nonexistent handbook file.",
           "focus": [
             {
-              "start": 144,
-              "end": 150
+              "start": 164,
+              "end": 170
             }
           ]
         }

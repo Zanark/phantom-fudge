@@ -1495,3 +1495,49 @@ chose to **finish locally and leave publishing pending**. No release, asset uplo
 completed. The local preview, source, media provenance and deployment guide are available in
 [Website and tutorial](docs/WEBSITE.md). This is local browser/media evidence, not a live Pages
 deployment or capture-compatibility qualification.
+
+## 2026-10-11 - A self-contained website with less visible copy
+
+The owner next requested a version that can deploy from the repository and more GIFs on the site
+and README. This **supersedes the separate tutorial-media release prerequisite** described above;
+it does not rewrite that earlier decision into a completed publication. The current assembler and
+Pages workflow consume a bundled, compressed full-tutorial web copy under `site/media`, without a
+release download, LFS or custom media secret. The original159,267,662-byte production tutorial is
+preserved separately. Top-level public media metadata identifies the web copy; nested `original`
+metadata identifies its source. The assembler verifies bytes/hash and strict size budgets before
+replacing generated output.
+([Guide](docs/WEBSITE.md); [assembler](tools/Site/build.mjs); [workflow](.github/workflows/pages.yml))
+
+The final web copy is86,168,722bytes, SHA256
+`28cd9c871b96e6db6cc4f14d740942c388a6abd235d8ba4e4031cf50ec75fc71`,
+at1920x1080/30fps for2297.767seconds and68,933frames. All AAC payloads and PTS/DTS,
+nonfinal durations, decoded PCM and decoded frame timing match the original. FFmpeg normalized
+only the final AAC duration metadata from832to800samples (0.667ms); track/container duration and
+decoded audio are unchanged. A complete decode plus separate sampled pixel review passed; this
+remains lossy H.264 video recompression, not direct listening or user approval.
+
+The gallery now has eight fixed slots: selection, context, cover, inputs, transcription,
+answer-size, keyboard and themes. The original three derivatives remain protected. The five
+additions show actual scripted sample-data actions at original speed, with disclosed jumps to
+later actions/results rather than claims about response latency. The owner's low-copy clarification
+means **less visible text only**, not removing the DeepSeaFoam theme, decorative effects or moving
+ghosts. Short hero/demo captions, initially closed transcript/About disclosures and one persistent
+privacy note keep the page concise without discarding the complete tutorial or capture caveats.
+([Page source](site/index.html); [motion and layout](site/styles.css); [media tool](tools/Site/make-demo-media.py))
+
+All eight GIF/JPEG/MP4 sets received hash-bound sampled review. The final page reduced its default
+visible copy from616to276words while retaining the ghosts, mist, orbit decoration, large demos,
+full video and collapsed complete transcript/About material. Fourteen Node test cases and nine
+muted-browser groups passed, including every chapter, search/caption pagination, eight tab panels,
+keyboard wrapping,320-1440px layouts, reduced motion, no-JavaScript fallback and missing-video
+feedback. A fresh public-only source-tree build/test also passed without the private original.
+
+The atlas discovery policy now includes authored website HTML/CSS/JavaScript and media configuration,
+with eight named tutorial/caption/provenance exports hash-indexed separately as generated inputs.
+This is not a blanket assets exemption. Reviewed annotations now cover220first-party files,
+33,867physical lines and1,359authored blocks across11groups; the rebuilt atlas PDF has709pages.
+The maintained handbook and atlas were regenerated and freshness-checked after source review.
+
+No remote publication, authentication change, commit, push or deployment occurred. The retained
+loopback preview is `http://127.0.0.1:4187/phantom-fudge/`; local browser evidence is not proof that
+the GitHub Pages URL is live or that capture compatibility is qualified.

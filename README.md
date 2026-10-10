@@ -21,9 +21,23 @@
   <a href="site/assets/demo-cover.gif"><img src="site/assets/demo-cover.gif" width="48%" alt="Sample: click the book icon to cover the workspace, then later reveal it"></a>
 </p>
 
-*Scripted sample-data GIFs, not live meeting captures. Select/Ask/read is an edited sequence, not a latency measurement. Click to enlarge. [Clip provenance](site/assets/asset-provenance.json).*
+**Choose audio inputs** · **Start and stop transcription**
 
-**[Complete 38-minute tutorial and DeepSeaFoam website](docs/WEBSITE.md)** — 15 chapters, searchable transcript, playback speed and captions. Local preview ready; GitHub Pages publication pending write access.
+<p align="center">
+  <a href="site/assets/demo-inputs.gif"><img src="site/assets/demo-inputs.gif" width="48%" alt="Sample: select Microphone, then Both, without starting capture"></a>
+  <a href="site/assets/demo-transcription.gif"><img src="site/assets/demo-transcription.gif" width="48%" alt="Sample: Start transcription, then Stop at a later moment"></a>
+</p>
+
+**Adjust answer size** · **Select with the keyboard**
+
+<p align="center">
+  <a href="site/assets/demo-answer-size.gif"><img src="site/assets/demo-answer-size.gif" width="48%" alt="Sample: increase the answer font from 10 to 17 with the size slider"></a>
+  <a href="site/assets/demo-keyboard.gif"><img src="site/assets/demo-keyboard.gif" width="48%" alt="Sample: V enters Select mode; later Space selects a transcript row"></a>
+</p>
+
+*Edited, original-speed sample-data GIFs, not live meetings or latency measurements. Click to enlarge. [Clip provenance](site/assets/asset-provenance.json).*
+
+**[Complete 38-minute tutorial and DeepSeaFoam website](docs/WEBSITE.md)** — 15 chapters, searchable transcript, speed and captions. Self-contained Pages build; no separate video release or host required. Publication remains pending.
 
 ## From meeting audio to an answer
 
@@ -63,9 +77,7 @@
 ## Three looks. One workspace.
 
 <p align="center">
-  <a href="docs/assets/readme/deepseafoam.png"><img src="docs/assets/readme/deepseafoam.png" width="31%" alt="DeepSeaFoam dark theme"></a>
-  <a href="docs/assets/readme/harbor-daylight.png"><img src="docs/assets/readme/harbor-daylight.png" width="31%" alt="Harbor Daylight light theme"></a>
-  <a href="docs/assets/readme/plain.png"><img src="docs/assets/readme/plain.png" width="31%" alt="Plain B/W neutral theme"></a>
+  <a href="site/assets/demo-themes.gif"><img src="site/assets/demo-themes.gif" width="80%" alt="Sample: switch through Harbor Daylight, Plain B/W and DeepSeaFoam"></a>
 </p>
 
 **DeepSeaFoam** · **Harbor Daylight** · **Plain B/W**

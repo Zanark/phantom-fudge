@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-10T21:28:46.256Z",
+  "generatedAtUtc": "2026-10-10T22:40:38.849Z",
   "edition": "2026-10-11",
   "inputs": {
     "AGENTS.md": "a2e00965ef5387b5af1b7c69d6594145d8d67d0a6294974b0bf6cb0b1921642d",
@@ -12,7 +12,7 @@
     "docs/AI-ANSWER-RESEARCH.md": "6e8606afc392a23c1f237845fdc11f00a69fb94420e9da4f8b4c644ed9c1d105",
     "docs/answer-provider-smoke.json": "7bf9dde741fd48659d3700c8a9a996a788e32729a0a829f1b4c6787e9204081b",
     "docs/ANSWER-PROVIDERS.md": "64010a6a06d3cd1e909bf3362365f94f5d376419dbee2fd2a9fb9ad1755482d3",
-    "docs/ARCHITECTURE.md": "eff8ca8b535e9436aa0dec7ac58cd3f8919b7e25a320b541bf5f4413530f40b6",
+    "docs/ARCHITECTURE.md": "883faed8301b5b8d2e35f8674d92cd938d8ddfb55773c624becb5a1a7d5f0722",
     "docs/assets/readme/answer-context.png": "f839e9c7f029303c1091976e705b1a60727f7289cd3f88d3b10cdf998066f2d7",
     "docs/assets/readme/audio-devices.png": "d2a8401c88e20294e208a11f39be0d7d009109f1d22a11c55442d9f3d2fdfdd7",
     "docs/assets/readme/clarification.png": "0832766f1f9ad6dae0c4c5c3ef3759ad201243cd28457aca7c01aeb0bae9a6db",
@@ -29,7 +29,7 @@
     "docs/CURRENT-WORKFLOW.md": "30df36ddfdc4c6884d254d1d51bcf19baee6cdb4137be526c73b55091c90f338",
     "docs/CURSOR-AND-THEMES.md": "bab42d313e5f1920e1666a575fedc34f84dc5543aea413c7665b4e8f5726b664",
     "docs/DEVELOPMENT-WORKFLOW.md": "1f0852195c0afe455b2e754c6da1496ca4f450ce8d99cb2a3103a4ad4fc0b7f4",
-    "docs/DOCUMENTATION-MAINTENANCE.md": "8169e202c5d4e2ccc932e05ac80d3ddfc940726dc9d48bf555e586514ca5c013",
+    "docs/DOCUMENTATION-MAINTENANCE.md": "87faa05a6691d079a1bcd5ac403b25d7558fcfa0c1eea714bbf1735d66f1d11a",
     "docs/DUAL-SOURCE-AUDIO.md": "61eb2c59cc56b2ab0fbbc7921bcb71ed5bc11c2dbdf6f611c898b074f786d05b",
     "docs/handbook/00-reading-map.md": "920877a9c96711ae85a07e40f2032b6105338665a220aeddabbd312b00f7ef7d",
     "docs/handbook/01-principal-engineer-guide.md": "fd7ddab98ccb4814354c4690f362996b8a878b444e36c59585cc7b076b552606",
@@ -59,7 +59,7 @@
     "docs/handbook/25-native-audio-source-walkthrough.md": "b551600d8a0de8a256847663a6fa61b0865f78adde24b42a523783216dd6b85f",
     "docs/handbook/26-speech-source-walkthrough.md": "67b15177203aa36148103f112be7de2a623207ab9abdd718442b658dfcdd04d2",
     "docs/handbook/27-operations-source-walkthrough.md": "22f728ba4e15dafbd155c5d8b449e8235b0032b27bad023757746f7b03c4559c",
-    "docs/handbook/28-documentation-source-walkthrough.md": "0f5f54aac19297d8449bc1b104b49146c1c0ee36bcd3b4224acca7a2da701bb7",
+    "docs/handbook/28-documentation-source-walkthrough.md": "f2ab8777a7c0a195b80cd090bf5a986fc5f6cc0cb6614827a9bcce517135825a",
     "docs/handbook/assets/cover.svg": "cca6a0b1d452c7376989650c5f51eb37398b06ba10df8e759a60d3b5193f8074",
     "docs/handbook/assets/screenshots/answer-background-10.png": "778e94d10d1ea2dbda39eaeeb383adc172cebf8cf5fdc728b22b29e069ad2b03",
     "docs/handbook/assets/screenshots/answer-background-100.png": "f771bc5d1ee214b14a228045562b830fc1845ad7ac0941b5eac3cbac95f47ddf",
@@ -87,8 +87,8 @@
     "docs/handbook/assets/screenshots/transcript-deepseafoam.png": "9d2e18383acc0903456e3a47cb5a4df40db3bd61c89be92776e5ec35b8da81b8",
     "docs/handbook/assets/screenshots/transcript-multiselect.png": "9af2d2f9606233360807436ecbe92f954d3f13e3d442b6fbf7f6fb58361556a3",
     "docs/handbook/book.json": "bcea9a8b8089876b529b3a452632d8ef251c91dc1ee4361649f9135d683297ee",
-    "docs/handbook/catalogue.json": "3c8d4eea3b57f1341c8d29352535b75089ae66990c80e00824834285c7ce5d0f",
-    "docs/handbook/README.md": "b201a6b8d4033715d7257165cae39c982da9eb67769216ea52c2d924f42d6342",
+    "docs/handbook/catalogue.json": "bcbfbe3fa3625e09e3ccdce5c1433d0269abfcfef7dfa3905d2355875ba2b622",
+    "docs/handbook/README.md": "91f0be314515d48fa720faef05a63ae860f307353c7394b642e3adc330349f73",
     "docs/IMPLEMENTATION-STATUS.md": "fc97d9935b83314bae639a1bcbbcaeefeaf3d093434ded269ff9d86b46e2e828",
     "docs/INSTALLATION.md": "bba47aa8a39e36dac0ec7f0b16d6418e416e2c9dc561707e51b354af280514b9",
     "docs/KEYBOARD-CONTROLS.md": "71024ec8abfe060c4f414501d75a70515b5846c6586ad5df1ec5d4b1af022907",
@@ -99,14 +99,14 @@
     "docs/QUALIFICATION.md": "ac1fd9996beaf5e64272be87babd174b3736989fd647d2544fac850323772342",
     "docs/QUESTION-CLARIFICATION.md": "08e9db129c19e6c4f397754113ace316bac7555cb59781aedd835b841ad4d99c",
     "docs/README.md": "a6b010974f17bf205f905513ee77ecae94672245dcf9f643fd4c80e4740b613d",
-    "docs/source-atlas/manifest.json": "d104ee260f31dafc329e017c410a811a32ceb74e3192c5f87d91532b0f66e8ae",
+    "docs/source-atlas/manifest.json": "a4baf0e59688a9d4e34bd3ba28137b30cbff7ceb4152f90768de7b6289f40ac4",
     "docs/SPEECH-BENCHMARK.md": "46c89e70fc06891a837c3fc2323ed9712510a0175981ea3e916516d750dda39d",
     "docs/TODO-CONVENTIONS.md": "7d214300834874ea780761859b992ea4ccf834ce2a34eef2697437d8d841e753",
-    "docs/WEBSITE.md": "1d0945316c4fc8ff8bc371b6fba7de79c645a3b922cddcdf822a19266ab0fead",
+    "docs/WEBSITE.md": "4c57ab5a6cb999a27ab8586beb921fb3a0a3142f5cb62bccc38a71a093b38be9",
     "global.json": "bf68d4a0fc2613967f53bd6af5a6570666b755f5f6bf4688a120736ae523ccaa",
-    "JOURNAL.md": "63cc13149aa21efe924536ae362e0351882f66daddaacd581b2417e35e87cccd",
+    "JOURNAL.md": "ef105323cfa64fde0915a10d28c699d07c3efb23db434a7b0c3f863874940053",
     "PhantomFudge.slnx": "83273f1f97cbf17a0f001c4221eb997d18dac384b630d16a080d24253ca51379",
-    "README.md": "42973634eb5dfc897578e17fab318d9c55c8e099770e8e999729ab31cd207a46",
+    "README.md": "28fbd99308002febeb5bf26fd771b11d07bdbfa66181dbd0a1548845eeb441cf",
     "scripts/Build-Handbook.ps1": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
     "scripts/Build-Handbook.txt": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
     "scripts/Build-Installer.ps1": "fce0d469b571c669c551ddbb93db2f8279d0fe32e79be999db7120aabb525b9f",
@@ -257,11 +257,11 @@
     "tests/PhantomFudge.Core.Tests/ThemePaletteTests.cs": "3bbb5308677f535c629c9909df63e1f1879a6e915a8165aed891cc1d57247f53",
     "tests/PhantomFudge.Core.Tests/TranscriptBufferTests.cs": "4ebd424f1684c9d8fd623322e19153427fb2b94858ca93034baeae20c1a91558",
     "tests/PhantomFudge.Core.Tests/WorkspaceLayoutTests.cs": "3b1261c8523b8218a3359dddec3118f53d653f8a981b8696a57d264cfc404d69",
-    "TODO/00_INDEX.todo": "8b2f2f39e480a4d999393edf60bd8b7c09f157fb7219d6b93e2cdebf971dfeb2",
+    "TODO/00_INDEX.todo": "f5b5fedce5adb3d4553f4d5f238d22b5b83e70b5b7fd41f62ac152e7dbed1cb7",
     "TODO/08_LOCAL_STORAGE.todo": "ef568213f4a837ed48f2011b6dd93a1298fdd40a2151983350a252ec985a789d",
     "TODO/13_COMPATIBILITY_QUALIFICATION.todo": "9ef0db53d6031e1744d377e3a02163cbdf0e406b3e92a7d9b018b9ae9af0abf1",
     "TODO/14_PACKAGING_RELEASE.todo": "869edd690efd9a23798bd90d9c3277b6e077da8069ab6bd6eedcf1c09a8a2794",
-    "TODO/16_DEVELOPMENT_LEDGER.todo": "3b3a64f1768fd7eb66c61be2be4131bb30f0e5090c22ce5fdfc611fa0c7cf069",
+    "TODO/16_DEVELOPMENT_LEDGER.todo": "30d645823e9167179d72bedc27f680487b8938cc3859b2a651fae81026fa4508",
     "TODO/17_RELEASE_ACCEPTANCE.todo": "ced71d32d0045f0b7b490bd2d99171be177fbc215e7cbfe051ba06f62cdfe526",
     "TODO/20_DOCKER_LOCAL_SERVICE.todo": "701e74651abb517d595a86261d3c48b78e2399d0bce83a7db12a39e8a2d746de",
     "TODO/22_NATIVE_PYTHON_RUNTIME.todo": "444317a249a394d5e625649bbb43da82db9049c36a8812e98f34170dbbabbb13",
@@ -302,8 +302,9 @@
     "tools/Docs/handbook.css": "0b030e6cce8a9ab1f457c34adc0b42e9cf680b855baadfaa880943289fd04196",
     "tools/Docs/package-lock.json": "f3440ae335f87a70e7209fd1bda51272d50530010ecc9f8567e33c32b9c3d630",
     "tools/Docs/package.json": "33e27043d4daf6246ceceb9dc2c83b74dd1c5fd3510febb057d5aa2d854bdbf9",
-    "tools/Docs/README.md": "100a6e2011e80acee077e4ffd680d13e48705d052fb19e25a875f7d81d2e9819",
-    "tools/Docs/test-docs.mjs": "dce266e75d4e62ef096ca2ab9500b7694de61503636e4ec163b7c64b6a6cb4c3",
+    "tools/Docs/README.md": "b52182649eeef49051956438978864f7c3682490fa2ff5d7d13065d6d11b4b2d",
+    "tools/Docs/source-atlas.mjs": "a26845c6ef19eda4a606cf4b4911139c159891ab4564a9686fbd8565efa2e8f9",
+    "tools/Docs/test-docs.mjs": "259877beb0d52eaef5dc0e8e94671cf1bc31cbfe499a54f8401724b1559bd8f6",
     "tools/DualSourceProbe/probe.py": "6ff0b3f74333cd01e7b8974bc094fe4fe148f23024550c8e538250f14e449c2c",
     "tools/DualSourceProbe/test_runtime_upgrade.py": "784e149ba6d9da2346fcf7c9b556e6bba6275649bd0a13fbc69c086536165b20",
     "tools/Installer/bundle_runtime.py": "776de36307d68159ade74a88ad6d1e558c4b480b727102b2891a38180c7b4b56",
@@ -312,13 +313,14 @@
     "tools/Installer/runtime_audit.py": "67e9ae694242e82186cee16bb81f6b9ed75eaab9c3b3631f82c6f980b4c6f4f2",
     "tools/Installer/runtime-contract.json": "b5ea3d2c2b80ef140b26f48b616e0f9122b4ee09d003cffe211e7f01dd237c99",
     "tools/Installer/runtime-lock.json": "4271b71567064386dfad426e5e1fbae4bb7d706b186a9e7cb034d4b5a63ebdc3",
-    "tools/Site/build.mjs": "62a2d3f8c398ffde0f40be2108294dd18ccfb7b834fd54fb4eb78db3c9af4b63",
-    "tools/Site/import-tutorial.mjs": "de72eb5eb14f612a2e75e85eb9fff3fa9f512cfd5210b88cb64eca70da901843",
+    "tools/Site/build.mjs": "90210475aa0b850201289dec85ae6af2e3563e6a097144c2844f5c11fc351f2d",
+    "tools/Site/import-tutorial.mjs": "0d2533264b5692ccbd9a6d5388f3901ba176b33262c07f8f14d811199e7f0d84",
     "tools/Site/make-artwork.mjs": "e10476c7e72f9d6f8a2ffe5e76cbb6a21f0f90ff7e1cc062a4d5ffbb98247b7c",
-    "tools/Site/make-demo-media.py": "2416df61177f1e605cf6a356475d5c0ef6de11a562d9449c90d879f8443658d3",
-    "tools/Site/review-browser.mjs": "ca3ce2464aee1dd3e7ae63f5ea48b6ef23958a86579e49051a728336e347c927",
+    "tools/Site/make-demo-media.py": "2dbfebf4013d81fee0a83e570b68d953e619d404912f14befe158cf53b2be198",
+    "tools/Site/prepare-web-video.py": "287769d555dff5fef9e0f793bd8efab132601ca799e2871f5f60ee24b042d6e3",
+    "tools/Site/review-browser.mjs": "8f6240961477721ebde6f1ef83eb03169214d3b7e4acc1844b00941bc669bd60",
     "tools/Site/serve.mjs": "4038725f3514da8846594e7e6aeb211c496907172d9f2962c40c7aa566b04bd6",
-    "tools/Site/test-site.mjs": "2702099c132599c92006e71b52c6c8b6ebe5bd704c244e08ac09ac66eac6ef9e",
+    "tools/Site/test-site.mjs": "c825fadef1017135b8226c9e5362ebe7fa8b9dcbc2ba438ea0a1b47385daf6e2",
     "tools/SpeechBench/bench.py": "e4129a6b46a33a43e07ee324327c687312be7a7bfc3de9184382df582d69a68e",
     "tools/SpeechBench/corpus.json": "3e3313d4e1249ecea55bec163f7759f440e5e5e0b4963af385fcaa424c6a8e12",
     "tools/SpeechBench/metrics.py": "46db0d4c45ca8389f4ae9d108bb30acf0c6a7bebd648675f315eaeaa3beab4d1",
@@ -7170,28 +7172,68 @@
       "citations": [
         {
           "file": "tools/Site/build.mjs",
-          "start": 7,
-          "end": 30
+          "start": 28,
+          "end": 52
+        },
+        {
+          "file": "tools/Site/test-site.mjs",
+          "start": 98,
+          "end": 130
         },
         {
           "file": "tools/Site/review-browser.mjs",
-          "start": 48,
+          "start": 36,
+          "end": 49
+        },
+        {
+          "file": "tools/Site/review-browser.mjs",
+          "start": 82,
+          "end": 84
+        },
+        {
+          "file": "tools/Site/make-demo-media.py",
+          "start": 26,
+          "end": 159
+        },
+        {
+          "file": "tools/Site/make-demo-media.py",
+          "start": 430,
+          "end": 477
+        },
+        {
+          "file": "tools/Site/review-browser.mjs",
+          "start": 51,
+          "end": 148
+        },
+        {
+          "file": "tools/Site/review-browser.mjs",
+          "start": 178,
+          "end": 193
+        },
+        {
+          "file": "tools/Site/test-site.mjs",
+          "start": 22,
+          "end": 50
+        },
+        {
+          "file": "tools/Site/test-site.mjs",
+          "start": 80,
+          "end": 111
+        },
+        {
+          "file": "tools/Site/build.mjs",
+          "start": 8,
+          "end": 44
+        },
+        {
+          "file": "tools/Site/test-site.mjs",
+          "start": 64,
           "end": 96
         },
         {
           "file": "tools/Site/test-site.mjs",
-          "start": 19,
-          "end": 47
-        },
-        {
-          "file": "tools/Site/build.mjs",
-          "start": 10,
-          "end": 29
-        },
-        {
-          "file": "tools/Site/test-site.mjs",
-          "start": 58,
-          "end": 72
+          "start": 113,
+          "end": 159
         },
         {
           "file": "tools/Site/serve.mjs",
@@ -7201,22 +7243,122 @@
         {
           "file": "tools/Site/review-browser.mjs",
           "start": 9,
-          "end": 34
+          "end": 35
         },
         {
           "file": "tools/Site/review-browser.mjs",
-          "start": 142,
-          "end": 150
+          "start": 194,
+          "end": 202
+        },
+        {
+          "file": "tools/Site/test-site.mjs",
+          "start": 113,
+          "end": 159
         },
         {
           "file": "tools/Site/build.mjs",
-          "start": 10,
-          "end": 30
+          "start": 28,
+          "end": 52
+        },
+        {
+          "file": "tools/Site/prepare-web-video.py",
+          "start": 21,
+          "end": 28
+        },
+        {
+          "file": "tools/Site/build.mjs",
+          "start": 28,
+          "end": 52
+        },
+        {
+          "file": "tools/Site/build.mjs",
+          "start": 31,
+          "end": 39
         },
         {
           "file": "tools/Site/import-tutorial.mjs",
           "start": 10,
-          "end": 31
+          "end": 33
+        },
+        {
+          "file": "tools/Site/prepare-web-video.py",
+          "start": 44,
+          "end": 56
+        },
+        {
+          "file": "tools/Site/prepare-web-video.py",
+          "start": 89,
+          "end": 139
+        },
+        {
+          "file": "tools/Site/prepare-web-video.py",
+          "start": 172,
+          "end": 218
+        },
+        {
+          "file": "tools/Site/prepare-web-video.py",
+          "start": 173,
+          "end": 208
+        },
+        {
+          "file": "tools/Site/prepare-web-video.py",
+          "start": 198,
+          "end": 248
+        },
+        {
+          "file": "tools/Site/import-tutorial.mjs",
+          "start": 13,
+          "end": 33
+        },
+        {
+          "file": "tools/Docs/source-atlas.mjs",
+          "start": 11,
+          "end": 17
+        },
+        {
+          "file": "tools/Docs/source-atlas.mjs",
+          "start": 36,
+          "end": 46
+        },
+        {
+          "file": "tools/Docs/test-docs.mjs",
+          "start": 96,
+          "end": 110
+        },
+        {
+          "file": "tools/Docs/test-docs.mjs",
+          "start": 139,
+          "end": 150
+        },
+        {
+          "file": "tools/Docs/source-atlas.mjs",
+          "start": 36,
+          "end": 78
+        },
+        {
+          "file": "tools/Docs/source-atlas.mjs",
+          "start": 125,
+          "end": 163
+        },
+        {
+          "file": "tools/Site/import-tutorial.mjs",
+          "start": 21,
+          "end": 32
+        },
+        {
+          "file": "tools/Site/make-demo-media.py",
+          "start": 303,
+          "end": 429
+        },
+        {
+          "file": "tools/Site/make-demo-media.py",
+          "start": 364,
+          "end": 374
+        },
+        {
+          "file": "tools/Site/make-demo-media.py",
+          "start": 412,
+          "end": 477
         },
         {
           "file": "tools/Site/make-artwork.mjs",
@@ -7230,37 +7372,42 @@
         },
         {
           "file": "tools/Site/make-demo-media.py",
-          "start": 19,
-          "end": 66
+          "start": 26,
+          "end": 157
         },
         {
           "file": "tools/Site/make-demo-media.py",
-          "start": 113,
-          "end": 178
+          "start": 204,
+          "end": 269
         },
         {
           "file": "tools/Site/make-demo-media.py",
-          "start": 193,
-          "end": 208
+          "start": 284,
+          "end": 374
         },
         {
           "file": "tools/Site/make-demo-media.py",
-          "start": 246,
-          "end": 336
+          "start": 395,
+          "end": 427
+        },
+        {
+          "file": "tools/Site/prepare-web-video.py",
+          "start": 172,
+          "end": 248
         },
         {
           "file": "tools/Site/test-site.mjs",
           "start": 1,
-          "end": 72
+          "end": 159
         },
         {
           "file": "tools/Site/review-browser.mjs",
-          "start": 21,
-          "end": 150
+          "start": 22,
+          "end": 202
         }
       ],
       "diagrams": 2,
-      "words": 1077
+      "words": 2197
     },
     {
       "file": "docs/handbook/17-privacy-and-assurance.md",
@@ -13161,7 +13308,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 1819
+      "words": 1866
     },
     {
       "file": "docs/ANSWER-PROVIDERS.md",
@@ -13648,16 +13795,16 @@
         }
       ],
       "diagrams": 2,
-      "words": 13176
+      "words": 13607
     }
   ],
   "diagramCount": 75,
-  "wordCount": 93239,
+  "wordCount": 94837,
   "pdf": {
     "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.pdf",
-    "sha256": "523fa6ecf512ec7856d2900f82ec563b0bcf3a299aed6f775309b7a2bbb3f645",
-    "bytes": 12030156,
-    "pages": 385,
+    "sha256": "0db47f5b232e386f8b27f7a2eaf8b0b9be07cd06f0dc622bf25bb2336ef89001",
+    "bytes": 12124102,
+    "pages": 390,
     "inspection": {
       "missingImages": [],
       "overflowing": [],
@@ -14162,27 +14309,27 @@
     },
     {
       "file": "docs/handbook/assets/diagrams/website-01.svg",
-      "sha256": "65e96f6afa8afc30253adfb39efd971296e7e5c326c5e0e54887b92d3c0c26bc"
+      "sha256": "268499f4ef44225d3f952e3780c0801f21fde30e05bab0d11dfcdae413a6f73c"
     },
     {
       "file": "docs/handbook/assets/diagrams/website-01.mmd",
-      "sha256": "10172e93ca07e72e8b570f4811d20b5cbcb261b9c8bf260be1ce846a6e9c62d1"
+      "sha256": "a8b86376d676c7fbc01b3c3eb434865a69d7b13d748a918cfecbe6bbc81fea7f"
     },
     {
       "file": "docs/handbook/assets/diagrams/website-01.json",
-      "sha256": "f76da3775ff715c5c5da1b26b389c4ae86291a83dda8d556f2b261109e386b90"
+      "sha256": "5a3bd800da0dcf30557d5017916aa400b9a4176e0390f59260286a3fe881c75e"
     },
     {
       "file": "docs/handbook/assets/diagrams/website-02.svg",
-      "sha256": "7ea2acf3b5c3414a3aa08b53cdf7b1866460bf61933c852389e889e70e8383e9"
+      "sha256": "5aa198a790c7b803b72e7ce2cbbc6278a292001fadb9eaeb0eaabea5d258e6d0"
     },
     {
       "file": "docs/handbook/assets/diagrams/website-02.mmd",
-      "sha256": "485d7401af1e8452101b12f32209b021ee3a214c66497d75412a4f4d3f4e8908"
+      "sha256": "f4fd1e20284e0c384045b47b5269db6510c06e60eca7f0dcd1b1392663f550f1"
     },
     {
       "file": "docs/handbook/assets/diagrams/website-02.json",
-      "sha256": "50675e3249e5c16e24ba645a5bdf6d6b09a40c37cbee0076e01273f8f7e5ea52"
+      "sha256": "d439f9344fd38c747d6809bb9c8b844b1b64f6b0fc05780c05c2164955eb20ef"
     },
     {
       "file": "docs/handbook/assets/diagrams/17-privacy-and-assurance-01.svg",
@@ -14582,11 +14729,11 @@
     },
     {
       "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.html",
-      "sha256": "93247a77edaf7464c8b786a5f018b6a28115a41f3e6f7855c170a0640828283b"
+      "sha256": "f8cceec91b336f3bb7102a419ab5e7e64d3d762e77f47ec620a1f32914ddb3b2"
     },
     {
       "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.pdf",
-      "sha256": "523fa6ecf512ec7856d2900f82ec563b0bcf3a299aed6f775309b7a2bbb3f645"
+      "sha256": "0db47f5b232e386f8b27f7a2eaf8b0b9be07cd06f0dc622bf25bb2336ef89001"
     }
   ]
 }

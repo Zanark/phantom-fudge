@@ -11,13 +11,13 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Current state
 
-- Workstream61 is IN_PROGRESS for the October11 02:54 deployable-version/more-GIF follow-up.
-  Remove the media-release prerequisite by including a smaller complete web tutorial in source;
-  add five more action demos. Publication still requires authorized write access, not a video host.
-  Initial local delivery: DeepSeaFoam static site, original drifting ghosts/video thumbnail,
-  three zoomed action GIFs on README/site, full chaptered player and searchable transcript.
+- Workstream61 is DONE locally, including maintained documentation.
+  Self-contained82.18MiB full1080p tutorial, eight action GIFs, release-free Pages workflow and
+  concise276-word default page with original DeepSeaFoam ghosts/decorations. Fresh public-only
+  assembly, Node14 and muted browser9groups pass. Publication still requires authorized write access.
+  Initial local delivery had three zoomed GIFs and a separate media-release prerequisite.
   Owner made repo public/configured Pages; later chose local delivery because active CLI is READ-only.
-  Website/media release publication is deferred; pinned Pages workflow prepared, no push/release.
+  Website publication is deferred; no push/release or authentication change.
 - Workstream60 is DONE:15chapter/194lesson full tutorial delivered locally under
   artifacts\tutorial\20261010-221225. Measured38:17.767,1080p/30fps, narrated click/key guides,
   captions and offline searchable player. Scripted actual-WPF/sample-data demonstration;
@@ -65,8 +65,8 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Next action
 
-Workstream61 is revising the locally complete website for self-contained deployment and eight GIFs.
-The separate media-release prerequisite is superseded. See docs\WEBSITE.md for preview and deployment.
+Workstream61 is complete: self-contained website, eight GIFs and current maintained documentation.
+The separate media-release prerequisite is removed. See docs\WEBSITE.md for preview and deployment.
 Publication requires authorized repository-write access.
 The owner explicitly chose to leave publication pending; no automatic authentication or push.
 
@@ -114,7 +114,7 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 
 | ID | File | Status | Gate |
 | --- | --- | --- | --- |
-| 61 | 61_PUBLIC_PHANTOM_WEBSITE.todo | IN_PROGRESS | Self-contained deployment and five additional GIFs |
+| 61 | 61_PUBLIC_PHANTOM_WEBSITE.todo | DONE | Self-contained site/eight GIFs/current books; publication owner-deferred |
 | 60 | 60_FULL_VIDEO_TUTORIAL.todo | DONE | Local38-minute tutorial and offline chaptered player |
 | 01 | 01_PRODUCT_DECISIONS.todo | IN_PROGRESS | G0 |
 | 02 | 02_FEASIBILITY_RESEARCH.todo | DONE | G0 desk research only |

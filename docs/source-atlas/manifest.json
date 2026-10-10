@@ -1,23 +1,23 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-10T21:28:16.565Z",
+  "generatedAtUtc": "2026-10-10T22:40:17.076Z",
   "complete": true,
   "counts": {
-    "files": 213,
-    "lines": 32681,
-    "nonblankLines": 30450,
-    "blocks": 1303,
+    "files": 220,
+    "lines": 33867,
+    "nonblankLines": 31583,
+    "blocks": 1359,
     "groups": 11
   },
   "inputs": {
     ".dockerignore": "e3ffe61c2f35f6c0cb795ee65ab2ea5ca930b6c88749aa6a1867b8a226573607",
-    ".github/workflows/pages.yml": "039bd86255d00873674ee030f6c50a58d5d7a1df72905d4f422869aa32edc9e3",
+    ".github/workflows/pages.yml": "d8e49000cbbd0af0c7cf19fac60a579c652ef421ef63137373b24911c832cd60",
     ".gitignore": "df45cce886842f6eb67ee01eeadc72d749b81f9a80ad7e29fbc3bda34470e668",
     "Directory.Build.props": "1bb1bc2e04dc4fee54dd8627dde84f43783cab0f3ffc18224fcdacac0137a6d7",
     "PhantomFudge.slnx": "83273f1f97cbf17a0f001c4221eb997d18dac384b630d16a080d24253ca51379",
     "compose.yaml": "072523fcbae8d0e1b017bae97bb6bfa595108b56b0b2989cb014f761b5ff6e3e",
     "docs/handbook/book.json": "bcea9a8b8089876b529b3a452632d8ef251c91dc1ee4361649f9135d683297ee",
-    "docs/handbook/catalogue.json": "3c8d4eea3b57f1341c8d29352535b75089ae66990c80e00824834285c7ce5d0f",
+    "docs/handbook/catalogue.json": "bcbfbe3fa3625e09e3ccdce5c1433d0269abfcfef7dfa3905d2355875ba2b622",
     "global.json": "bf68d4a0fc2613967f53bd6af5a6570666b755f5f6bf4688a120736ae523ccaa",
     "scripts/Build-Handbook.ps1": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
     "scripts/Build-Handbook.txt": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
@@ -81,6 +81,20 @@
     "services/transcription/tests/test_recognizer.py": "69f10170b4c3676b9377c91ac20afb9b0421b8ed7a29cbb51ba311bb2fcdfb2a",
     "services/transcription/tests/test_runtime_bundle.py": "92dbb0b3cd99cfb39617c50bd6d52e68428760a0367c48a29ee136cc5abac6ff",
     "services/transcription/whisper-models.json": "f5979e05428365e3865704713618bf89a36a2d24e9e718430e91d3ee8d338845",
+    "site/404.html": "d168f35a25f3cc0c840390a86ec8319f1d31bbc24db135d50167712d0a202a5e",
+    "site/app.mjs": "f5a02cf02bba9d976483ce23a8da87bf6b579fb21fa0882b0f32221e3776fb99",
+    "site/assets/asset-provenance.json": "e52b3cd3f29f7e68e7aaf6ee9ae49b651073bc2fe6bd227b8db4b0bc36139197",
+    "site/assets/captions.srt": "e0ac5d54f842f53ab1212726ceaa1d0b27f3a05a90acc77b0bddbc41050dfc9e",
+    "site/assets/captions.vtt": "4898e99ad318d314c42d53fa85c1d3edc9049d940a77062b1d7a1813c204bb97",
+    "site/assets/chapters.json": "c30bd617a40e6e2e1783c723fbc14be30e51818b5316e7f1964de5f3fe7e0f45",
+    "site/assets/chapters.txt": "ce9e5f027b3b69ec39a73d0ade6cf8a2af7717df54afffae9f48a8fec4b167c0",
+    "site/assets/media-manifest.json": "f2c2ac22a11654581d0929227f5167ea1c1d483bb0e5eb862b239e0c954bc200",
+    "site/assets/transcript.json": "6add37cab5aa7777e32288840063fa9c795303eb68bf82b8de88546b6ba6b9d7",
+    "site/assets/tutorial-data.mjs": "ca56cae64a40b47eef953749d31aa281cee11f1cfbce55be4f9d80e7011fe6c0",
+    "site/index.html": "2c61239c8e20dc882558954034d84da368e09d2ee181aa4de61ebfe703ebca13",
+    "site/media.json": "01d31083a080456bb22d59170a46ee79bd96ca8a40a71c86dd3bd9cda75eb891",
+    "site/player-core.mjs": "043d50626931799324bf7d4a0a227172471772da0694d99c7d0fefce2179d109",
+    "site/styles.css": "49597736b100afddf0d1201299ad7fce02c53641de545de308a81493c29193b4",
     "spikes/CaptureProof/CaptureProof.csproj": "22337716c1958d9d67d8b5d940309b835a1ffd6a677c29dcf1a80ac2f6b01cb5",
     "spikes/CaptureProof/Program.cs": "199eb8a47a7d96b64af7ee13b02534cdd9b7c92a4b0edde6c2379b4236911fc9",
     "spikes/CaptureProof/packages.lock.json": "531d4cf71e5420c1c03da4c06778ba2a212c7058a3882e7a3a873ae2f811511e",
@@ -249,8 +263,8 @@
     "tools/Docs/package.json": "33e27043d4daf6246ceceb9dc2c83b74dd1c5fd3510febb057d5aa2d854bdbf9",
     "tools/Docs/source-atlas-client.mjs": "15b01c4158c4daf338e396c811a35555d8458d5c4540294340679bcb8bf2faea",
     "tools/Docs/source-atlas.css": "500c4556d0d6237949274d93fc223636fa176c4c749a865b860241f239d75efe",
-    "tools/Docs/source-atlas.mjs": "c10bdf23e7aec1238b0ba952c236976e66694c24d6163774666650c7d61a712b",
-    "tools/Docs/test-docs.mjs": "dce266e75d4e62ef096ca2ab9500b7694de61503636e4ec163b7c64b6a6cb4c3",
+    "tools/Docs/source-atlas.mjs": "a26845c6ef19eda4a606cf4b4911139c159891ab4564a9686fbd8565efa2e8f9",
+    "tools/Docs/test-docs.mjs": "259877beb0d52eaef5dc0e8e94671cf1bc31cbfe499a54f8401724b1559bd8f6",
     "tools/DualSourceProbe/probe.py": "6ff0b3f74333cd01e7b8974bc094fe4fe148f23024550c8e538250f14e449c2c",
     "tools/DualSourceProbe/test_runtime_upgrade.py": "784e149ba6d9da2346fcf7c9b556e6bba6275649bd0a13fbc69c086536165b20",
     "tools/Installer/PhantomFudge.iss": "cd209ff3878c6b683748997ab0fc45e5e57d2d0cd288686c72e18897486e2c65",
@@ -259,13 +273,14 @@
     "tools/Installer/runtime-contract.json": "b5ea3d2c2b80ef140b26f48b616e0f9122b4ee09d003cffe211e7f01dd237c99",
     "tools/Installer/runtime-lock.json": "4271b71567064386dfad426e5e1fbae4bb7d706b186a9e7cb034d4b5a63ebdc3",
     "tools/Installer/runtime_audit.py": "67e9ae694242e82186cee16bb81f6b9ed75eaab9c3b3631f82c6f980b4c6f4f2",
-    "tools/Site/build.mjs": "62a2d3f8c398ffde0f40be2108294dd18ccfb7b834fd54fb4eb78db3c9af4b63",
-    "tools/Site/import-tutorial.mjs": "de72eb5eb14f612a2e75e85eb9fff3fa9f512cfd5210b88cb64eca70da901843",
+    "tools/Site/build.mjs": "90210475aa0b850201289dec85ae6af2e3563e6a097144c2844f5c11fc351f2d",
+    "tools/Site/import-tutorial.mjs": "0d2533264b5692ccbd9a6d5388f3901ba176b33262c07f8f14d811199e7f0d84",
     "tools/Site/make-artwork.mjs": "e10476c7e72f9d6f8a2ffe5e76cbb6a21f0f90ff7e1cc062a4d5ffbb98247b7c",
-    "tools/Site/make-demo-media.py": "2416df61177f1e605cf6a356475d5c0ef6de11a562d9449c90d879f8443658d3",
-    "tools/Site/review-browser.mjs": "ca3ce2464aee1dd3e7ae63f5ea48b6ef23958a86579e49051a728336e347c927",
+    "tools/Site/make-demo-media.py": "2dbfebf4013d81fee0a83e570b68d953e619d404912f14befe158cf53b2be198",
+    "tools/Site/prepare-web-video.py": "287769d555dff5fef9e0f793bd8efab132601ca799e2871f5f60ee24b042d6e3",
+    "tools/Site/review-browser.mjs": "8f6240961477721ebde6f1ef83eb03169214d3b7e4acc1844b00941bc669bd60",
     "tools/Site/serve.mjs": "4038725f3514da8846594e7e6aeb211c496907172d9f2962c40c7aa566b04bd6",
-    "tools/Site/test-site.mjs": "2702099c132599c92006e71b52c6c8b6ebe5bd704c244e08ac09ac66eac6ef9e",
+    "tools/Site/test-site.mjs": "c825fadef1017135b8226c9e5362ebe7fa8b9dcbc2ba438ea0a1b47385daf6e2",
     "tools/SpeechBench/SapiBridge.cs": "095a1d0ac24664c28f444df729c9862220a36c9548380b68183cfffeb10fe1bf",
     "tools/SpeechBench/bench.py": "e4129a6b46a33a43e07ee324327c687312be7a7bfc3de9184382df582d69a68e",
     "tools/SpeechBench/corpus.json": "3e3313d4e1249ecea55bec163f7759f440e5e5e0b4963af385fcaa424c6a8e12",
@@ -289,8 +304,8 @@
     "docs/handbook/25-native-audio-source-walkthrough.md": "b551600d8a0de8a256847663a6fa61b0865f78adde24b42a523783216dd6b85f",
     "docs/source-atlas/annotations/desktop.json": "045aca885f098986e0b7ae017b5378d681bc40f4ffacf580549781288cf65efc",
     "docs/handbook/22-desktop-source-walkthrough.md": "1298825b27f60622c5df10c6ef8c7e0948ce343476494655d959cb80a3b68759",
-    "docs/source-atlas/annotations/documentation.json": "93fd124d4264c016ec59dda6ef9d05fa9f63565a6c83a57446cac71684bd5380",
-    "docs/handbook/28-documentation-source-walkthrough.md": "0f5f54aac19297d8449bc1b104b49146c1c0ee36bcd3b4224acca7a2da701bb7",
+    "docs/source-atlas/annotations/documentation.json": "dbb412286421135bdf9c5157c787404952b50c9a11db9b6fc0ae421a96187be0",
+    "docs/handbook/28-documentation-source-walkthrough.md": "f2ab8777a7c0a195b80cd090bf5a986fc5f6cc0cb6614827a9bcce517135825a",
     "docs/source-atlas/annotations/domain.json": "d3872b18e1561f27cfd01d8eb0f3f81dfdeca0d841653e1706fcd7dba4a6d76f",
     "docs/handbook/23-domain-source-walkthrough.md": "a889e80bc7e049d39c57fea6cd03302221210fe6ed79fc2e35b435a2b9aafc6f",
     "docs/source-atlas/annotations/installer-launcher.json": "81fee755a82f54d07815d3cbd2b05dfab7889f6ef4f249fe47fb9ed26218ab67",
@@ -303,33 +318,33 @@
     "docs/handbook/24-provider-source-walkthrough.md": "c06ba4bbfd04e676feb48a59210cc22b74dd1bee3e3d035bb26378ef5e16a906",
     "docs/source-atlas/annotations/speech.json": "60a0d4e854c0c7e3b3f0ae0c957a855d09a5eafe1d38b7d616b2b384ea58e87d",
     "docs/handbook/26-speech-source-walkthrough.md": "67b15177203aa36148103f112be7de2a623207ab9abdd718442b658dfcdd04d2",
-    "docs/source-atlas/annotations/website.json": "98c5e609eabaf8d44faafb04259e7b20aee6d65c807cfc83e9cd68afc32929ec",
-    "docs/WEBSITE.md": "1d0945316c4fc8ff8bc371b6fba7de79c645a3b922cddcdf822a19266ab0fead"
+    "docs/source-atlas/annotations/website.json": "202ffea7b49c58de826f4a139e1f28b8e57a306fd5a199fb724fbc92c6dc557f",
+    "docs/WEBSITE.md": "4c57ab5a6cb999a27ab8586beb921fb3a0a3142f5cb62bccc38a71a093b38be9"
   },
   "pdf": {
     "file": "docs/source-atlas/Phantom-Fudge-Source-Atlas.pdf",
-    "sha256": "084624059ccbba83fdb897f2d8f8cd3838e54294e11a9869377fcd49a7577a14",
-    "pages": 677,
-    "bytes": 18090522
+    "sha256": "187b1613374360b500b29ef6af8c450d6cb5c2d985df33a824a445b580bf163a",
+    "pages": 709,
+    "bytes": 18838392
   },
   "artifacts": [
     {
       "file": "docs/source-atlas/Phantom-Fudge-Source-Atlas.pdf",
-      "sha256": "084624059ccbba83fdb897f2d8f8cd3838e54294e11a9869377fcd49a7577a14",
-      "pages": 677,
-      "bytes": 18090522
+      "sha256": "187b1613374360b500b29ef6af8c450d6cb5c2d985df33a824a445b580bf163a",
+      "pages": 709,
+      "bytes": 18838392
     },
     {
       "file": "docs/source-atlas/index.html",
-      "sha256": "3f083c69c239f78e0441bad3e2ac6cfaa4381bb94a836b4b137b2c53e49d7e67"
+      "sha256": "afd4f73e5b2ba9e2d4a6868622d37698e229113bf7f62641b79f0bc6946f00e5"
     },
     {
       "file": "docs/source-atlas/coverage.json",
-      "sha256": "8c45a6ef62e67d0868cd54bbfce368371a92265fc26d5e6b3ae15577ad3e131a"
+      "sha256": "fd8e874e2c38a50d7ccefa3f281ac9ca070d8179453b645b35c59ea1fd0b7968"
     },
     {
       "file": "docs/source-atlas/README.md",
-      "sha256": "dd852d8c8a41441385cbc24ce41c6507592b51b79bd4a283804c2114466e86c8"
+      "sha256": "0ad2bba29b6bf5b2e44415f71507d0838e71c1dca8d62c5de7795853fe5e0e6a"
     }
   ]
 }

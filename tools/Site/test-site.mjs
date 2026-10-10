@@ -57,6 +57,9 @@ test('site contains required controls, graceful native video and no external scr
   assert.doesNotMatch(html, /\bautoplay\b|<script[^>]+src="https?:/);
   assert.match(html, /Previous-answer context is not in the published/);
   assert.match(html, /not universal invisibility/);
+  assert.doesNotMatch(html, /<details open/);
+  assert.match(html, /class="hero-ghost"/);
+  assert.match(html, /class="wanderer wanderer-one"/);
 });
 test('public website inputs are public-safe and every file fits regular Git storage', async () => {
   async function inspect(directory) {

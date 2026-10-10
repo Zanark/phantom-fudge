@@ -1,6 +1,6 @@
 # Public Phantom landing page
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Public static website and chaptered tutorial
 Dependencies: 60_FULL_VIDEO_TUTORIAL.todo
 
@@ -16,6 +16,8 @@ Dependencies: 60_FULL_VIDEO_TUTORIAL.todo
 - October11 02:54 follow-up: make a self-contained deployable version and add more GIFs on both
   website and README. Replace the separate-release prerequisite with a reviewed web-optimized
   full tutorial below GitHub's100MiB per-file limit. Preserve the original and existing release.
+- Owner clarified "minimalistic": less visible text, not a different theme. Preserve ghosts and
+  decorative effects; remove repetitive copy and collapse optional details without removing controls.
 
 ## Tasks
 
@@ -25,10 +27,33 @@ Dependencies: 60_FULL_VIDEO_TUTORIAL.todo
 - [x] Keep large MP4 out of git; verify asset hash during isolated Pages assembly.
 - [x] Review local browser behavior, reduced motion, responsive layouts and exact tutorial media.
 - [x] Prepare pinned Pages workflow and document the owner-deferred publication step.
-- [ ] Bundle the complete web tutorial and build using repository files alone, with no media release.
-- [ ] Add five more source-grounded GIFs with still/MP4 derivatives and both gallery integrations.
-- [ ] Check fresh-tree assembly, media integrity, eight tabs, failure paths and responsive playback.
-- [ ] Refresh maintained website guide/source atlas/handbook and deployment instructions.
+- [x] Bundle the complete web tutorial and build using repository files alone, with no media release.
+- [x] Add five more source-grounded GIFs with still/MP4 derivatives and both gallery integrations.
+- [x] Check fresh-tree assembly, media integrity, eight tabs, failure paths and responsive playback.
+- [x] Refresh maintained website guide/source atlas/handbook and deployment instructions.
+- [x] Deliver concise default copy while retaining DeepSeaFoam, ghosts and privacy/version caveats.
+
+## Self-contained revision evidence
+
+- Full web tutorial:86168722bytes (82.18MiB),1920x1080/30fps,2297.767s,68933frames; original unchanged.
+  SHA25628cd9c871b96e6db6cc4f14d740942c388a6abd235d8ba4e4031cf50ec75fc71.
+  Lossy video recompression; original AAC payloads and decoded PCM retained. Final packet duration
+  metadata differs by0.667ms without shortening the track or losing decoded audio. Public provenance
+  records that distinction; do not claim every audio metadata field is byte-identical.
+- Eight1000x720GIF/JPEG/silentMP4sets. Added inputs9s/transcription10s/answer-size8s/keyboard9s/themes11s.
+  Existing three sets unchanged; new GIFs1.02-2.15MB. Sampled decoded sheets, joins and native frames reviewed.
+- Self-contained site101108998bytes, all files below100MiB; no external tutorial release/LFS/secrets.
+  Fresh isolated tree built and ran Node tests using only site/tools-Site/README/workflow files.
+- Node14cases and muted Edge9groups pass. All15chapter seeks,525cue search,8demo links and keyboard
+  navigation, no-JS/reduced-motion,320-1440px layouts and injected missing-video error covered.
+- Initial visible page copy616words ->276words; theme/ghosts/decorations retained. Transcript and
+  About details start collapsed. README15images/eightGIFs render locally in light/dark/mobile layouts.
+- Receipts and sampled screenshots: ignored .local\site-review and .local\site-art.
+  Public Actions execution and live Pages URL remain unverified; no commit/push/upload performed.
+- Final maintained references current: atlas220files/33867lines/1359blocks/709PDFpages;
+  handbook37chapters/94830words/75diagrams/389PDFpages. Root website source is explicitly covered.
+  Documentation21tests, full atlas-before-handbook generation and freshness pass. Changed rendered
+  guide/atlas/diagrams/PDF pages reviewed; final evidence .local\website-docs\final-review.
 
 ## Initial local completion evidence (before the 02:54 revision)
 

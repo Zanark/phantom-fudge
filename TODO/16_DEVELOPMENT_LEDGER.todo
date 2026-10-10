@@ -33,6 +33,20 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
 
 ## Completion log
 
+- 2026-10-11 self-contained website revision: full1080p30 tutorial compressed to86168722bytes,
+  preserving original, complete timeline, chapters and decoded audio. Added five GIF sets (eight total).
+  Release-free assembly and all14Nodecases pass even in a fresh tree containing public inputs only.
+  Muted Edge9groups pass, including missing-video errors and all8demo/15chapter paths.
+  Owner clarified minimalism as less text only:616->276visible words; DeepSeaFoam/ghosts preserved.
+  Maintained references complete:220source files/709atlas PDF pages;37chapters/389handbook pages,
+  75diagrams. Documentation21cases and final freshness/rendered reviews pass. No live Pages
+  deployment or source publication was performed by this assistant.
+- 2026-10-11 02:54 request: make the website self-contained for deployment and add more action GIFs.
+  The original159MB tutorial exceeds regular Git's100MiB file limit, not Pages'1GB site limit.
+  Keep the original untouched; prepare a smaller full-length web edition for source-controlled
+  static hosting. Remove the nonexistent media-release download from the Actions build.
+  Workstream61 reopened for eight total demos, media review and updated maintained documentation.
+  This is local preparation, not a successful public deployment or permission/authentication change.
 - 2026-10-08 15:05 request: deep research/design only for dictated question -> explicit Ask -> streamed
   Azure answer. Added4design/research/privacy/evaluation docs, workstreams27-37 and workflows04/05.
   No app/SDK/runtime changes, Azure resources/account discovery/inference, live audio or uploads.

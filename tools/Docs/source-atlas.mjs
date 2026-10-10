@@ -12,6 +12,9 @@ const rootInputs = new Set(['.dockerignore', '.gitignore', 'Directory.Build.prop
   'compose.yaml', 'global.json', 'docs/handbook/book.json', 'docs/handbook/catalogue.json']);
 const extensions = new Set(['.cs', '.xaml', '.py', '.mjs', '.js', '.ps1', '.json', '.yaml', '.yml',
   '.toml', '.props', '.csproj', '.slnx', '.html', '.css', '.iss', '.manifest']);
+const generatedSiteInputs = new Set(['site/assets/tutorial-data.mjs', 'site/assets/transcript.json',
+  'site/assets/chapters.json', 'site/assets/media-manifest.json', 'site/assets/asset-provenance.json',
+  'site/assets/captions.srt', 'site/assets/captions.vtt', 'site/assets/chapters.txt']);
 const relative = file => path.relative(root, file).replaceAll(path.sep, '/');
 export const escapeHtml = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
   .replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
@@ -32,8 +35,9 @@ export function atlasChapterLink(chapter) {
 
 export function sourceKind(file) {
   if (rootInputs.has(file)) return 'annotated';
-  if (!/^(?:src|tests|services|scripts|tools|spikes|\.github)\//.test(file)) return null;
+  if (!/^(?:src|tests|services|scripts|tools|spikes|site|\.github)\//.test(file)) return null;
   if (/(?:^|\/)(?:bin|obj|node_modules|\.venv|\.local|\.agent-context|\.git|__pycache__|TestResults)(?:\/|$)/i.test(file)) return null;
+  if (generatedSiteInputs.has(file)) return 'generated';
   if (file.includes('/results/')) return 'evidence';
   if (/(?:^|\/)(?:package-lock|packages\.lock)\.json$/.test(file)) return 'lockfile';
   if (extensions.has(path.posix.extname(file)) || path.posix.basename(file) === 'Dockerfile' ||
@@ -313,7 +317,7 @@ export async function main(args = process.argv.slice(2)) {
       'not a second dump of every source file.\n\n' +
       '## Coverage boundary\n\nPhysical-line assignment is mechanically checked; it does not prove that every subtlety is understood. ' +
       'External packages, runtime credentials, model weights, build outputs, private context and live device/provider behavior are outside this source walkthrough. ' +
-      'Lockfiles and generated evidence receipts are indexed as such. PowerShell `.txt` mirrors are byte-checked against their annotated `.ps1` source.\n\n' +
+      'Website HTML/CSS/JavaScript and media configuration are first-party source. Explicit tutorial/caption exports, generated evidence receipts and lockfiles are indexed separately. PowerShell `.txt` mirrors are byte-checked against their annotated `.ps1` source.\n\n' +
       '## Source groups\n\n' + atlas.groups.map(group =>
         `- [${group.title}](${atlasChapterLink(group.chapter)}): ${group.files} files.`).join('\n') +
       '\n\n## Maintenance\n\nUpdate the relevant authored JSON in `annotations` after reading changed source, including its source hash and line partitions. ' +

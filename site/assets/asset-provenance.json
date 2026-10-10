@@ -1,5 +1,5 @@
 {
-  "schema": 1,
+  "schema": 2,
   "source": {
     "file": "artifacts/tutorial/20261010-221225/Phantom-Fudge-Full-Tutorial.mp4",
     "sha256": "388ee914e1ffdc0ac3911d2a2e8dc6c8f33d8aad047f1aeff02fbe41138e1fde",
@@ -32,9 +32,12 @@
   "derivatives": {
     "geometry": "1000×720. Source crops aspect-contained in a 1000×600 pane at (0,68), never stretched. Editorial labels and disclosures occupy separate header/footer areas, never cover UI.",
     "motion": "All retained source spans run at 1×; native tutorial camera and pointer guides preserved. GIF 10 fps; silent H.264 MP4 30 fps.",
-    "review_limit": "Representative decoded GIF frames at early/action/result/end and all internal edit boundaries, plus early/middle/end decoded MP4 stills were inspected. Active controls and results are readable at native size. The tutorial's existing focus camera can crop peripheral labels and neighboring panels; the excerpts do not reconstruct those missing pixels. This is sampled visual review, not exhaustive frame review, direct listening, user approval, live integration testing or capture qualification.",
+    "review_limit": "Per-demo visual_review records describe the separately inspected pixels and their output hashes; encoding or contact-sheet extraction alone is not approval. The tutorial's existing focus camera can crop peripheral labels and neighboring panels; excerpts do not reconstruct missing pixels. Review is sampled, not exhaustive frame review, direct listening, user approval, live integration testing or capture qualification.",
     "demos": {
       "demo-selection": {
+        "chapter_id": "questions",
+        "title": "Select, review, then Ask",
+        "copy": "Build a question from selected lines; send only when you choose.",
         "alt": "Scripted sample: select a second transcript row, later explicitly Ask, then read the completed sample answer.",
         "edit_note": "Three explicitly labelled later excerpts. Intervening draft editing, setup, waiting and most streaming are omitted. Not one continuous request or a latency measurement.",
         "segments": [
@@ -111,9 +114,15 @@
           0,
           4,
           9.9
-        ]
+        ],
+        "visual_review": {
+          "status": "Previously sampled; media byte-identical to original delivery."
+        }
       },
       "demo-context": {
+        "chapter_id": "followups",
+        "title": "Choose whether to include the previous answer",
+        "copy": "Opt one completed answer into your next explicit Ask.",
         "alt": "Scripted sample: click Previous answer immediately left of Ask; it changes from OFF to ON without sending.",
         "edit_note": "One continuous unaccelerated excerpt showing the toggle and a reading hold. The toggle does not send. This feature is in current source, not v0.2.0-preview.1.",
         "segments": [
@@ -149,9 +158,15 @@
           0,
           1,
           6.4
-        ]
+        ],
+        "visual_review": {
+          "status": "Previously sampled; media byte-identical to original delivery."
+        }
       },
       "demo-cover": {
+        "chapter_id": "cover",
+        "title": "Cover and reveal the workspace",
+        "copy": "Use the same book icon to cover the view and bring it back.",
         "alt": "Scripted sample: click the top-left book icon to show NOTEPAD IS READY, then later click the same icon to reveal the workspace.",
         "edit_note": "The intervening explanatory cover hold is omitted. Both clicks and their resulting states are retained. The entire cover and top-left control remain in frame.",
         "segments": [
@@ -208,14 +223,511 @@
           0,
           3.5,
           7.9
-        ]
+        ],
+        "visual_review": {
+          "status": "Previously sampled; media byte-identical to original delivery."
+        }
+      },
+      "demo-inputs": {
+        "chapter_id": "audio",
+        "title": "Choose Mic or Both",
+        "copy": "Pick the input tracks before starting; source selection alone opens no audio.",
+        "alt": "Scripted sample: click Mic to show microphone devices, then later Both to select Computer and Mic; the stopped state remains.",
+        "edit_note": "Two labelled excerpts omit the intervening microphone-card explanation. Both mode activates the Computer and Mic source choices, not capture. The camera shows only part of the resulting device list. Sample names, no real device access.",
+        "segments": [
+          {
+            "scene": "mic-mode",
+            "start_frame": 11338,
+            "end_frame": 11473,
+            "action_frame": 11359,
+            "crop_xywh": [
+              44,
+              236,
+              1442,
+              666
+            ],
+            "label": "01 / Choose Mic for microphone input",
+            "source_start_seconds": 377.93333333333334,
+            "source_end_seconds_exclusive": 382.43333333333334,
+            "output_start_seconds": 0,
+            "output_end_seconds": 4.5,
+            "speed": 1
+          },
+          {
+            "scene": "both-mode",
+            "start_frame": 12099,
+            "end_frame": 12234,
+            "action_frame": 12120,
+            "crop_xywh": [
+              44,
+              236,
+              1442,
+              666
+            ],
+            "label": "02 / Later: choose Both for two input tracks",
+            "source_start_seconds": 403.3,
+            "source_end_seconds_exclusive": 407.8,
+            "output_start_seconds": 4.5,
+            "output_end_seconds": 9.0,
+            "speed": 1
+          }
+        ],
+        "poster_output_seconds": 2.5,
+        "sampled_gif_review_seconds": [
+          0,
+          0.6,
+          0.8,
+          2.5,
+          4.4,
+          4.5,
+          5.1,
+          5.3,
+          8.9
+        ],
+        "sampled_mp4_review_seconds": [
+          0,
+          4.4,
+          8.9
+        ],
+        "visual_review": {
+          "reviewer": "GitHub Copilot",
+          "status": "Sampled decoded-pixel and semantic review complete",
+          "output_sha256": {
+            "gif": "6aab0512f331cca936807f617d58fb8a441fe301106681d90ffd789480331446",
+            "jpg": "2592b83dda625ea7ec5176124107266a3c2befc4c615edf263684b0220da7923",
+            "mp4": "4b1777899bfdbd938d5dc0f138609c7467c20d6c33192714880642ff9ebca9bc"
+          },
+          "gif_seconds_inspected": [
+            0,
+            0.6,
+            0.8,
+            2.5,
+            4.4,
+            4.5,
+            5.1,
+            5.3,
+            8.9
+          ],
+          "mp4_seconds_inspected": [
+            0,
+            4.4,
+            8.9
+          ],
+          "poster_inspected": true,
+          "evidence": [
+            "demo-inputs-gif-contact.jpg",
+            "demo-inputs-gif-0.8.jpg",
+            "mp4-contact.jpg",
+            "demo-inputs.jpg"
+          ],
+          "observations": "The Mic click ring and pointer precede the Mic-only label and microphone cards. The Later join at 4.5 seconds returns to a wider source view without implying continuous capture. Both then changes the visible source label to Computer + Mic. The stopped sample-device message remains. Native-size labels, active controls and the two microphone cards are legible.",
+          "limitations": "Both mode's lower microphone-device row is outside the original source camera. This demonstrates input-mode choice, not real hardware or audio access. Sampled stills are not exhaustive motion review, user approval or integration testing."
+        }
+      },
+      "demo-transcription": {
+        "chapter_id": "transcription",
+        "title": "Start deliberately; stop deliberately",
+        "copy": "Watch the running indicator appear, then stop while keeping the transcript.",
+        "alt": "Scripted sample: Start lights the running dot; a later Stop clears it and leaves completed sample transcript rows visible.",
+        "edit_note": "Start and Stop excerpts are separated by an explicit Later label. All intervening sample transcript arrival and most explanatory waiting are omitted; this does not demonstrate recognition speed. No raw audio is recorded or saved. Normal capture may drain final accepted lines after Stop.",
+        "segments": [
+          {
+            "scene": "start",
+            "start_frame": 15204,
+            "end_frame": 15339,
+            "action_frame": 15225,
+            "crop_xywh": [
+              44,
+              236,
+              1364,
+              658
+            ],
+            "label": "01 / Start the selected inputs explicitly",
+            "source_start_seconds": 506.8,
+            "source_end_seconds_exclusive": 511.3,
+            "output_start_seconds": 0,
+            "output_end_seconds": 4.5,
+            "speed": 1
+          },
+          {
+            "scene": "stop",
+            "start_frame": 17058,
+            "end_frame": 17223,
+            "action_frame": 17079,
+            "crop_xywh": [
+              44,
+              236,
+              1364,
+              658
+            ],
+            "label": "02 / Later: Stop and keep the completed lines",
+            "source_start_seconds": 568.6,
+            "source_end_seconds_exclusive": 574.1,
+            "output_start_seconds": 4.5,
+            "output_end_seconds": 10.0,
+            "speed": 1
+          }
+        ],
+        "poster_output_seconds": 7,
+        "sampled_gif_review_seconds": [
+          0,
+          0.6,
+          0.8,
+          2.5,
+          4.4,
+          4.5,
+          5.1,
+          5.3,
+          7,
+          9.9
+        ],
+        "sampled_mp4_review_seconds": [
+          0,
+          4.5,
+          9.9
+        ],
+        "visual_review": {
+          "reviewer": "GitHub Copilot",
+          "status": "Sampled decoded-pixel and semantic review complete",
+          "output_sha256": {
+            "gif": "a087a8c7868de6a4c3481f9613be627424fbfe4c18c73c1150613d499c52e39e",
+            "jpg": "eed0cdf37e532920d10408a99c6389afbf56bc47f0eefeac019373482eb7268b",
+            "mp4": "29bdeb65c9546960f28193ef591eeca20f61b37f6777dd9b126437d6aeb6fd81"
+          },
+          "gif_seconds_inspected": [
+            0,
+            0.6,
+            0.8,
+            2.5,
+            4.4,
+            4.5,
+            5.1,
+            5.3,
+            7,
+            9.9
+          ],
+          "mp4_seconds_inspected": [
+            0,
+            4.5,
+            9.9
+          ],
+          "poster_inspected": true,
+          "evidence": [
+            "demo-transcription-gif-contact.jpg",
+            "demo-transcription-gif-5.3.jpg",
+            "mp4-contact.jpg",
+            "demo-transcription.jpg"
+          ],
+          "observations": "Start's pointer/ring is visible and the red running dot appears. The labelled Later join introduces the already populated transcript, not an instantaneous recognition result. Stop's pointer/ring is retained, the dot disappears, the stopped message appears, and all three completed rows remain through the final reading hold. Native-size button and transcript text are legible.",
+          "limitations": "The tutorial supplies sample events, not microphone capture or model inference. Transcript arrival between Start and Stop is omitted. The footer's separate-answer cancellation qualification is source behavior, not a new runtime test. No listening or exhaustive motion review."
+        }
+      },
+      "demo-answer-size": {
+        "chapter_id": "answers",
+        "title": "Make the answer easier to read",
+        "copy": "Adjust the answer font independently of the transcript and notes.",
+        "alt": "Scripted sample: drag the answer Size slider from 10 to 17; the completed answer text grows.",
+        "edit_note": "Continuous 1× excerpt. The complete scripted slider progression ends 3.4 seconds into its source scene; the larger-font result is held. The source camera crops the lower part of the enlarged reader; the excerpt additionally excludes the resulting partial trailing line. This is a font-control demonstration, not a full-answer reading clip.",
+        "segments": [
+          {
+            "scene": "answer-font",
+            "start_frame": 30027,
+            "end_frame": 30267,
+            "action_frame": 30048,
+            "action_end_frame": 30090,
+            "crop_xywh": [
+              44,
+              300,
+              1442,
+              578
+            ],
+            "label": "Answer Size / drag from 10 to 17",
+            "source_start_seconds": 1000.9,
+            "source_end_seconds_exclusive": 1008.9,
+            "output_start_seconds": 0,
+            "output_end_seconds": 8.0,
+            "speed": 1
+          }
+        ],
+        "poster_output_seconds": 5,
+        "sampled_gif_review_seconds": [
+          0,
+          0.6,
+          0.9,
+          1.4,
+          2,
+          2.2,
+          5,
+          7.9
+        ],
+        "sampled_mp4_review_seconds": [
+          0,
+          2,
+          7.9
+        ],
+        "visual_review": {
+          "reviewer": "GitHub Copilot",
+          "status": "Refined crop independently re-inspected",
+          "output_sha256": {
+            "gif": "349a561b4ac92a879caa2c634146b0babe08d46723ff68f39fc3d9b2c1066ca2",
+            "jpg": "4878a59dbb21f2ad6db833297c0339738492f90bde97db5dc3dcfe6736231e11",
+            "mp4": "723fef9201e8ff35aef4ae4035679f6e517cc722aa7208d80eb84d79d760f208"
+          },
+          "gif_seconds_inspected": [
+            0,
+            0.6,
+            0.9,
+            1.4,
+            2,
+            2.2,
+            5,
+            7.9
+          ],
+          "mp4_seconds_inspected": [
+            0,
+            2,
+            7.9
+          ],
+          "poster_inspected": true,
+          "evidence": [
+            "demo-answer-size-gif-contact.jpg",
+            "mp4-contact.jpg",
+            "demo-answer-size.jpg"
+          ],
+          "observations": "The native source camera zooms into the answer. The slider and visible numeral advance from 10 through 11 and 14 to 17 while text grows; the finished size and three complete numbered tips remain for the result hold. A first draft retained a source-truncated trailing sentence. The final tighter crop excludes that partial line and its GIF contact sheet, decoded MP4 stills and native JPEG were re-inspected.",
+          "limitations": "The lower answer remains outside the source camera/crop. This is the font-size control, not a complete reading of the answer. Font-range/session qualifications come from the tutorial. Sampled visual inspection, not every intermediate frame or a new application test."
+        }
+      },
+      "demo-keyboard": {
+        "chapter_id": "keyboard",
+        "title": "Select a line from the keyboard",
+        "copy": "From Control, V enters Select; Space toggles the focused row without sending.",
+        "alt": "Scripted keyboard demo: V changes Control to Select; later Space selects the first row and the bar shows one selected.",
+        "edit_note": "Two labelled keyboard excerpts; the intervening gg navigation to the first row is omitted. The mode bar and selection count provide the visible result. Original keyboard guides in the tutorial sidebar are outside this focused crop; editorial labels name the exact keys from action metadata. No request is sent.",
+        "segments": [
+          {
+            "scene": "keys-select",
+            "start_frame": 50294,
+            "end_frame": 50414,
+            "action_frame": 50315,
+            "crop_xywh": [
+              44,
+              246,
+              1442,
+              590
+            ],
+            "label": "01 / From Control, press V for Select",
+            "source_start_seconds": 1676.4666666666667,
+            "source_end_seconds_exclusive": 1680.4666666666667,
+            "output_start_seconds": 0,
+            "output_end_seconds": 4.0,
+            "speed": 1
+          },
+          {
+            "scene": "keys-space",
+            "start_frame": 50956,
+            "end_frame": 51106,
+            "action_frame": 50977,
+            "crop_xywh": [
+              44,
+              246,
+              1442,
+              590
+            ],
+            "label": "02 / Later: press Space to select the focused row",
+            "source_start_seconds": 1698.5333333333333,
+            "source_end_seconds_exclusive": 1703.5333333333333,
+            "output_start_seconds": 4.0,
+            "output_end_seconds": 9.0,
+            "speed": 1
+          }
+        ],
+        "poster_output_seconds": 6.5,
+        "sampled_gif_review_seconds": [
+          0,
+          0.6,
+          0.8,
+          2,
+          3.9,
+          4,
+          4.6,
+          4.8,
+          6.5,
+          8.9
+        ],
+        "sampled_mp4_review_seconds": [
+          0,
+          4,
+          8.9
+        ],
+        "visual_review": {
+          "reviewer": "GitHub Copilot",
+          "status": "Sampled decoded-pixel and semantic review complete",
+          "output_sha256": {
+            "gif": "4f0d5db386f2662ee3d2f1abbf0c6b14b5cbc654fc42affc5e0fdb3af81e1e08",
+            "jpg": "465a2edc23d61c52d4f6b780bee8200fb5c8a8f6b14b194e1289e53190d5007b",
+            "mp4": "16dc39b6bd5ff4a328ea3de20a64e72802a4f7515255a8c137997b07671838aa"
+          },
+          "gif_seconds_inspected": [
+            0,
+            0.6,
+            0.8,
+            2,
+            3.9,
+            4,
+            4.6,
+            4.8,
+            6.5,
+            8.9
+          ],
+          "mp4_seconds_inspected": [
+            0,
+            4,
+            8.9
+          ],
+          "poster_inspected": true,
+          "evidence": [
+            "demo-keyboard-gif-contact.jpg",
+            "demo-keyboard-gif-6.5.jpg",
+            "mp4-contact.jpg",
+            "demo-keyboard.jpg"
+          ],
+          "observations": "The first action changes the mode bar from CONTROL to SELECT and focuses the last row with zero selected. At the explicit Later join the first row is focused after omitted navigation. Space changes the bar from zero to one selected and the adjacent draft begins populating. The final held mode bar, focused first row and all three transcript lines are legible at native size. No submitted request or answer is implied.",
+          "limitations": "The source's sidebar key badges and most of the adjacent draft are outside this crop. V and Space labels are grounded in exact action metadata, not visible physical typing. The omitted gg navigation is disclosed. Not exhaustive motion review or capture qualification."
+        }
+      },
+      "demo-themes": {
+        "chapter_id": "workspace",
+        "title": "Choose comfortable contrast",
+        "copy": "Switch Harbor Daylight, Plain B/W and DeepSeaFoam without resetting content.",
+        "alt": "Scripted sample: use the actual theme buttons to change DeepSeaFoam to Harbor Daylight, later Plain B/W, then back to DeepSeaFoam.",
+        "edit_note": "Three source actions at original speed with shorter explanatory holds between labelled later excerpts. All actual button activations and resulting themes retained. The sample workspace is empty; preserving content is product behavior described by the full tutorial, not a new data-persistence test.",
+        "segments": [
+          {
+            "scene": "daylight",
+            "start_frame": 8617,
+            "end_frame": 8722,
+            "action_frame": 8638,
+            "crop_xywh": [
+              44,
+              132,
+              1364,
+              770
+            ],
+            "label": "01 / Switch to Harbor Daylight",
+            "source_start_seconds": 287.23333333333335,
+            "source_end_seconds_exclusive": 290.73333333333335,
+            "output_start_seconds": 0,
+            "output_end_seconds": 3.5,
+            "speed": 1
+          },
+          {
+            "scene": "plain",
+            "start_frame": 8923,
+            "end_frame": 9028,
+            "action_frame": 8944,
+            "crop_xywh": [
+              44,
+              132,
+              1364,
+              770
+            ],
+            "label": "02 / Later: choose Plain B/W",
+            "source_start_seconds": 297.43333333333334,
+            "source_end_seconds_exclusive": 300.93333333333334,
+            "output_start_seconds": 3.5,
+            "output_end_seconds": 7.0,
+            "speed": 1
+          },
+          {
+            "scene": "dark",
+            "start_frame": 9183,
+            "end_frame": 9303,
+            "action_frame": 9204,
+            "crop_xywh": [
+              44,
+              132,
+              1364,
+              770
+            ],
+            "label": "03 / Later: return to DeepSeaFoam",
+            "source_start_seconds": 306.1,
+            "source_end_seconds_exclusive": 310.1,
+            "output_start_seconds": 7.0,
+            "output_end_seconds": 11.0,
+            "speed": 1
+          }
+        ],
+        "poster_output_seconds": 10,
+        "sampled_gif_review_seconds": [
+          0,
+          0.6,
+          0.8,
+          2,
+          3.4,
+          3.5,
+          4.1,
+          4.3,
+          6.9,
+          7,
+          7.6,
+          7.8,
+          10,
+          10.9
+        ],
+        "sampled_mp4_review_seconds": [
+          0,
+          4.3,
+          10.9
+        ],
+        "visual_review": {
+          "reviewer": "GitHub Copilot",
+          "status": "Sampled decoded-pixel and semantic review complete",
+          "output_sha256": {
+            "gif": "4e58a9916a03292fe30893421d1f49724d5dbe37c5cee96230364ae397519ee6",
+            "jpg": "bc616f8d1136f5a0f732ba4f89074566af28948a7ffa8883bdb150f5cc6f3be5",
+            "mp4": "c1eb318d8bea050c1ce07bda31c9d4ef426cee2f4e909ddd936774bff34bf0af"
+          },
+          "gif_seconds_inspected": [
+            0,
+            0.6,
+            0.8,
+            2,
+            3.4,
+            3.5,
+            4.1,
+            4.3,
+            6.9,
+            7,
+            7.6,
+            7.8,
+            10,
+            10.9
+          ],
+          "mp4_seconds_inspected": [
+            0,
+            4.3,
+            10.9
+          ],
+          "poster_inspected": true,
+          "evidence": [
+            "demo-themes-gif-contact.jpg",
+            "demo-themes-gif-4.3.jpg",
+            "mp4-contact.jpg",
+            "demo-themes.jpg"
+          ],
+          "observations": "The actual buttons and source pointer/rings accompany each change: deep teal to Harbor Daylight, then Plain B/W, then back to DeepSeaFoam. The 3.5 and 7 second Later joins were inspected on both sides; source camera resets are visible and labelled, not hidden as seamless continuity. Final held state is DeepSeaFoam. Controls and current-theme labels are readable at native size.",
+          "limitations": "This empty sample workspace demonstrates appearance changes. The content-preservation qualification is tutorial behavior, not a new populated-data persistence test. No theme/artwork changes outside these actual-source excerpts. Sampled still inspection only."
+        }
       }
     }
   },
   "reproduction": {
     "artwork": "node tools/Site/make-artwork.mjs",
     "media": "python tools/Site/make-demo-media.py --encode --review-outputs",
-    "after_visual_review": "python tools/Site/make-demo-media.py --provenance --record-reviewed",
+    "after_visual_review": "python tools/Site/make-demo-media.py --provenance --review-record REVIEW.json",
+    "web_video": "python tools/Site/prepare-web-video.py --encode --validate --crf 30",
+    "web_provenance_after_visual_review": "python tools/Site/make-demo-media.py --provenance --review-record REVIEW.json --web-record WEB-REVIEWED.json",
     "dependencies": "Existing tools/Docs Puppeteer, installed Edge (or --browser), Pillow, PyAV and imageio-ffmpeg. No network or package installation.",
     "note": "Hashes describe these delivered files. Codec/browser/font versions can change regenerated bytes. Inspect outputs before updating a review assertion."
   },
@@ -346,6 +858,457 @@
       "fps": 30.0,
       "duration_seconds": 8.0,
       "audio_streams": 0
+    },
+    {
+      "file": "demo-inputs.gif",
+      "bytes": 1791484,
+      "sha256": "6aab0512f331cca936807f617d58fb8a441fe301106681d90ffd789480331446",
+      "alt": "Scripted sample: click Mic to show microphone devices, then later Both to select Computer and Mic; the stopped state remains.",
+      "width": 1000,
+      "height": 720,
+      "frames": 90,
+      "duration_seconds": 9.0,
+      "fps": 10,
+      "loop": "infinite"
+    },
+    {
+      "file": "demo-inputs.jpg",
+      "bytes": 98955,
+      "sha256": "2592b83dda625ea7ec5176124107266a3c2befc4c615edf263684b0220da7923",
+      "alt": "Scripted sample: click Mic to show microphone devices, then later Both to select Computer and Mic; the stopped state remains.",
+      "width": 1000,
+      "height": 720
+    },
+    {
+      "file": "demo-inputs.mp4",
+      "bytes": 313557,
+      "sha256": "4b1777899bfdbd938d5dc0f138609c7467c20d6c33192714880642ff9ebca9bc",
+      "alt": "Scripted sample: click Mic to show microphone devices, then later Both to select Computer and Mic; the stopped state remains.",
+      "width": 1000,
+      "height": 720,
+      "fps": 30.0,
+      "duration_seconds": 9.0,
+      "audio_streams": 0
+    },
+    {
+      "file": "demo-transcription.gif",
+      "bytes": 1619696,
+      "sha256": "a087a8c7868de6a4c3481f9613be627424fbfe4c18c73c1150613d499c52e39e",
+      "alt": "Scripted sample: Start lights the running dot; a later Stop clears it and leaves completed sample transcript rows visible.",
+      "width": 1000,
+      "height": 720,
+      "frames": 100,
+      "duration_seconds": 10.0,
+      "fps": 10,
+      "loop": "infinite"
+    },
+    {
+      "file": "demo-transcription.jpg",
+      "bytes": 116701,
+      "sha256": "eed0cdf37e532920d10408a99c6389afbf56bc47f0eefeac019373482eb7268b",
+      "alt": "Scripted sample: Start lights the running dot; a later Stop clears it and leaves completed sample transcript rows visible.",
+      "width": 1000,
+      "height": 720
+    },
+    {
+      "file": "demo-transcription.mp4",
+      "bytes": 331432,
+      "sha256": "29bdeb65c9546960f28193ef591eeca20f61b37f6777dd9b126437d6aeb6fd81",
+      "alt": "Scripted sample: Start lights the running dot; a later Stop clears it and leaves completed sample transcript rows visible.",
+      "width": 1000,
+      "height": 720,
+      "fps": 30.0,
+      "duration_seconds": 10.0,
+      "audio_streams": 0
+    },
+    {
+      "file": "demo-answer-size.gif",
+      "bytes": 1020911,
+      "sha256": "349a561b4ac92a879caa2c634146b0babe08d46723ff68f39fc3d9b2c1066ca2",
+      "alt": "Scripted sample: drag the answer Size slider from 10 to 17; the completed answer text grows.",
+      "width": 1000,
+      "height": 720,
+      "frames": 80,
+      "duration_seconds": 8.0,
+      "fps": 10,
+      "loop": "infinite"
+    },
+    {
+      "file": "demo-answer-size.jpg",
+      "bytes": 104857,
+      "sha256": "4878a59dbb21f2ad6db833297c0339738492f90bde97db5dc3dcfe6736231e11",
+      "alt": "Scripted sample: drag the answer Size slider from 10 to 17; the completed answer text grows.",
+      "width": 1000,
+      "height": 720
+    },
+    {
+      "file": "demo-answer-size.mp4",
+      "bytes": 196038,
+      "sha256": "723fef9201e8ff35aef4ae4035679f6e517cc722aa7208d80eb84d79d760f208",
+      "alt": "Scripted sample: drag the answer Size slider from 10 to 17; the completed answer text grows.",
+      "width": 1000,
+      "height": 720,
+      "fps": 30.0,
+      "duration_seconds": 8.0,
+      "audio_streams": 0
+    },
+    {
+      "file": "demo-keyboard.gif",
+      "bytes": 1961045,
+      "sha256": "4f0d5db386f2662ee3d2f1abbf0c6b14b5cbc654fc42affc5e0fdb3af81e1e08",
+      "alt": "Scripted keyboard demo: V changes Control to Select; later Space selects the first row and the bar shows one selected.",
+      "width": 1000,
+      "height": 720,
+      "frames": 90,
+      "duration_seconds": 9.0,
+      "fps": 10,
+      "loop": "infinite"
+    },
+    {
+      "file": "demo-keyboard.jpg",
+      "bytes": 132261,
+      "sha256": "465a2edc23d61c52d4f6b780bee8200fb5c8a8f6b14b194e1289e53190d5007b",
+      "alt": "Scripted keyboard demo: V changes Control to Select; later Space selects the first row and the bar shows one selected.",
+      "width": 1000,
+      "height": 720
+    },
+    {
+      "file": "demo-keyboard.mp4",
+      "bytes": 390405,
+      "sha256": "16dc39b6bd5ff4a328ea3de20a64e72802a4f7515255a8c137997b07671838aa",
+      "alt": "Scripted keyboard demo: V changes Control to Select; later Space selects the first row and the bar shows one selected.",
+      "width": 1000,
+      "height": 720,
+      "fps": 30.0,
+      "duration_seconds": 9.0,
+      "audio_streams": 0
+    },
+    {
+      "file": "demo-themes.gif",
+      "bytes": 2145862,
+      "sha256": "4e58a9916a03292fe30893421d1f49724d5dbe37c5cee96230364ae397519ee6",
+      "alt": "Scripted sample: use the actual theme buttons to change DeepSeaFoam to Harbor Daylight, later Plain B/W, then back to DeepSeaFoam.",
+      "width": 1000,
+      "height": 720,
+      "frames": 110,
+      "duration_seconds": 11.0,
+      "fps": 10,
+      "loop": "infinite"
+    },
+    {
+      "file": "demo-themes.jpg",
+      "bytes": 86394,
+      "sha256": "bc616f8d1136f5a0f732ba4f89074566af28948a7ffa8883bdb150f5cc6f3be5",
+      "alt": "Scripted sample: use the actual theme buttons to change DeepSeaFoam to Harbor Daylight, later Plain B/W, then back to DeepSeaFoam.",
+      "width": 1000,
+      "height": 720
+    },
+    {
+      "file": "demo-themes.mp4",
+      "bytes": 418073,
+      "sha256": "c1eb318d8bea050c1ce07bda31c9d4ef426cee2f4e909ddd936774bff34bf0af",
+      "alt": "Scripted sample: use the actual theme buttons to change DeepSeaFoam to Harbor Daylight, later Plain B/W, then back to DeepSeaFoam.",
+      "width": 1000,
+      "height": 720,
+      "fps": 30.0,
+      "duration_seconds": 11.0,
+      "audio_streams": 0
     }
-  ]
+  ],
+  "web_video": {
+    "file": "site/media/Phantom-Fudge-Full-Tutorial.mp4",
+    "bytes": 86168722,
+    "sha256": "28cd9c871b96e6db6cc4f14d740942c388a6abd235d8ba4e4031cf50ec75fc71",
+    "duration_seconds": 2297.767,
+    "video_duration_seconds": 2297.766666666667,
+    "width": 1920,
+    "height": 1080,
+    "fps": 30.0,
+    "frames": 68933,
+    "pixel_format": "yuv420p",
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "audio_sample_rate": 48000,
+    "audio_duration_seconds": 2297.766,
+    "audio_start": 0,
+    "video_start": 0,
+    "chapters": [
+      {
+        "start": 0,
+        "end": 59500,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Welcome and important boundaries"
+        }
+      },
+      {
+        "start": 59500,
+        "end": 204967,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Install, launch, update and remove"
+        }
+      },
+      {
+        "start": 204967,
+        "end": 335967,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Understand the workspace"
+        }
+      },
+      {
+        "start": 335967,
+        "end": 505500,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Select audio without scrolling"
+        }
+      },
+      {
+        "start": 505500,
+        "end": 586433,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Start, read and stop transcription"
+        }
+      },
+      {
+        "start": 586433,
+        "end": 772100,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Build and review a question"
+        }
+      },
+      {
+        "start": 772100,
+        "end": 955067,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Set up an optional answer provider"
+        }
+      },
+      {
+        "start": 955067,
+        "end": 1049233,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Ask, read, copy and cancel"
+        }
+      },
+      {
+        "start": 1049233,
+        "end": 1126700,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Follow up with the previous answer"
+        }
+      },
+      {
+        "start": 1126700,
+        "end": 1276533,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Clarify a question before answering"
+        }
+      },
+      {
+        "start": 1276533,
+        "end": 1337933,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Cancel and recover from answer errors"
+        }
+      },
+      {
+        "start": 1337933,
+        "end": 1570567,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Speaker notes and local files"
+        }
+      },
+      {
+        "start": 1570567,
+        "end": 1631700,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Export and clear the transcript"
+        }
+      },
+      {
+        "start": 1631700,
+        "end": 2039433,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Keyboard-first controls"
+        }
+      },
+      {
+        "start": 2039433,
+        "end": 2297767,
+        "time_base": "1/1000",
+        "metadata": {
+          "title": "Cover, hide, recovery and exit"
+        }
+      }
+    ],
+    "source_file": "artifacts/tutorial/20261010-221225/Phantom-Fudge-Full-Tutorial.mp4",
+    "source_sha256": "388ee914e1ffdc0ac3911d2a2e8dc6c8f33d8aad047f1aeff02fbe41138e1fde",
+    "source_bytes": 159267662,
+    "ffmpeg_arguments": [
+      "-loglevel",
+      "error",
+      "-y",
+      "-i",
+      "artifacts/tutorial/20261010-221225/Phantom-Fudge-Full-Tutorial.mp4",
+      "-map",
+      "0:v:0",
+      "-map",
+      "0:a:0",
+      "-map_metadata",
+      "0",
+      "-map_chapters",
+      "0",
+      "-c:v",
+      "libx264",
+      "-preset",
+      "medium",
+      "-crf",
+      "30",
+      "-threads",
+      "4",
+      "-pix_fmt",
+      "yuv420p",
+      "-fps_mode",
+      "passthrough",
+      "-c:a",
+      "copy",
+      "-movflags",
+      "+faststart",
+      "site/media/Phantom-Fudge-Full-Tutorial.mp4"
+    ],
+    "audio_verification": {
+      "packets": 107709,
+      "payload_sha256": "247b19b131e0688a7f3e221f6ed993da804c8c6a9ccc49e8d30f01152baf2411",
+      "pts_dts_sha256": "8e49ea6a0b2a43bd56bb677164f468c6fac0bdd34a1fbc1427e0dd6ad1fff12a",
+      "nonfinal_duration_sha256": "66d9e512b0c863dd009a7932a6314d9b22481aea32fc36f8aba692c87caada3f",
+      "last_packet_duration_samples": 800,
+      "source_last_packet_duration_samples": 832,
+      "decoded_audio": {
+        "frames": 107708,
+        "samples_per_channel": 110292992,
+        "pcm_sha256": "5cbd3385d03e9c91dcdb9ff64bb3304826e6e070ad08e9c67feb752042fd188c",
+        "frame_timeline_sha256": "b7ae39b212a7055ed75c3524d77810dce95ee754323342e0672a27315d23d07a"
+      },
+      "payloads_pts_dts_and_decoded_pcm_identical": true,
+      "duration_metadata_note": "All AAC payloads, PTS/DTS, nonfinal packet durations, decoded PCM samples and decoded frame timestamps match. FFmpeg normalizes only the last AAC packet duration from 832 to 800 samples (32/48000 seconds = 0.667 ms); source and web audio-track/container duration remain equal. No decoded audio is lost or retimed."
+    },
+    "full_decode": {
+      "completed": true,
+      "video_frames": 68933,
+      "errors": 0,
+      "log_sha256": "838fa771aee3a4209737f26c0e7895260cfa80e200cd4e5a2f2786336736727f"
+    },
+    "faststart": true,
+    "target_90_mib_met": true,
+    "preservation": "Complete original timeline, frame count, chapters, AAC payloads/PTS/DTS and decoded audio. Burned captions remain in the full uncropped video frame. No cuts, retiming, scaling, added music or remote hosting. The separately disclosed final AAC duration metadata normalization does not change decoded audio.",
+    "tradeoff": "Lossy H.264 recompression at 1080p30; original AAC stream copied exactly.",
+    "sampled_visual_review_seconds": [
+      0,
+      18.5,
+      59.5,
+      204.967,
+      367.967,
+      507.5,
+      599.733,
+      977.2,
+      990,
+      1051.233,
+      1130,
+      1280,
+      1400,
+      1571,
+      1750,
+      2041.433,
+      2297.7
+    ],
+    "visual_review": {
+      "reviewer": "GitHub Copilot",
+      "status": "Separate sampled inspection of final decoded pixels complete",
+      "output_sha256": "28cd9c871b96e6db6cc4f14d740942c388a6abd235d8ba4e4031cf50ec75fc71",
+      "contact_sheet_seconds_inspected": [
+        0,
+        18.5,
+        59.5,
+        204.967,
+        367.967,
+        507.5,
+        599.733,
+        977.2,
+        990,
+        1051.233,
+        1130,
+        1280,
+        1400,
+        1571,
+        1750,
+        2041.433,
+        2297.7
+      ],
+      "native_1920x1080_seconds_inspected": [
+        507.5,
+        599.733,
+        990,
+        1051.233,
+        1750,
+        2297.7
+      ],
+      "evidence": [
+        "web-contact.jpg",
+        "web-507.500.jpg",
+        "web-599.733.jpg",
+        "web-990.000.jpg",
+        "web-1051.233.jpg",
+        "web-1750.000.jpg",
+        "web-2297.700.jpg"
+      ],
+      "compression_trials": {
+        "sample_starts_seconds": [
+          0,
+          366,
+          599,
+          990,
+          1400,
+          1750,
+          2040,
+          2285
+        ],
+        "sample_duration_seconds": 10,
+        "crf_values_tested": [
+          25,
+          29,
+          30
+        ],
+        "decision": "CRF25 and CRF29 representative encodes were inspected before CRF30. CRF30 retained legible sampled controls, transcript text, captions and pointers, and the full output came in below the requested 90 MiB target at native 1080p30. No scaling, audio recompression or timeline shortening was needed.",
+        "crf30_native_sample_starts_inspected": [
+          0,
+          366,
+          599,
+          1750,
+          2285
+        ]
+      },
+      "observations": [
+        "The complete opening and final tutorial cards remain, including the last reviewed frame at 2297.7 seconds. Chapter titles, right-hand instructional panel and burned captions retain the full original landscape frame.",
+        "At 507.5 seconds, the actual Start pointer/click ring, red running dot and sample-events disclosure are readable. At 599.733 seconds, two selected transcript rows and the ring on the second row remain clear.",
+        "At 990 seconds, the completed sample answer and its three tips remain readable. At 1051.233 seconds, the Previous answer control, neighboring Ask and pointer/ring remain distinct.",
+        "At 1750 seconds, the SELECT mode bar, selected count and focused transcript line are legible. The final closing card is not truncated.",
+        "The final video is a lossy recompression. Some source UI is already soft and the source camera crops neighboring panels; this copy preserves that composition rather than recreating missing pixels."
+      ],
+      "review_limits": "Seventeen contact-sheet samples and six native decoded frames were actually viewed after full encoding. This is not an exhaustive motion/frame review, direct listening, user approval, browser playback/deployment testing, physical capture qualification or proof of model/audio performance. Separate technical checks verify complete decode, equal chapters/duration/frame count and identical decoded audio."
+    },
+    "reproduction_script": "tools/Site/prepare-web-video.py"
+  }
 }

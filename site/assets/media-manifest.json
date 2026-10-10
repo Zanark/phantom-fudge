@@ -1,14 +1,30 @@
 {
   "video": {
     "repository": "Zanark/phantom-fudge",
-    "release": "tutorial-2026-10-10",
+    "edition": "Web-optimized full tutorial",
     "file": "Phantom-Fudge-Full-Tutorial.mp4",
-    "sha256": "388ee914e1ffdc0ac3911d2a2e8dc6c8f33d8aad047f1aeff02fbe41138e1fde",
-    "bytes": 159267662,
+    "sha256": "28cd9c871b96e6db6cc4f14d740942c388a6abd235d8ba4e4031cf50ec75fc71",
+    "bytes": 86168722,
     "durationSeconds": 2297.767,
     "width": 1920,
     "height": 1080,
-    "fps": 30
+    "fps": 30,
+    "frames": 68933,
+    "encoding": {
+      "video": "H.264, yuv420p, CRF 30, medium preset; lossy recompression without scaling or cuts",
+      "audio": "Original AAC payloads and PTS/DTS copied; decoded PCM and frame timestamps unchanged",
+      "remuxNote": "Final AAC packet duration metadata normalized from 832 to 800 samples (0.667 ms); track/container duration and decoded audio unchanged",
+      "faststart": true
+    },
+    "original": {
+      "file": "Phantom-Fudge-Full-Tutorial.mp4",
+      "sha256": "388ee914e1ffdc0ac3911d2a2e8dc6c8f33d8aad047f1aeff02fbe41138e1fde",
+      "bytes": 159267662,
+      "durationSeconds": 2297.767,
+      "width": 1920,
+      "height": 1080,
+      "fps": 30
+    }
   },
   "origin": "Scripted app demo • sample data. Producer-supplied WPF visual-tree frames use unchanged production XAML and app reducers in a private source copy with isolated I/O adapters, sample transcripts and a fake provider. This is not desktop video or a recording of physical OS mouse input. Cursor guides illustrate scripted control activation; keyboard badges show supplied handler inputs. Narration is synthetic Windows System.Speech TTS. Recording states and provider responses are samples: no real audio or inference. Native installation, file-picker and provider setup steps are instructional boundaries, not evidence that those operations were executed.",
   "caveat": "This tutorial shows the current local source. Previous-answer context is not included in the published v0.2.0-preview.1 installer. The published installer is an unsigned Windows 11 x64 preview, not universal capture qualification.",

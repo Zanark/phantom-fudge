@@ -78,6 +78,12 @@ statement-level interpretation. Root build/configuration inputs and the book cat
 explicit exceptions to the implementation-directory rule.
 ([`sourceKind`](../../tools/Docs/source-atlas.mjs).)
 
+The website's authored HTML/CSS/JavaScript and `site/media.json` are also first-party inputs.
+Only explicitly named tutorial/caption exports and the generated asset-provenance receipt receive
+the `generated` kind; their bytes still affect freshness. New code under `site/assets` is not
+silently exempt, and binary media is outside source annotation.
+([`sourceKind` and `discoverSources`](../../tools/Docs/source-atlas.mjs).)
+
 A PowerShell `.txt` twin receives a third treatment. It maps to its `.ps1` canonical source and
 must be byte-identical. Annotating both copies would double the apparent coverage without explaining
 additional logic. Failing the equality check is an actionable packaging/documentation drift error,

@@ -1,11 +1,27 @@
 {
   "repository": "Zanark/phantom-fudge",
-  "release": "tutorial-2026-10-10",
+  "edition": "Web-optimized full tutorial",
   "file": "Phantom-Fudge-Full-Tutorial.mp4",
-  "sha256": "388ee914e1ffdc0ac3911d2a2e8dc6c8f33d8aad047f1aeff02fbe41138e1fde",
-  "bytes": 159267662,
+  "sha256": "28cd9c871b96e6db6cc4f14d740942c388a6abd235d8ba4e4031cf50ec75fc71",
+  "bytes": 86168722,
   "durationSeconds": 2297.767,
   "width": 1920,
   "height": 1080,
-  "fps": 30
+  "fps": 30,
+  "frames": 68933,
+  "encoding": {
+    "video": "H.264, yuv420p, CRF 30, medium preset; lossy recompression without scaling or cuts",
+    "audio": "Original AAC payloads and PTS/DTS copied; decoded PCM and frame timestamps unchanged",
+    "remuxNote": "Final AAC packet duration metadata normalized from 832 to 800 samples (0.667 ms); track/container duration and decoded audio unchanged",
+    "faststart": true
+  },
+  "original": {
+    "file": "Phantom-Fudge-Full-Tutorial.mp4",
+    "sha256": "388ee914e1ffdc0ac3911d2a2e8dc6c8f33d8aad047f1aeff02fbe41138e1fde",
+    "bytes": 159267662,
+    "durationSeconds": 2297.767,
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  }
 }

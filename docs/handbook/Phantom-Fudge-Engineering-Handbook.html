@@ -5705,17 +5705,93 @@ palette, original ghost artwork, motion controls, sample-data GIFs, and a full c
 The native application and published installer are separate products; this website does not run
 transcription, sign into a provider, collect notes or change Windows capture behavior.
 The publication boundary is deliberately small: the assembler reads <code>site/media.json</code>, verifies
-the supplied MP4, and copies <code>site</code> plus that file rather than the repository.
-(<code>tools/Site/build.mjs:7-30</code>)</p>
+the web MP4 already bundled under <code>site/media</code>, and copies only <code>site</code>, not the repository.
+Normal assembly needs no original production tutorial, release download, LFS or media secret.
+(<code>tools/Site/build.mjs:28-52</code>; <code>tools/Site/test-site.mjs:98-130</code>)</p>
+<p><strong>Final local source freeze:</strong> the bundled web video is86,168,722bytes with SHA256
+<code>28cd9c871b96e6db6cc4f14d740942c388a6abd235d8ba4e4031cf50ec75fc71</code>.
+It retains2297.767seconds,1920x1080,30fps and68,933frames. All eight GIF sets and the final
+page/browser integration were reviewed locally; publication remains pending. (<code>site/media.json:1-27</code>)</p>
+<h2 id="ch-website-less-visible-text-not-less-visual-design">Less visible text, not less visual design</h2>
+<p>The owner's clarification is <strong>less visible text only</strong>. Keep the DeepSeaFoam palette, original
+ghosts, glow, mist, orbits and decorative motion. The short hero and eight one-line demo captions
+replace repeated explanations; the transcript and <strong>About this demo</strong> use closed-by-default
+disclosures. A compact privacy/capture-limit note stays visible below the tutorial rather than
+being hidden with those details. Long feature/privacy sections are not duplicated on this page.
+(<code>site/index.html:24-57,58-120,157-185</code>; <code>site/styles.css:1-6,55-65,131-145</code>)</p>
+<p>The browser fixture counts the default rendered body's visible words and caps that state at350.
+That is a regression guard for copy density, not a request to strip artwork, delete accessible
+labels, truncate the complete transcript or claim human design approval.
+(<code>tools/Site/review-browser.mjs:36-49,82-84</code>)</p>
+<p>The previous served page measured616default-visible words; the frozen revision measures276, a
+340-word reduction. The transcript and About text still exist behind their disclosures, and the
+DeepSeaFoam ghosts, glow, mist, orbits and eight demonstrations remain visible.</p>
 <h2 id="ch-website-watch-and-navigate">Watch and navigate</h2>
 <p>The video supports native controls plus Play/Pause, back/forward ten seconds, playback speed
 and optional extra captions. Captions are also embedded in the MP4. Five chapters and six
 transcript results appear per page, with explicit previous/next buttons instead of nested
-scrolling. Search is literal and case-insensitive; selecting a result seeks without autoplay.</p>
-<p>The three large GIF demonstrations use keyboard-accessible tabs rather than tiny previews.
+scrolling. Open the collapsed transcript panel to search. Search is literal and case-insensitive;
+selecting a result seeks without autoplay. Scope details also start collapsed.</p>
+<p>The eight large GIF demonstrations use keyboard-accessible tabs rather than tiny previews.
 <strong>Pause motion</strong> freezes ghosts and replaces animated GIFs with stills. Reduced-motion visitors
 start with static artwork. No JavaScript means native video, static demo images and downloadable
 chapter/caption files; enhanced search and chapter buttons require JavaScript.</p>
+<table>
+<thead>
+<tr>
+<th>Demo ID</th>
+<th>Tutorial chapter ID</th>
+<th>Retained sample action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>selection</code></td>
+<td><code>questions</code></td>
+<td>Select useful lines, later Ask, then show the sample answer</td>
+</tr>
+<tr>
+<td><code>context</code></td>
+<td><code>followups</code></td>
+<td>Enable the optional Previous answer snapshot</td>
+</tr>
+<tr>
+<td><code>cover</code></td>
+<td><code>cover</code></td>
+<td>Cover, then later reveal the workspace</td>
+</tr>
+<tr>
+<td><code>inputs</code></td>
+<td><code>audio</code></td>
+<td>Choose Mic, then later Both</td>
+</tr>
+<tr>
+<td><code>transcription</code></td>
+<td><code>transcription</code></td>
+<td>Explicit Start, then later Stop</td>
+</tr>
+<tr>
+<td><code>answer-size</code></td>
+<td><code>answers</code></td>
+<td>Adjust answer text from10 to17</td>
+</tr>
+<tr>
+<td><code>keyboard</code></td>
+<td><code>keyboard</code></td>
+<td>Enter Select with V, then later select with Space</td>
+</tr>
+<tr>
+<td><code>themes</code></td>
+<td><code>workspace</code></td>
+<td>Harbor Daylight, Plain B/W, then DeepSeaFoam</td>
+</tr>
+</tbody>
+</table>
+<p>Each <code>assets/demo-&lt;id&gt;</code> has GIF, JPEG and MP4 derivatives at1000x720. The page uses the GIF/still
+pair; its image link seeks the associated full-tutorial chapter without starting playback.
+Retained spans run at1x; labelled jumps to later actions/results are not response-latency evidence.
+The original selection/context/cover triplets remain protected, not silently re-encoded.
+(<code>site/index.html:71-120</code>; <code>site/app.mjs:150-197</code>; <code>tools/Site/make-demo-media.py:26-159,430-477</code>)</p>
 <p>These are scripted, sample-data demonstrations using actual WPF frames and synthetic narration.
 The current-source Previous answer feature is not in <code>v0.2.0-preview.1</code>. Native installation,
 file-picker and provider steps in the tutorial are instructions, not recordings of those operations.</p>
@@ -5723,31 +5799,40 @@ file-picker and provider steps in the tutorial are instructions, not recordings 
 <a href="../../site/player-core.mjs">pure timing/search helpers</a>. The existing browser fixture exercises
 all chapter starts, search and caption controls; the Node tests check all 525 cue intervals.
 Those checks do not establish live meeting, provider or capture compatibility.
-(<code>tools/Site/review-browser.mjs:48-96</code>; <code>tools/Site/test-site.mjs:19-47</code>)</p>
+The expanded fixtures require eight demo triplets and exercise their chapter jumps, Home/End and
+arrow-key wrapping without autoplay. A failed video request must show a visible error while search
+remains available. (<code>tools/Site/review-browser.mjs:51-148,178-193</code>; <code>tools/Site/test-site.mjs:22-50,80-111</code>)</p>
+<p>Final local gates passed14Node test cases and nine muted-browser review groups. A second build/test
+from an isolated fresh public-only tree also passed without the private original tutorial.</p>
 <h2 id="ch-website-assembly-boundary">Assembly boundary</h2>
-<p>The full video is an immutable input, not a generated side effect of the website build. A wrong
-length or SHA256 fails before the previous local preview is removed. The source-tree walk rejects
-symlinks before copying; this is not a general sanitizer for arbitrary files placed under <code>site</code>.
-Keep that directory public-safe and run its focused content checks.
-(<code>tools/Site/build.mjs:10-29</code>; <code>tools/Site/test-site.mjs:58-72</code>)</p>
+<p>The bundled full video must be a reviewed input, not a generated side effect of the website build.
+The source-tree walk rejects symlinks, non-file entries and any individual file at or above
+100 MiB. Total source size must be below 1,000,000,000 bytes. The media filename must be a simple
+MP4 basename; its declared size and streamed SHA256 must match the bundled payload.
+All those checks precede deletion of the previous preview. Copying itself is not atomic and has
+no rollback guarantee. (<code>tools/Site/build.mjs:8-44</code>)</p>
+<p>These checks are not a general sanitizer for arbitrary files placed under <code>site</code>. Keep every
+input public-safe and run the bounded text scan and asset-integration tests. The failure fixture
+checks missing media, wrong bytes, same-size corruption, path traversal and the size boundary,
+and confirms that rejected inputs leave the old output intact.
+(<code>tools/Site/test-site.mjs:64-96,113-159</code>)</p>
 <figure class="diagram"><img src="assets/diagrams/website-01.svg" alt="Phantom Fudge Website and Tutorial Pipeline diagram 1"><figcaption>Phantom Fudge Website and Tutorial Pipeline - diagram 1. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
 config: {&quot;theme&quot;:&quot;base&quot;,&quot;themeVariables&quot;:{&quot;primaryColor&quot;:&quot;#2d333b&quot;,&quot;primaryBorderColor&quot;:&quot;#6d5dfc&quot;,&quot;primaryTextColor&quot;:&quot;#e6edf3&quot;,&quot;lineColor&quot;:&quot;#8b949e&quot;,&quot;textColor&quot;:&quot;#e6edf3&quot;}}
 ---
 flowchart TB
     accTitle: Local website assembly
-    accDescr: The immutable MP4 must match the public media identity before only site files and video are copied into the local preview.
-    A[&quot;Supplied tutorial MP4&quot;] --&gt; C[&quot;Check bytes and SHA256&quot;]
-    B[&quot;site/media.json&quot;] --&gt; C
-    C --&gt; D[&quot;Reject site symlinks&quot;]
-    D --&gt; E[&quot;Replace artifacts/site&quot;]
-    F[&quot;Reviewed site files&quot;] --&gt; E
-    E --&gt; G[&quot;Loopback preview and review&quot;]
+    accDescr: Bundled public site files must pass file-kind, size and media-identity checks before replacing the local preview.
+    A[&quot;Reviewed site and bundled web MP4&quot;] --&gt; B[&quot;Check file kinds and size budgets&quot;]
+    B --&gt; C[&quot;Validate filename, bytes and SHA256&quot;]
+    M[&quot;site/media.json&quot;] --&gt; C
+    C --&gt; D[&quot;Replace artifacts/site&quot;]
+    D --&gt; E[&quot;Loopback preview and review&quot;]
     classDef stage fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    class A,B,C,D,E,F,G stage
+    class A,B,C,D,E,M stage
 </code></pre></details><h2 id="ch-website-local-preview">Local preview</h2>
-<p>Node 22 or later is sufficient to assemble and serve the site. No package installation is needed.
-Obtain the exact MP4 identified in <code>site/media.json</code>, or use the completed local tutorial.</p>
-<pre><code class="language-powershell">node .\tools\Site\build.mjs --video .\artifacts\tutorial\20261010-221225\Phantom-Fudge-Full-Tutorial.mp4
+<p>Node 22 or later is sufficient to assemble and serve the complete checked-out site. No package
+installation, separate video argument or access to the original tutorial workspace is needed.</p>
+<pre><code class="language-powershell">node .\tools\Site\build.mjs
 node .\tools\Site\serve.mjs 4173
 </code></pre>
 <p>Open <code>http://127.0.0.1:4173/phantom-fudge/</code>. The preview server binds only to loopback and supports
@@ -5755,44 +5840,52 @@ HTTP byte ranges for seeking. Assembly replaces only the generated <code>artifac
 The server accepts a single start-based range, including an open end, returns 416 for invalid ranges,
 and handles HEAD without sending the body. It is a local review server, not the Pages deployment.
 (<code>tools/Site/serve.mjs:10-45</code>)</p>
-<pre><code class="language-powershell">node --test .\tools\Site\test-site.mjs
+<p>The retained final review instance is <code>http://127.0.0.1:4187/phantom-fudge/</code>; it was not restarted
+for documentation generation. Port4173 above remains the tool's default for a future independent run.</p>
+<pre><code class="language-powershell"># Keep test/browser scratch in the repository when required by local policy.
+New-Item -ItemType Directory -Force .\.local\site-review-scratch | Out-Null
+$env:TEMP = (Resolve-Path .\.local\site-review-scratch).Path
+$env:TMP = $env:TEMP
+node --test .\tools\Site\test-site.mjs
 node .\tools\Site\review-browser.mjs http://127.0.0.1:4173/phantom-fudge/
 </code></pre>
 <p>The browser review uses the existing <code>tools/Docs</code> Puppeteer dependency and an isolated, muted Edge
 profile. Set <code>EDGE_PATH</code> if needed. Review screenshots and receipts stay in ignored <code>.local/site-review</code>.
-The profile uses Node's OS scratch-directory selection and is removed in <code>finally</code>; when local
-policy requires repository-contained scratch space, set <code>TEMP</code> and <code>TMP</code> to an existing ignored
-project directory in that shell before launching the review. The fixture observes external
+Both the browser profile and the assembly test fixture use Node's OS scratch-directory selection
+and are removed in <code>finally</code>; the commands above redirect that selection for the current shell.
+The browser fixture observes external
 requests and fails if any occur; it is not a network-blocking browser sandbox.
-(<code>tools/Site/review-browser.mjs:9-34,142-150</code>)</p>
+(<code>tools/Site/review-browser.mjs:9-35,194-202</code>; <code>tools/Site/test-site.mjs:113-159</code>)</p>
 <h2 id="ch-website-github-pages-deployment">GitHub Pages deployment</h2>
 <p>The repository's Pages source must be <strong>GitHub Actions</strong>. <code>.github/workflows/pages.yml</code> builds on
-website-related pushes to <code>main</code> or manual dispatch. It downloads the dedicated
-<code>tutorial-2026-10-10</code> release asset, verifies its exact byte count and SHA256, then copies only
-<code>site</code> plus that MP4 into a Pages artifact. The 159 MB MP4 is never checked into git.</p>
-<p>The tutorial asset release is not an app update and must not replace or become the latest installer
-release. Publish it only with repository-write approval and retain immutable media bytes.
-Pinned Actions and job-scoped permissions separate artifact construction from Pages deployment.
+website-related pushes to <code>main</code> or manual dispatch. It tests and assembles the checked-out
+website, including the bundled web video, then uploads only <code>artifacts/site</code>.
+There is no dedicated tutorial-release prerequisite in the current workflow.
+The original159,267,662-byte production MP4 remains separate from the Git-sized web derivative.
+That preserved original, not the web copy, has SHA256 <code>388ee914e1ffdc0ac3911d2a2e8dc6c8f33d8aad047f1aeff02fbe41138e1fde</code>.
+(<code>.github/workflows/pages.yml:3-37</code>; <code>tools/Site/build.mjs:28-52</code>; <code>tools/Site/prepare-web-video.py:21-28</code>)</p>
+<p>Pinned Actions and job-scoped permissions separate artifact construction from Pages deployment.
 No secrets, private source inventories, local paths, context stores or repository-wide archives
 belong in the Pages artifact.
-The <a href="../../.github/workflows/pages.yml">workflow source</a> runs Node 22 tests, downloads with a read-only
-repository token with <code>contents: read</code> and <code>pages: read</code>, calls the hash-verifying assembler and
-uploads <code>artifacts/site</code>. Only the dependent
+The <a href="../../.github/workflows/pages.yml">workflow source</a> gives the build job <code>contents: read</code> for
+checkout and <code>pages: read</code> so <code>configure-pages</code> can read the Pages configuration. It runs Node 22
+tests and the hash-verifying assembler. Only the dependent
 deploy job receives <code>pages: write</code> and <code>id-token: write</code>, using the <code>github-pages</code> environment.
 <code>cancel-in-progress: false</code> keeps a newer run from cancelling the current deployment.
-(<code>.github/workflows/pages.yml:12-58</code>; <code>tools/Site/build.mjs:10-30</code>)</p>
-<p><strong>Publication status:</strong> pending. The active GitHub CLI account has read-only access; the owner
-chose to finish locally rather than change authentication. No tutorial release or website push
-was performed. An authorized maintainer must publish the media asset before the first workflow run.
-This owner-deferred state is recorded in <a href="../../TODO/61_PUBLIC_PHANTOM_WEBSITE.todo">workstream61</a>.
+(<code>.github/workflows/pages.yml:12-50</code>; <code>tools/Site/build.mjs:28-52</code>)</p>
+<p><strong>Publication status:</strong> pending. The owner chose local completion rather than an authentication
+change after the active CLI account proved read-only. The later self-contained revision removes
+the separate media-release prerequisite; it does not authorize a push or deployment.
+An authorized maintainer must publish the complete reviewed source tree and verify the workflow
+and live site separately. The decisions are recorded in <a href="../../TODO/61_PUBLIC_PHANTOM_WEBSITE.todo">workstream61</a>.
 Neither a prepared workflow nor a local browser pass means the website URL is live.</p>
 <figure class="diagram"><img src="assets/diagrams/website-02.svg" alt="Phantom Fudge Website and Tutorial Pipeline diagram 2"><figcaption>Phantom Fudge Website and Tutorial Pipeline - diagram 2. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
 config: {&quot;theme&quot;:&quot;base&quot;,&quot;themeVariables&quot;:{&quot;primaryColor&quot;:&quot;#2d333b&quot;,&quot;primaryBorderColor&quot;:&quot;#6d5dfc&quot;,&quot;primaryTextColor&quot;:&quot;#e6edf3&quot;,&quot;lineColor&quot;:&quot;#8b949e&quot;,&quot;textColor&quot;:&quot;#e6edf3&quot;}}
 ---
 flowchart TB
     accTitle: Pending GitHub Pages publication
-    accDescr: Publication remains pending; a future authorized maintainer supplies a separate media release before the read-only build and dependent Pages deployment can run.
-    A[&quot;Future authorized tutorial release&quot;] --&gt; B[&quot;Build: test, download and verify&quot;]
+    accDescr: Publication remains pending; a future authorized source publication enables a read-only build of bundled media and a separate Pages-write deployment.
+    A[&quot;Future authorized source publication&quot;] --&gt; B[&quot;Read-only build: test and verify&quot;]
     B --&gt; C[&quot;Upload site-only artifact&quot;]
     C --&gt; D[&quot;Deploy: Pages write and identity token&quot;]
     D --&gt; E[&quot;Verify live site separately&quot;]
@@ -5803,15 +5896,88 @@ flowchart TB
 chapter/caption data from the tutorial identified by <code>site/media.json</code>. It does not import private
 delivery inventories. The generated module projects chapter IDs/titles/times and cue times/text;
 the five named chapter/caption files are copied intact and must themselves be public-safe.
-Changing the video requires a newly versioned asset identity and review;
+The source manifest must match <code>media.original.sha256</code>, while chapter duration must agree with the
+web video within 50 ms. Import compares metadata, not the MP4 payload.
+The top-level <code>file</code>, <code>sha256</code>, <code>bytes</code>, duration and format fields identify the bundled web copy;
+the nested <code>original</code> record identifies its preserved production source. They are not interchangeable:
+the assembler hashes the top-level web payload, and the importer checks the nested original identity.
+Changing the video requires a new reviewed asset identity;
 do not silently overwrite a published video with different bytes.
-(<code>tools/Site/import-tutorial.mjs:10-31</code>)</p>
+(<code>site/media.json:1-27</code>; <code>tools/Site/build.mjs:31-39</code>; <code>tools/Site/import-tutorial.mjs:10-33</code>)</p>
+<p>Full-video preparation is a separate local operation. <code>prepare-web-video.py</code> recompresses the
+full uncropped video with H.264 and copies the original AAC stream; it supplies no cut, scale or
+retiming filter. Its validator compares duration, frame count, dimensions, frame rate, start and
+chapters, verifies AAC payload/timestamp and decoded-PCM hashes, checks faststart, and decodes all 68,933 video
+frames plus audio. The hard limit is below 100 MiB; the 90 MiB target is recorded separately.
+Lossy video recompression still requires inspection of decoded output, not just matching metadata.
+(<code>tools/Site/prepare-web-video.py:44-56,89-139,172-218</code>)</p>
+<p>The audio gate permits only the original final AAC duration of 832 samples or its normalization
+to 800 samples. Nonfinal durations, payloads, PTS/DTS, decoded PCM and decoded frame timing must
+match, as must audio-track/container duration. That possible 32-sample metadata adjustment is not
+a claim of lost audio or a listening test. (<code>tools/Site/prepare-web-video.py:173-208</code>)</p>
+<pre><code class="language-powershell"># Reproduce the selected final CRF after inspecting representative samples.
+python .\tools\Site\prepare-web-video.py --samples --crf 30
+python .\tools\Site\prepare-web-video.py --encode --validate --crf 30
+</code></pre>
+<p>These commands require the original completed tutorial and the existing Python media dependencies.
+They never overwrite that original. Validation writes local provenance and review frames with
+visual review explicitly pending; it does not itself update <code>site/media.json</code> or import captions.
+For this frozen revision, separate inspection covered17contact-sheet times and six native1080p
+frames after the complete decode. The measured web/original identities were then registered in
+public metadata and the import, assembly and browser gates passed. Pass the actual encoding CRF
+when validating separately: the receipt records that argument, not a detected encoder setting.
+(<code>tools/Site/prepare-web-video.py:198-248</code>; <code>tools/Site/import-tutorial.mjs:13-33</code>)</p>
 <p>The public <code>assets/media-manifest.json</code> records source/media identity and demo limitations.
 <code>assets/asset-provenance.json</code> records the GIF excerpts and artwork sources.
 Theme credit lives in <code>site/THEME-NOTICE.txt</code>; no sibling showcase artwork or fonts are copied.</p>
+<h2 id="ch-website-source-atlas-coverage">Source-atlas coverage</h2>
+<p>Website source is not excluded just because it lives at the repository root. The atlas requires
+reviewed, contiguous explanations for <code>site/index.html</code>, <code>styles.css</code>, <code>app.mjs</code>, <code>player-core.mjs</code>,
+<code>media.json</code> and <code>404.html</code>, as well as every in-scope Site tool and the Pages workflow.
+Future authored code/configuration under <code>site/assets</code> also remains in scope.
+(<code>tools/Docs/source-atlas.mjs:11-17,36-46</code>; <code>tools/Docs/test-docs.mjs:96-110,139-150</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Deliberately generated input under <code>site/assets</code></th>
+<th>Producer and purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tutorial-data.mjs</code></td>
+<td>Importer projection consumed by the browser player</td>
+</tr>
+<tr>
+<td><code>captions.srt</code>, <code>captions.vtt</code>, <code>chapters.txt</code>, <code>chapters.json</code>, <code>transcript.json</code></td>
+<td>Five intact public downloads copied by the importer</td>
+</tr>
+<tr>
+<td><code>media-manifest.json</code></td>
+<td>Importer-emitted web/original identity and sample-data limitations</td>
+</tr>
+<tr>
+<td><code>asset-provenance.json</code></td>
+<td>Artwork/demo provenance assembled from measured assets and supplied review records</td>
+</tr>
+</tbody>
+</table>
+<p>These eight named files remain hash-indexed as generated inputs, not passed off as authored
+source explanations. There is no blanket generated exemption for the assets directory.
+Binary media is outside line-by-line source annotation; its declared identities and the tools
+that produce/validate it are covered. Classification and matching hashes do not prove pixel quality,
+public safety or semantic accuracy. (<code>tools/Docs/source-atlas.mjs:36-78,125-163</code>;
+<code>tools/Site/import-tutorial.mjs:21-32</code>; <code>tools/Site/make-demo-media.py:303-429</code>)</p>
 <h2 id="ch-website-artwork-excerpts-and-source-references">Artwork, excerpts and source references</h2>
 <p>The website build consumes the delivered art and demo files; it does not run their generators.
-Regeneration is a separate reviewed operation with the already-installed dependencies below.</p>
+Regeneration is a separate reviewed operation with the already-installed dependencies below.
+The demo generator protects the original selection/context/cover files against the existing
+provenance hashes. It skips complete triplets by default; replacement requires explicit new
+<code>--demo</code> names plus <code>--replace</code>. New visual-review notes must name the exact GIF/JPEG/MP4 hashes
+through <code>--review-record</code>. An optional <code>--web-record</code> attaches web-video provenance only when the
+video hash and the separate visual-review record identify the same output bytes.
+Neither a flag nor a hash comparison performs visual review.
+(<code>tools/Site/make-demo-media.py:364-374,412-477</code>)</p>
 <table>
 <thead>
 <tr>
@@ -5826,23 +5992,27 @@ Regeneration is a separate reviewed operation with the already-installed depende
 </tr>
 <tr>
 <td><code>make-demo-media.py</code> / <code>source_frames</code>, <code>encode</code></td>
-<td>Hash-checked tutorial frame ranges, aspect-contained crops, silent 30fps MP4 and 10fps GIF derivatives, without accelerating retained spans. Selection and cover concatenate explicitly labelled later excerpts, not continuous response latency. (<code>tools/Site/make-demo-media.py:19-66,113-178</code>)</td>
+<td>Hash-checked tutorial frame ranges, aspect-contained crops, silent 30fps MP4 and 10fps GIF derivatives, without accelerating retained spans. Labelled later excerpts omit gaps; they do not measure response latency. (<code>tools/Site/make-demo-media.py:26-157,204-269</code>)</td>
 </tr>
 <tr>
 <td><code>make-demo-media.py</code> / <code>review_outputs</code>, <code>provenance</code></td>
-<td>Decoded sample/contact sheets and exact asset/edit maps. <code>--record-reviewed</code> asserts a separate visual inspection; it performs no review. Existing Pillow, PyAV and imageio-ffmpeg are required. (<code>tools/Site/make-demo-media.py:193-208,246-336</code>)</td>
+<td>Decoded samples, exact edit maps and hash-bound review notes. Existing Pillow, PyAV and imageio-ffmpeg are required. Reused original-demo evidence is distinct from a new inspection. (<code>tools/Site/make-demo-media.py:284-374,395-427</code>)</td>
 </tr>
 <tr>
-<td><code>test-site.mjs</code> / six Node tests</td>
-<td>Timing, chapter boundaries, all cues, literal search, controls and a bounded public-input scan. No native application or provider is launched. (<code>tools/Site/test-site.mjs:1-72</code>)</td>
+<td><code>prepare-web-video.py</code> / <code>main</code>, <code>validate</code></td>
+<td>Separate full-video compression, packet/decoded-audio verification, complete decode and local review frames; no implicit publication or visual approval. (<code>tools/Site/prepare-web-video.py:172-248</code>)</td>
+</tr>
+<tr>
+<td><code>test-site.mjs</code> / nine top-level Node tests and five failure subtests</td>
+<td>Timing, all cues, literal search, controls, eight demo triplets, public inputs and self-contained assembly. No native application or provider is launched. (<code>tools/Site/test-site.mjs:1-159</code>)</td>
 </tr>
 <tr>
 <td><code>review-browser.mjs</code> / isolated browser</td>
-<td>Muted playback, all chapter seeks, paginated search, demo tabs, responsive/reduced-motion/no-JavaScript checks and local screenshots. Automation is not human UX approval. (<code>tools/Site/review-browser.mjs:21-150</code>)</td>
+<td>Muted playback, all chapter seeks, paginated search, eight demo tabs, collapsed details, a default visible-copy budget, responsive/reduced-motion/no-JavaScript checks and missing-video feedback. Automation is not human UX approval. (<code>tools/Site/review-browser.mjs:22-202</code>)</td>
 </tr>
 </tbody>
 </table>
-<p>For the complete per-line tooling and workflow explanations, use the
+<p>For the per-line authored website, tooling and workflow explanations, use the
 <a href="../source-atlas/index.html">source atlas</a>. The website guide is also registered in the
 <a href="README.md">engineering handbook</a>. Maintained editions do not replace PDFs attached to
 the published installer release.</p>
@@ -9597,6 +9767,11 @@ existence and bytes are tracked, but the book does not pretend that every genera
 statement-level interpretation. Root build/configuration inputs and the book catalogue are
 explicit exceptions to the implementation-directory rule.
 (<a href="../../tools/Docs/source-atlas.mjs"><code>sourceKind</code></a>.)</p>
+<p>The website's authored HTML/CSS/JavaScript and <code>site/media.json</code> are also first-party inputs.
+Only explicitly named tutorial/caption exports and the generated asset-provenance receipt receive
+the <code>generated</code> kind; their bytes still affect freshness. New code under <code>site/assets</code> is not
+silently exempt, and binary media is outside source annotation.
+(<a href="../../tools/Docs/source-atlas.mjs"><code>sourceKind</code> and <code>discoverSources</code></a>.)</p>
 <p>A PowerShell <code>.txt</code> twin receives a third treatment. It maps to its <code>.ps1</code> canonical source and
 must be byte-identical. Annotating both copies would double the apparent coverage without explaining
 additional logic. Failing the equality check is an actionable packaging/documentation drift error,
@@ -11690,4 +11865,43 @@ chose to <strong>finish locally and leave publishing pending</strong>. No releas
 completed. The local preview, source, media provenance and deployment guide are available in
 <a href="#ch-website">Website and tutorial</a>. This is local browser/media evidence, not a live Pages
 deployment or capture-compatibility qualification.</p>
+<h2 id="ch-journal-2026-10-11-a-self-contained-website-with-less-visible-copy">2026-10-11 - A self-contained website with less visible copy</h2>
+<p>The owner next requested a version that can deploy from the repository and more GIFs on the site
+and README. This <strong>supersedes the separate tutorial-media release prerequisite</strong> described above;
+it does not rewrite that earlier decision into a completed publication. The current assembler and
+Pages workflow consume a bundled, compressed full-tutorial web copy under <code>site/media</code>, without a
+release download, LFS or custom media secret. The original159,267,662-byte production tutorial is
+preserved separately. Top-level public media metadata identifies the web copy; nested <code>original</code>
+metadata identifies its source. The assembler verifies bytes/hash and strict size budgets before
+replacing generated output.
+(<a href="#ch-website">Guide</a>; <a href="../../tools/Site/build.mjs">assembler</a>; <a href="../../.github/workflows/pages.yml">workflow</a>)</p>
+<p>The final web copy is86,168,722bytes, SHA256
+<code>28cd9c871b96e6db6cc4f14d740942c388a6abd235d8ba4e4031cf50ec75fc71</code>,
+at1920x1080/30fps for2297.767seconds and68,933frames. All AAC payloads and PTS/DTS,
+nonfinal durations, decoded PCM and decoded frame timing match the original. FFmpeg normalized
+only the final AAC duration metadata from832to800samples (0.667ms); track/container duration and
+decoded audio are unchanged. A complete decode plus separate sampled pixel review passed; this
+remains lossy H.264 video recompression, not direct listening or user approval.</p>
+<p>The gallery now has eight fixed slots: selection, context, cover, inputs, transcription,
+answer-size, keyboard and themes. The original three derivatives remain protected. The five
+additions show actual scripted sample-data actions at original speed, with disclosed jumps to
+later actions/results rather than claims about response latency. The owner's low-copy clarification
+means <strong>less visible text only</strong>, not removing the DeepSeaFoam theme, decorative effects or moving
+ghosts. Short hero/demo captions, initially closed transcript/About disclosures and one persistent
+privacy note keep the page concise without discarding the complete tutorial or capture caveats.
+(<a href="../../site/index.html">Page source</a>; <a href="../../site/styles.css">motion and layout</a>; <a href="../../tools/Site/make-demo-media.py">media tool</a>)</p>
+<p>All eight GIF/JPEG/MP4 sets received hash-bound sampled review. The final page reduced its default
+visible copy from616to276words while retaining the ghosts, mist, orbit decoration, large demos,
+full video and collapsed complete transcript/About material. Fourteen Node test cases and nine
+muted-browser groups passed, including every chapter, search/caption pagination, eight tab panels,
+keyboard wrapping,320-1440px layouts, reduced motion, no-JavaScript fallback and missing-video
+feedback. A fresh public-only source-tree build/test also passed without the private original.</p>
+<p>The atlas discovery policy now includes authored website HTML/CSS/JavaScript and media configuration,
+with eight named tutorial/caption/provenance exports hash-indexed separately as generated inputs.
+This is not a blanket assets exemption. Reviewed annotations now cover220first-party files,
+33,867physical lines and1,359authored blocks across11groups; the rebuilt atlas PDF has709pages.
+The maintained handbook and atlas were regenerated and freshness-checked after source review.</p>
+<p>No remote publication, authentication change, commit, push or deployment occurred. The retained
+loopback preview is <code>http://127.0.0.1:4187/phantom-fudge/</code>; local browser evidence is not proof that
+the GitHub Pages URL is live or that capture compatibility is qualified.</p>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section></main></body></html>

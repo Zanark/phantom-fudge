@@ -82,6 +82,11 @@ raw source line. Lockfiles/generated results are indexed separately. `.txt` scri
 match their annotated `.ps1` byte-for-byte. External dependencies, caches, private state, models and
 runtime data are not claimed as annotated source.
 
+Authored website HTML/CSS/JavaScript and `site\media.json` are in scope, alongside Site tools
+and the Pages workflow. Only the named importer outputs and asset-provenance receipt are
+classified as generated; their hashes still participate in freshness. The whole `site\assets`
+directory is not exempt: new authored code there requires annotations. Binary media is not source.
+
 ```powershell
 node .\tools\Docs\source-atlas.mjs --inventory
 node .\tools\Docs\source-atlas.mjs --validate

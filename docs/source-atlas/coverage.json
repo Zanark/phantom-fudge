@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "counts": {
-    "files": 213,
-    "lines": 32681,
-    "nonblankLines": 30450,
-    "blocks": 1303,
+    "files": 220,
+    "lines": 33867,
+    "nonblankLines": 31583,
+    "blocks": 1359,
     "groups": 11
   },
   "meaning": "Every in-scope physical line is assigned to an authored block; this is not proof of complete semantic understanding.",
@@ -2681,7 +2681,7 @@
     },
     {
       "path": "docs/handbook/catalogue.json",
-      "sourceSha256": "3c8d4eea3b57f1341c8d29352535b75089ae66990c80e00824834285c7ce5d0f",
+      "sourceSha256": "bcbfbe3fa3625e09e3ccdce5c1433d0269abfcfef7dfa3905d2355875ba2b622",
       "lines": 259,
       "nonblankLines": 259,
       "blocks": [
@@ -2851,73 +2851,73 @@
     },
     {
       "path": "tools/Docs/source-atlas.mjs",
-      "sourceSha256": "c10bdf23e7aec1238b0ba952c236976e66694c24d6163774666650c7d61a712b",
-      "lines": 339,
-      "nonblankLines": 321,
+      "sourceSha256": "a26845c6ef19eda4a606cf4b4911139c159891ab4564a9686fbd8565efa2e8f9",
+      "lines": 343,
+      "nonblankLines": 325,
       "blocks": [
         {
           "start": 1,
-          "end": 26,
+          "end": 29,
           "title": "Set public roots, stable identifiers and exact physical-line semantics"
         },
         {
-          "start": 27,
-          "end": 32,
+          "start": 30,
+          "end": 35,
           "title": "Link root guides and handbook chapters without losing their directory"
         },
         {
-          "start": 33,
-          "end": 52,
+          "start": 36,
+          "end": 56,
           "title": "Classify provenance and reject path aliases"
         },
         {
-          "start": 53,
-          "end": 75,
+          "start": 57,
+          "end": 79,
           "title": "Inventory current Git names and compare script mirrors byte-for-byte"
         },
         {
-          "start": 76,
-          "end": 120,
+          "start": 80,
+          "end": 124,
           "title": "Validate authored blocks as a complete ordered partition"
         },
         {
-          "start": 121,
-          "end": 159,
+          "start": 125,
+          "end": 163,
           "title": "Reconcile every assigned source against the live inventory"
         },
         {
-          "start": 160,
-          "end": 183,
+          "start": 164,
+          "end": 187,
           "title": "Keep complete source and explanatory excerpts separate"
         },
         {
-          "start": 184,
-          "end": 205,
+          "start": 188,
+          "end": 209,
           "title": "Generate a searchable offline reference with honest coverage wording"
         },
         {
-          "start": 206,
-          "end": 222,
+          "start": 210,
+          "end": 226,
           "title": "Launch an installed, owned browser without implicit installation"
         },
         {
-          "start": 223,
-          "end": 251,
+          "start": 227,
+          "end": 255,
           "title": "Verify real output completeness before calling an edition current"
         },
         {
-          "start": 252,
-          "end": 285,
+          "start": 256,
+          "end": 289,
           "title": "Select a narrow CLI action and validate before browser work"
         },
         {
-          "start": 286,
-          "end": 320,
+          "start": 290,
+          "end": 324,
           "title": "Publish bounded evidence and explain exclusions beside the source"
         },
         {
-          "start": 321,
-          "end": 339,
+          "start": 325,
+          "end": 343,
           "title": "Record output hashes last and clean up only owned staging"
         }
       ],
@@ -2981,9 +2981,9 @@
     },
     {
       "path": "tools/Docs/test-docs.mjs",
-      "sourceSha256": "dce266e75d4e62ef096ca2ab9500b7694de61503636e4ec163b7c64b6a6cb4c3",
-      "lines": 150,
-      "nonblankLines": 146,
+      "sourceSha256": "259877beb0d52eaef5dc0e8e94671cf1bc31cbfe499a54f8401724b1559bd8f6",
+      "lines": 170,
+      "nonblankLines": 166,
       "blocks": [
         {
           "start": 1,
@@ -2997,22 +2997,22 @@
         },
         {
           "start": 67,
-          "end": 103,
-          "title": "Use a tiny hashed fixture to test physical coverage semantics"
+          "end": 118,
+          "title": "Check physical coverage and explicit website classification"
         },
         {
-          "start": 104,
-          "end": 130,
+          "start": 119,
+          "end": 150,
           "title": "Make missing coverage and unsafe rendering fail explicitly"
         },
         {
-          "start": 131,
-          "end": 142,
+          "start": 151,
+          "end": 162,
           "title": "Reject success-shaped incomplete manifests"
         },
         {
-          "start": 143,
-          "end": 150,
+          "start": 163,
+          "end": 170,
           "title": "Keep root guide links correct while refusing unsafe chapter identities"
         }
       ],
@@ -8365,10 +8365,245 @@
       "anchor": "file-services-transcription-whisper-models-json-339e1423"
     },
     {
+      "path": "site/index.html",
+      "sourceSha256": "2c61239c8e20dc882558954034d84da368e09d2ee181aa4de61ebfe703ebca13",
+      "lines": 187,
+      "nonblankLines": 186,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 21,
+          "title": "Declare local resources and social identity without proving publication"
+        },
+        {
+          "start": 22,
+          "end": 37,
+          "title": "Keep navigation accessible while marking wandering ghosts decorative"
+        },
+        {
+          "start": 38,
+          "end": 57,
+          "title": "Shorten the hero copy without stripping the visual composition"
+        },
+        {
+          "start": 58,
+          "end": 70,
+          "title": "Register eight stable demo tabs for client-side enhancement"
+        },
+        {
+          "start": 71,
+          "end": 88,
+          "title": "Keep the original three demonstrations and their chapter targets"
+        },
+        {
+          "start": 89,
+          "end": 106,
+          "title": "Add input, transcription and answer-size actions without automatic-capture claims"
+        },
+        {
+          "start": 107,
+          "end": 121,
+          "title": "Connect keyboard and theme examples while disclosing edited timing"
+        },
+        {
+          "start": 122,
+          "end": 147,
+          "title": "Provide a native full-video fallback before enhanced controls"
+        },
+        {
+          "start": 148,
+          "end": 156,
+          "title": "Reserve paginated chapter navigation and distinguish the older installer"
+        },
+        {
+          "start": 157,
+          "end": 179,
+          "title": "Hide optional detail by default rather than deleting transcript or caveats"
+        },
+        {
+          "start": 180,
+          "end": 187,
+          "title": "Leave the privacy boundary visible and credit the visual theme"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-site-index-html-aef9cf1e"
+    },
+    {
+      "path": "site/styles.css",
+      "sourceSha256": "49597736b100afddf0d1201299ad7fce02c53641de545de308a81493c29193b4",
+      "lines": 173,
+      "nonblankLines": 173,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 35,
+          "title": "Establish the dark palette and readable shared control foundations"
+        },
+        {
+          "start": 36,
+          "end": 65,
+          "title": "Retain the header, ghost and notebook composition around a short hero"
+        },
+        {
+          "start": 66,
+          "end": 81,
+          "title": "Make eight demos selectable without shrinking their action footage"
+        },
+        {
+          "start": 82,
+          "end": 113,
+          "title": "Lay out the full player and bounded chapter navigation"
+        },
+        {
+          "start": 114,
+          "end": 130,
+          "title": "Format source-version warnings, optional details and persistent privacy links"
+        },
+        {
+          "start": 131,
+          "end": 145,
+          "title": "Keep ghost effects decorative and make motion an explicit state"
+        },
+        {
+          "start": 146,
+          "end": 160,
+          "title": "Adapt desktop and tablet geometry while retaining decorative art"
+        },
+        {
+          "start": 161,
+          "end": 173,
+          "title": "Stack mobile content without dropping the ghost or eight-demo controls"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-site-styles-css-08940a67"
+    },
+    {
+      "path": "site/app.mjs",
+      "sourceSha256": "f5a02cf02bba9d976483ce23a8da87bf6b579fb21fa0882b0f32221e3776fb99",
+      "lines": 198,
+      "nonblankLines": 186,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 28,
+          "title": "Keep local player state and defer seeks until media metadata exists"
+        },
+        {
+          "start": 29,
+          "end": 61,
+          "title": "Build text-safe chapter buttons and reveal bounded navigation"
+        },
+        {
+          "start": 62,
+          "end": 99,
+          "title": "Render six literal search results at a time with an explicit empty state"
+        },
+        {
+          "start": 100,
+          "end": 124,
+          "title": "Report playback failures and synchronize active chapters and optional captions"
+        },
+        {
+          "start": 125,
+          "end": 149,
+          "title": "Wire native events and expose actionable errors without disabling search"
+        },
+        {
+          "start": 150,
+          "end": 156,
+          "title": "Translate demo links into full-tutorial chapter seeks"
+        },
+        {
+          "start": 157,
+          "end": 181,
+          "title": "Enhance all demo panels with roving focus and wrapping keyboard selection"
+        },
+        {
+          "start": 182,
+          "end": 198,
+          "title": "Unify decorative animation and every GIF under the same motion preference"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-site-app-mjs-622a1727"
+    },
+    {
+      "path": "site/player-core.mjs",
+      "sourceSha256": "043d50626931799324bf7d4a0a227172471772da0694d99c7d0fefce2179d109",
+      "lines": 32,
+      "nonblankLines": 28,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 5,
+          "title": "Format finite elapsed time without negative or fractional displays"
+        },
+        {
+          "start": 6,
+          "end": 10,
+          "title": "Reject invalid seek domains and stay just inside the media end"
+        },
+        {
+          "start": 11,
+          "end": 24,
+          "title": "Find an active ordered interval with a small browser-rounding tolerance"
+        },
+        {
+          "start": 25,
+          "end": 32,
+          "title": "Use literal English-casefolded matching and ordinary array slices"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-site-player-core-mjs-1b1aef48"
+    },
+    {
+      "path": "site/media.json",
+      "sourceSha256": "01d31083a080456bb22d59170a46ee79bd96ca8a40a71c86dd3bd9cda75eb891",
+      "lines": 27,
+      "nonblankLines": 27,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 11,
+          "title": "Declare the self-contained web copy that assembly must verify"
+        },
+        {
+          "start": 12,
+          "end": 17,
+          "title": "Disclose lossy video and the narrow copied-audio metadata adjustment"
+        },
+        {
+          "start": 18,
+          "end": 27,
+          "title": "Retain original provenance without making the original a checkout prerequisite"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-site-media-json-a4c14d88"
+    },
+    {
+      "path": "site/404.html",
+      "sourceSha256": "d168f35a25f3cc0c840390a86ec8319f1d31bbc24db135d50167712d0a202a5e",
+      "lines": 2,
+      "nonblankLines": 2,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 2,
+          "title": "Use a fixed project prefix so deep missing paths can return home"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-site-404-html-8cbce8d6"
+    },
+    {
       "path": ".github/workflows/pages.yml",
-      "sourceSha256": "039bd86255d00873674ee030f6c50a58d5d7a1df72905d4f422869aa32edc9e3",
-      "lines": 58,
-      "nonblankLines": 54,
+      "sourceSha256": "d8e49000cbbd0af0c7cf19fac60a579c652ef421ef63137373b24911c832cd60",
+      "lines": 50,
+      "nonblankLines": 46,
       "blocks": [
         {
           "start": 1,
@@ -8382,12 +8617,12 @@
         },
         {
           "start": 33,
-          "end": 45,
-          "title": "Download the separate tutorial release and upload only the assembled site"
+          "end": 37,
+          "title": "Assemble bundled public media and upload only the website"
         },
         {
-          "start": 46,
-          "end": 58,
+          "start": 38,
+          "end": 50,
           "title": "Grant publication permissions only to the dependent deploy job"
         }
       ],
@@ -8396,24 +8631,29 @@
     },
     {
       "path": "tools/Site/build.mjs",
-      "sourceSha256": "62a2d3f8c398ffde0f40be2108294dd18ccfb7b834fd54fb4eb78db3c9af4b63",
-      "lines": 30,
-      "nonblankLines": 28,
+      "sourceSha256": "90210475aa0b850201289dec85ae6af2e3563e6a097144c2844f5c11fc351f2d",
+      "lines": 52,
+      "nonblankLines": 47,
       "blocks": [
         {
           "start": 1,
           "end": 10,
-          "title": "Resolve fixed repository-relative assembly inputs"
+          "title": "Resolve the repository and expose strict publication-size budgets"
         },
         {
           "start": 11,
-          "end": 18,
-          "title": "Reject wrong media before deleting a previous preview"
+          "end": 27,
+          "title": "Walk the source tree without following symlinks or oversized files"
         },
         {
-          "start": 19,
-          "end": 30,
-          "title": "Check symlinks and replace only the generated website directory"
+          "start": 28,
+          "end": 40,
+          "title": "Validate the bundled media identity before output mutation"
+        },
+        {
+          "start": 41,
+          "end": 52,
+          "title": "Replace the generated tree only after checks, with an argument-free CLI"
         }
       ],
       "chapter": "docs/WEBSITE.md",
@@ -8421,23 +8661,23 @@
     },
     {
       "path": "tools/Site/import-tutorial.mjs",
-      "sourceSha256": "de72eb5eb14f612a2e75e85eb9fff3fa9f512cfd5210b88cb64eca70da901843",
-      "lines": 32,
-      "nonblankLines": 31,
+      "sourceSha256": "0d2533264b5692ccbd9a6d5388f3901ba176b33262c07f8f14d811199e7f0d84",
+      "lines": 33,
+      "nonblankLines": 32,
       "blocks": [
         {
           "start": 1,
-          "end": 14,
-          "title": "Read the completed tutorial and compare its recorded video identity"
+          "end": 15,
+          "title": "Match caption provenance to the original of the bundled web video"
         },
         {
-          "start": 15,
-          "end": 24,
+          "start": 16,
+          "end": 25,
           "title": "Project the enhanced-player module and copy five public downloads"
         },
         {
-          "start": 25,
-          "end": 32,
+          "start": 26,
+          "end": 33,
           "title": "Publish selected media provenance instead of delivery inventory"
         }
       ],
@@ -8491,9 +8731,9 @@
     },
     {
       "path": "tools/Site/make-demo-media.py",
-      "sourceSha256": "2416df61177f1e605cf6a356475d5c0ef6de11a562d9449c90d879f8443658d3",
-      "lines": 336,
-      "nonblankLines": 308,
+      "sourceSha256": "2dbfebf4013d81fee0a83e570b68d953e619d404912f14befe158cf53b2be198",
+      "lines": 477,
+      "nonblankLines": 449,
       "blocks": [
         {
           "start": 1,
@@ -8502,92 +8742,182 @@
         },
         {
           "start": 26,
-          "end": 67,
-          "title": "Author exact action/result excerpts with explicit montage disclosures"
+          "end": 74,
+          "title": "Retain the original selection, context and cover edit maps"
         },
         {
-          "start": 68,
-          "end": 90,
+          "start": 75,
+          "end": 106,
+          "title": "Add input selection and deliberate Start/Stop excerpts without live-capture claims"
+        },
+        {
+          "start": 107,
+          "end": 137,
+          "title": "Specify readable size-control and keyboard actions with omitted-context limits"
+        },
+        {
+          "start": 138,
+          "end": 159,
+          "title": "Record three theme changes and mark the original demo set immutable"
+        },
+        {
+          "start": 160,
+          "end": 181,
           "title": "Read system fonts, stream source hashes and seek representative frames"
         },
         {
-          "start": 91,
-          "end": 112,
+          "start": 182,
+          "end": 203,
           "title": "Build source contact sheets for editorial inspection"
         },
         {
-          "start": 113,
-          "end": 146,
+          "start": 204,
+          "end": 237,
           "title": "Verify retained source frames and aspect-contain their crop"
         },
         {
-          "start": 147,
-          "end": 180,
+          "start": 238,
+          "end": 271,
           "title": "Encode silent H.264 and a lower-frame-rate GIF without speeding time"
         },
         {
-          "start": 181,
-          "end": 210,
+          "start": 272,
+          "end": 302,
           "title": "Inspect decoded derivatives rather than only the unencoded composition"
         },
         {
-          "start": 211,
-          "end": 245,
+          "start": 303,
+          "end": 340,
           "title": "Record exact delivered asset identities and inspect media properties"
         },
         {
-          "start": 246,
-          "end": 277,
-          "title": "Map retained source spans onto output time and disclose scripted origin"
+          "start": 341,
+          "end": 374,
+          "title": "Map source time and bind new visual-review notes to exact derivative hashes"
         },
         {
-          "start": 278,
-          "end": 307,
-          "title": "Describe artwork, review limits and regeneration before sealing provenance"
+          "start": 375,
+          "end": 411,
+          "title": "Disclose scripted origin, original artwork and bounded review evidence"
         },
         {
-          "start": 308,
-          "end": 336,
-          "title": "Require explicit generation steps and a separate review assertion"
+          "start": 412,
+          "end": 429,
+          "title": "Preserve artwork evidence and require hash-bound web-video review"
+        },
+        {
+          "start": 430,
+          "end": 454,
+          "title": "Parse targeted operations and guard the three previously delivered demos"
+        },
+        {
+          "start": 455,
+          "end": 477,
+          "title": "Skip complete derivatives unless replacement is explicit and recheck protected files"
         }
       ],
       "chapter": "docs/WEBSITE.md",
       "anchor": "file-tools-site-make-demo-media-py-ad47efb9"
     },
     {
-      "path": "tools/Site/review-browser.mjs",
-      "sourceSha256": "ca3ce2464aee1dd3e7ae63f5ea48b6ef23958a86579e49051a728336e347c927",
-      "lines": 150,
-      "nonblankLines": 145,
+      "path": "tools/Site/prepare-web-video.py",
+      "sourceSha256": "287769d555dff5fef9e0f793bd8efab132601ca799e2871f5f60ee24b042d6e3",
+      "lines": 248,
+      "nonblankLines": 218,
       "blocks": [
         {
           "start": 1,
-          "end": 34,
-          "title": "Create an isolated browser and collect observable page failures"
+          "end": 30,
+          "title": "Separate the immutable original, public web copy and local review workspace"
         },
         {
-          "start": 35,
-          "end": 67,
-          "title": "Verify initial stillness, coordinated motion pause and media transport"
+          "start": 31,
+          "end": 58,
+          "title": "Hash in bounded chunks and define full-frame H.264 recompression"
         },
         {
-          "start": 68,
-          "end": 97,
-          "title": "Seek every chapter and exercise literal transcript navigation"
+          "start": 59,
+          "end": 88,
+          "title": "Compare decoded samples without presenting a size estimate as a guarantee"
         },
         {
-          "start": 98,
-          "end": 125,
-          "title": "Check full-size demo tabs and finite responsive layouts"
+          "start": 89,
+          "end": 110,
+          "title": "Separate AAC payload, timestamps and the final duration field"
         },
         {
-          "start": 126,
+          "start": 111,
           "end": 141,
-          "title": "Verify reduced-motion defaults and the native-video fallback"
+          "title": "Measure decoded audio and container-level preservation fields"
         },
         {
           "start": 142,
-          "end": 150,
+          "end": 171,
+          "title": "Inspect MP4 atom order and save decoded review frames"
+        },
+        {
+          "start": 172,
+          "end": 197,
+          "title": "Gate media preservation while narrowly allowing final AAC metadata normalization"
+        },
+        {
+          "start": 198,
+          "end": 223,
+          "title": "Write portable measured provenance with visual review explicitly pending"
+        },
+        {
+          "start": 224,
+          "end": 248,
+          "title": "Choose explicit steps and verify the original before and after processing"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-tools-site-prepare-web-video-py-2220152f"
+    },
+    {
+      "path": "tools/Site/review-browser.mjs",
+      "sourceSha256": "8f6240961477721ebde6f1ef83eb03169214d3b7e4acc1844b00941bc669bd60",
+      "lines": 202,
+      "nonblankLines": 197,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 35,
+          "title": "Create an isolated browser and collect observable page failures"
+        },
+        {
+          "start": 36,
+          "end": 70,
+          "title": "Verify initial stillness, coordinated motion pause and media transport"
+        },
+        {
+          "start": 71,
+          "end": 103,
+          "title": "Seek every chapter and exercise literal transcript navigation"
+        },
+        {
+          "start": 104,
+          "end": 148,
+          "title": "Exercise every demo, keyboard wrapping and explicit chapter jumps"
+        },
+        {
+          "start": 149,
+          "end": 162,
+          "title": "Check finite responsive widths without nested navigation scrolling"
+        },
+        {
+          "start": 163,
+          "end": 177,
+          "title": "Verify reduced-motion defaults and the native-video fallback"
+        },
+        {
+          "start": 178,
+          "end": 193,
+          "title": "Fail the video request deliberately while retaining transcript controls"
+        },
+        {
+          "start": 194,
+          "end": 202,
           "title": "Write a pass receipt only after error checks and always clean up ownership"
         }
       ],
@@ -8621,34 +8951,54 @@
     },
     {
       "path": "tools/Site/test-site.mjs",
-      "sourceSha256": "2702099c132599c92006e71b52c6c8b6ebe5bd704c244e08ac09ac66eac6ef9e",
-      "lines": 72,
-      "nonblankLines": 71,
+      "sourceSha256": "c825fadef1017135b8226c9e5362ebe7fa8b9dcbc2ba438ea0a1b47385daf6e2",
+      "lines": 159,
+      "nonblankLines": 155,
       "blocks": [
         {
           "start": 1,
-          "end": 18,
+          "end": 21,
           "title": "Import pure player helpers and test formatting and seek bounds"
         },
         {
-          "start": 19,
-          "end": 38,
+          "start": 22,
+          "end": 41,
           "title": "Validate every chapter boundary and caption interval"
         },
         {
-          "start": 39,
-          "end": 47,
+          "start": 42,
+          "end": 50,
           "title": "Keep search literal and pagination lossless"
         },
         {
-          "start": 48,
-          "end": 57,
+          "start": 51,
+          "end": 63,
           "title": "Check required HTML controls and honest fallback wording"
         },
         {
-          "start": 58,
-          "end": 72,
-          "title": "Reject common private-path leaks and the full video in site inputs"
+          "start": 64,
+          "end": 79,
+          "title": "Reject common private-path leaks and files too large for regular Git"
+        },
+        {
+          "start": 80,
+          "end": 97,
+          "title": "Require eight complete demo triplets, README links and valid chapter targets"
+        },
+        {
+          "start": 98,
+          "end": 112,
+          "title": "Bind the Pages recipe and public manifest to bundled web media"
+        },
+        {
+          "start": 113,
+          "end": 130,
+          "title": "Assemble a tiny independent fixture without copying its private sibling"
+        },
+        {
+          "start": 131,
+          "end": 159,
+          "title": "Reject missing, corrupt, traversing and oversized media without replacing output"
         }
       ],
       "chapter": "docs/WEBSITE.md",
@@ -8807,6 +9157,62 @@
       "bytes": 2204,
       "lines": 51,
       "canonical": "services/transcription/tests/Test-DualSyntheticTranscription.ps1"
+    },
+    {
+      "path": "site/assets/asset-provenance.json",
+      "kind": "generated",
+      "sha256": "e52b3cd3f29f7e68e7aaf6ee9ae49b651073bc2fe6bd227b8db4b0bc36139197",
+      "bytes": 49971,
+      "lines": 1314
+    },
+    {
+      "path": "site/assets/captions.srt",
+      "kind": "generated",
+      "sha256": "e0ac5d54f842f53ab1212726ceaa1d0b27f3a05a90acc77b0bddbc41050dfc9e",
+      "bytes": 50123,
+      "lines": 2105
+    },
+    {
+      "path": "site/assets/captions.vtt",
+      "kind": "generated",
+      "sha256": "4898e99ad318d314c42d53fa85c1d3edc9049d940a77062b1d7a1813c204bb97",
+      "bytes": 50200,
+      "lines": 2109
+    },
+    {
+      "path": "site/assets/chapters.json",
+      "kind": "generated",
+      "sha256": "c30bd617a40e6e2e1783c723fbc14be30e51818b5316e7f1964de5f3fe7e0f45",
+      "bytes": 3187,
+      "lines": 127
+    },
+    {
+      "path": "site/assets/chapters.txt",
+      "kind": "generated",
+      "sha256": "ce9e5f027b3b69ec39a73d0ade6cf8a2af7717df54afffae9f48a8fec4b167c0",
+      "bytes": 640,
+      "lines": 15
+    },
+    {
+      "path": "site/assets/media-manifest.json",
+      "kind": "generated",
+      "sha256": "f2c2ac22a11654581d0929227f5167ea1c1d483bb0e5eb862b239e0c954bc200",
+      "bytes": 4365,
+      "lines": 127
+    },
+    {
+      "path": "site/assets/transcript.json",
+      "kind": "generated",
+      "sha256": "6add37cab5aa7777e32288840063fa9c795303eb68bf82b8de88546b6ba6b9d7",
+      "bytes": 97765,
+      "lines": 3156
+    },
+    {
+      "path": "site/assets/tutorial-data.mjs",
+      "kind": "generated",
+      "sha256": "ca56cae64a40b47eef953749d31aa281cee11f1cfbce55be4f9d80e7011fe6c0",
+      "bytes": 61240,
+      "lines": 2
     },
     {
       "path": "spikes/CaptureProof/packages.lock.json",

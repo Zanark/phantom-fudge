@@ -37,6 +37,8 @@ try {
   await page.waitForSelector('.chapter');
   await page.waitForFunction(() => [...document.querySelectorAll('.hero img')].every(image => image.complete && image.naturalWidth > 0));
   assert.equal(await page.$eval('#video', video => video.paused), true);
+  const visibleWords = await page.$eval('body', body => body.innerText.trim().split(/\s+/).length);
+  assert.ok(visibleWords <= 350, `Default page has too much visible copy: ${visibleWords} words`);
   await page.screenshot({ path: path.join(output, 'desktop.png') });
   await page.click('#motion');
   assert.equal(await page.$eval('#motion', button => button.getAttribute('aria-pressed')), 'true');
@@ -77,6 +79,9 @@ try {
     }, {}, { index, start: chapter.start });
   }
   checks.push('All 15 chapter seeks and active highlights through paginated navigation');
+  assert.equal(await page.$eval('.transcript-panel details', details => details.open), false);
+  assert.equal(await page.$eval('.scope-panel details', details => details.open), false);
+  await page.click('#transcript-title');
   await page.type('#search', 'previous answer');
   assert.ok(await page.$$eval('.cue', cues => cues.length > 0 && cues.every(cue => cue.textContent.toLowerCase().includes('previous answer'))));
   const cue = await page.$eval('.cue', button => ({ time: Number(button.dataset.start), text: button.lastChild.textContent }));
@@ -97,6 +102,7 @@ try {
   checks.push('Search, empty state, pagination, transcript seek and visible extra captions');
 
   await page.click('#captions');
+  await page.click('#transcript-title');
   await page.$eval('#tutorial', node => node.scrollIntoView({ behavior: 'instant' }));
   await page.screenshot({ path: path.join(output, 'player.png') });
   await page.$eval('#showcase', node => node.scrollIntoView({ behavior: 'instant' }));
@@ -143,7 +149,7 @@ try {
   for (const width of [1440, 1024, 768, 390, 320]) {
     await page.setViewport({ width, height: 960, deviceScaleFactor: 1 });
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Overflow at ${width}`);
-    assert.ok(await page.$$eval('.chapters,.transcript', nodes => nodes.every(node => node.scrollHeight <= node.clientHeight + 1)), `Nested scroll at ${width}`);
+    assert.ok(await page.$$eval('.chapters,.transcript', nodes => nodes.filter(node => node.checkVisibility()).every(node => node.scrollHeight <= node.clientHeight + 1)), `Nested scroll at ${width}`);
   }
   await page.setViewport({ width: 390, height: 1000, deviceScaleFactor: 1 });
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
@@ -188,7 +194,7 @@ try {
   assert.deepEqual(errors, []);
   assert.deepEqual(failed, []);
   assert.deepEqual(external, []);
-  await writeFile(path.join(output, 'browser.json'), JSON.stringify({ url, checks, errors, failed, external, metadata, muted: true }, null, 2));
+  await writeFile(path.join(output, 'browser.json'), JSON.stringify({ url, checks, errors, failed, external, metadata, visibleWords, muted: true }, null, 2));
   console.log(JSON.stringify({ checks, errors, failed, external }, null, 2));
 } finally {
   if (browser) await browser.close();

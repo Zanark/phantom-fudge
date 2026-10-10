@@ -1,12 +1,270 @@
 {
   "schemaVersion": 1,
   "id": "website",
-  "title": "Static website, immutable tutorial media and pending Pages publication",
+  "title": "Authored website, self-contained tutorial media and pending Pages publication",
   "chapter": "docs/WEBSITE.md",
   "files": [
     {
+      "path": "site/index.html",
+      "sourceSha256": "2c61239c8e20dc882558954034d84da368e09d2ee181aa4de61ebfe703ebca13",
+      "role": "Defines the low-copy DeepSeaFoam landing page, eight sample-demo panels, native tutorial player and progressive-enhancement hooks without removing decorative artwork.",
+      "entryPoints": ["GET /phantom-fudge/", "app.mjs element IDs and data attributes", "Native video and disclosure controls"],
+      "blocks": [
+        {
+          "start": 1, "end": 21,
+          "title": "Declare local resources and social identity without proving publication",
+          "explanation": "The document sets English, responsive viewport, DeepSeaFoam browser color and descriptive social metadata. Its meta CSP permits same-origin scripts/styles/media, same-origin or data images, and no connect/font/object/base/form sources. The icon, stylesheet and module use relative URLs for the project-site prefix. Canonical/OpenGraph URLs name the intended public location; their presence is not evidence that Pages is live or that external previews have fetched the image.",
+          "focus": [{"start": 4, "end": 8}, {"start": 16, "end": 20}]
+        },
+        {
+          "start": 22, "end": 37,
+          "title": "Keep navigation accessible while marking wandering ghosts decorative",
+          "explanation": "A skip link targets the main landmark. Two ghost images and mist layers sit inside an aria-hidden decorative container with empty alt text. The header exposes home, showcase, tutorial and repository links. The motion button starts hidden because only the module can synchronize its state with CSS and GIF sources. The initial body has no motion-enabled class, matching the stylesheet's paused default rather than requiring scripts for basic navigation.",
+          "focus": [{"start": 24, "end": 35}]
+        },
+        {
+          "start": 38, "end": 57,
+          "title": "Shorten the hero copy without stripping the visual composition",
+          "explanation": "The hero keeps a brief product promise, explicit preview and full-tour links, and visible Windows/unsigned/capture-limit wording. Its companion art retains orbits, sparks, glow, the original ghost and floating notebook; aria-hidden keeps decorative labels out of the accessible content. The preview link targets the older versioned installer, not a newly packaged build. This is reduced visible copy, not a redesign that removes the DeepSeaFoam atmosphere.",
+          "focus": [{"start": 40, "end": 47}, {"start": 49, "end": 55}]
+        },
+        {
+          "start": 58, "end": 70,
+          "title": "Register eight stable demo tabs for client-side enhancement",
+          "explanation": "The showcase heading introduces eight demos. A hidden tablist declares the fixed selection/context/cover/inputs/transcription/answer-size/keyboard/themes IDs, matching aria-controls panel IDs. Only the first tab initially has aria-selected:true; the others start outside sequential tab order. The module reveals the tablist and hides inactive panels, so the unenhanced document does not strand all but one demo behind nonfunctional tabs.",
+          "focus": [{"start": 60, "end": 68}]
+        },
+        {
+          "start": 71, "end": 88,
+          "title": "Keep the original three demonstrations and their chapter targets",
+          "explanation": "Selection, optional previous-answer context and cover each pair a JPEG default with data-motion GIF and data-still JPEG attributes at1000x720. Lazy images have action-specific scripted-sample alt text. Their links target questions, followups and cover through data-jump while ordinary href still reaches the tutorial. Concise captions preserve explicit Ask, one-snapshot context and cover-does-not-stop-audio boundaries; these examples are not live model or meeting evidence.",
+          "focus": [{"start": 71, "end": 81}]
+        },
+        {
+          "start": 89, "end": 106,
+          "title": "Add input, transcription and answer-size actions without automatic-capture claims",
+          "explanation": "The inputs panel links to audio and labels switching Mic to Both; its caption separates selection from starting capture. The transcription panel links to transcription and identifies Start followed by a later Stop rather than a continuous latency test. The answer-size panel links to answers, labels10-to17 text resizing and calls the setting session-only. All three retain the same still/GIF contract and1000x720 geometry for client motion controls.",
+          "focus": [{"start": 89, "end": 99}]
+        },
+        {
+          "start": 107, "end": 121,
+          "title": "Connect keyboard and theme examples while disclosing edited timing",
+          "explanation": "Keyboard and themes complete the fixed eight-panel set and link to keyboard and workspace chapters. Their alt text names V then later Space, and Harbor Daylight/Plain B/W/DeepSeaFoam, rather than inventing physical input footage. A shared visible note states edited sample data at1x, not live meetings or response-time measurements, with provenance access. Short captions reduce copy without removing the timing and sample-data qualification.",
+          "focus": [{"start": 107, "end": 117}]
+        },
+        {
+          "start": 122, "end": 147,
+          "title": "Provide a native full-video fallback before enhanced controls",
+          "explanation": "The tutorial advertises38minutes,15chapters and194lessons. Its local MP4 uses native controls, metadata preload, inline playback and a poster, with fallback/download text instead of autoplay. The hidden custom toolbar supplies playback, ten-second jumps, grouped speed label/select and extra-caption toggle; the module reveals it. A status region can report failures. The caption layer is aria-hidden, and MP4/SRT/VTT/chapter-list/thumbnail downloads remain plain links without scripts.",
+          "focus": [{"start": 129, "end": 134}, {"start": 135, "end": 146}]
+        },
+        {
+          "start": 148, "end": 156,
+          "title": "Reserve paginated chapter navigation and distinguish the older installer",
+          "explanation": "The empty chapter nav and hidden pager are module targets, with labelled previous/next-five controls and a polite range output. A noscript paragraph directs readers to the timestamped chapter list. The scripted-sample footnote remains visible. The separate notice states that the tutorial represents current source and Previous-answer context is absent from the published preview installer; the installer link does not imply this source revision has been repackaged.",
+          "focus": [{"start": 148, "end": 156}]
+        },
+        {
+          "start": 157, "end": 179,
+          "title": "Hide optional detail by default rather than deleting transcript or caveats",
+          "explanation": "Neither details element has open, so Search the transcript and About this demo initially show only summaries. Search begins disabled until the module supplies literal matching and six-result paging; a JSON transcript remains the noscript alternative. The second disclosure preserves actual-WPF/scripted-input limits, illustrated rather than physical clicks, instructional installer/provider steps, synthetic Zira narration and provenance. Collapsing copy does not turn these examples into compatibility or real-operation evidence.",
+          "focus": [{"start": 158, "end": 167}, {"start": 168, "end": 175}]
+        },
+        {
+          "start": 180, "end": 187,
+          "title": "Leave the privacy boundary visible and credit the visual theme",
+          "explanation": "Outside the closed disclosures, the essentials aside visibly states that capture exclusion is not universal invisibility, sharing setups need testing and cover leaves audio/answers running. Dedicated repository guides provide detail without duplicate long page sections. The footer links the original DeepSeaFoam theme and local credit notice. These are public navigation links, not a hosted native app, a collection form or proof of qualified capture behavior.",
+          "focus": [{"start": 180, "end": 185}]
+        }
+      ]
+    },
+    {
+      "path": "site/styles.css",
+      "sourceSha256": "49597736b100afddf0d1201299ad7fce02c53641de545de308a81493c29193b4",
+      "role": "Preserves DeepSeaFoam colors, ghosts and decorative motion while styling concise content, progressive controls and responsive layouts.",
+      "entryPoints": ["index.html stylesheet link", "motion-enabled and motion-paused body classes", "Viewport and reduced-motion media queries"],
+      "blocks": [
+        {
+          "start": 1, "end": 35,
+          "title": "Establish the dark palette and readable shared control foundations",
+          "explanation": "Named base/panel/accent/text/border tokens provide the DeepSeaFoam palette. Universal border-box sizing, system fonts, heading scales and shell spacing define the page baseline without downloaded fonts. A faint radial background is decorative and noninteractive. Controls retain visible focus, hover and disabled states; hidden forcibly removes enhanced elements. The skip link moves onscreen on focus. These styling choices do not themselves verify contrast or assistive-technology compatibility.",
+          "focus": [{"start": 1, "end": 9}, {"start": 15, "end": 21}]
+        },
+        {
+          "start": 36, "end": 65,
+          "title": "Retain the header, ghost and notebook composition around a short hero",
+          "explanation": "Header navigation and the motion toggle use flex layout; the hero uses a two-column text/art grid. Primary links, short description and fine print have separate visual roles. The art layers a levitating ghost over glow, two angled orbits, sparks and a drifting note, with relative positioning and isolation. Reducing visible copy has not removed these effects; motion state is controlled separately at the end of the stylesheet and in app.mjs.",
+          "focus": [{"start": 55, "end": 65}]
+        },
+        {
+          "start": 66, "end": 81,
+          "title": "Make eight demos selectable without shrinking their action footage",
+          "explanation": "The tab grid starts at four equal-width columns and highlights aria-selected:true rather than styling arbitrary click state. Each card pairs a large image with a concise copy column; its1000:720 object-contained image preserves the delivered frame without a cover crop. Number, heading, caption and shared disclosure have distinct sizes. Hidden-panel behavior comes from the shared hidden rule and script, not CSS that permanently omits noninitial demos.",
+          "focus": [{"start": 68, "end": 79}]
+        },
+        {
+          "start": 82, "end": 113,
+          "title": "Lay out the full player and bounded chapter navigation",
+          "explanation": "The tutorial uses a bordered gradient section and a flexible player beside a320px chapter panel. Video keeps16:9 geometry; extra captions overlay above native controls without accepting pointer input. Custom controls wrap, while the speed label/select stay grouped. Chapter buttons expose active aria-current styling and separate time/number labels; finite paging avoids a fixed scroll container. Error status and downloadable resources remain distinct from decorative layout.",
+          "focus": [{"start": 85, "end": 96}, {"start": 105, "end": 113}]
+        },
+        {
+          "start": 114, "end": 130,
+          "title": "Format source-version warnings, optional details and persistent privacy links",
+          "explanation": "The version notice has a restrained accent border. The transcript and scope panels share a two-column details layout with visible summaries, a full-width search input and row-style cue buttons. Minimum transcript height stabilizes open search results but does not create nested scrolling. Essentials and resource links stay compact, and the footer separates brand/credits. Whether details start open is an HTML decision, not a CSS substitute for omitted caveats.",
+          "focus": [{"start": 117, "end": 128}]
+        },
+        {
+          "start": 131, "end": 145,
+          "title": "Keep ghost effects decorative and make motion an explicit state",
+          "explanation": "A fixed pointer-events:none backdrop contains low-opacity wandering ghosts and drifting mist. Keyframes define ghost levitation, note drift and horizontal/diagonal movement. Without motion-enabled, animations pause globally; motion-paused also removes smooth scrolling. Reduced-motion disables animation/transition for that default state, while an explicit script-set motion-enabled class can resume it. GIF-to-JPEG replacement is handled by app.mjs because animation-play-state cannot pause GIF frames.",
+          "focus": [{"start": 138, "end": 145}]
+        },
+        {
+          "start": 146, "end": 160,
+          "title": "Adapt desktop and tablet geometry while retaining decorative art",
+          "explanation": "Very wide screens enlarge the hero. At1150px shell margins, hero art, chapter width and spacing tighten. At900px the header can wrap, ghost/note shrink, player and chapters stack, chapters become a two-column grid and the footer wraps. These rules preserve the hero/decorative layers rather than treating minimalist copy as their removal. Exact threshold behavior is defined here; finite browser fixtures do not establish every zoom or device.",
+          "focus": [{"start": 153, "end": 160}]
+        },
+        {
+          "start": 161, "end": 173,
+          "title": "Stack mobile content without dropping the ghost or eight-demo controls",
+          "explanation": "The650px breakpoint centers and stacks the hero but keeps a bounded ghost composition. Demo cards stack and the tab grid becomes two columns with smaller labels. Details, chapters and resources use narrow-friendly spacing; player controls still wrap while the time display flexes. Captions, cues and chapter text receive mobile sizing, and background ghosts become fainter rather than disappearing. The rules do not hide privacy guidance or truncate transcript data.",
+          "focus": [{"start": 162, "end": 172}]
+        }
+      ]
+    },
+    {
+      "path": "site/app.mjs",
+      "sourceSha256": "f5a02cf02bba9d976483ce23a8da87bf6b579fb21fa0882b0f32221e3776fb99",
+      "role": "Progressively enhances local tutorial data into paginated chapter/search controls, explicit playback, accessible demo tabs and unified artwork motion.",
+      "entryPoints": ["index.html module script", "Video events", "Search, pager, demo and motion controls"],
+      "blocks": [
+        {
+          "start": 1, "end": 28,
+          "title": "Keep local player state and defer seeks until media metadata exists",
+          "explanation": "The module imports generated tutorial data and pure helpers without fetching a service. State tracks pending seek, optional extra captions, chapter/transcript pages and the last active chapter; page sizes are five and six. status writes text and toggles visibility. seek clamps against the declared tutorial duration, sets currentTime when metadata exists, or saves one pending target and calls load. It never invokes play merely because a result or chapter was chosen.",
+          "focus": [{"start": 20, "end": 27}]
+        },
+        {
+          "start": 29, "end": 61,
+          "title": "Build text-safe chapter buttons and reveal bounded navigation",
+          "explanation": "renderChapterPage hides buttons outside the current five-entry slice and updates disabled edges and the displayed range. Chapter buttons are created from imported IDs/times/titles using textContent and text nodes rather than HTML interpolation. Each click seeks its start. Previous/next handlers change the page, the initial page is rendered and only then is the pager exposed. The imported ordered chapter list is trusted; its structural guarantees are tested separately.",
+          "focus": [{"start": 38, "end": 49}, {"start": 50, "end": 60}]
+        },
+        {
+          "start": 62, "end": 99,
+          "title": "Render six literal search results at a time with an explicit empty state",
+          "explanation": "renderTranscript creates a document fragment from pageSlice(matches), using text nodes for time/cue content and seek-only click handlers. A zero-match message replaces results when needed. replaceChildren avoids accumulating stale rows; the range and pager bounds reflect the current match count. Input enables local case-insensitive literal filtering, resets to page zero, and rerenders. Previous/next affect only the result page; no network request, regex execution or automatic playback is introduced.",
+          "focus": [{"start": 78, "end": 88}, {"start": 89, "end": 98}]
+        },
+        {
+          "start": 100, "end": 124,
+          "title": "Report playback failures and synchronize active chapters and optional captions",
+          "explanation": "togglePlayback pauses an active video or awaits play; rejection writes an actionable message rather than assuming playback permission. update formats current/total time and Play/Pause text, marks exactly the active chapter, and automatically exposes its page only when the active index changes. Extra captions consult cue intervals only when enabled and otherwise clear/hide the layer. The original video's burned captions are not modified by this separate text overlay.",
+          "focus": [{"start": 110, "end": 121}]
+        },
+        {
+          "start": 125, "end": 149,
+          "title": "Wire native events and expose actionable errors without disabling search",
+          "explanation": "Metadata completion applies the latest pending seek, then standard playback/seek events refresh display state. Rate changes synchronize the select. Both video and source errors report a local-build/download fallback, including an already-failed initial state. Custom buttons call explicit play, relative seek, rate and caption actions; the latter updates aria-pressed. The toolbar is revealed after wiring. Media failure does not remove independently generated transcript/chapter controls or start a retry loop.",
+          "focus": [{"start": 126, "end": 137}, {"start": 138, "end": 148}]
+        },
+        {
+          "start": 150, "end": 156,
+          "title": "Translate demo links into full-tutorial chapter seeks",
+          "explanation": "Every data-jump link finds its exact imported chapter ID and passes the start to seek. The ordinary anchor still moves the page to the tutorial; no preventDefault or play call appears here. The implementation assumes the target exists, which is why integration tests check every authored data-jump against the actual chapter set. A valid link is not evidence that an MP4 request or seek has succeeded.",
+          "focus": [{"start": 150, "end": 155}]
+        },
+        {
+          "start": 157, "end": 181,
+          "title": "Enhance all demo panels with roving focus and wrapping keyboard selection",
+          "explanation": "showDemo sets selected state and a single tabindex:0, assigns tabpanel/label relationships, and hides only inactive panels. Click handlers select by index. Left/right wrap modulo the tab count; Home/End choose endpoints and move focus after preventing their default key action. The first demo is selected and the formerly hidden tablist is revealed. No fixed count is hardcoded here; the document and tests establish the eight-demo inventory.",
+          "focus": [{"start": 158, "end": 167}, {"start": 169, "end": 180}]
+        },
+        {
+          "start": 182, "end": 198,
+          "title": "Unify decorative animation and every GIF under the same motion preference",
+          "explanation": "The initial reduced-motion preference determines motionPaused. setMotion synchronizes body classes, action label, aria-pressed and each data-motion image's GIF/JPEG source. The button toggles that state; changes to the system media query replace it with the new preference. Initialization reveals the control, applies the selected state and updates playback text. Resuming motion is explicit and does not autoplay the tutorial, change native application settings or discard the original still assets.",
+          "focus": [{"start": 184, "end": 195}]
+        }
+      ]
+    },
+    {
+      "path": "site/player-core.mjs",
+      "sourceSha256": "043d50626931799324bf7d4a0a227172471772da0694d99c7d0fefce2179d109",
+      "role": "Provides DOM-independent time formatting, bounded seeking, interval lookup and literal-search pagination for the website and its tests.",
+      "entryPoints": ["formatTime", "clampSeek", "activeIndex", "searchCues", "pageSlice"],
+      "blocks": [
+        {
+          "start": 1, "end": 5,
+          "title": "Format finite elapsed time without negative or fractional displays",
+          "explanation": "formatTime substitutes zero for nonfinite values, floors seconds and clamps negatives. Below an hour it emits minutes and two-digit seconds; at an hour it adds hours and pads the minute field. The helper only formats a number, not a date or media metadata, and therefore does not infer actual clip duration.",
+          "focus": [{"start": 1, "end": 4}]
+        },
+        {
+          "start": 6, "end": 10,
+          "title": "Reject invalid seek domains and stay just inside the media end",
+          "explanation": "clampSeek rejects nonfinite time/duration and nonpositive duration, then bounds requested time between zero and duration minus50ms. The inner max keeps extremely short valid media from creating a negative upper bound. This returns a target only; HTMLMediaElement owns loading and actual seek success, and callers do not gain autoplay permission.",
+          "focus": [{"start": 6, "end": 9}]
+        },
+        {
+          "start": 11, "end": 24,
+          "title": "Find an active ordered interval with a small browser-rounding tolerance",
+          "explanation": "activeIndex adds100microseconds to the measured time, addressing seeks that report just before an authored chapter boundary. Binary search narrows an ordered interval list by comparing start and exclusive end, returning the index or minus one for a gap/outside time. It assumes sorted nonoverlapping entries rather than validating them; Node fixtures cover the actual chapter boundaries and caption intervals.",
+          "focus": [{"start": 12, "end": 22}]
+        },
+        {
+          "start": 25, "end": 32,
+          "title": "Use literal English-casefolded matching and ordinary array slices",
+          "explanation": "searchCues trims the query, folds it and each cue with the English locale, then uses includes. Regex-like input is ordinary text; an empty needle matches all cues while retaining order. pageSlice applies zero-based page and size arithmetic through Array.slice. It does not validate arbitrary paging arguments: app controls establish normal pages and disable boundary actions.",
+          "focus": [{"start": 25, "end": 32}]
+        }
+      ]
+    },
+    {
+      "path": "site/media.json",
+      "sourceSha256": "01d31083a080456bb22d59170a46ee79bd96ca8a40a71c86dd3bd9cda75eb891",
+      "role": "Separates the declared bundled web-video identity from its preserved production original; configuration is not a final visual-review or deployment receipt.",
+      "entryPoints": ["tools/Site/build.mjs buildSite", "tools/Site/import-tutorial.mjs", "tools/Site/review-browser.mjs"],
+      "blocks": [
+        {
+          "start": 1, "end": 11,
+          "title": "Declare the self-contained web copy that assembly must verify",
+          "explanation": "Repository/edition labels precede the simple bundled MP4 filename, declared SHA256/byte count and duration,1920x1080 format,30fps and68933frames. buildSite verifies the top-level filename, bytes and streamed hash; the browser fixture compares declared geometry. These values identify the web derivative, not the original159MB video. Reading this configuration does not establish final media review, successful deployment or measured playback on another host.",
+          "focus": [{"start": 2, "end": 11}]
+        },
+        {
+          "start": 12, "end": 17,
+          "title": "Disclose lossy video and the narrow copied-audio metadata adjustment",
+          "explanation": "The encoding record describes H.264/yuv420p CRF30 medium recompression without scaling/cuts and faststart. It separately states copied AAC payloads/timestamps and unchanged decoded PCM/frame timing, while disclosing the final packet's832-to800sample duration normalization. These are provenance declarations requiring matching preparation/review evidence; metadata wording alone does not decode media, inspect pixels or independently verify audio preservation.",
+          "focus": [{"start": 12, "end": 17}]
+        },
+        {
+          "start": 18, "end": 27,
+          "title": "Retain original provenance without making the original a checkout prerequisite",
+          "explanation": "The nested original object records the production filename, known SHA256,159267662bytes and source duration/geometry/rate. The importer matches the completed tutorial manifest against this nested hash and checks web timeline agreement; it must not compare original captions against the lossy web hash. The normal website assembler consumes only the bundled top-level file, so retaining original provenance does not require downloading a separate media release.",
+          "focus": [{"start": 18, "end": 26}]
+        }
+      ]
+    },
+    {
+      "path": "site/404.html",
+      "sourceSha256": "d168f35a25f3cc0c840390a86ec8319f1d31bbc24db135d50167712d0a202a5e",
+      "role": "Provides a static project-site missing-page fallback with the shared palette and a direct home link, without scripts or automatic redirects.",
+      "entryPoints": ["GitHub Pages missing-page response"],
+      "blocks": [
+        {
+          "start": 1, "end": 2,
+          "title": "Use a fixed project prefix so deep missing paths can return home",
+          "explanation": "The compact English document declares UTF-8 and viewport, links the shared stylesheet through absolute /phantom-fudge/styles.css and offers /phantom-fudge/ as a normal home anchor. Fixed project-prefixed paths avoid resolving assets relative to an arbitrary missing subpath. There is no script, automatic redirect or tutorial player. This file supplies response content; the hosting service, not this HTML, determines the HTTP404status and fallback routing.",
+          "focus": [{"start": 1, "end": 2}]
+        }
+      ]
+    },
+    {
       "path": ".github/workflows/pages.yml",
-      "sourceSha256": "039bd86255d00873674ee030f6c50a58d5d7a1df72905d4f422869aa32edc9e3",
+      "sourceSha256": "d8e49000cbbd0af0c7cf19fac60a579c652ef421ef63137373b24911c832cd60",
       "role": "Defines the future site-only GitHub Pages build and deployment, separate from native installer publication.",
       "entryPoints": ["Scoped pushes to main", "workflow_dispatch"],
       "blocks": [
@@ -19,72 +277,78 @@
         {
           "start": 19, "end": 32,
           "title": "Pin the Actions and test the checked-out static player",
-          "explanation": "The build explicitly requests contents:read and pages:read, allowing checkout and configure-pages to read repository/Pages configuration without publication writes. checkout, setup-node and configure-pages are pinned to full commit identities. Node22 runs the static-player tests before media acquisition. ubuntu-latest is not an immutable runner image. These Node tests do not run the Windows browser fixture, native application, artwork renderer or media encoder.",
+          "explanation": "The build explicitly requests contents:read and pages:read, allowing checkout and configure-pages to read repository/Pages configuration without publication writes. checkout, setup-node and configure-pages are pinned to full commit identities. Node22 runs the static-player and bundled-input tests before assembly. ubuntu-latest is not an immutable runner image. These Node tests do not run the Windows browser fixture, native application, artwork renderer or media encoder.",
           "focus": [{"start": 22, "end": 32}]
         },
         {
-          "start": 33, "end": 45,
-          "title": "Download the separate tutorial release and upload only the assembled site",
-          "explanation": "GH_TOKEN and GH_REPO are set for the download step from the current workflow context. Node reads release and filename from site/media.json; gh downloads only the matching asset into runner scratch space. The next step passes the expected tutorial filename to build.mjs, whose size/hash gate runs before site assembly. The pinned upload action receives artifacts/site, not a repository-wide archive. A missing tutorial release fails this prerequisite; this workflow never creates it.",
-          "focus": [{"start": 37, "end": 45}]
+          "start": 33, "end": 37,
+          "title": "Assemble bundled public media and upload only the website",
+          "explanation": "The argument-free assembler reads the checked-out site tree, including its bundled MP4 and identity manifest. Its size/hash gates run before output replacement. The pinned upload action receives artifacts/site, not a repository-wide archive. There is no release download, custom media secret, LFS checkout or media encoding step: the reviewed, Git-sized web video must already be present in the published source tree.",
+          "focus": [{"start": 33, "end": 37}]
         },
         {
-          "start": 46, "end": 58,
+          "start": 38, "end": 50,
           "title": "Grant publication permissions only to the dependent deploy job",
-          "explanation": "needs:build prevents this job from deploying after a failed build. Its token receives pages:write and id-token:write, and the github-pages environment records the deployment URL returned by the named deployment step. The final action is also commit-pinned. Environment configuration, authorized source publication and the separate media release remain prerequisites; a URL expression in YAML is not evidence that a live website exists.",
-          "focus": [{"start": 47, "end": 58}]
+          "explanation": "needs:build prevents this job from deploying after a failed build. Its token receives pages:write and id-token:write, and the github-pages environment records the deployment URL returned by the named deployment step. The final action is also commit-pinned. Environment configuration and authorized publication of the complete source tree remain prerequisites; a URL expression in YAML is not evidence that a live website exists.",
+          "focus": [{"start": 39, "end": 50}]
         }
       ]
     },
     {
       "path": "tools/Site/build.mjs",
-      "sourceSha256": "62a2d3f8c398ffde0f40be2108294dd18ccfb7b834fd54fb4eb78db3c9af4b63",
-      "role": "Assembles a public static output only after the supplied full tutorial matches its configured immutable identity.",
-      "entryPoints": ["node tools/Site/build.mjs --video <MP4>", ".github/workflows/pages.yml build job"],
+      "sourceSha256": "90210475aa0b850201289dec85ae6af2e3563e6a097144c2844f5c11fc351f2d",
+      "role": "Assembles the self-contained public site only after all source sizes and the bundled full tutorial match their required limits and identity.",
+      "entryPoints": ["buildSite(source, output)", "node tools/Site/build.mjs", ".github/workflows/pages.yml build job"],
       "blocks": [
         {
           "start": 1, "end": 10,
-          "title": "Resolve fixed repository-relative assembly inputs",
-          "explanation": "Node built-ins provide streaming file reads, copying and hashing without a site package installation. The repository root comes from this module's location, so running from another working directory does not change the site source or output root. site/media.json supplies the required video identity; the generated destination is always artifacts/site. No native application, installer or documentation output is selected here.",
-          "focus": [{"start": 7, "end": 10}]
+          "title": "Resolve the repository and expose strict publication-size budgets",
+          "explanation": "Node built-ins provide streaming reads, copying and hashing without a site package installation. The repository root comes from this module's location rather than the caller's working directory. Exported limits require each file to be strictly below100MiB and the complete site to be strictly below one decimal gigabyte. Tests reuse the per-file constant. These are assembly budgets, not claims that an actual Pages deployment was accepted.",
+          "focus": [{"start": 7, "end": 9}]
         },
         {
-          "start": 11, "end": 18,
-          "title": "Reject wrong media before deleting a previous preview",
-          "explanation": "The command requires exactly --video and one path. The path resolves against the caller's working directory. stat checks its byte length first, then createReadStream feeds the complete file into SHA256 without loading the entire159MB video into memory. A mismatch throws before output removal. The check establishes equality with the configured bytes, not rights, perceptual quality or the truth of narration.",
-          "focus": [{"start": 11, "end": 17}]
+          "start": 11, "end": 27,
+          "title": "Walk the source tree without following symlinks or oversized files",
+          "explanation": "checkTree rejects a symlink at the supplied root and at each entry. Directories are traversed recursively; every other accepted entry must be an ordinary file. lstat supplies each byte count, which must be below the exported limit, and the recursive sum becomes the overall site budget input. The walk validates file kinds and sizes, not private text, asset rights or visual quality.",
+          "focus": [{"start": 14, "end": 23}]
         },
         {
-          "start": 19, "end": 30,
-          "title": "Check symlinks and replace only the generated website directory",
-          "explanation": "checkTree recursively rejects symbolic-link entries under site. After that walk succeeds, rm removes the fixed output tree, cp copies the complete site directory, and a media subdirectory receives the verified MP4 under the configured filename. The completion log reports its identity. The copy scope excludes unrelated repository directories, but it is not a content sanitizer: every ordinary file placed in site is a publication input and needs review.",
-          "focus": [{"start": 25, "end": 30}]
+          "start": 28, "end": 40,
+          "title": "Validate the bundled media identity before output mutation",
+          "explanation": "buildSite first enforces the total-size ceiling, then parses media.json. A filename must be one simple MP4 basename; bytes must be a positive safe integer below the file limit; the SHA256 must be64lowercase hexadecimal characters. lstat verifies site/media/<file> length and createReadStream hashes the full payload. Missing, malformed, wrong-size or changed media throws before output deletion. Equality to a manifest does not prove that the chosen manifest or content is trustworthy.",
+          "focus": [{"start": 29, "end": 39}]
+        },
+        {
+          "start": 41, "end": 52,
+          "title": "Replace the generated tree only after checks, with an argument-free CLI",
+          "explanation": "After all input checks, rm removes the requested output and cp copies the complete source tree; this is not an atomic rollback if copying itself fails. The reusable function returns identity and total bytes. Direct execution accepts no extra arguments and fixes source/output to site and artifacts/site under the repository. Importing the module for tests does not execute the CLI. Only files within the reviewed site tree are copied; build does not fetch, encode or publish media.",
+          "focus": [{"start": 41, "end": 51}]
         }
       ]
     },
     {
       "path": "tools/Site/import-tutorial.mjs",
-      "sourceSha256": "de72eb5eb14f612a2e75e85eb9fff3fa9f512cfd5210b88cb64eca70da901843",
+      "sourceSha256": "0d2533264b5692ccbd9a6d5388f3901ba176b33262c07f8f14d811199e7f0d84",
       "role": "Projects a completed tutorial into public player data and named caption/chapter downloads without copying its private inventory.",
       "entryPoints": ["node tools/Site/import-tutorial.mjs <completed tutorial directory>"],
       "blocks": [
         {
-          "start": 1, "end": 14,
-          "title": "Read the completed tutorial and compare its recorded video identity",
-          "explanation": "The module resolves repository output independently of the supplied input folder. It requires an input argument, then parses chapters, transcript, the original media manifest and the website's media identity. Comparing original.videoSha256 to media.sha256 rejects a different recorded tutorial. This importer does not read and hash the MP4 itself; build.mjs performs that full-byte verification during final site assembly.",
-          "focus": [{"start": 10, "end": 14}]
+          "start": 1, "end": 15,
+          "title": "Match caption provenance to the original of the bundled web video",
+          "explanation": "The module resolves repository output independently of the required input folder. It parses chapters, transcript, the original media manifest and site/media.json. The recorded source-video hash must equal media.original.sha256, not the lossy web copy's hash, and the chapter duration must differ from the web duration by no more than50ms. These are metadata comparisons; this importer does not hash or decode either MP4. The assembler independently hashes the bundled payload.",
+          "focus": [{"start": 10, "end": 15}]
         },
         {
-          "start": 15, "end": 24,
+          "start": 16, "end": 25,
           "title": "Project the enhanced-player module and copy five public downloads",
           "explanation": "The module keeps title/duration, chapter id/title/start/end and cue start/end/text, discarding unrelated object fields from tutorial-data.mjs. JSON.stringify writes the projected structure as an ES-module export. The five explicitly named SRT, VTT, chapter and transcript files are copied intact rather than field-sanitized. Their source content must already be public-safe; the later static-input test is a bounded additional check.",
-          "focus": [{"start": 15, "end": 24}]
+          "focus": [{"start": 16, "end": 25}]
         },
         {
-          "start": 25, "end": 32,
+          "start": 26, "end": 33,
           "title": "Publish selected media provenance instead of delivery inventory",
           "explanation": "The emitted media manifest contains the configured video identity, origin/caveat from the transcript, the synthetic narration description, the fixed194-lesson count, computed cue count, projected chapters and source-manifest hash. It deliberately does not serialize the entire original delivery manifest. The log reports chapter/cue totals. Importing captions is not narration generation, video encoding, a live recording or publication.",
-          "focus": [{"start": 26, "end": 31}]
+          "focus": [{"start": 26, "end": 33}]
         }
       ]
     },
@@ -140,9 +404,9 @@
     },
     {
       "path": "tools/Site/make-demo-media.py",
-      "sourceSha256": "2416df61177f1e605cf6a356475d5c0ef6de11a562d9449c90d879f8443658d3",
+      "sourceSha256": "2dbfebf4013d81fee0a83e570b68d953e619d404912f14befe158cf53b2be198",
       "role": "Derives silent, labelled website excerpts and reviewed provenance from one hash-locked scripted sample-data tutorial.",
-      "entryPoints": ["main", "--inspect-source", "--encode", "--review-outputs", "--provenance --record-reviewed"],
+      "entryPoints": ["main", "--inspect-source", "--encode [--demo <name>]", "--review-outputs", "--provenance --review-record <JSON> [--web-record <JSON>]"],
       "blocks": [
         {
           "start": 1, "end": 25,
@@ -151,108 +415,212 @@
           "focus": [{"start": 19, "end": 25}]
         },
         {
-          "start": 26, "end": 67,
-          "title": "Author exact action/result excerpts with explicit montage disclosures",
-          "explanation": "DEMOS names three edits. Selection concatenates useful-row selection, a later Ask and a later completed answer; context keeps one continuous toggle excerpt; cover joins covering and later revealing while omitting an explanatory hold. Each segment gives zero-based inclusive start/exclusive end frames, crop geometry and a visible label, with action frames retained as provenance. Review times include actions/results and joins. Neither omitted waiting nor an edited answer sequence measures latency.",
-          "focus": [{"start": 31, "end": 40}]
+          "start": 26, "end": 74,
+          "title": "Retain the original selection, context and cover edit maps",
+          "explanation": "The first three DEMOS entries retain their source frame spans, crops and labels while adding gallery chapter IDs, titles and copy. Selection concatenates useful-row selection, a later Ask and a later completed answer; context keeps one continuous toggle excerpt; cover joins covering and later revealing. Frame ranges are zero-based start-inclusive/end-exclusive. Review times include actions, results and joins. Neither omitted waiting nor an edited answer sequence measures latency.",
+          "focus": [{"start": 34, "end": 43}]
         },
         {
-          "start": 68, "end": 90,
+          "start": 75, "end": 106,
+          "title": "Add input selection and deliberate Start/Stop excerpts without live-capture claims",
+          "explanation": "The input demo joins Mic and later Both selections while explicitly retaining a stopped sample state. The transcription demo joins Start and later Stop, with sample events and an omission note that excludes recognition-speed evidence. Each entry defines chapter linkage, gallery wording, poster time, crop, action frame and decoded-review times. The comments disclose partial device-list framing and final-line draining after Stop rather than treating the edited sequence as an actual capture test.",
+          "focus": [{"start": 98, "end": 105}]
+        },
+        {
+          "start": 107, "end": 137,
+          "title": "Specify readable size-control and keyboard actions with omitted-context limits",
+          "explanation": "The answer-size edit retains a continuous1x slider progression with start/end action frames and a held larger-font result; it discloses the source camera's cropped lower reader. The keyboard montage shows V entering Select and later Space toggling a row, explicitly omitting intervening navigation. Its labels name keys whose original sidebar guides fall outside the crop. Neither changing size nor selecting a row submits a request.",
+          "focus": [{"start": 129, "end": 136}]
+        },
+        {
+          "start": 138, "end": 159,
+          "title": "Record three theme changes and mark the original demo set immutable",
+          "explanation": "The theme montage retains actual Harbor Daylight, Plain B/W and DeepSeaFoam button actions at original speed, shortening only labelled explanatory gaps. The disclosure notes that the empty sample workspace does not independently test content persistence. ORIGINAL_DEMOS names selection, context and cover so later CLI guards protect those previously delivered files while permitting explicit replacement of named new derivatives.",
+          "focus": [{"start": 145, "end": 154}]
+        },
+        {
+          "start": 160, "end": 181,
           "title": "Read system fonts, stream source hashes and seek representative frames",
           "explanation": "font selects installed Segoe regular/semibold faces. sha256 reads oneMiB chunks instead of loading the whole video. frame_at seeks backward to a keyframe using the stream time base, decodes forward and accepts a frame within half a30fps frame of the requested time. It returns an RGB image or raises when no frame qualifies. This sampled-frame helper is separate from strict sequential source extraction.",
-          "focus": [{"start": 81, "end": 88}]
+          "focus": [{"start": 172, "end": 179}]
         },
         {
-          "start": 91, "end": 112,
+          "start": 182, "end": 203,
           "title": "Build source contact sheets for editorial inspection",
           "explanation": "inspect_source samples an authored set of times from the immutable tutorial, saves full-size JPEGs and thumbnails them into a two-column contact sheet. When additional rows exceed the initial sheet height, it expands the canvas before pasting, preserving earlier samples. Labels report the requested source time. The routine creates inspection material; it does not decide whether an action/result is readable or approve the edit.",
-          "focus": [{"start": 98, "end": 109}]
+          "focus": [{"start": 189, "end": 200}]
         },
         {
-          "start": 113, "end": 146,
+          "start": 204, "end": 237,
           "title": "Verify retained source frames and aspect-contain their crop",
           "explanation": "source_frames seeks before the requested span, converts timestamps to30fps indices, skips earlier frames and stops at the exclusive end. It rejects a gap or unexpected sequence and validates the final count. compose crops the declared source rectangle, proportionally downsizes it into the content pane and centers it on deep teal. Header, sample-data label and footer remain outside that pane; no reconstructed UI, time acceleration or new click animation is inserted.",
-          "focus": [{"start": 119, "end": 129}]
+          "focus": [{"start": 210, "end": 220}]
         },
         {
-          "start": 147, "end": 180,
+          "start": 238, "end": 271,
           "title": "Encode silent H.264 and a lower-frame-rate GIF without speeding time",
           "explanation": "encode writes only a video stream, using1000x720 yuv420p H.264 with faststart and explicit sequential30fps timestamps across retained spans. Flushing the encoder precedes the expected-frame-count assertion. The existing ffmpeg executable derives a10fps,192-color looping GIF with Bayer dithering and no audio; fewer frames do not accelerate retained source time. A hard5MB GIF ceiling is enforced, then a configured output-time JPEG poster is extracted. This ceiling is not the smaller measured delivered size.",
-          "focus": [{"start": 164, "end": 174}]
+          "focus": [{"start": 255, "end": 265}]
         },
         {
-          "start": 181, "end": 210,
+          "start": 272, "end": 302,
           "title": "Inspect decoded derivatives rather than only the unencoded composition",
-          "explanation": "gif_frame_at walks actual encoded GIF frames and their millisecond durations to find the visible frame at a requested time, rejecting times outside the loop. review_outputs samples each authored action/result/join time into full-size JPEGs and contact sheets. It separately samples early/middle/end MP4 frames. These are review aids over decoded delivery files, not exhaustive frame inspection or an automated readability judgment.",
-          "focus": [{"start": 197, "end": 208}]
+          "explanation": "gif_frame_at walks actual encoded GIF frames and their millisecond durations to find the visible frame at a requested time, rejecting times outside the loop. review_outputs accepts selected names or all demos, samples each authored action/result/join time into full-size JPEGs and contact sheets, and separately samples early/middle/end MP4 frames. These are review aids over decoded delivery files, not exhaustive frame inspection or an automated readability judgment.",
+          "focus": [{"start": 289, "end": 300}]
         },
         {
-          "start": 211, "end": 245,
+          "start": 303, "end": 340,
           "title": "Record exact delivered asset identities and inspect media properties",
-          "explanation": "provenance enumerates five artwork outputs and three formats for each demo. Every asset receives size, SHA256 and authored alternative text. Pillow supplies raster dimensions and summed GIF frame durations; PyAV supplies MP4 dimensions, frame rate and duration while rejecting an unexpected audio stream. The records describe actual output files rather than assuming successful encoding from filenames alone. SVG dimensions are not decoded by this branch.",
-          "focus": [{"start": 236, "end": 245}]
+          "explanation": "provenance reads any existing manifest and supplied per-demo review record, then enumerates five artwork outputs and three formats for every demo. Each asset receives size, SHA256 and authored alternative text. Pillow supplies raster dimensions and summed GIF durations; PyAV supplies MP4 geometry/rate/duration while rejecting audio streams. The records describe actual files rather than assuming encoding succeeded. SVG dimensions are not decoded by this branch.",
+          "focus": [{"start": 331, "end": 340}]
         },
         {
-          "start": 246, "end": 277,
-          "title": "Map retained source spans onto output time and disclose scripted origin",
-          "explanation": "A running output cursor maps each source frame span to output start/end seconds at speed1, preserving crop/action metadata and the authored omission notes. Poster and sampled review times are recorded separately. The source section uses a repository-relative ignored-artifact path, exact video identity, geometry, duration and explicit scripted unchanged-XAML/sample-I/O disclosure. It does not claim a real desktop recording, physical mouse input, meeting capture or model response.",
-          "focus": [{"start": 250, "end": 260}]
+          "start": 341, "end": 374,
+          "title": "Map source time and bind new visual-review notes to exact derivative hashes",
+          "explanation": "A running cursor maps retained frame spans onto output seconds at speed1, carrying chapter/gallery fields, crop/action metadata, omissions, poster and sample times. Supplied review notes must match current GIF, JPEG and MP4 SHA256 values before being attached. The original three may reuse their existing review record or a previously-sampled fallback; new demos without a specific review record fail. Hash binding establishes which files the assertion refers to, not whether inspection actually occurred.",
+          "focus": [{"start": 364, "end": 374}]
         },
         {
-          "start": 278, "end": 307,
-          "title": "Describe artwork, review limits and regeneration before sealing provenance",
-          "explanation": "The remaining manifest records original artwork description, palette/font roles, sampled visual-review limits and reproduction commands using existing dependencies. It explicitly states that browser/font/codec versions can change regenerated bytes and that flags do not substitute for inspection. A final full source SHA256 check precedes writing asset-provenance.json, so a changed tutorial cannot be sealed with the expected identity. Review statements are assertions supplied after separate inspection, not deductions from hashing.",
-          "focus": [{"start": 294, "end": 305}]
+          "start": 375, "end": 411,
+          "title": "Disclose scripted origin, original artwork and bounded review evidence",
+          "explanation": "Schema2 records the repository-relative original identity, artwork/palette/font roles,1000x720 derivative geometry and original-speed timing. It points to each hash-bound visual-review record instead of treating encoding or contact-sheet extraction as approval. Existing focus-camera crops are not reconstructed; direct listening, user approval and capture qualification are excluded. Reproduction commands include CRF30web preparation and attaching reviewed demo/web records, warning that codec/browser/font changes can alter bytes.",
+          "focus": [{"start": 395, "end": 406}]
         },
         {
-          "start": 308, "end": 336,
-          "title": "Require explicit generation steps and a separate review assertion",
-          "explanation": "main parses independent inspection, encoding, output-review and provenance switches. Every invocation verifies the immutable tutorial hash before preparing assets or acting. Encoding loops over the three authored demos; review only creates sampled evidence. Provenance additionally requires --record-reviewed and rejects its absence through argparse. The flag's help expressly says it performs no review. Running without any chosen option fails instead of silently claiming a completed derivative build.",
-          "focus": [{"start": 321, "end": 332}]
+          "start": 412, "end": 429,
+          "title": "Preserve artwork evidence and require hash-bound web-video review",
+          "explanation": "Existing artwork provenance is preserved rather than replaced with fresh-review wording. A supplied web record must match the actual video's SHA256 and contain a visual_review object bound to that same output hash. Otherwise an existing web_video record is carried forward without revalidation in this branch. The original tutorial is hashed again before sealing asset-provenance.json. These identity checks neither perform visual inspection nor update site/media.json or authorize publication.",
+          "focus": [{"start": 414, "end": 425}]
+        },
+        {
+          "start": 430, "end": 454,
+          "title": "Parse targeted operations and guard the three previously delivered demos",
+          "explanation": "The CLI accepts repeatable --demo selection, explicit --replace for new demos, and separate demo/web review records. It verifies the original tutorial, loads the existing asset-provenance baseline and checks all recorded original-demo hashes. --replace requires explicit names and rejects any original demo. The existing provenance file is therefore a prerequisite, not an optional fresh-build convenience; the source and earlier derivatives must remain available.",
+          "focus": [{"start": 443, "end": 454}]
+        },
+        {
+          "start": 455, "end": 477,
+          "title": "Skip complete derivatives unless replacement is explicit and recheck protected files",
+          "explanation": "Encoding iterates selected names or all demos. A complete existing triplet is skipped unless replacement is requested; any partially existing original triplet is refused instead of overwritten. Output sampling and provenance are separate chosen stages. Original-demo hashes are checked again afterward. Running with no options fails, but selecting a name alone does not generate media. None of these switches inspects pixels, operates the native app or deploys the site.",
+          "focus": [{"start": 457, "end": 468}]
+        }
+      ]
+    },
+    {
+      "path": "tools/Site/prepare-web-video.py",
+      "sourceSha256": "287769d555dff5fef9e0f793bd8efab132601ca799e2871f5f60ee24b042d6e3",
+      "role": "Prepares a Git-sized full-timeline web copy while preserving the immutable original and separately checking media structure, decoded frames and copied audio packets.",
+      "entryPoints": ["main", "--samples --crf <value>", "--encode --validate --crf <value>"],
+      "blocks": [
+        {
+          "start": 1, "end": 30,
+          "title": "Separate the immutable original, public web copy and local review workspace",
+          "explanation": "The header makes sample inspection a separate prerequisite and names already-installed PyAV, Pillow and imageio-ffmpeg. SOURCE is the completed ignored tutorial with a fixed SHA256; OUTPUT is the public site/media MP4; WORK holds local samples and receipts. Eight sample starts estimate compression and17review times cover opening, actions, later sections and the final frame. Declaring these samples is not evidence that their pixels have been inspected.",
+          "focus": [{"start": 21, "end": 28}]
+        },
+        {
+          "start": 31, "end": 58,
+          "title": "Hash in bounded chunks and define full-frame H.264 recompression",
+          "explanation": "digest streams oneMiB chunks. run invokes the existing ffmpeg executable with no interactive input and propagates failures. encode_args optionally selects a sample start/duration, maps the first video/audio streams and source metadata/chapters, uses libx264 medium with the chosen CRF and four threads, preserves frame timing, copies AAC and requests faststart. No scaling, crop, music or video-speed filter is supplied. The web video is lossy, even though audio packets are copied.",
+          "focus": [{"start": 45, "end": 55}]
+        },
+        {
+          "start": 59, "end": 88,
+          "title": "Compare decoded samples without presenting a size estimate as a guarantee",
+          "explanation": "frame_at seeks backward to a keyframe and decodes forward to within half a30fps frame of the requested time. samples encodes eight ten-second extracts, saves a decoded web frame and the corresponding original frame, and records each sample's exact bytes/hash. It extrapolates their unweighted average to the full duration, explicitly labelling the result a rough estimate. Full encoding and validation, not this estimate, determine whether the Git-size limit is met.",
+          "focus": [{"start": 71, "end": 80}]
+        },
+        {
+          "start": 89, "end": 110,
+          "title": "Separate AAC payload, timestamps and the final duration field",
+          "explanation": "audio_packets skips empty packets, hashes AAC payloads and PTS/DTS/time-base sequences independently, and counts packets. A one-packet delay hashes only nonfinal durations, returning the final packet's duration separately. That separation lets validation distinguish container normalization of the last duration field from a changed payload or retimed audio. It does not excuse arbitrary duration differences.",
+          "focus": [{"start": 96, "end": 107}]
+        },
+        {
+          "start": 111, "end": 141,
+          "title": "Measure decoded audio and container-level preservation fields",
+          "explanation": "decoded_audio hashes actual decoded PCM arrays and each frame's PTS/time-base/sample-count sequence, also counting frames and samples per channel. media_info records file identity, container/video/audio duration, dimensions, frame rate/count, pixel format, codecs, audio rate, track starts and chapter metadata. These permit a stronger audio-preservation comparison than packet headers alone; they are not direct listening, visual review or a comparison of every video-frame timestamp.",
+          "focus": [{"start": 111, "end": 121}]
+        },
+        {
+          "start": 142, "end": 171,
+          "title": "Inspect MP4 atom order and save decoded review frames",
+          "explanation": "boxes walks top-level MP4 headers, including extended64-bit sizes, to report atom order without decoding payloads. A zero-length box ends traversal. review_frames extracts each configured time from the actual web output, saves full-resolution JPEGs, and assembles a labelled two-column contact sheet. These local inspection aids do not modify the original or assert that the sampled output is readable.",
+          "focus": [{"start": 162, "end": 169}]
+        },
+        {
+          "start": 172, "end": 197,
+          "title": "Gate media preservation while narrowly allowing final AAC metadata normalization",
+          "explanation": "validate enforces below100MiB, equality of the enumerated timeline/format/chapter fields,68933frames and yuv420p. AAC payloads, PTS/DTS, nonfinal durations and counts must match. The final duration may remain832samples or normalize832to800; decoded PCM, frame timing and counts must still match exactly. moov must precede mdat. A four-thread ffmpeg full decode with error escalation must finish all68933video frames plus audio. No check substitutes for visual review or listening.",
+          "focus": [{"start": 180, "end": 191}]
+        },
+        {
+          "start": 198, "end": 223,
+          "title": "Write portable measured provenance with visual review explicitly pending",
+          "explanation": "The receipt records measured identities, portable arguments, packet/decoded-audio verification and full-decode results. Its audio note branches on the measured final-duration pair: normalization is disclosed only for832to800; the unchanged case states exact duration equality. The90MiB target is a Boolean, while100MiB is enforced. CRF comes from reconstructed invocation arguments, not setting detection. Lossy video and pending separate pixel inspection remain explicit; this ignored-work receipt does not publish or inspect anything.",
+          "focus": [{"start": 204, "end": 215}]
+        },
+        {
+          "start": 224, "end": 248,
+          "title": "Choose explicit steps and verify the original before and after processing",
+          "explanation": "main requires at least one of samples, encode or validate and defaults CRF to30. It checks the original SHA256 before creating output/work directories. Requested stages run in sample/encode/validate order; encode can replace the derived web copy but never the original input. A final source hash check detects changes during a successful run. No flag performs caption import, public metadata registration, human inspection, commit or deployment.",
+          "focus": [{"start": 233, "end": 244}]
         }
       ]
     },
     {
       "path": "tools/Site/review-browser.mjs",
-      "sourceSha256": "ca3ce2464aee1dd3e7ae63f5ea48b6ef23958a86579e49051a728336e347c927",
+      "sourceSha256": "8f6240961477721ebde6f1ef83eb03169214d3b7e4acc1844b00941bc669bd60",
       "role": "Exercises the assembled website in an owned muted Edge profile and writes bounded local browser evidence without attaching to user processes.",
       "entryPoints": ["node tools/Site/review-browser.mjs [preview URL]", "EDGE_PATH environment override"],
       "blocks": [
         {
-          "start": 1, "end": 34,
+          "start": 1, "end": 35,
           "title": "Create an isolated browser and collect observable page failures",
-          "explanation": "The script resolves existing Docs Puppeteer, imports expected tutorial data and accepts a preview URL. Evidence goes to .local/site-review. mkdtemp uses Node's OS scratch root for an owned profile; TEMP/TMP can direct that root to ignored project scratch space. Headless Edge is muted and never attaches to a user's browser. Page errors, console errors, HTTP failures and off-origin HTTP(S) requests are collected; the request listener observes rather than blocks network access.",
-          "focus": [{"start": 23, "end": 34}]
+          "explanation": "The script resolves existing Docs Puppeteer, imports expected tutorial data, reads the web-media identity and accepts a preview URL. Evidence goes to .local/site-review. mkdtemp uses Node's OS scratch root for an owned profile; TEMP/TMP can direct that root to ignored project scratch space. Headless Edge is muted and never attaches to a user's browser. Page errors, console errors, HTTP failures and off-origin HTTP(S) requests are collected; the request listener observes rather than blocks network access.",
+          "focus": [{"start": 24, "end": 35}]
         },
         {
-          "start": 35, "end": 67,
+          "start": 36, "end": 70,
           "title": "Verify initial stillness, coordinated motion pause and media transport",
-          "explanation": "After the page and hero images load, the fixture asserts that the video is paused and saves a desktop screenshot. Clicking motion must set the pressed state, replace all animated images with JPEGs and leave the ghost transform unchanged across250ms. Video metadata must match expected duration and1080p dimensions. Muted play/pause,1.5x speed and forward/back ten-second controls are exercised using actual media time, not only DOM button presence.",
-          "focus": [{"start": 48, "end": 59}]
+          "explanation": "After the page and hero images load, the fixture asserts paused video and a default visible-copy budget of350whitespace-separated words before saving a screenshot. Clicking motion must set the pressed state, replace animated images with JPEGs and hold the ghost transform unchanged across250ms. Media metadata must match tutorial duration and media.json dimensions. Muted play/pause,1.5x speed and ten-second controls use actual media time, not only DOM presence.",
+          "focus": [{"start": 51, "end": 62}]
         },
         {
-          "start": 68, "end": 97,
+          "start": 71, "end": 103,
           "title": "Seek every chapter and exercise literal transcript navigation",
-          "explanation": "The loop advances chapter pages as needed, clicks each of15chapters and waits for settled media within80ms of its start plus the active aria-current highlight. A previous-answer search checks matching cue text, seeks a result and verifies extra-caption text. An impossible query must disable next navigation and report zero results; clearing and paging must report the expected six-at-a-time ranges over525cues. These are browser assertions, not a full narration review.",
-          "focus": [{"start": 69, "end": 78}]
+          "explanation": "The loop advances chapter pages, clicks each of15chapters and waits for settled media within80ms of its start plus the active aria-current highlight. Transcript and scope details must initially be collapsed. After opening transcript details, a previous-answer search checks matching cues, seek and extra-caption text. An impossible query disables next and reports zero results; clearing/paging reports six-at-a-time ranges over525cues. These are browser assertions, not narration review.",
+          "focus": [{"start": 72, "end": 83}]
         },
         {
-          "start": 98, "end": 125,
-          "title": "Check full-size demo tabs and finite responsive layouts",
-          "explanation": "Player and showcase screenshots are taken with paused motion. Each of the selection/context/cover tabs must expose its decoded image, then Home from the cover tab must select the first tab. Five widths from1440down to320must avoid document overflow and nested chapter/transcript scrolling. Mobile captures document representative layouts. These finite viewport checks do not establish every device, zoom, assistive-technology or human-comfort combination.",
-          "focus": [{"start": 110, "end": 119}]
+          "start": 104, "end": 148,
+          "title": "Exercise every demo, keyboard wrapping and explicit chapter jumps",
+          "explanation": "The fixture derives demo names from tabs and requires eight. Each selected still must decode and expose its panel. Home/End and left/right wrapping must update aria-selected. After resuming motion, every demo must load a1000px GIF and its chapter link must settle at the corresponding tutorial start without playing. Motion is paused again before a showcase screenshot. This checks integrated controls and resources, not every GIF frame or human UX acceptance.",
+          "focus": [{"start": 132, "end": 142}]
         },
         {
-          "start": 126, "end": 141,
+          "start": 149, "end": 162,
+          "title": "Check finite responsive widths without nested navigation scrolling",
+          "explanation": "Five viewports from1440down to320must avoid document-wide overflow. Only currently visible chapter/transcript lists are checked for internal vertical overflow, so collapsed transcript contents are not measured by that assertion. At390px the fixture saves top-of-page, player and showcase screenshots. These finite dimensions do not establish every browser, zoom, device or assistive-technology combination.",
+          "focus": [{"start": 149, "end": 160}]
+        },
+        {
+          "start": 163, "end": 177,
           "title": "Verify reduced-motion defaults and the native-video fallback",
           "explanation": "Emulated prefers-reduced-motion followed by reload must produce a paused body class, no ghost animation and JPEG demos. Explicit motion resume must switch to GIFs and restore animation. Disabling JavaScript before another reload must leave native video controls and the chapter-list noscript text available. Enhanced chapter buttons/search are not asserted in that fallback; the test distinguishes progressive enhancement from a script-only media page.",
-          "focus": [{"start": 127, "end": 138}]
+          "focus": [{"start": 164, "end": 175}]
         },
         {
-          "start": 142, "end": 150,
+          "start": 178, "end": 193,
+          "title": "Fail the video request deliberately while retaining transcript controls",
+          "explanation": "A separate owned page intercepts requests and aborts the configured tutorial filename, leaving other requests alone. Reloading media must reveal the could-not-be-loaded status while search remains enabled. JavaScript page errors must be absent. Closing this page isolates the intentional resource failure from the primary-page success arrays. The test covers this missing-media path, not every browser codec, network timeout or playback failure.",
+          "focus": [{"start": 181, "end": 191}]
+        },
+        {
+          "start": 194, "end": 202,
           "title": "Write a pass receipt only after error checks and always clean up ownership",
-          "explanation": "Before browser.json is written, the error, failed-response and external-request arrays must all be empty. The receipt contains URL, checks, metadata and muted:true, then the console reports those bounded results. finally closes this browser and removes only the profile created for this invocation. A thrown assertion prevents a new successful receipt; retained older evidence must not be mistaken for the failing run or a live Pages verification.",
-          "focus": [{"start": 142, "end": 150}]
+          "explanation": "Before browser.json is written, the error, failed-response and external-request arrays must all be empty. The receipt contains URL, checks, metadata, visible-word count and muted:true. finally closes this browser and removes only its owned profile. A thrown assertion prevents a new successful receipt; retained older evidence must not be mistaken for the failing run or a live Pages verification.",
+          "focus": [{"start": 194, "end": 202}]
         }
       ]
     },
@@ -284,39 +652,63 @@
     },
     {
       "path": "tools/Site/test-site.mjs",
-      "sourceSha256": "2702099c132599c92006e71b52c6c8b6ebe5bd704c244e08ac09ac66eac6ef9e",
-      "role": "Runs six dependency-free Node tests over player helpers, the full tutorial data and bounded static-publication inputs.",
+      "sourceSha256": "c825fadef1017135b8226c9e5362ebe7fa8b9dcbc2ba438ea0a1b47385daf6e2",
+      "role": "Runs nine top-level dependency-free Node tests, including five damaged-input subtests, over player data, integrated assets and self-contained assembly.",
       "entryPoints": ["node --test tools/Site/test-site.mjs", ".github/workflows/pages.yml Check static player"],
       "blocks": [
         {
-          "start": 1, "end": 18,
+          "start": 1, "end": 21,
           "title": "Import pure player helpers and test formatting and seek bounds",
-          "explanation": "Node's test/assert and filesystem APIs load the actual player helpers and generated tutorial module without a DOM. Formatting cases cover38-minute output, an hour and negative input. Seek tests cover clamping below zero and just before duration, plus rejection of NaN and nonpositive duration. These tests verify helper semantics and do not play video or open the native application.",
-          "focus": [{"start": 10, "end": 17}]
+          "explanation": "Node's test/assert and filesystem APIs load the actual player helpers, generated tutorial module and reusable site builder without a DOM. Formatting cases cover38-minute output, an hour and negative input. Seek tests cover clamping below zero and just before duration, plus rejection of NaN and nonpositive duration. These tests verify helper semantics and do not play video or open the native application.",
+          "focus": [{"start": 13, "end": 20}]
         },
         {
-          "start": 19, "end": 38,
+          "start": 22, "end": 41,
           "title": "Validate every chapter boundary and caption interval",
           "explanation": "The chapter test requires15entries, exact-start selection, tolerance for a two-microsecond early media reading, distinction from10ms before a boundary and adjacency to the previous chapter. The cue test requires525nonblank, positive-duration, ordered nonoverlapping intervals within tutorial duration, and checks midpoint lookup for every cue. Time zero must be outside captions. This is structural/timing evidence, not semantic narration accuracy.",
-          "focus": [{"start": 28, "end": 37}]
+          "focus": [{"start": 31, "end": 40}]
         },
         {
-          "start": 39, "end": 47,
+          "start": 42, "end": 50,
           "title": "Keep search literal and pagination lossless",
           "explanation": "Whitespace trimming and case folding must make the two previous-answer queries equivalent and nonempty. Regex-like characters remain literal and return no invented match; a blank query restores all525cues. Concatenating three five-chapter pages must reproduce the whole chapter list in order. The final six-cue page has three entries, exercising a partial last page rather than assuming all pages are full.",
-          "focus": [{"start": 39, "end": 47}]
+          "focus": [{"start": 42, "end": 50}]
         },
         {
-          "start": 48, "end": 57,
+          "start": 51, "end": 63,
           "title": "Check required HTML controls and honest fallback wording",
-          "explanation": "The file-level HTML test looks for the expected player/search/motion IDs, native controls and metadata-only preload, while rejecting autoplay and external script src URLs. It also requires the source-only previous-answer notice and the non-universal-invisibility wording. String matching does not prove DOM interaction, accessibility or CSS layout; those behaviors belong to the separate isolated browser fixture and visual review.",
-          "focus": [{"start": 49, "end": 56}]
+          "explanation": "The HTML test looks for player/search/motion IDs, native controls and metadata-only preload, rejecting autoplay and external script URLs. It requires the current-source versus older-installer previous-answer notice, non-universal-invisibility wording, hero/wanderer ghost classes and no literal details-open markup. String matching does not prove DOM interaction, accessibility or CSS layout; those belong to the browser fixture and visual review.",
+          "focus": [{"start": 52, "end": 62}]
         },
         {
-          "start": 58, "end": 72,
-          "title": "Reject common private-path leaks and the full video in site inputs",
-          "explanation": "inspect walks the site tree recursively and refuses symlinks. For named text-like extensions it rejects common absolute production paths, private-context markers, sourceRoot and API-key assignment patterns. Every entry is checked against the full tutorial MP4 filename, keeping that large asset out of source/site. This targeted scan is not a general secret detector or rights audit; public-safe source inputs and explicit asset review remain necessary.",
-          "focus": [{"start": 60, "end": 71}]
+          "start": 64, "end": 79,
+          "title": "Reject common private-path leaks and files too large for regular Git",
+          "explanation": "inspect walks the site tree recursively and refuses symlinks. For named text-like extensions it rejects common absolute production paths, private-context markers, sourceRoot and API-key assignment patterns. Every ordinary file, including bundled MP4s, must be below the builder's100MiB limit. This targeted scan is not a general secret detector or rights audit; binary metadata and every allowed text convention are not exhaustively inspected.",
+          "focus": [{"start": 66, "end": 77}]
+        },
+        {
+          "start": 80, "end": 97,
+          "title": "Require eight complete demo triplets, README links and valid chapter targets",
+          "explanation": "The test extracts local demo GIF references from data-motion attributes, requires eight, and checks matching README links plus tab/panel IDs. Each demo must have nonempty GIF, JPEG and MP4 files. Every data-jump target must name an actual tutorial chapter. These file/string checks guard integration completeness; they do not decode images, follow clicks, validate ARIA behavior or judge the excerpts' truthfulness.",
+          "focus": [{"start": 83, "end": 94}]
+        },
+        {
+          "start": 98, "end": 112,
+          "title": "Bind the Pages recipe and public manifest to bundled web media",
+          "explanation": "The workflow must invoke the argument-free builder and omit release downloads, --video, GH_TOKEN, custom secrets and LFS checkout. The media record must omit a release prerequisite, match the bundled file's actual size, fit the file budget and retain the immutable original's known bytes/hash. Duration must agree with the imported tutorial within50ms, and public provenance.video must equal media.json. Full payload hashing belongs to buildSite, not this metadata-only test.",
+          "focus": [{"start": 102, "end": 110}]
+        },
+        {
+          "start": 113, "end": 130,
+          "title": "Assemble a tiny independent fixture without copying its private sibling",
+          "explanation": "An owned directory beneath os.tmpdir holds a synthetic site with a small video buffer, computed identity and index page; a private.txt sibling must stay outside the copy. buildSite must produce exactly index.html, media and media.json and preserve the fixture video bytes. A marker added to the generated output represents the prior preview for subsequent rejection tests. TEMP/TMP can redirect this scratch root into an ignored project directory.",
+          "focus": [{"start": 121, "end": 130}]
+        },
+        {
+          "start": 131, "end": 159,
+          "title": "Reject missing, corrupt, traversing and oversized media without replacing output",
+          "explanation": "Five sequential subtests remove the media, alter the recorded length, corrupt same-size payload bytes, supply a parent-traversing filename, then grow a file exactly to the forbidden100MiB boundary. Each expects the corresponding failure and repairs inputs needed by the next case. The preserved marker must still exist after all rejections. finally deletes only this invocation's fixture tree. The tests cover pre-copy rejection, not rollback after a filesystem copy failure.",
+          "focus": [{"start": 140, "end": 149}]
         }
       ]
     }

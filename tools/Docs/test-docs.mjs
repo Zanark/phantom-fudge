@@ -93,6 +93,21 @@ test('atlas scope distinguishes annotated code, mirrors and generated data', () 
     'tools/.agent-context/STATE.md'])
     assert.equal(sourceKind(file), null);
 });
+test('atlas includes authored website files without treating the assets directory as generated', () => {
+  for (const file of ['site/index.html', 'site/styles.css', 'site/app.mjs', 'site/player-core.mjs',
+    'site/media.json', 'site/404.html', 'site/assets/new-widget.mjs', '.github/workflows/pages.yml'])
+    assert.equal(sourceKind(file), 'annotated');
+  for (const file of ['site/.local/private.json', 'site/node_modules/package/index.js',
+    'site/.agent-context/STATE.md', 'site/media/tutorial.mp4', 'site/assets/demo.gif'])
+    assert.equal(sourceKind(file), null);
+});
+test('atlas records named tutorial exports as generated, not authored source or script mirrors', () => {
+  for (const file of ['site/assets/tutorial-data.mjs', 'site/assets/transcript.json',
+    'site/assets/chapters.json', 'site/assets/media-manifest.json', 'site/assets/asset-provenance.json',
+    'site/assets/captions.srt', 'site/assets/captions.vtt', 'site/assets/chapters.txt'])
+    assert.equal(sourceKind(file), 'generated');
+  assert.equal(sourceKind('site/assets/other-config.json'), 'annotated');
+});
 test('atlas accepts a complete authored line partition with an exact source hash', () => {
   const { bytes, file } = annotatedFile();
   const result = validateFileAnnotation(file, bytes);
@@ -126,6 +141,11 @@ test('atlas discovery includes its own code and verifies canonical script mirror
   assert.ok(inventory.some(file => file.path === 'tools/Docs/source-atlas.mjs' && file.kind === 'annotated'));
   assert.ok(inventory.some(file => file.path === 'scripts/Build-Handbook.txt' &&
     file.kind === 'mirror' && file.canonical === 'scripts/Build-Handbook.ps1'));
+  for (const file of ['index.html', 'styles.css', 'app.mjs', 'player-core.mjs', 'media.json', '404.html'])
+    assert.ok(inventory.some(entry => entry.path === `site/${file}` && entry.kind === 'annotated'));
+  for (const file of ['tutorial-data.mjs', 'transcript.json', 'chapters.json', 'media-manifest.json',
+    'asset-provenance.json', 'captions.srt', 'captions.vtt', 'chapters.txt'])
+    assert.ok(inventory.some(entry => entry.path === `site/assets/${file}` && entry.kind === 'generated'));
   assert.ok(inventory.every(file => !file.path.includes('node_modules/')));
 });
 test('atlas completion requires all real outputs and matching coverage counts', () => {

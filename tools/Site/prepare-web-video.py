@@ -1,7 +1,7 @@
 """Locally derive and validate the complete, self-contained website tutorial.
 
 Requires the already installed PyAV, Pillow and imageio-ffmpeg packages.
-Example: python tools/Site/prepare-web-video.py --samples --crf 25
+Example: python tools/Site/prepare-web-video.py --samples --crf 30
 Inspect sample pixels before running --encode --validate with the same CRF.
 The immutable source is never overwritten. AAC packets are copied, not encoded.
 """
@@ -88,17 +88,37 @@ def samples(crf):
 
 def audio_packets(path):
     payload, timeline = hashlib.sha256(), hashlib.sha256()
+    nonfinal_durations = hashlib.sha256()
     count = 0
+    last_duration = None
     with av.open(str(path)) as container:
         audio = container.streams.audio[0]
         for packet in container.demux(audio):
             if not packet.size:
                 continue
             payload.update(bytes(packet))
-            timeline.update(f"{packet.pts}|{packet.dts}|{packet.duration}|{packet.time_base}\n".encode())
+            timeline.update(f"{packet.pts}|{packet.dts}|{packet.time_base}\n".encode())
+            if last_duration is not None:
+                nonfinal_durations.update(f"{last_duration}\n".encode())
+            last_duration = packet.duration
             count += 1
     return {"packets": count, "payload_sha256": payload.hexdigest(),
-            "timestamp_sha256": timeline.hexdigest()}
+            "pts_dts_sha256": timeline.hexdigest(),
+            "nonfinal_duration_sha256": nonfinal_durations.hexdigest(),
+            "last_packet_duration_samples": last_duration}
+
+
+def decoded_audio(path):
+    pcm, timeline = hashlib.sha256(), hashlib.sha256()
+    samples = frames = 0
+    with av.open(str(path)) as container:
+        for frame in container.decode(audio=0):
+            pcm.update(frame.to_ndarray().tobytes())
+            timeline.update(f"{frame.pts}|{frame.time_base}|{frame.samples}\n".encode())
+            samples += frame.samples
+            frames += 1
+    return {"frames": frames, "samples_per_channel": samples,
+            "pcm_sha256": pcm.hexdigest(), "frame_timeline_sha256": timeline.hexdigest()}
 
 
 def media_info(path):
@@ -114,6 +134,8 @@ def media_info(path):
                 "frames": video.frames, "pixel_format": video.codec_context.format.name,
                 "video_codec": video.codec_context.name, "audio_codec": audio.codec_context.name,
                 "audio_sample_rate": audio.codec_context.sample_rate,
+                "audio_duration_seconds": float(audio.duration * audio.time_base),
+                "audio_start": audio.start_time,
                 "video_start": video.start_time, "chapters": chapters}
 
 
@@ -151,14 +173,23 @@ def validate(crf):
     source, output = media_info(SOURCE), media_info(OUTPUT)
     assert output["bytes"] < 100 * 1024 * 1024, "Exceeds GitHub's individual file limit."
     for key in ["duration_seconds", "video_duration_seconds", "width", "height", "fps",
-                "frames", "audio_codec", "audio_sample_rate", "video_start", "chapters"]:
+                "frames", "audio_codec", "audio_sample_rate", "audio_duration_seconds",
+                "audio_start", "video_start", "chapters"]:
         assert output[key] == source[key], f"Timeline or format changed: {key}"
     assert output["frames"] == 68933 and output["pixel_format"] == "yuv420p"
     source_audio, web_audio = audio_packets(SOURCE), audio_packets(OUTPUT)
-    assert source_audio == web_audio, "AAC packet payload or timeline differs."
+    for key in ["packets", "payload_sha256", "pts_dts_sha256", "nonfinal_duration_sha256"]:
+        assert source_audio[key] == web_audio[key], f"AAC packet content or timeline differs: {key}"
+    final_duration_pair = (source_audio["last_packet_duration_samples"],
+                          web_audio["last_packet_duration_samples"])
+    # The source's final AAC sample table exceeds its own edit-list end by 32 samples.
+    # FFmpeg normalizes only that duration field; decoded audio must still match exactly.
+    assert final_duration_pair in [(832, 832), (832, 800)], "Unexpected final AAC duration change."
+    source_pcm, web_pcm = decoded_audio(SOURCE), decoded_audio(OUTPUT)
+    assert source_pcm == web_pcm, "Decoded audio samples or frame timestamps differ."
     top_boxes = boxes(OUTPUT)
     assert top_boxes.index("moov") < top_boxes.index("mdat"), "Missing faststart."
-    result = run(["-loglevel", "error", "-xerror", "-i", str(OUTPUT),
+    result = run(["-loglevel", "error", "-xerror", "-threads", "4", "-i", str(OUTPUT),
                   "-map", "0:v:0", "-map", "0:a:0", "-progress", "pipe:1",
                   "-f", "null", "-"], capture_output=True, text=True)
     (WORK / "full-decode.log").write_text(result.stdout + result.stderr, encoding="utf-8")
@@ -169,10 +200,19 @@ def validate(crf):
     record = {"file": "site/media/Phantom-Fudge-Full-Tutorial.mp4", **output,
               "source_file": "artifacts/tutorial/20261010-221225/Phantom-Fudge-Full-Tutorial.mp4",
               "source_sha256": SOURCE_HASH, "source_bytes": source["bytes"],
-              "ffmpeg_arguments": portable, "audio_verification": web_audio,
+              "ffmpeg_arguments": portable,
+              "audio_verification": {
+                  **web_audio, "source_last_packet_duration_samples": final_duration_pair[0],
+                  "decoded_audio": web_pcm,
+                  "payloads_pts_dts_and_decoded_pcm_identical": True,
+                  "duration_metadata_note": (
+                      "All AAC payloads, PTS/DTS, nonfinal packet durations, decoded PCM samples and decoded frame timestamps match. FFmpeg normalizes only the last AAC packet duration from 832 to 800 samples (32/48000 seconds = 0.667 ms); source and web audio-track/container duration remain equal. No decoded audio is lost or retimed."
+                      if final_duration_pair == (832, 800)
+                      else "All AAC packet payloads, timestamps, durations and decoded audio match exactly.")
+              },
               "full_decode": {"completed": True, "video_frames": 68933, "errors": 0},
               "faststart": True, "target_90_mib_met": output["bytes"] <= 90 * 1024 * 1024,
-              "preservation": "Complete original timeline, frame count, chapters and AAC packet payloads/timestamps. Burned captions remain in the full uncropped video frame. No cuts, retiming, scaling, added music or remote hosting.",
+              "preservation": "Complete original timeline, frame count, chapters, AAC payloads/PTS/DTS and decoded audio. Burned captions remain in the full uncropped video frame. No cuts, retiming, scaling, added music or remote hosting. The separately disclosed final AAC duration metadata normalization does not change decoded audio.",
               "tradeoff": "Lossy H.264 recompression at 1080p30; original AAC stream copied exactly.",
               "sampled_visual_review_seconds": REVIEW_TIMES,
               "visual_review": "Pending separate inspection of decoded output pixels; encoding and full decode do not constitute visual review."}
@@ -186,7 +226,7 @@ def main():
     parser.add_argument("--samples", action="store_true")
     parser.add_argument("--encode", action="store_true")
     parser.add_argument("--validate", action="store_true")
-    parser.add_argument("--crf", type=int, default=25)
+    parser.add_argument("--crf", type=int, default=30)
     args = parser.parse_args()
     if not any([args.samples, args.encode, args.validate]):
         parser.error("Choose --samples, --encode or --validate.")

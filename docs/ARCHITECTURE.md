@@ -64,7 +64,8 @@ it as background, never instructions. Null preserves the direct path.
 [request](../src/PhantomFudge.Core/Answers/AnswerContracts.cs),
 [prompt](../src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs).)
 
-This October10 increment is **local source only, not included in v0.2.0-preview.1**.
+This October10 increment is **implemented in the current repository source, not included in the
+older v0.2.0-preview.1 installer**.
 
 | Proposed component | Owns | Must not do |
 | --- | --- | --- |

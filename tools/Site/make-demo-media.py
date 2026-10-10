@@ -25,6 +25,9 @@ WIDTH, HEIGHT, FPS = 1000, 720, 30
 PANES = (0, 68, 1000, 668)
 DEMOS = {
     "demo-selection": {
+        "chapter_id": "questions",
+        "title": "Select, review, then Ask",
+        "copy": "Build a question from selected lines; send only when you choose.",
         "alt": "Scripted sample: select a second transcript row, later explicitly Ask, then read the completed sample answer.",
         "footer": "Edited excerpts · sample data · no model latency or quality claim",
         "poster_seconds": 2.5,
@@ -40,6 +43,9 @@ DEMOS = {
         "edit_note": "Three explicitly labelled later excerpts. Intervening draft editing, setup, waiting and most streaming are omitted. Not one continuous request or a latency measurement.",
     },
     "demo-context": {
+        "chapter_id": "followups",
+        "title": "Choose whether to include the previous answer",
+        "copy": "Opt one completed answer into your next explicit Ask.",
         "alt": "Scripted sample: click Previous answer immediately left of Ask; it changes from OFF to ON without sending.",
         "footer": "Default off · one completed answer · explicit Ask still required",
         "poster_seconds": 3,
@@ -51,6 +57,9 @@ DEMOS = {
         "edit_note": "One continuous unaccelerated excerpt showing the toggle and a reading hold. The toggle does not send. This feature is in current source, not v0.2.0-preview.1.",
     },
     "demo-cover": {
+        "chapter_id": "cover",
+        "title": "Cover and reveal the workspace",
+        "copy": "Use the same book icon to cover the view and bring it back.",
         "alt": "Scripted sample: click the top-left book icon to show NOTEPAD IS READY, then later click the same icon to reveal the workspace.",
         "footer": "Visual cover only · background work continues · not universal invisibility",
         "poster_seconds": 2.5,
@@ -63,7 +72,89 @@ DEMOS = {
         "review_seconds": [0, .6, .8, 1, 3.5, 3.6, 4.2, 4.4, 7.9],
         "edit_note": "The intervening explanatory cover hold is omitted. Both clicks and their resulting states are retained. The entire cover and top-left control remain in frame.",
     },
+    "demo-inputs": {
+        "chapter_id": "audio",
+        "title": "Choose Mic or Both",
+        "copy": "Pick the input tracks before starting; source selection alone opens no audio.",
+        "alt": "Scripted sample: click Mic to show microphone devices, then later Both to select Computer and Mic; the stopped state remains.",
+        "footer": "Stopped sample devices · choose inputs first · Start remains explicit",
+        "poster_seconds": 2.5,
+        "segments": [
+            {"scene": "mic-mode", "start_frame": 11338, "end_frame": 11473, "action_frame": 11359,
+             "crop_xywh": [44, 236, 1442, 666], "label": "01 / Choose Mic for microphone input"},
+            {"scene": "both-mode", "start_frame": 12099, "end_frame": 12234, "action_frame": 12120,
+             "crop_xywh": [44, 236, 1442, 666], "label": "02 / Later: choose Both for two input tracks"},
+        ],
+        "review_seconds": [0, .6, .8, 2.5, 4.4, 4.5, 5.1, 5.3, 8.9],
+        "edit_note": "Two labelled excerpts omit the intervening microphone-card explanation. Both mode activates the Computer and Mic source choices, not capture. The camera shows only part of the resulting device list. Sample names, no real device access.",
+    },
+    "demo-transcription": {
+        "chapter_id": "transcription",
+        "title": "Start deliberately; stop deliberately",
+        "copy": "Watch the running indicator appear, then stop while keeping the transcript.",
+        "alt": "Scripted sample: Start lights the running dot; a later Stop clears it and leaves completed sample transcript rows visible.",
+        "footer": "Sample events, not real recording · Stop does not cancel an answer",
+        "poster_seconds": 7,
+        "segments": [
+            {"scene": "start", "start_frame": 15204, "end_frame": 15339, "action_frame": 15225,
+             "crop_xywh": [44, 236, 1364, 658], "label": "01 / Start the selected inputs explicitly"},
+            {"scene": "stop", "start_frame": 17058, "end_frame": 17223, "action_frame": 17079,
+             "crop_xywh": [44, 236, 1364, 658], "label": "02 / Later: Stop and keep the completed lines"},
+        ],
+        "review_seconds": [0, .6, .8, 2.5, 4.4, 4.5, 5.1, 5.3, 7, 9.9],
+        "edit_note": "Start and Stop excerpts are separated by an explicit Later label. All intervening sample transcript arrival and most explanatory waiting are omitted; this does not demonstrate recognition speed. No raw audio is recorded or saved. Normal capture may drain final accepted lines after Stop.",
+    },
+    "demo-answer-size": {
+        "chapter_id": "answers",
+        "title": "Make the answer easier to read",
+        "copy": "Adjust the answer font independently of the transcript and notes.",
+        "alt": "Scripted sample: drag the answer Size slider from 10 to 17; the completed answer text grows.",
+        "footer": "Answer and interpretation only · size 8–24 · current session",
+        "poster_seconds": 5,
+        "segments": [
+            {"scene": "answer-font", "start_frame": 30027, "end_frame": 30267, "action_frame": 30048,
+             "action_end_frame": 30090,
+             "crop_xywh": [44, 300, 1442, 578], "label": "Answer Size / drag from 10 to 17"},
+        ],
+        "review_seconds": [0, .6, .9, 1.4, 2, 2.2, 5, 7.9],
+        "edit_note": "Continuous 1× excerpt. The complete scripted slider progression ends 3.4 seconds into its source scene; the larger-font result is held. The source camera crops the lower part of the enlarged reader; the excerpt additionally excludes the resulting partial trailing line. This is a font-control demonstration, not a full-answer reading clip.",
+    },
+    "demo-keyboard": {
+        "chapter_id": "keyboard",
+        "title": "Select a line from the keyboard",
+        "copy": "From Control, V enters Select; Space toggles the focused row without sending.",
+        "alt": "Scripted keyboard demo: V changes Control to Select; later Space selects the first row and the bar shows one selected.",
+        "footer": "V enters Select · Space toggles a row · selection is not submission",
+        "poster_seconds": 6.5,
+        "segments": [
+            {"scene": "keys-select", "start_frame": 50294, "end_frame": 50414, "action_frame": 50315,
+             "crop_xywh": [44, 246, 1442, 590], "label": "01 / From Control, press V for Select"},
+            {"scene": "keys-space", "start_frame": 50956, "end_frame": 51106, "action_frame": 50977,
+             "crop_xywh": [44, 246, 1442, 590], "label": "02 / Later: press Space to select the focused row"},
+        ],
+        "review_seconds": [0, .6, .8, 2, 3.9, 4, 4.6, 4.8, 6.5, 8.9],
+        "edit_note": "Two labelled keyboard excerpts; the intervening gg navigation to the first row is omitted. The mode bar and selection count provide the visible result. Original keyboard guides in the tutorial sidebar are outside this focused crop; editorial labels name the exact keys from action metadata. No request is sent.",
+    },
+    "demo-themes": {
+        "chapter_id": "workspace",
+        "title": "Choose comfortable contrast",
+        "copy": "Switch Harbor Daylight, Plain B/W and DeepSeaFoam without resetting content.",
+        "alt": "Scripted sample: use the actual theme buttons to change DeepSeaFoam to Harbor Daylight, later Plain B/W, then back to DeepSeaFoam.",
+        "footer": "Appearance only · theme changes preserve transcript and question",
+        "poster_seconds": 10,
+        "segments": [
+            {"scene": "daylight", "start_frame": 8617, "end_frame": 8722, "action_frame": 8638,
+             "crop_xywh": [44, 132, 1364, 770], "label": "01 / Switch to Harbor Daylight"},
+            {"scene": "plain", "start_frame": 8923, "end_frame": 9028, "action_frame": 8944,
+             "crop_xywh": [44, 132, 1364, 770], "label": "02 / Later: choose Plain B/W"},
+            {"scene": "dark", "start_frame": 9183, "end_frame": 9303, "action_frame": 9204,
+             "crop_xywh": [44, 132, 1364, 770], "label": "03 / Later: return to DeepSeaFoam"},
+        ],
+        "review_seconds": [0, .6, .8, 2, 3.4, 3.5, 4.1, 4.3, 6.9, 7, 7.6, 7.8, 10, 10.9],
+        "edit_note": "Three source actions at original speed with shorter explanatory holds between labelled later excerpts. All actual button activations and resulting themes retained. The sample workspace is empty; preserving content is product behavior described by the full tutorial, not a new data-persistence test.",
+    },
 }
+ORIGINAL_DEMOS = ("demo-selection", "demo-context", "demo-cover")
 
 
 def font(size, bold=False):
@@ -190,9 +281,10 @@ def gif_frame_at(path, seconds):
     raise RuntimeError(f"No GIF frame at {seconds:.2f}s")
 
 
-def review_outputs():
+def review_outputs(names=None):
     WORK.mkdir(parents=True, exist_ok=True)
-    for name, demo in DEMOS.items():
+    for name in names or DEMOS:
+        demo = DEMOS[name]
         samples = demo["review_seconds"]
         contact = Image.new("RGB", (1000, ((len(samples) + 1) // 2) * 388), "#000F13")
         draw = ImageDraw.Draw(contact)
@@ -208,7 +300,10 @@ def review_outputs():
             frame_at(ASSETS / f"{name}.mp4", seconds).save(WORK / f"{name}-mp4-{seconds:.1f}.jpg", quality=96)
 
 
-def provenance():
+def provenance(review_record=None, web_record=None):
+    existing_path = ASSETS / "asset-provenance.json"
+    existing = json.loads(existing_path.read_text(encoding="utf-8")) if existing_path.exists() else {}
+    reviews = json.loads(Path(review_record).read_text(encoding="utf-8")) if review_record else {}
     names = ["ghost.svg", "favicon.svg", "tutorial-poster.svg", "tutorial-poster.jpg", "social-card.jpg"]
     names.extend(f"{name}.{extension}" for name in DEMOS for extension in ["gif", "jpg", "mp4"])
     art_alt = {
@@ -258,6 +353,7 @@ def provenance():
             })
             output_at += duration
         demos[name] = {
+            "chapter_id": demo["chapter_id"], "title": demo["title"], "copy": demo["copy"],
             "alt": demo["alt"], "edit_note": demo["edit_note"],
             "segments": segments, "poster_output_seconds": demo["poster_seconds"],
             "sampled_gif_review_seconds": demo["review_seconds"],
@@ -265,8 +361,19 @@ def provenance():
                                            demo["review_seconds"][len(demo["review_seconds"]) // 2],
                                            demo["review_seconds"][-1]],
         }
+        if name in reviews:
+            review = reviews[name]
+            for extension in ["gif", "jpg", "mp4"]:
+                if review["output_sha256"][extension] != sha256(ASSETS / f"{name}.{extension}"):
+                    raise RuntimeError(f"{name}: visual review is bound to different output bytes.")
+            demos[name]["visual_review"] = review
+        elif name in ORIGINAL_DEMOS and existing:
+            demos[name]["visual_review"] = existing["derivatives"]["demos"][name].get(
+                "visual_review", {"status": "Previously sampled; media byte-identical to original delivery."})
+        else:
+            raise RuntimeError(f"{name}: provide a specific hash-bound visual review record.")
     data = {
-        "schema": 1,
+        "schema": 2,
         "source": {
             "file": str(SOURCE.relative_to(ROOT)).replace("\\", "/"),
             "sha256": SOURCE_HASH, "bytes": SOURCE.stat().st_size,
@@ -288,18 +395,33 @@ def provenance():
         "derivatives": {
             "geometry": "1000×720. Source crops aspect-contained in a 1000×600 pane at (0,68), never stretched. Editorial labels and disclosures occupy separate header/footer areas, never cover UI.",
             "motion": "All retained source spans run at 1×; native tutorial camera and pointer guides preserved. GIF 10 fps; silent H.264 MP4 30 fps.",
-            "review_limit": "Representative decoded GIF frames at early/action/result/end and all internal edit boundaries, plus early/middle/end decoded MP4 stills were inspected. Active controls and results are readable at native size. The tutorial's existing focus camera can crop peripheral labels and neighboring panels; the excerpts do not reconstruct those missing pixels. This is sampled visual review, not exhaustive frame review, direct listening, user approval, live integration testing or capture qualification.",
+            "review_limit": "Per-demo visual_review records describe the separately inspected pixels and their output hashes; encoding or contact-sheet extraction alone is not approval. The tutorial's existing focus camera can crop peripheral labels and neighboring panels; excerpts do not reconstruct missing pixels. Review is sampled, not exhaustive frame review, direct listening, user approval, live integration testing or capture qualification.",
             "demos": demos,
         },
         "reproduction": {
             "artwork": "node tools/Site/make-artwork.mjs",
             "media": "python tools/Site/make-demo-media.py --encode --review-outputs",
-            "after_visual_review": "python tools/Site/make-demo-media.py --provenance --record-reviewed",
+            "after_visual_review": "python tools/Site/make-demo-media.py --provenance --review-record REVIEW.json",
+            "web_video": "python tools/Site/prepare-web-video.py --encode --validate --crf 30",
+            "web_provenance_after_visual_review": "python tools/Site/make-demo-media.py --provenance --review-record REVIEW.json --web-record WEB-REVIEWED.json",
             "dependencies": "Existing tools/Docs Puppeteer, installed Edge (or --browser), Pillow, PyAV and imageio-ffmpeg. No network or package installation.",
             "note": "Hashes describe these delivered files. Codec/browser/font versions can change regenerated bytes. Inspect outputs before updating a review assertion.",
         },
         "files": records,
     }
+    if "artwork" in existing:
+        data["artwork"] = existing["artwork"]
+    if web_record:
+        web = json.loads(Path(web_record).read_text(encoding="utf-8"))
+        if sha256(ROOT / web["file"]) != web["sha256"]:
+            raise RuntimeError("Web video provenance hash mismatch.")
+        if not isinstance(web.get("visual_review"), dict):
+            raise RuntimeError("Web video needs separate hash-bound visual review evidence.")
+        if web["visual_review"].get("output_sha256") != web["sha256"]:
+            raise RuntimeError("Web video visual review is bound to different bytes.")
+        data["web_video"] = web
+    elif "web_video" in existing:
+        data["web_video"] = existing["web_video"]
     if sha256(SOURCE) != SOURCE_HASH:
         raise RuntimeError("Immutable tutorial changed during derivation.")
     (ASSETS / "asset-provenance.json").write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -311,23 +433,42 @@ def main():
     parser.add_argument("--encode", action="store_true")
     parser.add_argument("--review-outputs", action="store_true")
     parser.add_argument("--provenance", action="store_true")
-    parser.add_argument("--record-reviewed", action="store_true",
-                        help="Attest that decoded outputs were separately visually inspected; this flag performs no review.")
+    parser.add_argument("--demo", action="append", choices=DEMOS,
+                        help="Restrict encoding/review to named demos; repeat for several.")
+    parser.add_argument("--replace", action="store_true",
+                        help="Replace explicitly named new demos only; original three are protected.")
+    parser.add_argument("--review-record", help="Per-demo hash-bound notes from separate visual inspection.")
+    parser.add_argument("--web-record", help="Validated web-video metadata including separate review evidence.")
     args = parser.parse_args()
     if sha256(SOURCE) != SOURCE_HASH:
         raise RuntimeError("Source tutorial hash differs; refusing to derive new media.")
     ASSETS.mkdir(parents=True, exist_ok=True)
+    baseline = json.loads((ASSETS / "asset-provenance.json").read_text(encoding="utf-8"))
+    protected = {item["file"]: item["sha256"] for item in baseline["files"]
+                 if Path(item["file"]).stem in ORIGINAL_DEMOS}
+    for filename, expected in protected.items():
+        if sha256(ASSETS / filename) != expected:
+            raise RuntimeError(f"Original demo differs from delivered hash: {filename}")
+    names = args.demo or list(DEMOS)
+    if args.replace and (not args.demo or any(name in ORIGINAL_DEMOS for name in names)):
+        parser.error("--replace requires explicit new --demo names; original demos are immutable.")
     if args.inspect_source:
         inspect_source()
     if args.encode:
-        for name, demo in DEMOS.items():
-            encode(name, demo)
+        for name in names:
+            outputs = [ASSETS / f"{name}.{ext}" for ext in ["gif", "jpg", "mp4"]]
+            if all(path.exists() for path in outputs) and not args.replace:
+                continue
+            if name in ORIGINAL_DEMOS and any(path.exists() for path in outputs):
+                raise RuntimeError(f"Refusing to overwrite existing original demo: {name}")
+            encode(name, DEMOS[name])
     if args.review_outputs:
-        review_outputs()
+        review_outputs(names)
     if args.provenance:
-        if not args.record_reviewed:
-            parser.error("--provenance requires --record-reviewed after separate visual inspection.")
-        provenance()
+        provenance(args.review_record, args.web_record)
+    for filename, expected in protected.items():
+        if sha256(ASSETS / filename) != expected:
+            raise RuntimeError(f"Original demo was modified: {filename}")
     if not any(vars(args).values()):
         parser.error("Choose --inspect-source, --encode, --review-outputs or --provenance.")
 

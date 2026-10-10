@@ -3,8 +3,8 @@ config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorde
 ---
 flowchart TB
     accTitle: Pending GitHub Pages publication
-    accDescr: Publication remains pending; a future authorized maintainer supplies a separate media release before the read-only build and dependent Pages deployment can run.
-    A["Future authorized tutorial release"] --> B["Build: test, download and verify"]
+    accDescr: Publication remains pending; a future authorized source publication enables a read-only build of bundled media and a separate Pages-write deployment.
+    A["Future authorized source publication"] --> B["Read-only build: test and verify"]
     B --> C["Upload site-only artifact"]
     C --> D["Deploy: Pages write and identity token"]
     D --> E["Verify live site separately"]
