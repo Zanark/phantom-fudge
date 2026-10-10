@@ -362,6 +362,10 @@
                             <TextBlock x:Name="QuestionProvenance" FontSize="11" TextWrapping="Wrap"
                                        Foreground="{DynamicResource ThemeMuted}" />
                             <TextBlock x:Name="AnswerRunLabel" TextWrapping="Wrap" FontSize="11" Foreground="{DynamicResource ThemeMuted}" />
+                            <TextBox x:Name="PreviousAnswerContextText" Visibility="Collapsed" IsReadOnly="True" Focusable="False"
+                                     Height="100" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Background="Transparent"
+                                     Foreground="{DynamicResource ThemeHighContrastReading}"
+                                     AutomationProperties.Name="Exact previous answer included with the submitted question" />
                             <TextBox x:Name="ClarificationContextText" Visibility="Collapsed" IsReadOnly="True" Focusable="False"
                                      Height="100" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Background="Transparent"
                                      Foreground="{DynamicResource ThemeHighContrastReading}"
@@ -373,12 +377,49 @@
                                 <ColumnDefinition Width="8" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <WrapPanel x:Name="QuestionSecondaryActions" VerticalAlignment="Center">
                                 <Button x:Name="QuestionEditButton" Content="Type / edit" Click="QuestionEdit_Click" Padding="4,4" />
                                 <Button x:Name="QuestionCopyButton" Content="Copy draft" Click="QuestionCopy_Click" Padding="4,4" />
                             </WrapPanel>
-                            <Button x:Name="QuestionAskButton" Grid.Column="2" Content="Ask as shown" Click="QuestionAsk_Click"
+                            <ToggleButton x:Name="PreviousAnswerToggle" Grid.Column="2" Content="Previous answer"
+                                          Width="118" MinHeight="44" Margin="2" Padding="6,4" FontSize="12"
+                                          IsChecked="False" IsEnabled="False" Click="PreviousAnswerToggle_Click"
+                                          Focusable="{DynamicResource ControlsFocusable}" Cursor="Arrow"
+                                          Foreground="{DynamicResource ThemeText}" Background="{DynamicResource ThemeSurface}"
+                                          BorderBrush="{DynamicResource ThemeBorder}" VerticalAlignment="Center"
+                                          AutomationProperties.Name="Use previous answer as context">
+                                <ToggleButton.ContentTemplate>
+                                    <DataTemplate><TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center" /></DataTemplate>
+                                </ToggleButton.ContentTemplate>
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border x:Name="ContextFace" Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2"
+                                                CornerRadius="5" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter TargetName="ContextFace" Property="Background" Value="{DynamicResource ThemeSelection}" />
+                                                <Setter TargetName="ContextFace" Property="BorderBrush" Value="{DynamicResource ThemeAccent}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource ThemeSelectionText}" />
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="ContextFace" Property="BorderBrush" Value="{DynamicResource ThemeHeading}" />
+                                            </Trigger>
+                                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                                <Setter TargetName="ContextFace" Property="BorderBrush" Value="{DynamicResource ThemeHeading}" />
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="ContextFace" Property="Opacity" Value="0.45" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Button x:Name="QuestionAskButton" Grid.Column="3" Content="Ask as shown" Click="QuestionAsk_Click"
                                     Width="148" MinHeight="44" FontSize="15" FontWeight="SemiBold" Padding="14,8"
                                     VerticalAlignment="Center" Background="{DynamicResource ThemeAccent}"
                                     Foreground="{DynamicResource ThemeActionText}" BorderBrush="{DynamicResource ThemeAccent}">
@@ -411,7 +452,7 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                            <Button x:Name="QuestionClearButton" Grid.Column="3" Content="Clear question" Click="QuestionClear_Click"
+                            <Button x:Name="QuestionClearButton" Grid.Column="4" Content="Clear question" Click="QuestionClear_Click"
                                     Width="98" MinHeight="44" Margin="6,2,2,2" VerticalAlignment="Center"
                                     BorderBrush="{DynamicResource ThemeError}" BorderThickness="2">
                                 <Button.Template>

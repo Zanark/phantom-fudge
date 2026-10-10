@@ -18,6 +18,15 @@ internals are separate; here, the question chain ends at a local snapshot or exp
 
 ### Current increment: typed commands and bounded shortcut configuration
 
+The later `context on/off` grammar maps to typed `KeyboardCommandKind` values, just like clarify
+on/off. It does not parse a model's natural-language response or execute a shell. The desktop
+dispatcher calls the same previous-answer handler as the checkbox, so syntax validity alone
+cannot bypass completed-answer eligibility or busy/clarification locks. It changes a session
+choice; a separate explicit Ask is still required.
+([Command grammar](../../src/PhantomFudge.Core/KeyboardCommands.cs),
+[dispatcher](../../src/PhantomFudge.App/MainWindow.Keyboard.cs),
+[context guard](../../src/PhantomFudge.App/MainWindow.AnswerContext.cs).)
+
 `KeyboardCommands.Parse` maps a finite token grammar to `KeyboardCommandKind`; it rejects unknown
 commands and out-of-range font/opacity values before desktop dispatch. Suggestions are ordered
 prefix matches over a fixed list, not model interpretation. `KeyboardShortcutConfiguration.Load`
@@ -25,7 +34,7 @@ accepts exactly three schema properties in a bounded UTF-8 JSON object; missing 
 invalid settings propagate to the UI's disabled-shortcut/Keys fallback. The key whitelist is
 A–Z except E and F1–F11; F12 is rejected. No command opens a shell, and the configuration does
 not add global bare-letter bindings or persist answer font choices.
-(src/PhantomFudge.Core/KeyboardCommands.cs:15-86;
+(src/PhantomFudge.Core/KeyboardCommands.cs:15-87;
 src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs:7-28,31-114.)
 
 Read the [canonical keyboard/configuration guide](../KEYBOARD-CONTROLS.md) for exact JSON and
@@ -134,7 +143,7 @@ An oversized refresh fails before changing text, provenance or revision. An empt
 
 ### Entry to terminal: an explicit Ask
 
-`QuestionAsk_Click` checks reply/busy/provider/protection/file-operation conditions, freezes the current draft, displays `ExactText`, then chooses clarification or ordinary answer handoff. `StartAnswer` returns after local snapshot handling when providers are disabled. `Freeze` itself never sends. Clarify-first starts false; normal Ask supplies no clarification argument/history. Opt-in clarification requires an explicit Yes or correction submission, and a written correction is not silently discarded by the confirm button. Azure is not connected by this local snapshot path. (src/PhantomFudge.App/MainWindow.Questions.cs:265) (src/PhantomFudge.App/MainWindow.Answers.cs:136) (src/PhantomFudge.App/MainWindow.Clarification.cs:11) (src/PhantomFudge.App/MainWindow.Clarification.cs:114)
+`QuestionAsk_Click` checks reply/busy/provider/protection/file-operation conditions, freezes the current draft, displays `ExactText`, then chooses clarification or ordinary answer handoff. `StartAnswer` returns after local snapshot handling when providers are disabled. `Freeze` itself never sends. Clarify-first starts false; normal Ask supplies no clarification argument/history. Opt-in clarification requires an explicit Yes or correction submission, and a written correction is not silently discarded by the confirm button. Azure is not connected by this local snapshot path. (src/PhantomFudge.App/MainWindow.Questions.cs:265) (src/PhantomFudge.App/MainWindow.Answers.cs:148) (src/PhantomFudge.App/MainWindow.Clarification.cs:11) (src/PhantomFudge.App/MainWindow.Clarification.cs:117)
 
 An edited snapshot can contain corrected `ExactText` and original, uncorrected ASR in `SourceRefs`. That is intentional local provenance, not permission to send the whole snapshot. It can also remain `WasProvisional=true` after correction because that flag describes selected recognition. (src/PhantomFudge.Core/QuestionSnapshot.cs:8) (tests/PhantomFudge.Core.Tests/QuestionSnapshotTests.cs:101)
 

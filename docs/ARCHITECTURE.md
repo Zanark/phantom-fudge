@@ -48,9 +48,23 @@ owned idle backend. Diagnostics record local metadata without PCM or transcript 
 
 The optional [Clarify first flow](QUESTION-CLARIFICATION.md) adds typed task metadata and a
 bounded local interpretation/reply history. It is off by default, preserves the original draft,
-and requires an explicit action for every correction or confirmation. Ordinary Ask has no
-conversation history. Each Agency transaction still uses a fresh session and the same no-tools
+and requires an explicit action for every correction or confirmation. Separately, the default-off
+**Previous answer** option projects one displayed completed answer into `AnswerRequest.PreviousAnswer`;
+it does not serialize the previous request or create a conversation chain. Each Agency transaction
+still uses a fresh session and the same no-tools
 boundary; this does not introduce an interactive coding-agent session or chat reader.
+
+`MainWindow.AnswerContext` owns eligibility, the session toggle and immutable capture.
+`QuestionAsk_Click` captures before `StartAnswer` replaces the display. Clarification keeps that
+snapshot independently of its interpretation/history and reuses it for explicit replies/retries.
+Setup/details reads the submitted request, not the latest answer text. The provider boundary
+validates nonblank strict Unicode and a separate32768UTF-16-unit limit; the fixed prompt identifies
+it as background, never instructions. Null preserves the direct path.
+([Context controller](../src/PhantomFudge.App/MainWindow.AnswerContext.cs),
+[request](../src/PhantomFudge.Core/Answers/AnswerContracts.cs),
+[prompt](../src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs).)
+
+This October10 increment is **local source only, not included in v0.2.0-preview.1**.
 
 | Proposed component | Owns | Must not do |
 | --- | --- | --- |
@@ -216,7 +230,8 @@ Configured Agency keeps one owned ACP provider and prepares one empty session on
 reload without sending a model prompt. Explicit Ask sends exact JSON question data under a fixed
 answer-only system role; completion closes that question session and prepares a fresh empty one.
 Hide/Clear/protection failure/reload/close dispose owned state. There is no permission wait, model
-tool surface, prior question history, implicit retry or automatic fallback. Measured prepared
+tool surface, implicit prior question history, implicit retry or automatic fallback. Explicit
+previous-answer context is request data in that fresh session, not resumed provider history. Measured prepared
 answers and the much slower cold-preparation boundary are separated in QUALITY-UPDATE.md.
 
 No taskbar/Alt-Tab entry does not mean no process, no Task View presence, no tray icon if

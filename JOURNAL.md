@@ -67,7 +67,7 @@ features arrived faster than real sharing environments could be qualified.
 
 **Public record:** initial decisions and scope appear in `TODO/16_DEVELOPMENT_LEDGER.todo:75-85`;
 the convention's bounded survey and evidence semantics are in `docs/TODO-CONVENTIONS.md:1-73`.
-The current capture-claim limits are stated in `docs/OVERVIEW.md:48-70`.
+The current capture-claim limits are stated in `docs/OVERVIEW.md:49-71`.
 
 ## 2026-10-08, 00:32 onward - Implementation, and a new primary signal
 
@@ -94,7 +94,7 @@ system changes. Later testing therefore relied on generated PCM and isolated syn
 No public release or push followed from creating a local ZIP.
 
 **Public record:** the historical implementation/evidence table and approved playback boundary are
-in `docs/IMPLEMENTATION-STATUS.md:302-356`; the authorization and subsequent restrictions are preserved
+in `docs/IMPLEMENTATION-STATUS.md:315-369`; the authorization and subsequent restrictions are preserved
 in `TODO/16_DEVELOPMENT_LEDGER.todo:66-74`.
 
 ## 03:01 - A hidden window must still be recoverable
@@ -123,7 +123,7 @@ protection setup and unsaved-content safeguards remained. Nor did it turn an ext
 into recorded compatibility evidence. The lasting requirement is **not to reintroduce permission or
 rehearsal prompts** under a different name during future feature work.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:295-300` records the change and local artifact;
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:308-313` records the change and local artifact;
 `docs/DEVELOPMENT-WORKFLOW.md:95-102` preserves the durable behavioral requirement.
 
 ## 03:12 - Seeing through the surface without washing out the text
@@ -142,7 +142,7 @@ first-frame guarantee.
 The lesson was to treat rendering changes as changes to the capture-evidence boundary, not just
 visual polish.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:284-293` identifies the layered result and limitations;
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:297-306` identifies the layered result and limitations;
 the implementation is explored in [chapter05](docs/handbook/05-desktop-ui-and-themes.md).
 
 ## 03:25 - Correcting Docker's place in the architecture
@@ -162,7 +162,7 @@ was moved after native release17. Runtime22 became the required operational path
 prevented infrastructure work from blocking the thing the owner actually wanted to run.
 
 **Public record:** native operation and the Docker correction are recorded in
-`docs/IMPLEMENTATION-STATUS.md:263-282`; the current dependency graph is in `TODO/00_INDEX.todo`.
+`docs/IMPLEMENTATION-STATUS.md:276-295`; the current dependency graph is in `TODO/00_INDEX.todo`.
 
 ## The muted-laptop experiment - Compare engines, not language stereotypes
 
@@ -192,7 +192,7 @@ that today's harness hash differs from the historical receipt rather than rewrit
 
 **Public record:** [the full benchmark report](docs/SPEECH-BENCHMARK.md) and
 [chapter12](docs/handbook/12-performance-and-benchmarks.md). Summary measurements and their limit
-are recorded in `docs/IMPLEMENTATION-STATUS.md:269-272`.
+are recorded in `docs/IMPLEMENTATION-STATUS.md:282-285`.
 
 ## 11:31 - Transcription moves to the foreground
 
@@ -217,7 +217,7 @@ packaged separately.
 **Still unresolved:** recipient-side cursor disappearance needs qualification in the actual
 recorder/sharing mode. No implementation change justified the requested absolute invisibility claim.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:244-261`, [cursor/theme notes](docs/CURSOR-AND-THEMES.md)
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:257-274`, [cursor/theme notes](docs/CURSOR-AND-THEMES.md)
 and workstreams24/25.
 
 ## 13:47-14:01 - Small UI questions clarify the evidence
@@ -258,7 +258,7 @@ manager-upgrade guards, plus real generated dual PCM and C#-to-Python v2 recogni
 microphone/render endpoint or chat content was opened for this work. Hardware permissions, echo,
 OS microphone indicators and recipient behavior remain to be qualified.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:220-242`,
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:233-255`,
 `docs/DUAL-SOURCE-AUDIO.md:1-30` and [chapters07-11](docs/handbook/07-dual-input-capture.md).
 
 ## 15:05 - An answer feature is researched before it is built
@@ -286,8 +286,8 @@ Four design documents, workstreams27-37 and workflows04/05 capture the plan. Onl
 DONE. There is no implemented Ask button, composer, Azure client, source commit or answer pane.
 No Azure account/resource discovery, sign-in, inference or upload was performed.
 
-**Public record:** `docs/IMPLEMENTATION-STATUS.md:214-218`,
-`docs/AI-ANSWER-ARCHITECTURE.md:82-188` and the four linked [AI design documents](docs/README.md).
+**Public record:** `docs/IMPLEMENTATION-STATUS.md:227-231`,
+`docs/AI-ANSWER-ARCHITECTURE.md:82-200` and the four linked [AI design documents](docs/README.md).
 
 ## 16:11 - Turn the implementation into a teachable engineering record
 
@@ -322,7 +322,7 @@ so the reader gained responsive wrapping. Those corrections improved the actual 
 than treating a successful export as sufficient. Nothing was uploaded or published.
 
 The documentation-only fixture does not replace the most recent user preview ZIP. That preview
-remains the145231 dual-source bundle identified in `docs/IMPLEMENTATION-STATUS.md:236-242`.
+remains the145231 dual-source bundle identified in `docs/IMPLEMENTATION-STATUS.md:249-255`.
 The book does not implement Azure Ask, qualify remote cursors, or move Docker earlier.
 
 ```mermaid
@@ -1396,3 +1396,80 @@ exports and per-user settings remain intact. Windows 11 x64, unsigned policy, se
 answer-provider setup and capture limits remain explicit. No real audio, external model call or
 clean-VM qualification was added by publication. Release PDFs remain the immutable build-time
 edition; the maintained repository book includes this follow-up. Workstream58 is complete.
+
+## 2026-10-10, 14:41 - One visible answer becomes explicit follow-up context
+
+The owner requested a toggle immediately left of Ask to include the answer currently displayed
+with a follow-up question. This supersedes the earlier feasibility-only discussion, but does not
+authorize a conversation archive, automatic transcript inclusion or a new release.
+
+The implementation separates the reviewed question from nullable previous-answer data. The toggle
+starts off and does not send. Explicit Ask snapshots only a completed displayed answer; later
+successful answers can become the next sole context, without recursively attaching their requests.
+Clear/provider changes reset the choice, and incomplete/cancelled output is ineligible. Narrow
+panes shorten secondary captions and the context button while preserving the primary action row.
+Edit/Copy can wrap within their existing left group.
+
+Clarification needs a separate lifetime: capture before interpretation replaces the reader, then
+retain the same snapshot through explicit corrections, confirmation and retry of the first
+interpretation. Prior text is bounded background data, not a tool grant or instruction source.
+Setup/details exposes the exact submitted copy; `context on/off` shares the guarded UI handler.
+
+The focused Core suite passed396cases. A first UI run exposed a real compact-height regression
+from adding a full action row; concise secondary captions and a narrower context toggle corrected it.
+The final synthetic fixture passed21context checks,38keyboard checks and existing groups.24WPF
+images and11README derivatives were refreshed; parent reviewed normal context, all24contact-sheet entries and full minimum question/clarification images. No model/audio call.
+Reviewed source annotations cover205files/31766physical lines; current full reference editions are
+identified by their manifests and [workstream59](TODO/59_PREVIOUS_ANSWER_CONTEXT.todo).
+This is local source, not part of immutable v0.2.0-preview.1; no new publication, performance
+measurement, owner comfort approval or recipient qualification is implied.
+
+## 2026-10-10, 15:20 - Preserve the first layout failure while Core checks pass
+
+The parent reports396targeted Core tests passing with zero skipped, covering provider,
+prompt, previous-answer and keyboard behavior. The screenshot exporter built successfully,
+but its first synthetic UI run failed the existing question minimum-layout check. Primary
+action placement already passed. The failed receipt is retained locally and no images were
+imported; compact-height correction and the App source freeze remain in progress.
+
+Reviewed annotations for the frozen8Core/provider files and2exporters pass the existing
+read-only validator:10files,2126physical lines and86authored blocks, with both script mirrors
+matching. This is not a full atlas or handbook result. Workstream59 remains in progress,
+without new model/audio execution or a change to the immutable published preview.
+
+## 2026-10-10 - Final source review closes the citation boundary
+
+The final synthetic receipt confirms21context and38keyboard checks, with no recording. All41
+screenshot-source hashes match the frozen files. The documentation review read all22changed/new
+canonical source/test/script files:6418physical lines and235authored annotation blocks validate,
+and both PowerShell mirrors match. Focused excerpts now show the actual eligibility, request
+snapshot, clarification and reset assertions rather than import boilerplate.
+
+Review also caught guide-to-guide and TODO citations left behind by source-only line updates.
+Manual corrections cover113citation expressions in20documents; the follow-up read-only audit
+found no unresolved exact-mapping candidates. Changed method endpoints and the additional font
+reference were reviewed against source. Historical failed-layout evidence and immutable release
+limits remain intact.
+
+These final annotation and citation changes require refreshed atlas/handbook editions. Authored
+content is ready, but workstream59 stays in progress until the parent completes final rendered
+review and freshness checks. Exact source/document inventories and receipt identities are in
+[workstream59](TODO/59_PREVIOUS_ANSWER_CONTEXT.todo); no new model, audio or publication is implied.
+
+## 2026-10-10, 19:11 - Follow-up reference editions completed
+
+The requested retry reconciled the late documentation changes that had invalidated the previous
+build. Full source-atlas and handbook HTML/PDF editions now pass freshness checks on stable inputs.
+Review covered representative views of all27changed chapters/appendices, all6changed diagrams,
+the24-image UI contact sheet, the new context illustration and its annotated source entry.
+
+The workflow and provider diagrams were simplified, and clarification messages widened, to avoid
+compressing the new context flow into a narrow column. An intermediate workflow SVG was rejected
+by image validation; removing its raw line-break label corrected it before the completed build.
+No source/citation migration was replayed and no runtime behavior changed during this retry.
+
+Workstream59 is complete locally. The [handbook manifest](docs/handbook/manifest.json) and
+[atlas manifest](docs/source-atlas/manifest.json) identify the exact editions, counts and hashes.
+The atlas covers205files/31766physical lines/1261authored blocks; the book has36chapters/73diagrams.
+The published installer and its attached PDFs remain unchanged. This completion adds no live-model,
+audio, owner-comfort or recipient-capture qualification.

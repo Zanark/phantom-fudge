@@ -14,7 +14,7 @@ Dependencies: 48_PRIMARY_ASK_ACTION.todo
 
 The122205synthetic fixture passes the right-action/red-border contract and clarification read/edit
 layouts; answerFontHalved remains true. Earlier compact attempts exposed left-label wrapping;
-four-unit Edit/Copy padding keeps Done typing and Copy original on one row.
+four-unit Edit/Copy padding kept Done typing and Copy original on one row in122205. Workstream59 later allows that left group to wrap.
 No live model/audio/service operation, owner-app interruption or new ZIP was involved.
 
 ## Completion log

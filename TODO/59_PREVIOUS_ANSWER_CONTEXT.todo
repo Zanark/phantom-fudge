@@ -1,0 +1,184 @@
+# Explicit previous-answer context for follow-up questions
+
+Status: DONE
+Milestone: Opt-in single-answer context; local source only
+Dependencies: 39_INSTALLED_CLI_ANSWERS.todo, 45_OPT_IN_QUESTION_CLARIFICATION.todo, 49_CLEAR_AFTER_ASK.todo, 57_KEYBOARD_CONTROLS.todo
+
+## Purpose
+
+Implement the October10 14:41 request for a toggle immediately LEFT of Ask that sends the
+currently displayed completed answer alongside the next reviewed question. This is not a
+conversation archive, automatic transcript inclusion or permission for a model to use tools.
+
+## Scope and acceptance
+
+- [x] Previous answer is off on launch, session-only, available only with a completed answer
+  and configured provider. Clicking it never submits; busy requests and active clarification lock it.
+- [x] Explicit Ask snapshots the exact displayed completed answer. Keep only that answer,
+  not its previous question, earlier answers, nested request context, notes or transcript.
+- [x] Keep the toggle on across successful follow-ups; the next explicit Ask uses the newly
+  displayed completed answer. Clear/provider changes reset it; failed/cancelled text is ineligible.
+- [x] Clarify first snapshots before interpretation replaces the answer. Corrections,
+  confirmation and explicit retry of the first interpretation reuse the SAME immutable text.
+- [x] Nullable PreviousAnswer preserves the direct-null path. Nonblank strict Unicode,
+  at most32768UTF-16 units, rejects rather than truncates. Fixed policy treats it as data;
+  fresh sessions, tool denial, bounded streams and no automatic retry remain unchanged.
+- [x] Setup/details shows the exact previously submitted context, not the latest replacement
+  answer; snapshot label records its character count.
+- [x] Built-in context on/off commands use the same guarded toggle handler. Keep the primary action row;
+  below560WPF units use short Edit/Done/Reply and Copy captions with full accessible names,
+  and80-wide Previous answer (118normally). Edit/Copy may wrap in their left group; Ask/Clear remain visible.
+- [x] Synthetic provider/UI/keyboard/clarification failure and reset tests pass, with no real
+  model/auth/audio calls. Record exact result counts and fixture identity below.
+- [x] Current synthetic answer-context.png and README derivative are rendered; context/contact/minimum images reviewed;
+  every changed/new first-party source/test/script has meaningful reviewed annotations.
+- [x] Affected contracts/guides/book chapters, exact citations, README and public journal agree;
+  full atlas/handbook HTML/PDF freshness and representative rendered review pass.
+
+## Evidence
+
+-396focused Core cases passed, zero skipped, covering providers, prompt data, run identity,
+ clarification, invalid/maximum input and keyboard grammar. Default source App build passed.
+- Final .local\handbook-capture-20261010-150412\result.json reports passed=true,
+ documentationFixture=true, recordingStarted=false. Context21/keyboard38checks and old groups pass.
+- The first150204fixture exposed a compact snapshot-height regression from an extra full-width row.
+ Shorter secondary captions and a narrower context toggle corrected it. Failed receipt retained.
+-24WPF images and11README derivatives refreshed; parent reviewed normal context, all24contact-sheet entries and full minimum question/clarification images.
+- Earlier atlas coverage validated205files/31766physical lines/29588nonblank/1261blocks/10groups.
+ One new reviewed citation mapping changed133occurrences; older migrations were not replayed.
+- Script mirrors remain byte-identical; exporter-only App/Core RID lock changes are removed. No actual model/audio input.
+- An earlier full generation produced atlas656pages and handbook380pages. The final authored
+  review below supersedes that intermediate edition; the completed retry is recorded below.
+
+Final authored-source review:
+- Read all22changed/new canonical source/test/script files, covering6418physical lines.
+  The latest read-only annotation validator passes235authored blocks;2PowerShell mirrors match.
+  Layout.cs has no feature diff. All current41screenshot-source hashes match the frozen files.
+- Improved context-fixture excerpts and corrected three annotation details: the geometry predicate's
+  Ask minimum is140(not its148XAML width); compact presentation changes width as well as captions;
+  keyboard Context dispatch belongs to its actual346-365block, not the preceding block.
+- Manually corrected113guide/TODO citation expressions across20documents after read-only comparison
+  with fd67ac516fb4009d75be30f6f5ff72a0499c118d. This does not replay the prior source migration.
+  Audit:459matching equal-line expressions,22reviewed changed-endpoint cases,1079valid endpoint
+  bounds, zero unresolved candidates. Two status citations were tightened semantically to the actual
+  index definitions83-92, not mechanically shifted to Next action. The extra AnswerFont citation was reviewed.
+- The persisted150412UI receipt was read directly: passed=true, documentationFixture=true,
+  recordingStarted=false; context21/21and keyboard38/38. Receipt SHA256:
+  dbf09ce13cf102b1d095e4b4ecbc0ba2838aab15c47abec4846cfd14a8fa3e65
+- Screenshot manifest SHA256:
+  55dcdeb60620c7b2ddd516cd9a1738377f12dfd013a7b03fa02e6b9cd546b09b
+  README derivative manifest SHA256:
+  63224f7efb86dabae7d825c738263ce38d22aa54354486ecf024acb97573321e
+  answer-context.png is1240x1176; WPF SHA256:
+  206e16787e6ae5fd59aee48a2605fd7ffb50fb0b3a6dc7c81d68e4f58b3aa12c
+  Same-size README derivative SHA256:
+  f839e9c7f029303c1091976e705b1a60727f7289cd3f88d3b10cdf998066f2d7
+
+Completion evidence: full atlas/handbook HTML and PDF rebuilt with stable-input freshness checks.
+Atlas:205files/31766lines/29588nonblank/1261blocks/10groups/658pages; handbook:36chapters/73diagrams.
+Final page/word counts and artifact hashes are in their manifests. No further runtime changes or model/audio qualification.
+
+## Publication and qualification boundaries
+
+This increment is NOT in published v0.2.0-preview.1. Its tag, installer/Portable and attached
+PDFs remain immutable. No new commit, push, release, model performance measurement, audio
+capture, authentication flow, owner comfort approval or recipient-capture qualification.
+
+## Dated log
+
+- 2026-10-10 14:41 - Owner authorized implementation of the left-of-Ask context toggle.
+- 2026-10-10 - Reviewed the request/UI/clarification boundaries; authored documentation
+  started while source work continued. Final validation and source-atlas freeze pending.
+- 2026-10-10 15:04 - Parent reports App and 20-check synthetic context fixture authored;
+  no build result yet. Keep annotations/hashes and layout claims pending final source freeze.
+- 2026-10-10 15:20 - Parent reports396targeted tests PASS/0skipped and exporter build PASS.
+  Initial UI fixture minimumLayout=false; primary action placement true. Failure retained,
+  no image import, compact-height correction in progress. No actual model/audio call.
+- 2026-10-10 15:21 - Parent replaces the extra full-width Edit/Copy row with compact captions
+  in one action row, restoring reader space. AnswerFont owns the responsive captions/width;
+  MainWindow.Layout.cs is restored to baseline. Second fixture pending; no final App hashes.
+- 2026-10-10 - Runtime and final21-check context UI validation completed locally; compact regression
+  corrected, images refreshed, all changed/new source annotations refreshed and initial full editions generated.
+- 2026-10-10 - Final authored review found/fixed guide-to-guide and TODO citation drift in addition
+  to the earlier source mapping. Source annotations and prose are ready for the final edition rebuild;
+  IN_PROGRESS remains until parent rendered review/freshness, not merely successful file generation.
+- 2026-10-10 15:48 - Parent confirms the exact150412receipt and runtime freeze. Normal context
+  screenshot reviewed; contact-sheet/minimum-image review still in progress. The retained150204
+  failure was this increment's concrete compact-height regression, not a previous-release failure.
+- 2026-10-10 15:52 - Parent completed normal context, all24contact-sheet images and full minimum
+  question/clarification image review. Context/Ask/Clear share the primary row; Edit/Copy may wrap
+  vertically inside the existing left WrapPanel (compact clarification shows Reply above Copy).
+  There is no added full-width action row. Incidental exporter restore-only App/Core RID lock changes
+  are being inspected/reverted by parent before the final freeze; no further runtime behavior change.
+- 2026-10-10 19:11 - DONE: user-requested retry reconciled late documentation and completed both
+  reference editions. Reviewed representative renders for all27changed book chapters/appendices,
+  all6changed diagrams,24UI contact-sheet images, the new context image and its atlas entry.
+  Simplified workflow/provider diagrams and widened clarification messages after rendered review.
+  An intermediate workflow SVG failed XML/image validation; its raw line-break label was removed
+  before the successful full rebuild. No citation migration was replayed.
+  Canonical edition identities: docs\handbook\manifest.json and docs\source-atlas\manifest.json.
+  MainWindow.Layout.cs, App/Core lockfiles and the published release receipt remain unchanged.
+
+## Reviewed source inventory
+
+Canonical files below are covered by reviewed hashes in the four annotation groups. Script.txt
+twins are exact mirrors, not independent authored entries.
+
+src\PhantomFudge.App:
+- MainWindow.AnswerContext.cs
+- MainWindow.AnswerContextDiagnostics.cs
+- MainWindow.AnswerFont.cs
+- MainWindow.Answers.cs
+- MainWindow.Clarification.cs
+- MainWindow.Keyboard.cs
+- MainWindow.QuestionDiagnostics.cs
+- MainWindow.Questions.cs
+- MainWindow.xaml
+- MainWindow.xaml.cs
+
+src\PhantomFudge.Core:
+- Answers\AgencyAnswerPrompt.cs
+- Answers\AnswerContracts.cs
+- Answers\AnswerRun.cs
+- Answers\CopilotCliAnswerProvider.cs
+- KeyboardCommands.cs
+
+tests\PhantomFudge.Core.Tests:
+- AgencyAnswerPromptTests.cs
+- AgencyCliAnswerProviderTests.cs
+- AnswerRunTests.cs
+- CopilotCliAnswerProviderTests.cs
+- KeyboardCommandsTests.cs
+
+scripts:
+- Export-HandbookScreenshots.ps1 and Export-HandbookScreenshots.txt
+- Export-ReadmeImages.ps1 and Export-ReadmeImages.txt
+
+## Authored documentation inventory
+
+Root: README.md, JOURNAL.md.
+TODO:00_INDEX.todo,16_DEVELOPMENT_LEDGER.todo,49_CLEAR_AFTER_ASK.todo,59_PREVIOUS_ANSWER_CONTEXT.todo.
+
+docs:
+- AI-ANSWER-ARCHITECTURE.md, AI-ANSWER-PRIVACY.md, ANSWER-PROVIDERS.md, ARCHITECTURE.md
+- COVER-AND-PRIVACY.md, CURRENT-WORKFLOW.md, IMPLEMENTATION-STATUS.md, KEYBOARD-CONTROLS.md
+- LOCAL-QUESTIONS.md, OVERVIEW.md, PREVIEW-GUIDE.md, PRODUCT.md
+- QUALIFICATION.md, QUALITY-UPDATE.md, QUESTION-CLARIFICATION.md, README.md
+
+docs\handbook:
+- 00-reading-map.md,01-principal-engineer-guide.md,02-zero-to-hero.md
+- 03-product-boundaries-and-decisions.md,04-windows-capture-and-cursors.md
+- 05-desktop-ui-and-themes.md,06-notes-transcripts-and-storage.md
+- 11-state-machines-and-failure-containment.md,13-proposed-azure-answer-flow.md
+- 14-answer-latency-identity-and-privacy.md,15-development-and-testing.md
+- 16-distribution-and-troubleshooting.md,17-privacy-and-assurance.md
+- 18-extending-the-system.md,19-api-configuration-reference.md
+- 20-glossary-and-repository-map.md,21-evidence-and-roadmap.md
+- 22-desktop-source-walkthrough.md,23-domain-source-walkthrough.md
+- 24-provider-source-walkthrough.md,27-operations-source-walkthrough.md,README.md
+
+docs\source-atlas\annotations:
+- desktop.json,domain.json,operations.json,providers.json
+
+The44authored documentation/tracking files and4annotation groups exclude parent-owned generated
+HTML/PDF, diagrams, manifests and images. Citation-only chapter edits do not imply new feature scope.

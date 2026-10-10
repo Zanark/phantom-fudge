@@ -8,6 +8,21 @@ exception to the single-question-only payload: it includes a fixed instruction a
 bounded interpretation/reply history. It does not authorize unrelated transcript, logs or machine
 metadata. Direct Azure is still future work and must preserve this distinction if implemented.
 
+The October10 local-source **Previous answer** option is a second, independent explicit exception:
+one displayed completed answer, captured on Ask, without its old question or earlier request
+context. It is off/session-only, bounded to32768UTF-16 units and treated as background data, not
+instructions or authority. Clarification retains the same captured string through explicit replies.
+This feature is not in published v0.2.0-preview.1.
+([Context boundary](../src/PhantomFudge.App/MainWindow.AnswerContext.cs),
+[request validation](../src/PhantomFudge.Core/Answers/AnswerContracts.cs),
+[fixed prompt](../src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs).)
+
+Enabling the toggle does not transmit; the next explicit Ask does. Clear/provider changes reset
+it, but cannot revoke a previous submission or erase provider copies. The previous answer may
+itself contain sensitive text or quotes, so inspect it before opting in. Setup/details exposes the
+exact prior text already submitted; it does not imply provider zero retention. Default local logs
+remain metadata-only; existing explicit Text mode may already have retained that answer.
+
 ## The proposed default
 
 Keep Computer/Mic audio and ASR local. Only an explicit **Ask** action sends the immutable

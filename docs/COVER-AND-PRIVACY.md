@@ -179,7 +179,7 @@ can capture output without a microphone icon, so no icon is not proof of stopped
 Cover cannot recall [clipboard copies](https://learn.microsoft.com/en-us/windows/win32/dataxchg/about-the-clipboard),
 delete saved notes/exports, retract provider requests or change upstream retention. Exact question
 and optional clarification remain independent of presentation.
-(src/PhantomFudge.Core/Answers/AnswerContracts.cs:5-14.)
+(src/PhantomFudge.Core/Answers/AnswerContracts.cs:7-33.)
 Diagnostic text is opt-in but can persist when enabled; Cover does not erase it.
 (src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs:145-184.)
 

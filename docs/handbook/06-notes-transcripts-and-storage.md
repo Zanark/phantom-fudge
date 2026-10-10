@@ -8,9 +8,9 @@ outline: deep
 
 ## Overview: persistence is a deliberate boundary
 
-Seeing text, retaining it in memory, and saving it are three different events. Phantom Fudge keeps one editable note and an in-memory transcript; neither is automatically a file. The note tracks its last successful saved value. The transcript tracks its last explicitly exported value. These distinctions let the UI warn about unsaved work without silently persisting meeting content. They also mean a crash can lose unexported text: the preview does not implement automatic recovery. (src\PhantomFudge.App\MainWindow.xaml.cs:24-32,303-323,424-431,848-855; docs\IMPLEMENTATION-STATUS.md:304-309,365-366)
+Seeing text, retaining it in memory, and saving it are three different events. Phantom Fudge keeps one editable note and an in-memory transcript; neither is automatically a file. The note tracks its last successful saved value. The transcript tracks its last explicitly exported value. These distinctions let the UI warn about unsaved work without silently persisting meeting content. They also mean a crash can lose unexported text: the preview does not implement automatic recovery. (src\PhantomFudge.App\MainWindow.xaml.cs:24-32,303-323,424-431,848-855; docs\IMPLEMENTATION-STATUS.md:317-322,378-379)
 
-Capture exclusion does not extend to a `.txt` file, the clipboard, a native file dialog, or process memory. File storage is therefore designed for bounded input and accidental-overwrite resistance, not advertised as a secure vault. Saving to a user-selected location is an explicit act with the ordinary privacy properties of that location. (src\PhantomFudge.App\MainWindow.xaml.cs:390,431; docs\PRODUCT.md:184-200)
+Capture exclusion does not extend to a `.txt` file, the clipboard, a native file dialog, or process memory. File storage is therefore designed for bounded input and accidental-overwrite resistance, not advertised as a secure vault. Saving to a user-selected location is an explicit act with the ordinary privacy properties of that location. (src\PhantomFudge.App\MainWindow.xaml.cs:390,431; docs\PRODUCT.md:209-225)
 
 **Newcomer path:** start with the transcript example, then follow Save. **Principal-engineer path:** inspect session-local ID reset, snapshot comparisons, byte bounds, and the remaining check-to-replace race. [Chapter 11](11-state-machines-and-failure-containment.md) explains why session reset must wait for final draining.
 
@@ -70,7 +70,7 @@ flowchart TB
 | `AudioSourceNames` | Wire names `computer`/`microphone`; display names `Computer`/`Mic`. (src\PhantomFudge.Core\AudioSource.cs:16-30) |
 | `savedText` / `exportedTranscript` | Successful persistence baselines used for equality-based dirty checks. (src\PhantomFudge.App\MainWindow.xaml.cs:28-29,303-304) |
 
-These units must not be conflated. A C# string length counts UTF-16 code units, not UTF-8 bytes or human-perceived characters. `Fits` asks the strict encoder for its actual byte count, including BOM allowance; unpaired surrogates fail rather than becoming replacement characters. The paste handler checks the *resulting note after selection replacement*, while saving checks again. This is not a universal keystroke-by-keystroke size limiter on the editor. (src\PhantomFudge.Core\NoteFileStore.cs:13-24; src\PhantomFudge.App\MainWindow.xaml.cs:468-476; src\PhantomFudge.App\MainWindow.xaml:640-647)
+These units must not be conflated. A C# string length counts UTF-16 code units, not UTF-8 bytes or human-perceived characters. `Fits` asks the strict encoder for its actual byte count, including BOM allowance; unpaired surrogates fail rather than becoming replacement characters. The paste handler checks the *resulting note after selection replacement*, while saving checks again. This is not a universal keystroke-by-keystroke size limiter on the editor. (src\PhantomFudge.Core\NoteFileStore.cs:13-24; src\PhantomFudge.App\MainWindow.xaml.cs:468-476; src\PhantomFudge.App\MainWindow.xaml:681-688)
 
 ## Data flow: recognition becomes a readable history
 
@@ -253,4 +253,4 @@ raw audio are never diagnostic content categories. Clear does not erase already-
 - [UI commands](../../src/PhantomFudge.App/MainWindow.xaml.cs), [buffer tests](../../tests/PhantomFudge.Core.Tests/TranscriptBufferTests.cs), and [source-isolation tests](../../tests/PhantomFudge.Core.Tests/SourceTranscriptTests.cs).
 - [Storage workstream](../../TODO/08_LOCAL_STORAGE.todo): open fault-injection and recovery gates.
 
-Changing encoding, session IDs, export format, or automatic persistence would change the contracts in this chapter. In particular, planned recovery must remain labelled unimplemented until its retention, failure, and reveal behavior actually exists. (docs\ARCHITECTURE.md:264-278)
+Changing encoding, session IDs, export format, or automatic persistence would change the contracts in this chapter. In particular, planned recovery must remain labelled unimplemented until its retention, failure, and reveal behavior actually exists. (docs\ARCHITECTURE.md:279-293)

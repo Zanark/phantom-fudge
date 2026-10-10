@@ -1,0 +1,61 @@
+# Complete narrated tutorial of the current tool
+
+Status: DONE
+Milestone: Local video, captions and chapter navigation
+Dependencies: 15_USER_GUIDE.todo (existing preview guidance), 57_KEYBOARD_CONTROLS.todo, 59_PREVIOUS_ANSWER_CONTEXT.todo
+
+## Request
+
+The October10 22:12 request asks for a full tutorial covering every part of the tool
+with visible clicks. Deliver a usable video, not merely a storyboard or slide deck.
+
+## Scope
+
+- [x] Inventory the current controls, source/installed differences and operational boundaries.
+- [x] Author a complete sequence covering installation, window controls, audio device cards,
+  transcription, question selection/editing/snapshots, providers, streaming answers, previous
+  answer, clarification, notes/files, exports, all keyboard modes, recovery and diagnostics.
+- [x] Capture actual WPF state transitions from an isolated copy with unchanged production XAML.
+  Use scripted routed input and explicit sample IO, not an owner's desktop or real meeting.
+- [x] Generate offline synthetic narration and word-timed captions.
+- [x] Encode the final readable landscape video with truthful action cues and chapters.
+- [x] Review encoded action/result states, narration alignment, completeness and player behavior.
+- [x] Deliver the MP4 and offline chaptered player, retain provenance, and update completion records.
+
+## Boundaries
+
+- This is a scripted tutorial, not an OS mouse recording, live-recognition benchmark or model-quality test.
+- Audio events, endpoint labels and provider responses are synthetic. Clipboard output goes to an
+  isolated sink; file writes use throwaway examples. Native file pickers are omitted and described.
+- Installation, provider provisioning and Windows settings are labelled instructional inserts,
+  not evidence that installation, account setup or a live service operation was executed.
+- Current-source Previous answer remains absent from the unchanged published v0.2.0-preview.1.
+- No real audio/model request, owner-window restart, new installer, commit, push or upload is implied.
+
+## Evidence
+
+- Initial capture exposed a tutorial sequencing error: Type/Done was toggled while the draft
+  was already editable. The authored sequence was corrected without changing production behavior.
+- A later sample-session injection after transcript Clear was rejected by the real session guard.
+  The tutorial now begins a fresh synthetic session before injecting its keyboard-practice lines.
+- Final delivery: artifacts\tutorial\20261010-221225\index.html and
+  Phantom-Fudge-Full-Tutorial.mp4. Keep the folder together for offline chapter navigation.
+- Measured MP4:2297.767seconds (38:17.767),1920x1080/30fps,H.264/AAC,68933frames,159267662bytes.
+  SHA256:388ee914e1ffdc0ac3911d2a2e8dc6c8f33d8aad047f1aeff02fbe41138e1fde.
+-15chapters/194lessons/4758narration words;168UI lessons/26instructional cards;525caption cues.
+  Exact181input events include93clicks,8row selections,50keys,18text,3slider and9focus cues.
+- All media streams fully decoded;67encoded visual samples inspected, including complete device
+  columns, cover/recovery, source commands, question/answer and multi-action sequences.
+  Offline player passes15chapter seeks and highlighting, search, captions, speed, muted playback,
+  local links and responsive layouts. Corrected sub-millisecond seek-boundary highlighting.
+- Fresh local ASR inspected the final synthetic narration, with chapter text similarity95.4-100%.
+  This is not human listening or live transcription/provider qualification.
+- Delivery media-manifest.json and delivery-provenance.json bind artifacts, source captures,
+  narration corrections, renderer, operational coverage and bounded review evidence.
+- Native source, existing reference illustrations and published installer assets are not changed
+  by the isolated capture. Only the documentation/tracking milestone is a repository change.
+
+## History
+
+- 2026-10-10 - Full tutorial production started; actual isolated WPF capture and local narration complete.
+- 2026-10-11 - Full video and offline player completed locally; installer, reference books and runtime unchanged.

@@ -8,7 +8,7 @@ outline: deep
 
 ## Why the boundary is a request, not a coding-agent conversation
 
-An answer provider should receive the question the user approved, not an invitation to inspect the repository or infer additional meeting context. `AnswerRequest` therefore has only `RequestId`, `ExactText` and nullable clarification metadata. The richer `QuestionSnapshot` retains copied source references locally. Freezing and sending are different operations: `QuestionAsk_Click` freezes first, then selects interpretation or ordinary answering; `StartAnswer` returns without a provider call in snapshot-only mode. Missing configuration selects that no-send mode. (src/PhantomFudge.Core/Answers/AnswerContracts.cs:5) (src/PhantomFudge.Core/QuestionSnapshot.cs:11) (src/PhantomFudge.App/MainWindow.Questions.cs:265) (src/PhantomFudge.App/MainWindow.Answers.cs:136) (src/PhantomFudge.Core/Answers/AnswerConfiguration.cs:17)
+An answer provider should receive the question the user approved, not an invitation to inspect the repository or infer additional meeting context. `AnswerRequest` contains `RequestId`, `ExactText`, nullable clarification metadata and nullable `PreviousAnswer`. The richer `QuestionSnapshot` retains copied source references locally. Freezing and sending are different operations: `QuestionAsk_Click` captures optional prior text, freezes the question, then selects interpretation or ordinary answering; `StartAnswer` returns without a provider call in snapshot-only mode. Missing configuration selects that no-send mode. (src/PhantomFudge.Core/Answers/AnswerContracts.cs:7) (src/PhantomFudge.Core/QuestionSnapshot.cs:11) (src/PhantomFudge.App/MainWindow.Questions.cs:265) (src/PhantomFudge.App/MainWindow.Answers.cs:148) (src/PhantomFudge.Core/Answers/AnswerConfiguration.cs:17)
 
 This chapter explains 33 provider source/test/tool files. The [source atlas](../source-atlas/index.html) carries complete source and contiguous authored blocks; its [reading guide](../source-atlas/README.md) explains navigation. Generated result JSON and dependency locks are indexed separately, not counted as authored code explanations. No application, model, login, audio, network or process probe was executed for this research. The edition manifests record coverage and rendered-artifact identities.
 
@@ -25,28 +25,28 @@ config:
     lineColor: "#8b949e"
     clusterBkg: "#161b22"
     clusterBorder: "#30363d"
+  fontFamily: "Segoe UI, Arial, sans-serif"
+  flowchart:
+    nodeSpacing: 36
+    rankSpacing: 16
+    padding: 6
+    htmlLabels: false
 ---
 flowchart TD
     accTitle: Explicit question and clarification routes
-    accDescr: Ask freezes a snapshot. Snapshot-only stays local. Agency serializes every question under the controlled role. Direct Copilot preserves raw default text and envelopes only opted-in clarification.
-    A["Explicit Ask"] --> B["Frozen snapshot"]
-    B --> C{"Provider enabled?"}
-    C -->|No| D["Local snapshot only"]
-    C -->|Yes| E["AnswerRun and request"]
-    E --> F{"Selected adapter"}
-    F -->|Agency| G["Fixed policy and JSON"]
-    F -->|Copilot or LocalModel| H{"Clarification metadata?"}
-    H -->|Null| I["Raw exact stdin"]
-    H -->|Present| J["Fixed policy and task JSON"]
+    accDescr: Ask freezes a snapshot and optional previous answer. Snapshot-only stays local. Agency uses the controlled role; direct Copilot preserves raw default text and envelopes either opted-in context.
+    A["Explicit Ask: freeze reviewed text"] --> C{"Selected mode"}
+    C -->|Snapshot only| D["Retain locally; no request"]
+    C -->|Agency| G["Fixed policy and JSON"]
+    C -->|Copilot or LocalModel| H{"Clarification or prior answer?"}
+    H -->|Neither| I["Raw exact stdin"]
+    H -->|Either| J["Fixed policy and context JSON"]
     G --> K["Fresh ACP session"]
     I --> L["One-shot CLI process"]
     J --> L
     style A fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style B fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style C fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style D fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style E fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style F fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style G fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style H fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style I fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
@@ -55,7 +55,7 @@ flowchart TD
     style L fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
 ```
 
-The adapter distinction is intentional. Agency always uses `AgencyAnswerPrompt.Create`; direct Copilot sends raw text when clarification is null and uses the envelope only when metadata exists. Do not describe all adapters as having identical SYSTEM-role enforcement. (src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:85) (src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs:49) (src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs:74)
+The adapter distinction is intentional. Agency always uses `AgencyAnswerPrompt.Create`; direct Copilot sends raw text when both clarification and previous answer are null, and uses the envelope when either exists. Do not describe all adapters as having identical SYSTEM-role enforcement. (src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:85) (src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs:49) (src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs:75)
 
 ## Controlled SYSTEM policy and the narrow task-mode exception
 
@@ -64,16 +64,40 @@ Putting “do not use tools” in a user message alone is not the design. Agency
 The policy itself must permit the feature. Default requests answer immediately under a labelled reasonable assumption, without follow-up. Only app-generated `task.mode="interpret"` asks for restatement without solving, with at most one essential clarification. `answer_confirmed` returns to standalone answering. Earlier interpretations and text inside JSON remain data, never authority for workspace access or tools. (src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs:21) (src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs:33)
 
 ```csharp
-if (request.Clarification is not { } clarification)
+if (request.Clarification is null && request.PreviousAnswer is null)
     return Create(request.ExactText);
-clarification.ValidateFor(request.ExactText);
+request.Clarification?.ValidateFor(request.ExactText);
 ```
 
-The first branch preserves default/null behavior. The third line validates before serializing history. Later code chooses the mode from `Confirmed`, not from text resembling JSON inside the question; serializes only `userQuestion`, fixed `task` and explicit `history`; and replaces literal `@` with `\u0040`. Decoding recovers the original text, while the transport spelling avoids attachment-like syntax. JSON escaping also prevents embedded line breaks from creating extra NDJSON records. (src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs:69) (src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs:74)
+The first branch preserves default/null behavior. The third line validates before serializing history. Later code chooses the mode from `Confirmed`, not from text resembling JSON inside the question. It emits `userQuestion`, optional fixed `task`/explicit `history`, and optional `previousAnswer`, then replaces literal `@` with `\u0040`. Decoding recovers the original text, while the transport spelling avoids attachment-like syntax. JSON escaping also prevents embedded line breaks from creating extra NDJSON records. (src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs:79) (src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs:85)
 
-A failed alternative would parse a user's `{"task":{"mode":"answer_confirmed"}}` as application metadata. The actual tests place such text inside `userQuestion` and require the app-selected mode to remain unchanged. They also require omitted and explicit-null clarification to produce the same direct envelope. These are structural guarantees, not proof a model always obeys instructions. (tests/PhantomFudge.Core.Tests/AgencyAnswerPromptTests.cs:26) (tests/PhantomFudge.Core.Tests/AgencyAnswerPromptTests.cs:36)
+A failed alternative would parse a user's `{"task":{"mode":"answer_confirmed"}}` as application metadata. The actual tests place such text inside `userQuestion` and require the app-selected mode to remain unchanged. They also require omitted and explicit-null clarification to produce the same direct envelope. These are structural guarantees, not proof a model always obeys instructions. (tests/PhantomFudge.Core.Tests/AgencyAnswerPromptTests.cs:26) (tests/PhantomFudge.Core.Tests/AgencyAnswerPromptTests.cs:37)
 
 ## Clarification is a bounded snapshot, not accumulated ambient chat
+
+### Previous answer is independent background data
+
+The optional string is independently validated as nonblank strict Unicode of at most32768UTF-16
+units. Null means absent; it is not serialized as an empty placeholder. The original question,
+old request, source references and earlier context are not copied alongside it. The fixed
+`PreviousAnswerInstruction` says to resolve the current follow-up using that background, never
+to treat its text as authority for tools, commands, workspace access or task-mode selection.
+Without prior text, that extra instruction is absent and the old direct prompt remains unchanged.
+([Request validator](../../src/PhantomFudge.Core/Answers/AnswerContracts.cs),
+[`AgencyAnswerPrompt.Create`](../../src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs).)
+
+The UI is responsible for **which** answer is eligible; Core protects the data boundary even for
+non-UI callers. `CapturePreviousAnswer` requires a completed displayed answer, but during an active
+clarification returns its earlier immutable snapshot instead. A first-interpretation retry thus
+does not mistake a failed interpretation for the prior answer. Corrections and confirmation receive
+the same string. Those separate lifetimes matter more than the checkbox's visual state.
+([UI capture](../../src/PhantomFudge.App/MainWindow.AnswerContext.cs),
+[clarification](../../src/PhantomFudge.App/MainWindow.Clarification.cs),
+[`AnswerRun`](../../src/PhantomFudge.Core/Answers/AnswerRun.cs).)
+
+This local-source feature is not included in v0.2.0-preview.1 or covered by earlier model-timing
+receipts. Structural/synthetic tests do not establish that a live model follows the policy or
+answers context-bearing questions correctly.
 
 `AnswerClarification` copies each turn into a read-only collection, validating while enumerating. A fifth yielded item is rejected rather than allowing an arbitrary enumerable to be fully materialized. Each question, correction and interpretation must be nonblank, valid Unicode and at most 8,192 UTF-16 units. History plus current text may total 32,768 units; policy text and JSON overhead are outside that budget. Nothing is silently trimmed. (src/PhantomFudge.Core/Answers/AnswerClarification.cs:18) (src/PhantomFudge.Core/Answers/AnswerClarification.cs:38) (src/PhantomFudge.Core/Answers/AnswerClarification.cs:59)
 
@@ -83,9 +107,9 @@ A failed alternative would parse a user's `{"task":{"mode":"answer_confirmed"}}`
 | `Confirmed=false` | Zero through three turns | Initial interpretation or correction |
 | `Confirmed=true` | One through four turns | Answer the latest reviewed interpretation |
 
-Four completed interpretations leave only confirmation or a new question. Confirmation with no interpretation fails. A history at the aggregate maximum can be constructed but cannot accept even a one-character current reply. The UI therefore validates each completed interpretation with hypothetical `"Yes"` before accepting it into history. (src/PhantomFudge.Core/Answers/AnswerClarification.cs:45) (src/PhantomFudge.App/MainWindow.Clarification.cs:157)
+Four completed interpretations leave only confirmation or a new question. Confirmation with no interpretation fails. A history at the aggregate maximum can be constructed but cannot accept even a one-character current reply. The UI therefore validates each completed interpretation with hypothetical `"Yes"` before accepting it into history. (src/PhantomFudge.Core/Answers/AnswerClarification.cs:45) (src/PhantomFudge.App/MainWindow.Clarification.cs:160)
 
-The UI toggle starts false. The original snapshot is retained separately; explicit replies freeze a new reply-only draft and carry the copied exchange as metadata. Only trimmed case-insensitive “yes” counts as typed confirmation, and the confirmation button refuses to discard a written correction. Completing an interpretation updates local state; it does not automatically send another request. (src/PhantomFudge.App/MainWindow.Clarification.cs:11) (src/PhantomFudge.App/MainWindow.Clarification.cs:85) (src/PhantomFudge.App/MainWindow.Clarification.cs:117) (src/PhantomFudge.App/MainWindow.Clarification.cs:166)
+The UI toggle starts false. The original snapshot is retained separately; explicit replies freeze a new reply-only draft and carry the copied exchange as metadata. Only trimmed case-insensitive “yes” counts as typed confirmation, and the confirmation button refuses to discard a written correction. Completing an interpretation updates local state; it does not automatically send another request. (src/PhantomFudge.App/MainWindow.Clarification.cs:11) (src/PhantomFudge.App/MainWindow.Clarification.cs:88) (src/PhantomFudge.App/MainWindow.Clarification.cs:120) (src/PhantomFudge.App/MainWindow.Clarification.cs:169)
 
 ### C# to Python: preserve the unit of a limit
 
@@ -161,7 +185,7 @@ These statements run **after** prompt terminal validation and **before** yieldin
 
 Incoming RPCs with a method and ID are reverse client requests and fail rather than opening a permission/input loop. Updates must match the established session, and tool/plan kinds fail. Before answer text, both the disabled-tools notice and exact unknown-sentinel notice are required. Notice parsing checks shape and bounds, not an exhaustive expected tool inventory. Terminal requires matching RPC ID, `end_turn` and nonempty text. (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:213) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:232) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:276)
 
-Default/confirmed answers additionally pass a prose heuristic rejecting selected requests for more input. Code fences are skipped. Only unconfirmed interpretation bypasses that heuristic; it still requires every transport/tool/terminal check. Screening occurs at terminal, so rejected text may already have streamed and must remain labelled incomplete. This is not general semantic answer validation. (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:103) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:330) (tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs:195)
+Default/confirmed answers additionally pass a prose heuristic rejecting selected requests for more input. Code fences are skipped. Only unconfirmed interpretation bypasses that heuristic; it still requires every transport/tool/terminal check. Screening occurs at terminal, so rejected text may already have streamed and must remain labelled incomplete. This is not general semantic answer validation. (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:103) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:330) (tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs:326)
 
 ## Process ownership and environment isolation are not a sandbox
 
@@ -174,21 +198,21 @@ The nonempty `--available-tools=phantom_fudge_no_tools` value is consequential. 
 | App-data roots | Redirected into owned home | Real APPDATA/LOCALAPPDATA retained for wrapper installation/authentication |
 | Engine lifetime | One answer process after a version process | Persistent ACP engine; fresh session per question |
 
-Both paths use shell-free redirected pipes and strip inherited credentials/routing overrides. LocalModel accepts only literal HTTP loopback `/v1` endpoints and supplies offline/provider variables; hostname aliases, encoded paths, credentials and query/fragment are rejected. Validation does not itself implement redirect policy or require an explicit port. Installed-CLI redirect behavior is a separate opt-in integration test. (src/PhantomFudge.Core/Answers/CopilotCliLaunch.cs:84) (src/PhantomFudge.Core/Answers/CopilotCliLaunch.cs:95) (src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs:40) (src/PhantomFudge.Core/Answers/AnswerContracts.cs:49) (tests/PhantomFudge.Core.Tests/CopilotOfflineIntegrationTests.cs:70)
+Both paths use shell-free redirected pipes and strip inherited credentials/routing overrides. LocalModel accepts only literal HTTP loopback `/v1` endpoints and supplies offline/provider variables; hostname aliases, encoded paths, credentials and query/fragment are rejected. Validation does not itself implement redirect policy or require an explicit port. Installed-CLI redirect behavior is a separate opt-in integration test. (src/PhantomFudge.Core/Answers/CopilotCliLaunch.cs:84) (src/PhantomFudge.Core/Answers/CopilotCliLaunch.cs:95) (src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs:40) (src/PhantomFudge.Core/Answers/AnswerContracts.cs:68) (tests/PhantomFudge.Core.Tests/CopilotOfflineIntegrationTests.cs:70)
 
 `CopilotOwnedProcess` creates a Windows kill-on-close Job, starts the child, then assigns it. Assignment failure kills/reaps instead of continuing unowned; this post-start assignment is not a suspended-start security sandbox. stderr drains concurrently under a 65,536-character cap, preventing a full stderr pipe from blocking stdout. Cancellation targets the owned process tree/Job, never all processes by name. Disposal bounds waiting and reports cleanup failure. (src/PhantomFudge.Core/Answers/CopilotOwnedProcess.cs:31) (src/PhantomFudge.Core/Answers/CopilotOwnedProcess.cs:57) (src/PhantomFudge.Core/Answers/CopilotOwnedProcess.cs:122)
 
-Deleting owned directories does not erase retained hosted-Copilot profile databases, Agency caches/authentication under real app-data roots, OS artifacts or remote retention. Authentication-marker detection reacts to observable output and cannot prove the wrapper had not already begun an external authentication action. No adapter deliberately launches a login command as recovery. (src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs:67) (src/PhantomFudge.Core/Answers/CopilotCliProfile.cs:76) (src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs:53) (src/PhantomFudge.Core/Answers/AgencyJsonProtocol.cs:54)
+Deleting owned directories does not erase retained hosted-Copilot profile databases, Agency caches/authentication under real app-data roots, OS artifacts or remote retention. Authentication-marker detection reacts to observable output and cannot prove the wrapper had not already begun an external authentication action. No adapter deliberately launches a login command as recovery. (src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs:68) (src/PhantomFudge.Core/Answers/CopilotCliProfile.cs:76) (src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs:53) (src/PhantomFudge.Core/Answers/AgencyJsonProtocol.cs:54)
 
 ## One-shot parsing and the final application state
 
 Direct Copilot is not ACP. `CopilotJsonProtocol` requires one message/turn, matches deltas to message identity, checks the final message equals accumulated text, then requires turn-end, idle, result exit zero **and actual process exit zero**. Final-only output is supported once; reasoning and usage are not answer text. Unknown events and reported tools/customizations fail. Framing limits are independent: 262,144 characters per record, 2,097,152 total, 8,192 records and 32,768 answer characters. EOF without a final newline is incomplete. (src/PhantomFudge.Core/Answers/CopilotJsonProtocol.cs:11) (src/PhantomFudge.Core/Answers/CopilotJsonProtocol.cs:67) (src/PhantomFudge.Core/Answers/CopilotJsonProtocol.cs:137) (src/PhantomFudge.Core/Answers/CopilotJsonProtocol.cs:189)
 
-`AnswerRun` adds application-level protection: foreign/late events are ignored; active matching events must have increasing sequence numbers; overflow rejects the entire new delta. Receiving Completed only sets terminal evidence. The UI waits for enumeration to end, validates clarification output, then calls `run.Complete()`, which requires nonblank text. This catches iterator/cleanup failure after terminal delivery and preserves partial text on cancellation/failure. (src/PhantomFudge.Core/Answers/AnswerRun.cs:32) (src/PhantomFudge.Core/Answers/AnswerRun.cs:55) (src/PhantomFudge.App/MainWindow.Answers.cs:186)
+`AnswerRun` adds application-level protection: foreign/late events are ignored; active matching events must have increasing sequence numbers; overflow rejects the entire new delta. Receiving Completed only sets terminal evidence. The UI waits for enumeration to end, validates clarification output, then calls `run.Complete()`, which requires nonblank text. This catches iterator/cleanup failure after terminal delivery and preserves partial text on cancellation/failure. (src/PhantomFudge.Core/Answers/AnswerRun.cs:34) (src/PhantomFudge.Core/Answers/AnswerRun.cs:57) (src/PhantomFudge.App/MainWindow.Answers.cs:200)
 
 ## What the tests and probes establish—and what they do not
 
-The large fake ACP script is part of the test logic: it emits full option sets, verifies agent selection, captures envelopes and injects reverse RPCs, wrong IDs, drift, notices, delays and bad terminals. Launch transformation substitutes PowerShell for a nonexecutable sentinel. These tests exercise actual application protocol/lifecycle code without qualifying a real model or binary. Process cases return early on non-Windows. (tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs:511) (tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs:546)
+The large fake ACP script is part of the test logic: it emits full option sets, verifies agent selection, captures envelopes and injects reverse RPCs, wrong IDs, drift, notices, delays and bad terminals. Launch transformation substitutes PowerShell for a nonexecutable sentinel. These tests exercise actual application protocol/lifecycle code without qualifying a real model or binary. Process cases return early on non-Windows. (tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs:642) (tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs:677)
 
 Other tests separately cover immutable history, raw-default versus clarification stdin, stale run events and fragmented framing. The installed-Copilot integration fixture requires an explicit executable environment variable; absent that variable, it returns without running. When authorized, its loopback SSE peer withholds terminal until the consumer sees the first delta, checks zero tools and no sentinel-file expansion, and observes redirect behavior. Reading these assertions is not reporting a fresh pass. (tests/PhantomFudge.Core.Tests/AnswerClarificationTests.cs:8) (tests/PhantomFudge.Core.Tests/CopilotCliAnswerProviderTests.cs:36) (tests/PhantomFudge.Core.Tests/CopilotJsonProtocolTests.cs:154) (tests/PhantomFudge.Core.Tests/CopilotOfflineIntegrationTests.cs:19) (tests/PhantomFudge.Core.Tests/CopilotOfflineIntegrationTests.cs:134)
 
@@ -219,4 +243,4 @@ Finally, distinguish smoke tools from latency/cleanup qualification. The older P
 
 ## Review boundary
 
-Mechanical line coverage is not proof every subtle behavior has been understood. The atlas explains source guards and test assertions; external CLI libraries, live provider semantics, real devices, model quality, human confirmation usability and recipient-side capture remain separate boundaries. The app's own qualification plan keeps meeting/OBS candidates unqualified; provider isolation does not change that. Direct Azure remains outside the implemented provider enum, and source-only selection/clarification changes are not retroactively included in the historical 045022 ZIP. (docs/QUALIFICATION.md:3) (src/PhantomFudge.Core/Answers/AnswerContracts.cs:14) (TODO/45_OPT_IN_QUESTION_CLARIFICATION.todo:34)
+Mechanical line coverage is not proof every subtle behavior has been understood. The atlas explains source guards and test assertions; external CLI libraries, live provider semantics, real devices, model quality, human confirmation usability and recipient-side capture remain separate boundaries. The app's own qualification plan keeps meeting/OBS candidates unqualified; provider isolation does not change that. Direct Azure remains outside the implemented provider enum, and source-only selection/clarification changes are not retroactively included in the historical 045022 ZIP. (docs/QUALIFICATION.md:3) (src/PhantomFudge.Core/Answers/AnswerContracts.cs:33) (TODO/45_OPT_IN_QUESTION_CLARIFICATION.todo:34)

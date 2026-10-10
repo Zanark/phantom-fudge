@@ -1,8 +1,27 @@
+using System.Text;
+
 namespace PhantomFudge.Core.Answers;
 
 public enum AnswerEventKind { TextDelta, Completed }
 
-public sealed record AnswerRequest(Guid RequestId, string ExactText, AnswerClarification? Clarification = null);
+public sealed record AnswerRequest(Guid RequestId, string ExactText, AnswerClarification? Clarification = null,
+    string? PreviousAnswer = null)
+{
+    internal static void ValidatePreviousAnswer(string? previousAnswer)
+    {
+        if (previousAnswer is null)
+            return;
+        if (string.IsNullOrWhiteSpace(previousAnswer))
+            throw new AnswerProviderException("previous_answer_text", "The previous answer cannot be empty or blank.");
+        if (previousAnswer.Length > AnswerRun.MaximumCharacters)
+            throw new AnswerProviderException("previous_answer_limit", "The previous answer must be at most 32768 characters. Turn off previous-answer context to ask without it.");
+        try { _ = new UTF8Encoding(false, true).GetByteCount(previousAnswer); }
+        catch (EncoderFallbackException)
+        {
+            throw new AnswerProviderException("previous_answer_unicode", "The previous answer contains invalid Unicode. Turn off previous-answer context to ask without it.");
+        }
+    }
+}
 
 public sealed record AnswerEvent(Guid RequestId, long Sequence, AnswerEventKind Kind, string Text = "");
 

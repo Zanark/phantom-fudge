@@ -76,7 +76,7 @@
     },
     {
       "path": "scripts/Export-HandbookScreenshots.ps1",
-      "sourceSha256": "ac9ac238da02288df23c587cbb483a92224add600adb4dadf41ccbc13326cffa",
+      "sourceSha256": "20322f7d98082e76eb66e4922b032beaf8e5a72c32bbd19323b56feefc58f17f",
       "role": "Import allowlisted synthetic WPF visual-tree images with source provenance, not desktop or recorder evidence.",
       "entryPoints": [
         "Export-HandbookScreenshots.ps1"
@@ -97,8 +97,8 @@
         {
           "start": 25,
           "end": 51,
-          "title": "Import twenty-three named images and record their dimensions",
-          "explanation": "The explicit list covers themes, opacity, Notes, source cards, question/clarification/answer states, the mask and three new keyboard selection, command and font illustrations. Each must exist before its own copy. PNG width and height are read from offsets 16..23 and reversed for BitConverter; this assumes fixture-produced PNGs rather than validating arbitrary formats. Per-image SHA256, dimensions and fixture kind form the receipt. The loop is incremental: a missing later image can leave earlier copies, so it is not transactional.",
+          "title": "Import twenty-four named images and record dimensions",
+          "explanation": "The explicit list covers themes, opacity, Notes, source cards, question/clarification/answer states, the mask and three new keyboard selection, command and font illustrations. Each must exist before its own copy. PNG width and height are read from offsets 16..23 and reversed for BitConverter; this assumes fixture-produced PNGs rather than validating arbitrary formats. Per-image SHA256, dimensions and fixture kind form the receipt. The loop is incremental: a missing later image can leave earlier copies, so it is not transactional. The list now contains24 images, adding answer-context.png with a synthetic follow-up and checked previous-answer toggle.",
           "focus": [
             {
               "start": 37,
@@ -108,25 +108,25 @@
         },
         {
           "start": 52,
-          "end": 77,
+          "end": 78,
           "title": "Bind illustrations to a reviewed set of UI source files",
-          "explanation": "The allowlist now includes modal controller, selection, device navigation and synthetic diagnostics, the font partial, native hotkeys and domain command/configuration files alongside existing UI dependencies. Every listed file is hashed under a portable key. This binds images to these reviewed inputs, not every transitive renderer dependency; future UI sources require explicit additions. Runtime source is read for provenance, not copied into the image directory.",
+          "explanation": "The allowlist now includes modal controller, selection, device navigation and synthetic diagnostics, the font partial, native hotkeys and domain command/configuration files alongside existing UI dependencies. Every listed file is hashed under a portable key. This binds images to these reviewed inputs, not every transitive renderer dependency; future UI sources require explicit additions. Runtime source is read for provenance, not copied into the image directory. The reviewed source allowlist also hashes MainWindow.AnswerContext.cs and its synthetic diagnostic partial so changed context behavior invalidates these images.",
           "focus": [
             {
-              "start": 74,
-              "end": 77
+              "start": 75,
+              "end": 78
             }
           ]
         },
         {
-          "start": 78,
-          "end": 95,
+          "start": 79,
+          "end": 96,
           "title": "Publish scoped provenance and derive README images",
           "explanation": "The manifest records schema version, UTC generation time, built PhantomFudge.dll hash, source hashes and image records. It explicitly describes RenderTargetBitmap over synthetic controls, with no recording and no real device names, speech service or cloud request claimed by the fixture. Its limitation is appearance only, not recorder compatibility. Once the manifest is written, Export-ReadmeImages.ps1 verifies selected images and creates opaque derivatives. A derivative failure can therefore occur after screenshot import and manifest creation.",
           "focus": [
             {
-              "start": 81,
-              "end": 90
+              "start": 82,
+              "end": 91
             }
           ]
         }
@@ -134,7 +134,7 @@
     },
     {
       "path": "scripts/Export-ReadmeImages.ps1",
-      "sourceSha256": "8de5b17da8b62acd28dd4d93c5585fc91913df3d2c1f7ae28381a794ce2b48a3",
+      "sourceSha256": "5ad3c76f55614e426e256deb8fceb223d42ac14e64d3260b0d9aec52f3774eda",
       "role": "Composite approved transparent synthetic UI renders onto fixed palette backgrounds for README legibility.",
       "entryPoints": [
         "Export-ReadmeImages.ps1"
@@ -142,45 +142,45 @@
       "blocks": [
         {
           "start": 1,
-          "end": 25,
-          "title": "Require a non-recording fixture and declare ten derivatives",
-          "explanation": "The input is the handbook screenshot manifest, which must identify a documentation fixture and must not report recording. System.Drawing performs composition; no screen-capture API appears here. Ten explicit mappings include the original transcript/answer/themes plus device cards, the recording indicator, multi-selection, clarification and cover workflow. Dark surfaces receive #000F13, Harbor Daylight #F3F2E9 and Plain #FAF9F6, preventing transparent screenshot pixels from inheriting an unsuitable GitHub background. These are separate synthetic examples, not a continuous live meeting.",
+          "end": 26,
+          "title": "Require a non-recording fixture and declare eleven derivatives",
+          "explanation": "The input is the handbook screenshot manifest, which must identify a documentation fixture and must not report recording. System.Drawing performs composition; no screen-capture API appears here. Ten explicit mappings include the original transcript/answer/themes plus device cards, the recording indicator, multi-selection, clarification and cover workflow. Dark surfaces receive #000F13, Harbor Daylight #F3F2E9 and Plain #FAF9F6, preventing transparent screenshot pixels from inheriting an unsuitable GitHub background. These are separate synthetic examples, not a continuous live meeting. There are now eleven derivatives: the new answer-context.png mapping composites that checked-toggle illustration over the dark palette background.",
           "focus": [
             {
               "start": 8,
               "end": 16
             },
             {
-              "start": 17,
-              "end": 24
+              "start": 18,
+              "end": 25
             }
           ]
         },
         {
-          "start": 26,
-          "end": 44,
+          "start": 27,
+          "end": 45,
           "title": "Verify provenance before unscaled composition",
           "explanation": "For each mapping, the current source SHA256 must match exactly one manifest image entry; missing or duplicate entries fail along with mismatched bytes. The output bitmap preserves the source dimensions, clears to the declared opaque palette color, and draws the original unscaled at (0,0). This changes background compositing, not layout or text scale. Graphics is disposed even when drawing fails; the surrounding finally blocks later release the bitmap and original image.",
           "focus": [
             {
-              "start": 29,
-              "end": 33
+              "start": 30,
+              "end": 34
             },
             {
-              "start": 37,
-              "end": 44
+              "start": 38,
+              "end": 45
             }
           ]
         },
         {
-          "start": 45,
-          "end": 63,
+          "start": 46,
+          "end": 64,
           "title": "Connect each output hash to its input hash",
           "explanation": "Each derivative record carries its portable output path/hash, source path/hash, background and dimensions. Nested finally blocks prevent image handles from retaining input/output file locks. The final manifest names the transformation and expressly denies desktop/capture-exclusion evidence. Like screenshot import, generation is incremental: a failure midway does not roll back images already saved, and the manifest is written only after the full loop.",
           "focus": [
             {
-              "start": 45,
-              "end": 55
+              "start": 46,
+              "end": 56
             }
           ]
         }

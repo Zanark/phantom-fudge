@@ -185,7 +185,7 @@ the default suite (`tests\PhantomFudge.Audio.Tests\Program.cs:18-71`).
 The documentation command renders actual WPF controls with synthetic text/device labels. It is
 not a Snipping Tool workaround for capturing someone else's private window
 (`src\PhantomFudge.App\App.xaml.cs:54-59`,
-`scripts\Export-HandbookScreenshots.ps1:1-94`).
+`scripts\Export-HandbookScreenshots.ps1:1-95`).
 
 ## How to avoid learning the wrong lesson
 

@@ -283,6 +283,7 @@ public partial class MainWindow
         }
         try
         {
+            var previousAnswer = useAnswerProvider ? CapturePreviousAnswer() : null;
             lastQuestionSnapshot = questionDraft.Freeze();
             questionSnapshotCount++;
             QuestionSnapshotText.Text = lastQuestionSnapshot.ExactText;
@@ -290,9 +291,9 @@ public partial class MainWindow
             QuestionStatus.Text = "Snapshot frozen locally. Azure is not connected; no request was sent.";
             EnsureQuestionReadingVisible();
             if (clarifyFirst && useAnswerProvider)
-                BeginQuestionClarification(lastQuestionSnapshot);
+                BeginQuestionClarification(lastQuestionSnapshot, previousAnswer);
             else
-                StartAnswer(lastQuestionSnapshot);
+                StartAnswer(lastQuestionSnapshot, previousAnswer: previousAnswer);
         }
         catch (AnswerProviderException error)
         {

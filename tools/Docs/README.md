@@ -30,7 +30,7 @@ It captures the WPF visual tree with synthetic content/device labels, never the 
 opens capture endpoints nor starts speech. Do not run simultaneous .NET builds sharing `obj`.
 No existing owner app is closed; a timeout terminates only the fixture's own PID.
 
-The screenshot exporter also runs `Export-ReadmeImages.ps1`. It composites ten verified synthetic
+The screenshot exporter also runs `Export-ReadmeImages.ps1`. It composites eleven verified synthetic
 renders onto their palette backgrounds so GitHub's light/dark page backgrounds do not wash out
 transparent UI text. Reuse current captures without opening the app with:
 

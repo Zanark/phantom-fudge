@@ -5,7 +5,7 @@ namespace PhantomFudge.Core;
 public enum KeyboardCommandKind
 {
     Start, Stop, Source, Devices, Clarify, Confirm, Font, CopyQuestion, CopyAnswer,
-    ClearQuestion, Cancel, Theme, Opacity, Ask, Mask, Help
+    ClearQuestion, Cancel, Theme, Opacity, Ask, Mask, Help, Context
 }
 
 public sealed record KeyboardCommand(KeyboardCommandKind Kind, string? Argument = null, int? Value = null);
@@ -18,7 +18,7 @@ public static class KeyboardCommands
     public static IReadOnlyList<string> Examples { get; } = Array.AsReadOnly(new[]
     {
         "start", "stop", "source mic", "source computer", "source both", "devices",
-        "clarify on", "clarify off", "confirm", "font 14", "copy question", "copy answer",
+        "clarify on", "clarify off", "context on", "context off", "confirm", "font 14", "copy question", "copy answer",
         "clear question", "cancel", "theme dark", "theme light", "theme plain", "opacity 55",
         "ask", "mask", "help", "record start", "record stop"
     });
@@ -36,6 +36,7 @@ public static class KeyboardCommands
             ["source", "mic" or "computer" or "both"] => new(KeyboardCommandKind.Source, tokens[1]),
             ["devices"] => new(KeyboardCommandKind.Devices),
             ["clarify", "on" or "off"] => new(KeyboardCommandKind.Clarify, tokens[1]),
+            ["context", "on" or "off"] => new(KeyboardCommandKind.Context, tokens[1]),
             ["confirm"] => new(KeyboardCommandKind.Confirm),
             ["font", var value] => new(KeyboardCommandKind.Font, Value: ParseInteger(value,
                 MinimumFontSize, MaximumFontSize, "Font size must be a whole number from 8 to 24.")),

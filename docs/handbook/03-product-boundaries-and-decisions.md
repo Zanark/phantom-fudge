@@ -15,7 +15,7 @@ The initial request was a draggable speaker-notes window that would not appear i
 share. The useful part of that request is implementable on supported Windows capture paths.
 The absolute version—no software can ever detect or record the surface—is not. The product
 contract therefore separates plain-text editing, movement, shell presentation, captured pixels,
-platform support and actual product qualification (`docs\PRODUCT.md:6-37`).
+platform support and actual product qualification (`docs\PRODUCT.md:6-38`).
 
 That separation made later changes tractable. Transcription became the main view. Notes became
 collapsible. The owner removed repetitive permission/rehearsal acknowledgments. Translucency
@@ -26,6 +26,15 @@ Azure answering became a researched future extension, not an automatic cloud rep
 The development ledger records these changes as dated decisions and evidence, not a fictional
 linear plan that was correct from the beginning (`TODO\16_DEVELOPMENT_LEDGER.todo:1-90`).
 The [public journal](../../JOURNAL.md) tells the fuller chronological story.
+
+The October10 request deliberately widens the default single-question payload by one bounded,
+explicitly selected item: the displayed completed answer. **Previous answer** sits left of Ask,
+starts off and never sends on toggle. It is not approval for accumulated chat, transcript capture,
+tools or a new publication. Clarification keeps the same prior snapshot while its interpretation
+replaces the screen. The source increment is not in v0.2.0-preview.1.
+([Product requirement R24](../PRODUCT.md),
+[`CapturePreviousAnswer`](../../src/PhantomFudge.App/MainWindow.AnswerContext.cs),
+[workstream59](../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo).)
 
 ## Architecture of a requirement
 
@@ -125,7 +134,7 @@ An authored workflow can be complete while execution is not started
 This is especially important for the Azure plan. The proposed path sends a frozen, explicit
 question to a streamed model request. It does not authorize automatic meeting uploads, resource
 creation or model calls simply because the diagram exists
-(`docs\AI-ANSWER-ARCHITECTURE.md:82-188`).
+(`docs\AI-ANSWER-ARCHITECTURE.md:82-200`).
 
 ## A worked change-impact exercise
 
@@ -148,11 +157,11 @@ is written down before pretending that all those surfaces agree
 
 ## References
 
-- `docs\PRODUCT.md:6-37` — distinct requirements and limits.
+- `docs\PRODUCT.md:6-38` — distinct requirements and limits.
 - `TODO\16_DEVELOPMENT_LEDGER.todo:1-90` — dated scope/evidence history.
 - `src\PhantomFudge.App\Native\WindowProtection.cs:19-48` — actual window mechanism.
 - `src\PhantomFudge.Core\AudioSource.cs:3-30` — input identities.
 - `scripts\Start-Transcription.ps1:1-24` — native default.
 - `scripts\Run-PhantomFudge.ps1:1-41` — launch options.
 - `docs\DUAL-SOURCE-AUDIO.md:1-116` — microphone supersession and protocol.
-- `docs\AI-ANSWER-ARCHITECTURE.md:82-188` — proposed answer boundary.
+- `docs\AI-ANSWER-ARCHITECTURE.md:82-200` — proposed answer boundary.

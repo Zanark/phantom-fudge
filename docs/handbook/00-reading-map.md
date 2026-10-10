@@ -23,7 +23,7 @@ inputs, and a researched proposal for explicitly sending a question to an Azure 
 important engineering work is not drawing a rectangle. It is keeping each promise narrow enough
 to implement and each state transition strong enough to preserve data. The current product
 contract records those distinct requirements rather than collapsing them into a claim of
-universal invisibility (`docs\PRODUCT.md:6-37`).
+universal invisibility (`docs\PRODUCT.md:6-38`).
 
 This handbook is intended to support three activities. A new contributor should be able to
 run and navigate the application without guessing. A senior engineer should be able to review
@@ -146,7 +146,7 @@ The local draft and immutable snapshot now exist. Explicit selected segments or 
 (`src\PhantomFudge.Core\QuestionDraft.cs:18-95`, `src\PhantomFudge.Core\QuestionSnapshot.cs:5-23`).
 Source commit and direct Azure identity remain future work. Installed-provider streaming and setup
 are explained in the new [Agency/local-model chapter](../ANSWER-PROVIDERS.md), separately from Azure
-(`docs\AI-ANSWER-ARCHITECTURE.md:82-188`). A local-only snapshot is not a model request; configured provider Ask crosses its labelled inference boundary.
+(`docs\AI-ANSWER-ARCHITECTURE.md:82-200`). A local-only snapshot is not a model request; configured provider Ask crosses its labelled inference boundary.
 
 ## Reading source citations
 
@@ -169,11 +169,11 @@ If any pair sounds equivalent, revisit the relevant boundary before changing the
 
 ## References
 
-- `docs\OVERVIEW.md:8-70` — current product and qualification summary, moved from the visual front page.
-- `docs\PRODUCT.md:6-37` — requirement and impossibility boundary.
+- `docs\OVERVIEW.md:8-71` — current product and qualification summary, moved from the visual front page.
+- `docs\PRODUCT.md:6-38` — requirement and impossibility boundary.
 - `AGENTS.md:14-43` — engineering distinctions and privacy rules.
 - `src\PhantomFudge.App\App.xaml.cs:13-97` — real startup paths.
 - `src\PhantomFudge.Core\AudioSource.cs:3-30` — source identity.
 - `src\PhantomFudge.Core\TranscriptBuffer.cs:6-97` — partial/final text representation.
 - `scripts\Run-PhantomFudge.ps1:17-41` — launch versus audio/service behavior.
-- `docs\AI-ANSWER-ARCHITECTURE.md:82-188` — installed-provider architecture and separately planned Azure extension.
+- `docs\AI-ANSWER-ARCHITECTURE.md:82-200` — installed-provider architecture and separately planned Azure extension.

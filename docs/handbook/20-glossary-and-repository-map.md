@@ -10,7 +10,7 @@ outline: deep
 
 Many dangerous misunderstandings are substitutions between nearly related words: *source* becomes *speaker*, *configured* becomes *qualified*, or *stopped* becomes *fully drained*. This chapter makes those substitutions visible. A term is useful when it identifies an owner, a unit, or a completion condition—not merely when it expands an acronym.
 
-For example, `AudioSource` names Computer and Microphone, while `Session.RequestStop` clears Running before cleanup finishes. Snapshot-only Ask freezes without sending; a configured installed provider can answer the exact question. Source-specific commit and direct Azure submission remain proposed operations. (src\PhantomFudge.Core\AudioSource.cs:3-30; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:532-546; src\PhantomFudge.Core\QuestionDraft.cs:90-95; docs\AI-ANSWER-ARCHITECTURE.md:461-506)
+For example, `AudioSource` names Computer and Microphone, while `Session.RequestStop` clears Running before cleanup finishes. Snapshot-only Ask freezes without sending; a configured installed provider can answer the exact question. Source-specific commit and direct Azure submission remain proposed operations. (src\PhantomFudge.Core\AudioSource.cs:3-30; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:532-546; src\PhantomFudge.Core\QuestionDraft.cs:90-95; docs\AI-ANSWER-ARCHITECTURE.md:473-518)
 
 Use this chapter as a junction rather than a replacement for the detailed chapters. Start with a question, locate the responsible boundary, then follow the cited function. Source establishes implementation; a test establishes its asserted conditions; qualification requires separate environmental evidence. (docs\QUALIFICATION.md:9-26)
 
@@ -58,8 +58,8 @@ This is an ownership map, not a claim that the manager processes PCM. `Run-Phant
 | `scripts` | [Run-PhantomFudge.ps1](../../scripts/Run-PhantomFudge.ps1): source/package launch and existing-window recovery, not automatic recording. (scripts\Run-PhantomFudge.ps1:9-41) |
 | `tests` | [Core file tests](../../tests/PhantomFudge.Core.Tests/NoteFileStoreTests.cs) and [native harness](../../tests/PhantomFudge.Audio.Tests/Program.cs): deterministic policies and synthetic protocol checks. (tests\PhantomFudge.Core.Tests\NoteFileStoreTests.cs:13-109; tests\PhantomFudge.Audio.Tests\Program.cs:26-75) |
 | `spikes` and `tools` | [CaptureProof project](../../spikes/CaptureProof/CaptureProof.csproj) links diagnostic code; [SpeechBench](../../tools/SpeechBench/bench.py) and [DualSourceProbe](../../tools/DualSourceProbe/probe.py) serve separate experiments. (spikes\CaptureProof\CaptureProof.csproj:9-12; tools\SpeechBench\bench.py:1-25; tools\DualSourceProbe\probe.py:19-41) |
-| `docs` and `TODO` | [Qualification](../QUALIFICATION.md) defines evidence; [TODO index](../../TODO/00_INDEX.todo) records dependencies and status, not executable behavior. (docs\QUALIFICATION.md:142-168; TODO\00_INDEX.todo:49-58) |
-| Repository root | [Solution](../../PhantomFudge.slnx) lists projects; [global.json](../../global.json) pins SDK policy. [Compose](../../compose.yaml) is optional, last-stage packaging—not a native prerequisite. (PhantomFudge.slnx:1-13; global.json:2-6; docs\IMPLEMENTATION-STATUS.md:263-266) |
+| `docs` and `TODO` | [Qualification](../QUALIFICATION.md) defines evidence; [TODO index](../../TODO/00_INDEX.todo) records dependencies and status, not executable behavior. (docs\QUALIFICATION.md:150-176; TODO\00_INDEX.todo:83-92) |
+| Repository root | [Solution](../../PhantomFudge.slnx) lists projects; [global.json](../../global.json) pins SDK policy. [Compose](../../compose.yaml) is optional, last-stage packaging—not a native prerequisite. (PhantomFudge.slnx:1-13; global.json:2-6; docs\IMPLEMENTATION-STATUS.md:276-279) |
 
 ## Navigation by question
 
@@ -99,7 +99,7 @@ protocol in `accurate.py`; `configuration.py` fingerprints selected models/runti
 | **Stream / track** | One source's ordered PCM and decoder state. Both tracks share a WebSocket without becoming one mixed waveform. (services\transcription\server.py:280-290,319-357,563-576) |
 | **Session** | One negotiated transcription conversation: selected sources, decoders, queue, and global final-ID counter. It is shorter-lived than the service process. (services\transcription\server.py:280-290,563-606) |
 | **Speaker** | A human identity the current source labels do not establish. Two voices on Computer remain Computer, not automatically separate people. (tests\PhantomFudge.Core.Tests\SourceTranscriptTests.cs:81-87) |
-| **Loopback** | Capture of a render endpoint's output through `WasapiLoopbackCapture`, not capture limited to a particular meeting application. (src\PhantomFudge.App\Audio\WasapiInput.cs:48-54; docs\PRODUCT.md:92-105) |
+| **Loopback** | Capture of a render endpoint's output through `WasapiLoopbackCapture`, not capture limited to a particular meeting application. (src\PhantomFudge.App\Audio\WasapiInput.cs:48-54; docs\PRODUCT.md:95-108) |
 | **Endpoint** | The selected Windows audio device identified by ID, direction, and active state—not the WebSocket network address. (src\PhantomFudge.App\Audio\WasapiInput.cs:64-74) |
 | **ASR** | Automatic speech recognition: `VoskRecognizer.accept` turns PCM into recognition results. It does not answer the semantic question spoken aloud. (services\transcription\recognizer.py:96-110) |
 
@@ -138,7 +138,7 @@ protocol in `accurate.py`; `configuration.py` fingerprints selected models/runti
 | Term | Meaning here |
 | --- | --- |
 | **HWND** | Native window handle obtained by `EnsureHandle`; capture affinity is configured on this object, not on every surface in the process. (src\PhantomFudge.App\Native\WindowProtection.cs:24-37) |
-| **Visual tree** | WPF's nested content/control structure. Inline setup and confirmation panels belong to `MainWindow`; an external dialog is a different boundary. (src\PhantomFudge.App\MainWindow.xaml:116-130,195-210,536-606) |
+| **Visual tree** | WPF's nested content/control structure. Inline setup and confirmation panels belong to `MainWindow`; an external dialog is a different boundary. (src\PhantomFudge.App\MainWindow.xaml:116-130,195-210,577-647) |
 | **DWM** | Desktop Window Manager composition, checked and flushed by `Configure`; a flush is not independent recipient observation. (src\PhantomFudge.App\Native\WindowProtection.cs:25-28,46-48) |
 | **Affinity** | Here, display affinity `0x11`: a Windows capture-exclusion request. It is unrelated to CPU affinity and not universal invisibility. (src\PhantomFudge.App\Native\WindowProtection.cs:16-48; docs\QUALIFICATION.md:9-26) |
 | **Opacity** | The root background brush's alpha, 10–100%; `BackgroundOpacity_ValueChanged` does not fade the whole window or glyphs. (src\PhantomFudge.App\MainWindow.xaml.cs:482-489,1087-1091) |
@@ -153,12 +153,12 @@ protocol in `accurate.py`; `configuration.py` fingerprints selected models/runti
 
 | Term | Meaning here |
 | --- | --- |
-| **Commit** | Planned source-scoped finalization through a negotiated watermark/acknowledgement—not current global Stop, and not a Git commit. (docs\AI-ANSWER-ARCHITECTURE.md:461-506) |
+| **Commit** | Planned source-scoped finalization through a negotiated watermark/acknowledgement—not current global Stop, and not a Git commit. (docs\AI-ANSWER-ARCHITECTURE.md:473-518) |
 | **Ask** | Explicitly freeze the exact draft; snapshot mode stays local, while configured Agency/local-model mode submits to that provider. Azure submission is future work, and v2 still has no Ask/commit control. (src\PhantomFudge.Core\QuestionDraft.cs:90-95; services\transcription\server.py:306-316) |
 | **QuestionSnapshot** | Implemented immutable exact question text/revision with copied local source provenance, provisional/edit flags and a monotonic creation timestamp. It is not proof of submission. (src\PhantomFudge.Core\QuestionSnapshot.cs:5-23) |
-| **Synthetic fixture** | Deliberately generated test content. `RunUiSmokeAsync` uses synthetic text/devices; visual-tree renders are not screen-sharing captures. (src\PhantomFudge.App\MainWindow.xaml.cs:920-968,1205-1218) |
+| **Synthetic fixture** | Deliberately generated test content. `RunUiSmokeAsync` uses synthetic text/devices; visual-tree renders are not screen-sharing captures. (src\PhantomFudge.App\MainWindow.xaml.cs:920-968,1206-1219) |
 | **Qualification** | Configuration-specific recipient/recording evidence with controls and explicit outcomes; neither build success nor API readback substitutes for it. (docs\QUALIFICATION.md:9-26,79-107) |
-| **Preview** | Implemented development software with open release gates, not “planned only” and not a universally supported release. (docs\IMPLEMENTATION-STATUS.md:1-3,358-367) |
+| **Preview** | Implemented development software with open release gates, not “planned only” and not a universally supported release. (docs\IMPLEMENTATION-STATUS.md:1-3,371-380) |
 
 ## Data flow: one worked boundary trace
 
@@ -203,7 +203,7 @@ The diagram shows a graceful path, not a guarantee after transport or device fai
 
 ## Glossary pitfalls and review exercises
 
-**“Two streams means two speakers.”** No: independent source tracks prevent state mixing, not acoustic echo or multiple voices sharing one endpoint. Inspect source labels before inferring people. (docs\PRODUCT.md:92-105)
+**“Two streams means two speakers.”** No: independent source tracks prevent state mixing, not acoustic echo or multiple voices sharing one endpoint. Inspect source labels before inferring people. (docs\PRODUCT.md:95-108)
 
 **“Final means saved.”** No: final concerns recognizer state; export concerns filesystem persistence. The buffer can contain finals while `TranscriptDirty` remains true. (src\PhantomFudge.App\MainWindow.xaml.cs:303-304,828-855)
 

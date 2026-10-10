@@ -16,9 +16,10 @@ captured-cursor behavior. Activation uncovers the workspace but does not start a
 question. (`ToggleKeyboardControl`, `HandleKeyboardKey`;
 src/PhantomFudge.App/MainWindow.Keyboard.cs:65-85,218-266.)
 
-**Implemented in current source.** Save/copy needed text, close an older instance with X, then
-run `.\scripts\Run-PhantomFudge.ps1`. The older preview ZIP does not contain these controls.
-The final synthetic UI fixture passed 38 keyboard assertions plus existing regressions; 297 Core
+**Keyboard controls ship in v0.2.0-preview.1.** The new `context on/off` commands are a later
+local-source increment, **not in that release**. Save/copy needed text, close an older instance
+with X, then run `.\scripts\Run-PhantomFudge.ps1` to use current source.
+The historical keyboard fixture passed 38 keyboard assertions plus existing regressions; 297 Core
 and 18 documentation-tool tests passed. The source atlas and illustrated handbook are refreshed.
 The three images below are synthetic WPF examples, not personal captures or real audio/model
 results. See [workstream57](../TODO/57_KEYBOARD_CONTROLS.todo) and
@@ -30,7 +31,7 @@ Start with transcript text already available. If you need new transcription, cho
 and explicitly use Start or `:start`; keyboard activation alone never records. Configure an
 [answer provider](ANSWER-PROVIDERS.md) before expecting an answer; Snapshot only freezes locally.
 The keyboard dispatcher reuses the existing Start and Ask handlers rather than introducing an
-automatic capture or send path. (src/PhantomFudge.App/MainWindow.Keyboard.cs:301-306,330-358.)
+automatic capture or send path. (src/PhantomFudge.App/MainWindow.Keyboard.cs:301-306,330-360.)
 
 1. **Ctrl+Alt+K** → **Control**. Check the visible mode label.
 2. **`v`** → **Select**. The navigation cursor starts at the latest matching row.
@@ -115,7 +116,7 @@ to Control first or use `:mask` through Command. Already-running transcription a
 continue behind the mask. Ctrl+Alt+K uncovers and enters Control again. Neither masking nor Escape
 is an audio Stop or answer Cancel. Read the separate [cover/privacy limits](COVER-AND-PRIVACY.md);
 the mask is not process hiding or universal capture protection.
-(src/PhantomFudge.App/MainWindow.Keyboard.cs:67-85,290-296,364-368.)
+(src/PhantomFudge.App/MainWindow.Keyboard.cs:67-85,290-296,366-370.)
 
 ## Select: source filters, search and stable intent
 
@@ -144,7 +145,7 @@ leading colon, ignores case and normalizes whitespace. It recognizes only the fi
 it does not run shell text or ask a model to interpret a command. Suggestions follow the fixed
 example list in source, and Tab chooses its first prefix match—not a fuzzy or model-generated
 guess. Unknown commands/arguments stay in the prompt with an error; input is bounded to 128 characters.
-(`Parse`, `Suggest`, `Tokenize`; src/PhantomFudge.Core/KeyboardCommands.cs:15-79;
+(`Parse`, `Suggest`, `Tokenize`; src/PhantomFudge.Core/KeyboardCommands.cs:15-80;
 src/PhantomFudge.App/MainWindow.Keyboard.cs:206-256,308-318.)
 
 ![Synthetic command prompt example showing the built-in font 14 command](handbook/assets/screenshots/keyboard-command.png)
@@ -159,6 +160,7 @@ typing it alone does not change the answer.*
 | `:source mic`, `:source computer`, `:source both` | Choose input mode while audio is idle; never start capture |
 | `:devices` | Refuse while audio is starting/running/stopping or an answer is busy; otherwise open device setup and close Q/A |
 | `:clarify on`, `:clarify off` | Change optional clarification while no answer is busy; retain existing clarification guards |
+| `:context on`, `:context off` | Use the same Previous answer toggle handler; needs a completed answer to enable, locks during busy work/active clarification, and never sends |
 | `:confirm` | Invoke the existing explicit clarification confirmation action; not an automatic Yes |
 | `:font 8` through `:font 24` | Choose a whole-number answer/interpretation size for this session |
 | `:copy question`, `:copy answer` | Use the existing explicit clipboard actions; these are not a send |
@@ -174,8 +176,16 @@ File/confirmation activity, missing protection or another executing command can 
 The dispatcher delegates to existing actions: success is governed by their status, not merely by
 valid syntax. Opening Command from Select and explicitly issuing `:ask` is still an explicit
 submission; the beginner Enter-review path is the recommended way to inspect the draft first.
-(`ExecuteKeyboardCommandAsync`; src/PhantomFudge.App/MainWindow.Keyboard.cs:320-362;
-src/PhantomFudge.Core/KeyboardCommands.cs:26-55.)
+(`ExecuteKeyboardCommandAsync`; src/PhantomFudge.App/MainWindow.Keyboard.cs:320-364;
+src/PhantomFudge.Core/KeyboardCommands.cs:26-56.)
+
+For “explain that answer” follow-ups, finish the first answer, use **`:context on`**, then edit
+and explicitly submit. Do not use `:clear question` between those steps: it clears the answer and
+resets context. The choice is session-only; it remains on across successful follow-ups and sends
+only the latest displayed completed answer, not accumulated history. With Clarify first, corrections
+and confirmation retain the snapshot captured before interpretation. Setup/details shows the exact
+submitted prior text. [Full boundaries](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).
+([`SetUsePreviousAnswer`](../src/PhantomFudge.App/MainWindow.AnswerContext.cs).)
 
 ## Devices: browse before choosing
 
@@ -194,7 +204,7 @@ Control/Select/Edit/Read/Command/Help transitions do not invoke Q/A close/cancel
 cancel capture/provider work. A compact layout may temporarily hide a panel to make room; that is
 not closing it. Start/Stop/Cancel/Clear remain separate explicit actions.
 (`SetKeyboardMode`, `ExecuteKeyboardCommandAsync`;
-src/PhantomFudge.App/MainWindow.Keyboard.cs:87-125,330-358;
+src/PhantomFudge.App/MainWindow.Keyboard.cs:87-125,330-360;
 [integrated lifecycle table](CURRENT-WORKFLOW.md#state-changes-cover-is-not-hide).)
 
 ```mermaid

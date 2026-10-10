@@ -11,6 +11,16 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Current state
 
+- Workstream60 is DONE:15chapter/194lesson full tutorial delivered locally under
+  artifacts\tutorial\20261010-221225. Measured38:17.767,1080p/30fps, narrated click/key guides,
+  captions and offline searchable player. Scripted actual-WPF/sample-data demonstration;
+  installation/configuration remain labelled instructions, not live operations.
+- Workstream59 is DONE: October10 14:41 authorized a default-off Previous answer toggle
+  immediately left of Ask. Only explicit Ask snapshots the displayed completed answer; corrections
+  and confirmation retain the same snapshot. No automatic transcript/history or expanded tools.
+  Core396 and final synthetic UI21context/38keyboard checks pass;24WPF/11READMEimages refreshed.
+  This local-source increment is NOT included in v0.2.0-preview.1. Full reference editions and
+  rendered review are complete; current artifact identities are in their manifests. Do not republish old assets.
 - Workstream58 is DONE: v0.2.0-preview.1 was published October10 01:52IST from clean commit
   e25c8d5624e5afd2f50cda80f964e2e32737fce1. Private unsigned Windows11 x64 preview, not a qualified release.
   Setup, Portable, handbook, atlas and checksums were downloaded and matched. See docs\INSTALLATION.md
@@ -47,6 +57,12 @@ capture proof rather than assuming a window can be universally undetectable.
   Copilot smoke failed; its sign-in was cancelled after user rejected org access. Agency is now primary.
 
 ## Next action
+
+Workstream60 is complete. Open artifacts\tutorial\20261010-221225\index.html for the video,
+chapters and searchable transcript. No upload or installer replacement was requested.
+
+Workstream59 is complete locally, including the updated illustrated reference editions. Do not call
+models, record audio, sign in, rebuild installers or publish without a separately authorized request.
 
 Workstream58 is complete; no additional installer publication is pending. Continue broader
 qualification only under the corresponding workstreams: clean machines, actual devices/shortcuts,
@@ -86,6 +102,7 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 
 | ID | File | Status | Gate |
 | --- | --- | --- | --- |
+| 60 | 60_FULL_VIDEO_TUTORIAL.todo | DONE | Local38-minute tutorial and offline chaptered player |
 | 01 | 01_PRODUCT_DECISIONS.todo | IN_PROGRESS | G0 |
 | 02 | 02_FEASIBILITY_RESEARCH.todo | DONE | G0 desk research only |
 | 03 | 03_CAPTURE_PROOF.todo | IN_PROGRESS | G1; local synthetic result only |
@@ -144,6 +161,7 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 | 56 | 56_MASK_ICON_POSITION.todo | DONE | Icon-only top-left mask toggle; same background-work behavior |
 | 57 | 57_KEYBOARD_CONTROLS.todo | DONE | Modal controls/session answer size; bounded synthetic evidence and maintained book |
 | 58 | 58_INSTALLER_RELEASE.todo | DONE | Private v0.2.0-preview.1 published; clean-source Setup/Portable/PDFs/checksums verified |
+| 59 | 59_PREVIOUS_ANSWER_CONTEXT.todo | DONE | Runtime, images and full reference editions complete; source-only, not in v0.2.0-preview.1 |
 
 ## Dependency map
 

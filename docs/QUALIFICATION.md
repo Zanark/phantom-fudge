@@ -130,6 +130,14 @@ State this limit with every release result.
 | C18 | OS microphone privacy indicator and speaker echo | Indicator visibility/echo are recorded as external limits, not hidden or claimed eliminated |
 | C19 | Question selection, independent typing, local snapshot and unsaved exit | Same protected HWND, no unintended audio stop or extra context; repeat recipient/IME/clipboard boundaries |
 | C20 | Provider setup, streamed answers, Cancel/Hide/clear/close and late callbacks | Explicit destination; no tools/org data or auto-login; partial/failed answers labelled; actual recorder behavior separately observed |
+| C21 | Previous answer toggle, Setup/details, narrow actions and clarification replacement/retry | Only explicit Ask sends one eligible completed answer; original snapshot survives clarification; normal failure/Cancel and Clear/provider changes reset correctly; context and details remain on the protected HWND with no clipped primary action |
+
+C21 is a **new local-source scenario, NOT_TESTED for recipient capture** and not part of published
+v0.2.0-preview.1. The fake-provider context fixture can test request/state/layout behavior, but its
+RenderTargetBitmap image cannot populate PASS for a meeting or OBS backend. Retest actual protected
+transitions and separately record the external IME/accessibility/clipboard/provider-retention limits.
+([Context fixture](../src/PhantomFudge.App/MainWindow.AnswerContextDiagnostics.cs),
+[follow-up usage](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).)
 
 C15 is currently open for the owner's reported cursor disappearance. Record screen versus
 window/tab source, cursor-capture setting/backend and app version. A visible local cursor or

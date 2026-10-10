@@ -10,13 +10,16 @@ edition's counts, source hashes, citations and artifact hashes; it is the author
 
 The prerelease attachments are the immutable tagged-build editions. This maintained repository
 edition also records publication follow-up; it does not silently replace those release assets.
+The newer Previous answer toggle and `context on/off` commands are **local source only,
+not included in v0.2.0-preview.1**. Start with
+[follow-up usage](../LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).
 
 ## Reading order
 
 For the Windows 11 x64 prerelease, begin with [Install, update and remove](../INSTALLATION.md).
 It is registered near the front of the book. The private release requires repository access;
 see the versioned release for downloads and [current evidence](../IMPLEMENTATION-STATUS.md)
-for qualification boundaries. The source atlas explains 203 first-party files, including the
+for qualification boundaries. The maintained source atlas explains 205 first-party files, including the
 native launcher, installer recipe and pinned speech-runtime builder.
 
 For the complete current experience with the new images, start with the

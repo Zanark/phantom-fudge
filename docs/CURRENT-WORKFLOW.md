@@ -11,7 +11,8 @@ outline: deep
 Phantom Fudge combines local transcription, an editable question and explicit provider answers.
 Choosing an input does not record it; selecting words does not send them; covering the workspace
 does not stop work. This guide brings the current controls and images together so those boundaries
-are visible before a meeting. It describes **current source**, not the older045022preview ZIP.
+are visible before a meeting. It describes **current source**. Previous-answer context is a
+local-source addition **not included in v0.2.0-preview.1**; existing release assets are unchanged.
 
 All pictures below are **separate synthetic WPF examples**. They show actual controls with generated
 text/device labels, not a real conversation, live model result or screen-sharing qualification.
@@ -34,7 +35,7 @@ The canonical [keyboard guide](KEYBOARD-CONTROLS.md) covers:
 Edit is literal typing: Enter makes a newline. Escape backs out through Control before a
 best-effort return to the previous app; `m` in Control masks and disarms without stopping work.
 There is no cursor locking/hiding/warping or global letter-key capture.
-(src/PhantomFudge.App/MainWindow.Keyboard.cs:67-85,141-175,218-306,364-368;
+(src/PhantomFudge.App/MainWindow.Keyboard.cs:67-85,141-175,218-306,366-370;
 src/PhantomFudge.App/MainWindow.KeyboardSelection.cs:110-159.)
 Edit remains armed after submission. Async interpretation retargets the visible editable reply/
 original field only while this app is already foreground; it does not steal focus from another app.
@@ -44,31 +45,33 @@ original field only while this app is already foreground; it does not steal focu
 
 ```mermaid
 ---
-config: {"theme":"base","themeVariables":{"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3"}}
+config:
+  theme: base
+  flowchart:
+    nodeSpacing: 36
+    rankSpacing: 16
+    htmlLabels: false
+  themeVariables: {"darkMode":true,"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3"}
 ---
-flowchart TB
+flowchart LR
     accTitle: Current question workflow
-    accDescr: Device selection, capture, question composition and provider requests are separate deliberate actions. Clarification is optional and never auto-confirms.
-    Cards["Select device cards"] --> Start["Explicit Start"]
-    Start --> Transcript["Local source-labelled transcription"]
-    Transcript --> Select["Click intended rows"]
-    Select --> Draft["Review or edit question"]
-    Draft --> Mode{"Clarify first?"}
-    Mode -->|Off| Ask["Explicit Ask"]
-    Mode -->|On| Interpret["Explicit interpretation request"]
-    Interpret --> Review["Review proposed meaning"]
-    Review -->|Send correction| Interpret
-    Review -->|Explicit Yes| Ask
-    Ask --> Destination{"Provider selected?"}
+    accDescr: Device selection, capture, question composition and provider requests are separate deliberate actions. Optional previous-answer context is snapshotted before interpretation, and clarification never auto-confirms.
+    Cards["Choose inputs; explicitly Start"] --> Transcript["Local transcript"]
+    Transcript --> Draft["Select and edit"]
+    Draft --> Destination{"Ask: provider?"}
     Destination -->|No| Frozen["Local snapshot only"]
-    Destination -->|Yes| Answer["Answer in the same workspace"]
+    Destination -->|Yes| Context["Opt-in prior-answer snapshot"]
+    Context --> Mode{"Clarify first?"}
+    Mode -->|Off| Answer["Answer"]
+    Mode -->|On| Interpret["Interpret"]
+    Interpret --> Review["Review"]
+    Review -->|Send correction| Interpret
+    Review -->|Explicit Yes| Answer
     style Cards fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style Start fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Transcript fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style Select fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Draft fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Context fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Mode fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style Ask fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Interpret fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Review fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Answer fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
@@ -79,10 +82,12 @@ flowchart TB
 The normal speech path is selected native WASAPI inputs, authenticated local transport, fast Vosk
 partial text and local Whisper small.en finals. Normal Ask sends the frozen question through the
 configured provider. Clarification deliberately adds only its fixed task instruction and bounded
-question-specific history; no notes or unselected meeting transcript are appended.
+question-specific history. Previous answer can separately add the displayed completed answer,
+frozen before either answer or interpretation starts; no notes or unselected meeting transcript
+are appended. ([Context capture](../src/PhantomFudge.App/MainWindow.AnswerContext.cs).)
 (src/PhantomFudge.App/Audio/LoopbackTranscriber.cs:65-128;
 services/transcription/accurate.py:33-129;
-src/PhantomFudge.Core/Answers/AnswerRun.cs:15-27;
+src/PhantomFudge.Core/Answers/AnswerRun.cs:15-29;
 src/PhantomFudge.Core/Answers/AnswerClarification.cs:13-69.)
 
 ## Components: know the controls before sending
@@ -96,6 +101,7 @@ src/PhantomFudge.Core/Answers/AnswerClarification.cs:13-69.)
 | Transcript rows | Ordinary clicks toggle whole segments into the question |
 | Type / edit | Deliberate question focus without global Notes Edit |
 | Large accent button | Ask provider, Freeze locally, Interpret question or Reply below, according to mode |
+| Previous answer, immediately left of Ask | Default-off/session-only; include the displayed completed answer on the next explicit Ask, not on toggle |
 | Red-bordered Clear question | Clear the question/snapshot/answer, not the transcript or notes |
 | Clarify first | Default-off interpretation and explicit correction/confirmation workflow |
 | Book icon, top left | Toggle the visual mask; already-started work continues |
@@ -104,7 +110,7 @@ src/PhantomFudge.Core/Answers/AnswerClarification.cs:13-69.)
 | Diagnostics | Open local diagnostics and reload its settings |
 
 These are distinct handlers and state checks, not alternate names for one global pause action.
-(src/PhantomFudge.App/MainWindow.Questions.cs:158-212,265-337;
+(src/PhantomFudge.App/MainWindow.Questions.cs:158-212,265-338;
 src/PhantomFudge.App/MainWindow.RecordingIndicator.cs:7-10;
 src/PhantomFudge.App/MainWindow.Cover.cs:20-77.)
 Keyboard routing and answer size are separate additions.
@@ -187,35 +193,59 @@ Type **Yes** and press **Send reply**, or click **Yes, answer**. To correct the 
 type that correction and press **Send reply** instead. `Yes, but use Python` is a correction, not
 automatic confirmation. Merely typing or receiving an interpretation never submits the next turn.
 The confirmation button does not discard a written correction.
-(src/PhantomFudge.App/MainWindow.Clarification.cs:11-44,85-155.)
+(src/PhantomFudge.App/MainWindow.Clarification.cs:11-46,88-158.)
 
 Only completed interpretation exchanges enter history. There are at most four interpretations,
 8192UTF-16 units per input/interpretation and32768total including the current reply. Turning the
 option off, clearing the question or changing provider resets the thread; a same-settings reload
-can retain it for explicit retry. Normal Ask remains history-free.
+can retain it for explicit retry. Without Previous answer, normal Ask still carries no earlier answer.
 (src/PhantomFudge.Core/Answers/AnswerClarification.cs:7-69;
-src/PhantomFudge.App/MainWindow.Clarification.cs:46-83,157-184.)
+src/PhantomFudge.App/MainWindow.Clarification.cs:48-86,160-187.)
 
 ## 5. Ask, read, cancel or clear deliberately
 
 ![The large Ask action, red-bordered Clear and current answer reader](assets/readme/question.png)
 
-The large accent-filled button is in the right-hand action group, followed by red-bordered
-**Clear question**. Type/edit and Copy stay on the left. In **Snapshot only**, the button says
+The large accent-filled button follows **Previous answer** and precedes red-bordered
+**Clear question** on the same primary row. Type/edit and Copy stay in the left group and may wrap vertically there. Narrow panes use
+shorter captions and a narrower context toggle, without an extra full-width row or outer scrolling. In **Snapshot only**, the button says
 **Freeze locally** and sends nothing. With a configured provider, **Ask provider** freezes the
 exact reviewed text and starts that request. Only one answer runs at a time.
 
 **Cancel answer** retains visible partial text as incomplete. **Clear question** clears the
 question, last displayed snapshot and answer, but does not erase notes or the transcript.
 It does not erase previously exported files or diagnostic/provider history.
-(src/PhantomFudge.App/MainWindow.Questions.cs:265-337;
-src/PhantomFudge.Core/Answers/AnswerRun.cs:32-79.)
+(src/PhantomFudge.App/MainWindow.Questions.cs:265-338;
+src/PhantomFudge.Core/Answers/AnswerRun.cs:34-81.)
 
 Installed Agency uses its existing model service; it is not inherently offline inference.
 A configured local-model endpoint is a separate option, and direct Azure remains future work.
 Preparation makes no question request. Older prepared-response timings are bounded historical
 measurements, not a promise for every question, cold start or clarification conversation.
 See [provider setup](ANSWER-PROVIDERS.md) and [measured limits](QUALITY-UPDATE.md).
+
+### Follow up with the answer you are reading
+
+![Synthetic Previous answer toggle beside Ask](assets/readme/answer-context.png)
+
+After a completed answer, enable **Previous answer**, edit the question, then Ask. Enabling the
+toggle does not send. **Do not Clear** between these steps: Clear removes the answer and resets
+the option. It stays on across successful follow-ups, but each request includes only the newly
+displayed completed answer—not its previous question, older answers or the whole transcript.
+([`SetUsePreviousAnswer`, `CapturePreviousAnswer`](../src/PhantomFudge.App/MainWindow.AnswerContext.cs).)
+
+With Clarify first, the original prior-answer snapshot survives interpretation, corrections,
+confirmation and an explicit retry of the first interpretation. The toggle is locked while a
+request or clarification is active. Failed/cancelled output and interpretations are not eligible
+prior answers. Provider changes, Snapshot only, Clear and restart reset the option.
+([Clarification](../src/PhantomFudge.App/MainWindow.Clarification.cs),
+[provider changes](../src/PhantomFudge.App/MainWindow.Answers.cs).)
+
+**Setup / details** shows exact previously submitted prior text; the submitted snapshot label
+records its character count. The32768UTF-16-unit limit is separate from question/history limits,
+and prior text is background data, not an instruction or tool grant. Keyboard users can use
+`:context on` / `:context off` through the same handler, then explicitly submit.
+See [the complete context contract](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).
 
 ## 6. Cover the workspace without pausing it
 
@@ -253,13 +283,13 @@ affinity and the Peek-prevention request are limited Windows mechanisms, not glo
 
 These differences follow the actual separate handlers. In particular, opening setup is not the
 same continuation path as Cover.
-(src/PhantomFudge.App/MainWindow.Questions.cs:40-61,158-208,327-337;
+(src/PhantomFudge.App/MainWindow.Questions.cs:40-61,158-208,328-338;
 src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs:39-49;
 src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:10-17;
 [`StopTranscriptionAsync`, `ToggleVisibility`, `RequestActionAsync`](../src/PhantomFudge.App/MainWindow.xaml.cs).)
 The keyboard setup command adds an explicit busy guard before the same setup path; it is not an
 ordinary mode switch. `:start` is explicit capture, `:stop` is audio-only, and `:cancel` is
-answer/preparation-only. (src/PhantomFudge.App/MainWindow.Keyboard.cs:87-125,320-358.)
+answer/preparation-only. (src/PhantomFudge.App/MainWindow.Keyboard.cs:87-125,320-360.)
 
 ```mermaid
 ---

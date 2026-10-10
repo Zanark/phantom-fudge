@@ -1,10 +1,14 @@
 flowchart TD
     accTitle: Explicit question and clarification transactions
-    accDescr: Ask freezes a draft. Local mode does not send. Direct mode requests an answer. Optional clarification retains the original and requires an explicit correction or Yes for every further request.
+    accDescr: Ask snapshots optional prior-answer text before replacing the display. Local mode never sends. Clarification retains both the original draft and the same prior snapshot through explicit corrections or Yes.
     Draft["Mutable local draft"] -->|Explicit Ask| Snapshot["Frozen exact text"]
     Snapshot -->|Snapshot only| Local["Retain locally"]
     Snapshot -->|Direct mode| Answer["One answer request"]
     Snapshot -->|Clarify first| Interpret["Interpretation request"]
+    Prior["Opted-in completed answer"] -->|Capture before replacement| Context["Same prior snapshot"]
+    Context --> Answer
+    Context --> Interpret
+    Context --> Confirmed
     Interpret -->|Valid completed output| Review["Review with original retained"]
     Review -->|Type only| Review
     Review -->|Send correction| Interpret
@@ -18,3 +22,5 @@ flowchart TD
     style Review fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Confirmed fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Original fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Prior fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Context fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

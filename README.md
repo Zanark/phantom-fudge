@@ -6,6 +6,8 @@
 
 > **v0.2.0-preview.1 is published: unsigned Windows 11 x64 preview.** Repository access required. [Evidence and limits](docs/IMPLEMENTATION-STATUS.md). Capture exclusion is not universal. Answers are snapshot-only until an external provider is configured.
 
+**New in local source, not that release:** opt-in [previous-answer context](docs/LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).
+
 ## From meeting audio to an answer
 
 **1. Choose device cards** · **2. Start transcription**
@@ -26,10 +28,10 @@
 
 [Compose your question](docs/LOCAL-QUESTIONS.md) · [Confirm or correct its meaning](docs/QUESTION-CLARIFICATION.md)
 
-**5. Ask and read** · **6. Cover the workspace**
+**5. Ask, then optionally follow up** · **6. Cover the workspace**
 
 <p align="center">
-  <a href="docs/assets/readme/question.png"><img src="docs/assets/readme/question.png" width="47%" alt="Large accent Ask button, red-bordered Clear button and a synthetic streamed answer"></a>
+  <a href="docs/assets/readme/answer-context.png"><img src="docs/assets/readme/answer-context.png" width="47%" alt="Opt-in Previous answer toggle immediately left of Ask, with red-bordered Clear on the right"></a>
   <a href="docs/assets/readme/cover.png"><img src="docs/assets/readme/cover.png" width="47%" alt="NOTEPAD IS READY with the icon-only mask toggle at the top left"></a>
 </p>
 

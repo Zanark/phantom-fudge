@@ -8,15 +8,15 @@ outline: deep
 
 ## Overview: a reading surface before an editor
 
-The most important UI decision is not a color. It is which activity receives space and focus by default. Phantom Fudge starts with passive transcript reading, Q/A expanded and Notes collapsed. Question typing has its own deliberate transition: click a transcript row or choose **Type / edit**, rather than entering global Notes Edit. This separates “I need to see the meeting” from “I intend to compose a question.” The initial fields and XAML establish the reading surface. (src\PhantomFudge.App\MainWindow.xaml.cs:33-35,50-96; src\PhantomFudge.App\MainWindow.xaml:262-617.) Direct selection enters question editing through `TranscriptRows_SelectionChanged`; the default Q/A expansion is in [`InitializeQuestionView`](../../src/PhantomFudge.App/MainWindow.Questions.cs). (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:94-147.)
+The most important UI decision is not a color. It is which activity receives space and focus by default. Phantom Fudge starts with passive transcript reading, Q/A expanded and Notes collapsed. Question typing has its own deliberate transition: click a transcript row or choose **Type / edit**, rather than entering global Notes Edit. This separates “I need to see the meeting” from “I intend to compose a question.” The initial fields and XAML establish the reading surface. (src\PhantomFudge.App\MainWindow.xaml.cs:33-35,50-96; src\PhantomFudge.App\MainWindow.xaml:262-658.) Direct selection enters question editing through `TranscriptRows_SelectionChanged`; the default Q/A expansion is in [`InitializeQuestionView`](../../src/PhantomFudge.App/MainWindow.Questions.cs). (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:94-147.)
 
-The UI is native C#/WPF. WASAPI capture begins only after explicit Start, for Computer, Mic, or Both. Both is the initial selection, not an instruction to record immediately. Labels describe input sources, not identified speakers. The planned Azure Ask experience is not an existing control or hidden mode. (src\PhantomFudge.App\MainWindow.xaml.cs:35,652-700; src\PhantomFudge.Core\AudioSource.cs:3-30; docs\IMPLEMENTATION-STATUS.md:214-230)
+The UI is native C#/WPF. WASAPI capture begins only after explicit Start, for Computer, Mic, or Both. Both is the initial selection, not an instruction to record immediately. Labels describe input sources, not identified speakers. The planned Azure Ask experience is not an existing control or hidden mode. (src\PhantomFudge.App\MainWindow.xaml.cs:35,652-700; src\PhantomFudge.Core\AudioSource.cs:3-30; docs\IMPLEMENTATION-STATUS.md:227-243)
 
 **Newcomer path:** read the visual-tree map, then the worked theme change. **Principal-engineer path:** inspect resource replacement, alpha compositing, passive selection, and the limits of the contrast tests. [Chapter 04](04-windows-capture-and-cursors.md) explains the native capture and cursor policy; [Chapter 06](06-notes-transcripts-and-storage.md) explains the content retained beneath the controls.
 
 ![Transcript-first DeepSeaFoam surface](assets/screenshots/transcript-deepseafoam.png)
 
-*Actual WPF visual-tree render with synthetic content, not a screen-sharing capture.* The fixture inserts source-labelled transcript examples without starting transcription. It demonstrates layout, not recognition accuracy, remote exclusion, or reader acceptance. (src\PhantomFudge.App\MainWindow.xaml.cs:920-968,1205-1218)
+*Actual WPF visual-tree render with synthetic content, not a screen-sharing capture.* The fixture inserts source-labelled transcript examples without starting transcription. It demonstrates layout, not recognition accuracy, remote exclusion, or reader acceptance. (src\PhantomFudge.App\MainWindow.xaml.cs:920-968,1206-1219)
 
 All documentation device labels are synthetic. Later fixture images may show "Wait until
 transcription has fully stopped before clearing": the fixture deliberately exercises that guard
@@ -52,18 +52,22 @@ Windows microphone indicator. ([Indicator](../../src/PhantomFudge.App/MainWindow
 
 *Synthetic WPF indicator example: the fixture drives only presentation state and opens no audio inputs.*
 
-The right-hand action group contains the large accent-filled **Ask**, followed immediately by
-**Clear question** with a two-unit red `ThemeError` border. Type/edit and Copy remain on the left.
+The primary action row contains **Previous answer**, then large accent-filled **Ask**, followed
+immediately by **Clear question** with a two-unit red `ThemeError` border. Type/edit and Copy
+remain in their left group. Below560WPF units, the context button narrows from118to80 and secondary
+captions become Edit/Done/Reply and Copy, with full accessible names retained. Secondary buttons
+may wrap vertically within their group (Reply above Copy); no added full-width row consumes the compact answer reader.
 Ask stays148WPF units wide and at least44high with15-unit semibold text; Clear is98wide and at
 least44high. Hover/focus do not replace Clear's red border. Existing mode labels and handlers remain
-unchanged: visual emphasis is not permission to send.
+guarded: visual emphasis is not permission to send.
 ([Action row and local templates](../../src/PhantomFudge.App/MainWindow.xaml),
-[`IsPrimaryAskAction`](../../src/PhantomFudge.App/MainWindow.QuestionDiagnostics.cs).)
+[`IsPrimaryAskAction`](../../src/PhantomFudge.App/MainWindow.QuestionDiagnostics.cs);
+src/PhantomFudge.App/MainWindow.AnswerFont.cs:45-62.)
 
 The owner later requested a50%reduction specifically in answer text. `AnswerText` defaults to10WPF
 font units normally and9in narrow short layouts, replacing20and18. Question typography
 is unchanged. The same reader displays clarification interpretations, so they use the smaller
-answer type as well. (src/PhantomFudge.App/MainWindow.xaml:523-527;
+answer type as well. (src/PhantomFudge.App/MainWindow.xaml:564-568;
 src/PhantomFudge.App/MainWindow.Layout.cs:93-94.)
 
 The 19:36 keyboard increment adds a **Size** slider and local reading controls: choose 8–24 via the
@@ -74,7 +78,7 @@ remains literal text entry. Ordinary mode changes and masking preserve capture/p
 `:devices` instead refuses busy audio/answers and closes Q/A for setup. Read the canonical
 [keyboard guide](../KEYBOARD-CONTROLS.md); final runtime-fixture evidence is recorded there, not a release claim.
 (src/PhantomFudge.App/MainWindow.AnswerFont.cs:9-43;
-src/PhantomFudge.App/MainWindow.Keyboard.cs:87-139,218-368;
+src/PhantomFudge.App/MainWindow.Keyboard.cs:87-139,218-370;
 src/PhantomFudge.App/MainWindow.KeyboardSelection.cs:110-159.)
 The compact-font refinement temporarily gives Select/Search the transcript area and restores Q/A
 on leaving selection, preserving its intended expansion and running work. Other compact keyboard
@@ -99,6 +103,18 @@ question, then type a separate Yes/correction reply. It retains the original dra
 interpretation/reply controls in the same window; typing or model completion never sends the next
 turn. See [the complete clarification chapter](../QUESTION-CLARIFICATION.md) and
 [`MainWindow.Clarification`](../../src/PhantomFudge.App/MainWindow.Clarification.cs).
+
+The separate default-off **Previous answer** toggle snapshots only a completed displayed answer
+on explicit Ask. It is session-only, locks during busy work/active clarification, and resets on
+Clear/provider change. Setup/details reads prior text from the submitted request, not the new answer
+currently replacing it. The same snapshot survives interpretation, corrections and confirmation.
+This addition is **local source only, not in v0.2.0-preview.1**.
+([Context controller](../../src/PhantomFudge.App/MainWindow.AnswerContext.cs),
+[full usage](../LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).)
+
+![Synthetic previous-answer follow-up controls](assets/screenshots/answer-context.png)
+
+*Fake-provider WPF illustration; not a model-quality or recorder-qualification result.*
 
 The requested window is now **1240 by 1520 WPF units**, twice the former dimensions, with a
 normal minimum of 470 by 560. `WorkspaceLayout.FitToWorkArea` clamps placement and size with a
@@ -158,7 +174,7 @@ The caption uses `WindowChrome` with a 38-unit caption region and six-unit resiz
 | `ApplyTheme` | Current selection, button labels, accessible name, and reapplication of root alpha. (src\PhantomFudge.App\MainWindow.xaml.cs:492-509) |
 | `UpdateInteractionControls` | Read-only/focus/input-method policy and file-operation availability. (src\PhantomFudge.App\MainWindow.xaml.cs:278-293) |
 | `TranscriptRow` / `TranscriptRows_SelectionChanged` | Immutable display/segment pairing, whole-row toggles, draft guards and deliberate question focus. (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:13-20,85-147) |
-| `RunUiSmokeAsync` | Synthetic layout, style, preservation, and interaction assertions. (src\PhantomFudge.App\MainWindow.xaml.cs:920-1195) |
+| `RunUiSmokeAsync` | Synthetic layout, style, preservation, and interaction assertions. (src\PhantomFudge.App\MainWindow.xaml.cs:920-1196) |
 
 A C# `record` is useful here because palette data is a value-shaped object rather than a control. Think of a frozen Python dataclass containing named color strings—not of a Python GUI implementation. The WPF-specific brush conversion stays in the App project, while Core tests can inspect the palette without constructing a window. (src\PhantomFudge.Core\ThemePalette.cs:5-26; src\PhantomFudge.App\ThemeBrushes.cs:9-41; tests\PhantomFudge.Core.Tests\ThemePaletteTests.cs:5-17)
 
@@ -265,11 +281,11 @@ The root `WindowSurface` receives a new brush with:
 alpha = round(clamp(percent, 10, 100) × 255 / 100)
 ```
 
-At 10%, 55%, and 100%, the byte alpha is respectively 26, 140, and 255. `MainWindow` remains transparent behind that tint; note and final-transcript control backgrounds are also transparent. The answer-reading tint follows the same slider; its parent no longer blocks transparency with an opaque content container. Header, setup, and confirmation surfaces use opaque theme brushes. The application never fades the glyphs with the background. (src\PhantomFudge.App\MainWindow.xaml.cs:482-489; src\PhantomFudge.App\MainWindow.xaml:7,130,195-197,536-538,279-288,640-646)
+At 10%, 55%, and 100%, the byte alpha is respectively 26, 140, and 255. `MainWindow` remains transparent behind that tint; note and final-transcript control backgrounds are also transparent. The answer-reading tint follows the same slider; its parent no longer blocks transparency with an opaque content container. Header, setup, and confirmation surfaces use opaque theme brushes. The application never fades the glyphs with the background. (src\PhantomFudge.App\MainWindow.xaml.cs:482-489; src\PhantomFudge.App\MainWindow.xaml:7,130,195-197,577-579,279-288,681-687)
 
 The slider exposes 10–100%, defaults to 55%, and snaps to five-percent ticks. It remains available in Present. The implementation does not set `Window.Opacity`; the diagnostic explicitly checks window/editor/transcript opacity equals one and text brush alpha equals 255. (src\PhantomFudge.App\MainWindow.xaml:165-173; src\PhantomFudge.App\MainWindow.xaml.cs:1087-1091,1118-1121)
 
-Why stop at 10% rather than zero? The maintained design calls out nonzero background alpha as avoiding entirely transparent mouse holes while keeping the surface usable. Why not promise readable text over every background? Composited contrast depends on the underlying desktop: approximately `alpha × tint + (1 − alpha) × background`. Solid glyphs alone cannot prevent visual interference from a busy slide. Increasing opacity or moving the window is a usability choice, not a capture-policy change. (docs\ARCHITECTURE.md:206-210; docs\CURSOR-AND-THEMES.md:81-86)
+Why stop at 10% rather than zero? The maintained design calls out nonzero background alpha as avoiding entirely transparent mouse holes while keeping the surface usable. Why not promise readable text over every background? Composited contrast depends on the underlying desktop: approximately `alpha × tint + (1 − alpha) × background`. Solid glyphs alone cannot prevent visual interference from a busy slide. Increasing opacity or moving the window is a usability choice, not a capture-policy change. (docs\ARCHITECTURE.md:220-224; docs\CURSOR-AND-THEMES.md:81-86)
 
 ![Background at ten percent](assets/screenshots/background-10.png)
 
@@ -287,7 +303,7 @@ their retained stop-guard message is explained above. (src\PhantomFudge.App\Main
 
 `UpdateInteractionControls` changes the shared `ControlsFocusable` resource, note editability, transcript focusability, and editor input-method availability. File operations and export require Edit; token entry additionally requires idle audio. Start is gated by technical readiness and explicit user action, not permission or rehearsal checkboxes. (src\PhantomFudge.App\MainWindow.xaml.cs:278-293,652-700,720-743)
 
-The device selectors illustrate a subtle WPF issue: their ordinary click path requires focus. In Present, `OutputDevices_PreviewMouseLeftButtonDown` identifies the clicked `ListBoxItem`, assigns `SelectedItem` directly, and handles the event. Both playback and microphone lists use this handler. This preserves pointer selection without depending on keyboard focus transfer. (src\PhantomFudge.App\MainWindow.xaml.cs:628-638; src\PhantomFudge.App\MainWindow.xaml:550-590)
+The device selectors illustrate a subtle WPF issue: their ordinary click path requires focus. In Present, `OutputDevices_PreviewMouseLeftButtonDown` identifies the clicked `ListBoxItem`, assigns `SelectedItem` directly, and handles the event. Both playback and microphone lists use this handler. This preserves pointer selection without depending on keyboard focus transfer. (src\PhantomFudge.App\MainWindow.xaml.cs:628-638; src\PhantomFudge.App\MainWindow.xaml:591-631)
 
 Opening Audio setup collapses Notes. Expanding Notes closes Audio setup; collapsing Notes also closes Find. These actions change visibility, not stored text. In contrast, switching Edit/Present hides and stops transcription before reconfiguring the native window. A theme click must not accidentally be implemented through that heavier mode-transition path. (src\PhantomFudge.App\MainWindow.xaml.cs:253-276,511-521,641-649)
 
@@ -432,7 +448,7 @@ capture exclusion. The real synthetic Agency request is separately recorded in t
 
 `ThemePaletteTests` checks canonical roles, toggle behavior, invalid theme rejection, and contrast of three opaque pairs: reading text/background, selection text/selection, and action text/accent. Its luminance calculation linearizes sRGB channels and requires a ratio of at least 4.5. It does not evaluate every control state, arbitrary backgrounds, or human comfort. (tests\PhantomFudge.Core.Tests\ThemePaletteTests.cs:5-74)
 
-`RunUiSmokeAsync` checks passive device selection, theme resources, alpha samples, scrolling, caption/resize/editor hit tests, and preservation across visibility/mode operations. The documentation mode substitutes generic device names and synthetic text. PNGs use `RenderTargetBitmap` on the actual visual tree; they are not desktop screenshots with the underlying application composited behind them. No live capture is necessary to understand these fixtures. (src\PhantomFudge.App\MainWindow.xaml.cs:942-968,1004-1121,1205-1218)
+`RunUiSmokeAsync` checks passive device selection, theme resources, alpha samples, scrolling, caption/resize/editor hit tests, and preservation across visibility/mode operations. The documentation mode substitutes generic device names and synthetic text. PNGs use `RenderTargetBitmap` on the actual visual tree; they are not desktop screenshots with the underlying application composited behind them. No live capture is necessary to understand these fixtures. (src\PhantomFudge.App\MainWindow.xaml.cs:942-968,1004-1121,1206-1219)
 
 **Exercise:** Why not implement translucency as `Opacity = 0.1` on the window?  
 **Answer:** That would fade text and controls as well as the background, violating the implemented solid-text invariant.
@@ -441,7 +457,7 @@ capture exclusion. The real synthetic Agency request is separately recorded in t
 **Answer:** DeepSeaFoam; `NextThemed` has only one special case, DeepSeaFoam → Harbor Daylight.
 
 **Review question:** What still needs people and hardware?  
-**Answer:** Readability over real backgrounds, accessibility and mixed-DPI behavior, presentation-focus acceptance, and recipient-side content/cursor qualification. Local tests do not supply owner approval. (src\PhantomFudge.App\MainWindow.xaml.cs:1087-1091; src\PhantomFudge.Core\ThemePalette.cs:28-29; docs\IMPLEMENTATION-STATUS.md:358-366)
+**Answer:** Readability over real backgrounds, accessibility and mixed-DPI behavior, presentation-focus acceptance, and recipient-side content/cursor qualification. Local tests do not supply owner approval. (src\PhantomFudge.App\MainWindow.xaml.cs:1087-1091; src\PhantomFudge.Core\ThemePalette.cs:28-29; docs\IMPLEMENTATION-STATUS.md:371-379)
 
 ## References and maintenance checkpoints
 

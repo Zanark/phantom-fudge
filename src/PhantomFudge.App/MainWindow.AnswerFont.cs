@@ -47,6 +47,13 @@ public partial class MainWindow
         if (!answerViewReady)
             return;
         var compact = QuestionPanel.ActualWidth < 560;
+        PreviousAnswerToggle.Width = compact ? 80 : 118;
+        QuestionEditButton.Content = questionEditing ? compact ? "Done" : "Done typing"
+            : AwaitingClarificationReply ? compact ? "Reply" : "Type reply" : compact ? "Edit" : "Type / edit";
+        QuestionCopyButton.Content = compact ? "Copy" : AwaitingClarificationReply ? "Copy original" : "Copy draft";
+        AutomationProperties.SetName(QuestionEditButton, questionEditing ? "Done typing"
+            : AwaitingClarificationReply ? "Type clarification reply" : "Type or edit the question");
+        AutomationProperties.SetName(QuestionCopyButton, AwaitingClarificationReply ? "Copy original question" : "Copy question draft");
         var preparing = agencyPreparation is { IsCompleted: false } && !AnswerBusy;
         var interpretation = answerRun?.Request.Clarification is { Confirmed: false };
         AnswerCancelButton.Content = preparing ? compact ? "Cancel prep" : "Cancel preparation" : compact ? "Cancel" : "Cancel answer";

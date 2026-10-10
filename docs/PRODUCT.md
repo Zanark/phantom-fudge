@@ -30,6 +30,7 @@ selected it. "Proposed" is a recommendation to resolve in `TODO\01_PRODUCT_DECIS
 | R21 | Visible active-transcription state | Red indicator follows running state, not source selection/startup |
 | R22 | Direct device-card selection without list scrolling | Wrapping source-specific cards, explicit overflow pages and retained endpoint choice |
 | R23 | Reversible notepad cover while ongoing work continues | Same-HWND NOTEPAD IS READY/Uncover; no implicit stop/cancel and no invisibility claim |
+| R24 | Opt-in previous-answer context immediately left of Ask | Default-off/session-only; explicit Ask snapshots one completed displayed answer, with no accumulated conversation; workstream59 |
 
 The original wish for a window that can "never be detected" is not an implementable
 universal contract. Task Manager, desktop-window enumeration, accessibility tools,
@@ -54,8 +55,10 @@ answers, and Docker-last. Cloud audio is separately optional. See AI-ANSWER-ARCH
 Question typing deliberately takes keyboard focus through its own protected transition without
 stopping transcription or enabling notes editing. Direct transcript clicks now enter that same
 transition; they are not passive no-activation gestures. Snapshot-only mode sends nothing;
-normal configured-provider Ask sends only the exact reviewed question; optional clarification
-includes its fixed instruction and bounded explicit exchanges. Accurate armed-Mic finalization
+default configured-provider Ask sends only the exact reviewed question. **Previous answer** can
+explicitly add the displayed completed answer, separately from clarification's fixed instruction
+and bounded explicit exchanges. It is background data, never a tool permission or automatic
+conversation history. Accurate armed-Mic finalization
 remains29. See LOCAL-QUESTIONS.md.
 
 October8 11:31 direction: transcript-first replaces notes-first. Start in non-activating Present,
@@ -132,6 +135,28 @@ quiet inline Details without suppressing actionable failures. Local synthetic va
 owner acceptance or recorder qualification. See QUALITY-UPDATE.md.
 
 ## User journeys
+
+### October10: follow up using one displayed answer
+
+After a completed answer, enable **Previous answer**, immediately left of Ask, then edit the
+question and explicitly Ask. Do not Clear when intending to reuse that answer: Clear resets it.
+The toggle is off on launch and stays on across successful follow-ups, but each request includes
+only the last displayed completed answer—not its question, older answers or nested request context.
+Failed/cancelled responses and interpretations cannot become a prior answer.
+([`CapturePreviousAnswer`, `SetUsePreviousAnswer`](../src/PhantomFudge.App/MainWindow.AnswerContext.cs).)
+
+With **Clarify first**, capture that answer before interpretation replaces the display. Keep the
+same immutable snapshot through corrections, confirmation and explicit retry of a failed first
+interpretation. Busy work and an active clarification lock context changes; provider changes and
+Clear reset the option. Setup/details exposes exact submitted prior text and the snapshot label
+records its character count. Narrow panes shorten secondary captions and the context button's
+width, keeping Previous answer / Ask / Clear visible; Edit/Copy may wrap within their left group.
+([Clarification](../src/PhantomFudge.App/MainWindow.Clarification.cs),
+[compact captions](../src/PhantomFudge.App/MainWindow.AnswerFont.cs),
+[usage](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).)
+
+This is a **local-source increment, not part of v0.2.0-preview.1**. The existing release tag and
+assets are unchanged; [workstream59](../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo) records validation separately.
 
 ### October9 10:07: direct multi-line questions
 

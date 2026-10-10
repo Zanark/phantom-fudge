@@ -9,9 +9,10 @@ config:
 ---
 flowchart TB
     accTitle: One question with an explicitly selected answer destination
-    accDescr: A snapshot feeds only ExactText to a provider. Snapshot-only, Copilot cloud and local model modes are distinct; a direct Azure adapter is future work.
+    accDescr: A snapshot supplies ExactText plus separately opted-in context to one selected provider. Snapshot-only never sends; direct Azure remains future work.
     Draft["Local editable draft"] --> Snapshot["Immutable snapshot"]
-    Snapshot --> Exact["ExactText only"]
+    Snapshot --> Exact["ExactText and explicit context only"]
+    Previous["Displayed completed answer"] -->|Opt-in snapshot on Ask| Exact
     Exact --> Choice{"Configured mode"}
     Choice --> NoSend["Snapshot only: no request"]
     Choice --> Agency["Installed Agency"]

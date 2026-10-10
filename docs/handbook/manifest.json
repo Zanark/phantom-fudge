@@ -1,117 +1,119 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-09T20:32:40.765Z",
+  "generatedAtUtc": "2026-10-10T13:44:30.439Z",
   "edition": "2026-10-10",
   "inputs": {
     "AGENTS.md": "a2e00965ef5387b5af1b7c69d6594145d8d67d0a6294974b0bf6cb0b1921642d",
     "compose.yaml": "072523fcbae8d0e1b017bae97bb6bfa595108b56b0b2989cb014f761b5ff6e3e",
     "Directory.Build.props": "1bb1bc2e04dc4fee54dd8627dde84f43783cab0f3ffc18224fcdacac0137a6d7",
-    "docs/AI-ANSWER-ARCHITECTURE.md": "db420004f6c951658a548e03326027f7c72c3861c0430cf614b9b7a2f103622a",
+    "docs/AI-ANSWER-ARCHITECTURE.md": "c1aab7e88b216c444c0a8fb5aa5ecb31f3f3895019a7ca1b9ca2c2b9825b661e",
     "docs/AI-ANSWER-EVALUATION.md": "ef160f486bc2af9642eed8e72ca62a79a4139cd7af2f91cbee415cf05934bcc0",
-    "docs/AI-ANSWER-PRIVACY.md": "b809d0bc4b6c755aee4aa80d2c65f0d04d6c642fbb9f6760839b6b7c7b120d58",
+    "docs/AI-ANSWER-PRIVACY.md": "31644795782c006e3759909eab7f808cdb97c97d9205fbfe595463ab9034edd7",
     "docs/AI-ANSWER-RESEARCH.md": "6e8606afc392a23c1f237845fdc11f00a69fb94420e9da4f8b4c644ed9c1d105",
     "docs/answer-provider-smoke.json": "7bf9dde741fd48659d3700c8a9a996a788e32729a0a829f1b4c6787e9204081b",
-    "docs/ANSWER-PROVIDERS.md": "fa9ffdb3309cb01c1de4d03245c5f2e72d5867847b014b4ca76792b7a05d1ef8",
-    "docs/ARCHITECTURE.md": "120baabf6b286bb3667f657dfd436086ed357d3cd93ee47e3a7ef3c03017646e",
+    "docs/ANSWER-PROVIDERS.md": "64010a6a06d3cd1e909bf3362365f94f5d376419dbee2fd2a9fb9ad1755482d3",
+    "docs/ARCHITECTURE.md": "eff8ca8b535e9436aa0dec7ac58cd3f8919b7e25a320b541bf5f4413530f40b6",
+    "docs/assets/readme/answer-context.png": "f839e9c7f029303c1091976e705b1a60727f7289cd3f88d3b10cdf998066f2d7",
     "docs/assets/readme/audio-devices.png": "d2a8401c88e20294e208a11f39be0d7d009109f1d22a11c55442d9f3d2fdfdd7",
-    "docs/assets/readme/clarification.png": "d64891ec454c7f2cc4831bf8d7be7fb8777522eb3ab1a550346eb0a92a49399f",
+    "docs/assets/readme/clarification.png": "0832766f1f9ad6dae0c4c5c3ef3759ad201243cd28457aca7c01aeb0bae9a6db",
     "docs/assets/readme/cover.png": "0c168761ff03309c78d1b4da05e9db58025460276e9f17f9579d74f5ae75a0a2",
-    "docs/assets/readme/deepseafoam.png": "ddc17e2de01b8e22d8e68f19eb7035100affeaf126987570290606e82d4cfccc",
-    "docs/assets/readme/harbor-daylight.png": "7b7552694b40f21ae9601948c51025e133c0c5cd3a1b41b4849dab5f2d64b5c9",
-    "docs/assets/readme/manifest.json": "3546bde5d12381b25bf17167c8a315d55f5b176962cd19e3690d3c3e306aedd6",
-    "docs/assets/readme/plain.png": "415d4b0d3e38afc92ce8511b6c250b9389a63a708612e1cc42b9f7c9e6dfd0af",
-    "docs/assets/readme/question.png": "6f47e363f20c66e38e0b499ab75c3e5099d6f6779cf4a2c0e16682d5ce1b397e",
-    "docs/assets/readme/recording.png": "9d4e43aa93a81bf14b6b508ad143a072f6aca0f1935f9f1f524b701c50b70a5e",
-    "docs/assets/readme/selection.png": "35730ca3c3a7c5a0b46c58af67fc4d76a6d256bf4a5dcb3379fb6f4976e81a95",
-    "docs/assets/readme/transcript.png": "ddc17e2de01b8e22d8e68f19eb7035100affeaf126987570290606e82d4cfccc",
-    "docs/COVER-AND-PRIVACY.md": "a43bc596fa481c7042d0654dc536f79a38b44127cfe1cd003a1b61a0208ae401",
-    "docs/CURRENT-WORKFLOW.md": "c8d4a7f4d591f2eb3e5e24fc297087c17d270cea536338b073bddc45eb8b0468",
+    "docs/assets/readme/deepseafoam.png": "28e288097fca3495c67ae2159a015f8e00f2a58db647554800841a579cd6c758",
+    "docs/assets/readme/harbor-daylight.png": "35eaa154001e1dfe8d9b401dca6b148a173d3fc82e7dad347b805a931cc515a7",
+    "docs/assets/readme/manifest.json": "63224f7efb86dabae7d825c738263ce38d22aa54354486ecf024acb97573321e",
+    "docs/assets/readme/plain.png": "217cb969c437c43a8c716214c0dd6fd59c75bd3b8c9ba3a91794f4cb8ddf9567",
+    "docs/assets/readme/question.png": "b470df0e214942aa65f504a74cd6e45007bdac95d94096db46188941be6079d2",
+    "docs/assets/readme/recording.png": "16d440e385b7984660bee2f3e03fc63662affe78c44037cddf65b6926c4fb960",
+    "docs/assets/readme/selection.png": "7d80068f5f1ea1ab9763be469f35920ea75ebfb61c0bfacd9cb6090dbbc1bd12",
+    "docs/assets/readme/transcript.png": "28e288097fca3495c67ae2159a015f8e00f2a58db647554800841a579cd6c758",
+    "docs/COVER-AND-PRIVACY.md": "489797b60b80e071a3693f13f871cf48157e4f778fe1dbc56611074a4d322071",
+    "docs/CURRENT-WORKFLOW.md": "30df36ddfdc4c6884d254d1d51bcf19baee6cdb4137be526c73b55091c90f338",
     "docs/CURSOR-AND-THEMES.md": "bab42d313e5f1920e1666a575fedc34f84dc5543aea413c7665b4e8f5726b664",
     "docs/DEVELOPMENT-WORKFLOW.md": "1f0852195c0afe455b2e754c6da1496ca4f450ce8d99cb2a3103a4ad4fc0b7f4",
     "docs/DOCUMENTATION-MAINTENANCE.md": "8169e202c5d4e2ccc932e05ac80d3ddfc940726dc9d48bf555e586514ca5c013",
     "docs/DUAL-SOURCE-AUDIO.md": "61eb2c59cc56b2ab0fbbc7921bcb71ed5bc11c2dbdf6f611c898b074f786d05b",
-    "docs/handbook/00-reading-map.md": "b3580f563e004b6d8a7aa4488f40fc8f03eed85788aa0c5026fa227c1cdf179c",
-    "docs/handbook/01-principal-engineer-guide.md": "83a11d53f487f99aace3e18f29123664fb340f34eadfdec1ae622d727c8484ca",
-    "docs/handbook/02-zero-to-hero.md": "e9d9e9bb9feea64fa8d8dc542821745955b6c9907ede5b9c8ad4b551e9f20ad1",
-    "docs/handbook/03-product-boundaries-and-decisions.md": "244b4da5e820f6d8d0d04abe80bdfed01ab90dbf4d5c85c7886772793d6c1e31",
-    "docs/handbook/04-windows-capture-and-cursors.md": "33041134d2923c21ff4f5484c58556af5a7941391edb3da58da344d36cae957b",
-    "docs/handbook/05-desktop-ui-and-themes.md": "74c25b11e4f9f79e703ee49cad0cf2e68765d5e2bb280a5f6a04fec39279fa97",
-    "docs/handbook/06-notes-transcripts-and-storage.md": "ab897728e6d5914bd7e2e29111734cce3c25e5758e36c75e601bfb2954a864bb",
+    "docs/handbook/00-reading-map.md": "920877a9c96711ae85a07e40f2032b6105338665a220aeddabbd312b00f7ef7d",
+    "docs/handbook/01-principal-engineer-guide.md": "fd7ddab98ccb4814354c4690f362996b8a878b444e36c59585cc7b076b552606",
+    "docs/handbook/02-zero-to-hero.md": "ccf3a3f638ff9c7b10293981b23c9d7dcbf756070c128058eb3ee540eb2a61ed",
+    "docs/handbook/03-product-boundaries-and-decisions.md": "40ef89f9163ea3b137afea75929e0e32da731bbfd111eb600cf37bee899a83e4",
+    "docs/handbook/04-windows-capture-and-cursors.md": "079e85636ca4fd9006a9565041739b0afd25ff05515d602f0b07ea3107170a83",
+    "docs/handbook/05-desktop-ui-and-themes.md": "639c18077041e4aa616fc092df1443bfd22ac03b4079d9898d1c80da9fd4996d",
+    "docs/handbook/06-notes-transcripts-and-storage.md": "00769ef786de4170f180f33163a06b2e6ca3a5621dd9cd27e6f1b02a14402c8e",
     "docs/handbook/07-dual-input-capture.md": "76566a19916d3234ecb9459dc655af6640dc8974ae4afde47ac048ffbc36ffff",
     "docs/handbook/08-streaming-protocol.md": "39d303e563f912acfbfceb76b94fbd6f6e883523445d7dfe9e53a7ec3c90fc25",
     "docs/handbook/09-python-recognition.md": "f0257d99a7fbd0a48d58ad15be8dee9cd2f7808c3866f6c6a75086ab822e84f8",
     "docs/handbook/10-native-service-lifecycle.md": "ba90877e8a72a83afcd4e714ce508d32617aef7b31aa4dc54f91ca138e269517",
-    "docs/handbook/11-state-machines-and-failure-containment.md": "8e6c279491c99932d14edfc153fa2e9eafb31cdcb6638f3453d54c77958cea7f",
+    "docs/handbook/11-state-machines-and-failure-containment.md": "ca4ae51ae79273f47d8b10291b6f62518e1f996344e4499a6959b11c141b5fa0",
     "docs/handbook/12-performance-and-benchmarks.md": "6eb4a750b489fe1f1744c02bc87c191fdb0f73a80f592f9af861923bc811c11c",
-    "docs/handbook/13-proposed-azure-answer-flow.md": "19219934f1225554bc698b713dfab220590cd432337696b667b7862b05e6b837",
-    "docs/handbook/14-answer-latency-identity-and-privacy.md": "c2b6ba2bae290282fd04f6193f6453645ec398ff5847033e867501a289a4f943",
-    "docs/handbook/15-development-and-testing.md": "6578d2c5e24b5e8d4ebed189c2c0e9738e058b3b00849a7c9d51add143404d5d",
-    "docs/handbook/16-distribution-and-troubleshooting.md": "00b9fde0f7267f3b41602c04c64e86035f87bbda300a61f023ed3cc1f225f944",
-    "docs/handbook/17-privacy-and-assurance.md": "7b0b61caf5cbe80bae7416d71820671845cfdd93d0e6ecf97bd82e76cd3187d6",
-    "docs/handbook/18-extending-the-system.md": "df7d2625e4d094dec3994c8ef7e3660c89608d5e729b46e983b11dce1dcb8c26",
-    "docs/handbook/19-api-configuration-reference.md": "6b7178fc773d2f378e2177cd7123c6ff13802fe4573ef06c3b2b2df64bf4e896",
-    "docs/handbook/20-glossary-and-repository-map.md": "7ed1396c681cb4120709cd6470fdc7e736da2e6b8d8a7d1dad8791df77bd8fc0",
-    "docs/handbook/21-evidence-and-roadmap.md": "1b1e392f842e19127b128177fd2d5c8eee69bf0fb29b9f86181992d8f2371cb7",
-    "docs/handbook/22-desktop-source-walkthrough.md": "32d739a3e31575ed1545b77ec37eabe995d0bc7a8bf0e9ac6de39c21fccaa8b6",
-    "docs/handbook/23-domain-source-walkthrough.md": "9874d2be31a862b3423489e607fffe6e21e73455a4de5c587ed9ba18d233f624",
-    "docs/handbook/24-provider-source-walkthrough.md": "454d5145f24954a1e4c99f366c10a5e3065715b839f0bd71d8f9a7257601352a",
+    "docs/handbook/13-proposed-azure-answer-flow.md": "c256771f5f5bd5e6d9e2deeab3c2f9ff215f960e6ccfc28ff2be490f1d39f9bc",
+    "docs/handbook/14-answer-latency-identity-and-privacy.md": "06a75bb70788763671fd1f76af5bc5e9d93d4d575acaccc1857b707c79a15da8",
+    "docs/handbook/15-development-and-testing.md": "0a58c61c6318bac5379acc4abfc507023ed7bccd62d3a9edd09fec99916da427",
+    "docs/handbook/16-distribution-and-troubleshooting.md": "3a70fb9c1f321533d8e3904ebdae81fb439657c49045b555eeb4aae30ddde606",
+    "docs/handbook/17-privacy-and-assurance.md": "7c25d515f84a83f9bc23fde5dad2e3ee09631f39b108c697677410044bc672fa",
+    "docs/handbook/18-extending-the-system.md": "f773884453a62983b3389d952285e0acc05780311bf364f2e428f189f460560a",
+    "docs/handbook/19-api-configuration-reference.md": "76d8f4d361ced9ada6b0550012f1c6758d1a2ea5c88086d5f42ae187b111ccbc",
+    "docs/handbook/20-glossary-and-repository-map.md": "2c410ce4d6de1deef53240b8cfa8a54dcb5495dec9940440cedea03094b95cd4",
+    "docs/handbook/21-evidence-and-roadmap.md": "66cce97fe67f27d6cc9b1edcb8bee32c25be5811b03e79dde0cf1696552e540c",
+    "docs/handbook/22-desktop-source-walkthrough.md": "1298825b27f60622c5df10c6ef8c7e0948ce343476494655d959cb80a3b68759",
+    "docs/handbook/23-domain-source-walkthrough.md": "a889e80bc7e049d39c57fea6cd03302221210fe6ed79fc2e35b435a2b9aafc6f",
+    "docs/handbook/24-provider-source-walkthrough.md": "c06ba4bbfd04e676feb48a59210cc22b74dd1bee3e3d035bb26378ef5e16a906",
     "docs/handbook/25-native-audio-source-walkthrough.md": "b551600d8a0de8a256847663a6fa61b0865f78adde24b42a523783216dd6b85f",
     "docs/handbook/26-speech-source-walkthrough.md": "67b15177203aa36148103f112be7de2a623207ab9abdd718442b658dfcdd04d2",
-    "docs/handbook/27-operations-source-walkthrough.md": "1b4ffc16a998eb51429824c9710d9a99b960eced4c0854089657fd9057eb5773",
+    "docs/handbook/27-operations-source-walkthrough.md": "22f728ba4e15dafbd155c5d8b449e8235b0032b27bad023757746f7b03c4559c",
     "docs/handbook/28-documentation-source-walkthrough.md": "0f5f54aac19297d8449bc1b104b49146c1c0ee36bcd3b4224acca7a2da701bb7",
     "docs/handbook/assets/cover.svg": "cca6a0b1d452c7376989650c5f51eb37398b06ba10df8e759a60d3b5193f8074",
-    "docs/handbook/assets/screenshots/answer-background-10.png": "f1d4b78f01677193461f77246f01690de20efec0aca12be2bda1a09f42a7e9fd",
-    "docs/handbook/assets/screenshots/answer-background-100.png": "21078dfd0deb3dd7ee3f61b5b56f8118619976aea0b7450a597f7c648b17d3c9",
-    "docs/handbook/assets/screenshots/answer-synthetic.png": "260cc6e01ad8efdd65e6a258946ef73b3e129cb020e356f4716c872bf9bf8560",
+    "docs/handbook/assets/screenshots/answer-background-10.png": "778e94d10d1ea2dbda39eaeeb383adc172cebf8cf5fdc728b22b29e069ad2b03",
+    "docs/handbook/assets/screenshots/answer-background-100.png": "f771bc5d1ee214b14a228045562b830fc1845ad7ac0941b5eac3cbac95f47ddf",
+    "docs/handbook/assets/screenshots/answer-context.png": "206e16787e6ae5fd59aee48a2605fd7ffb50fb0b3a6dc7c81d68e4f58b3aa12c",
+    "docs/handbook/assets/screenshots/answer-synthetic.png": "345e6f1d895db0acb5f422b6d6aebb45fdce7c30f7b4026ffa374bcac72ff233",
     "docs/handbook/assets/screenshots/audio-setup-cards-compact.png": "99f739f25e413222b0432b7b1499f5cf9942cbf58013c5fe5db76ec32ba75e81",
     "docs/handbook/assets/screenshots/audio-setup.png": "fae818c821034384c2b4a831bd84c4ff14fd39bc43abf36db4030206fa98ead8",
     "docs/handbook/assets/screenshots/background-10.png": "60e911295d05bd2ab1523b29e6eaa39c2bb0514a4e0da0417f6df3ce9b34f813",
     "docs/handbook/assets/screenshots/background-100.png": "611186b878ab6cacd2681b626bb01e6de1335161af9b85d391c07835c4105863",
-    "docs/handbook/assets/screenshots/keyboard-answer-size.png": "79503537537a365cadc19dbc9773fc5af85064be5179ad077448e6a42e4aa90a",
-    "docs/handbook/assets/screenshots/keyboard-command.png": "11e9067f7e5f192a9ad76a1f1cbe263ecdc283a4dfbed7c2eaae1b372ea4ff37",
-    "docs/handbook/assets/screenshots/keyboard-selection.png": "4e9166c874c5f9916cea4057ef5aefed8b2fcb55d0d039076567bae3d4324ac9",
-    "docs/handbook/assets/screenshots/manifest.json": "88c4b0212f431190817edf15e309b1b80634a06410f22a1132e8f5f11a63599e",
+    "docs/handbook/assets/screenshots/keyboard-answer-size.png": "459e35099e3ab1c381a3563ed9c078ec5b7ae4ad518dc97c1156aa06d64e1c0f",
+    "docs/handbook/assets/screenshots/keyboard-command.png": "f2f193973f748464ff07a7f60c6ab6721895f822d441140b3e85d33fa1b3a336",
+    "docs/handbook/assets/screenshots/keyboard-selection.png": "a94462816bcd81e82855f526b0e3279f83c7ad64b3198b20e3382fa67058107b",
+    "docs/handbook/assets/screenshots/manifest.json": "55dcdeb60620c7b2ddd516cd9a1738377f12dfd013a7b03fa02e6b9cd546b09b",
     "docs/handbook/assets/screenshots/notepad-cover.png": "307319ce717327750e04e888a2423cf1c9f3700a1935c5e6f08124236ae6a39d",
     "docs/handbook/assets/screenshots/notes-expanded.png": "b6dd4e58221072d3fd9c7c3a6e6a98d8bebdc75d120e1a1e22b80a5f83db5bcd",
     "docs/handbook/assets/screenshots/present.png": "b6dd4e58221072d3fd9c7c3a6e6a98d8bebdc75d120e1a1e22b80a5f83db5bcd",
-    "docs/handbook/assets/screenshots/question-clarification.png": "719898e01d487b5bf5e9915df935246b45515ca886a20cef0f30782423abdc1b",
-    "docs/handbook/assets/screenshots/question-draft.png": "a304ffdc9bbf043017709a14254552584917e10322106f8f656a037f85a14aa3",
-    "docs/handbook/assets/screenshots/question-harbordaylight.png": "c7c95397efb12333db793bb352b0084f994fbcc4b5f296991043af8838d47ad5",
-    "docs/handbook/assets/screenshots/question-selection.png": "1ab789d35f666fd0addeda909c21ee648950e214564bd27d07f0d804b38ddac8",
-    "docs/handbook/assets/screenshots/recording-active.png": "dfacc238c03ce4751d3780afec2b524b7ca20b7a4525d1e061bfbb42ab69bd80",
-    "docs/handbook/assets/screenshots/theme-DeepSeaFoam.png": "3e9df791679dbfba80cfbcd165eaa3fdd63250f158481667a205cf15e6d0ded4",
-    "docs/handbook/assets/screenshots/theme-HarborDaylight.png": "65394377b69a9ab11fe2620564050889dbc82145073e5c1c355e17030fd582bb",
-    "docs/handbook/assets/screenshots/theme-Plain.png": "8a3bdb2dabef8e73322c7478b029c2fc06ffb6bfa9e959debe419be9538954a2",
-    "docs/handbook/assets/screenshots/transcript-deepseafoam.png": "3e9df791679dbfba80cfbcd165eaa3fdd63250f158481667a205cf15e6d0ded4",
-    "docs/handbook/assets/screenshots/transcript-multiselect.png": "f7b819c6c8d9a510c2b26b911a925bc3fabfd387aff5ebfaf84cfd7efa53d4e2",
+    "docs/handbook/assets/screenshots/question-clarification.png": "3a2d44f49f8eca7d4fa87c03f9d7c2feda9692826a267753e07c8c093d732876",
+    "docs/handbook/assets/screenshots/question-draft.png": "375838348a2f2e18bb3f722df50c91127fc9ac4f7488340a9d575e7e441652dc",
+    "docs/handbook/assets/screenshots/question-harbordaylight.png": "532f7fc3fddc4af29acd186a8a43e083f3bed050567dd67f1dea9a9d2a0d0a2a",
+    "docs/handbook/assets/screenshots/question-selection.png": "4e601a39b221a675283ad4c6e145cb626bf05a66cfa9cae1f8527fb6f06504c0",
+    "docs/handbook/assets/screenshots/recording-active.png": "865d9d77f47cae261d1d95d41f0a661e72f404171bd19c764a0a152f8279f14b",
+    "docs/handbook/assets/screenshots/theme-DeepSeaFoam.png": "9d2e18383acc0903456e3a47cb5a4df40db3bd61c89be92776e5ec35b8da81b8",
+    "docs/handbook/assets/screenshots/theme-HarborDaylight.png": "fc0c432497b616767c27669eab63b5ce927d953b20f419c12b3bdb8daa3feac6",
+    "docs/handbook/assets/screenshots/theme-Plain.png": "b894ac60cefd87c5ec3fa4fe65d79ed090b4f1e8a275499ff18c18c29c1b75cd",
+    "docs/handbook/assets/screenshots/transcript-deepseafoam.png": "9d2e18383acc0903456e3a47cb5a4df40db3bd61c89be92776e5ec35b8da81b8",
+    "docs/handbook/assets/screenshots/transcript-multiselect.png": "9af2d2f9606233360807436ecbe92f954d3f13e3d442b6fbf7f6fb58361556a3",
     "docs/handbook/book.json": "81a1666769d4801db23685d7bc3950db3797e7a25c06c745671f2078eea7e012",
     "docs/handbook/catalogue.json": "8f016935d8cdd95549fa32bd25f76548219358bfc3ccee4b33ec9d7934bd3e21",
-    "docs/handbook/README.md": "afd09df045279dc24c53103e003d44a1a292be78239a452ed462c7e9dd2b5849",
-    "docs/IMPLEMENTATION-STATUS.md": "4e975c4145b9b13dd472ff0903242832fa8e6eb2734550b96bad12ec07ba2d49",
+    "docs/handbook/README.md": "b3e207b2f2dbdf33d386001852b901ea30aba868b1016e6959896d72f6172aa5",
+    "docs/IMPLEMENTATION-STATUS.md": "fc97d9935b83314bae639a1bcbbcaeefeaf3d093434ded269ff9d86b46e2e828",
     "docs/INSTALLATION.md": "733f6b7fcfcd23477d7f9d904b560713461793f2a42b5844f37873b84b6a936e",
-    "docs/KEYBOARD-CONTROLS.md": "86e040b86d6e671040b1b9036ff8eaf9209a6ace4d155d8ea3121674bb2ad624",
-    "docs/LOCAL-QUESTIONS.md": "8e4c6d8f7ce3213a7372d9bfa4aa4683bdd183509e32e86e9f4cf95542875b40",
-    "docs/OVERVIEW.md": "f249ab5774da725baa9c1d863ed8c86fce3a30587dd5260edd5bedbcf4d053b2",
-    "docs/PREVIEW-GUIDE.md": "5537dcb5e65dd540174b25d251e25a779e86e282c92ec03b99ad16e6508cd7cc",
-    "docs/PRODUCT.md": "7508fddabd6d6d77e9ce22d0a4c714a3586893238d82f22f3e4c065a5a99c8ff",
-    "docs/QUALIFICATION.md": "f077c9beeb2d7fc05e6f3c1ec5b3a96a611eb77419fba2c951bb9e3fb4a7e4e8",
-    "docs/QUESTION-CLARIFICATION.md": "541d683145e9d2d46679133d23f7a5fca45fee71abd60dc83ea2c504e47a2652",
-    "docs/README.md": "c7073e2b057af2d59f9c178fd0d3a055afab1b8ad15e818befd5d6b3a7708fcc",
-    "docs/source-atlas/manifest.json": "eed127b79a7d9bcc02342f5431f752aa212038c0eec5ee8b1b9ad501a98a035c",
+    "docs/KEYBOARD-CONTROLS.md": "71024ec8abfe060c4f414501d75a70515b5846c6586ad5df1ec5d4b1af022907",
+    "docs/LOCAL-QUESTIONS.md": "9ec90c6f88ac4965889ee4e0bfdd04d9a49d3bdd2cad8d7b2f763d8e4ed079d8",
+    "docs/OVERVIEW.md": "1b2c2ea58a824c47b89d4b91d636bce0b2f5d7284483293381b2a7503e112f86",
+    "docs/PREVIEW-GUIDE.md": "3a1de6efa9610ebc8ec9c489e4f8be927806bf2c40e631c116fc9ea0de5a58eb",
+    "docs/PRODUCT.md": "45fcde2d7447f6b16503106526baa907cc1c572e813443846376020ea096c166",
+    "docs/QUALIFICATION.md": "ac1fd9996beaf5e64272be87babd174b3736989fd647d2544fac850323772342",
+    "docs/QUESTION-CLARIFICATION.md": "08e9db129c19e6c4f397754113ace316bac7555cb59781aedd835b841ad4d99c",
+    "docs/README.md": "66ceab1b475f5d1a8e05ddd6dbd374eafed462468f17e7be2744e3a5fe9bb2ff",
+    "docs/source-atlas/manifest.json": "96ffe6eb72746985f288dd6fdd8f360c5133d8ff1d7a5edea3e7320501b06eff",
     "docs/SPEECH-BENCHMARK.md": "46c89e70fc06891a837c3fc2323ed9712510a0175981ea3e916516d750dda39d",
     "docs/TODO-CONVENTIONS.md": "7d214300834874ea780761859b992ea4ccf834ce2a34eef2697437d8d841e753",
     "global.json": "bf68d4a0fc2613967f53bd6af5a6570666b755f5f6bf4688a120736ae523ccaa",
-    "JOURNAL.md": "3a4fc55eaaa149fb475f8406c6f56f27cad3925e16235d6df7fc98abb381af85",
+    "JOURNAL.md": "042d6d8d06f0ab600104aa67827f5ac55b8e8e274de6e0b8374574cd7dc21d5c",
     "PhantomFudge.slnx": "83273f1f97cbf17a0f001c4221eb997d18dac384b630d16a080d24253ca51379",
-    "README.md": "dd184c9fcb85301fa4fc0aacd0065974bc80ed59d59d5432a95e3a3111ed27fd",
+    "README.md": "4a00e2be0e0faf0d37fcdf799e42b208b28b7bb152a0795e38ace4482667636d",
     "scripts/Build-Handbook.ps1": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
     "scripts/Build-Handbook.txt": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
     "scripts/Build-Installer.ps1": "fce0d469b571c669c551ddbb93db2f8279d0fe32e79be999db7120aabb525b9f",
     "scripts/Export-Diagnostics.ps1": "527dc6c39e9206bb6c49d6569f9b7ce0913a7882ed6d7d04bd8bd330eba0f800",
-    "scripts/Export-HandbookScreenshots.ps1": "ac9ac238da02288df23c587cbb483a92224add600adb4dadf41ccbc13326cffa",
-    "scripts/Export-HandbookScreenshots.txt": "ac9ac238da02288df23c587cbb483a92224add600adb4dadf41ccbc13326cffa",
-    "scripts/Export-ReadmeImages.ps1": "8de5b17da8b62acd28dd4d93c5585fc91913df3d2c1f7ae28381a794ce2b48a3",
-    "scripts/Export-ReadmeImages.txt": "8de5b17da8b62acd28dd4d93c5585fc91913df3d2c1f7ae28381a794ce2b48a3",
+    "scripts/Export-HandbookScreenshots.ps1": "20322f7d98082e76eb66e4922b032beaf8e5a72c32bbd19323b56feefc58f17f",
+    "scripts/Export-HandbookScreenshots.txt": "20322f7d98082e76eb66e4922b032beaf8e5a72c32bbd19323b56feefc58f17f",
+    "scripts/Export-ReadmeImages.ps1": "5ad3c76f55614e426e256deb8fceb223d42ac14e64d3260b0d9aec52f3774eda",
+    "scripts/Export-ReadmeImages.txt": "5ad3c76f55614e426e256deb8fceb223d42ac14e64d3260b0d9aec52f3774eda",
     "scripts/Initialize-Answers.ps1": "cc21c6d9e913a7019d7b6d7a944399f005ec0ad90a98fa522979905f851962b3",
     "scripts/Initialize-Answers.txt": "cc21c6d9e913a7019d7b6d7a944399f005ec0ad90a98fa522979905f851962b3",
     "scripts/Initialize-Transcription.ps1": "aec360ba326ee09448f8c00935a2c5489cdaa9da6fd49add6fb59845677820d3",
@@ -163,29 +165,31 @@
     "src/PhantomFudge.App/Audio/WasapiInput.cs": "7bc736e543d6bc891b690f3c1c1e53c7492710e130fe6606aa05981dd38fa59b",
     "src/PhantomFudge.App/Diagnostics/CaptureProof.cs": "b1291002780b48a324a579251f057c9809d56af008416f60325b3a2433a1f26e",
     "src/PhantomFudge.App/LocalFailureNotice.cs": "7124bf1b08d179e2d4060a88482f6cb0f1f8bd361a63d8507c2651546a9abeb8",
+    "src/PhantomFudge.App/MainWindow.AnswerContext.cs": "a439ca48cc628f538318114be503e3bfca90a700ae9dd56b4b77028bc41d6c2b",
+    "src/PhantomFudge.App/MainWindow.AnswerContextDiagnostics.cs": "798903c18623750ff1b15ac80b690cf4574f611e82e0a11baad3f8bf24cdc1fc",
     "src/PhantomFudge.App/MainWindow.AnswerDiagnostics.cs": "8b0089b18111f1feb49dc7c9f179019ab479b698aacef13010acd95efa0317ce",
-    "src/PhantomFudge.App/MainWindow.AnswerFont.cs": "0df77850de4d0cb982dc2558149a37742116ad0a723c679e7a91b30be78a5b1d",
+    "src/PhantomFudge.App/MainWindow.AnswerFont.cs": "081a9b65882f47c52b08e766bedff42d4e3223e72ca7832d624005bdf110ee66",
     "src/PhantomFudge.App/MainWindow.AnswerLifetime.cs": "695ce25912a421acbbe7e511a93d720a207298c62b7397e70e35db83b066ccb9",
-    "src/PhantomFudge.App/MainWindow.Answers.cs": "fc2eda79ae56baf70d608416ad6baa5ca257629de5ae5925a72e2c21d4efb583",
+    "src/PhantomFudge.App/MainWindow.Answers.cs": "621204e1759865dc7e7a2285ac634e1ac03db56efd487fc4521d4b25cd3324f4",
     "src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs": "2504129f93301b2838d44805ab3bce9799ff4b94511118ad318f5c8055f5f1ea",
     "src/PhantomFudge.App/MainWindow.AudioDeviceCardsDiagnostics.cs": "6a4a24a3e61edc4823e1883829c030945d949ff9c13e7a40374a7290c9578ab4",
-    "src/PhantomFudge.App/MainWindow.Clarification.cs": "360a83c8f69b83a47589851895d5877c55aad7236109b85115f4e14c7d6278ea",
+    "src/PhantomFudge.App/MainWindow.Clarification.cs": "44d1b95d6ff74b1a33aa429d6d61000833f668bc9731f107e7a74681f2c94fbe",
     "src/PhantomFudge.App/MainWindow.ClarificationDiagnostics.cs": "4adf057707ccb75c2f7b9089d27362546ab2a40a8a889fee256da9894f367950",
     "src/PhantomFudge.App/MainWindow.Cover.cs": "bbeb31f94c6ae386dd282c93a7691ea7e484355e6451a4ce7f4112d1fd9a2533",
     "src/PhantomFudge.App/MainWindow.CoverDiagnostics.cs": "bdb76120d8328dd07a73470acebfde680e43792c13f633871ff2ec266ca0c8c8",
     "src/PhantomFudge.App/MainWindow.Diagnostics.cs": "c321cfec0df21284a15e390c298babfbfeb8ab147d81e506ba2e9d6b9435748f",
-    "src/PhantomFudge.App/MainWindow.Keyboard.cs": "0ab1fd4ea460238d61f9fbe524ac5dc164bad914e2a186112c4b710b9e7aec82",
+    "src/PhantomFudge.App/MainWindow.Keyboard.cs": "45ac0b8542212cb9709061931a274dd5addd739db8533d861e1b4418fd31057b",
     "src/PhantomFudge.App/MainWindow.KeyboardDevices.cs": "1620895fd8f773e0e7e848aaf3bae26fd27e562b0cc53758ba676d604c12b917",
     "src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs": "fc70d2843dc0c4b204506d0a3a7a9897f670812e77ca96ae3b8ca777e0632db8",
     "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs": "4b602ca839b850c10c3163c985259c11ef3d0a72ada749596976f2159041343f",
     "src/PhantomFudge.App/MainWindow.Layout.cs": "8d0d3481d995bb8ac7c32fd3e37c418e27cf82950caa5b2087c9ab9b999c05c5",
-    "src/PhantomFudge.App/MainWindow.QuestionDiagnostics.cs": "f87b0a7fe816aa8f45667892b1dd79ce0d8d2d16a0979d015d5fd03f1b70b826",
-    "src/PhantomFudge.App/MainWindow.Questions.cs": "02ac6ea2a50071181dc5946fd4bbda3ca0c8c275c010ab39136537747a55ba90",
+    "src/PhantomFudge.App/MainWindow.QuestionDiagnostics.cs": "cdb1c72ef5a8ac9e7364220f4d2d77e87aab92a0725f8e66d00c432d77ddee16",
+    "src/PhantomFudge.App/MainWindow.Questions.cs": "c6c86d77cd576f3ebc1d0e46cddb3b66a68148486da7a25658ba10fedb35ad43",
     "src/PhantomFudge.App/MainWindow.RecordingIndicator.cs": "351d83ad04fb350493b65db8aac3ee63abcb10ac108b655a17db4b7d1ba05e61",
     "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs": "873cc9bc409c28d522f530ec36767d61bf2c5ab4541eacf69f9a53e1973c16f3",
     "src/PhantomFudge.App/MainWindow.TranscriptSelectionDiagnostics.cs": "9b2dd7146f3415dcbded1f0f6e884109b6e3ee81098b6b5386cb6040141b098e",
-    "src/PhantomFudge.App/MainWindow.xaml": "3c9e1717f63c4bc8bf86f4a1358d17a59f923ea586c1af0488e272addeff25d0",
-    "src/PhantomFudge.App/MainWindow.xaml.cs": "df98fedfc3f1a8f148bd12ac7735c99c925da0c5bc519830a80aec57b79eccad",
+    "src/PhantomFudge.App/MainWindow.xaml": "a25e78deeea803afef5f37ee9b1d1840f5a6d7b2e700ae32419ad46a2b68baec",
+    "src/PhantomFudge.App/MainWindow.xaml.cs": "8010d951e260796c7960fa9a4d4bccd96c2fb3a006f3b314b8989b474764c72a",
     "src/PhantomFudge.App/Native/CursorPolicy.cs": "60fdd0df16389f15f2383df9fed2af3a83ecea6581171b85e8da3c175df05610",
     "src/PhantomFudge.App/Native/SingleInstance.cs": "ee8664818c1f17788d84c6c07fc1ab7d6416e0794242d762b73fce380894e36a",
     "src/PhantomFudge.App/Native/WindowHotkeys.cs": "c14082309356690485c0c17ccad28b10931ac80065f94ae7412cfcc2043ff365",
@@ -194,22 +198,22 @@
     "src/PhantomFudge.App/ThemeBrushes.cs": "538caca7b44d67284cf62546ea9b48be3c80fd1db3c9616ed3ff7985f5b09a71",
     "src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs": "dc763cef4a9ebda22822639b3c3c2fa10eacfbc436eca2c42ea22905fe5c7def",
     "src/PhantomFudge.Core/Answers/AgencyAnswerProfile.cs": "cde813f447e1d6bae8cc0288685b758dc2f1972d6d34db53005bc963b50c9b92",
-    "src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs": "f3138f7f4d357b332d81ab3feceb9aa0eb15dab6dd0fdeffa51bb4b0cd03c343",
+    "src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs": "f043648ecc2a5d8e174d23fb6d6d1c9a601e47cef52ab4c3e51cb9dcb3d6f353",
     "src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs": "6580c4925f8720a14659dc86f8995b2c79f248317e99eb6ba584d7c207b5173c",
     "src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs": "d2ccc29a11040cce058163907669872fa5ce570b03b14c6020cdece05e1024c8",
     "src/PhantomFudge.Core/Answers/AgencyJsonProtocol.cs": "f4e0e811013685626d83cf83c19140d453a15dc6f65e0dd6e7a12afdc46b6ecf",
     "src/PhantomFudge.Core/Answers/AnswerClarification.cs": "87524209f907ebc3d5e562b09d7477f7877c6ad3782922b556c348f38377ef17",
     "src/PhantomFudge.Core/Answers/AnswerConfiguration.cs": "4ee3b0e6c5d8139a71b2db2b263b35e0cc97232985c2ea732f9813b8ff5b8b87",
-    "src/PhantomFudge.Core/Answers/AnswerContracts.cs": "657ea12cca8ad27a8887b83b073c87a85f8714cbfe4a286d3a8df77a1045876f",
-    "src/PhantomFudge.Core/Answers/AnswerRun.cs": "b13363a92db8fa9c40dd9b90972ad12fb2d88f0f820184fadec4070454a095b4",
-    "src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs": "8c2a8a3c0ac249fbda416087edeed07f58328d4a444d6820389a88ed27256ed4",
+    "src/PhantomFudge.Core/Answers/AnswerContracts.cs": "7e6cea4737f742937984458cfb380d20861463ad9afa646a0555b14b6b1bf2ee",
+    "src/PhantomFudge.Core/Answers/AnswerRun.cs": "b86089abacfd5d2322c48a339a2191dc974dd4ad2fb07d90269649b1b6e70c92",
+    "src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs": "80c66fac5f275e98efe01b49d36923b5dcb2767e5edaea13f9bd6304ddfe5577",
     "src/PhantomFudge.Core/Answers/CopilotCliLaunch.cs": "38ee640b7887fd88e9abeea1c4d102e9731d55a0df5ff11cc02e3a0e5433a48d",
     "src/PhantomFudge.Core/Answers/CopilotCliProfile.cs": "5f2f5485f305710708732e95c2ef71e49c84bc77333a55d5317d00d7659b8044",
     "src/PhantomFudge.Core/Answers/CopilotJsonProtocol.cs": "7525bdceb96addf1b435b584a5aed5e0f2e1001e8f32ea286a46fdc734b4eac1",
     "src/PhantomFudge.Core/Answers/CopilotOwnedProcess.cs": "f67cdafdd908e3d136f59df1a5c00e48afa142271d3a285e9d2440e2099b2850",
     "src/PhantomFudge.Core/AudioSource.cs": "a2b5a65fab05e33c18ac7582bf20d3b750d6e15117cb33b1baff973100679b20",
     "src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs": "9f0bf913d48eef5e538f38f17cd3789fd0027aea3d76ff9c7e868f61d91d2e44",
-    "src/PhantomFudge.Core/KeyboardCommands.cs": "df9007fed871a46d23a02b85700299c8c28c97032f42ddafbf8a442b5057c1b6",
+    "src/PhantomFudge.Core/KeyboardCommands.cs": "212072e48266cdfa2b6892c0e9fd93ba059cfe2812270d30f26c39a17f40145f",
     "src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs": "4b865897ed9dafdac5e9c2ffe45b397eabd28700c54c4231f5647677e4bd5ee5",
     "src/PhantomFudge.Core/NoteFileStore.cs": "b77d315514d7fdbe492123fac1819c16fa1dd33d114807cff2eda04135d88658",
     "src/PhantomFudge.Core/PhantomFudge.Core.csproj": "95b6a79adb4ad8329d8eb4c1873f012cc4f4934a0f0573b0e42b01222d7201db",
@@ -234,10 +238,10 @@
     "tests/PhantomFudge.Audio.Tests/PhantomFudge.Audio.Tests.csproj": "adae6b3cf58b45ad3ca7b16d7cd390954afb200baf5f221b967ec81dd07feeb4",
     "tests/PhantomFudge.Audio.Tests/PlaybackCheck.cs": "f9ce6d264c3e5ebc413f54a3d09b476401c501bb6a2f86fab6e7b3918f56e628",
     "tests/PhantomFudge.Audio.Tests/Program.cs": "cce136e4359110d48900b72b42e3ac0380fe9a3f771c0d39507b05537db0f60a",
-    "tests/PhantomFudge.Core.Tests/AgencyAnswerPromptTests.cs": "0cfa22f671a4c5067a31612b8838adbe96fcb7e1b553e0396b11f35487594f80",
-    "tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs": "18b400c5be9cb9557ad04f84bff8804e59ce74918a49cd71f8eed35fa3ca79b6",
+    "tests/PhantomFudge.Core.Tests/AgencyAnswerPromptTests.cs": "8f832212a06e85d97acb7c161d8228504feb524647dd5ecb34ddd7ddfc968c01",
+    "tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs": "a9a1da7959114351c67376b2a1b4c44c3ff30c102c609ba788a63179d86529eb",
     "tests/PhantomFudge.Core.Tests/AnswerClarificationTests.cs": "be9c626c2c01167256ab4be688438de95de99c7ebba1cd32d26a25db70429ae5",
-    "tests/PhantomFudge.Core.Tests/CopilotCliAnswerProviderTests.cs": "34e038c117190fe6a785c6fb284f9817b56d81cdb426377cf651945d0d0514b5",
+    "tests/PhantomFudge.Core.Tests/CopilotCliAnswerProviderTests.cs": "6da1dec55532212351f3257c80d36c0a5262f8ee6f3c2fca21829188d7c716da",
     "tests/PhantomFudge.Core.Tests/CopilotJsonProtocolTests.cs": "09720a1f91c1d79996ac312ac357583ee29b877ae9e6fb45d3e215b887006f19",
     "tests/PhantomFudge.Core.Tests/CopilotOfflineIntegrationTests.cs": "5c41bd1bfcf536be4a5c40a1df32da80a970aa694f865bc852bb7e36887fc800",
     "tests/PhantomFudge.Core.Tests/InstalledLauncherTests.cs": "cefb13a6039df6e426c88424ffe63e860836b76fe1f0b6f12f4bf88a9b8f8bfe",
@@ -252,11 +256,11 @@
     "tests/PhantomFudge.Core.Tests/ThemePaletteTests.cs": "3bbb5308677f535c629c9909df63e1f1879a6e915a8165aed891cc1d57247f53",
     "tests/PhantomFudge.Core.Tests/TranscriptBufferTests.cs": "4ebd424f1684c9d8fd623322e19153427fb2b94858ca93034baeae20c1a91558",
     "tests/PhantomFudge.Core.Tests/WorkspaceLayoutTests.cs": "3b1261c8523b8218a3359dddec3118f53d653f8a981b8696a57d264cfc404d69",
-    "TODO/00_INDEX.todo": "d3809d0b73c77999475f79dbd6e500613203876b1ab82fe2b3c7ae86410774a7",
+    "TODO/00_INDEX.todo": "0e2bde5cf318456102e3f51e6a7d6799ed6201ff7a7d3381552b9230fc49f859",
     "TODO/08_LOCAL_STORAGE.todo": "ef568213f4a837ed48f2011b6dd93a1298fdd40a2151983350a252ec985a789d",
     "TODO/13_COMPATIBILITY_QUALIFICATION.todo": "9ef0db53d6031e1744d377e3a02163cbdf0e406b3e92a7d9b018b9ae9af0abf1",
     "TODO/14_PACKAGING_RELEASE.todo": "869edd690efd9a23798bd90d9c3277b6e077da8069ab6bd6eedcf1c09a8a2794",
-    "TODO/16_DEVELOPMENT_LEDGER.todo": "d49264f525eeb0a27d76cae0d441d3328846585f7c55fb9922456125aae1b0e1",
+    "TODO/16_DEVELOPMENT_LEDGER.todo": "220e0a71c33128f3dda32a2a171fea703839108a7eaad451dcc282ee04764f3c",
     "TODO/17_RELEASE_ACCEPTANCE.todo": "ced71d32d0045f0b7b490bd2d99171be177fbc215e7cbfe051ba06f62cdfe526",
     "TODO/20_DOCKER_LOCAL_SERVICE.todo": "701e74651abb517d595a86261d3c48b78e2399d0bce83a7db12a39e8a2d746de",
     "TODO/22_NATIVE_PYTHON_RUNTIME.todo": "444317a249a394d5e625649bbb43da82db9049c36a8812e98f34170dbbabbb13",
@@ -297,7 +301,7 @@
     "tools/Docs/handbook.css": "0b030e6cce8a9ab1f457c34adc0b42e9cf680b855baadfaa880943289fd04196",
     "tools/Docs/package-lock.json": "f3440ae335f87a70e7209fd1bda51272d50530010ecc9f8567e33c32b9c3d630",
     "tools/Docs/package.json": "33e27043d4daf6246ceceb9dc2c83b74dd1c5fd3510febb057d5aa2d854bdbf9",
-    "tools/Docs/README.md": "b3ddbf69623a2f778920334f7135eaaa7bd24eb72c5064f8f548193e5e70f47c",
+    "tools/Docs/README.md": "100a6e2011e80acee077e4ffd680d13e48705d052fb19e25a875f7d81d2e9819",
     "tools/Docs/test-docs.mjs": "dce266e75d4e62ef096ca2ab9500b7694de61503636e4ec163b7c64b6a6cb4c3",
     "tools/DualSourceProbe/probe.py": "6ff0b3f74333cd01e7b8974bc094fe4fe148f23024550c8e538250f14e449c2c",
     "tools/DualSourceProbe/test_runtime_upgrade.py": "784e149ba6d9da2346fcf7c9b556e6bba6275649bd0a13fbc69c086536165b20",
@@ -334,7 +338,7 @@
         {
           "file": "docs/PRODUCT.md",
           "start": 6,
-          "end": 37
+          "end": 38
         },
         {
           "file": "AGENTS.md",
@@ -394,7 +398,7 @@
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
           "start": 82,
-          "end": 188
+          "end": 200
         },
         {
           "file": "src/PhantomFudge.Core/AudioSource.cs",
@@ -404,12 +408,12 @@
         {
           "file": "docs/OVERVIEW.md",
           "start": 8,
-          "end": 70
+          "end": 71
         },
         {
           "file": "docs/PRODUCT.md",
           "start": 6,
-          "end": 37
+          "end": 38
         },
         {
           "file": "AGENTS.md",
@@ -439,7 +443,7 @@
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
           "start": 82,
-          "end": 188
+          "end": 200
         }
       ],
       "diagrams": 2,
@@ -557,7 +561,7 @@
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
           "start": 82,
-          "end": 188
+          "end": 200
         },
         {
           "file": "src/PhantomFudge.Core/AudioSource.cs",
@@ -690,7 +694,7 @@
         {
           "file": "scripts/Export-HandbookScreenshots.ps1",
           "start": 1,
-          "end": 94
+          "end": 95
         },
         {
           "file": "src/PhantomFudge.App/PhantomFudge.App.csproj",
@@ -1295,8 +1299,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
-          "start": 364,
-          "end": 368
+          "start": 366,
+          "end": 370
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
@@ -1326,7 +1330,7 @@
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
           "start": 15,
-          "end": 27
+          "end": 29
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerClarification.cs",
@@ -1341,7 +1345,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
           "start": 265,
-          "end": 337
+          "end": 338
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.RecordingIndicator.cs",
@@ -1451,12 +1455,12 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
           "start": 11,
-          "end": 44
+          "end": 46
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 85,
-          "end": 155
+          "start": 88,
+          "end": 158
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerClarification.cs",
@@ -1465,23 +1469,23 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 46,
-          "end": 83
+          "start": 48,
+          "end": 86
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 157,
-          "end": 184
+          "start": 160,
+          "end": 187
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
           "start": 265,
-          "end": 337
+          "end": 338
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
-          "start": 32,
-          "end": 79
+          "start": 34,
+          "end": 81
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Cover.cs",
@@ -1505,8 +1509,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 327,
-          "end": 337
+          "start": 328,
+          "end": 338
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.AudioDeviceCards.cs",
@@ -1526,7 +1530,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
           "start": 320,
-          "end": 358
+          "end": 360
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Layout.cs",
@@ -1555,7 +1559,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2153
+      "words": 2420
     },
     {
       "file": "docs/KEYBOARD-CONTROLS.md",
@@ -1579,7 +1583,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
           "start": 330,
-          "end": 358
+          "end": 360
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
@@ -1653,8 +1657,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
-          "start": 364,
-          "end": 368
+          "start": 366,
+          "end": 370
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
@@ -1669,7 +1673,7 @@
         {
           "file": "src/PhantomFudge.Core/KeyboardCommands.cs",
           "start": 15,
-          "end": 79
+          "end": 80
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
@@ -1684,12 +1688,12 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
           "start": 320,
-          "end": 362
+          "end": 364
         },
         {
           "file": "src/PhantomFudge.Core/KeyboardCommands.cs",
           "start": 26,
-          "end": 55
+          "end": 56
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.KeyboardDevices.cs",
@@ -1709,7 +1713,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
           "start": 330,
-          "end": 358
+          "end": 360
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
@@ -1778,7 +1782,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2527
+      "words": 2639
     },
     {
       "file": "docs/handbook/03-product-boundaries-and-decisions.md",
@@ -1787,7 +1791,7 @@
         {
           "file": "docs/PRODUCT.md",
           "start": 6,
-          "end": 37
+          "end": 38
         },
         {
           "file": "TODO/16_DEVELOPMENT_LEDGER.todo",
@@ -1837,7 +1841,7 @@
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
           "start": 82,
-          "end": 188
+          "end": 200
         },
         {
           "file": "docs/DUAL-SOURCE-AUDIO.md",
@@ -1847,7 +1851,7 @@
         {
           "file": "docs/PRODUCT.md",
           "start": 6,
-          "end": 37
+          "end": 38
         },
         {
           "file": "TODO/16_DEVELOPMENT_LEDGER.todo",
@@ -1882,11 +1886,11 @@
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
           "start": 82,
-          "end": 188
+          "end": 200
         }
       ],
       "diagrams": 2,
-      "words": 1026
+      "words": 1096
     },
     {
       "file": "docs/handbook/04-windows-capture-and-cursors.md",
@@ -1919,8 +1923,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 536,
-          "end": 606
+          "start": 577,
+          "end": 647
         },
         {
           "file": "src/PhantomFudge.App/App.xaml.cs",
@@ -1975,7 +1979,7 @@
         {
           "file": "docs/ARCHITECTURE.md",
           "start": 47,
-          "end": 93
+          "end": 107
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -2014,8 +2018,8 @@
         },
         {
           "file": "docs/ARCHITECTURE.md",
-          "start": 128,
-          "end": 131
+          "start": 142,
+          "end": 145
         },
         {
           "file": "src/PhantomFudge.App/Native/WindowProtection.cs",
@@ -2139,8 +2143,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 634,
-          "end": 639
+          "start": 675,
+          "end": 680
         },
         {
           "file": "src/PhantomFudge.App/App.xaml",
@@ -2154,8 +2158,8 @@
         },
         {
           "file": "docs/QUALIFICATION.md",
-          "start": 139,
-          "end": 140
+          "start": 147,
+          "end": 148
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -2204,8 +2208,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1205,
-          "end": 1218
+          "start": 1206,
+          "end": 1219
         },
         {
           "file": "docs/QUALIFICATION.md",
@@ -2224,8 +2228,8 @@
         },
         {
           "file": "docs/QUALIFICATION.md",
-          "start": 134,
-          "end": 140
+          "start": 142,
+          "end": 148
         },
         {
           "file": "docs/QUALIFICATION.md",
@@ -2258,7 +2262,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
           "start": 262,
-          "end": 617
+          "end": 658
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
@@ -2282,8 +2286,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 214,
-          "end": 230
+          "start": 227,
+          "end": 243
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -2292,8 +2296,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1205,
-          "end": 1218
+          "start": 1206,
+          "end": 1219
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -2301,9 +2305,14 @@
           "end": 1095
         },
         {
+          "file": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
+          "start": 45,
+          "end": 62
+        },
+        {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 523,
-          "end": 527
+          "start": 564,
+          "end": 568
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Layout.cs",
@@ -2323,7 +2332,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
           "start": 218,
-          "end": 368
+          "end": 370
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.KeyboardSelection.cs",
@@ -2393,7 +2402,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
           "start": 920,
-          "end": 1195
+          "end": 1196
         },
         {
           "file": "src/PhantomFudge.Core/ThemePalette.cs",
@@ -2502,8 +2511,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 536,
-          "end": 538
+          "start": 577,
+          "end": 579
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
@@ -2512,8 +2521,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 640,
-          "end": 646
+          "start": 681,
+          "end": 687
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
@@ -2532,8 +2541,8 @@
         },
         {
           "file": "docs/ARCHITECTURE.md",
-          "start": 206,
-          "end": 210
+          "start": 220,
+          "end": 224
         },
         {
           "file": "docs/CURSOR-AND-THEMES.md",
@@ -2567,8 +2576,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 550,
-          "end": 590
+          "start": 591,
+          "end": 631
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -2722,8 +2731,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1205,
-          "end": 1218
+          "start": 1206,
+          "end": 1219
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -2737,8 +2746,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 358,
-          "end": 366
+          "start": 371,
+          "end": 379
         },
         {
           "file": "docs/CURSOR-AND-THEMES.md",
@@ -2752,7 +2761,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 3726
+      "words": 3846
     },
     {
       "file": "docs/handbook/06-notes-transcripts-and-storage.md",
@@ -2780,13 +2789,13 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 304,
-          "end": 309
+          "start": 317,
+          "end": 322
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 365,
-          "end": 366
+          "start": 378,
+          "end": 379
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -2800,8 +2809,8 @@
         },
         {
           "file": "docs/PRODUCT.md",
-          "start": 184,
-          "end": 200
+          "start": 209,
+          "end": 225
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -2890,8 +2899,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 640,
-          "end": 647
+          "start": 681,
+          "end": 688
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -3210,8 +3219,8 @@
         },
         {
           "file": "docs/ARCHITECTURE.md",
-          "start": 264,
-          "end": 278
+          "start": 279,
+          "end": 293
         }
       ],
       "diagrams": 2,
@@ -4930,8 +4939,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 232,
-          "end": 234
+          "start": 245,
+          "end": 247
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -5155,8 +5164,8 @@
         },
         {
           "file": "docs/QUALIFICATION.md",
-          "start": 139,
-          "end": 140
+          "start": 147,
+          "end": 148
         },
         {
           "file": "src/PhantomFudge.App/Audio/TranscriptionSocket.cs",
@@ -5200,8 +5209,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 232,
-          "end": 234
+          "start": 245,
+          "end": 247
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -5300,13 +5309,13 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 226,
-          "end": 234
+          "start": 239,
+          "end": 247
         },
         {
           "file": "docs/QUALIFICATION.md",
           "start": 127,
-          "end": 140
+          "end": 148
         },
         {
           "file": "src/PhantomFudge.App/Audio/LoopbackTranscriber.cs",
@@ -5340,7 +5349,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 1873
+      "words": 2001
     },
     {
       "file": "docs/handbook/12-performance-and-benchmarks.md",
@@ -5772,7 +5781,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
           "start": 265,
-          "end": 304
+          "end": 305
         },
         {
           "file": "TODO/29_QUESTION_COMMIT_LATENCY.todo",
@@ -5786,8 +5795,8 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 3,
-          "end": 20
+          "start": 5,
+          "end": 39
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerConfiguration.cs",
@@ -5836,8 +5845,8 @@
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 11,
-          "end": 25
+          "start": 26,
+          "end": 40
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
@@ -5852,17 +5861,17 @@
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
           "start": 15,
-          "end": 27
+          "end": 29
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
           "start": 82,
-          "end": 188
+          "end": 200
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
           "start": 82,
-          "end": 188
+          "end": 200
         },
         {
           "file": "TODO/36_OPTIONAL_AZURE_SPEECH.todo",
@@ -5881,8 +5890,8 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 22,
-          "end": 55
+          "start": 41,
+          "end": 74
         },
         {
           "file": "src/PhantomFudge.Core/AudioSource.cs",
@@ -5931,13 +5940,13 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 3,
-          "end": 12
+          "start": 5,
+          "end": 31
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
           "start": 15,
-          "end": 30
+          "end": 32
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.TranscriptSelection.cs",
@@ -6042,12 +6051,12 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
           "start": 265,
-          "end": 337
+          "end": 338
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 611,
-          "end": 642
+          "start": 625,
+          "end": 656
         },
         {
           "file": "TODO/29_QUESTION_COMMIT_LATENCY.todo",
@@ -6071,8 +6080,8 @@
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 461,
-          "end": 506
+          "start": 473,
+          "end": 518
         },
         {
           "file": "services/transcription/server.py",
@@ -6096,8 +6105,8 @@
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 461,
-          "end": 506
+          "start": 473,
+          "end": 518
         },
         {
           "file": "TODO/29_QUESTION_COMMIT_LATENCY.todo",
@@ -6111,18 +6120,18 @@
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 461,
-          "end": 506
+          "start": 473,
+          "end": 518
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
-          "start": 32,
-          "end": 63
+          "start": 34,
+          "end": 65
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
-          "start": 65,
-          "end": 79
+          "start": 67,
+          "end": 81
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerConfiguration.cs",
@@ -6131,8 +6140,8 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 16,
-          "end": 33
+          "start": 35,
+          "end": 52
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs",
@@ -6152,7 +6161,7 @@
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs",
           "start": 8,
-          "end": 97
+          "end": 111
         },
         {
           "file": "tools/AgencyProbe/results/summary-final.json",
@@ -6201,13 +6210,13 @@
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 507,
-          "end": 610
+          "start": 519,
+          "end": 624
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 643,
-          "end": 670
+          "start": 657,
+          "end": 684
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -6231,8 +6240,8 @@
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 507,
-          "end": 610
+          "start": 519,
+          "end": 624
         },
         {
           "file": "TODO/32_ANSWER_UI_LIFECYCLE.todo",
@@ -6246,8 +6255,8 @@
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 461,
-          "end": 506
+          "start": 473,
+          "end": 518
         },
         {
           "file": "tests/PhantomFudge.Core.Tests/QuestionSnapshotTests.cs",
@@ -6262,7 +6271,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
           "start": 265,
-          "end": 290
+          "end": 291
         },
         {
           "file": "services/transcription/server.py",
@@ -6276,7 +6285,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 3049
+      "words": 3126
     },
     {
       "file": "docs/handbook/14-answer-latency-identity-and-privacy.md",
@@ -6294,13 +6303,13 @@
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 138,
-          "end": 156
+          "start": 153,
+          "end": 171
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 14,
-          "end": 55
+          "start": 33,
+          "end": 74
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerConfiguration.cs",
@@ -6319,13 +6328,13 @@
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 32,
-          "end": 45
+          "start": 47,
+          "end": 60
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 117,
-          "end": 136
+          "start": 132,
+          "end": 151
         },
         {
           "file": "docs/AI-ANSWER-EVALUATION.md",
@@ -6334,8 +6343,8 @@
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 11,
-          "end": 25
+          "start": 26,
+          "end": 40
         },
         {
           "file": "TODO/36_OPTIONAL_AZURE_SPEECH.todo",
@@ -6484,8 +6493,8 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 16,
-          "end": 43
+          "start": 35,
+          "end": 62
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs",
@@ -6494,8 +6503,8 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 34,
-          "end": 55
+          "start": 53,
+          "end": 74
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs",
@@ -6505,7 +6514,7 @@
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs",
           "start": 8,
-          "end": 97
+          "end": 111
         },
         {
           "file": "tools/AgencyProbe/results/summary-final.json",
@@ -6514,28 +6523,28 @@
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 27,
-          "end": 36
+          "start": 42,
+          "end": 51
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 35,
-          "end": 45
+          "start": 50,
+          "end": 60
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 46,
-          "end": 67
+          "start": 61,
+          "end": 82
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 88,
-          "end": 112
+          "start": 103,
+          "end": 127
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 102,
-          "end": 115
+          "start": 117,
+          "end": 130
         },
         {
           "file": "TODO/30_AZURE_ANSWER_CONNECTION.todo",
@@ -6559,8 +6568,8 @@
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 128,
-          "end": 134
+          "start": 143,
+          "end": 149
         },
         {
           "file": "src/PhantomFudge.Core/TranscriptBuffer.cs",
@@ -6574,8 +6583,8 @@
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 130,
-          "end": 136
+          "start": 145,
+          "end": 151
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -6584,8 +6593,8 @@
         },
         {
           "file": "docs/PRODUCT.md",
-          "start": 184,
-          "end": 200
+          "start": 209,
+          "end": 225
         },
         {
           "file": "src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs",
@@ -6604,28 +6613,28 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 3,
-          "end": 12
+          "start": 5,
+          "end": 31
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
           "start": 10,
-          "end": 27
+          "end": 29
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
-          "start": 46,
-          "end": 50
+          "start": 48,
+          "end": 52
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 507,
-          "end": 610
+          "start": 519,
+          "end": 624
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 643,
-          "end": 670
+          "start": 657,
+          "end": 684
         },
         {
           "file": "TODO/31_STREAMING_ANSWER_CLIENT.todo",
@@ -6634,8 +6643,8 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
-          "start": 32,
-          "end": 79
+          "start": 34,
+          "end": 81
         },
         {
           "file": "docs/AI-ANSWER-EVALUATION.md",
@@ -6644,8 +6653,8 @@
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 643,
-          "end": 670
+          "start": 657,
+          "end": 684
         },
         {
           "file": "docs/AI-ANSWER-EVALUATION.md",
@@ -6654,8 +6663,8 @@
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 69,
-          "end": 86
+          "start": 84,
+          "end": 101
         },
         {
           "file": "TODO/37_OPTIONAL_ANSWER_BROKER.todo",
@@ -6674,13 +6683,13 @@
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 130,
-          "end": 134
+          "start": 145,
+          "end": 149
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
-          "start": 65,
-          "end": 79
+          "start": 67,
+          "end": 81
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerConfiguration.cs",
@@ -6689,7 +6698,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 3097
+      "words": 3175
     },
     {
       "file": "docs/handbook/15-development-and-testing.md",
@@ -6743,7 +6752,7 @@
         {
           "file": "scripts/Export-HandbookScreenshots.ps1",
           "start": 1,
-          "end": 94
+          "end": 95
         },
         {
           "file": "tests/PhantomFudge.Audio.Tests/Program.cs",
@@ -6753,7 +6762,7 @@
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
           "start": 1,
-          "end": 279
+          "end": 292
         },
         {
           "file": "global.json",
@@ -7031,7 +7040,7 @@
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
           "start": 1,
-          "end": 309
+          "end": 322
         },
         {
           "file": "scripts/Run-PhantomFudge.ps1",
@@ -7141,7 +7150,7 @@
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
           "start": 1,
-          "end": 309
+          "end": 322
         }
       ],
       "diagrams": 2,
@@ -7153,8 +7162,8 @@
       "citations": [
         {
           "file": "docs/PRODUCT.md",
-          "start": 184,
-          "end": 200
+          "start": 209,
+          "end": 225
         },
         {
           "file": "src/PhantomFudge.App/Native/WindowProtection.cs",
@@ -7234,12 +7243,12 @@
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
           "start": 1,
-          "end": 93
+          "end": 108
         },
         {
           "file": "docs/PRODUCT.md",
-          "start": 184,
-          "end": 200
+          "start": 209,
+          "end": 225
         },
         {
           "file": "src/PhantomFudge.App/Native/WindowProtection.cs",
@@ -7274,11 +7283,11 @@
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
           "start": 1,
-          "end": 93
+          "end": 108
         }
       ],
       "diagrams": 2,
-      "words": 1204
+      "words": 1343
     },
     {
       "file": "docs/handbook/18-extending-the-system.md",
@@ -7287,7 +7296,7 @@
         {
           "file": "docs/ARCHITECTURE.md",
           "start": 47,
-          "end": 72
+          "end": 86
         },
         {
           "file": "src/PhantomFudge.Core/AudioSource.cs",
@@ -7302,7 +7311,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
           "start": 265,
-          "end": 304
+          "end": 305
         },
         {
           "file": "TODO/29_QUESTION_COMMIT_LATENCY.todo",
@@ -7321,8 +7330,8 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 14,
-          "end": 20
+          "start": 33,
+          "end": 39
         },
         {
           "file": "tools/AgencyProbe/results/summary-final.json",
@@ -7602,7 +7611,7 @@
         {
           "file": "docs/QUALIFICATION.md",
           "start": 111,
-          "end": 137
+          "end": 145
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
@@ -7636,8 +7645,8 @@
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 117,
-          "end": 134
+          "start": 132,
+          "end": 149
         },
         {
           "file": "src/PhantomFudge.Core/QuestionSnapshot.cs",
@@ -7652,27 +7661,27 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
           "start": 265,
-          "end": 304
+          "end": 305
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 3,
-          "end": 12
+          "start": 5,
+          "end": 31
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
           "start": 15,
-          "end": 27
+          "end": 29
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 22,
-          "end": 55
+          "start": 41,
+          "end": 74
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 28,
-          "end": 33
+          "start": 47,
+          "end": 52
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerConfiguration.cs",
@@ -7681,13 +7690,13 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
-          "start": 32,
-          "end": 63
+          "start": 34,
+          "end": 65
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
-          "start": 65,
-          "end": 79
+          "start": 67,
+          "end": 81
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs",
@@ -7717,7 +7726,7 @@
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs",
           "start": 8,
-          "end": 97
+          "end": 111
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs",
@@ -7812,7 +7821,7 @@
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
           "start": 15,
-          "end": 63
+          "end": 65
         },
         {
           "file": "src/PhantomFudge.Core/StructuredTranscriptStore.cs",
@@ -7861,8 +7870,8 @@
         },
         {
           "file": "docs/QUALIFICATION.md",
-          "start": 142,
-          "end": 168
+          "start": 150,
+          "end": 176
         },
         {
           "file": "TODO/35_ANSWER_RELEASE_ACCEPTANCE.todo",
@@ -7906,13 +7915,13 @@
         },
         {
           "file": "docs/QUALIFICATION.md",
-          "start": 142,
-          "end": 168
+          "start": 150,
+          "end": 176
         },
         {
           "file": "docs/AI-ANSWER-PRIVACY.md",
-          "start": 117,
-          "end": 136
+          "start": 132,
+          "end": 151
         },
         {
           "file": "docs/QUALIFICATION.md",
@@ -7941,8 +7950,8 @@
         },
         {
           "file": "docs/PRODUCT.md",
-          "start": 118,
-          "end": 125
+          "start": 121,
+          "end": 128
         },
         {
           "file": "docs/AI-ANSWER-EVALUATION.md",
@@ -7961,12 +7970,12 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
-          "start": 32,
-          "end": 63
+          "start": 34,
+          "end": 65
         }
       ],
       "diagrams": 2,
-      "words": 3657
+      "words": 3677
     },
     {
       "file": "docs/handbook/19-api-configuration-reference.md",
@@ -8320,7 +8329,7 @@
         {
           "file": "src/PhantomFudge.Core/KeyboardCommands.cs",
           "start": 15,
-          "end": 79
+          "end": 80
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
@@ -8529,8 +8538,8 @@
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 461,
-          "end": 506
+          "start": 473,
+          "end": 518
         },
         {
           "file": "services/transcription/server.py",
@@ -8759,7 +8768,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 3831
+      "words": 3980
     },
     {
       "file": "docs/handbook/20-glossary-and-repository-map.md",
@@ -8782,8 +8791,8 @@
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 461,
-          "end": 506
+          "start": 473,
+          "end": 518
         },
         {
           "file": "docs/QUALIFICATION.md",
@@ -8882,13 +8891,13 @@
         },
         {
           "file": "docs/QUALIFICATION.md",
-          "start": 142,
-          "end": 168
+          "start": 150,
+          "end": 176
         },
         {
           "file": "TODO/00_INDEX.todo",
-          "start": 49,
-          "end": 58
+          "start": 83,
+          "end": 92
         },
         {
           "file": "PhantomFudge.slnx",
@@ -8902,8 +8911,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 263,
-          "end": 266
+          "start": 276,
+          "end": 279
         },
         {
           "file": "src/PhantomFudge.Core/WorkspaceLayout.cs",
@@ -9007,8 +9016,8 @@
         },
         {
           "file": "docs/PRODUCT.md",
-          "start": 92,
-          "end": 105
+          "start": 95,
+          "end": 108
         },
         {
           "file": "src/PhantomFudge.App/Audio/WasapiInput.cs",
@@ -9212,8 +9221,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 536,
-          "end": 606
+          "start": 577,
+          "end": 647
         },
         {
           "file": "src/PhantomFudge.App/Native/WindowProtection.cs",
@@ -9307,8 +9316,8 @@
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 461,
-          "end": 506
+          "start": 473,
+          "end": 518
         },
         {
           "file": "src/PhantomFudge.Core/QuestionDraft.cs",
@@ -9332,8 +9341,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1205,
-          "end": 1218
+          "start": 1206,
+          "end": 1219
         },
         {
           "file": "docs/QUALIFICATION.md",
@@ -9352,8 +9361,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 358,
-          "end": 367
+          "start": 371,
+          "end": 380
         },
         {
           "file": "src/PhantomFudge.App/Audio/TranscriptionSocket.cs",
@@ -9397,8 +9406,8 @@
         },
         {
           "file": "docs/PRODUCT.md",
-          "start": 92,
-          "end": 105
+          "start": 95,
+          "end": 108
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -9451,7 +9460,7 @@
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
           "start": 3,
-          "end": 230
+          "end": 243
         },
         {
           "file": "docs/TODO-CONVENTIONS.md",
@@ -9465,8 +9474,8 @@
         },
         {
           "file": "docs/QUALIFICATION.md",
-          "start": 142,
-          "end": 168
+          "start": 150,
+          "end": 176
         },
         {
           "file": "docs/TODO-CONVENTIONS.md",
@@ -9520,23 +9529,23 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 226,
-          "end": 234
+          "start": 239,
+          "end": 247
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 226,
-          "end": 230
+          "start": 239,
+          "end": 243
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 328,
-          "end": 340
+          "start": 341,
+          "end": 353
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 329,
-          "end": 336
+          "start": 342,
+          "end": 349
         },
         {
           "file": "tools/SpeechBench/results/synthetic-20261008.json",
@@ -9631,7 +9640,7 @@
         {
           "file": "docs/QUALIFICATION.md",
           "start": 127,
-          "end": 137
+          "end": 145
         },
         {
           "file": "src/PhantomFudge.App/Audio/WasapiInput.cs",
@@ -9650,8 +9659,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 358,
-          "end": 367
+          "start": 371,
+          "end": 380
         },
         {
           "file": "docs/PREVIEW-GUIDE.md",
@@ -9665,8 +9674,8 @@
         },
         {
           "file": "TODO/00_INDEX.todo",
-          "start": 49,
-          "end": 58
+          "start": 83,
+          "end": 92
         },
         {
           "file": "docs/TODO-CONVENTIONS.md",
@@ -9675,8 +9684,8 @@
         },
         {
           "file": "TODO/00_INDEX.todo",
-          "start": 121,
-          "end": 160
+          "start": 130,
+          "end": 170
         },
         {
           "file": "TODO/14_PACKAGING_RELEASE.todo",
@@ -9695,8 +9704,8 @@
         },
         {
           "file": "TODO/00_INDEX.todo",
-          "start": 137,
-          "end": 150
+          "start": 146,
+          "end": 160
         },
         {
           "file": "TODO/27_AI_ANSWER_RESEARCH.todo",
@@ -9705,8 +9714,8 @@
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
-          "start": 671,
-          "end": 753
+          "start": 685,
+          "end": 739
         },
         {
           "file": "docs/QUALIFICATION.md",
@@ -9725,18 +9734,18 @@
         },
         {
           "file": "docs/QUALIFICATION.md",
-          "start": 166,
-          "end": 168
+          "start": 174,
+          "end": 176
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 236,
-          "end": 242
+          "start": 249,
+          "end": 255
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 310,
-          "end": 319
+          "start": 323,
+          "end": 332
         },
         {
           "file": "TODO/17_RELEASE_ACCEPTANCE.todo",
@@ -9756,7 +9765,7 @@
         {
           "file": "docs/QUALIFICATION.md",
           "start": 127,
-          "end": 137
+          "end": 145
         },
         {
           "file": "TODO/38_LIVING_DOCUMENTATION.todo",
@@ -9770,8 +9779,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 376,
-          "end": 382
+          "start": 389,
+          "end": 395
         },
         {
           "file": "JOURNAL.md",
@@ -9790,13 +9799,13 @@
         },
         {
           "file": "TODO/00_INDEX.todo",
-          "start": 195,
-          "end": 203
+          "start": 205,
+          "end": 213
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 226,
-          "end": 230
+          "start": 239,
+          "end": 243
         },
         {
           "file": "docs/CURSOR-AND-THEMES.md",
@@ -9815,12 +9824,12 @@
         },
         {
           "file": "TODO/00_INDEX.todo",
-          "start": 143,
-          "end": 150
+          "start": 152,
+          "end": 160
         }
       ],
       "diagrams": 3,
-      "words": 2339
+      "words": 2409
     },
     {
       "file": "docs/handbook/22-desktop-source-walkthrough.md",
@@ -9869,7 +9878,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
           "start": 320,
-          "end": 368
+          "end": 370
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs",
@@ -9903,8 +9912,13 @@
         },
         {
           "file": "TODO/00_INDEX.todo",
-          "start": 39,
-          "end": 39
+          "start": 45,
+          "end": 45
+        },
+        {
+          "file": "docs/OVERVIEW.md",
+          "start": 131,
+          "end": 134
         },
         {
           "file": "src/PhantomFudge.App/App.xaml",
@@ -10018,8 +10032,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
-          "start": 523,
-          "end": 523
+          "start": 564,
+          "end": 564
         },
         {
           "file": "src/PhantomFudge.App/App.xaml",
@@ -10133,8 +10147,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 136,
-          "end": 136
+          "start": 148,
+          "end": 148
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
@@ -10143,8 +10157,8 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs",
-          "start": 89,
-          "end": 89
+          "start": 107,
+          "end": 107
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml",
@@ -10163,33 +10177,33 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 85,
-          "end": 85
+          "start": 88,
+          "end": 88
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 117,
-          "end": 117
+          "start": 120,
+          "end": 120
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 134,
-          "end": 134
+          "start": 137,
+          "end": 137
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Questions.cs",
-          "start": 307,
-          "end": 307
+          "start": 308,
+          "end": 308
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 157,
-          "end": 157
+          "start": 160,
+          "end": 160
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 166,
-          "end": 166
+          "start": 169,
+          "end": 169
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerClarification.cs",
@@ -10203,18 +10217,18 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 177,
-          "end": 177
+          "start": 191,
+          "end": 191
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 271,
-          "end": 271
+          "start": 285,
+          "end": 285
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
-          "start": 32,
-          "end": 32
+          "start": 34,
+          "end": 34
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.AnswerLifetime.cs",
@@ -10238,8 +10252,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 234,
-          "end": 234
+          "start": 248,
+          "end": 248
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs",
@@ -10323,8 +10337,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
-          "start": 1205,
-          "end": 1205
+          "start": 1206,
+          "end": 1206
         },
         {
           "file": "src/PhantomFudge.App/Native/CursorPolicy.cs",
@@ -10373,8 +10387,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 254,
-          "end": 254
+          "start": 268,
+          "end": 268
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -10393,8 +10407,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 177,
-          "end": 177
+          "start": 191,
+          "end": 191
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.xaml.cs",
@@ -10403,7 +10417,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2833
+      "words": 2927
     },
     {
       "file": "docs/handbook/23-domain-source-walkthrough.md",
@@ -10427,7 +10441,7 @@
         {
           "file": "src/PhantomFudge.Core/KeyboardCommands.cs",
           "start": 15,
-          "end": 86
+          "end": 87
         },
         {
           "file": "src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs",
@@ -10631,8 +10645,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 136,
-          "end": 136
+          "start": 148,
+          "end": 148
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
@@ -10641,8 +10655,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 114,
-          "end": 114
+          "start": 117,
+          "end": 117
         },
         {
           "file": "src/PhantomFudge.Core/QuestionSnapshot.cs",
@@ -10891,7 +10905,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2509
+      "words": 2574
     },
     {
       "file": "docs/handbook/24-provider-source-walkthrough.md",
@@ -10899,8 +10913,8 @@
       "citations": [
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 5,
-          "end": 5
+          "start": 7,
+          "end": 7
         },
         {
           "file": "src/PhantomFudge.Core/QuestionSnapshot.cs",
@@ -10914,8 +10928,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 136,
-          "end": 136
+          "start": 148,
+          "end": 148
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerConfiguration.cs",
@@ -10934,8 +10948,8 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs",
-          "start": 74,
-          "end": 74
+          "start": 75,
+          "end": 75
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyAnswerProfile.cs",
@@ -10969,13 +10983,13 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs",
-          "start": 69,
-          "end": 69
+          "start": 79,
+          "end": 79
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs",
-          "start": 74,
-          "end": 74
+          "start": 85,
+          "end": 85
         },
         {
           "file": "tests/PhantomFudge.Core.Tests/AgencyAnswerPromptTests.cs",
@@ -10984,8 +10998,8 @@
         },
         {
           "file": "tests/PhantomFudge.Core.Tests/AgencyAnswerPromptTests.cs",
-          "start": 36,
-          "end": 36
+          "start": 37,
+          "end": 37
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerClarification.cs",
@@ -11009,8 +11023,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 157,
-          "end": 157
+          "start": 160,
+          "end": 160
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
@@ -11019,18 +11033,18 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 85,
-          "end": 85
+          "start": 88,
+          "end": 88
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 117,
-          "end": 117
+          "start": 120,
+          "end": 120
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 166,
-          "end": 166
+          "start": 169,
+          "end": 169
         },
         {
           "file": "tests/PhantomFudge.Core.Tests/AnswerClarificationTests.cs",
@@ -11119,8 +11133,8 @@
         },
         {
           "file": "tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs",
-          "start": 195,
-          "end": 195
+          "start": 326,
+          "end": 326
         },
         {
           "file": "src/PhantomFudge.Core/Answers/CopilotCliLaunch.cs",
@@ -11149,8 +11163,8 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 49,
-          "end": 49
+          "start": 68,
+          "end": 68
         },
         {
           "file": "tests/PhantomFudge.Core.Tests/CopilotOfflineIntegrationTests.cs",
@@ -11174,8 +11188,8 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs",
-          "start": 67,
-          "end": 67
+          "start": 68,
+          "end": 68
         },
         {
           "file": "src/PhantomFudge.Core/Answers/CopilotCliProfile.cs",
@@ -11214,28 +11228,28 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
-          "start": 32,
-          "end": 32
+          "start": 34,
+          "end": 34
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
-          "start": 55,
-          "end": 55
+          "start": 57,
+          "end": 57
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Answers.cs",
-          "start": 186,
-          "end": 186
+          "start": 200,
+          "end": 200
         },
         {
           "file": "tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs",
-          "start": 511,
-          "end": 511
+          "start": 642,
+          "end": 642
         },
         {
           "file": "tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs",
-          "start": 546,
-          "end": 546
+          "start": 677,
+          "end": 677
         },
         {
           "file": "tests/PhantomFudge.Core.Tests/AnswerClarificationTests.cs",
@@ -11349,8 +11363,8 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 14,
-          "end": 14
+          "start": 33,
+          "end": 33
         },
         {
           "file": "TODO/45_OPT_IN_QUESTION_CLARIFICATION.todo",
@@ -11359,7 +11373,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2122
+      "words": 2325
     },
     {
       "file": "docs/handbook/25-native-audio-source-walkthrough.md",
@@ -12498,13 +12512,18 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 117,
-          "end": 117
+          "start": 120,
+          "end": 120
         },
         {
           "file": "TODO/00_INDEX.todo",
-          "start": 39,
-          "end": 39
+          "start": 45,
+          "end": 45
+        },
+        {
+          "file": "docs/OVERVIEW.md",
+          "start": 131,
+          "end": 134
         },
         {
           "file": "tools/CopilotProbe/agency_profile_probe.py",
@@ -12713,13 +12732,13 @@
         },
         {
           "file": "scripts/Export-HandbookScreenshots.ps1",
-          "start": 78,
-          "end": 78
+          "start": 79,
+          "end": 79
         },
         {
           "file": "scripts/Export-ReadmeImages.ps1",
-          "start": 28,
-          "end": 28
+          "start": 29,
+          "end": 29
         },
         {
           "file": "scripts/Set-Diagnostics.ps1",
@@ -12993,7 +13012,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2969
+      "words": 3072
     },
     {
       "file": "docs/handbook/28-documentation-source-walkthrough.md",
@@ -13044,13 +13063,13 @@
       "citations": [
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 1,
-          "end": 13
+          "start": 3,
+          "end": 32
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
           "start": 14,
-          "end": 29
+          "end": 31
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerConfiguration.cs",
@@ -13060,7 +13079,7 @@
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs",
           "start": 8,
-          "end": 97
+          "end": 111
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.AnswerLifetime.cs",
@@ -13070,7 +13089,7 @@
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
           "start": 10,
-          "end": 80
+          "end": 82
         },
         {
           "file": "src/PhantomFudge.Core/QuestionDraft.cs",
@@ -13089,8 +13108,8 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 3,
-          "end": 13
+          "start": 5,
+          "end": 32
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs",
@@ -13119,7 +13138,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2096
+      "words": 2391
     },
     {
       "file": "docs/QUESTION-CLARIFICATION.md",
@@ -13128,7 +13147,7 @@
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
           "start": 11,
-          "end": 44
+          "end": 46
         },
         {
           "file": "src/PhantomFudge.Core/QuestionDraft.cs",
@@ -13137,8 +13156,8 @@
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-          "start": 85,
-          "end": 155
+          "start": 88,
+          "end": 158
         },
         {
           "file": "src/PhantomFudge.App/MainWindow.ClarificationDiagnostics.cs",
@@ -13157,7 +13176,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 752
+      "words": 910
     },
     {
       "file": "docs/COVER-AND-PRIVACY.md",
@@ -13190,8 +13209,8 @@
         },
         {
           "file": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-          "start": 5,
-          "end": 14
+          "start": 7,
+          "end": 33
         },
         {
           "file": "src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs",
@@ -13218,13 +13237,13 @@
         },
         {
           "file": "docs/OVERVIEW.md",
-          "start": 48,
-          "end": 70
+          "start": 49,
+          "end": 71
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 302,
-          "end": 356
+          "start": 315,
+          "end": 369
         },
         {
           "file": "TODO/16_DEVELOPMENT_LEDGER.todo",
@@ -13233,8 +13252,8 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 295,
-          "end": 300
+          "start": 308,
+          "end": 313
         },
         {
           "file": "docs/DEVELOPMENT-WORKFLOW.md",
@@ -13243,28 +13262,28 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 284,
-          "end": 293
+          "start": 297,
+          "end": 306
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 263,
-          "end": 282
+          "start": 276,
+          "end": 295
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 269,
-          "end": 272
+          "start": 282,
+          "end": 285
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 244,
-          "end": 261
+          "start": 257,
+          "end": 274
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 220,
-          "end": 242
+          "start": 233,
+          "end": 255
         },
         {
           "file": "docs/DUAL-SOURCE-AUDIO.md",
@@ -13273,18 +13292,18 @@
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 214,
-          "end": 218
+          "start": 227,
+          "end": 231
         },
         {
           "file": "docs/AI-ANSWER-ARCHITECTURE.md",
           "start": 82,
-          "end": 188
+          "end": 200
         },
         {
           "file": "docs/IMPLEMENTATION-STATUS.md",
-          "start": 236,
-          "end": 242
+          "start": 249,
+          "end": 255
         },
         {
           "file": "src/PhantomFudge.Launcher/Program.cs",
@@ -13523,16 +13542,16 @@
         }
       ],
       "diagrams": 2,
-      "words": 12256
+      "words": 12957
     }
   ],
   "diagramCount": 73,
-  "wordCount": 89103,
+  "wordCount": 91952,
   "pdf": {
     "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.pdf",
-    "sha256": "5c637ab1e3ec34341d7e0a5f74f15f8b6eb363014251874a77802813361dff52",
-    "bytes": 11502946,
-    "pages": 372,
+    "sha256": "0970af0a0aef3e3847c2914d7c9b3a735caa876a019ebbe72a59fed48e06b71d",
+    "bytes": 11822833,
+    "pages": 380,
     "inspection": {
       "missingImages": [],
       "overflowing": [],
@@ -13609,11 +13628,11 @@
     },
     {
       "file": "docs/handbook/assets/diagrams/02-zero-to-hero-01.mmd",
-      "sha256": "672df2cd4b513864d4a9ec827d0ddc94856191a67aa1243cee9edd49e473f9f7"
+      "sha256": "03282de80776c5307df39bc2a9aa47f2bb32c44a0730dcea0b52beac2c37a2cd"
     },
     {
       "file": "docs/handbook/assets/diagrams/02-zero-to-hero-01.json",
-      "sha256": "f438396cee3737d7c847d2dd9f906f440d2beac35856e8d394ac4ffcfc2c3341"
+      "sha256": "331fa8429e45747f7df4c5e0fef6c92f4c788c779a77a0880170b005241572c6"
     },
     {
       "file": "docs/handbook/assets/diagrams/02-zero-to-hero-02.svg",
@@ -13621,11 +13640,11 @@
     },
     {
       "file": "docs/handbook/assets/diagrams/02-zero-to-hero-02.mmd",
-      "sha256": "8f18069c557f57d1f47d8c86c3ef2d910b4c6544b475f481beb5f59dd0e11a18"
+      "sha256": "bc98eae28c90e226c92009dec3581423bc960865aa9eeec410dbd7c53304e195"
     },
     {
       "file": "docs/handbook/assets/diagrams/02-zero-to-hero-02.json",
-      "sha256": "67546092f2f6752b2e144647a8991cb97affb6f66d65e6ab9a68e9839ee84daf"
+      "sha256": "e7db8be915ca82bcee2d37cf1e7056cdbd1d6e6f83b890e67f5487a88dd741a6"
     },
     {
       "file": "docs/handbook/assets/diagrams/installation-01.svg",
@@ -13653,15 +13672,15 @@
     },
     {
       "file": "docs/handbook/assets/diagrams/current-workflow-01.svg",
-      "sha256": "afe798eeb961f809e5cdeba16191eb1f821cfba8eb37a902bc97588a8c3dfe00"
+      "sha256": "c024162cdfa97912e3345aed5694ae0bb84aad96a3cc878900fa36e9d990bb50"
     },
     {
       "file": "docs/handbook/assets/diagrams/current-workflow-01.mmd",
-      "sha256": "1247b3528b1dba2273d00cfdc567ca600ef25b94fb7782775c7ff30e72da8e01"
+      "sha256": "86761e202af326229f4bb29084fc7f9990db2341421b17fbd3420bcc090a171c"
     },
     {
       "file": "docs/handbook/assets/diagrams/current-workflow-01.json",
-      "sha256": "9caf39f8f5375b691cfaa39a5246e56f17fa56d5820b5e0c3705e1d519d1fd9b"
+      "sha256": "9d8f8ac7db9f9421f1f0f1e2dd823e5942ed6f1d904565331e50e7634434395f"
     },
     {
       "file": "docs/handbook/assets/diagrams/current-workflow-02.svg",
@@ -13993,23 +14012,23 @@
     },
     {
       "file": "docs/handbook/assets/diagrams/15-development-and-testing-01.mmd",
-      "sha256": "cbd7d6effb842f275b72eec610341007f7d647d35cc45a3939041bdd464df6f9"
+      "sha256": "47b25c67cd91091cef9b5795f21c1e8be6ba4eab237c1351f2ae38b7ae7c7030"
     },
     {
       "file": "docs/handbook/assets/diagrams/15-development-and-testing-01.json",
-      "sha256": "2874c2c4e63070a672d152af7048be2b26e24965cbf52da5ebb60646d29119b8"
+      "sha256": "eaf49cf51aaf7cdf20e4c83b5bac8735ed6f9563e8aaf93886854ecb0a3a2e27"
     },
     {
       "file": "docs/handbook/assets/diagrams/15-development-and-testing-02.svg",
-      "sha256": "eca71a8975f1c920cc6479d794b1b2ee95c933376d4c0e5964bc415b91cc35a8"
+      "sha256": "e7041622ea1e4a364d7885dfedf7ba49d114e0cd77d51d62b312ce19ac19e821"
     },
     {
       "file": "docs/handbook/assets/diagrams/15-development-and-testing-02.mmd",
-      "sha256": "97c0359f245716a2ff2147d7ad5a4e657073c1d094c5954020caf861ea044c23"
+      "sha256": "3f92819c2a793059fb532155d67cf34f0e69ad10564c148db14300bedd280fc5"
     },
     {
       "file": "docs/handbook/assets/diagrams/15-development-and-testing-02.json",
-      "sha256": "855fd86968b95cef4083305737f63bad16be637f70508660cef92e840c8c088b"
+      "sha256": "3de639e2c6fbc3e9de0bf00ee46240648c04b513b5805fbb87ae6753649cf3cc"
     },
     {
       "file": "docs/handbook/assets/diagrams/16-distribution-and-troubleshooting-01.svg",
@@ -14181,15 +14200,15 @@
     },
     {
       "file": "docs/handbook/assets/diagrams/22-desktop-source-walkthrough-02.svg",
-      "sha256": "948a2217ca6bd5a4a75862c972906a148f50f0d71abc2db89f6f832268a77381"
+      "sha256": "3543f6d3388a3299435d6b2356add3a5d8a3b2750de263a0dcba699339ddf967"
     },
     {
       "file": "docs/handbook/assets/diagrams/22-desktop-source-walkthrough-02.mmd",
-      "sha256": "8475a3c2348c562500de46fcd80586735758c5ed30e38ddf83c46a15a774a634"
+      "sha256": "2eb7e98c3076760200ce9e813c42a4f8447a1ec51afe81b78a5d57259b4a0cc2"
     },
     {
       "file": "docs/handbook/assets/diagrams/22-desktop-source-walkthrough-02.json",
-      "sha256": "7c72cb3d85a89d8d11d27dfdab539dccaafdb492b284b6de1cd44d3478a18432"
+      "sha256": "8b025a7a48016a0161af86f62b83dbc279d016c0382322d4f46712abed518ea2"
     },
     {
       "file": "docs/handbook/assets/diagrams/23-domain-source-walkthrough-01.svg",
@@ -14217,15 +14236,15 @@
     },
     {
       "file": "docs/handbook/assets/diagrams/24-provider-source-walkthrough-01.svg",
-      "sha256": "051a8c9f4c77c04e37cb50c49c90efe801bc97bf57864345377a9e73b21f2482"
+      "sha256": "b5c9d8d3719e055752534558834d57cd90ccaebc22fb3d5300b43e17261f6603"
     },
     {
       "file": "docs/handbook/assets/diagrams/24-provider-source-walkthrough-01.mmd",
-      "sha256": "860d625b8173c01504a785e7309df44feac92ee1d9aba46fc2b8ad5d71d87eef"
+      "sha256": "80371be8cd7479d5d5b12e2a7c8345e5e9a9711a517cf8fc0fdc058bc7795f12"
     },
     {
       "file": "docs/handbook/assets/diagrams/24-provider-source-walkthrough-01.json",
-      "sha256": "d3191154b83b5e532b4ceb35703d598804d56dfb09ad325f5ed0ee7694382720"
+      "sha256": "92aebc219e93b4e5c73ab68f895741783e9fa47bef6638fc9ad5ff2c2d6d0d93"
     },
     {
       "file": "docs/handbook/assets/diagrams/24-provider-source-walkthrough-02.svg",
@@ -14337,15 +14356,15 @@
     },
     {
       "file": "docs/handbook/assets/diagrams/answer-providers-01.svg",
-      "sha256": "6bc47069166c64a10082a2344afa3ed058a48f79f058185a47c9bc60f94a15b7"
+      "sha256": "302cd2d8ba4f05ea2f3bee5e208a8cc3af6556273da18256c27a51bbe67448cf"
     },
     {
       "file": "docs/handbook/assets/diagrams/answer-providers-01.mmd",
-      "sha256": "05dfa3f3768886d7693c9c1d0f35deaf9ee8a5c66d56cdf9517941cbfee69b68"
+      "sha256": "a128faf120229092d99274f8a13d2c6653f655a7f442554fecc6b6a423979321"
     },
     {
       "file": "docs/handbook/assets/diagrams/answer-providers-01.json",
-      "sha256": "09401105e3b0946968b1e114d87fbe816a9ff76b0850f76a3eba1c685d554c04"
+      "sha256": "6eff54763de3da28ccfd5b2995e91913fe5a75b8706395959a906549cb8f26f5"
     },
     {
       "file": "docs/handbook/assets/diagrams/answer-providers-02.svg",
@@ -14373,15 +14392,15 @@
     },
     {
       "file": "docs/handbook/assets/diagrams/question-clarification-02.svg",
-      "sha256": "f575a9de0fff938966d2543e02cc2b706a0ec8d31efa28cc5ac7d5b4d5f7649e"
+      "sha256": "8906099604a0da383242a74aae1b93543a9d961bdb0f9662d6cb5f2a34026d6b"
     },
     {
       "file": "docs/handbook/assets/diagrams/question-clarification-02.mmd",
-      "sha256": "605d0068553a3d5332c4fefb26907360fca86fe8cba9b55a985d4873ce1d704d"
+      "sha256": "f9cc9c18223b79763c8cdc01526ff5c3f05c40f709960169c06fcb919f37a97c"
     },
     {
       "file": "docs/handbook/assets/diagrams/question-clarification-02.json",
-      "sha256": "7f9c1b65cf43d9496bdaa5d72ef99c3c413d5dc6c64e830270af07ff3fa9c98c"
+      "sha256": "a1fa4eac5019849f3d782cf01fefcda9150a4fce69b56215ab6642a472a49329"
     },
     {
       "file": "docs/handbook/assets/diagrams/cover-and-privacy-01.svg",
@@ -14433,11 +14452,11 @@
     },
     {
       "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.html",
-      "sha256": "43083d36686f3d106e8283bc1f627e49ab0835e2e60c7a728ed33da9611f6231"
+      "sha256": "41096b0b70772d8c55bcf34f004c37bb6385123eb2416dba667c33500bce6673"
     },
     {
       "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.pdf",
-      "sha256": "5c637ab1e3ec34341d7e0a5f74f15f8b6eb363014251874a77802813361dff52"
+      "sha256": "0970af0a0aef3e3847c2914d7c9b3a735caa876a019ebbe72a59fed48e06b71d"
     }
   ]
 }

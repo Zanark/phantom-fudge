@@ -12,7 +12,7 @@ outline: deep
 
 > **`IsRunning == false` does not mean fully stopped, drained, and reusable.**
 
-`Session.RequestStop` immediately sets `Running=false`; `StopSessionAsync` and transport disposal still have substantial work afterward. The UI separately holds `audioStopping` through its awaited Stop path. A documented review found and fixed a stop/restart race by preserving this distinction. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:30,387-447,532-546; src\PhantomFudge.App\MainWindow.xaml.cs:763-793; docs\IMPLEMENTATION-STATUS.md:232-234)
+`Session.RequestStop` immediately sets `Running=false`; `StopSessionAsync` and transport disposal still have substantial work afterward. The UI separately holds `audioStopping` through its awaited Stop path. A documented review found and fixed a stop/restart race by preserving this distinction. (src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:30,387-447,532-546; src\PhantomFudge.App\MainWindow.xaml.cs:763-793; docs\IMPLEMENTATION-STATUS.md:245-247)
 
 **Newcomer path:** follow the normal Stop sequence before reading the locks. **Principal-engineer path:** inspect queued-start invalidation, ownership after driver timeouts, and the difference between graceful drain and fault abort. The diagrams below name conceptual states; the production code implements them through fields, tasks, locks, and guards, not one central state enum.
 
@@ -140,7 +140,7 @@ A hung driver is not forcibly made safe by cancelling a managed token. Release w
 
 ### Fail closed without inventing a complete transcript
 
-The socket budgets two seconds of PCM per source: 64,000 bytes at 16 kHz, mono, 16-bit; total pending PCM is capped at 128,000 bytes. A queue overflow faults the session rather than silently dropping frames and continuing a success-shaped transcript. Released frame arrays are cleared, but this is not a secure-erasure guarantee for every memory copy or crash dump. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:13-18,191-238,552-559; docs\QUALIFICATION.md:139-140)
+The socket budgets two seconds of PCM per source: 64,000 bytes at 16 kHz, mono, 16-bit; total pending PCM is capped at 128,000 bytes. A queue overflow faults the session rather than silently dropping frames and continuing a success-shaped transcript. Released frame arrays are cleared, but this is not a secure-erasure guarantee for every memory copy or crash dump. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:13-18,191-238,552-559; docs\QUALIFICATION.md:147-148)
 
 Endpoint validation restricts the transport to literal loopback, and the HTTP handler disables proxies and redirects. Recognizer error bodies are schema-checked but replaced with fixed local messages rather than displayed verbatim. This limits accidental propagation of paths, secrets, or transcript text through an error surface. It is not a claim that every possible exception everywhere in the app is contained. (src\PhantomFudge.App\Audio\TranscriptionSocket.cs:26-31,82-98,398-414)
 
@@ -148,7 +148,7 @@ Device notifications invalidate only the explicitly selected endpoint, once, and
 
 ## Worked example: the stop/reset race
 
-Suppose session A has accepted final ID 20. Stop makes Running false, but final ID 21 is still returning. If the UI resets `TranscriptBuffer.lastSegmentId` for session B now, the late A final could advance B's ID baseline to 21. B's new final ID 1 would then be ignored by `AddFinal`. Text would disappear from the new session even though the user saw a plausible restart. This is an explanatory interleaving derived from the actual reset/deduplication logic and the recorded bug, not a claim of a newly executed reproduction. (src\PhantomFudge.Core\TranscriptBuffer.cs:23-38,48-56; docs\IMPLEMENTATION-STATUS.md:232-234)
+Suppose session A has accepted final ID 20. Stop makes Running false, but final ID 21 is still returning. If the UI resets `TranscriptBuffer.lastSegmentId` for session B now, the late A final could advance B's ID baseline to 21. B's new final ID 1 would then be ignored by `AddFinal`. Text would disappear from the new session even though the user saw a plausible restart. This is an explanatory interleaving derived from the actual reset/deduplication logic and the recorded bug, not a claim of a newly executed reproduction. (src\PhantomFudge.Core\TranscriptBuffer.cs:23-38,48-56; docs\IMPLEMENTATION-STATUS.md:245-247)
 
 The repaired UI keeps Start, source-mode changes, and Clear blocked through its awaited stop task. A synthetic regression explicitly sets `audioStopping`, attempts those actions, and verifies that the transcript/session selection remain unchanged. Controller-level ownership guards remain necessary underneath this UI protection. (src\PhantomFudge.App\MainWindow.xaml.cs:652-655,720-750,866-871,1061-1068; src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:81-91)
 
@@ -173,6 +173,23 @@ C# `Task` tracks completion; `CancellationToken` requests cooperation; `Semaphor
 
 ## Window and document failures remain separate
 
+### Previous-answer eligibility is separate from text visibility
+
+Visible text is not sufficient to attach context. `CanUseDisplayedAnswer` requires a completed,
+nonblank answer and excludes unconfirmed interpretations. The toggle is session-only; a busy task
+or active clarification locks it. Clear/provider changes reset it, and failed/cancelled text cannot
+become a future prior answer. This prevents a partial output from being silently promoted into
+trusted conversation state.
+([`CanUseDisplayedAnswer`, `UpdatePreviousAnswerControls`](../../src/PhantomFudge.App/MainWindow.AnswerContext.cs).)
+
+Clarification introduces another lifetime: `clarificationPreviousAnswer` is captured before the
+first interpretation replaces the reader and remains unchanged through explicit corrections,
+confirmation and first-interpretation retry. It is not derived from whichever text is now displayed.
+`AnswerRun.Request.PreviousAnswer` preserves the exact submitted value for Setup/details, while a
+new successful answer can become the next request's sole context. No completion event sends again.
+([`BeginQuestionClarification`, `SubmitClarificationReply`](../../src/PhantomFudge.App/MainWindow.Clarification.cs),
+[`AnswerRun`](../../src/PhantomFudge.Core/Answers/AnswerRun.cs).)
+
 Protection invalidation clears readiness and hides before awaiting Stop. It preserves note/transcript memory. Mode changes similarly hide and stop before changing native interaction policy. Exit waits for Stop, then evaluates unsaved work; it does not confuse stopped audio with permission to discard text. Saving has its own `fileBusy` guard and only updates the saved baseline after successful I/O. (src\PhantomFudge.App\MainWindow.xaml.cs:228-275,306-323,424-455)
 
 Protection errors use a generic local notice rather than an unprotected automatic message box. This is an application containment policy for detected failures—not a universal capture boundary, nor crash recovery. (src\PhantomFudge.App\LocalFailureNotice.cs:9-29; src\PhantomFudge.App\MainWindow.xaml.cs:160-164)
@@ -186,7 +203,7 @@ Targeted synthetic tests verify:
 - Repeated sessions detach callbacks; simultaneous source faults release both inputs. (tests\PhantomFudge.Audio.Tests\DualSourceTests.cs:658-758)
 - Hung startup retains ownership, hung Stop releases the responsive input, and disposal failures prevent unsafe restart. (tests\PhantomFudge.Audio.Tests\DualSourceTests.cs:762-868)
 
-The maintained evidence records 41 Core tests, 46 native synthetic groups, 71 backend tests, and four manager-upgrade guards. Those are existing results, not tests rerun for this chapter. They do not establish actual microphone permissions, hardware echo behavior, OS microphone-indicator visibility, or remote cursor inclusion. (docs\IMPLEMENTATION-STATUS.md:226-234; docs\QUALIFICATION.md:127-140)
+The maintained evidence records 41 Core tests, 46 native synthetic groups, 71 backend tests, and four manager-upgrade guards. Those are existing results, not tests rerun for this chapter. They do not establish actual microphone permissions, hardware echo behavior, OS microphone-indicator visibility, or remote cursor inclusion. (docs\IMPLEMENTATION-STATUS.md:239-247; docs\QUALIFICATION.md:127-148)
 
 **Exercise:** Why retain `_pendingCaptureRelease` after the visible session stops?  
 **Answer:** A worker may still own a device; allowing another Start would obscure ownership.

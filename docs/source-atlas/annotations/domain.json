@@ -82,34 +82,75 @@
     },
     {
       "path": "src/PhantomFudge.Core/KeyboardCommands.cs",
-      "sourceSha256": "df9007fed871a46d23a02b85700299c8c28c97032f42ddafbf8a442b5057c1b6",
+      "sourceSha256": "212072e48266cdfa2b6892c0e9fd93ba059cfe2812270d30f26c39a17f40145f",
       "role": "Turns bounded palette text into allowlisted command data and offers curated prefixes without executing actions, shell syntax or model requests.",
-      "entryPoints": ["KeyboardCommandKind", "KeyboardCommand", "KeyboardCommands.Examples", "KeyboardCommands.Parse", "KeyboardCommands.Suggest"],
+      "entryPoints": [
+        "KeyboardCommandKind",
+        "KeyboardCommand",
+        "KeyboardCommands.Examples",
+        "KeyboardCommands.Parse",
+        "KeyboardCommands.Suggest"
+      ],
       "blocks": [
         {
-          "start": 1, "end": 25, "title": "Separate command identity, payload and curated examples",
-          "explanation": "KeyboardCommandKind declares sixteen action families; KeyboardCommand carries a kind plus optional string Argument and integer Value. The record constructor itself does not validate enum values or payload combinations: Parse supplies that contract for text input. The public limits are 128 input units and font sizes 8..24. Examples wraps twenty-three fixed strings in a read-only collection, including record aliases and representative numeric values rather than every valid font or opacity. These declarations describe requests only; they do not start recording, copy content, send a question or change a window.",
-          "focus": [{"start": 5, "end": 16}]
+          "start": 1,
+          "end": 25,
+          "title": "Separate command identity, payload and curated examples",
+          "explanation": "KeyboardCommandKind declares seventeen action families including Context; KeyboardCommand carries optional Argument or Value data. Its constructor is not the validation boundary: Parse supplies that contract. Input is capped at128 units, font at8..24, and the read-only twenty-five examples include context on/off plus record aliases. Creating command data never starts recording, sends a question, copies text or changes a window.",
+          "focus": [
+            {
+              "start": 5,
+              "end": 16
+            }
+          ]
         },
         {
-          "start": 26, "end": 55, "title": "Accept exactly one built-in token pattern",
-          "explanation": "Parse first tokenizes and gives an empty token list its own authored error. Exact list patterns enforce argument count: start and record start produce the same Start value, while source, clarify and theme accept only their listed normalized arguments. Font and opacity produce integer Value payloads through separate inclusive bounds of 8..24 and 10..100. Everything else, including missing or excess arguments, receives the fixed unknown-command ArgumentException with parameter text rather than an echoed input. Matching returns data, not an invocation; caller-side availability, confirmation and application-state guards are not enforced by this parser.",
-          "focus": [{"start": 32, "end": 41}]
+          "start": 26,
+          "end": 56,
+          "title": "Accept exactly one built-in token pattern",
+          "explanation": "Parse first tokenizes and gives an empty token list its own authored error. Exact list patterns enforce argument count: start and record start produce the same Start value, while source, clarify and theme accept only their listed normalized arguments. Font and opacity produce integer Value payloads through separate inclusive bounds of 8..24 and 10..100. Everything else, including missing or excess arguments, receives the fixed unknown-command ArgumentException with parameter text rather than an echoed input. Matching returns data, not an invocation; caller-side availability, confirmation and application-state guards are not enforced by this parser. The context token pattern accepts exactly on or off and constructs Context data. It does not accept arbitrary context text, file paths or missing/extra arguments.",
+          "focus": [
+            {
+              "start": 32,
+              "end": 42
+            }
+          ]
         },
         {
-          "start": 56, "end": 64, "title": "Prefix suggestions are neither validation nor completion of every value",
+          "start": 57,
+          "end": 65,
+          "title": "Prefix suggestions are neither validation nor completion of every value",
           "explanation": "Suggest uses the same tokenizer as Parse and rejoins normalized tokens with one space. It filters Examples with an ordinal case-insensitive prefix comparison, retains declaration order and clamps maximum to 0..20, defaulting to five. Each call materializes a fresh read-only array wrapper, so later calls cannot mutate an earlier result. Blank input offers the initial examples; an unmatched prefix yields an empty list without invoking Parse. Thus font 8 is valid but has no suggestion because the curated numeric example is font 14. Even a zero result limit still runs tokenizer validation first.",
-          "focus": [{"start": 57, "end": 63}]
+          "focus": [
+            {
+              "start": 58,
+              "end": 64
+            }
+          ]
         },
         {
-          "start": 65, "end": 79, "title": "Validate raw text before whitespace and colon normalization",
+          "start": 66,
+          "end": 80,
+          "title": "Validate raw text before whitespace and colon normalization",
           "explanation": "Tokenize rejects null, then raw string lengths above 128, then control characters other than tab, CR and LF. The ceiling counts UTF-16 code units including leading/trailing whitespace and any colon, not bytes or visible glyphs. Control validation precedes trimming, so forbidden controls cannot disappear at the edges. Trimming removes surrounding whitespace, at most one leading colon is stripped, and invariant lowercasing plus whitespace splitting produces the command tokens. Unicode whitespace can separate tokens, but control whitespace such as vertical tab remains forbidden. Newlines separate words, not independent commands: source newline mic can match one command, whereas start newline stop cannot.",
-          "focus": [{"start": 68, "end": 78}]
+          "focus": [
+            {
+              "start": 69,
+              "end": 79
+            }
+          ]
         },
         {
-          "start": 80, "end": 88, "title": "Reject decorated, overflowing or out-of-range numeric arguments",
+          "start": 81,
+          "end": 89,
+          "title": "Reject decorated, overflowing or out-of-range numeric arguments",
           "explanation": "ParseInteger uses int.TryParse with NumberStyles.None and InvariantCulture, then checks both inclusive endpoints before returning a value. Decimal digit strings with leading zeroes are accepted; signs, fractions, exponents, grouping, unit suffixes and Int32 overflow are not coerced or clamped. Both parse and range failures throw the caller-supplied fixed message with parameter text, without copying the numeric input into the error. This helper validates the numeric token only; the list-pattern caller has already enforced the command's two-token shape.",
-          "focus": [{"start": 81, "end": 86}]
+          "focus": [
+            {
+              "start": 82,
+              "end": 87
+            }
+          ]
         }
       ]
     },
@@ -405,64 +446,148 @@
     },
     {
       "path": "tests/PhantomFudge.Core.Tests/KeyboardCommandsTests.cs",
-      "sourceSha256": "d0cf50ca2a92daa530151636c8554effcab7a3b8032caa0e9ff24201a3185639",
+      "sourceSha256": "61d0be3d10f4f70ac2c08691887f314ee326bf2bb60bc2edbbfd527bb4dd76ce",
       "role": "Specifies canonical command payloads, rejection boundaries and stable read-only suggestions with synthetic strings rather than application actions.",
-      "entryPoints": ["KeyboardCommandsTests.ParsesOnlyCanonicalData", "KeyboardCommandsTests.NumericArgumentsRequireInvariantUnsignedDecimalIntegers", "KeyboardCommandsTests.MaximumInputLengthIncludesWhitespaceBeforeTrimming", "KeyboardCommandsTests.InjectionShapedTextIsRejectedWithoutEchoingIt", "KeyboardCommandsTests.SuggestionsUseStableCanonicalPrefixOrdering", "KeyboardCommandsTests.AssertReadOnly"],
+      "entryPoints": [
+        "KeyboardCommandsTests.ParsesOnlyCanonicalData",
+        "KeyboardCommandsTests.NumericArgumentsRequireInvariantUnsignedDecimalIntegers",
+        "KeyboardCommandsTests.MaximumInputLengthIncludesWhitespaceBeforeTrimming",
+        "KeyboardCommandsTests.InjectionShapedTextIsRejectedWithoutEchoingIt",
+        "KeyboardCommandsTests.SuggestionsUseStableCanonicalPrefixOrdering",
+        "KeyboardCommandsTests.AssertReadOnly"
+      ],
       "blocks": [
         {
-          "start": 1, "end": 42, "title": "Compare full command records across canonical and normalized spellings",
-          "explanation": "The table specifies kind, optional argument and optional integer for every command family, including record aliases, all enumerated source/theme choices, numeric endpoints and leading-zero font/opacity spellings. Each row compares the complete expected record twice: once from the canonical input and once from uppercased input wrapped in whitespace and one colon. Full-record equality catches misplaced or unexpected payloads, not merely the right enum. These are parser tests only; Start, Ask, Copy and the other names do not execute their corresponding application actions here.",
-          "focus": [{"start": 37, "end": 42}]
+          "start": 1,
+          "end": 44,
+          "title": "Compare full command records across canonical and normalized spellings",
+          "explanation": "The table specifies kind, optional argument and optional integer for every command family, including record aliases, all enumerated source/theme choices, numeric endpoints and leading-zero font/opacity spellings. Each row compares the complete expected record twice: once from the canonical input and once from uppercased input wrapped in whitespace and one colon. Full-record equality catches misplaced or unexpected payloads, not merely the right enum. These are parser tests only; Start, Ask, Copy and the other names do not execute their corresponding application actions here. Canonical rows also exercise context on/off as full Context records under the same normalization checks.",
+          "focus": [
+            {
+              "start": 39,
+              "end": 44
+            }
+          ]
         },
         {
-          "start": 43, "end": 76, "title": "Distinguish normalization, null failure and an empty suggestion prefix",
+          "start": 45,
+          "end": 78,
+          "title": "Distinguish normalization, null failure and an empty suggestion prefix",
           "explanation": "Mixed casing, tabs, CR/LF, em spaces and nonbreaking spaces must parse like canonical commands after removing one leading colon. Null must fail both Parse and Suggest with ArgumentNullException, the authored Enter a built-in command message and parameter text. Empty, whitespace-only and colon-only inputs instead yield Parse's ArgumentException while Suggest returns the first five Examples. The tests preserve the intentional difference between submitting no command and requesting initial suggestions, despite both APIs sharing the tokenizer.",
-          "focus": [{"start": 71, "end": 76}]
+          "focus": [
+            {
+              "start": 73,
+              "end": 78
+            }
+          ]
         },
         {
-          "start": 77, "end": 124, "title": "Reject abbreviated names, missing arguments and extra tokens",
-          "explanation": "Negative rows exercise unknown verbs, prefixes such as sta, unsupported record/source/clarify/theme subcommands, absent arguments and invalid colon positions. Every one must receive the fixed unknown-command message and parameter text, not a guessed command. A separate loop appends an extra token to every public example and requires failure, tying strict arity to the evolving example list. These assertions prohibit implicit suffix tolerance and shell-like argument interpretation; valid whitespace inside a recognized token sequence remains covered separately.",
-          "focus": [{"start": 111, "end": 116}]
+          "start": 79,
+          "end": 129,
+          "title": "Reject abbreviated names, missing arguments and extra tokens",
+          "explanation": "Negative rows exercise unknown verbs, prefixes such as sta, unsupported record/source/clarify/theme subcommands, absent arguments and invalid colon positions. Every one must receive the fixed unknown-command message and parameter text, not a guessed command. A separate loop appends an extra token to every public example and requires failure, tying strict arity to the evolving example list. These assertions prohibit implicit suffix tolerance and shell-like argument interpretation; valid whitespace inside a recognized token sequence remains covered separately. The negative table additionally rejects bare context, context all and context yes, preserving the explicit on/off grammar.",
+          "focus": [
+            {
+              "start": 116,
+              "end": 121
+            }
+          ]
         },
         {
-          "start": 125, "end": 177, "title": "Pin numeric bounds and forbid alternative number notations",
+          "start": 130,
+          "end": 182,
+          "title": "Pin numeric bounds and forbid alternative number notations",
           "explanation": "Font values below eight or above twenty-four and opacity values below ten or above one hundred must report their respective authored range errors. The shared invalid-number matrix then checks fractions, locale commas, scientific notation, NaN/infinities, signs, hexadecimal, separators, suffixes, Int32 overflow and non-ASCII digit forms against both commands. The errors must identify parameter text without confusing the two ranges. Accepted endpoints and leading zeroes appear in the earlier positive table; rejection is not evidence of a blanket ban on every noncanonical decimal spelling.",
-          "focus": [{"start": 169, "end": 176}]
+          "focus": [
+            {
+              "start": 174,
+              "end": 181
+            }
+          ]
         },
         {
-          "start": 178, "end": 203, "title": "Restore both cultures after testing invariant parsing",
+          "start": 183,
+          "end": 208,
+          "title": "Restore both cultures after testing invariant parsing",
           "explanation": "For Turkish, French and Saudi Arabic cultures, the fixture changes both CurrentCulture and CurrentUICulture, parses uppercase words and ordinary decimal values, and checks normalized clarify suggestions. A comma decimal still fails. The finally block restores both original cultures even if an assertion throws, avoiding contamination of subsequent work. These cases exercise culture independence of the chosen word and number paths; they do not simulate keyboard layouts, IME composition or translated UI labels.",
-          "focus": [{"start": 189, "end": 200}]
+          "focus": [
+            {
+              "start": 194,
+              "end": 205
+            }
+          ]
         },
         {
-          "start": 204, "end": 239, "title": "Count raw UTF-16 input before trimming or limiting suggestions",
+          "start": 209,
+          "end": 244,
+          "title": "Count raw UTF-16 input before trimming or limiting suggestions",
           "explanation": "A help command padded to exactly 128 units must parse and suggest successfully, while adding one space must make both APIs throw the length error. The next fixture includes the leading colon in that same budget. Sixty-five supplementary emoji occupy 130 UTF-16 code units and must fail Parse and Suggest even with maximum zero. Together these controls catch moving the check after trimming, after colon removal, or behind an empty-result shortcut; they do not measure bytes or user-perceived glyph count.",
-          "focus": [{"start": 230, "end": 238}]
+          "focus": [
+            {
+              "start": 235,
+              "end": 243
+            }
+          ]
         },
         {
-          "start": 240, "end": 260, "title": "Do not trim away forbidden control characters",
+          "start": 245,
+          "end": 265,
+          "title": "Do not trim away forbidden control characters",
           "explanation": "The control-character table includes NUL, backspace, vertical tab, form feed, escape, DEL and selected C1 controls. Each is placed before help, after help and between source and mic; both Parse and Suggest must reject all three positions with the authored control-character message. Edge positions specifically guard against trimming before validation, while the middle position guards against treating every control as a legal separator. Tab, CR and LF are deliberately absent because the earlier positive normalization cases allow them.",
-          "focus": [{"start": 251, "end": 259}]
+          "focus": [
+            {
+              "start": 256,
+              "end": 264
+            }
+          ]
         },
         {
-          "start": 261, "end": 291, "title": "Treat shell-shaped and instruction-shaped text as invalid data",
+          "start": 266,
+          "end": 296,
+          "title": "Treat shell-shaped and instruction-shaped text as invalid data",
           "explanation": "The matrix supplies chaining operators, newlines joining separate commands, substitutions, quoted values, comments, redirection, executable-looking text and an instruction-like sentence. Parse must throw ArgumentException without embedding the complete supplied input in its message, retain parameter text, and Suggest must return no matches. This validates the deterministic allowlist and the error non-echo behavior for these samples. It is not a shell sandbox or model-safety trial: the tests neither start processes nor send text to a provider.",
-          "focus": [{"start": 285, "end": 291}]
+          "focus": [
+            {
+              "start": 290,
+              "end": 296
+            }
+          ]
         },
         {
-          "start": 292, "end": 329, "title": "Keep the public examples canonical, complete by family and read-only",
+          "start": 297,
+          "end": 334,
+          "title": "Keep the public examples canonical, complete by family and read-only",
           "explanation": "Examples must be nonempty, unique under ordinal case-insensitive comparison, trimmed, lowercase and colon-free. Parsing them must cover exactly the enum's command families; explicit font 14 and opacity 55 assertions preserve representative numeric entries. Further tests snapshot Examples and suggestions for matching, unmatched and empty prefixes, exercise the shared mutation-rejection helper, and compare later reads with the snapshots. These checks protect collection exposure, including empty results, without claiming that Examples enumerates every valid numeric command.",
-          "focus": [{"start": 294, "end": 305}]
+          "focus": [
+            {
+              "start": 299,
+              "end": 310
+            }
+          ]
         },
         {
-          "start": 330, "end": 372, "title": "Preserve prefix ordering, clamp counts and distinguish no match from invalid syntax",
+          "start": 335,
+          "end": 377,
+          "title": "Preserve prefix ordering, clamp counts and distinguish no match from invalid syntax",
           "explanation": "Source suggestions must retain mic/computer/both declaration order across casing, whitespace and colon normalization; partial source M, record, font and copy prefixes have exact expected results. Maximum values from Int32.MinValue through Int32.MaxValue must clamp to 0..20, with the omitted limit still five. A larger maximum never pads the three theme matches. Unknown prefixes and invalid commands may have no suggestions, but so does valid font 8 because it is not a curated example. Empty suggestions therefore cannot substitute for Parse or disable otherwise valid submission.",
-          "focus": [{"start": 354, "end": 362}]
+          "focus": [
+            {
+              "start": 359,
+              "end": 367
+            }
+          ]
         },
         {
-          "start": 373, "end": 408, "title": "Verify snapshot lifetime and reject mutable collection backdoors",
+          "start": 378,
+          "end": 413,
+          "title": "Verify snapshot lifetime and reject mutable collection backdoors",
           "explanation": "A saved copy-suggestion result must survive later suggestion and parse calls unchanged. Separate assertions pin the public 128-input and 8..24-font constants without exercising a real slider. AssertReadOnly rejects a raw string array, casts to generic IList, checks IsReadOnly and requires Add/Clear to throw; nonempty lists must also reject replacement and RemoveAt. It repeats read-only, Add and Clear checks through nongeneric IList. The helper tests actual mutation attempts rather than trusting only the IReadOnlyList static type, which by itself would not prevent a mutable underlying collection.",
-          "focus": [{"start": 391, "end": 402}]
+          "focus": [
+            {
+              "start": 396,
+              "end": 407
+            }
+          ]
         }
       ]
     },

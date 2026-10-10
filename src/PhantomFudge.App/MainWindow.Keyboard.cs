@@ -190,7 +190,7 @@ public partial class MainWindow
             KeyboardMode.Command => "Built-in commands only. Enter executes | Tab completes | Esc cancels",
             KeyboardMode.Search => "Local transcript search. Enter finds | Esc returns to selection",
             KeyboardMode.Devices => "Tab changes source | arrows move | Space selects | [ / ] pages | Esc = Control",
-            KeyboardMode.Help => "v Select: j/k, Space toggle, Enter review, 1 Mic / 2 Computer / 3 all, / or F3 search. i Edit: type normally, Ctrl+Enter sends. a Read: j/k, +/- size. m Mask. F2 commands: start; stop; source both; devices; clarify on; confirm; font 14; copy answer; clear question; cancel; theme dark; opacity 55. Esc returns.",
+            KeyboardMode.Help => "v Select: j/k, Space toggle, Enter review, 1 Mic / 2 Computer / 3 all, / or F3 search. i Edit: type normally, Ctrl+Enter sends. a Read: j/k, +/- size. m Mask. F2 commands: start; stop; source both; devices; clarify on; context on/off; confirm; font 14; copy answer; clear question; cancel; theme dark; opacity 55. Esc returns.",
             _ => ""
         };
     }
@@ -343,6 +343,8 @@ public partial class MainWindow
                     ClarifyFirstToggle.IsChecked = command.Argument == "on"; ClarifyFirst_Click(this, new RoutedEventArgs());
                     KeyboardHints.Text = QuestionStatus.Text; break;
                 case KeyboardCommandKind.Confirm: ClarificationConfirm_Click(this, new RoutedEventArgs()); KeyboardHints.Text = QuestionStatus.Text; break;
+                case KeyboardCommandKind.Context:
+                    SetUsePreviousAnswer(command.Argument == "on"); KeyboardHints.Text = QuestionStatus.Text; break;
                 case KeyboardCommandKind.Font: SetAnswerFontSize(command.Value!.Value); KeyboardHints.Text = $"Answer size {command.Value}."; break;
                 case KeyboardCommandKind.Opacity: BackgroundOpacity.Value = command.Value!.Value; KeyboardHints.Text = $"Background {command.Value}%."; break;
                 case KeyboardCommandKind.Theme:

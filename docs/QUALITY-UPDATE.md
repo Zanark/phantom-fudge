@@ -65,6 +65,10 @@ normal finalization latency. The measured normal stop median/p95 were0.480/0.746
 
 ## Direct answers and the five-second target
 
+**Measurement scope:** these October9 trials predate the optional Previous answer increment.
+Their timings/quality do not qualify context-bearing follow-ups or clarification loops; no new
+live-model measurement is claimed for [workstream59](../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo).
+
 The generic coding-agent persona was the wrong behavior for a standalone question. The new path
 selects a controlled answer-only role, one exact question as data, no tools and no follow-up inputs.
 It can state a reasonable assumption and answer rather than wait for another message or inspect

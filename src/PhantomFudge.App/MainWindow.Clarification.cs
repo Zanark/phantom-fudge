@@ -36,16 +36,19 @@ public partial class MainWindow
         UpdateQuestionInteraction();
     }
 
-    private void BeginQuestionClarification(QuestionSnapshot snapshot)
+    private void BeginQuestionClarification(QuestionSnapshot snapshot, string? previousAnswer)
     {
         ResetClarification();
         clarificationOriginal = snapshot;
-        StartAnswer(snapshot, new AnswerClarification(false, Array.Empty<ClarificationTurn>()));
+        clarificationPreviousAnswer = previousAnswer;
+        usePreviousAnswer = previousAnswer is not null;
+        StartAnswer(snapshot, new AnswerClarification(false, Array.Empty<ClarificationTurn>()), previousAnswer);
     }
 
     private void ResetClarification()
     {
         clarificationOriginal = null;
+        clarificationPreviousAnswer = null;
         clarificationHistory = Array.Empty<ClarificationTurn>();
         clarificationRequestId = null;
         clarificationAnswered = false;
@@ -142,7 +145,7 @@ public partial class MainWindow
             questionSnapshotCount++;
             QuestionSnapshotText.Text = snapshot.ExactText;
             QuestionSnapshotPanel.Visibility = Visibility.Visible;
-            StartAnswer(snapshot, metadata);
+            StartAnswer(snapshot, metadata, clarificationPreviousAnswer);
         }
         catch (AnswerProviderException error)
         {

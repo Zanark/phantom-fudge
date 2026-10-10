@@ -1156,6 +1156,7 @@ public partial class MainWindow : Window
             var questionChecks = await RunQuestionDiagnosticAsync(directory);
             var answerChecks = await RunAnswerDiagnosticAsync(directory);
             var clarificationChecks = await RunClarificationDiagnosticAsync(directory);
+            var answerContextChecks = await RunAnswerContextDiagnosticAsync(directory);
             var recordingIndicatorChecks = await RunRecordingIndicatorDiagnosticAsync(directory);
             var audioDeviceCardChecks = await RunAudioDeviceCardsDiagnosticAsync(directory);
             var coverChecks = await RunCoverDiagnosticAsync(directory);
@@ -1189,7 +1190,7 @@ public partial class MainWindow : Window
                     nativeStyles = styles, recordingStarted = transcriber.IsRunning,
                     discoveredRenderEndpoints = discoveredRenderCount,
                     discoveredMicrophoneEndpoints = discoveredMicrophoneCount,
-                    documentationFixture, questionChecks, answerChecks, clarificationChecks, recordingIndicatorChecks, audioDeviceCardChecks, coverChecks, keyboardChecks,
+                    documentationFixture, questionChecks, answerChecks, clarificationChecks, answerContextChecks, recordingIndicatorChecks, audioDeviceCardChecks, coverChecks, keyboardChecks,
                     limitation = "Synthetic local UI, cursor-shape policy and nonactivation assertions only; " +
                         "no real audio or remote captured-cursor visibility guarantee."
                 }, new JsonSerializerOptions { WriteIndented = true }));

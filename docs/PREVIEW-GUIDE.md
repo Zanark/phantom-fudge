@@ -129,7 +129,7 @@ synthetic illustration references and exact JSON. The beginner path is **Ctrl+Al
 Letters work only inside the armed local modes; in Edit they are ordinary text and Enter inserts
 a newline. Escape backs out to Control, then attempts to return to the previous application.
 `m` in Control masks/disarms while capture and answers continue; the system pointer is not locked,
-hidden or moved. (src/PhantomFudge.App/MainWindow.Keyboard.cs:65-175,218-306,364-368.)
+hidden or moved. (src/PhantomFudge.App/MainWindow.Keyboard.cs:65-175,218-306,366-370.)
 After Ctrl+Enter, Edit stays armed. Async clarification updates its reply/original target only if
 the field is visible and editable; focus is retargeted only while the app is already foreground.
 Use Escape → `a` for reading commands after submission.
@@ -140,7 +140,7 @@ literal Edit does not interpret these as mode commands. `:devices` refuses busy 
 and, when allowed, closes Q/A for setup; ordinary modes preserve ongoing work. `:start` explicitly
 starts capture, `:stop` stops audio only, `:cancel` cancels answer/preparation only, and Clear retains
 its existing answer-cancellation behavior.
-(src/PhantomFudge.App/MainWindow.Keyboard.cs:257-358;
+(src/PhantomFudge.App/MainWindow.Keyboard.cs:257-360;
 src/PhantomFudge.App/MainWindow.KeyboardSelection.cs:110-125.)
 
 The optional `%LOCALAPPDATA%\PhantomFudge\keyboard.json` accepts only `schemaVersion`, `enabled`
@@ -272,9 +272,14 @@ Configured Agency prepares one empty isolated session in the background on start
 no question or model prompt is sent by preparation. Wait for **Ready**, then Ask. The default
 GPT-5.6 Sol Fast / low profile returned three complete exact-text test answers in 2.992–4.176 seconds
 after preparation; initial preparation took roughly 20–31 seconds. This is not a universal latency
-guarantee. Normal Ask has no previous answer history or tools. The off-by-default
+guarantee. Normal Ask has no tools or implicit previous-answer history. The off-by-default
 **Clarify first** option instead requests an interpretation and allows explicit Yes/correction
 replies with only this clarification conversation attached. See [the workflow](QUESTION-CLARIFICATION.md).
+The newer **Previous answer** toggle immediately left of Ask explicitly adds the displayed
+completed answer. It is off/session-only, never sends by itself, retains the same snapshot through
+clarification and resets on Clear/provider change. `:context on/off` provides the keyboard route.
+This is **local source only, not in v0.2.0-preview.1**.
+See [follow-up usage](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).
 Selected partials keep identity/highlights through revisions and finalization until you edit;
 previously frozen snapshots never change. One draft can select at most256entries from one capture
 session and8192UTF-16 code units including inserted newlines. Invalid additions retain the previous

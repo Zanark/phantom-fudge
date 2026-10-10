@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "counts": {
-    "files": 203,
-    "lines": 30897,
-    "nonblankLines": 28760,
-    "blocks": 1232,
+    "files": 205,
+    "lines": 31766,
+    "nonblankLines": 29588,
+    "blocks": 1261,
     "groups": 10
   },
   "meaning": "Every in-scope physical line is assigned to an authored block; this is not proof of complete semantic understanding.",
@@ -1106,9 +1106,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Answers.cs",
-      "sourceSha256": "fc2eda79ae56baf70d608416ad6baa5ca257629de5ae5925a72e2c21d4efb583",
-      "lines": 328,
-      "nonblankLines": 311,
+      "sourceSha256": "621204e1759865dc7e7a2285ac634e1ac03db56efd487fc4521d4b25cd3324f4",
+      "lines": 343,
+      "nonblankLines": 326,
       "blocks": [
         {
           "start": 1,
@@ -1117,57 +1117,57 @@
         },
         {
           "start": 36,
-          "end": 65,
+          "end": 68,
           "title": "Load provider configuration without interrupting owned work"
         },
         {
-          "start": 66,
-          "end": 102,
+          "start": 69,
+          "end": 109,
           "title": "Expose inference location and explicit mode changes"
         },
         {
-          "start": 103,
-          "end": 124,
+          "start": 110,
+          "end": 131,
           "title": "Derive action availability from state rather than captions"
         },
         {
-          "start": 125,
-          "end": 135,
+          "start": 132,
+          "end": 147,
           "title": "Block selection-mode submission and follow the asynchronous editor target"
         },
         {
-          "start": 136,
-          "end": 158,
+          "start": 148,
+          "end": 170,
           "title": "Keep local freezing separate from starting a provider run"
         },
         {
-          "start": 159,
-          "end": 176,
+          "start": 171,
+          "end": 190,
           "title": "Publish run identity before starting asynchronous streaming"
         },
         {
-          "start": 177,
-          "end": 210,
+          "start": 191,
+          "end": 224,
           "title": "Consume a bounded stream and validate before accepting completion"
         },
         {
-          "start": 211,
-          "end": 246,
+          "start": 225,
+          "end": 260,
           "title": "Distinguish user cancellation, timeout and provider failure"
         },
         {
-          "start": 247,
-          "end": 270,
+          "start": 261,
+          "end": 284,
           "title": "Render the current answer without claiming pixels were observed"
         },
         {
-          "start": 271,
-          "end": 298,
+          "start": 285,
+          "end": 312,
           "title": "Make terminal cancellation immediate but await cleanup separately"
         },
         {
-          "start": 299,
-          "end": 328,
+          "start": 313,
+          "end": 343,
           "title": "Copy explicitly and clear without reviving old callbacks"
         }
       ],
@@ -1176,9 +1176,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-      "sourceSha256": "360a83c8f69b83a47589851895d5877c55aad7236109b85115f4e14c7d6278ea",
-      "lines": 185,
-      "nonblankLines": 170,
+      "sourceSha256": "44d1b95d6ff74b1a33aa429d6d61000833f668bc9731f107e7a74681f2c94fbe",
+      "lines": 188,
+      "nonblankLines": 173,
       "blocks": [
         {
           "start": 1,
@@ -1187,27 +1187,27 @@
         },
         {
           "start": 23,
-          "end": 55,
+          "end": 58,
           "title": "Toggle without sending and reset before a fresh interpretation"
         },
         {
-          "start": 56,
-          "end": 86,
+          "start": 59,
+          "end": 89,
           "title": "Expose reply controls only for a completed interpretation"
         },
         {
-          "start": 87,
-          "end": 113,
+          "start": 90,
+          "end": 116,
           "title": "Reject oversized reply edits without truncating the prior reply"
         },
         {
-          "start": 114,
-          "end": 155,
+          "start": 117,
+          "end": 158,
           "title": "Freeze an explicit reply without replacing the original draft"
         },
         {
-          "start": 156,
-          "end": 185,
+          "start": 159,
+          "end": 188,
           "title": "Reserve confirmation capacity and accept only the matching run"
         }
       ],
@@ -1341,9 +1341,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.QuestionDiagnostics.cs",
-      "sourceSha256": "f87b0a7fe816aa8f45667892b1dd79ce0d8d2d16a0979d015d5fd03f1b70b826",
-      "lines": 215,
-      "nonblankLines": 211,
+      "sourceSha256": "cdb1c72ef5a8ac9e7364220f4d2d77e87aab92a0725f8e66d00c432d77ddee16",
+      "lines": 222,
+      "nonblankLines": 218,
       "blocks": [
         {
           "start": 1,
@@ -1372,12 +1372,12 @@
         },
         {
           "start": 169,
-          "end": 188,
+          "end": 195,
           "title": "Check the actual primary-button template and placement"
         },
         {
-          "start": 189,
-          "end": 215,
+          "start": 196,
+          "end": 222,
           "title": "Record control geometry alongside a synthetic visual-tree image"
         }
       ],
@@ -1386,9 +1386,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Questions.cs",
-      "sourceSha256": "02ac6ea2a50071181dc5946fd4bbda3ca0c8c275c010ab39136537747a55ba90",
-      "lines": 338,
-      "nonblankLines": 314,
+      "sourceSha256": "c6c86d77cd576f3ebc1d0e46cddb3b66a68148486da7a25658ba10fedb35ad43",
+      "lines": 339,
+      "nonblankLines": 315,
       "blocks": [
         {
           "start": 1,
@@ -1442,12 +1442,12 @@
         },
         {
           "start": 265,
-          "end": 306,
+          "end": 307,
           "title": "Freeze once only after Ask preconditions succeed"
         },
         {
-          "start": 307,
-          "end": 338,
+          "start": 308,
+          "end": 339,
           "title": "Copy only the draft and clear question state independently"
         }
       ],
@@ -1536,9 +1536,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.xaml",
-      "sourceSha256": "3c9e1717f63c4bc8bf86f4a1358d17a59f923ea586c1af0488e272addeff25d0",
-      "lines": 698,
-      "nonblankLines": 698,
+      "sourceSha256": "a25e78deeea803afef5f37ee9b1d1840f5a6d7b2e700ae32419ad46a2b68baec",
+      "lines": 739,
+      "nonblankLines": 739,
       "blocks": [
         {
           "start": 1,
@@ -1612,77 +1612,87 @@
         },
         {
           "start": 348,
-          "end": 369,
+          "end": 373,
           "title": "Disclose provider/provenance details beside explicit question actions"
         },
         {
-          "start": 370,
-          "end": 413,
-          "title": "Separate left editing tools from the primary Ask action"
+          "start": 374,
+          "end": 385,
+          "title": "Keep secondary editing separate from explicit send actions"
         },
         {
-          "start": 414,
-          "end": 441,
+          "start": 386,
+          "end": 421,
+          "title": "Render an opt-in context toggle inside the protected surface"
+        },
+        {
+          "start": 422,
+          "end": 454,
+          "title": "Keep Ask visually primary"
+        },
+        {
+          "start": 455,
+          "end": 482,
           "title": "Place Clear after Ask with a persistent red outline"
         },
         {
-          "start": 442,
-          "end": 476,
+          "start": 483,
+          "end": 517,
           "title": "Give original question and clarification reply different text controls"
         },
         {
-          "start": 477,
-          "end": 501,
+          "start": 518,
+          "end": 542,
           "title": "Display immutable submitted text separately from mutable input"
         },
         {
-          "start": 502,
-          "end": 512,
+          "start": 543,
+          "end": 553,
           "title": "Keep answer actions above a separately sized reader"
         },
         {
-          "start": 513,
-          "end": 522,
+          "start": 554,
+          "end": 563,
           "title": "Offer a bounded integer answer-size control in the same action row"
         },
         {
-          "start": 523,
-          "end": 535,
+          "start": 564,
+          "end": 576,
           "title": "Retain solid text and independent answer/request status"
         },
         {
-          "start": 536,
-          "end": 549,
+          "start": 577,
+          "end": 590,
           "title": "Give device selection the complete reading area"
         },
         {
-          "start": 550,
-          "end": 590,
+          "start": 591,
+          "end": 631,
           "title": "Keep Computer and Mic identity and paging separate"
         },
         {
-          "start": 591,
-          "end": 607,
+          "start": 632,
+          "end": 648,
           "title": "Keep service setup available without crowding device cards"
         },
         {
-          "start": 608,
-          "end": 639,
+          "start": 649,
+          "end": 680,
           "title": "Keep notes collapsed and file/find actions inside the surface"
         },
         {
-          "start": 640,
-          "end": 661,
+          "start": 681,
+          "end": 702,
           "title": "Use a plain read-only-by-default note editor and hide empty status"
         },
         {
-          "start": 662,
-          "end": 678,
+          "start": 703,
+          "end": 719,
           "title": "State capture limitations without claiming universal invisibility"
         },
         {
-          "start": 679,
-          "end": 698,
+          "start": 720,
+          "end": 739,
           "title": "Keep a plain book cover and one recovery action outside the workspace"
         }
       ],
@@ -1691,9 +1701,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.xaml.cs",
-      "sourceSha256": "df98fedfc3f1a8f148bd12ac7735c99c925da0c5bc519830a80aec57b79eccad",
-      "lines": 1232,
-      "nonblankLines": 1177,
+      "sourceSha256": "8010d951e260796c7960fa9a4d4bccd96c2fb3a006f3b314b8989b474764c72a",
+      "lines": 1233,
+      "nonblankLines": 1178,
       "blocks": [
         {
           "start": 1,
@@ -1887,12 +1897,12 @@
         },
         {
           "start": 1156,
-          "end": 1204,
+          "end": 1205,
           "title": "Combine synthetic subdiagnostics and close even on failure"
         },
         {
-          "start": 1205,
-          "end": 1232,
+          "start": 1206,
+          "end": 1233,
           "title": "Render WPF content locally and pack native hit-test coordinates"
         }
       ],
@@ -2231,9 +2241,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
-      "sourceSha256": "0df77850de4d0cb982dc2558149a37742116ad0a723c679e7a91b30be78a5b1d",
-      "lines": 57,
-      "nonblankLines": 50,
+      "sourceSha256": "081a9b65882f47c52b08e766bedff42d4e3223e72ca7832d624005bdf110ee66",
+      "lines": 64,
+      "nonblankLines": 57,
       "blocks": [
         {
           "start": 1,
@@ -2252,7 +2262,7 @@
         },
         {
           "start": 45,
-          "end": 57,
+          "end": 64,
           "title": "Shorten captions without losing action meaning"
         }
       ],
@@ -2336,9 +2346,9 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
-      "sourceSha256": "0ab1fd4ea460238d61f9fbe524ac5dc164bad914e2a186112c4b710b9e7aec82",
-      "lines": 378,
-      "nonblankLines": 357,
+      "sourceSha256": "45ac0b8542212cb9709061931a274dd5addd739db8533d861e1b4418fd31057b",
+      "lines": 380,
+      "nonblankLines": 359,
       "blocks": [
         {
           "start": 1,
@@ -2407,12 +2417,12 @@
         },
         {
           "start": 346,
-          "end": 363,
+          "end": 365,
           "title": "Delegate only typed built-ins and release the dispatch guard on every exit"
         },
         {
-          "start": 364,
-          "end": 378,
+          "start": 366,
+          "end": 380,
           "title": "Disarm before masking and constrain native interop to foreground identity"
         }
       ],
@@ -2478,6 +2488,71 @@
       ],
       "chapter": "docs/handbook/22-desktop-source-walkthrough.md",
       "anchor": "file-src-phantomfudge-app-mainwindow-keyboarddiagnostics-cs-922ffd6a"
+    },
+    {
+      "path": "src/PhantomFudge.App/MainWindow.AnswerContext.cs",
+      "sourceSha256": "a439ca48cc628f538318114be503e3bfca90a700ae9dd56b4b77028bc41d6c2b",
+      "lines": 70,
+      "nonblankLines": 62,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 32,
+          "title": "Offer explicit opt-in only for eligible answers"
+        },
+        {
+          "start": 33,
+          "end": 54,
+          "title": "Snapshot at Ask and reset without hidden history"
+        },
+        {
+          "start": 55,
+          "end": 70,
+          "title": "Show actual submitted context and availability"
+        }
+      ],
+      "chapter": "docs/handbook/22-desktop-source-walkthrough.md",
+      "anchor": "file-src-phantomfudge-app-mainwindow-answercontext-cs-92de201b"
+    },
+    {
+      "path": "src/PhantomFudge.App/MainWindow.AnswerContextDiagnostics.cs",
+      "sourceSha256": "798903c18623750ff1b15ac80b690cf4574f611e82e0a11baad3f8bf24cdc1fc",
+      "lines": 212,
+      "nonblankLines": 200,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 28,
+          "title": "Provide deterministic completion, hold and failure"
+        },
+        {
+          "start": 29,
+          "end": 72,
+          "title": "Check default-off, explicit toggling and the visible follow-up"
+        },
+        {
+          "start": 73,
+          "end": 98,
+          "title": "Measure compact geometry and theme-selected state"
+        },
+        {
+          "start": 99,
+          "end": 133,
+          "title": "Assert immutable request and latest-answer-only behavior"
+        },
+        {
+          "start": 134,
+          "end": 167,
+          "title": "Keep clarification context distinct from interpretations"
+        },
+        {
+          "start": 168,
+          "end": 212,
+          "title": "Reset across provider mode, clear and stale completion"
+        }
+      ],
+      "chapter": "docs/handbook/22-desktop-source-walkthrough.md",
+      "anchor": "file-src-phantomfudge-app-mainwindow-answercontextdiagnostics-cs-a990e9b8"
     },
     {
       "path": ".dockerignore",
@@ -3026,9 +3101,9 @@
     },
     {
       "path": "src/PhantomFudge.Core/KeyboardCommands.cs",
-      "sourceSha256": "df9007fed871a46d23a02b85700299c8c28c97032f42ddafbf8a442b5057c1b6",
-      "lines": 88,
-      "nonblankLines": 77,
+      "sourceSha256": "212072e48266cdfa2b6892c0e9fd93ba059cfe2812270d30f26c39a17f40145f",
+      "lines": 89,
+      "nonblankLines": 78,
       "blocks": [
         {
           "start": 1,
@@ -3037,22 +3112,22 @@
         },
         {
           "start": 26,
-          "end": 55,
+          "end": 56,
           "title": "Accept exactly one built-in token pattern"
         },
         {
-          "start": 56,
-          "end": 64,
+          "start": 57,
+          "end": 65,
           "title": "Prefix suggestions are neither validation nor completion of every value"
         },
         {
-          "start": 65,
-          "end": 79,
+          "start": 66,
+          "end": 80,
           "title": "Validate raw text before whitespace and colon normalization"
         },
         {
-          "start": 80,
-          "end": 88,
+          "start": 81,
+          "end": 89,
           "title": "Reject decorated, overflowing or out-of-range numeric arguments"
         }
       ],
@@ -3371,63 +3446,63 @@
     },
     {
       "path": "tests/PhantomFudge.Core.Tests/KeyboardCommandsTests.cs",
-      "sourceSha256": "d0cf50ca2a92daa530151636c8554effcab7a3b8032caa0e9ff24201a3185639",
-      "lines": 408,
-      "nonblankLines": 381,
+      "sourceSha256": "61d0be3d10f4f70ac2c08691887f314ee326bf2bb60bc2edbbfd527bb4dd76ce",
+      "lines": 413,
+      "nonblankLines": 386,
       "blocks": [
         {
           "start": 1,
-          "end": 42,
+          "end": 44,
           "title": "Compare full command records across canonical and normalized spellings"
         },
         {
-          "start": 43,
-          "end": 76,
+          "start": 45,
+          "end": 78,
           "title": "Distinguish normalization, null failure and an empty suggestion prefix"
         },
         {
-          "start": 77,
-          "end": 124,
+          "start": 79,
+          "end": 129,
           "title": "Reject abbreviated names, missing arguments and extra tokens"
         },
         {
-          "start": 125,
-          "end": 177,
+          "start": 130,
+          "end": 182,
           "title": "Pin numeric bounds and forbid alternative number notations"
         },
         {
-          "start": 178,
-          "end": 203,
+          "start": 183,
+          "end": 208,
           "title": "Restore both cultures after testing invariant parsing"
         },
         {
-          "start": 204,
-          "end": 239,
+          "start": 209,
+          "end": 244,
           "title": "Count raw UTF-16 input before trimming or limiting suggestions"
         },
         {
-          "start": 240,
-          "end": 260,
+          "start": 245,
+          "end": 265,
           "title": "Do not trim away forbidden control characters"
         },
         {
-          "start": 261,
-          "end": 291,
+          "start": 266,
+          "end": 296,
           "title": "Treat shell-shaped and instruction-shaped text as invalid data"
         },
         {
-          "start": 292,
-          "end": 329,
+          "start": 297,
+          "end": 334,
           "title": "Keep the public examples canonical, complete by family and read-only"
         },
         {
-          "start": 330,
-          "end": 372,
+          "start": 335,
+          "end": 377,
           "title": "Preserve prefix ordering, clamp counts and distinguish no match from invalid syntax"
         },
         {
-          "start": 373,
-          "end": 408,
+          "start": 378,
+          "end": 413,
           "title": "Verify snapshot lifetime and reject mutable collection backdoors"
         }
       ],
@@ -4996,9 +5071,9 @@
     },
     {
       "path": "scripts/Export-HandbookScreenshots.ps1",
-      "sourceSha256": "ac9ac238da02288df23c587cbb483a92224add600adb4dadf41ccbc13326cffa",
-      "lines": 95,
-      "nonblankLines": 93,
+      "sourceSha256": "20322f7d98082e76eb66e4922b032beaf8e5a72c32bbd19323b56feefc58f17f",
+      "lines": 96,
+      "nonblankLines": 94,
       "blocks": [
         {
           "start": 1,
@@ -5008,16 +5083,16 @@
         {
           "start": 25,
           "end": 51,
-          "title": "Import twenty-three named images and record their dimensions"
+          "title": "Import twenty-four named images and record dimensions"
         },
         {
           "start": 52,
-          "end": 77,
+          "end": 78,
           "title": "Bind illustrations to a reviewed set of UI source files"
         },
         {
-          "start": 78,
-          "end": 95,
+          "start": 79,
+          "end": 96,
           "title": "Publish scoped provenance and derive README images"
         }
       ],
@@ -5026,23 +5101,23 @@
     },
     {
       "path": "scripts/Export-ReadmeImages.ps1",
-      "sourceSha256": "8de5b17da8b62acd28dd4d93c5585fc91913df3d2c1f7ae28381a794ce2b48a3",
-      "lines": 63,
-      "nonblankLines": 62,
+      "sourceSha256": "5ad3c76f55614e426e256deb8fceb223d42ac14e64d3260b0d9aec52f3774eda",
+      "lines": 64,
+      "nonblankLines": 63,
       "blocks": [
         {
           "start": 1,
-          "end": 25,
-          "title": "Require a non-recording fixture and declare ten derivatives"
+          "end": 26,
+          "title": "Require a non-recording fixture and declare eleven derivatives"
         },
         {
-          "start": 26,
-          "end": 44,
+          "start": 27,
+          "end": 45,
           "title": "Verify provenance before unscaled composition"
         },
         {
-          "start": 45,
-          "end": 63,
+          "start": 46,
+          "end": 64,
           "title": "Connect each output hash to its input hash"
         }
       ],
@@ -6076,9 +6151,9 @@
     },
     {
       "path": "src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs",
-      "sourceSha256": "f3138f7f4d357b332d81ab3feceb9aa0eb15dab6dd0fdeffa51bb4b0cd03c343",
-      "lines": 99,
-      "nonblankLines": 92,
+      "sourceSha256": "f043648ecc2a5d8e174d23fb6d6d1c9a601e47cef52ab4c3e51cb9dcb3d6f353",
+      "lines": 122,
+      "nonblankLines": 113,
       "blocks": [
         {
           "start": 1,
@@ -6097,12 +6172,22 @@
         },
         {
           "start": 66,
-          "end": 88,
-          "title": "Serialize opted-in task metadata and copied exchange only"
+          "end": 74,
+          "title": "Keep prior answers as background, not authority"
         },
         {
-          "start": 89,
-          "end": 99,
+          "start": 75,
+          "end": 106,
+          "title": "Build only the explicitly selected context fields"
+        },
+        {
+          "start": 107,
+          "end": 121,
+          "title": "Preserve the direct overload and strict question Unicode"
+        },
+        {
+          "start": 122,
+          "end": 122,
           "title": "Reject malformed Unicode rather than silently repairing the question"
         }
       ],
@@ -6311,23 +6396,23 @@
     },
     {
       "path": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-      "sourceSha256": "657ea12cca8ad27a8887b83b073c87a85f8714cbfe4a286d3a8df77a1045876f",
-      "lines": 66,
-      "nonblankLines": 58,
+      "sourceSha256": "7e6cea4737f742937984458cfb380d20861463ad9afa646a0555b14b6b1bf2ee",
+      "lines": 85,
+      "nonblankLines": 76,
       "blocks": [
         {
           "start": 1,
-          "end": 22,
+          "end": 41,
           "title": "Do not put snapshot provenance on the provider request"
         },
         {
-          "start": 23,
-          "end": 48,
+          "start": 42,
+          "end": 67,
           "title": "Reject shell-shaped settings and implicit provider mixing"
         },
         {
-          "start": 49,
-          "end": 66,
+          "start": 68,
+          "end": 85,
           "title": "Constrain local routing to literal HTTP loopback"
         }
       ],
@@ -6336,23 +6421,23 @@
     },
     {
       "path": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
-      "sourceSha256": "b13363a92db8fa9c40dd9b90972ad12fb2d88f0f820184fadec4070454a095b4",
-      "lines": 80,
-      "nonblankLines": 71,
+      "sourceSha256": "b86089abacfd5d2322c48a339a2191dc974dd4ad2fb07d90269649b1b6e70c92",
+      "lines": 82,
+      "nonblankLines": 73,
       "blocks": [
         {
           "start": 1,
-          "end": 31,
+          "end": 33,
           "title": "Bind one immutable snapshot to one fresh request"
         },
         {
-          "start": 32,
-          "end": 54,
+          "start": 34,
+          "end": 56,
           "title": "Filter stale events before enforcing stream invariants"
         },
         {
-          "start": 55,
-          "end": 80,
+          "start": 57,
+          "end": 82,
           "title": "Finalize only after enumeration succeeds; preserve partial text on failure"
         }
       ],
@@ -6361,9 +6446,9 @@
     },
     {
       "path": "src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs",
-      "sourceSha256": "8c2a8a3c0ac249fbda416087edeed07f58328d4a444d6820389a88ed27256ed4",
-      "lines": 155,
-      "nonblankLines": 143,
+      "sourceSha256": "80c66fac5f275e98efe01b49d36923b5dcb2767e5edaea13f9bd6304ddfe5577",
+      "lines": 156,
+      "nonblankLines": 144,
       "blocks": [
         {
           "start": 1,
@@ -6372,27 +6457,27 @@
         },
         {
           "start": 42,
-          "end": 60,
+          "end": 61,
           "title": "Validate clarification before executable or profile I/O"
         },
         {
-          "start": 61,
-          "end": 80,
+          "start": 62,
+          "end": 81,
           "title": "Version-check in isolation, then send through stdin"
         },
         {
-          "start": 81,
-          "end": 111,
+          "start": 82,
+          "end": 112,
           "title": "Require parser terminal and real exit before success"
         },
         {
-          "start": 112,
-          "end": 138,
+          "start": 113,
+          "end": 139,
           "title": "Use an offline bounded version process with no flag downgrade"
         },
         {
-          "start": 139,
-          "end": 155,
+          "start": 140,
+          "end": 156,
           "title": "Map stream and directory failures into safe provider errors"
         }
       ],
@@ -6586,38 +6671,58 @@
     },
     {
       "path": "tests/PhantomFudge.Core.Tests/AgencyAnswerPromptTests.cs",
-      "sourceSha256": "0cfa22f671a4c5067a31612b8838adbe96fcb7e1b553e0396b11f35487594f80",
-      "lines": 135,
-      "nonblankLines": 127,
+      "sourceSha256": "8f832212a06e85d97acb7c161d8228504feb524647dd5ecb34ddd7ddfc968c01",
+      "lines": 249,
+      "nonblankLines": 237,
       "blocks": [
         {
           "start": 1,
-          "end": 29,
+          "end": 30,
           "title": "Round-trip default/null prompts through JSON"
         },
         {
-          "start": 30,
-          "end": 58,
+          "start": 31,
+          "end": 59,
           "title": "Assert exact top-level task selection for all opted-in stages"
         },
         {
-          "start": 59,
-          "end": 71,
+          "start": 60,
+          "end": 82,
           "title": "Preserve history fields without adding request identity"
         },
         {
-          "start": 72,
-          "end": 91,
+          "start": 83,
+          "end": 137,
+          "title": "Round-trip prior answer data through all task modes"
+        },
+        {
+          "start": 138,
+          "end": 155,
+          "title": "Keep independent maximum input budgets"
+        },
+        {
+          "start": 156,
+          "end": 172,
+          "title": "Reject invalid context without serialization repair"
+        },
+        {
+          "start": 173,
+          "end": 185,
+          "title": "Assert the conditional instruction boundary"
+        },
+        {
+          "start": 186,
+          "end": 205,
           "title": "Keep the agent-body policy aligned with clarification"
         },
         {
-          "start": 92,
-          "end": 119,
+          "start": 206,
+          "end": 233,
           "title": "Reject invalid context and avoid prompt overfitting"
         },
         {
-          "start": 120,
-          "end": 135,
+          "start": 234,
+          "end": 249,
           "title": "Positive and negative controls for the nonanswer heuristic"
         }
       ],
@@ -6626,9 +6731,9 @@
     },
     {
       "path": "tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs",
-      "sourceSha256": "18b400c5be9cb9557ad04f84bff8804e59ce74918a49cd71f8eed35fa3ca79b6",
-      "lines": 640,
-      "nonblankLines": 605,
+      "sourceSha256": "a9a1da7959114351c67376b2a1b4c44c3ff30c102c609ba788a63179d86529eb",
+      "lines": 771,
+      "nonblankLines": 731,
       "blocks": [
         {
           "start": 1,
@@ -6662,92 +6767,117 @@
         },
         {
           "start": 157,
-          "end": 194,
+          "end": 204,
+          "title": "Send different context through distinct ACP sessions"
+        },
+        {
+          "start": 205,
+          "end": 228,
+          "title": "Transmit the full prior-answer budget"
+        },
+        {
+          "start": 229,
+          "end": 251,
+          "title": "Reject malformed context before process or workspace work"
+        },
+        {
+          "start": 252,
+          "end": 268,
+          "title": "Do not consume a prepared session for rejected input"
+        },
+        {
+          "start": 269,
+          "end": 287,
+          "title": "Keep tool and follow-up failures closed"
+        },
+        {
+          "start": 288,
+          "end": 325,
           "title": "Permit follow-up prose only for interpretation metadata"
         },
         {
-          "start": 195,
-          "end": 217,
+          "start": 326,
+          "end": 348,
           "title": "The interpretation exception does not weaken ACP safety"
         },
         {
-          "start": 218,
-          "end": 236,
+          "start": 349,
+          "end": 367,
           "title": "Reject clarification before launch or workspace creation"
         },
         {
-          "start": 237,
-          "end": 256,
+          "start": 368,
+          "end": 387,
           "title": "Observe first-text timing once without body content"
         },
         {
-          "start": 257,
-          "end": 292,
+          "start": 388,
+          "end": 423,
           "title": "Enumerate configuration and protocol rejection paths"
         },
         {
-          "start": 293,
-          "end": 324,
+          "start": 424,
+          "end": 455,
           "title": "Cancel or abandon after one delta without preserving the engine"
         },
         {
-          "start": 325,
-          "end": 350,
+          "start": 456,
+          "end": 481,
           "title": "Stop during readiness and distinguish the answer deadline"
         },
         {
-          "start": 351,
-          "end": 378,
+          "start": 482,
+          "end": 509,
           "title": "Invalidate version metadata and reject reused session IDs"
         },
         {
-          "start": 379,
-          "end": 404,
+          "start": 510,
+          "end": 535,
           "title": "Refuse warm-profile customization injection"
         },
         {
-          "start": 405,
-          "end": 430,
+          "start": 536,
+          "end": 561,
           "title": "Rotate after 32 sessions and stop unsupported wrappers before ACP"
         },
         {
-          "start": 431,
-          "end": 463,
+          "start": 562,
+          "end": 594,
           "title": "Assert no-side-effect guards and the exact launch surface"
         },
         {
-          "start": 464,
-          "end": 495,
+          "start": 595,
+          "end": 626,
           "title": "Check environment stripping and the cosmetic settings exception"
         },
         {
-          "start": 496,
-          "end": 510,
+          "start": 627,
+          "end": 641,
           "title": "Reject unsafe resolution and implicit provider crossover"
         },
         {
-          "start": 511,
-          "end": 545,
+          "start": 642,
+          "end": 676,
           "title": "Replace launches with a deterministic fake peer, not Agency"
         },
         {
-          "start": 546,
-          "end": 575,
+          "start": 677,
+          "end": 706,
           "title": "Fake ACP initialize and session configuration are executable test logic"
         },
         {
-          "start": 576,
-          "end": 601,
+          "start": 707,
+          "end": 732,
           "title": "Fake agent selection, prompt capture and forbidden capabilities"
         },
         {
-          "start": 602,
-          "end": 627,
+          "start": 733,
+          "end": 758,
           "title": "Fake nonanswers, configuration drift and terminal corruption"
         },
         {
-          "start": 628,
-          "end": 640,
+          "start": 759,
+          "end": 771,
           "title": "Fake close and response-identity failures remain observable"
         }
       ],
@@ -6856,38 +6986,53 @@
     },
     {
       "path": "tests/PhantomFudge.Core.Tests/AnswerRunTests.cs",
-      "sourceSha256": "eb9acbb3ae2f6385962f71d43416b6ddca1a292421b38450b03b89f943e196ec",
-      "lines": 150,
-      "nonblankLines": 136,
+      "sourceSha256": "4549cf628f7a2d64dfb3566e7a982c99fde2c605224651b53bee719c537b4ef6",
+      "lines": 223,
+      "nonblankLines": 204,
       "blocks": [
         {
           "start": 1,
-          "end": 24,
+          "end": 25,
           "title": "Freeze a synthetic draft and inspect the request surface"
         },
         {
-          "start": 25,
-          "end": 52,
+          "start": 26,
+          "end": 51,
+          "title": "Freeze one prior answer without automatic accumulation"
+        },
+        {
+          "start": 52,
+          "end": 71,
+          "title": "Validate context independently of clarification"
+        },
+        {
+          "start": 72,
+          "end": 95,
+          "title": "Fail on blank, oversized or malformed prior text"
+        },
+        {
+          "start": 96,
+          "end": 125,
           "title": "Separate current reply, stored exchange and original snapshot"
         },
         {
-          "start": 53,
-          "end": 79,
+          "start": 126,
+          "end": 152,
           "title": "Validate before constructing and finalize only with terminal evidence"
         },
         {
-          "start": 80,
-          "end": 102,
+          "start": 153,
+          "end": 175,
           "title": "Ignore foreign/late callbacks but reject active protocol corruption"
         },
         {
-          "start": 103,
-          "end": 121,
+          "start": 176,
+          "end": 194,
           "title": "Retain accepted text on overflow and reject empty completion"
         },
         {
-          "start": 122,
-          "end": 150,
+          "start": 195,
+          "end": 223,
           "title": "Reject alternate destinations and provider mixing"
         }
       ],
@@ -6896,9 +7041,9 @@
     },
     {
       "path": "tests/PhantomFudge.Core.Tests/CopilotCliAnswerProviderTests.cs",
-      "sourceSha256": "34e038c117190fe6a785c6fb284f9817b56d81cdb426377cf651945d0d0514b5",
-      "lines": 139,
-      "nonblankLines": 129,
+      "sourceSha256": "6da1dec55532212351f3257c80d36c0a5262f8ee6f3c2fca21829188d7c716da",
+      "lines": 278,
+      "nonblankLines": 264,
       "blocks": [
         {
           "start": 1,
@@ -6917,12 +7062,32 @@
         },
         {
           "start": 90,
-          "end": 116,
+          "end": 140,
+          "title": "Keep hosted and local follow-up prompts exact"
+        },
+        {
+          "start": 141,
+          "end": 163,
+          "title": "Send maximum context through stdin, not argv"
+        },
+        {
+          "start": 164,
+          "end": 192,
+          "title": "Validate before executable and profile side effects"
+        },
+        {
+          "start": 193,
+          "end": 217,
+          "title": "Retain question and tool-safety gates with context"
+        },
+        {
+          "start": 218,
+          "end": 255,
           "title": "Inspect production launch flags before replacing the child"
         },
         {
-          "start": 117,
-          "end": 139,
+          "start": 256,
+          "end": 278,
           "title": "Fake stdin capture and final-only event stream"
         }
       ],
@@ -8228,17 +8393,17 @@
     {
       "path": "scripts/Export-HandbookScreenshots.txt",
       "kind": "mirror",
-      "sha256": "ac9ac238da02288df23c587cbb483a92224add600adb4dadf41ccbc13326cffa",
-      "bytes": 6016,
-      "lines": 95,
+      "sha256": "20322f7d98082e76eb66e4922b032beaf8e5a72c32bbd19323b56feefc58f17f",
+      "bytes": 6158,
+      "lines": 96,
       "canonical": "scripts/Export-HandbookScreenshots.ps1"
     },
     {
       "path": "scripts/Export-ReadmeImages.txt",
       "kind": "mirror",
-      "sha256": "8de5b17da8b62acd28dd4d93c5585fc91913df3d2c1f7ae28381a794ce2b48a3",
-      "bytes": 3522,
-      "lines": 63,
+      "sha256": "5ad3c76f55614e426e256deb8fceb223d42ac14e64d3260b0d9aec52f3774eda",
+      "bytes": 3616,
+      "lines": 64,
       "canonical": "scripts/Export-ReadmeImages.ps1"
     },
     {

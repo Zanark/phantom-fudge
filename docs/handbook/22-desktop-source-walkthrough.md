@@ -34,7 +34,7 @@ The important lifecycle distinction is ordinary mode preservation versus explici
 The [canonical guide](../KEYBOARD-CONTROLS.md) owns keys, JSON, illustrations and final runtime-fixture
 evidence. The maintained atlas covers all new and changed files; diagnostic definitions alone
 must still be distinguished from the actual synthetic receipts.
-(src/PhantomFudge.App/MainWindow.Keyboard.cs:320-368;
+(src/PhantomFudge.App/MainWindow.Keyboard.cs:320-370;
 src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs:209-214.)
 The compact layout now separates intended Q/A expansion from rendered visibility. Select/Search
 borrow its space for transcript selection; leaving restores Q/A without its close/cancel handler.
@@ -65,7 +65,7 @@ src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs:170-193.)
 | Visual cover lifecycle | 1 | 78 | 4 |
 | **Total** | **27** | **5,312** | **202** |
 
-The project declares a Windows .NET 10 WPF executable, a Core reference and NAudio 2.2.1; that declaration is not evidence of a build or device qualification. Selection/clarification increments 44/45 are source-only, and the historical `045022` ZIP excludes them. Direct Azure remains future work and Docker remains optional/last, not prerequisites of these handlers. (src/PhantomFudge.App/PhantomFudge.App.csproj:1) (TODO/00_INDEX.todo:39)
+The project declares a Windows .NET 10 WPF executable, a Core reference and NAudio 2.2.1; that declaration is not evidence of a build or device qualification. Selection/clarification increments 44/45 ship in v0.2.0-preview.1, unlike the historical `045022` ZIP. The newer Previous answer increment remains local source only. Direct Azure remains future work and Docker remains optional/last, not prerequisites of these handlers. (src/PhantomFudge.App/PhantomFudge.App.csproj:1) (TODO/00_INDEX.todo:45) (docs/OVERVIEW.md:131-134)
 
 ## 1. From process startup to protected reveal
 
@@ -124,7 +124,7 @@ var background = ThemeBrushes.Color(ThemePalette.For(currentTheme).Background);
 WindowSurface.Background = new SolidColorBrush(Color.FromArgb(alpha, background.R, background.G, background.B));
 ```
 
-Only the root brush receives alpha. Reading controls have transparent backgrounds and opaque high-contrast foregrounds; opaque toolbar/setup surfaces remain readable. Theme changes replace frozen semantic brushes and then reapply the existing slider value. `HighContrastReading` is a separate palette role, not the ordinary muted chrome text color. (src/PhantomFudge.App/MainWindow.xaml.cs:482) (src/PhantomFudge.App/ThemeBrushes.cs:9) (src/PhantomFudge.App/MainWindow.xaml:523)
+Only the root brush receives alpha. Reading controls have transparent backgrounds and opaque high-contrast foregrounds; opaque toolbar/setup surfaces remain readable. Theme changes replace frozen semantic brushes and then reapply the existing slider value. `HighContrastReading` is a separate palette role, not the ordinary muted chrome text color. (src/PhantomFudge.App/MainWindow.xaml.cs:482) (src/PhantomFudge.App/ThemeBrushes.cs:9) (src/PhantomFudge.App/MainWindow.xaml:564)
 
 Dynamic `ControlsFocusable` connects App-level button/list/checkbox templates to interaction state. Text boxes retain WPF's `PART_ContentHost`, while custom scrollbar templates change both page commands and dimensions for horizontal orientation. Direct transcript rows intentionally differ from normal chooser rows: selection changes an outline, not the transparent fill. Null-segment separators are disabled. A transparent rendering surface is not click-through. (src/PhantomFudge.App/App.xaml:14) (src/PhantomFudge.App/App.xaml:48) (src/PhantomFudge.App/App.xaml:177) (src/PhantomFudge.App/MainWindow.xaml:77)
 
@@ -168,16 +168,28 @@ Independent question typing hides, changes `questionEditing`, updates controls a
 
 ## 4. Original question, submitted text and reply are not interchangeable
 
-Ordinary Ask checks reply/busy/readiness/protection/file guards, freezes the draft and displays its `ExactText`. SnapshotOnly stops there. Configured direct Ask creates an `AnswerRun`; its request contains a fresh request ID and exact text, not the entire snapshot's source provenance. The Agency direct prompt adds fixed answer-only policy but no clarification history, requesting a standalone answer without follow-up input. A policy instruction is not proof of every model's compliance. (src/PhantomFudge.App/MainWindow.Questions.cs:265) (src/PhantomFudge.App/MainWindow.Answers.cs:136) (src/PhantomFudge.Core/Answers/AnswerRun.cs:15) (src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs:89)
+Ordinary Ask checks reply/busy/readiness/protection/file guards, captures optional previous-answer text, freezes the draft and displays its `ExactText`. SnapshotOnly stops locally. Configured direct Ask creates an `AnswerRun`; its request contains a fresh request ID and exact text, not the entire snapshot's source provenance. Optional `PreviousAnswer` holds one completed displayed answer independently of `ExactText`. The Agency direct prompt adds fixed answer-only policy but no clarification history, requesting a standalone answer without further input. A policy instruction is not proof of every model's compliance. (src/PhantomFudge.App/MainWindow.Questions.cs:265) (src/PhantomFudge.App/MainWindow.Answers.cs:148) (src/PhantomFudge.Core/Answers/AnswerRun.cs:15) (src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs:107)
+
+`MainWindow.AnswerContext` owns eligibility and the default-off session toggle. The checkbox and
+typed `context on/off` commands both call `SetUsePreviousAnswer`; neither sends. The request task
+and clarification-original lifetime lock changes. Setup/details reads `answerRun.Request.PreviousAnswer`,
+not `answerRun.Text`, which will become the **new** output. A successful answer can be used next,
+but the request's previous input is never recursively attached.
+([Context ownership](../../src/PhantomFudge.App/MainWindow.AnswerContext.cs),
+[command dispatch](../../src/PhantomFudge.App/MainWindow.Keyboard.cs).)
 
 ```mermaid
 flowchart TD
     accTitle: Explicit question and clarification transactions
-    accDescr: Ask freezes a draft. Local mode does not send. Direct mode requests an answer. Optional clarification retains the original and requires an explicit correction or Yes for every further request.
+    accDescr: Ask snapshots optional prior-answer text before replacing the display. Local mode never sends. Clarification retains both the original draft and the same prior snapshot through explicit corrections or Yes.
     Draft["Mutable local draft"] -->|Explicit Ask| Snapshot["Frozen exact text"]
     Snapshot -->|Snapshot only| Local["Retain locally"]
     Snapshot -->|Direct mode| Answer["One answer request"]
     Snapshot -->|Clarify first| Interpret["Interpretation request"]
+    Prior["Opted-in completed answer"] -->|Capture before replacement| Context["Same prior snapshot"]
+    Context --> Answer
+    Context --> Interpret
+    Context --> Confirmed
     Interpret -->|Valid completed output| Review["Review with original retained"]
     Review -->|Type only| Review
     Review -->|Send correction| Interpret
@@ -191,9 +203,11 @@ flowchart TD
     style Review fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Confirmed fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Original fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Prior fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    style Context fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
 ```
 
-Clarify first starts unchecked and its backing Boolean defaults false. Opting in only changes state; the next explicit Ask stores `clarificationOriginal` and begins an unconfirmed request. `ClarificationLocksQuestion` starts immediately, whereas `AwaitingClarificationReply` requires completed history. A cancelled/failed first interpretation can therefore leave the original locked without a reply panel; clear or mode change resets the flow rather than treating partial output as an accepted interpretation. (src/PhantomFudge.App/MainWindow.xaml:321) (src/PhantomFudge.App/MainWindow.Clarification.cs:11) (src/PhantomFudge.App/MainWindow.Clarification.cs:39)
+Clarify first starts unchecked and its backing Boolean defaults false. Opting in only changes state; the next explicit Ask stores `clarificationOriginal` and begins an unconfirmed request. `ClarificationLocksQuestion` starts immediately, whereas `AwaitingClarificationReply` requires completed history. A cancelled/failed first interpretation can therefore leave the original locked without a reply panel; explicit retry retains the original prior-answer snapshot, while Clear or mode change resets the flow. Partial output is never accepted as an interpretation or a new prior answer. (src/PhantomFudge.App/MainWindow.xaml:321) (src/PhantomFudge.App/MainWindow.Clarification.cs:11) (src/PhantomFudge.App/MainWindow.Clarification.cs:39)
 
 Replies use a **new temporary draft**:
 
@@ -205,13 +219,13 @@ draft.EditText(reply);
 var snapshot = draft.Freeze();
 ```
 
-The original `questionDraft` remains untouched. `lastQuestionSnapshot` now records this submitted reply, even when that reply is `" yEs "`. Confirmation recognition trims and compares case-insensitively, but does not normalize `ExactText`. The Yes button refuses to discard a non-Yes written correction. Copy original still copies the original draft, not the reply. (src/PhantomFudge.App/MainWindow.Clarification.cs:85) (src/PhantomFudge.App/MainWindow.Clarification.cs:117) (src/PhantomFudge.App/MainWindow.Clarification.cs:134) (src/PhantomFudge.App/MainWindow.Questions.cs:307)
+The original `questionDraft` remains untouched. `lastQuestionSnapshot` now records this submitted reply, even when that reply is `" yEs "`. Confirmation recognition trims and compares case-insensitively, but does not normalize `ExactText`. The Yes button refuses to discard a non-Yes written correction. Copy original still copies the original draft, not the reply. (src/PhantomFudge.App/MainWindow.Clarification.cs:88) (src/PhantomFudge.App/MainWindow.Clarification.cs:120) (src/PhantomFudge.App/MainWindow.Clarification.cs:137) (src/PhantomFudge.App/MainWindow.Questions.cs:308)
 
-Before accepting an interpretation, `ValidateClarificationResult` checks that appending it still leaves a valid explicit Yes transaction. Core limits are four interpretations, 8192 units per text and 32768 total context units. No silent history trimming occurs. Acceptance additionally matches both current run reference and clarification request ID; confirmed completion unlocks the original but sends nothing further. (src/PhantomFudge.App/MainWindow.Clarification.cs:157) (src/PhantomFudge.App/MainWindow.Clarification.cs:166) (src/PhantomFudge.Core/Answers/AnswerClarification.cs:9)
+Before accepting an interpretation, `ValidateClarificationResult` checks that appending it still leaves a valid explicit Yes transaction. Core limits are four interpretations, 8192 units per text and 32768 total context units. No silent history trimming occurs. Acceptance additionally matches both current run reference and clarification request ID; confirmed completion unlocks the original but sends nothing further. (src/PhantomFudge.App/MainWindow.Clarification.cs:160) (src/PhantomFudge.App/MainWindow.Clarification.cs:169) (src/PhantomFudge.Core/Answers/AnswerClarification.cs:9)
 
 ## 5. Cancellation means “stop accepting,” then “finish cleanup”
 
-`AnswerBusy` follows task completion, not run state. `CancelAnswer` first makes the run terminal and cancels its token, preserving already received text; `StopAnswerAsync` still awaits the task before disposing cancellation state and the Agency provider. A 120-second linked deadline is distinguished from user cancellation. Every streamed event checks current run identity/state, and Core separately validates request ID, increasing sequence and terminal completion. Clear nulls the visible run, so late work cannot repopulate that pane. (src/PhantomFudge.App/MainWindow.Answers.cs:26) (src/PhantomFudge.App/MainWindow.Answers.cs:177) (src/PhantomFudge.App/MainWindow.Answers.cs:271) (src/PhantomFudge.Core/Answers/AnswerRun.cs:32)
+`AnswerBusy` follows task completion, not run state. `CancelAnswer` first makes the run terminal and cancels its token, preserving already received text; `StopAnswerAsync` still awaits the task before disposing cancellation state and the Agency provider. A 120-second linked deadline is distinguished from user cancellation. Every streamed event checks current run identity/state, and Core separately validates request ID, increasing sequence and terminal completion. Clear nulls the visible run, so late work cannot repopulate that pane. (src/PhantomFudge.App/MainWindow.Answers.cs:26) (src/PhantomFudge.App/MainWindow.Answers.cs:191) (src/PhantomFudge.App/MainWindow.Answers.cs:285) (src/PhantomFudge.Core/Answers/AnswerRun.cs:34)
 
 The shutdown ordering is intentionally short:
 
@@ -223,7 +237,7 @@ return Task.WhenAll(capture, provider);
 
 Capture-stop **initiation** precedes provider cleanup, but neither whole cleanup is awaited before starting the other. Replacing this with `await stopProvider(); await stopCapture();` would postpone the capture stop behind a slow provider. Audio stop itself coalesces repeated calls and cancels pending startup before awaiting the transcriber. (src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:12) (src/PhantomFudge.App/MainWindow.xaml.cs:763)
 
-Agency preparation is separate from answering: an empty session may be warmed at startup/reveal, but no question prompt is submitted by `WarmUpAsync`. Preparation/shutdown tasks, readiness, a deferred-prepare latch and a closing flag govern ownership. Cleanup failure sets closing rather than silently authorizing reuse. Terminal handlers queue button reevaluation because their own task is still incomplete inside `finally`. (src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:32) (src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:100) (src/PhantomFudge.App/MainWindow.Answers.cs:234) (src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:144)
+Agency preparation is separate from answering: an empty session may be warmed at startup/reveal, but no question prompt is submitted by `WarmUpAsync`. Preparation/shutdown tasks, readiness, a deferred-prepare latch and a closing flag govern ownership. Cleanup failure sets closing rather than silently authorizing reuse. Terminal handlers queue button reevaluation because their own task is still incomplete inside `finally`. (src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:32) (src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:100) (src/PhantomFudge.App/MainWindow.Answers.cs:248) (src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:144)
 
 ### Transfer the ordering across languages
 
@@ -260,7 +274,7 @@ Exit stops activity before assessing dirty content. Saving Notes alone cannot im
 
 ## 7. Read synthetic assertions as assertions, not certification
 
-`RunUiSmokeAsync` forces diagnostic provider suppression and feeds fixed notes/events through real handlers. It tests theme resources, native hit codes, passive device selection, local alpha samples, scrolling, busy guards and invalid URI rejection. `RenderDiagnosticAsync` renders the WPF visual tree into PNG; it does not capture the user's desktop or a remote recipient. Local Arrow handle checks likewise say nothing about a recorder's cursor layer. (src/PhantomFudge.App/MainWindow.xaml.cs:920) (src/PhantomFudge.App/MainWindow.xaml.cs:1072) (src/PhantomFudge.App/MainWindow.xaml.cs:1205) (src/PhantomFudge.App/Native/CursorPolicy.cs:10)
+`RunUiSmokeAsync` forces diagnostic provider suppression and feeds fixed notes/events through real handlers. It tests theme resources, native hit codes, passive device selection, local alpha samples, scrolling, busy guards and invalid URI rejection. `RenderDiagnosticAsync` renders the WPF visual tree into PNG; it does not capture the user's desktop or a remote recipient. Local Arrow handle checks likewise say nothing about a recorder's cursor layer. (src/PhantomFudge.App/MainWindow.xaml.cs:920) (src/PhantomFudge.App/MainWindow.xaml.cs:1072) (src/PhantomFudge.App/MainWindow.xaml.cs:1206) (src/PhantomFudge.App/Native/CursorPolicy.cs:10)
 
 The focused fixtures add useful negative controls:
 
@@ -269,10 +283,10 @@ The focused fixtures add useful negative controls:
 - **Answers:** an in-process stream exposes partial text, immutable request content, busy-Ask refusal and cancellation. Its stale-event assertion combines wrong request ID with an already-terminal run; it does not isolate those conditions. (src/PhantomFudge.App/MainWindow.AnswerDiagnostics.cs:51) (src/PhantomFudge.App/MainWindow.AnswerDiagnostics.cs:120)
 - **Clarification:** typing/toggling sends nothing, corrections survive an attempted Yes, exact spaced confirmation is retained, and oversized interpretation fails before history acceptance. (src/PhantomFudge.App/MainWindow.ClarificationDiagnostics.cs:79)
 
-Operational diagnostics are different again: a two-second timer reports sink failures/drops, metadata is default, and text bodies require explicit opt-in. `FirstAnswerVisible` means text assigned while the window is visible—not measured compositor or recipient presentation. No fixtures, builds, models, audio capture or rendering were executed to write this chapter. (src/PhantomFudge.App/MainWindow.Diagnostics.cs:23) (src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs:145) (src/PhantomFudge.App/MainWindow.Answers.cs:254)
+Operational diagnostics are different again: a two-second timer reports sink failures/drops, metadata is default, and text bodies require explicit opt-in. `FirstAnswerVisible` means text assigned while the window is visible—not measured compositor or recipient presentation. No fixtures, builds, models, audio capture or rendering were executed to write this chapter. (src/PhantomFudge.App/MainWindow.Diagnostics.cs:23) (src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs:145) (src/PhantomFudge.App/MainWindow.Answers.cs:268)
 
 ## Reading limits and next references
 
 The annotations partition all assigned physical lines, including boilerplate, but mechanical coverage is not proof every subtle behavior has been understood. External WPF/NAudio behavior, real devices, live providers, recipient capture, accessibility and owner UX acceptance remain separate boundaries. Diagrams and citations were source-reviewed; compiler, Mermaid rendering and generated-edition validation belong to the parent integration pass, not an implied test result here.
 
-For further implementation tracing, start with `ShowProtected`, `TranscriptRows_SelectionChanged`, `QuestionAsk_Click`, `RunAnswerAsync` and `ExecutePendingAsync` in the [atlas](../source-atlas/index.html). These entry points connect the window, explicit user intent and preservation policy to their terminal success/failure paths. (src/PhantomFudge.App/MainWindow.xaml.cs:99) (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:94) (src/PhantomFudge.App/MainWindow.Questions.cs:265) (src/PhantomFudge.App/MainWindow.Answers.cs:177) (src/PhantomFudge.App/MainWindow.xaml.cs:326)
+For further implementation tracing, start with `ShowProtected`, `TranscriptRows_SelectionChanged`, `QuestionAsk_Click`, `RunAnswerAsync` and `ExecutePendingAsync` in the [atlas](../source-atlas/index.html). These entry points connect the window, explicit user intent and preservation policy to their terminal success/failure paths. (src/PhantomFudge.App/MainWindow.xaml.cs:99) (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:94) (src/PhantomFudge.App/MainWindow.Questions.cs:265) (src/PhantomFudge.App/MainWindow.Answers.cs:191) (src/PhantomFudge.App/MainWindow.xaml.cs:326)

@@ -9,14 +9,19 @@ The question composer is provider-independent. A frozen question becomes an `Ans
 containing a new request ID and, by default, **ExactText only**, not notes, original selected-source text,
 transcript history or audio. `IAnswerProvider` streams text and an explicit terminal event.
 Azure can be added through another adapter without replacing capture, draft editing or answer UI.
-(`src/PhantomFudge.Core/Answers/AnswerContracts.cs:1-13`;
-`src/PhantomFudge.Core/Answers/AnswerRun.cs:14-29`.)
+(`src/PhantomFudge.Core/Answers/AnswerContracts.cs:3-32`;
+`src/PhantomFudge.Core/Answers/AnswerRun.cs:14-31`.)
 
 **Opt-in exception:** [Clarify first](QUESTION-CLARIFICATION.md) adds a fixed interpretation
 instruction and, for explicit replies, this question's bounded clarification exchanges.
 It is off on launch. No machine metadata, unselected transcript or unrelated history is attached.
 Interpretation requests can ask a short clarifying question; normal and confirmed-answer requests
 retain the no-follow-up rule. Each user reply starts a separate request, never automatic stdin input.
+
+**Separate opt-in, local source only:** [Previous answer](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer)
+adds the exact displayed completed answer in nullable `PreviousAnswer`, not an accumulated conversation.
+It is off on launch and captured only on explicit Ask. The feature is **not in v0.2.0-preview.1**;
+that release's tag and assets remain unchanged.
 
 ## Local installation is not necessarily local inference
 
@@ -90,7 +95,8 @@ An observed no-new-login run is not a universal guarantee about future Agency ve
 
 The adapter pins the exercised Agency build **2026.10.7.4 / `bcff2c0f`** and verifies supported
 ACP configuration before prompting. Different versions fail until qualified. Question text is
-serialized as a JSON data field; opted-in clarification history uses separate typed metadata.
+serialized as a JSON data field; opted-in clarification history and previousAnswer use separate
+fields. Prior answer text is background data, never a new policy, task mode or tool permission.
 `@` is escaped, and command-like lines are not shell input.
 This supersedes the earlier blanket rejection of `@` and slash-like questions without granting tools.
 
@@ -165,7 +171,7 @@ The revised path uses a fixed standalone-answer system role, selected and verifi
 ACP, plus a persistent transport with fresh question sessions. The prompt is the only user input;
 the agent must make reasonable stated assumptions rather than request another interaction.
 The generic policy contains no hardcoded Two Sum answer or phrase-replacement table
-(`src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs:8-97`, `Policy`, `Create`).
+(`src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs:8-111`, `Policy`, `Create`).
 
 The default is **GPT-5.6 Sol Fast / low**, unless a model was explicitly configured. Startup, reveal
 and Reload setup prepare **one empty session, with no model prompt**. The UI reports preparation
@@ -190,8 +196,10 @@ Always-on [local diagnostics](DIAGNOSTICS.md) now record stage timings and safe 
 remain an explicit local opt-in. No new sign-in, organization-data tool or automatic model fallback
 is permitted to make a benchmark faster.
 
-1. Freeze exactly the displayed draft.
-2. Show its provider and immutable question beside the answer.
+1. Freeze exactly the displayed draft and, only when Previous answer is enabled, snapshot the
+   completed answer currently displayed before replacing it.
+2. Show its provider and immutable question beside the answer; Setup/details retains the exact
+   submitted prior text and the snapshot label records its character count.
 3. Start one bounded request. No natural final, question mark, editing event or reveal sends it.
 4. Append provider text as plain text, batching UI refreshes.
 5. Show completion only after the provider's terminal success; EOF alone is insufficient.
@@ -204,8 +212,32 @@ automatic continuation.
 The answer is capped at32,768UTF-16 code units; the overall request has a120second deadline.
 The8,192-unit question limit remains separate from model token/context limits. Copy is an explicit
 Windows clipboard action, not automatic posting to a meeting or chat.
-(`src/PhantomFudge.Core/Answers/AnswerRun.cs:10-80`;
+(`src/PhantomFudge.Core/Answers/AnswerRun.cs:10-82`;
 `src/PhantomFudge.Core/QuestionDraft.cs:8-9,90-103`.)
+
+### Bounded previous-answer data, not provider conversation reuse
+
+`AnswerRun` accepts optional `previousAnswer` as its fourth constructor argument and places it in
+the immutable request. A null value preserves the existing default payload. A non-null value must
+be nonblank, strict Unicode and at most32768UTF-16 units; malformed/oversized text fails before a
+provider launch rather than being shortened. This separate limit does not enlarge the model's
+context window or fold prior text into the clarification-history budget.
+([`AnswerRun`](../src/PhantomFudge.Core/Answers/AnswerRun.cs),
+[`AnswerRequest`](../src/PhantomFudge.Core/Answers/AnswerContracts.cs).)
+
+Agency serializes `previousAnswer` beside `userQuestion`, with a fixed background-only instruction.
+Direct Copilot/LocalModel preserve the raw no-context path; opting into either prior text or
+clarification uses the controlled JSON envelope. Fresh sessions, tool denial and terminal-response
+checks are unchanged. Policy constrains intended use; it is not proof of model compliance.
+([Prompt builder](../src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs),
+[direct adapter](../src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs).)
+
+Clarification retains the original snapshot through corrections, confirmation and an explicit
+first-interpretation retry. Busy/active clarification locks context changes. A successful follow-up
+can become the next displayed answer; earlier requests, questions and prior context are never
+recursively attached. Clear/provider changes reset the toggle. Failed/cancelled text is ineligible.
+([UI context](../src/PhantomFudge.App/MainWindow.AnswerContext.cs),
+[clarification](../src/PhantomFudge.App/MainWindow.Clarification.cs).)
 
 ```mermaid
 ---
@@ -219,9 +251,10 @@ config:
 ---
 flowchart TB
     accTitle: One question with an explicitly selected answer destination
-    accDescr: A snapshot feeds only ExactText to a provider. Snapshot-only, Copilot cloud and local model modes are distinct; a direct Azure adapter is future work.
+    accDescr: A snapshot supplies ExactText plus separately opted-in context to one selected provider. Snapshot-only never sends; direct Azure remains future work.
     Draft["Local editable draft"] --> Snapshot["Immutable snapshot"]
-    Snapshot --> Exact["ExactText only"]
+    Snapshot --> Exact["ExactText and explicit context only"]
+    Previous["Displayed completed answer"] -->|Opt-in snapshot on Ask| Exact
     Exact --> Choice{"Configured mode"}
     Choice --> NoSend["Snapshot only: no request"]
     Choice --> Agency["Installed Agency"]
@@ -236,7 +269,7 @@ The diagram shows available choices, not simultaneous or fallback calls. Source 
 local even if a user edited away part of the original selection. A future Azure adapter must
 likewise accept `AnswerRequest`, not serialize the richer `QuestionSnapshot`.
 (`src/PhantomFudge.Core/QuestionSnapshot.cs:5-23`;
-`src/PhantomFudge.Core/Answers/AnswerContracts.cs:3-13`.)
+`src/PhantomFudge.Core/Answers/AnswerContracts.cs:5-32`.)
 
 ## CLI safety and retention
 
@@ -249,11 +282,13 @@ These controls constrain the supported CLI configuration; they are **not an OS s
 guarantee about a modified executable**. Use the genuine CLI from a trusted installation. Unsupported
 versions/configuration must fail rather than silently omitting required restrictions.
 
-The engine's system prompt and service metadata still exist: "ExactText only" describes which
-**application content** is supplied, not an assertion that the remote service receives no other
-protocol/system information. `--log-level none` does not promise zero retention. The external CLI can
-retain session data in its dedicated profile during the bounded engine lifetime (up to 32 sessions);
-owned files are removed on teardown, not after every successful Ask. Cloud data is subject to the selected service's
+The engine's system prompt and service metadata still exist: "ExactText only" describes the default
+**application content**, not an assertion that the remote service receives no other protocol/system
+information. Explicit clarification adds its bounded exchange; Previous answer independently adds the
+captured prior text. `--log-level none` does not promise zero retention. Agency can retain session data
+in its owned profile during the bounded engine lifetime (up to 32 sessions); those files are removed
+on teardown, not after every successful Ask. Direct hosted Copilot's dedicated profile is persistent,
+even though each request's owned work/home tree is removed. Cloud data is subject to the selected service's
 policies. Protect that profile like transcripts; do not commit it or copy it into preview packages.
 
 ```mermaid

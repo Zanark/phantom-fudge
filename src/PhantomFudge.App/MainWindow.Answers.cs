@@ -59,7 +59,10 @@ public partial class MainWindow
             QuestionStatus.Text = "Answer setup is invalid. Fix answers.json using Initialize-Answers.ps1, then Reload setup.";
         }
         if (previousSettings != configuredAnswerSettings || previousUseProvider != useAnswerProvider)
+        {
+            ResetPreviousAnswer();
             ResetClarification();
+        }
         _ = ReconfigureAgencyAsync();
         UpdateAnswerControls();
     }
@@ -80,6 +83,7 @@ public partial class MainWindow
             return;
         }
         useAnswerProvider = false;
+        ResetPreviousAnswer();
         ResetClarification();
         _ = StopAgencyProviderAsync();
         UpdateAnswerControls();
@@ -93,7 +97,10 @@ public partial class MainWindow
             return;
         }
         if (!useAnswerProvider)
+        {
+            ResetPreviousAnswer();
             ResetClarification();
+        }
         useAnswerProvider = true;
         PrepareAgencyProvider();
         UpdateAnswerControls();
@@ -114,9 +121,9 @@ public partial class MainWindow
         AnswerProviderNotice.Text = !useAnswerProvider
             ? "Snapshot only: nothing is sent. Configure an answer provider to enable responses."
             : configuredAnswerSettings.Mode == AnswerProviderMode.Copilot
-                ? "Ask sends only the displayed question to GitHub Copilot's cloud models. CLI runs locally; inference is not offline."
+                ? "Ask sends the displayed question to GitHub Copilot's cloud models. CLI runs locally; inference is not offline."
                 : configuredAnswerSettings.Mode == AnswerProviderMode.Agency
-                    ? "Ask runs installed Agency in the background with the selected question only. Model service is remote; organization-data tools are disabled."
+                    ? "Ask runs installed Agency with the selected question. Model service is remote; organization-data tools are disabled."
                 : $"Ask uses the local model at {configuredAnswerSettings.LocalEndpoint}. CLI offline mode; no GitHub model fallback.";
         AnswerCancelButton.IsEnabled = (AnswerBusy && answerRun?.State == AnswerRunState.Streaming) ||
             agencyPreparation is { IsCompleted: false };
@@ -128,12 +135,17 @@ public partial class MainWindow
             ? AwaitingClarificationReply ? "Reply below" : clarifyFirst ? "Interpret question" : "Ask provider"
             : "Freeze locally";
         if (clarifyFirst && useAnswerProvider)
-            AnswerProviderNotice.Text += " Clarify first adds a fixed instruction; explicit replies include this clarification history only.";
+            AnswerProviderNotice.Text += " Clarify first adds a fixed instruction and this question's explicit clarification history.";
+        UpdatePreviousAnswerControls();
+        if (useAnswerProvider)
+            AnswerProviderNotice.Text += usePreviousAnswer
+                ? " Previous answer is ON: its exact text is also sent as context, including throughout clarification. No other answers, notes or transcript are added."
+                : " Previous answer is off; no prior answer is added to a new question.";
         UpdateClarificationControls();
         RefreshKeyboardEditorTarget();
     }
 
-    private void StartAnswer(QuestionSnapshot snapshot, AnswerClarification? clarification = null)
+    private void StartAnswer(QuestionSnapshot snapshot, AnswerClarification? clarification = null, string? previousAnswer = null)
     {
         if (!useAnswerProvider)
         {
@@ -143,7 +155,7 @@ public partial class MainWindow
             QuestionSnapshotLabel.Text = "Frozen snapshot - local only, not sent";
             return;
         }
-        var run = new AnswerRun(snapshot, ProviderLabel, clarification);
+        var run = new AnswerRun(snapshot, ProviderLabel, clarification, previousAnswer);
         if (clarification is not null)
             clarificationRequestId = run.Request.RequestId;
         answerStartedAt = Stopwatch.GetTimestamp();
@@ -161,6 +173,8 @@ public partial class MainWindow
         QuestionSnapshotLabel.Text = clarification is null
             ? "Exact submitted question - independent of later draft edits"
             : "Submitted text + clarification instruction" + (clarification.History.Count > 0 ? " + prior clarification turns (Setup / details)" : "");
+        if (previousAnswer is not null)
+            QuestionSnapshotLabel.Text += $" + previous answer ({previousAnswer.Length} characters; Setup / details)";
         answerCancellation?.Dispose();
         answerCancellation = new CancellationTokenSource();
         answerRenderTimer.Start();
@@ -320,6 +334,7 @@ public partial class MainWindow
         CancelAnswer();
         _ = ReconfigureAgencyAsync();
         answerRun = null;
+        ResetPreviousAnswer();
         AnswerText.Clear();
         AnswerPanel.Visibility = Visibility.Collapsed;
         answerRenderTimer.Stop();

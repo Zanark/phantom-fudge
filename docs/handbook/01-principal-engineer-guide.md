@@ -180,7 +180,7 @@ inference offline (`src/PhantomFudge.App/MainWindow.AnswerLifetime.cs:23-78`;
 Azure Ask currently exists in design documents and TODOs. A principal-level diagram should not
 quietly insert an operational cloud box into the implemented path. The planned architecture
 requires immutable question snapshots, source-scoped commit and request-bound streaming; none
-is implied by the current text buffer (`docs\AI-ANSWER-ARCHITECTURE.md:82-188`).
+is implied by the current text buffer (`docs\AI-ANSWER-ARCHITECTURE.md:82-200`).
 
 ## Where to go deep
 

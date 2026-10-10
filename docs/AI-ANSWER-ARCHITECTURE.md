@@ -13,7 +13,7 @@ TODO44 now adds direct multi-click transcript selection in updated source, not a
 It opens independent question editing without sending; the historical045022ZIP remains unchanged.
 (src/PhantomFudge.App/MainWindow.TranscriptSelection.cs:85-147; [current status](IMPLEMENTATION-STATUS.md).)
 **SnapshotOnly is the unconfigured default, not a promise that configured Ask never sends data.**
-(src\PhantomFudge.App\MainWindow.Questions.cs:265-304, `QuestionAsk_Click`.)
+(src\PhantomFudge.App\MainWindow.Questions.cs:265-305, `QuestionAsk_Click`.)
 
 The common answer contracts and coordinator are written. Following an organization-authentication
 popup, the owner rejected new login and organization-data access, requesting the existing installed
@@ -21,7 +21,7 @@ Agency background-prompt path instead. The parent stopped the owned login and re
 **SnapshotOnly**. A separately authorized Agency probe has now succeeded using existing authentication,
 without an observed new login flow. Agency uses a remote model service: local installation is not offline inference.
 The explicit LocalModel OFFLINE/BYOK alternative remains separate from Agency.
-(src\PhantomFudge.Core\Answers\AnswerContracts.cs:3-20, provider contract/settings;
+(src\PhantomFudge.Core\Answers\AnswerContracts.cs:5-39, provider contract/settings;
 src\PhantomFudge.Core\Answers\AnswerConfiguration.cs:13-29, `Load`.)
 
 Accurate armed live-Mic boundaries/source commit remain TODO29; an approved Azure profile remains
@@ -83,8 +83,18 @@ tools\AgencyProbe\results\latency-suite-20261009-g-quality.json:361-364, boundar
 
 **October9 opt-in extension:** [Clarify first](QUESTION-CLARIFICATION.md) can request an interpretation
 before an answer and attach this question's bounded exchanges to each explicitly sent reply.
-Normal Ask still excludes history. Fresh ACP sessions, terminal requests, no tools and no automatic
+Default Ask still excludes history. Fresh ACP sessions, terminal requests, no tools and no automatic
 submissions remain unchanged. This is fixed task metadata, never machine diagnostics.
+
+**October10 local-source extension, not in v0.2.0-preview.1:** **Previous answer** is a separate
+default-off toggle immediately left of Ask. It snapshots one completed displayed answer as
+`AnswerRequest.PreviousAnswer` on explicit Ask, before answer/interpretation rendering replaces it.
+Clarification corrections, confirmation and first-interpretation retries keep that same string.
+Clear/provider changes reset the session choice. No previous question, older request context,
+unselected transcript or notes are attached.
+([UI context](../src/PhantomFudge.App/MainWindow.AnswerContext.cs),
+[request/run](../src/PhantomFudge.Core/Answers/AnswerRun.cs),
+[usage](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).)
 
 ```mermaid
 ---
@@ -143,10 +153,12 @@ Solid arrows describe local dataflow; dashed edges mark provider boundaries or o
 The draft copies selected records, and `Freeze` captures text and provenance independently.
 `SourceRefs` is **local metadata**, not permission to transmit the selected source records.
 Every adapter must consume `AnswerRequest`, **not serialize the whole `QuestionSnapshot`**.
-Additional bounded context would require its own explicit policy; none is implicitly added now.
+The explicit previous-answer policy permits only nonblank strict Unicode up to32768UTF-16 units,
+as background data rather than instructions. This is separate from question/history budgets and
+does not authorize arbitrary shared context. Nothing is implicitly added.
 (src\PhantomFudge.Core\QuestionDraft.cs:18-45, `ReplaceSelection`;
 src\PhantomFudge.Core\QuestionSnapshot.cs:5-23, `QuestionSnapshot`;
-docs\AI-ANSWER-PRIVACY.md:11-25, proposed text boundary.)
+docs\AI-ANSWER-PRIVACY.md:26-40, proposed text boundary.)
 
 The main row path retains immutable segment references separately from the smaller chooser.
 `TranscriptRows_SelectionChanged` composes the explicit selection locally and never calls Freeze
@@ -157,7 +169,7 @@ its own authentication/session behavior, while a future direct Azure adapter wou
 Do not add a local HTTP hop through Python solely because it already hosts Vosk. Do not put model
 network work in the native capture callback or ASR CPU worker. The question handler establishes
 the exact snapshot boundary; provider execution belongs to a separate asynchronous coordinator.
-(src\PhantomFudge.App\MainWindow.Questions.cs:265-304, `QuestionAsk_Click`.)
+(src\PhantomFudge.App\MainWindow.Questions.cs:265-305, `QuestionAsk_Click`.)
 
 | Choice | Execution and evidence boundary |
 | --- | --- |
@@ -174,7 +186,7 @@ requires a local model identifier and accepts only HTTP literal `127.0.0.1` or `
 `/v1` or `/v1/`, no credentials/query/fragment. An optional CLI path must be a fully qualified `.exe`
 path, not a shell command; that syntax check does not authenticate the executable. A reachable
 loopback server can itself proxy elsewhere, so locality also requires control of that server.
-(src\PhantomFudge.Core\Answers\AnswerContracts.cs:14-55, `AnswerSettings.Validate`, `ValidateLocalEndpoint`.)
+(src\PhantomFudge.Core\Answers\AnswerContracts.cs:33-74, `AnswerSettings.Validate`, `ValidateLocalEndpoint`.)
 
 **PLANNED Azure footprint:** an approved Azure OpenAI/Foundry model resource and deployment,
 public-client registration/user RBAC, and optional metadata-only monitoring/budget controls.
@@ -208,7 +220,7 @@ The manual **Choose source → Mic / Computer / All → Use selected** path rema
 the draft; by contrast, deselecting the last direct row empties an unedited draft. **Use selected**
 is an explicit replacement action, not subject to the direct-click edit guard.
 (src\PhantomFudge.App\MainWindow.Questions.cs:70-128, filters and `UseQuestionSelection_Click`;
-src\PhantomFudge.App\MainWindow.Questions.cs:265-290, explicit local `QuestionAsk_Click`.)
+src\PhantomFudge.App\MainWindow.Questions.cs:265-291, explicit local `QuestionAsk_Click`.)
 
 Direct selection uses each structured segment's raw `Text`, not its timestamp/source display
 prefix. A wrapped or multiline segment is selected whole. After editing, further direct selection
@@ -230,7 +242,7 @@ the previous draft and highlights are retained, without a popup. The shared List
 The implemented revision/provisional indicators and Freeze operation establish the manual boundary
 without repurposing global Stop. The future commit timeout must retain the draft and show failure,
 not silently submit an alternative. Armed start/end spans are not implemented by selecting v2 text.
-(src\PhantomFudge.App\MainWindow.Questions.cs:246-304, rendering and Ask;
+(src\PhantomFudge.App\MainWindow.Questions.cs:246-305, rendering and Ask;
 src\PhantomFudge.Core\QuestionDraft.cs:90-95, `Freeze`.)
 
 ### Layout and focus
@@ -242,7 +254,7 @@ with explicit selection, typing, Copy, Clear and a local snapshot display. Expan
 existing panels; it does not create a second window. The common answer coordinator now adds provider
 choice, a plain-text answer, Cancel and explicit Copy within that same HWND, under TODO39 review.
 (src\PhantomFudge.App\MainWindow.Questions.cs:37-67, `SetQuestionExpanded`, `ResizeQuestionPanel`;
-src\PhantomFudge.App\MainWindow.Questions.cs:265-337, Ask/Copy/Clear handlers.)
+src\PhantomFudge.App\MainWindow.Questions.cs:265-338, Ask/Copy/Clear handlers.)
 
 The legacy chooser can remain passive; **direct main-transcript selection deliberately enters
 question editing**, closes source/setup/Notes panels and takes keyboard focus. **Type / edit**
@@ -266,8 +278,8 @@ No generated speech/TTS initially: it adds latency and can feed back into Comput
 No automatic clipboard copy, link opening, code execution or reply-posting to a meeting/chat.
 Copy draft is explicit and copies only draft text; the Windows clipboard is outside window-capture
 protection. Clear question discards the current draft and last snapshot, not notes/transcription.
-(src\PhantomFudge.App\MainWindow.Questions.cs:307-337, Copy/Clear;
-docs\AI-ANSWER-PRIVACY.md:117-134, proposed output safeguards.)
+(src\PhantomFudge.App\MainWindow.Questions.cs:308-338, Copy/Clear;
+docs\AI-ANSWER-PRIVACY.md:132-149, proposed output safeguards.)
 
 ## 3. Local data model
 
@@ -408,7 +420,7 @@ single user text contains fixed policy text plus one JSON `userQuestion` envelop
 argument. No `SourceRefs`, previous question or assistant history is added.
 (src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:61-96, explicit agent selection/one prompt;
 src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:296-319, configuration verification;
-src\PhantomFudge.Core\Answers\AgencyAnswerPrompt.cs:8-97, policy and serialization;
+src\PhantomFudge.Core\Answers\AgencyAnswerPrompt.cs:8-111, policy and serialization;
 tools\AgencyProbe\results\summary-final.json:197-219, observed SYSTEM-role and fresh-history evidence.)
 
 The policy demands a short **complete useful answer**, not a repository plan or filler while work
@@ -448,15 +460,15 @@ IAnswerProvider.StreamAsync(AnswerRequest request, CancellationToken cancellatio
 provider failures use a safe exception rather than pretending error prose is answer text.
 The run already enforces a **32,768 UTF-16-code-unit** text cap. An overflowing delta is rejected
 whole, leaving prior output available as incomplete. Model-specific token/context limits remain
-separate work. (src\PhantomFudge.Core\Answers\AnswerContracts.cs:3-12, request/event interface;
-src\PhantomFudge.Core\Answers\AnswerContracts.cs:59-62, `AnswerProviderException`;
-src\PhantomFudge.Core\Answers\AnswerRun.cs:10-50, projection and output bound.)
+separate work. (src\PhantomFudge.Core\Answers\AnswerContracts.cs:5-31, request/event interface;
+src\PhantomFudge.Core\Answers\AnswerContracts.cs:78-81, `AnswerProviderException`;
+src\PhantomFudge.Core\Answers\AnswerRun.cs:10-52, projection and output bound.)
 
 This narrower request type makes accidental provenance disclosure harder; a generic serializer
 over the richer local snapshot would undo that protection. Neither character cap establishes a
 token budget or retention guarantee.
 (src\PhantomFudge.Core\QuestionSnapshot.cs:17-23, local snapshot fields;
-docs\AI-ANSWER-PRIVACY.md:88-112, retention and processing boundaries.)
+docs\AI-ANSWER-PRIVACY.md:103-127, retention and processing boundaries.)
 
 ## 4. PLANNED negotiated source-scoped commit, not stop-all
 
@@ -541,7 +553,7 @@ Further events after that marker fail. `Complete`, called after enumeration ends
 the marker and nonblank accumulated text. This is the end of the **per-request event enumeration**,
 not EOF or exit of the persistent ACP process. A closed pipe, zero exit code, or terminal marker
 followed by failure cannot justify a complete answer.
-(src\PhantomFudge.Core\Answers\AnswerRun.cs:32-79, `Apply`, `Complete`, `Cancel`, `Fail`.)
+(src\PhantomFudge.Core\Answers\AnswerRun.cs:34-81, `Apply`, `Complete`, `Cancel`, `Fail`.)
 
 **PLANNED direct Azure connection** (CLI setup is separate):
 
@@ -570,7 +582,7 @@ on Hide/Clear/protection invalidation/reload/close. Diagnostic-constructor mode 
 warm-up. These ownership actions are separate from `AnswerRun.Cancel`; inspect the
 [lifetime coordinator](../src/PhantomFudge.App/MainWindow.AnswerLifetime.cs) and
 [provider lifecycle](ANSWER-PROVIDERS.md), not a run-state flag alone.
-(src\PhantomFudge.Core\Answers\AnswerRun.cs:65-79, terminal cancellation/failure behavior.)
+(src\PhantomFudge.Core\Answers\AnswerRun.cs:67-81, terminal cancellation/failure behavior.)
 
 ### Agency setup without new login; profile and retention boundaries
 
@@ -597,8 +609,10 @@ Sessions close after each answer; stop/dispose/failure/cancellation/rotation rem
 and the engine is bounded to 32 sessions. This does not delete upstream service records or guarantee
 that every external artifact disappears. LocalModel remains mock-tested only, not a zero-retention claim.
 (tools\AgencyProbe\results\summary-final.json:210-224, lifecycle/retention bounds.)
-“ExactText only” describes application content passed to the provider, not the CLI's system prompts,
-service metadata or retention policy. Never describe the complete configured path as memory-only.
+“ExactText only” describes the default application projection, not the CLI's system prompts,
+service metadata or retention policy. Optional clarification and Previous answer are explicit
+additional data fields; neither resumes a provider conversation. Never describe the complete
+configured path as memory-only.
 
 Local diagnostics now record bounded stage/process metadata by default, not transcript/question/answer
 bodies. Text retention is a separate opt-in. `ModelStarted` identifies ACP prompt submission, not
@@ -634,7 +648,7 @@ Use a configured Entra public-client/WAM identity, resource-level inference RBAC
 cache in the Ask path. Never put managed-identity assumptions or distributed app secrets on the
 laptop. Interactive sign-in is an explicit setup action outside the presentation; no surprise
 browser/broker fallback from an in-flight Ask. Exact token audience follows the pinned adapter.
-(docs\AI-ANSWER-PRIVACY.md:27-67, public-client identity and inference authorization.)
+(docs\AI-ANSWER-PRIVACY.md:42-82, public-client identity and inference authorization.)
 
 An Azure-hosted broker with managed identity is optional if organizational policy requires it.
 Its extra hop, auth, quotas and streaming buffering must be measured. No mandatory Docker.

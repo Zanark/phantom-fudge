@@ -46,7 +46,8 @@ public sealed class CopilotCliAnswerProvider : IAnswerProvider
         request.Clarification?.ValidateFor(request.ExactText);
         if (request.RequestId == Guid.Empty || string.IsNullOrWhiteSpace(request.ExactText) || request.ExactText.Length > 8192)
             throw new AnswerProviderException("copilot_question", "Provide a nonempty question of at most 8192 characters.");
-        var clarificationPrompt = request.Clarification is null ? null : AgencyAnswerPrompt.Create(request);
+        var contextualPrompt = request.Clarification is null && request.PreviousAnswer is null
+            ? null : AgencyAnswerPrompt.Create(request);
         cancellationToken.ThrowIfCancellationRequested();
         CopilotCliProfile.CheckPath(requestRoot);
         var executable = CopilotCliLaunch.ResolveExecutable(settings.CliPath);
@@ -71,10 +72,10 @@ public sealed class CopilotCliAnswerProvider : IAnswerProvider
             long sequence = 0;
             try
             {
-                if (clarificationPrompt is null)
+                if (contextualPrompt is null)
                     await process.SendAsync(request.ExactText, token).ConfigureAwait(false);
                 else
-                    await process.SendAsync(clarificationPrompt, token).ConfigureAwait(false);
+                    await process.SendAsync(contextualPrompt, token).ConfigureAwait(false);
             }
             catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested) { throw TimedOut(); }
             await using var records = CopilotJsonProtocol.ReadRecordsAsync(process.Process.StandardOutput, token).GetAsyncEnumerator(token);

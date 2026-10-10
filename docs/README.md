@@ -22,6 +22,7 @@ deep, source-linked reference; the [development journal](../JOURNAL.md) tells th
 | Work without moving the pointer; choose answer size | [Keyboard modes, commands, device navigation, shortcut JSON and Size slider](KEYBOARD-CONTROLS.md) |
 | Cover the workspace without stopping it | [Notepad cover and privacy feasibility](COVER-AND-PRIVACY.md) |
 | Compose and answer a question | [Drafts and snapshots](LOCAL-QUESTIONS.md), [Copilot/local model setup](ANSWER-PROVIDERS.md) |
+| Follow up using the displayed answer | [Previous answer: explicit, bounded and default-off](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer); local source only, not v0.2.0-preview.1 |
 | Repair the intent of a noisy question | [Optional interpretation and Yes/correction replies](QUESTION-CLARIFICATION.md) |
 | Design the future Azure answer feature | [Architecture](AI-ANSWER-ARCHITECTURE.md), [research](AI-ANSWER-RESEARCH.md), [evaluation](AI-ANSWER-EVALUATION.md), [privacy](AI-ANSWER-PRIVACY.md) |
 | Choose the next implementation task | [TODO index](../TODO/00_INDEX.todo), [delivery workflow](DEVELOPMENT-WORKFLOW.md) |

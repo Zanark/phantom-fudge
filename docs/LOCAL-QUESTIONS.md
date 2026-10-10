@@ -13,12 +13,15 @@ See [answer provider setup](ANSWER-PROVIDERS.md) before enabling requests.
 
 For noisy or unwieldy wording, the **off-by-default Clarify first toggle** requests an
 interpretation before a solution. A separate reply field accepts an explicit Yes or correction;
-only this opted-in conversation is included as history. See [Clarify first](QUESTION-CLARIFICATION.md).
+only this opted-in conversation is included as clarification history. Separately, the default-off
+**Previous answer** toggle can add one completed displayed answer. See the follow-up section below
+and [Clarify first](QUESTION-CLARIFICATION.md).
 
 ## Click several lines to build a question
 
 **Ask is the larger, colored button in the right-hand group; Clear question sits immediately
-to its right with a red border.** Type/edit and Copy stay on the left. Ask's label changes with mode:
+to its right with a red border. Previous answer is immediately to Ask's left.** Type/edit and Copy
+stay in the left group, with shorter captions in narrow panes. Ask's label changes with mode:
 **Ask provider**, **Freeze locally**, **Interpret question**
 or **Reply below**. The accent fill follows the selected theme; a dimmed button remains unavailable
 until its existing question/provider guards allow the action.
@@ -138,6 +141,75 @@ snapshot; clearing UI state cannot mutate an already frozen snapshot object.
 ([`ClearTranscript_Click`](../src/PhantomFudge.App/MainWindow.xaml.cs);
 [`QuestionClear_Click`](../src/PhantomFudge.App/MainWindow.Questions.cs);
 [`QuestionSnapshot`](../src/PhantomFudge.Core/QuestionSnapshot.cs).)
+
+## Follow up with the previous answer
+
+**Local source only: this addition is not included in published v0.2.0-preview.1.**
+It solves a narrow problem: questions such as “Why does that use a dictionary?” need the answer
+you are looking at, but not an entire conversation or meeting transcript.
+
+1. Ask a question and wait for a **completed answer**, not an interpretation or partial response.
+2. Enable **Previous answer** immediately left of Ask. It becomes **Previous answer: ON**.
+   Toggling sends nothing and starts no recording.
+3. Replace or edit the question with your follow-up, or use **Choose source / Use selected** to
+   replace it with new transcript lines. **Do not Clear question** if you want that
+   displayed answer: Clear removes it and resets the toggle.
+4. Review, then explicitly Ask. The request freezes the exact prior-answer text at that moment.
+5. The toggle stays on after success. A later Ask includes only the newly displayed completed
+   answer. Turn it off for an unrelated question, or Clear to start over.
+([`SetUsePreviousAnswer`, `CapturePreviousAnswer`](../src/PhantomFudge.App/MainWindow.AnswerContext.cs);
+[`QuestionAsk_Click`](../src/PhantomFudge.App/MainWindow.Questions.cs).)
+
+![Synthetic follow-up with Previous answer enabled immediately left of Ask](handbook/assets/screenshots/answer-context.png)
+
+*Synthetic WPF example with a fake provider, not a live model answer or a recipient-capture test.*
+
+### Exactly what is sent
+
+`AnswerRequest.PreviousAnswer` is a separate optional immutable string; it is not appended to or
+substituted for `QuestionSnapshot.ExactText`. It contains the **one completed answer currently
+displayed**, including its original whitespace/newlines. Its old question, older answers, previous
+request's context, notes, unselected transcript and clipboard history are not collected. If the
+answer itself quotes earlier material, that quote is naturally part of the visible text—not an
+independently retrieved history.
+
+The prior string must be nonblank, valid Unicode and at most **32768 UTF-16 code units**.
+That is a separate bound from the question's8192and clarification's32768aggregate; none is a
+model token/context-window guarantee. Invalid data is rejected, never trimmed or repaired.
+Provider policy treats prior text as background, not instructions, task selection or permission
+for tools. Fresh provider sessions and explicit submission still apply.
+([`AnswerRequest`](../src/PhantomFudge.Core/Answers/AnswerContracts.cs),
+[`AnswerRun`](../src/PhantomFudge.Core/Answers/AnswerRun.cs),
+[`AgencyAnswerPrompt.Create`](../src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs).)
+
+**Setup / details** retains the exact prior text attached to the submitted request, even after
+its new answer replaces the reading pane. The submitted snapshot label records the context
+character count. This is an inspection surface, not an editable shared-context box.
+([`UpdatePreviousAnswerControls`](../src/PhantomFudge.App/MainWindow.AnswerContext.cs),
+[`StartAnswer`](../src/PhantomFudge.App/MainWindow.Answers.cs).)
+
+### Clarification, failure and resets
+
+| Situation | Context behavior |
+| --- | --- |
+| Clarify first enabled | Snapshot the prior answer before the interpretation replaces it |
+| Send correction / Yes, answer | Send the **same snapshot**, plus that clarification's bounded explicit exchanges |
+| First interpretation failed/cancelled | An explicit retry retains that same original snapshot; no automatic retry |
+| Busy answer / active clarification | Cannot switch context on or off mid-request/thread |
+| New normal answer fails/cancels | Toggle resets off; partial/failed text is not eligible as the next prior answer |
+| Clear question / provider change / Snapshot only / restart | Reset the option; no silent transfer to another destination |
+| Same-provider reload | May retain a clarification for explicit retry; it never resubmits by itself |
+
+The keyboard commands **`:context on`** and **`:context off`** invoke the same guarded toggle
+handler. Neither is Ask. Use explicit `:ask` or Ctrl+Enter only after reviewing the question.
+([Clarification state](../src/PhantomFudge.App/MainWindow.Clarification.cs),
+[keyboard dispatcher](../src/PhantomFudge.App/MainWindow.Keyboard.cs).)
+
+Clear cannot revoke a submitted prompt, erase external provider retention or remove already-written
+diagnostic Text-mode records. The toggle itself is not saved to settings. This feature adds no
+automatic transcript collection, model call, audio capture or new provider installation.
+See [provider privacy](ANSWER-PROVIDERS.md#cli-safety-and-retention) and
+[workstream59 evidence](../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo).
 
 ## Bounds and deliberate actions
 

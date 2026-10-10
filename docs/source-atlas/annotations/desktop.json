@@ -446,7 +446,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Answers.cs",
-      "sourceSha256": "fc2eda79ae56baf70d608416ad6baa5ca257629de5ae5925a72e2c21d4efb583",
+      "sourceSha256": "621204e1759865dc7e7a2285ac634e1ac03db56efd487fc4521d4b25cd3324f4",
       "role": "Binds explicit frozen questions to one bounded answer stream, coalesces UI rendering, and preserves incomplete text and identity through cancellation and failure.",
       "entryPoints": [
         "MainWindow.InitializeAnswers",
@@ -471,9 +471,9 @@
         },
         {
           "start": 36,
-          "end": 65,
+          "end": 68,
           "title": "Load provider configuration without interrupting owned work",
-          "explanation": "Active answer or provider lifecycle work prevents reload. A valid non-SnapshotOnly configuration enables its provider; absent configuration is SnapshotOnly through AnswerConfiguration.Load. Known parse/IO/argument failures reset all three configuration-selection flags to the safe local-only state. Changed configuration resets clarification history. Reconfiguration is then started and controls refreshed; loading settings does not call StartAnswer.",
+          "explanation": "Active answer or provider lifecycle work prevents reload. A valid non-SnapshotOnly configuration enables its provider; absent configuration is SnapshotOnly through AnswerConfiguration.Load. Known parse/IO/argument failures reset all three configuration-selection flags to the safe local-only state. Changed configuration resets clarification history. Reconfiguration is then started and controls refreshed; loading settings does not call StartAnswer. A changed provider configuration also resets previous-answer opt-in and any pinned clarification context; reloading the identical configuration preserves them. Reading settings never submits a question.",
           "focus": [
             {
               "start": 53,
@@ -482,131 +482,138 @@
           ]
         },
         {
-          "start": 66,
-          "end": 102,
+          "start": 69,
+          "end": 109,
           "title": "Expose inference location and explicit mode changes",
-          "explanation": "ProviderLabel distinguishes GitHub-hosted Copilot, an explicit local model and Agency/model/effort from SnapshotOnly. Snapshot mode refuses a busy answer, clears clarification and stops Agency; configured mode additionally requires valid settings and no lifecycle work, then requests preparation. Reload delegates to LoadAnswerSettings. Selecting a configured provider is not equivalent to selecting a question or authorizing a prompt.",
+          "explanation": "ProviderLabel distinguishes GitHub-hosted Copilot, an explicit local model and Agency/model/effort from SnapshotOnly. Snapshot mode refuses a busy answer, clears clarification and stops Agency; configured mode additionally requires valid settings and no lifecycle work, then requests preparation. Reload delegates to LoadAnswerSettings. Selecting a configured provider is not equivalent to selecting a question or authorizing a prompt. Entering SnapshotOnly or switching back from it resets previous-answer opt-in alongside clarification. A retained old answer may still be inspected; it is not automatically sent to a new destination.",
           "focus": [
             {
-              "start": 88,
-              "end": 99
+              "start": 92,
+              "end": 103
             }
           ]
         },
         {
-          "start": 103,
-          "end": 124,
+          "start": 110,
+          "end": 131,
           "title": "Derive action availability from state rather than captions",
           "explanation": "Controls reflect both answer-task and provider lifecycle state. Notices disclose cloud versus offline-local inference. Cancellation is available during streaming or unfinished provider preparation, while copying requires nonempty run text. UpdateAnswerActionLabels supplies compact or full captions and full accessible names without changing these enabled-state guards. Configuration controls remain locked by their existing answer/provider-lifetime checks rather than by the text on their buttons.",
           "focus": [
             {
-              "start": 121,
-              "end": 124
+              "start": 128,
+              "end": 131
             }
           ]
         },
         {
-          "start": 125, "end": 135, "title": "Block selection-mode submission and follow the asynchronous editor target",
-          "explanation": "Ask requires protection, no file/answer operation, provider readiness, nonblank draft, no pending clarification reply and now !KeyboardSelecting. Thus Select/Search cannot use the button as a shortcut around review. Captions distinguish Freeze locally, Ask provider and Interpret question; optional clarification adds its bounded-history notice. UpdateClarificationControls runs before RefreshKeyboardEditorTarget, so a completed interpretation can make the newly enabled reply editor the modal Edit target instead of leaving focus attached to a hidden original-question control. This refresh does not itself submit a request.",
-          "focus": [{"start": 125, "end": 133}]
+          "start": 132,
+          "end": 147,
+          "title": "Block selection-mode submission and follow the asynchronous editor target",
+          "explanation": "Ask requires protection, no file/answer operation, provider readiness, nonblank draft, no pending clarification reply and now !KeyboardSelecting. Thus Select/Search cannot use the button as a shortcut around review. Captions distinguish Freeze locally, Ask provider and Interpret question; optional clarification adds its bounded-history notice. UpdateClarificationControls runs before RefreshKeyboardEditorTarget, so a completed interpretation can make the newly enabled reply editor the modal Edit target instead of leaving focus attached to a hidden original-question control. This refresh does not itself submit a request. UpdatePreviousAnswerControls synchronizes the checked/eligible state. The provider notice explicitly discloses whether the previous answer is included, and optional clarification remains separate from that context.",
+          "focus": [
+            {
+              "start": 132,
+              "end": 143
+            }
+          ]
         },
         {
-          "start": 136,
-          "end": 158,
+          "start": 148,
+          "end": 170,
           "title": "Keep local freezing separate from starting a provider run",
-          "explanation": "SnapshotOnly logs a local freeze, clears any old answer, labels the snapshot unsent and returns. Otherwise a new AnswerRun owns the frozen snapshot and optional clarification metadata, with a fresh request ID used to associate clarification acceptance. Monotonic timing and first-text flags reset per run. RecordContent is an opt-in diagnostics call, not unconditional question logging; the related capture ID comes from source provenance.",
+          "explanation": "SnapshotOnly logs a local freeze, clears any old answer, labels the snapshot unsent and returns. Otherwise a new AnswerRun owns the frozen snapshot and optional clarification metadata, with a fresh request ID used to associate clarification acceptance. Monotonic timing and first-text flags reset per run. RecordContent is an opt-in diagnostics call, not unconditional question logging; the related capture ID comes from source provenance. The optional previousAnswer string is passed to AnswerRun and validated before replacing the displayed run. SnapshotOnly still clears answer/context and sends nothing. Context is not added to the submitted-question diagnostic body.",
           "focus": [
             {
-              "start": 138,
-              "end": 148
+              "start": 150,
+              "end": 160
             }
           ]
         },
         {
-          "start": 159,
-          "end": 176,
+          "start": 171,
+          "end": 190,
           "title": "Publish run identity before starting asynchronous streaming",
-          "explanation": "answerRun is assigned before RunAnswerAsync can yield events. The UI reveals an answer panel, labels exactly what was submitted, replaces the old cancellation source, starts the render timer and stores the new task. Status distinguishes interpretation from solution; EnsureQuestionReadingVisible closes source/setup panels. This order makes incoming work refer to the already-current run and does not alter the underlying draft.",
+          "explanation": "answerRun is assigned before RunAnswerAsync can yield events. The UI reveals an answer panel, labels exactly what was submitted, replaces the old cancellation source, starts the render timer and stores the new task. Status distinguishes interpretation from solution; EnsureQuestionReadingVisible closes source/setup panels. This order makes incoming work refer to the already-current run and does not alter the underlying draft. The snapshot label adds the included previous-answer character count and points to Setup/details for its exact text. Replacing answerRun cannot mutate the prior immutable string already attached to this request.",
           "focus": [
             {
-              "start": 159,
-              "end": 168
+              "start": 171,
+              "end": 182
             }
           ]
         },
         {
-          "start": 177,
-          "end": 210,
+          "start": 191,
+          "end": 224,
           "title": "Consume a bounded stream and validate before accepting completion",
           "explanation": "A linked token adds a 120-second UI deadline. The injected diagnostic provider wins; otherwise Agency must be warm, while other configured modes construct CopilotCliAnswerProvider. Each event is checked for cancellation and current run identity/Streaming state before AnswerRun.Apply enforces request and sequence rules. After enumeration ends, cancellation, clarification capacity and explicit AnswerRun completion are checked in that order. Only the current run can update clarification/status; diagnostics separately record received text and completion.",
           "focus": [
             {
-              "start": 186,
-              "end": 194
+              "start": 200,
+              "end": 208
             },
             {
-              "start": 202,
-              "end": 209
+              "start": 216,
+              "end": 223
             }
           ]
         },
         {
-          "start": 211,
-          "end": 246,
+          "start": 225,
+          "end": 260,
           "title": "Distinguish user cancellation, timeout and provider failure",
           "explanation": "A cancelled caller token produces Cancelled; a deadline without caller cancellation produces Failed with a 120-second incomplete-text notice. Provider exceptions use their safe message, selected infrastructure failures use a generic one, and neither catch retries. Noncompleted Agency runs clear readiness. The current run's timer stops and renders once more; control reevaluation is queued to the next dispatcher turn because this task is still finishing inside finally.",
           "focus": [
             {
-              "start": 211,
-              "end": 219
+              "start": 225,
+              "end": 233
             },
             {
-              "start": 234,
-              "end": 244
+              "start": 248,
+              "end": 258
             }
           ]
         },
         {
-          "start": 247,
-          "end": 270,
+          "start": 261,
+          "end": 284,
           "title": "Render the current answer without claiming pixels were observed",
           "explanation": "The run's text still updates and streams while the workspace is detached. FirstAnswerVisible is logged only when AnswerText.IsVisible, not merely when the outer covered window is visible. The visibility check is outside the text-changed branch so uncovering an already-completed answer records its first visible presentation. This metric remains a visible-control assignment observation, not independently measured rendered or recipient pixels.",
           "focus": [
             {
-              "start": 254,
-              "end": 265
+              "start": 268,
+              "end": 279
             }
           ]
         },
         {
-          "start": 271,
-          "end": 298,
+          "start": 285,
+          "end": 312,
           "title": "Make terminal cancellation immediate but await cleanup separately",
           "explanation": "CancelAnswer logs only a streaming cancellation, transitions the run and cancels its token before rendering the preserved partial text. StopAnswerAsync then awaits answerTask, stops rendering, disposes the token and awaits Agency shutdown. The explicit cancel button records whether work was busy before cancelling: active work schedules reconfiguration, whereas preparation-only cancellation stops Agency without that path.",
           "focus": [
             {
-              "start": 273,
-              "end": 278
+              "start": 287,
+              "end": 292
             },
             {
-              "start": 283,
-              "end": 289
+              "start": 297,
+              "end": 303
             }
           ]
         },
         {
-          "start": 299,
-          "end": 328,
+          "start": 313,
+          "end": 343,
           "title": "Copy explicitly and clear without reviving old callbacks",
-          "explanation": "Copy refuses empty text and prefixes any noncompleted run with Incomplete answer; clipboard failure leaves memory intact. Clear cancels first, schedules provider reconfiguration, then nulls answerRun, clears/hides the pane, stops the timer and resets clarification. RunAnswerAsync's reference checks prevent an old stream from becoming the visible answer after this nulling, while AnswerBusy still waits for its task to finish.",
+          "explanation": "Copy refuses empty text and prefixes any noncompleted run with Incomplete answer; clipboard failure leaves memory intact. Clear cancels first, schedules provider reconfiguration, then nulls answerRun, clears/hides the pane, stops the timer and resets clarification. RunAnswerAsync's reference checks prevent an old stream from becoming the visible answer after this nulling, while AnswerBusy still waits for its task to finish. Clear additionally resets the previous-answer flag and pinned clarification context before refreshing controls. It does not silently retain a previous answer for the next question.",
           "focus": [
             {
-              "start": 306,
-              "end": 315
+              "start": 320,
+              "end": 329
             },
             {
-              "start": 318,
-              "end": 327
+              "start": 332,
+              "end": 342
             }
           ]
         }
@@ -614,7 +621,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Clarification.cs",
-      "sourceSha256": "360a83c8f69b83a47589851895d5877c55aad7236109b85115f4e14c7d6278ea",
+      "sourceSha256": "44d1b95d6ff74b1a33aa429d6d61000833f668bc9731f107e7a74681f2c94fbe",
       "role": "Adds an opt-in interpretation/reply state machine while keeping the original question, submitted reply snapshot and completed history distinct.",
       "entryPoints": [
         "MainWindow.ClarifyFirst_Click",
@@ -637,77 +644,77 @@
         },
         {
           "start": 23,
-          "end": 55,
+          "end": 58,
           "title": "Toggle without sending and reset before a fresh interpretation",
-          "explanation": "Busy answer/file or missing protection restores the checkbox to the real mode and rejects the toggle. A permitted change resets metadata/reply UI, not questionDraft. BeginQuestionClarification first resets, then retains the snapshot and starts an unconfirmed request with empty history. Reset clears original/history/request/answered state and reply text, so switching back to ordinary Ask cannot inherit this conversation.",
+          "explanation": "Busy answer/file or missing protection restores the checkbox to the real mode and rejects the toggle. A permitted change resets metadata/reply UI, not questionDraft. BeginQuestionClarification first resets, then retains the snapshot and starts an unconfirmed request with empty history. Reset clears original/history/request/answered state and reply text, so switching back to ordinary Ask cannot inherit this conversation. BeginQuestionClarification accepts the already captured previous-answer string, pins it beside the original question, and passes it to the first interpretation. It restores the checked state from that actual context after ResetClarification's UI refresh, including explicit retries after a failed initial interpretation. Reset drops the pinned context.",
           "focus": [
             {
               "start": 39,
-              "end": 44
+              "end": 46
             },
             {
-              "start": 46,
-              "end": 53
+              "start": 48,
+              "end": 56
             }
           ]
         },
         {
-          "start": 56,
-          "end": 86,
+          "start": 59,
+          "end": 89,
           "title": "Expose reply controls only for a completed interpretation",
           "explanation": "waiting swaps the original editor for the reply panel. Reply send requires protection, no file/answer work and provider readiness; corrections are disabled at four interpretations but Yes can still confirm. The Yes button is disabled when a nonconfirmation correction is present. Reply focus/IME additionally require independent questionEditing. Setup displays only this clarification history. Confirmation compares trimmed text to yes case-insensitively; it does not rewrite submitted text.",
           "focus": [
             {
-              "start": 64,
-              "end": 75
+              "start": 67,
+              "end": 78
             }
           ]
         },
         {
-          "start": 87,
-          "end": 113,
+          "start": 90,
+          "end": 116,
           "title": "Reject oversized reply edits without truncating the prior reply",
           "explanation": "renderingClarificationReply suppresses recursive TextChanged during rollback. If the editor exceeds QuestionDraft.MaximumCharacters, the last accepted clarificationReplyText is restored; otherwise the backup advances. Paste evaluates replacement length with a long intermediate and refuses nontext, nonediting or busy-answer cases before insertion. These checks are UTF-16 string-length bounds, not UTF-8 byte limits.",
           "focus": [
             {
-              "start": 92,
-              "end": 101
+              "start": 95,
+              "end": 104
             },
             {
-              "start": 104,
-              "end": 110
+              "start": 107,
+              "end": 113
             }
           ]
         },
         {
-          "start": 114,
-          "end": 155,
+          "start": 117,
+          "end": 158,
           "title": "Freeze an explicit reply without replacing the original draft",
-          "explanation": "Send uses exactly the reply editor text. Yes refuses to discard a written correction, otherwise submits literal Yes. Submission rechecks state, constructs and validates AnswerClarification from current history, then creates a separate QuestionDraft for this reply and freezes it. lastQuestionSnapshot and the submitted-text panel now refer to the reply; the persistent original questionDraft is untouched. Validation failures report locally and do not send.",
+          "explanation": "Send uses exactly the reply editor text. Yes refuses to discard a written correction, otherwise submits literal Yes. Submission rechecks state, constructs and validates AnswerClarification from current history, then creates a separate QuestionDraft for this reply and freezes it. lastQuestionSnapshot and the submitted-text panel now refer to the reply; the persistent original questionDraft is untouched. Validation failures report locally and do not send. StartAnswer receives the original clarificationPreviousAnswer string for every correction and confirmation, never the interpretation currently displayed in the answer pane.",
           "focus": [
             {
-              "start": 117,
-              "end": 124
+              "start": 120,
+              "end": 127
             },
             {
-              "start": 134,
-              "end": 145
+              "start": 137,
+              "end": 148
             }
           ]
         },
         {
-          "start": 156,
-          "end": 185,
+          "start": 159,
+          "end": 188,
           "title": "Reserve confirmation capacity and accept only the matching run",
           "explanation": "Before completion, unconfirmed output is appended provisionally to metadata and validated as a future Yes request. This enforces per-turn and cumulative limits without silently trimming an interpretation. Acceptance additionally requires current answerRun identity, the stored request ID, opted-in mode and a retained original. A confirmed run unlocks the original; an interpretation appends one completed turn. Reply text clears only on accepted completion, never by automatic submission.",
           "focus": [
             {
-              "start": 159,
-              "end": 163
+              "start": 162,
+              "end": 166
             },
             {
-              "start": 168,
-              "end": 179
+              "start": 171,
+              "end": 182
             }
           ]
         }
@@ -986,7 +993,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.QuestionDiagnostics.cs",
-      "sourceSha256": "f87b0a7fe816aa8f45667892b1dd79ce0d8d2d16a0979d015d5fd03f1b70b826",
+      "sourceSha256": "cdb1c72ef5a8ac9e7364220f4d2d77e87aab92a0725f8e66d00c432d77ddee16",
       "role": "Drives real local-question handlers with synthetic transcript events and records exact-text, independent-focus, stale-session and layout assertions.",
       "entryPoints": [
         "MainWindow.RunQuestionDiagnosticAsync",
@@ -1068,9 +1075,9 @@
         },
         {
           "start": 169,
-          "end": 188,
+          "end": 195,
           "title": "Check the actual primary-button template and placement",
-          "explanation": "The helper measures Ask and Clear in the shared action grid. Ask remains large in column2; Clear must occupy column3 at least eight units beyond Ask, with its right edge aligned to the grid. It resolves ClearFace and requires the actual ThemeError brush and a two-unit border. Secondary edit/copy controls must remain left of Ask, and Ask still uses the palette accent/action-text pair. Theme and responsive loops exercise this combined geometry/color contract without submitting a model request.",
+          "explanation": "The helper measures actual controls: context occupies column2 immediately left of Ask in column3, and Clear occupies column4 at least eight units beyond Ask, with its right edge aligned to the grid. Context/Ask vertical alignment, spacing and reachability are checked. ClearFace must keep ThemeError and a two-unit border; Ask keeps its148-wide/44-high minimum and accent/action-text colors. Secondary editing controls stay in their left group and may wrap within it.",
           "focus": [
             {
               "start": 175,
@@ -1079,14 +1086,14 @@
           ]
         },
         {
-          "start": 189,
-          "end": 215,
+          "start": 196,
+          "end": 222,
           "title": "Record control geometry alongside a synthetic visual-tree image",
-          "explanation": "The named control array covers chrome, transcript, tools, draft, snapshot, answer and reply actions. Each record translates its origin to window coordinates and includes dimensions, visibility, the reachability predicate and outer-scroll result. JSON is followed by RenderDiagnosticAsync for the same state. These receipts diagnose layout decisions; they do not measure recipient video frames or claim every visible glyph was inspected.",
+          "explanation": "The named control array covers chrome, transcript, tools, draft, snapshot, answer and reply actions. Each record translates its origin to window coordinates and includes dimensions, visibility, the reachability predicate and outer-scroll result. JSON is followed by RenderDiagnosticAsync for the same state. These receipts diagnose layout decisions; they do not measure recipient video frames or claim every visible glyph was inspected. PreviousAnswerToggle is now part of the recorded geometry set, so compact failures expose its actual position and dimensions rather than relying on declared XAML widths.",
           "focus": [
             {
-              "start": 203,
-              "end": 213
+              "start": 210,
+              "end": 220
             }
           ]
         }
@@ -1094,7 +1101,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Questions.cs",
-      "sourceSha256": "02ac6ea2a50071181dc5946fd4bbda3ca0c8c275c010ab39136537747a55ba90",
+      "sourceSha256": "c6c86d77cd576f3ebc1d0e46cddb3b66a68148486da7a25658ba10fedb35ad43",
       "role": "Owns the live structured question model, local draft/snapshot and independent typing transition, including the manual chooser path and explicit Ask/copy/clear actions.",
       "entryPoints": [
         "MainWindow.InitializeQuestionView",
@@ -1172,10 +1179,16 @@
           ]
         },
         {
-          "start": 156, "end": 164,
+          "start": 156,
+          "end": 164,
           "title": "Route typing changes through the active modal controller",
           "explanation": "The existing Type/edit button still requests the inverse of questionEditing, but an active controller now routes that request to Edit or Control through SetKeyboardMode and returns. switchingKeyboardMode prevents recursively redirecting the controller's own updates. This keeps modal focus, prompts, selection-filter cleanup and mode labels coordinated rather than changing questionEditing underneath an unrelated keyboard mode. The legacy independent typing path remains below for callers outside keyboard control.",
-          "focus": [{"start": 158, "end": 164}]
+          "focus": [
+            {
+              "start": 158,
+              "end": 164
+            }
+          ]
         },
         {
           "start": 165,
@@ -1231,29 +1244,29 @@
         },
         {
           "start": 265,
-          "end": 306,
+          "end": 307,
           "title": "Freeze once only after Ask preconditions succeed",
-          "explanation": "Waiting-for-reply blocks a duplicate original Ask; an active answer or unready provider blocks before snapshot creation; protection/fileBusy are checked next. Freeze captures current draft text/provenance, increments the diagnostic counter and displays that immutable text. It calls BeginQuestionClarification only for opted-in provider use, otherwise StartAnswer (whose SnapshotOnly branch sends nothing). Known input/provider validation failures report inline without silently retrying.",
+          "explanation": "Waiting-for-reply blocks a duplicate original Ask; an active answer or unready provider blocks before snapshot creation; protection/fileBusy are checked next. Freeze captures current draft text/provenance, increments the diagnostic counter and displays that immutable text. It calls BeginQuestionClarification only for opted-in provider use, otherwise StartAnswer (whose SnapshotOnly branch sends nothing). Known input/provider validation failures report inline without silently retrying. Before Freeze/StartAnswer can replace the display, CapturePreviousAnswer snapshots the eligible displayed answer or returns the pinned context for a locked clarification retry. SnapshotOnly passes null. The captured string is forwarded identically to direct or initial-clarification requests.",
           "focus": [
             {
-              "start": 286,
-              "end": 295
+              "start": 287,
+              "end": 296
             }
           ]
         },
         {
-          "start": 307,
-          "end": 338,
+          "start": 308,
+          "end": 339,
           "title": "Copy only the draft and clear question state independently",
           "explanation": "Copy rejects an empty draft, writes only questionDraft.Text to the clipboard and reports ExternalException without loss; reply text is not substituted. Clear first cancels/clears answer and clarification, then creates fresh draft state, drops last snapshot, empties its panel and chooser selections, and re-renders direct highlights. Transcript and note stores are deliberately untouched; clipboard copying is explicit but outside capture-affinity protection.",
           "focus": [
             {
-              "start": 314,
-              "end": 324
+              "start": 315,
+              "end": 325
             },
             {
-              "start": 327,
-              "end": 336
+              "start": 328,
+              "end": 337
             }
           ]
         }
@@ -1456,7 +1469,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.xaml",
-      "sourceSha256": "3c9e1717f63c4bc8bf86f4a1358d17a59f923ea586c1af0488e272addeff25d0",
+      "sourceSha256": "a25e78deeea803afef5f37ee9b1d1840f5a6d7b2e700ae32419ad46a2b68baec",
       "role": "Defines the one native WPF workspace, inline tools and independent reading surfaces; its resource bindings and event wires are part of the capture, focus and explicit-action design.",
       "entryPoints": [
         "MainWindow.InitializeComponent",
@@ -1566,9 +1579,16 @@
           ]
         },
         {
-          "start": 176, "end": 194, "title": "Keep modal prompts and focus inside the protected window",
+          "start": 176,
+          "end": 194,
+          "title": "Keep modal prompts and focus inside the protected window",
           "explanation": "KeyboardBar starts collapsed below the existing theme/opacity row. A focusable Border serves as the nontext command focus sink; its mode label and adjacent wrapping hints describe the armed state without creating another HWND. The same initially collapsed TextBox hosts either a built-in command or local transcript search, with MaxLength128and an explicit Enter-confirm accessibility name. TextChanged updates suggestions only in Command mode; key routing decides when Enter searches or executes. The UI length limit complements Core validation rather than making arbitrary text executable, and ordinary Edit-mode typing uses the separate question/reply editors.",
-          "focus": [{"start": 181, "end": 190}]
+          "focus": [
+            {
+              "start": 181,
+              "end": 190
+            }
+          ]
         },
         {
           "start": 195,
@@ -1652,190 +1672,225 @@
         },
         {
           "start": 348,
-          "end": 369,
+          "end": 373,
           "title": "Disclose provider/provenance details beside explicit question actions",
-          "explanation": "The collapsed details panel holds the inference-location notice, SnapshotOnly/configured/reload controls, draft provenance and run label. ClarificationContextText is a read-only, separately scrollable history display rather than the original question editor. A configured provider label wraps instead of forcing the workspace wider.",
+          "explanation": "The collapsed details panel holds the inference-location notice, SnapshotOnly/configured/reload controls, draft provenance and run label. ClarificationContextText is a read-only, separately scrollable history display rather than the original question editor. A configured provider label wraps instead of forcing the workspace wider. PreviousAnswerContextText adds a collapsed read-only bounded-height view of the exact prior answer attached to the submitted request. It is inside this same details panel/HWND, not a popup or editable prompt field.",
           "focus": [
             {
               "start": 360,
-              "end": 368
+              "end": 371
             }
           ]
         },
         {
-          "start": 370,
-          "end": 413,
-          "title": "Separate left editing tools from the primary Ask action",
-          "explanation": "The star-width left column contains only Type/edit and Copy, with four-unit horizontal padding so their longest labels fit the minimum window while replying. An eight-unit spacer separates the right action group. Ask remains in column2,148wide/minimum44high with15-unit semibold text and ThemeAccent/ThemeActionText. Its wrapping label and border-based hover/focus/press feedback preserve mode changes and colored fill; disabled state dims the face. The final Auto column is reserved for Clear, not another send action.",
+          "start": 374,
+          "end": 385,
+          "title": "Keep secondary editing separate from explicit send actions",
+          "explanation": "A star-width left WrapPanel contains Edit and Copy; the eight-unit spacer separates it from three Auto-width columns for previous context, Ask and Clear. Compact captions are assigned in UpdateAnswerActionLabels; the left group may wrap without adding a full-width action row.",
           "focus": [
             {
-              "start": 370,
+              "start": 374,
               "end": 381
-            },
-            {
-              "start": 382,
-              "end": 393
-            },
-            {
-              "start": 397,
-              "end": 408
             }
           ]
         },
         {
-          "start": 414,
-          "end": 441,
-          "title": "Place Clear after Ask with a persistent red outline",
-          "explanation": "Clear uses column3, a98-unit width and the same44-unit minimum height. Its six-unit left margin plus Ask margin provide separation. The border binds ThemeError with thickness2, giving a red outline in every theme. Hover, keyboard focus and press change only the neutral face background, so generic button accent-border triggers cannot replace the red outline. Disabled state dims the face. The original QuestionClear_Click handler is unchanged: this is relocation/styling, not a new data-loss or provider action.",
+          "start": 386,
+          "end": 421,
+          "title": "Render an opt-in context toggle inside the protected surface",
+          "explanation": "The ToggleButton begins unchecked and disabled. It uses dynamic focusability and the existing Arrow policy, with a wrapped label and a full accessible name. Checked state changes both border and selection fill; hover/focus are border-only and disabled state dims the face. Click routes through the guarded handler, never directly through Ask.",
           "focus": [
             {
-              "start": 414,
-              "end": 425
-            },
-            {
-              "start": 426,
-              "end": 437
+              "start": 386,
+              "end": 393
             }
           ]
         },
         {
-          "start": 442,
-          "end": 476,
+          "start": 422,
+          "end": 454,
+          "title": "Keep Ask visually primary",
+          "explanation": "Ask occupies column3 and retains its148-unit width,44-unit minimum height,15-unit semibold text and accent/action-text colors. Its mode-specific caption wraps inside the same template; hover/focus/press alter borders and disabled state dims the face without changing submission guards.",
+          "focus": [
+            {
+              "start": 422,
+              "end": 429
+            }
+          ]
+        },
+        {
+          "start": 455,
+          "end": 482,
+          "title": "Place Clear after Ask with a persistent red outline",
+          "explanation": "Clear occupies column4, after context and Ask, and retains98-unit width and44-unit minimum height. Its six-unit left margin plus Ask margin provide separation. ThemeError and thickness2 keep the red outline in all themes; interaction triggers change only the neutral background. The existing handler now clears previous-answer opt-in as well as question and answer state.",
+          "focus": [
+            {
+              "start": 455,
+              "end": 466
+            },
+            {
+              "start": 467,
+              "end": 478
+            }
+          ]
+        },
+        {
+          "start": 483,
+          "end": 517,
           "title": "Give original question and clarification reply different text controls",
           "explanation": "QuestionReadingGrid starts with draft, optional snapshot and answer row weights. QuestionEditor accepts multiline text but is initially read-only/unfocusable and delegates validation to TextChanged/Pasting instead of truncating with MaxLength. The collapsed reply panel has its own editor, hint and explicit Send reply/Yes buttons. Separate storage is what allows a correction or Yes request without overwriting the original draft.",
           "focus": [
             {
-              "start": 452,
-              "end": 457
+              "start": 493,
+              "end": 498
             },
             {
-              "start": 466,
-              "end": 475
+              "start": 507,
+              "end": 516
             }
           ]
         },
         {
-          "start": 477,
-          "end": 501,
+          "start": 518,
+          "end": 542,
           "title": "Display immutable submitted text separately from mutable input",
           "explanation": "QuestionSnapshotPanel starts collapsed, participates in layout on visibility change and contains a read-only nonfocusable multiline text box with transparent fill. Its label is changed by StartAnswer to distinguish local freeze from actual submission. A separate answer-placeholder TextBlock collapses when AnswerPanel becomes visible. Neither displayed snapshot nor placeholder is a second editable question source.",
           "focus": [
             {
-              "start": 483,
-              "end": 488
+              "start": 524,
+              "end": 529
             },
             {
-              "start": 495,
-              "end": 497
+              "start": 536,
+              "end": 538
             }
           ]
         },
         {
-          "start": 502,
-          "end": 512,
+          "start": 543,
+          "end": 553,
           "title": "Keep answer actions above a separately sized reader",
           "explanation": "AnswerPanel still starts collapsed and spans both question columns. Auto-sized action/status rows surround a star-sized reader, preventing the complete Q/A surface from becoming one outer scrolling area. The heading and existing Cancel/Copy handlers are retained in a wrapping action row; code supplies compact captions and full accessible names. Adding font controls does not change the meaning of cancellation or turn copying into an automatic side effect.",
-          "focus": [{"start": 502, "end": 512}]
+          "focus": [
+            {
+              "start": 543,
+              "end": 553
+            }
+          ]
         },
         {
-          "start": 513, "end": 522, "title": "Offer a bounded integer answer-size control in the same action row",
+          "start": 554,
+          "end": 563,
+          "title": "Offer a bounded integer answer-size control in the same action row",
           "explanation": "AnswerFontSlider starts at10and permits8..24with integer snap ticks, small steps of one and large steps of two. Its displayed numeric value is bound directly to the slider and its accessible name explicitly includes both answers and interpretations. ValueChanged delegates to the shared session-only font helper; these XAML defaults neither persist a setting nor override a later explicit choice on resize. The surrounding WrapPanel allows the small slider/readout group to wrap rather than creating a separate popup or horizontal scroll surface.",
-          "focus": [{"start": 513, "end": 521}]
+          "focus": [
+            {
+              "start": 554,
+              "end": 562
+            }
+          ]
         },
         {
-          "start": 523, "end": 535, "title": "Retain solid text and independent answer/request status",
+          "start": 564,
+          "end": 576,
+          "title": "Retain solid text and independent answer/request status",
           "explanation": "AnswerText remains a nonfocusable read-only plain-text control with its own vertical scrolling, transparent fill and fully opaque high-contrast glyphs. XAML's initial size10is the ordinary automatic default; layout can choose9when compact until the user explicitly chooses8..24. RenderAnswer uses this same field for interpretations, so the size control affects both without changing question or transcript fonts. AnswerStatus and QuestionStatus remain separate rows for provider and draft/request feedback. Read mode scrolls this existing reader programmatically rather than enabling answer editing.",
-          "focus": [{"start": 523, "end": 533}]
+          "focus": [
+            {
+              "start": 564,
+              "end": 574
+            }
+          ]
         },
         {
-          "start": 536,
-          "end": 549,
+          "start": 577,
+          "end": 590,
           "title": "Give device selection the complete reading area",
           "explanation": "The opaque inline AudioPanel spans both reading columns/rows and initially stays collapsed. It uses existing visibility coordination to close question/notes panels, not another HWND. The header explains direct selection and page-based overflow; a star-sized devices region absorbs remaining space instead of pushing controls below the window.",
           "focus": [
             {
-              "start": 536,
-              "end": 547
-            }
-          ]
-        },
-        {
-          "start": 550,
-          "end": 590,
-          "title": "Keep Computer and Mic identity and paging separate",
-          "explanation": "Each source has its own title, Refresh action, card ListBox, explicit empty message and fixed-height previous/page/next strip. Both lists retain the passive click handler, and selection/size callbacks update page presentation. The output and microphone pager handlers cannot borrow the other source's selected object. Accessibility names identify each list and paging direction.",
-          "focus": [
-            {
-              "start": 556,
-              "end": 567
-            },
-            {
-              "start": 576,
-              "end": 587
+              "start": 577,
+              "end": 588
             }
           ]
         },
         {
           "start": 591,
-          "end": 607,
+          "end": 631,
+          "title": "Keep Computer and Mic identity and paging separate",
+          "explanation": "Each source has its own title, Refresh action, card ListBox, explicit empty message and fixed-height previous/page/next strip. Both lists retain the passive click handler, and selection/size callbacks update page presentation. The output and microphone pager handlers cannot borrow the other source's selected object. Accessibility names identify each list and paging direction.",
+          "focus": [
+            {
+              "start": 597,
+              "end": 608
+            },
+            {
+              "start": 617,
+              "end": 628
+            }
+          ]
+        },
+        {
+          "start": 632,
+          "end": 648,
           "title": "Keep service setup available without crowding device cards",
           "explanation": "Service setup, Clear transcript and Done remain reachable beneath the cards. The token field and prior edit/privacy guidance live in a collapsed advanced section; missing-token Start opens it explicitly. The password remains session-only and disabled outside the existing Edit/idle policy. Closing setup restores the reading view without saving, clearing or automatically recording anything.",
           "focus": [
             {
-              "start": 591,
-              "end": 602
+              "start": 632,
+              "end": 643
             }
           ]
         },
         {
-          "start": 608,
-          "end": 639,
+          "start": 649,
+          "end": 680,
           "title": "Keep notes collapsed and file/find actions inside the surface",
           "explanation": "NotesToggle and generic DocumentStatus occupy a stable separator used by reachability tests. NotesSection starts collapsed with toolbar, optional inline find and a 140-unit editor row. FileToolbar starts disabled; global Edit enables it. Wrap defaults on and font/find actions are explicit. FindText and its Next/Close buttons do not create an auxiliary search dialog.",
           "focus": [
             {
-              "start": 623,
-              "end": 632
-            }
-          ]
-        },
-        {
-          "start": 640,
-          "end": 661,
-          "title": "Use a plain read-only-by-default note editor and hide empty status",
-          "explanation": "The note TextBox accepts returns/tabs, preserves an undo limit of 100, offers both scroll directions and uses a transparent background with opaque reading text. ReadOnly and Focusable are later controlled by global Present/Edit, not question typing. Paste and TextChanged route to validation/dirty tracking. A text trigger collapses StatusText only when its string is empty, avoiding permanent blank status height.",
-          "focus": [
-            {
-              "start": 640,
-              "end": 647
-            },
-            {
-              "start": 653,
-              "end": 658
-            }
-          ]
-        },
-        {
-          "start": 662,
-          "end": 678,
-          "title": "State capture limitations without claiming universal invisibility",
-          "explanation": "The footer shows pending/requested protection and a recovery shortcut, plus an inline Details toggle. The initially collapsed detail text explicitly limits screen sharing, recording, pickers, cursor, accessibility and OS indicators; these are not inferred safe from native affinity. Closing elements finish the one-window visual tree. The shell's protection setup does not extend to arbitrary external file dialogs or diagnostic folders.",
-          "focus": [
-            {
-              "start": 662,
+              "start": 664,
               "end": 673
             }
           ]
         },
         {
-          "start": 679,
-          "end": 698,
+          "start": 681,
+          "end": 702,
+          "title": "Use a plain read-only-by-default note editor and hide empty status",
+          "explanation": "The note TextBox accepts returns/tabs, preserves an undo limit of 100, offers both scroll directions and uses a transparent background with opaque reading text. ReadOnly and Focusable are later controlled by global Present/Edit, not question typing. Paste and TextChanged route to validation/dirty tracking. A text trigger collapses StatusText only when its string is empty, avoiding permanent blank status height.",
+          "focus": [
+            {
+              "start": 681,
+              "end": 688
+            },
+            {
+              "start": 694,
+              "end": 699
+            }
+          ]
+        },
+        {
+          "start": 703,
+          "end": 719,
+          "title": "State capture limitations without claiming universal invisibility",
+          "explanation": "The footer shows pending/requested protection and a recovery shortcut, plus an inline Details toggle. The initially collapsed detail text explicitly limits screen sharing, recording, pickers, cursor, accessibility and OS indicators; these are not inferred safe from native affinity. Closing elements finish the one-window visual tree. The shell's protection setup does not extend to arbitrary external file dialogs or diagnostic folders.",
+          "focus": [
+            {
+              "start": 703,
+              "end": 714
+            }
+          ]
+        },
+        {
+          "start": 720,
+          "end": 739,
           "title": "Keep a plain book cover and one recovery action outside the workspace",
           "explanation": "The cover contains NOTEPAD IS READY and the same always-mounted icon-only toggle at the top left. A small original vector book Path replaces text captions, avoiding icon-font or image dependencies. The button's32by32target is explicitly client-hit-testable inside the caption; the title is offset to leave room. Meaningful accessible names still describe the action, but no Cover/Uncover caption is drawn. The same HWND and continuing-work lifecycle are retained.",
           "focus": [
             {
-              "start": 687,
-              "end": 696
+              "start": 728,
+              "end": 737
             }
           ]
         }
@@ -1843,7 +1898,7 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.xaml.cs",
-      "sourceSha256": "df98fedfc3f1a8f148bd12ac7735c99c925da0c5bc519830a80aec57b79eccad",
+      "sourceSha256": "8010d951e260796c7960fa9a4d4bccd96c2fb3a006f3b314b8989b474764c72a",
       "role": "Coordinates the window's protection, focus, notes, explicit audio lifecycle, transcript display and synthetic UI harness; other partials share this state rather than forming independent windows.",
       "entryPoints": [
         "MainWindow.MainWindow",
@@ -2095,10 +2150,16 @@
           ]
         },
         {
-          "start": 557, "end": 569,
+          "start": 557,
+          "end": 569,
           "title": "Route covered and armed-mode keys before legacy file shortcuts",
           "explanation": "Covered input first consumes hidden-workspace keys, allowing normal Tab, Alt+F4 and activation of the focused external mask toggle. It returns immediately after that cover decision. If the controller is active, the same window's preview event delegates key, modifiers and IsRepeat to HandleKeyboardKey, assigns its Boolean result to Handled and returns even when ordinary text editing is allowed through. Modal Edit can therefore retain text-control shortcuts without falling through to Notes Open/Save/New routing. No process-wide keyboard hook is involved.",
-          "focus": [{"start": 559, "end": 568}]
+          "focus": [
+            {
+              "start": 559,
+              "end": 568
+            }
+          ]
         },
         {
           "start": 570,
@@ -2406,37 +2467,37 @@
         },
         {
           "start": 1156,
-          "end": 1204,
+          "end": 1205,
           "title": "Combine synthetic subdiagnostics and close even on failure",
-          "explanation": "Question, answer, clarification and recording-indicator diagnostics are awaited; each throws on failed assertions before final receipt generation. The outer passed expression combines shell/layout/theme/guard checks, tool-window style and no running capture. result.json includes individual booleans, API readback, discovered counts, fixture mode and an explicit no-real-audio/no-remote-cursor-guarantee limitation. Return is zero or two; finally grants close regardless of success. Recorded invalidUriRejected=true is justified by the preceding throw-on-failure branch. Audio-device-card checks cover paging/selection, busy locks, empty state and compact Service setup. Cover checks include continued fake work and fresh-tree versus cached accessibility limits. The newly awaited keyboard diagnostic then checks modal routing, identity selection, explicit submission, font/device behavior and recovery; its result is included as keyboardChecks, and failure throws before the outer receipt rather than being silently ignored by its older aggregate expression.",
+          "explanation": "Question, answer, clarification and recording-indicator diagnostics are awaited; each throws on failed assertions before final receipt generation. The outer passed expression combines shell/layout/theme/guard checks, tool-window style and no running capture. result.json includes individual booleans, API readback, discovered counts, fixture mode and an explicit no-real-audio/no-remote-cursor-guarantee limitation. Return is zero or two; finally grants close regardless of success. Recorded invalidUriRejected=true is justified by the preceding throw-on-failure branch. Audio-device-card checks cover paging/selection, busy locks, empty state and compact Service setup. Cover checks include continued fake work and fresh-tree versus cached accessibility limits. The newly awaited keyboard diagnostic then checks modal routing, identity selection, explicit submission, font/device behavior and recovery; its result is included as keyboardChecks, and failure throws before the outer receipt rather than being silently ignored by its older aggregate expression. RunAnswerContextDiagnosticAsync is also awaited and returned as answerContextChecks. Its failure throws before the aggregate receipt; its 21 named checks cover opt-in, exact snapshots, resets, clarification continuity and compact placement without a model or audio input.",
           "focus": [
             {
               "start": 1156,
-              "end": 1164
+              "end": 1165
             },
             {
-              "start": 1165,
-              "end": 1174
+              "start": 1166,
+              "end": 1175
             },
             {
-              "start": 1192,
-              "end": 1202
+              "start": 1193,
+              "end": 1203
             }
           ]
         },
         {
-          "start": 1205,
-          "end": 1232,
+          "start": 1206,
+          "end": 1233,
           "title": "Render WPF content locally and pack native hit-test coordinates",
           "explanation": "RenderDiagnosticAsync updates layout, yields to Render priority, scales dimensions by actual DPI and renders the window into Pbgra32 before PNG encoding to the requested file. It is not a screenshot of the user's desktop. HitTestDiagnostic converts a WPF point to screen pixels and packs signed-coordinate low/high 16-bit fields for WM_NCHITTEST; SendMessage/GetForegroundWindow declarations support the synthetic native assertions.",
           "focus": [
             {
-              "start": 1207,
-              "end": 1218
+              "start": 1208,
+              "end": 1219
             },
             {
-              "start": 1221,
-              "end": 1225
+              "start": 1222,
+              "end": 1226
             }
           ]
         }
@@ -3169,34 +3230,68 @@
         }
       ]
     },
+    {
+      "path": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
+      "sourceSha256": "081a9b65882f47c52b08e766bedff42d4e3223e72ca7832d624005bdf110ee66",
+      "role": "Keeps an explicit session-only answer font choice stable across responsive layout and gives compact action captions full accessible names.",
+      "entryPoints": [
+        "MainWindow.AnswerFontSlider_ValueChanged",
+        "MainWindow.SetAnswerFontSize",
+        "MainWindow.ApplyAnswerFontSize",
+        "MainWindow.AdjustAnswerFont",
+        "MainWindow.UpdateAnswerActionLabels"
+      ],
+      "blocks": [
         {
-          "path": "src/PhantomFudge.App/MainWindow.AnswerFont.cs",
-          "sourceSha256": "0df77850de4d0cb982dc2558149a37742116ad0a723c679e7a91b30be78a5b1d",
-          "role": "Keeps an explicit session-only answer font choice stable across responsive layout and gives compact action captions full accessible names.",
-          "entryPoints": ["MainWindow.AnswerFontSlider_ValueChanged", "MainWindow.SetAnswerFontSize", "MainWindow.ApplyAnswerFontSize", "MainWindow.AdjustAnswerFont", "MainWindow.UpdateAnswerActionLabels"],
-          "blocks": [
+          "start": 1,
+          "end": 18,
+          "title": "Distinguish an unset preference from a user-selected size",
+          "explanation": "The nullable chosenAnswerFontSize starts unset, allowing layout to supply its automatic size until the user chooses. Slider events are ignored before answerViewReady and while the code itself is synchronizing the slider; otherwise the double value is rounded to an integer and sent through the shared setter. This state belongs to this window instance, with no settings-file persistence. Only answer/interpretation typography is controlled here, not transcript, question or Notes font sizes.",
+          "focus": [
             {
-              "start": 1, "end": 18, "title": "Distinguish an unset preference from a user-selected size",
-              "explanation": "The nullable chosenAnswerFontSize starts unset, allowing layout to supply its automatic size until the user chooses. Slider events are ignored before answerViewReady and while the code itself is synchronizing the slider; otherwise the double value is rounded to an integer and sent through the shared setter. This state belongs to this window instance, with no settings-file persistence. Only answer/interpretation typography is controlled here, not transcript, question or Notes font sizes.",
-              "focus": [{"start": 9, "end": 16}]
-            },
-            {
-              "start": 19, "end": 27, "title": "Validate before committing a session preference",
-              "explanation": "SetAnswerFontSize rejects values outside KeyboardCommands' inclusive 8..24 bounds before changing the stored choice. An accepted value becomes the preference, updates the text/slider pair and recalculates workspace layout so a larger reader can receive space. Invalid direct callers receive ArgumentOutOfRangeException instead of silent clamping. Commands already validate their numeric payload in Core; this second guard protects the UI setter independently.",
-              "focus": [{"start": 19, "end": 25}]
-            },
-            {
-              "start": 28, "end": 44, "title": "Apply responsive defaults without overwriting explicit choices",
-              "explanation": "ApplyAnswerFontSize chooses the stored preference over the caller's automatic size, writes AnswerText.FontSize and updates the slider only if it differs. updatingAnswerFont suppresses the resulting ValueChanged callback and is reset in finally, preventing a programmatic compact-layout default from becoming a user preference. AdjustAnswerFont starts from the currently displayed size, adds the requested delta and clamps to the same 8..24 endpoints before committing through the setter. Resize therefore preserves a chosen size while untouched windows can retain their 9/10 automatic policy.",
-              "focus": [{"start": 30, "end": 38}]
-            },
-            {
-              "start": 45, "end": 57, "title": "Shorten captions without losing action meaning",
-              "explanation": "After readiness, a QuestionPanel width below 560 selects shorter Cancel/Copy captions. Provider preparation counts separately from an active answer: only unfinished preparation without AnswerBusy uses the preparation wording. The request's unconfirmed clarification flag distinguishes copying an interpretation from an answer. AutomationProperties always carries the full action name even when the visible caption is shortened. These assignments change labels only; enabled-state, cancellation and clipboard behavior remain in the existing answer handlers.",
-              "focus": [{"start": 49, "end": 55}]
+              "start": 9,
+              "end": 16
             }
           ]
         },
+        {
+          "start": 19,
+          "end": 27,
+          "title": "Validate before committing a session preference",
+          "explanation": "SetAnswerFontSize rejects values outside KeyboardCommands' inclusive 8..24 bounds before changing the stored choice. An accepted value becomes the preference, updates the text/slider pair and recalculates workspace layout so a larger reader can receive space. Invalid direct callers receive ArgumentOutOfRangeException instead of silent clamping. Commands already validate their numeric payload in Core; this second guard protects the UI setter independently.",
+          "focus": [
+            {
+              "start": 19,
+              "end": 25
+            }
+          ]
+        },
+        {
+          "start": 28,
+          "end": 44,
+          "title": "Apply responsive defaults without overwriting explicit choices",
+          "explanation": "ApplyAnswerFontSize chooses the stored preference over the caller's automatic size, writes AnswerText.FontSize and updates the slider only if it differs. updatingAnswerFont suppresses the resulting ValueChanged callback and is reset in finally, preventing a programmatic compact-layout default from becoming a user preference. AdjustAnswerFont starts from the currently displayed size, adds the requested delta and clamps to the same 8..24 endpoints before committing through the setter. Resize therefore preserves a chosen size while untouched windows can retain their 9/10 automatic policy.",
+          "focus": [
+            {
+              "start": 30,
+              "end": 38
+            }
+          ]
+        },
+        {
+          "start": 45,
+          "end": 64,
+          "title": "Shorten captions without losing action meaning",
+          "explanation": "After readiness, a QuestionPanel width below 560 selects shorter Cancel/Copy captions. Provider preparation counts separately from an active answer: only unfinished preparation without AnswerBusy uses the preparation wording. The request's unconfirmed clarification flag distinguishes copying an interpretation from an answer. AutomationProperties always carries the full action name even when the visible caption is shortened. These assignments change labels only; enabled-state, cancellation and clipboard behavior remain in the existing answer handlers. Compact panes additionally use80-unit PreviousAnswerToggle width rather than118, and shorter Edit/Done/Reply and Copy captions while keeping full AutomationProperties names. The existing left WrapPanel can wrap those secondary buttons; the primary context/Ask/Clear row stays directly reachable.",
+          "focus": [
+            {
+              "start": 49,
+              "end": 60
+            }
+          ]
+        }
+      ]
+    },
         {
           "path": "src/PhantomFudge.App/MainWindow.KeyboardDevices.cs",
           "sourceSha256": "1620895fd8f773e0e7e848aaf3bae26fd27e562b0cc53758ba676d604c12b917",
@@ -3270,85 +3365,237 @@
     },
     {
       "path": "src/PhantomFudge.App/MainWindow.Keyboard.cs",
-      "sourceSha256": "0ab1fd4ea460238d61f9fbe524ac5dc164bad914e2a186112c4b710b9e7aec82",
+      "sourceSha256": "45ac0b8542212cb9709061931a274dd5addd739db8533d861e1b4418fd31057b",
       "role": "Coordinates deliberate window-local keyboard modes, guarded command dispatch and best-effort foreground return without using the global Notes editing shutdown transition.",
-      "entryPoints": ["MainWindow.InitializeKeyboardControls", "MainWindow.LoadKeyboardShortcut", "MainWindow.RegisterKeyboardControlHotkey", "MainWindow.ToggleKeyboardControl", "MainWindow.SetKeyboardMode", "MainWindow.RefreshKeyboardEditorTarget", "MainWindow.LeaveKeyboardControl", "MainWindow.AbandonKeyboardControl", "MainWindow.HandleKeyboardKey", "MainWindow.ExecuteKeyboardCommandAsync"],
+      "entryPoints": [
+        "MainWindow.InitializeKeyboardControls",
+        "MainWindow.LoadKeyboardShortcut",
+        "MainWindow.RegisterKeyboardControlHotkey",
+        "MainWindow.ToggleKeyboardControl",
+        "MainWindow.SetKeyboardMode",
+        "MainWindow.RefreshKeyboardEditorTarget",
+        "MainWindow.LeaveKeyboardControl",
+        "MainWindow.AbandonKeyboardControl",
+        "MainWindow.HandleKeyboardKey",
+        "MainWindow.ExecuteKeyboardCommandAsync"
+      ],
       "blocks": [
-    {
-      "start": 1, "end": 37, "title": "Separate armed mode, copied-row navigation and native transition state",
-      "explanation": "The controller distinguishes Inactive, Control, Select, Edit, Read, Command, Search, Devices and Help rather than interpreting letters whenever the window exists. KeyboardSelecting includes Search so entering its text prompt retains selection-layout and submission restrictions. Foreground HWND/PID, last eligible editor, prior prompt mode and three transition/action flags serve different purposes; none is an audio/provider lifetime token. Initialization loads shortcut settings, listens for both transcript lists' generated containers to retag their cursor and initializes a hidden or active bar. It does not register the native shortcut until the main HWND exists.",
-      "focus": [{"start": 16, "end": 26}, {"start": 27, "end": 35}]
-    },
-    {
-      "start": 38, "end": 63, "title": "Disable only the activation shortcut when configuration or registration fails",
-      "explanation": "LoadKeyboardShortcut accepts an injected loader for synthetic failure cases; production uses the Core loader and its validated allowlist. IOException, InvalidDataException, unauthorized access, argument and JSON failures all replace settings with a disabled shortcut and a generic Keys-button notice rather than aborting window construction. Accessible naming reflects the resulting configured chord or disabled state. Registration is skipped in diagnostics and for disabled settings; a Win32 collision records a separate fallback notice without disabling local Keys interaction. Registration uses the settings' validated VirtualKey rather than parsing arbitrary key names in WPF.",
-      "focus": [{"start": 40, "end": 50}, {"start": 53, "end": 61}]
-    },
-    {
-      "start": 64, "end": 86, "title": "Enter only after protected recovery and retain a bounded foreground-return target",
-      "explanation": "The Keys click and native hotkey share one toggle. An already active mode leaves immediately; a file operation or pending confirmation refuses new entry. The previous foreground HWND is captured before TryReveal can activate the app, but entry still stops if protection is unavailable. Successful recovery uncovers the workspace and records only an other-window handle plus its process ID, then enters Control and surfaces any shortcut notice. This is deliberately not TogglePresentationAsync: it does not request audio shutdown, answer cancellation or global Notes editability.",
-      "focus": [{"start": 69, "end": 80}]
-    },
-    {
-      "start": 87, "end": 125, "title": "Change local modes without equating temporary hiding with stopped work",
-      "explanation": "Edit entry rejects file work, absent protection and a clarification-locked original question unless a reply is awaited. switchingKeyboardMode brackets Hide/reprotect/reveal when the old passive policy differs from the requested mode, preventing deactivation/visibility callbacks from treating that internal transition as a user shutdown. Leaving Select/Search restores the unfiltered view; remaining inside refreshes it, and non-Devices modes clear candidate tags. Controls/bar update before reveal, the flag clears in finally, and layout/editor/device setup follows. Nondiagnostic focus then targets the prompt, eligible editor or inert command sink; no branch here invokes Ask, Stop or provider cancellation.",
-      "focus": [{"start": 89, "end": 100}, {"start": 101, "end": 112}]
-    },
-    {
-      "start": 126, "end": 140, "title": "Recover an asynchronously replaced Edit target without reclaiming external foreground",
-      "explanation": "Outside Edit the remembered target is cleared. Inside Edit, AwaitingClarificationReply chooses the reply or original editor and its visible label, but a hidden, disabled, nonfocusable or read-only candidate becomes null. Refresh records identity even in diagnostics; actual Focus requires a changed nonnull target, no internal mode/cover transition, valid protection and a visible active window. This repairs the asynchronous interpretation-to-reply transition while refusing to steal focus back after the user switched applications. UpdateAnswerControls invokes it after clarification controls have been updated.",
-      "focus": [{"start": 129, "end": 138}]
-    },
-    {
-      "start": 141, "end": 158, "title": "Restore passive policy before a best-effort foreground handoff",
-      "explanation": "Leave is idempotent when inactive. It saves the old return identity, suppresses activation while SetKeyboardMode restores Inactive, clears stored identity and keyboard focus, and can explicitly skip foreground restoration for deactivation/exit or diagnostics. Otherwise it compares the current process ID for the saved HWND, checks IsWindow and attempts SetForegroundWindow. Failure reports that the user may need to switch manually; neither Windows foreground permission nor universal handle-identity safety is promised. The suppression flag is restored in finally even if the mode transition fails.",
-      "focus": [{"start": 146, "end": 156}]
-    },
-    {
-      "start": 159, "end": 176, "title": "Abandon stale armed state without revealing an invalidated or hidden surface",
-      "explanation": "Abandon directly clears active mode, independent question editing and foreground identity, then restores transcript filtering/device tags and the bar. Unlike Leave it does not perform a protected reveal or foreground transfer; callers use it for real Hide, global Notes transitions or invalidation before their own shutdown path. A genuine nondiagnostic window deactivation instead calls Leave without foreground restoration, unless mode/cover code caused the event itself. This prevents local letter commands from staying armed after switching to another application without making ordinary deactivation an audio-stop action.",
-      "focus": [{"start": 159, "end": 169}, {"start": 171, "end": 174}]
-    },
-    {
-      "start": 177, "end": 217, "title": "Display modal affordances and curated suggestions without executing prompt text",
-      "explanation": "The bar exists only while active; its TextBox appears only for Command/Search, and Edit labels distinguish original question from clarification reply. Hints describe each mode's actual review, navigation and explicit-submit path. Opening a prompt remembers the prior mode, changes mode and clears old text. Only Command TextChanged calls Core Suggest; no matches or an argument error becomes a local hint, while search typing remains inert until confirmation. Suggestions and help are built-in vocabulary, not model completions or shell dispatch. The stored prior mode later gives Command Escape its cancellation destination.",
-      "focus": [{"start": 179, "end": 190}, {"start": 206, "end": 215}]
-    },
-    {
-      "start": 218, "end": 256, "title": "Prioritize native Alt handling, bounded Escape and explicit prompt confirmation",
-      "explanation": "Inactive handling returns false immediately, and Alt combinations are left to normal window behavior. Escape is consumed but only a fresh press transitions: Control leaves, Search returns to Select, Command restores its prior mode, Devices closes setup, and other modes return to Control. Command/Search Enter is likewise nonrepeated and confirms the current prompt rather than falling into question submission. Command Tab inserts only the first curated suggestion and moves the caret; it never executes it. Other prompt keys return false for ordinary TextBox editing, with Core argument errors shown locally.",
-      "focus": [{"start": 220, "end": 230}, {"start": 234, "end": 243}]
-    },
-    {
-      "start": 257, "end": 273, "title": "Require review before sending while preserving literal Edit input",
-      "explanation": "After prompt handling, exact Ctrl+Enter is consumed and acts only on a nonrepeat: selecting asks for Enter review, while Control/Edit use the existing question/reply submission path. Other modes do not submit. Edit then returns false for all remaining input, preserving newline, letters and text-control paste instead of interpreting command keys. Outside Edit, other Control/Windows combinations are consumed; colon/F2 opens commands and F1/Shift-question opens Help once. Select and Devices dispatch to their own cursor handlers only after these global-in-the-window escape/submit/help rules.",
-      "focus": [{"start": 257, "end": 267}]
-    },
-    {
-      "start": 274, "end": 300, "title": "Allow repeatable reading motion but not repeatable mode actions",
-      "explanation": "Read delegates J/K/arrows, page and endpoint keys to the existing answer TextBox and adjusts its bounded font with plus/minus. All Read input is consumed here, including keys with no reading action, and repeat is intentionally allowed for scrolling/size changes. For the remaining modes, a held-key repeat returns before V/I/A/M can transition. Fresh V starts guarded transcript selection; I/A expand the existing Q/A reader before Edit/Read; M uses the explicit mask path. No case synthesizes pointer movement, selects transcript text implicitly or invokes a provider merely to enter a mode.",
-      "focus": [{"start": 276, "end": 287}, {"start": 289, "end": 298}]
-    },
-    {
-      "start": 301, "end": 319, "title": "Reuse guarded submission and reject invalid command text before leaving the prompt",
-      "explanation": "Question submission selects the clarification-reply handler only when a reply is awaited; otherwise it calls the existing Ask handler and displays its status. Command submission first parses the entire prompt with the Core grammar. An ArgumentException leaves the mode and text in place for correction and shows the validation message, so shell-shaped or otherwise unsupported input has no dispatch side effect. Only a valid typed KeyboardCommand returns to Control and reaches ExecuteKeyboardCommandAsync. The controller does not duplicate snapshot creation or provider-request construction.",
-      "focus": [{"start": 308, "end": 317}]
-    },
-    {
-      "start": 320, "end": 345, "title": "Guard shared command dispatch and require idle devices or clarification state",
-      "explanation": "Commands reject reentrant dispatch, file activity, pending confirmation and unavailable protection before setting keyboardActionBusy. Start delegates to the existing async-void click handler, whereas Stop awaits shutdown; the flag therefore protects this dispatch scope, not the full lifetime of every downstream operation. Source changes reuse SetCaptureMode's guards. Devices additionally refuses audio startup/stopping/running or an answer in progress before exposing setup; Clarify refuses an active answer before changing its toggle. Confirm likewise delegates to the established clarification handler, preserving its own state validation rather than creating a second confirmation implementation.",
-      "focus": [{"start": 322, "end": 332}, {"start": 337, "end": 345}]
-    },
-    {
-      "start": 346, "end": 363, "title": "Delegate only typed built-ins and release the dispatch guard on every exit",
-      "explanation": "The remainder of the switch handles validated numeric font/opacity values, three semantic theme aliases and explicit copy/clear/cancel/ask/mask/help actions. Clipboard access occurs only through the existing Copy handlers when those commands are deliberately executed; merely typing or completing a suggestion does not copy. Existing question/answer handlers remain responsible for their own busy/content guards and report their statuses. Unknown enum values throw instead of becoming arbitrary execution, and finally resets keyboardActionBusy even when a delegated action fails. The parser, not this dispatch switch, supplies valid argument/value shapes.",
-      "focus": [{"start": 346, "end": 357}]
-    },
-    {
-      "start": 364, "end": 378, "title": "Disarm before masking and constrain native interop to foreground identity",
-      "explanation": "MaskFromKeyboard leaves the controller before applying the existing cover behavior, so detaching the workspace cannot retain armed letter commands. Cover continues to own its separate visual/accessibility and background-work semantics. The three declarations support only best-effort foreground transfer, HWND validity and owning-process comparison; there is no cursor-warping API or global key hook here. Native return values are checked by Leave rather than interpreted as a guarantee that another application's presentation has regained focus.",
-      "focus": [{"start": 364, "end": 367}, {"start": 370, "end": 377}]
-    }
+        {
+          "start": 1,
+          "end": 37,
+          "title": "Separate armed mode, copied-row navigation and native transition state",
+          "explanation": "The controller distinguishes Inactive, Control, Select, Edit, Read, Command, Search, Devices and Help rather than interpreting letters whenever the window exists. KeyboardSelecting includes Search so entering its text prompt retains selection-layout and submission restrictions. Foreground HWND/PID, last eligible editor, prior prompt mode and three transition/action flags serve different purposes; none is an audio/provider lifetime token. Initialization loads shortcut settings, listens for both transcript lists' generated containers to retag their cursor and initializes a hidden or active bar. It does not register the native shortcut until the main HWND exists.",
+          "focus": [
+            {
+              "start": 16,
+              "end": 26
+            },
+            {
+              "start": 27,
+              "end": 35
+            }
+          ]
+        },
+        {
+          "start": 38,
+          "end": 63,
+          "title": "Disable only the activation shortcut when configuration or registration fails",
+          "explanation": "LoadKeyboardShortcut accepts an injected loader for synthetic failure cases; production uses the Core loader and its validated allowlist. IOException, InvalidDataException, unauthorized access, argument and JSON failures all replace settings with a disabled shortcut and a generic Keys-button notice rather than aborting window construction. Accessible naming reflects the resulting configured chord or disabled state. Registration is skipped in diagnostics and for disabled settings; a Win32 collision records a separate fallback notice without disabling local Keys interaction. Registration uses the settings' validated VirtualKey rather than parsing arbitrary key names in WPF.",
+          "focus": [
+            {
+              "start": 40,
+              "end": 50
+            },
+            {
+              "start": 53,
+              "end": 61
+            }
+          ]
+        },
+        {
+          "start": 64,
+          "end": 86,
+          "title": "Enter only after protected recovery and retain a bounded foreground-return target",
+          "explanation": "The Keys click and native hotkey share one toggle. An already active mode leaves immediately; a file operation or pending confirmation refuses new entry. The previous foreground HWND is captured before TryReveal can activate the app, but entry still stops if protection is unavailable. Successful recovery uncovers the workspace and records only an other-window handle plus its process ID, then enters Control and surfaces any shortcut notice. This is deliberately not TogglePresentationAsync: it does not request audio shutdown, answer cancellation or global Notes editability.",
+          "focus": [
+            {
+              "start": 69,
+              "end": 80
+            }
+          ]
+        },
+        {
+          "start": 87,
+          "end": 125,
+          "title": "Change local modes without equating temporary hiding with stopped work",
+          "explanation": "Edit entry rejects file work, absent protection and a clarification-locked original question unless a reply is awaited. switchingKeyboardMode brackets Hide/reprotect/reveal when the old passive policy differs from the requested mode, preventing deactivation/visibility callbacks from treating that internal transition as a user shutdown. Leaving Select/Search restores the unfiltered view; remaining inside refreshes it, and non-Devices modes clear candidate tags. Controls/bar update before reveal, the flag clears in finally, and layout/editor/device setup follows. Nondiagnostic focus then targets the prompt, eligible editor or inert command sink; no branch here invokes Ask, Stop or provider cancellation.",
+          "focus": [
+            {
+              "start": 89,
+              "end": 100
+            },
+            {
+              "start": 101,
+              "end": 112
+            }
+          ]
+        },
+        {
+          "start": 126,
+          "end": 140,
+          "title": "Recover an asynchronously replaced Edit target without reclaiming external foreground",
+          "explanation": "Outside Edit the remembered target is cleared. Inside Edit, AwaitingClarificationReply chooses the reply or original editor and its visible label, but a hidden, disabled, nonfocusable or read-only candidate becomes null. Refresh records identity even in diagnostics; actual Focus requires a changed nonnull target, no internal mode/cover transition, valid protection and a visible active window. This repairs the asynchronous interpretation-to-reply transition while refusing to steal focus back after the user switched applications. UpdateAnswerControls invokes it after clarification controls have been updated.",
+          "focus": [
+            {
+              "start": 129,
+              "end": 138
+            }
+          ]
+        },
+        {
+          "start": 141,
+          "end": 158,
+          "title": "Restore passive policy before a best-effort foreground handoff",
+          "explanation": "Leave is idempotent when inactive. It saves the old return identity, suppresses activation while SetKeyboardMode restores Inactive, clears stored identity and keyboard focus, and can explicitly skip foreground restoration for deactivation/exit or diagnostics. Otherwise it compares the current process ID for the saved HWND, checks IsWindow and attempts SetForegroundWindow. Failure reports that the user may need to switch manually; neither Windows foreground permission nor universal handle-identity safety is promised. The suppression flag is restored in finally even if the mode transition fails.",
+          "focus": [
+            {
+              "start": 146,
+              "end": 156
+            }
+          ]
+        },
+        {
+          "start": 159,
+          "end": 176,
+          "title": "Abandon stale armed state without revealing an invalidated or hidden surface",
+          "explanation": "Abandon directly clears active mode, independent question editing and foreground identity, then restores transcript filtering/device tags and the bar. Unlike Leave it does not perform a protected reveal or foreground transfer; callers use it for real Hide, global Notes transitions or invalidation before their own shutdown path. A genuine nondiagnostic window deactivation instead calls Leave without foreground restoration, unless mode/cover code caused the event itself. This prevents local letter commands from staying armed after switching to another application without making ordinary deactivation an audio-stop action.",
+          "focus": [
+            {
+              "start": 159,
+              "end": 169
+            },
+            {
+              "start": 171,
+              "end": 174
+            }
+          ]
+        },
+        {
+          "start": 177,
+          "end": 217,
+          "title": "Display modal affordances and curated suggestions without executing prompt text",
+          "explanation": "The bar exists only while active; its TextBox appears only for Command/Search, and Edit labels distinguish original question from clarification reply. Hints describe each mode's actual review, navigation and explicit-submit path. Opening a prompt remembers the prior mode, changes mode and clears old text. Only Command TextChanged calls Core Suggest; no matches or an argument error becomes a local hint, while search typing remains inert until confirmation. Suggestions and help are built-in vocabulary, not model completions or shell dispatch. The stored prior mode later gives Command Escape its cancellation destination. Help includes context on/off, a built-in opt-in control rather than text forwarded to the model.",
+          "focus": [
+            {
+              "start": 179,
+              "end": 190
+            },
+            {
+              "start": 206,
+              "end": 215
+            }
+          ]
+        },
+        {
+          "start": 218,
+          "end": 256,
+          "title": "Prioritize native Alt handling, bounded Escape and explicit prompt confirmation",
+          "explanation": "Inactive handling returns false immediately, and Alt combinations are left to normal window behavior. Escape is consumed but only a fresh press transitions: Control leaves, Search returns to Select, Command restores its prior mode, Devices closes setup, and other modes return to Control. Command/Search Enter is likewise nonrepeated and confirms the current prompt rather than falling into question submission. Command Tab inserts only the first curated suggestion and moves the caret; it never executes it. Other prompt keys return false for ordinary TextBox editing, with Core argument errors shown locally.",
+          "focus": [
+            {
+              "start": 220,
+              "end": 230
+            },
+            {
+              "start": 234,
+              "end": 243
+            }
+          ]
+        },
+        {
+          "start": 257,
+          "end": 273,
+          "title": "Require review before sending while preserving literal Edit input",
+          "explanation": "After prompt handling, exact Ctrl+Enter is consumed and acts only on a nonrepeat: selecting asks for Enter review, while Control/Edit use the existing question/reply submission path. Other modes do not submit. Edit then returns false for all remaining input, preserving newline, letters and text-control paste instead of interpreting command keys. Outside Edit, other Control/Windows combinations are consumed; colon/F2 opens commands and F1/Shift-question opens Help once. Select and Devices dispatch to their own cursor handlers only after these global-in-the-window escape/submit/help rules.",
+          "focus": [
+            {
+              "start": 257,
+              "end": 267
+            }
+          ]
+        },
+        {
+          "start": 274,
+          "end": 300,
+          "title": "Allow repeatable reading motion but not repeatable mode actions",
+          "explanation": "Read delegates J/K/arrows, page and endpoint keys to the existing answer TextBox and adjusts its bounded font with plus/minus. All Read input is consumed here, including keys with no reading action, and repeat is intentionally allowed for scrolling/size changes. For the remaining modes, a held-key repeat returns before V/I/A/M can transition. Fresh V starts guarded transcript selection; I/A expand the existing Q/A reader before Edit/Read; M uses the explicit mask path. No case synthesizes pointer movement, selects transcript text implicitly or invokes a provider merely to enter a mode.",
+          "focus": [
+            {
+              "start": 276,
+              "end": 287
+            },
+            {
+              "start": 289,
+              "end": 298
+            }
+          ]
+        },
+        {
+          "start": 301,
+          "end": 319,
+          "title": "Reuse guarded submission and reject invalid command text before leaving the prompt",
+          "explanation": "Question submission selects the clarification-reply handler only when a reply is awaited; otherwise it calls the existing Ask handler and displays its status. Command submission first parses the entire prompt with the Core grammar. An ArgumentException leaves the mode and text in place for correction and shows the validation message, so shell-shaped or otherwise unsupported input has no dispatch side effect. Only a valid typed KeyboardCommand returns to Control and reaches ExecuteKeyboardCommandAsync. The controller does not duplicate snapshot creation or provider-request construction.",
+          "focus": [
+            {
+              "start": 308,
+              "end": 317
+            }
+          ]
+        },
+        {
+          "start": 320,
+          "end": 345,
+          "title": "Guard shared command dispatch and require idle devices or clarification state",
+          "explanation": "Commands reject reentrant dispatch, file activity, pending confirmation and unavailable protection before setting keyboardActionBusy. Start delegates to the existing async-void click handler, whereas Stop awaits shutdown; the flag therefore protects this dispatch scope, not the full lifetime of every downstream operation. Source changes reuse SetCaptureMode's guards. Devices additionally refuses audio startup/stopping/running or an answer in progress before exposing setup; Clarify refuses an active answer before changing its toggle. Confirm likewise delegates to the established clarification handler, preserving its own state validation rather than creating a second confirmation implementation. Context dispatch calls SetUsePreviousAnswer with the parsed on/off value and displays its authored status. It inherits the same busy, protection, completed-answer and clarification locks as a pointer toggle, and never calls Ask.",
+          "focus": [
+            {
+              "start": 322,
+              "end": 332
+            },
+            {
+              "start": 337,
+              "end": 345
+            }
+          ]
+        },
+        {
+          "start": 346,
+          "end": 365,
+          "title": "Delegate only typed built-ins and release the dispatch guard on every exit",
+          "explanation": "The remainder of the switch handles validated numeric font/opacity values, three semantic theme aliases and explicit copy/clear/cancel/ask/mask/help actions. Clipboard access occurs only through the existing Copy handlers when those commands are deliberately executed; merely typing or completing a suggestion does not copy. Existing question/answer handlers remain responsible for their own busy/content guards and report their statuses. Unknown enum values throw instead of becoming arbitrary execution, and finally resets keyboardActionBusy even when a delegated action fails. The parser, not this dispatch switch, supplies valid argument/value shapes.",
+          "focus": [
+            {
+              "start": 348,
+              "end": 359
+            }
+          ]
+        },
+        {
+          "start": 366,
+          "end": 380,
+          "title": "Disarm before masking and constrain native interop to foreground identity",
+          "explanation": "MaskFromKeyboard leaves the controller before applying the existing cover behavior, so detaching the workspace cannot retain armed letter commands. Cover continues to own its separate visual/accessibility and background-work semantics. The three declarations support only best-effort foreground transfer, HWND validity and owning-process comparison; there is no cursor-warping API or global key hook here. Native return values are checked by Leave rather than interpreted as a guarantee that another application's presentation has regained focus.",
+          "focus": [
+            {
+              "start": 366,
+              "end": 369
+            },
+            {
+              "start": 372,
+              "end": 379
+            }
+          ]
+        }
       ]
     },
     {
@@ -3407,6 +3654,141 @@
       "explanation": "Unlike the main fixture's normal cleanup path, the device helper uses finally around all substitutions and navigation. It clears its artificial audioBusy flag, restores the original list objects and selected records, and collapses the setup panel even if settling, a command or a check throws. Restoring object references preserves real endpoint identity rather than reconstructing selection from a friendly name. The helper assumes the caller intentionally cleared busy state before entry; it is not a general live-capture state checkpoint.",
       "focus": [{"start": 251, "end": 259}]
     }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.App/MainWindow.AnswerContext.cs",
+      "sourceSha256": "a439ca48cc628f538318114be503e3bfca90a700ae9dd56b4b77028bc41d6c2b",
+      "role": "Separates session-only opt-in, displayed completed-answer eligibility and the pinned clarification snapshot while exposing exactly the prior text submitted with the current run.",
+      "entryPoints": [
+        "SetUsePreviousAnswer",
+        "CapturePreviousAnswer",
+        "UpdatePreviousAnswerControls"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 32,
+          "title": "Offer explicit opt-in only for eligible answers",
+          "explanation": "CanUseDisplayedAnswer requires a completed non-interpretation, nonblank run. Pointer and keyboard commands share SetUsePreviousAnswer: busy/file/protection/clarification locks reject changes, and enabling requires a provider and eligible displayed answer. It changes state/status only, never submits a request.",
+          "focus": [
+            {
+              "start": 12,
+              "end": 23
+            }
+          ]
+        },
+        {
+          "start": 33,
+          "end": 54,
+          "title": "Snapshot at Ask and reset without hidden history",
+          "explanation": "CapturePreviousAnswer checks the clarification lock before the toggle: an explicit first-interpretation retry must retain the original pinned string even though interpretation text has replaced the reader. Otherwise off returns null and on requires an eligible completed run. It returns that run's immutable text, never its prior request, previous question or a transcript lookup. Unavailable context produces previous_answer_unavailable rather than silently dropping checked context. Reset clears the flag, pinned string, checked state and details text; request-size and Unicode validation remain in Core.",
+          "focus": [
+            {
+              "start": 34,
+              "end": 44
+            }
+          ]
+        },
+        {
+          "start": 55,
+          "end": 70,
+          "title": "Show actual submitted context and availability",
+          "explanation": "The control resets for SnapshotOnly or an unavailable terminal normal answer, but does not reset during a running request or active clarification. Its enabled state follows all lifecycle guards; ON is visible text as well as styling. Setup/details shows Request.PreviousAnswer, never the replacement current answer. Normal accessibility remains available.",
+          "focus": [
+            {
+              "start": 57,
+              "end": 68
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/PhantomFudge.App/MainWindow.AnswerContextDiagnostics.cs",
+      "sourceSha256": "798903c18623750ff1b15ac80b690cf4574f611e82e0a11baad3f8bf24cdc1fc",
+      "role": "Runs21synthetic context assertions through real desktop handlers, records exact requests and one ready-to-Ask illustration, and rejects lifecycle or compact-layout regressions without external inference or recording.",
+      "entryPoints": [
+        "RunAnswerContextDiagnosticAsync",
+        "SyntheticContextProvider.StreamAsync"
+      ],
+      "blocks": [
+        {
+          "start": 1,
+          "end": 28,
+          "title": "Provide deterministic completion, hold and failure",
+          "explanation": "The fake records exact AnswerRequest objects, yields synthetic text, signals arrival, then either waits for cancellation, throws a known safe failure or completes. No CLI, network model or capture endpoint is opened.",
+          "focus": [
+            {
+              "start": 17,
+              "end": 26
+            }
+          ]
+        },
+        {
+          "start": 29,
+          "end": 72,
+          "title": "Check default-off, explicit toggling and the visible follow-up",
+          "explanation": "The fixture starts from a cleared question and synthetic configured provider, rejects enabling without an answer, and submits one baseline question with null context. Toggling must not send or change foreground; editing a follow-up preserves the prior displayed answer. The exported image records that ready-to-Ask state.",
+          "focus": [
+            {
+              "start": 57,
+              "end": 65
+            }
+          ]
+        },
+        {
+          "start": 73,
+          "end": 98,
+          "title": "Measure compact geometry and theme-selected state",
+          "explanation": "Every UiTheme must put its Selection color on the checked ContextFace. The fixture then resets DeepSeaFoam and exercises minimum,900x600and1240x760window dimensions. IsPrimaryAskAction, editor/answer reachability and absence of an outer context scroller must all hold; these are measured control predicates, not recipient capture or human readability approval. The saved width/height are restored before later request tests.",
+          "focus": [
+            {
+              "start": 81,
+              "end": 92
+            }
+          ]
+        },
+        {
+          "start": 99,
+          "end": 133,
+          "title": "Assert immutable request and latest-answer-only behavior",
+          "explanation": "A held follow-up captures exact previous answer and question before later draft/toggle attempts. Cancellation makes incomplete output ineligible. Explicit keyboard on/off commands then prove successive successful questions use only the latest answer and omit it when off.",
+          "focus": [
+            {
+              "start": 104,
+              "end": 112
+            }
+          ]
+        },
+        {
+          "start": 134,
+          "end": 167,
+          "title": "Keep clarification context distinct from interpretations",
+          "explanation": "A failed initial interpretation retains the pinned answer for an explicit retry. Further corrections and Yes reuse that same string while toggle changes are locked. A failed normal follow-up instead resets opt-in because its visible output is incomplete.",
+          "focus": [
+            {
+              "start": 148,
+              "end": 157
+            }
+          ]
+        },
+        {
+          "start": 168,
+          "end": 212,
+          "title": "Reset across provider mode, clear and stale completion",
+          "explanation": "Changing provider resets opt-in; SnapshotOnly neither sends nor retains a context run. Clearing during a held request cancels it and drops all displayed/pinned state, while a subsequent unrelated request must have null context. The21-check result is persisted and any false result throws before outer success.",
+          "focus": [
+            {
+              "start": 190,
+              "end": 198
+            },
+            {
+              "start": 204,
+              "end": 209
+            }
+          ]
+        }
       ]
     }
   ]

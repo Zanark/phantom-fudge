@@ -371,3 +371,39 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
   launcher10selfchecks and serial UI38keyboard pass. Initial concurrent UI InvalidOperationException
   remains recorded with unestablished cause. Exact asset hashes/limits: docs/release-0.2.0-preview.1.json.
   README/TODO/install guides and maintained reference editions updated; immutable tag/assets retained.
+- 2026-10-10 14:41 -59IN_PROGRESS: owner authorized Previous answer toggle immediately left of Ask.
+  Default-off/session-only; explicit Ask snapshots one displayed completed answer. Clarification
+  keeps SAME prior snapshot through corrections/confirmation/first-interpretation retry. No nested
+  request/history, tools or automatic send. Context on/off shares the handler; initial layout
+  attempted an extra secondary-action row (superseded by the15:21correction below).
+  Authored docs started; final synthetic tests/images/citations/atlas/book review pending.
+  Local source only, NOT v0.2.0-preview.1; no new release/model/audio/auth/context-store changes.
+- 2026-10-10 15:20 -59targeted Core396PASS/0skipped, parent-reported. Exporter build PASS;
+  initial synthetic UI fixture FAILED legacy question minimumLayout, with primary actions passing.
+  Failure receipt retained and no images imported. Compact height/App freeze still pending.
+  Read-only reviewed annotations pass for10frozen Core/provider/exporter files/2126lines/86blocks;
+  both script mirrors match. No final UI/atlas/book pass or live model/audio claim.
+- 2026-10-10 15:21 -59compact-height correction keeps one action row: short Edit/Done/Reply/Copy
+  captions with full accessible names; context80below560/118normally, Ask148/Clear98 unchanged.
+  AnswerFont owns responsiveness; Layout reverted to baseline. Second UI fixture still pending.
+- 2026-10-10 -59final authored review READY:22canonical files/6418lines/235blocks validate read-only,
+  plus2matching script mirrors. Corrected113guide/TODO citation expressions across20documents after
+  reviewing the frozen source and insertion boundaries; no older migration was replayed.
+  Persisted150412receipt confirms21context/38keyboard checks, no recording;41image-source hashes match.
+  Earlier generated editions need rebuilding for these final annotations/citations.59IN_PROGRESS
+  until parent final rendered review/freshness; inventories and exact receipt/image identities in59.
+- 2026-10-10 -59runtime complete locally: Core396PASS/no skips; final150412synthetic UI passed
+  all groups,21context/38keyboard checks, no model/audio.24WPF/11READMEimages refreshed; normal context reviewed.
+  Parent completed205-file/31766-line/1261-block annotations and133reviewed citation mappings.
+  Initial atlas656pages/book380pages generated; final edition review/freshness remain.
+- 2026-10-10 15:52 -59parent image review complete: normal context, all24contact-sheet entries and
+  full minimum question/clarification images. Context/Ask/Clear share the primary row; Edit/Copy may
+  wrap vertically in the existing left WrapPanel, not an added full-width row. Parent is inspecting/
+  reverting exporter-only App/Core RID lock changes before final freeze; no runtime behavior changes.
+- 2026-10-10 19:11 - DONE59: late authored changes reconciled; full atlas and handbook freshness
+  pass on stable inputs. Atlas205files/31766lines/29588nonblank/1261blocks/10groups/658pages;
+  book36chapters/73diagrams, exact final size/hashes in the edition manifests. Reviewed all27changed
+  chapter/appendix views,6changed diagrams,24UI contact-sheet images and the context/atlas views.
+  Simplified compressed diagrams; rejected intermediate invalid SVG corrected before final rendering.
+  Script twins match; Layout.cs/lockfiles/release receipt unchanged. No new runtime/model/audio/
+  installer/commit/push/publication or recipient qualification; published assets remain immutable.

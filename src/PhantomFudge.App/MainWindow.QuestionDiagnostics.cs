@@ -172,15 +172,22 @@ public partial class MainWindow
         var position = QuestionAskButton.TranslatePoint(new Point(), QuestionActionsGrid);
         var clearPosition = QuestionClearButton.TranslatePoint(new Point(), QuestionActionsGrid);
         var palette = ThemePalette.For(currentTheme);
-        return Grid.GetColumn(QuestionAskButton) == 2 && QuestionAskButton.ActualWidth >= 140 &&
+        var contextPosition = PreviousAnswerToggle.TranslatePoint(new Point(), QuestionActionsGrid);
+        return Grid.GetColumn(QuestionAskButton) == 3 && QuestionAskButton.ActualWidth >= 140 &&
             QuestionAskButton.ActualHeight >= 44 && QuestionAskButton.FontSize > QuestionEditButton.FontSize &&
-            Grid.GetColumn(QuestionClearButton) == 3 && clearPosition.X >= position.X + QuestionAskButton.ActualWidth + 8 &&
+            Grid.GetColumn(QuestionClearButton) == 4 && clearPosition.X >= position.X + QuestionAskButton.ActualWidth + 8 &&
+            Grid.GetRow(PreviousAnswerToggle) == Grid.GetRow(QuestionAskButton) &&
+            Math.Abs(contextPosition.Y - position.Y) < 1 &&
+            contextPosition.X + PreviousAnswerToggle.ActualWidth <= position.X - 4 &&
+            IsReadingControlReachable(PreviousAnswerToggle) &&
             Math.Abs(clearPosition.X + QuestionClearButton.ActualWidth + QuestionClearButton.Margin.Right - QuestionActionsGrid.ActualWidth) < 1 &&
             QuestionClearButton.Template.FindName("ClearFace", QuestionClearButton) is Border clearFace &&
             clearFace.BorderBrush is System.Windows.Media.SolidColorBrush border && border.Color == ThemeBrushes.Color(palette.Error) &&
             clearFace.BorderThickness == new Thickness(2) &&
             QuestionSecondaryActions.Children.OfType<Button>().All(button =>
-                button.TranslatePoint(new Point(), QuestionActionsGrid).X + button.ActualWidth <= position.X - 8) &&
+                Grid.GetRow(QuestionAskButton) > 0
+                    ? button.TranslatePoint(new Point(), QuestionActionsGrid).Y + button.ActualHeight <= position.Y
+                    : button.TranslatePoint(new Point(), QuestionActionsGrid).X + button.ActualWidth <= contextPosition.X - 8) &&
             QuestionAskButton.Template.FindName("PrimaryFace", QuestionAskButton) is Border face &&
             face.Background is System.Windows.Media.SolidColorBrush background && background.Color == ThemeBrushes.Color(palette.Accent) &&
             QuestionAskButton.Foreground is System.Windows.Media.SolidColorBrush foreground && foreground.Color == ThemeBrushes.Color(palette.ActionText);
@@ -191,7 +198,7 @@ public partial class MainWindow
         var controls = new FrameworkElement[] { ThemeToggleButton, BackgroundOpacity, TranscriptArea, TranscriptPane,
             TranscriptText, PartialText, QuestionPanel, QuestionSourcePanel, ProviderSetupPanel, QuestionReadingGrid,
             QuestionEditor, QuestionSnapshotPanel, QuestionSnapshotText, QuestionStatus, AnswerPanel, AnswerText, AnswerStatus,
-            QuestionAskButton, QuestionEditButton, QuestionCopyButton, QuestionClearButton, QuestionSourceToggle,
+            QuestionAskButton, PreviousAnswerToggle, QuestionEditButton, QuestionCopyButton, QuestionClearButton, QuestionSourceToggle,
             ClarificationReplyEditor, ClarificationSendReply, ClarificationConfirm, ClarificationReplyPanel,
             AnswerCancelButton, AnswerCopyButton, NotesToggleButton, StatusText, ProtectionStatusText };
         var layout = new

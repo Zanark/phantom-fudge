@@ -71,7 +71,7 @@ Docker is an explicit alternative branch requiring existing recipes, engine and 
 
 `LocalModel` requires an identifier and literal HTTP loopback `/v1` endpoint, not a hostname selected implicitly. That regex is only the first gate: its one-to-five-digit port shape is not numeric TCP-port validation. `-Connect` is Copilot-only and explicitly runs login in the dedicated profile, after scrubbing named inherited environment families. Unlike preparation, login has no scripted timeout. Failed login prevents enabling new settings but does not undo preparation/profile side effects. No question is submitted here; installed CLI execution must not be equated with offline inference. (scripts/Initialize-Answers.ps1:11) (scripts/Initialize-Answers.ps1:62)
 
-The desktop preserves the downstream distinction: ordinary Ask has no clarification history; `clarifyFirst` begins false, and a correction or Yes requires explicit submission. A typed correction is not discarded by clicking confirmation. Direct Azure remains future work, and source-only selection/clarification increments must not be attributed to the historical `045022` ZIP. (src/PhantomFudge.App/MainWindow.Clarification.cs:11) (src/PhantomFudge.App/MainWindow.Clarification.cs:117) (TODO/00_INDEX.todo:39)
+The desktop preserves the downstream distinction: ordinary Ask has no clarification history; `clarifyFirst` begins false, and a correction or Yes requires explicit submission. A typed correction is not discarded by clicking confirmation. Direct Azure remains future work. Selection/clarification ship in v0.2.0-preview.1 but not the historical `045022` ZIP; Previous answer is the newer local-source addition, not part of that published release. (src/PhantomFudge.App/MainWindow.Clarification.cs:11) (src/PhantomFudge.App/MainWindow.Clarification.cs:120) (TODO/00_INDEX.todo:45) (docs/OVERVIEW.md:131-134)
 
 The two CopilotProbe files are **active experiments**, not passive configuration readers:
 
@@ -159,7 +159,19 @@ Copy-Item -LiteralPath $source -Destination (Join-Path $scripts "$name.txt")
 
 Both outputs read the canonical `.ps1`, so packaged aliases derive from the same bytes rather than a second maintained implementation. This documentation annotates only canonical scripts; parent validation owns source-tree alias equality. ZIP hashing identifies bytes, not signing, publication or qualification. (scripts/Publish-Preview.ps1:30) (scripts/Publish-Preview.ps1:49)
 
-Image export follows another evidence boundary. The screenshot helper builds a separate fixture, waits up to 45 seconds, and requires successful non-recording documentation output before importing twenty named PNGs. It records image dimensions/hashes, selected UI-source hashes and assembly identity. The README helper requires exactly one matching source-hash record, composites ten images unscaled over fixed opaque palette backgrounds, and records both hashes. These loops are incremental, not transactional. Neither RenderTargetBitmap nor successful provenance checks establish recipient-side capture exclusion. (scripts/Export-HandbookScreenshots.ps1:12) (scripts/Export-HandbookScreenshots.ps1:26) (scripts/Export-HandbookScreenshots.ps1:78) (scripts/Export-ReadmeImages.ps1:28)
+Image export follows another evidence boundary. The screenshot helper builds a separate fixture, waits up to 45 seconds, and requires successful non-recording documentation output before importing its explicit PNG allowlist. It records image dimensions/hashes, selected UI-source hashes and assembly identity. The README helper requires exactly one matching source-hash record, composites selected images unscaled over fixed opaque palette backgrounds, and records both hashes. These loops are incremental, not transactional. Neither RenderTargetBitmap nor successful provenance checks establish recipient-side capture exclusion. (scripts/Export-HandbookScreenshots.ps1:12) (scripts/Export-HandbookScreenshots.ps1:26) (scripts/Export-HandbookScreenshots.ps1:79) (scripts/Export-ReadmeImages.ps1:29)
+
+The previous-answer increment adds `answer-context.png` to both source and derivative allowlists,
+and hashes the context controller plus its synthetic diagnostic in screenshot provenance. The
+fake provider records requests and emits deterministic completion/failure/cancellation paths;
+it checks toggle/keyboard/reset behavior and unchanged clarification snapshots without a real
+model or audio device. Its screenshot is taken with generated text and an explicit synthetic notice.
+Source implementation, executed fixture receipt and manual rendered review remain distinct evidence;
+none is inferred merely from an image filename or test method.
+([Context diagnostic](../../src/PhantomFudge.App/MainWindow.AnswerContextDiagnostics.cs),
+[screenshot exporter](../../scripts/Export-HandbookScreenshots.ps1),
+[README derivatives](../../scripts/Export-ReadmeImages.ps1),
+[workstream59 evidence](../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo).)
 
 ## 4. Diagnostics: collection, summary, and export are different
 

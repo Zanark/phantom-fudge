@@ -24,6 +24,17 @@ Repository editions may add this publication follow-up; release attachments rema
 
 ## Current source summary
 
+**October10 previous-answer increment: implemented locally, source only.** The default-off toggle
+immediately left of Ask adds one displayed completed answer as background; clarification retains
+the same snapshot through corrections, confirmation and explicit first-interpretation retry.
+Keyboard `context on/off` shares the guarded handler. The focused Core suite passed396cases;
+the final synthetic UI fixture passed21context checks,38keyboard checks and existing UI groups.
+All24WPF images and11README derivatives were refreshed; parent reviewed normal context, all24contact-sheet entries and full minimum question/clarification images.
+The first new fixture exposed a compact snapshot-height regression; shorter secondary captions
+and a narrower context toggle corrected it before the final pass. No model or audio input was used.
+[Workstream59](../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo) records source/edition evidence;
+**v0.2.0-preview.1 does not contain this addition**. No release asset/tag changes.
+
 Start with the [illustrated current workflow](CURRENT-WORKFLOW.md). It includes the maintained
 images and the exact distinction between selecting, recording, sending, covering and stopping.
 The dated sections below preserve earlier evidence rather than pretending old packages contain
@@ -36,6 +47,7 @@ newer features.
 | Red recording dot | Follows active transcription, not startup or input-mode selection; no audio-file save implied | [Capture state](CURRENT-WORKFLOW.md#2-start-transcription-and-watch-the-red-dot) |
 | Multi-line question selection | Whole Mic/Computer segments, raw text in display order, no automatic Ask | [Local questions](LOCAL-QUESTIONS.md) |
 | Clarify first | Off by default; separate original/reply, explicit correction or Yes, bounded history | [Clarification](QUESTION-CLARIFICATION.md) |
+| Previous answer | Local-source increment; explicit single completed-answer snapshot, session-only/default-off, no accumulated history | [Follow-up context](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer) |
 | Ask and Clear | Large accent Ask, red-bordered Clear immediately after it; existing guards retained | [Current controls](CURRENT-WORKFLOW.md#components-know-the-controls-before-sending) |
 | Reading sizes | Final transcript15; partial13.5/10.5; answer10/9 until a session choice8–24; question18, in WPF units | [Typography](CURRENT-WORKFLOW.md#current-sizes-themes-and-visible-status) |
 | Keyboard controls / answer Size | Included in the published preview; explicit local modes and session size8-24; external focus/comfort qualification remains | [Canonical keyboard guide](KEYBOARD-CONTROLS.md) |
@@ -47,6 +59,7 @@ newer features.
 `scripts\Run-PhantomFudge.ps1`. Save/copy required text and close an older instance with X before
 updating. The immutable045022ZIP predates the later selection/clarification/action/font/card/cover
 changes; use v0.2.0-preview.1 instead. Workstream58 is complete for this private, unqualified preview.
+Use current source, not that release, for the new Previous answer toggle.
 
 **Earlier evidence, not a keyboard-increment pass:** the140313synthetic UI fixture covers the then-current combined interface,
 including15cover assertions, source selection, cards, font/layout/action, clarification and alpha
@@ -516,7 +529,7 @@ Command/Search/Devices/Help modes, explicit Enter review then Ctrl+Enter submiss
 built-in commands and a best-effort foreground return. Ordinary mode changes and masking preserve
 ongoing capture/provider work. `:devices` refuses busy audio/answers and otherwise opens setup,
 closing Q/A; `:stop` and `:cancel` remain different operations.
-(src/PhantomFudge.App/MainWindow.Keyboard.cs:16-28,65-175,218-368;
+(src/PhantomFudge.App/MainWindow.Keyboard.cs:16-28,65-175,218-370;
 src/PhantomFudge.App/MainWindow.KeyboardSelection.cs:110-159;
 src/PhantomFudge.App/MainWindow.KeyboardDevices.cs:42-71.)
 

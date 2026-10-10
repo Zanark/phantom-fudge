@@ -25,6 +25,7 @@ state transition in one place, including what keeps running under Cover.
 | Live transcript and notes | Transcript-first interface with optional plain-text notes and explicit save/export | [Preview guide](PREVIEW-GUIDE.md) |
 | Questions and answers | Click several Mic/Computer lines, review one draft, then freeze locally or Ask an explicitly configured provider | [Question composer](LOCAL-QUESTIONS.md), [provider setup](ANSWER-PROVIDERS.md) |
 | Question clarification | Off by default; request an interpretation, then explicitly send Yes or a correction | [Clarify first](QUESTION-CLARIFICATION.md) |
+| Previous answer | New local source, not v0.2.0-preview.1: default-off toggle left of Ask includes one displayed completed answer, never accumulated history | [Follow-up context](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer) |
 | Appearance | Larger responsive reading columns; white/black reading text; all reading surfaces share background translucency | [Themes and cursor behavior](CURSOR-AND-THEMES.md) |
 | Action hierarchy and text density | Large accent Ask followed by red-bordered Clear; transcript25%smaller and answer50%smaller | [Current sizes and controls](CURRENT-WORKFLOW.md#current-sizes-themes-and-visible-status) |
 | Notepad cover | NOTEPAD IS READY plus Uncover; already-started transcription and answers continue | [Cover and privacy limits](COVER-AND-PRIVACY.md) |
@@ -127,9 +128,10 @@ source versus packaged execution, and uses a loopback endpoint
 (`scripts/Run-PhantomFudge.ps1:17-57`). Save/close an older running instance before trying a newer
 preview. Never terminate it to force an update while unsaved notes may exist.
 
-The later selection, clarification, typography/actions, recording indicator, device cards and cover
-are **source-only** through that launcher. The immutable historical045022ZIP does not contain those
-later changes. See [current status](IMPLEMENTATION-STATUS.md).
+Selection, clarification, typography/actions, recording indicator, device cards, cover and keyboard
+controls ship in **v0.2.0-preview.1**, unlike historical045022. The newer Previous answer addition is
+**local source only**, through that launcher, and is not in the published release.
+See [current status](IMPLEMENTATION-STATUS.md).
 
 **Docker is optional and last.** It is not on the normal transcription path or the native-release
 critical path. A cloud account is not needed for local notes/transcription; hosted answers still
@@ -205,11 +207,15 @@ flowchart LR
 Only intended segments enter the draft. Manual edits prevent later ASR from overwriting its text;
 `Freeze` validates and copies the exact local question
 (`src/PhantomFudge.Core/QuestionDraft.cs:48-95`). The current Ask handler displays that snapshot
-or sends only its exact question through an explicitly configured provider
-(`src/PhantomFudge.App/MainWindow.Questions.cs:265-291`).
+or sends its exact question through an explicitly configured provider
+(`src/PhantomFudge.App/MainWindow.Questions.cs:265-292`).
 The explicit, default-off clarification exception adds its fixed instruction and only this
 question's bounded interpretation/reply history. Each correction or confirmation requires another
 deliberate send; Cover does not auto-confirm anything.
+Separately, **Previous answer** snapshots one completed displayed answer on Ask, before any
+interpretation replaces it. Corrections and confirmation retain that same snapshot. It is
+default-off/session-only and never appends a full conversation or transcript.
+([Context controller](../src/PhantomFudge.App/MainWindow.AnswerContext.cs).)
 
 Ordinary clicks toggle whole segments without Ctrl and compose raw text in displayed history
 order, including older visible rows beyond chooser eviction. After editing, direct changes are

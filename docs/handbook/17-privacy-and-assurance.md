@@ -15,7 +15,7 @@ description: "A bounded threat and evidence model for local audio, window exclus
 "Private" can mean that notes are absent from a recipient's frames, audio stays local, a token
 is not logged, a file is encrypted, or a process is not listed. Those are different properties.
 The current product explicitly does not promise process invisibility or a security/DRM boundary
-(`docs\PRODUCT.md:184-200`).
+(`docs\PRODUCT.md:209-225`).
 
 The first useful threat-model step is therefore to state what is controlled. The app owns
 its HWND and can request display affinity. It owns the selected capture objects and can require
@@ -160,13 +160,31 @@ only explicit Ask sends question data (`src/PhantomFudge.App/MainWindow.AnswerLi
 The future Ask design intentionally sends a chosen immutable question, not the whole transcript.
 Cloud audio is optional and separately configured. Model text is displayed as data, not executed
 as code or used to choose tools/URLs. The desktop is a public client and must not contain a
-distributed application secret (`docs\AI-ANSWER-PRIVACY.md:1-93`).
+distributed application secret (`docs\AI-ANSWER-PRIVACY.md:1-108`).
 
 `store:false` is not universal zero retention, and a resource's nominal region does not necessarily
 pin all Global deployment processing to that region. Those statements belong in the product
 contract before cloud execution, not after an incident. At this edition, Azure Ask is design
 only; no direct Azure identity/profile or Azure latency result exists. Installed Agency has its own
 bounded measured results, not evidence that an Azure deployment or universal five-second SLO exists.
+
+## Explicit prior text is another disclosure, not a permission escalation
+
+The local-source Previous answer toggle is off by default and sends nothing until Ask.
+Then it includes one displayed completed answer, not the previous question, full meeting or nested
+history. That text may contain sensitive quotations, so the user can inspect it and the exact
+submitted copy under Setup/details. Busy work/active clarification locks the toggle; Clear and
+provider changes reset it. Existing provider/OS/diagnostic retention limits still apply.
+([Context controller](../../src/PhantomFudge.App/MainWindow.AnswerContext.cs).)
+
+The prompt labels prior text as background, not an instruction, task mode or tool grant.
+Nonblank strict Unicode and32768UTF-16 units bound the field; fresh sessions and existing tool
+denial remain. Synthetic input/transport checks are not a universal prompt-injection resistance
+or model-quality proof. This increment does not requalify recipient capture or alter published
+v0.2.0-preview.1 assets.
+([Prompt policy](../../src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs),
+[request validation](../../src/PhantomFudge.Core/Answers/AnswerContracts.cs),
+[workstream59](../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo).)
 
 ## Review questions
 
@@ -178,11 +196,11 @@ bounded measured results, not evidence that an Azure deployment or universal fiv
 
 ## References
 
-- `docs\PRODUCT.md:184-200` — privacy scope.
+- `docs\PRODUCT.md:209-225` — privacy scope.
 - `src\PhantomFudge.App\Native\WindowProtection.cs:19-48` — owned-window policy.
 - `src\PhantomFudge.App\Native\CursorPolicy.cs:1-25` — standard cursor behavior.
 - `src\PhantomFudge.App\LocalFailureNotice.cs:1-30` — generic local error notice.
 - `services\transcription\server.py:71-215` — protocol/authentication boundaries.
 - `services\transcription\manage.py:155-200` — owned shutdown.
 - `src\PhantomFudge.Core\NoteFileStore.cs:16-91` — local file semantics.
-- `docs\AI-ANSWER-PRIVACY.md:1-93` — proposed cloud boundary.
+- `docs\AI-ANSWER-PRIVACY.md:1-108` — proposed cloud boundary.

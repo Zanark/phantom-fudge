@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "providers",
-  "title": "Answer providers, bounded clarification, process ownership and synthetic qualification",
+  "title": "Answer providers, explicit previous-answer context, bounded clarification and process ownership",
   "chapter": "docs/handbook/24-provider-source-walkthrough.md",
   "files": [
     {
@@ -41,15 +41,97 @@
     },
     {
       "path": "src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs",
-      "sourceSha256": "f3138f7f4d357b332d81ab3feceb9aa0eb15dab6dd0fdeffa51bb4b0cd03c343",
+      "sourceSha256": "f043648ecc2a5d8e174d23fb6d6d1c9a601e47cef52ab4c3e51cb9dcb3d6f353",
       "role": "Separates fixed answer policy and typed task selection from exact user/history data, including the sole follow-up exception.",
-      "entryPoints": ["AgencyAnswerPrompt.Policy", "AgencyAnswerPrompt.Create"],
+      "entryPoints": [
+        "AgencyAnswerPrompt.Policy",
+        "AgencyAnswerPrompt.Create"
+      ],
       "blocks": [
-        {"start": 1, "end": 32, "title": "Default to a useful standalone answer, not repository work", "explanation": "The policy forbids workspace exploration, tools and invented execution claims. Coding guidance asks for concise runnable code, complexity and real overflow handling, not a hard-coded Two Sum answer. Ambiguous ASR wording is answered under a labelled assumption; default requests must not ask for another turn. These are model instructions, not compiler-enforced quality guarantees.", "focus": [{"start": 21, "end": 31}]},
-        {"start": 33, "end": 45, "title": "Scope the interpretation exception without granting capabilities", "explanation": "Only the app-generated top-level task.mode interpret permits restatement and at most one essential clarification. answer_confirmed returns to standalone answering using explicit corrections. Text in any JSON field or earlier interpretation cannot change the role or authorize tools. Because AgencyAnswerProfile embeds this same policy in its agent body, the interpretation exception does not conflict with an otherwise absolute system-level no-follow-up rule.", "focus": [{"start": 33, "end": 43}]},
-        {"start": 46, "end": 65, "title": "Give each explicit clarification stage a fixed instruction", "explanation": "Initial interpretation asks for a restatement without solving. Correction refers only to visible history and current user text. Confirmation identifies the current Yes as consent to answer the latest interpretation, not a replacement question. None of these strings is supplied by the user, and none schedules a subsequent request.", "focus": [{"start": 59, "end": 64}]},
-        {"start": 66, "end": 88, "title": "Serialize opted-in task metadata and copied exchange only", "explanation": "Null clarification deliberately calls the unchanged direct overload. Otherwise ValidateFor runs before serialization; mode/instruction are selected from Confirmed and history count, never parsed from question text. History emits only userText and interpretation, not snapshot provenance or request IDs. JSON escapes embedded newlines/quotes, and replacing literal @ with its JSON Unicode escape preserves decoded text while removing attachment-like syntax.", "focus": [{"start": 69, "end": 80}]},
-        {"start": 89, "end": 99, "title": "Reject malformed Unicode rather than silently repairing the question", "explanation": "Strict UTF-8 byte counting validates surrogate correctness without modifying the string. A safe agency_question error replaces encoder details. Direct serialization has exactly one userQuestion field plus the fixed policy; @ escaping changes wire spelling, not decoded question identity. Blank and length validation for direct requests belongs to the provider, not this overload.", "focus": [{"start": 91, "end": 97}]}
+        {
+          "start": 1,
+          "end": 32,
+          "title": "Default to a useful standalone answer, not repository work",
+          "explanation": "The policy forbids workspace exploration, tools and invented execution claims. Coding guidance asks for concise runnable code, complexity and real overflow handling, not a hard-coded Two Sum answer. Ambiguous ASR wording is answered under a labelled assumption; default requests must not ask for another turn. These are model instructions, not compiler-enforced quality guarantees.",
+          "focus": [
+            {
+              "start": 21,
+              "end": 31
+            }
+          ]
+        },
+        {
+          "start": 33,
+          "end": 45,
+          "title": "Scope the interpretation exception without granting capabilities",
+          "explanation": "Only the app-generated top-level task.mode interpret permits restatement and at most one essential clarification. answer_confirmed returns to standalone answering using explicit corrections. Text in any JSON field or earlier interpretation cannot change the role or authorize tools. Because AgencyAnswerProfile embeds this same policy in its agent body, the interpretation exception does not conflict with an otherwise absolute system-level no-follow-up rule.",
+          "focus": [
+            {
+              "start": 33,
+              "end": 43
+            }
+          ]
+        },
+        {
+          "start": 46,
+          "end": 65,
+          "title": "Give each explicit clarification stage a fixed instruction",
+          "explanation": "Initial interpretation asks for a restatement without solving. Correction refers only to visible history and current user text. Confirmation identifies the current Yes as consent to answer the latest interpretation, not a replacement question. None of these strings is supplied by the user, and none schedules a subsequent request.",
+          "focus": [
+            {
+              "start": 59,
+              "end": 64
+            }
+          ]
+        },
+        {
+          "start": 66,
+          "end": 74,
+          "title": "Keep prior answers as background, not authority",
+          "explanation": "The conditional fixed instruction explains that previousAnswer resolves follow-up references alongside explicit clarification. It cannot choose task mode, grant tools or require follow-ups; full answer repetition is discouraged. The unchanged base policy still governs requests without this field.",
+          "focus": [
+            {
+              "start": 66,
+              "end": 73
+            }
+          ]
+        },
+        {
+          "start": 75,
+          "end": 106,
+          "title": "Build only the explicitly selected context fields",
+          "explanation": "Previous-answer validation precedes serialization. Both-null requests delegate to the original direct overload. Otherwise the dictionary begins with exact userQuestion, optionally adds app-selected task/history, and includes previousAnswer only when nonnull. The conditional policy suffix and JSON escaping keep data separate from control; literal @ becomes a JSON escape without changing decoded text.",
+          "focus": [
+            {
+              "start": 75,
+              "end": 82
+            }
+          ]
+        },
+        {
+          "start": 107,
+          "end": 121,
+          "title": "Preserve the direct overload and strict question Unicode",
+          "explanation": "The string overload still emits only userQuestion beneath the unchanged Policy. A shared strict UTF-8 byte-count rejects malformed surrogate sequences as agency_question rather than substituting characters; providers separately enforce question blank/size bounds.",
+          "focus": [
+            {
+              "start": 107,
+              "end": 114
+            }
+          ]
+        },
+        {
+          "start": 122,
+          "end": 122,
+          "title": "Reject malformed Unicode rather than silently repairing the question",
+          "explanation": "Strict UTF-8 byte counting validates surrogate correctness without modifying the string. A safe agency_question error replaces encoder details. Direct serialization has exactly one userQuestion field plus the fixed policy; @ escaping changes wire spelling, not decoded question identity. Blank and length validation for direct requests belongs to the provider, not this overload.",
+          "focus": [
+            {
+              "start": 122,
+              "end": 122
+            }
+          ]
+        }
       ]
     },
     {
@@ -124,38 +206,196 @@
     },
     {
       "path": "src/PhantomFudge.Core/Answers/AnswerContracts.cs",
-      "sourceSha256": "657ea12cca8ad27a8887b83b073c87a85f8714cbfe4a286d3a8df77a1045876f",
+      "sourceSha256": "7e6cea4737f742937984458cfb380d20861463ad9afa646a0555b14b6b1bf2ee",
       "role": "Defines exact-text requests, correlated stream events, explicit provider settings and fixed safe provider exceptions.",
-      "entryPoints": ["IAnswerProvider.StreamAsync", "AnswerSettings.Validate", "AnswerSettings.ValidateLocalEndpoint"],
+      "entryPoints": [
+        "IAnswerProvider.StreamAsync",
+        "AnswerSettings.Validate",
+        "AnswerSettings.ValidateLocalEndpoint"
+      ],
       "blocks": [
-        {"start": 1, "end": 22, "title": "Do not put snapshot provenance on the provider request", "explanation": "AnswerRequest carries only request ID, ExactText and optional clarification (null by default); SourceRefs remain in QuestionSnapshot. AnswerEvent adds a per-request sequence and distinguishes deltas from an empty-text completion. IAnswerProvider is an async stream with cancellation. Settings name four explicit modes, including SnapshotOnly; there is no Azure adapter mode here.", "focus": [{"start": 3, "end": 14}]},
-        {"start": 23, "end": 48, "title": "Reject shell-shaped settings and implicit provider mixing", "explanation": "An undefined enum fails, while SnapshotOnly exits without validating unused provider fields because it sends nothing. Non-null executable paths must be absolute .exe paths at most 1024 characters. Model identifiers are 1..128 characters from a narrow ASCII punctuation set. Hosted Copilot/Agency forbid LocalEndpoint; LocalModel instead requires an explicit model and endpoint. File existence is checked later during resolution.", "focus": [{"start": 35, "end": 46}]},
-        {"start": 49, "end": 66, "title": "Constrain local routing to literal HTTP loopback", "explanation": "The URI must be HTTP with /v1 or /v1/, literal 127.0.0.1 or [::1], and no credentials, query or fragment. Rejecting percent/backslash spellings and requiring the original literal host prefix prevents alternate normalized loopback spellings from being silently accepted. The code does not require an explicit port despite the example wording, nor implement the HTTP client's redirect behavior. AnswerProviderException carries a stable code and caller-safe message.", "focus": [{"start": 51, "end": 59}]}
+        {
+          "start": 1,
+          "end": 41,
+          "title": "Do not put snapshot provenance on the provider request",
+          "explanation": "AnswerRequest contains RequestId, ExactText, optional Clarification and optional PreviousAnswer, both null by default. ValidatePreviousAnswer accepts null but rejects blank, over32768 UTF-16 units or malformed Unicode without truncation or content echo. SourceRefs stay local. AnswerEvent carries per-request sequence/kind/text; IAnswerProvider streams with cancellation, and the mode enum includes SnapshotOnly but no direct Azure adapter.",
+          "focus": [
+            {
+              "start": 5,
+              "end": 16
+            }
+          ]
+        },
+        {
+          "start": 42,
+          "end": 67,
+          "title": "Reject shell-shaped settings and implicit provider mixing",
+          "explanation": "An undefined enum fails, while SnapshotOnly exits without validating unused provider fields because it sends nothing. Non-null executable paths must be absolute .exe paths at most 1024 characters. Model identifiers are 1..128 characters from a narrow ASCII punctuation set. Hosted Copilot/Agency forbid LocalEndpoint; LocalModel instead requires an explicit model and endpoint. File existence is checked later during resolution.",
+          "focus": [
+            {
+              "start": 54,
+              "end": 65
+            }
+          ]
+        },
+        {
+          "start": 68,
+          "end": 85,
+          "title": "Constrain local routing to literal HTTP loopback",
+          "explanation": "The URI must be HTTP with /v1 or /v1/, literal 127.0.0.1 or [::1], and no credentials, query or fragment. Rejecting percent/backslash spellings and requiring the original literal host prefix prevents alternate normalized loopback spellings from being silently accepted. The code does not require an explicit port despite the example wording, nor implement the HTTP client's redirect behavior. AnswerProviderException carries a stable code and caller-safe message.",
+          "focus": [
+            {
+              "start": 70,
+              "end": 78
+            }
+          ]
+        }
       ]
     },
     {
       "path": "src/PhantomFudge.Core/Answers/AnswerRun.cs",
-      "sourceSha256": "b13363a92db8fa9c40dd9b90972ad12fb2d88f0f820184fadec4070454a095b4",
+      "sourceSha256": "b86089abacfd5d2322c48a339a2191dc974dd4ad2fb07d90269649b1b6e70c92",
       "role": "Maintains caller-serialized visible answer state independently of provider transport success and later draft edits.",
-      "entryPoints": ["AnswerRun.AnswerRun", "AnswerRun.Apply", "AnswerRun.Complete", "AnswerRun.Cancel", "AnswerRun.Fail"],
+      "entryPoints": [
+        "AnswerRun.AnswerRun",
+        "AnswerRun.Apply",
+        "AnswerRun.Complete",
+        "AnswerRun.Cancel",
+        "AnswerRun.Fail"
+      ],
       "blocks": [
-        {"start": 1, "end": 31, "title": "Bind one immutable snapshot to one fresh request", "explanation": "The run validates snapshot, label and optional clarification before creating a fresh request GUID. ExactText is copied into AnswerRequest without SourceRefs; Snapshot remains available locally for provenance. Streaming is the initial state and the buffer starts empty. The class declares caller serialization rather than providing locks for concurrent Apply calls.", "focus": [{"start": 15, "end": 23}]},
-        {"start": 32, "end": 54, "title": "Filter stale events before enforcing stream invariants", "explanation": "Foreign-request or non-streaming events return false, making late callbacks harmless. Matching active events must have increasing positive sequence values and cannot follow terminal evidence; gaps are allowed. Completion must carry no text and only marks terminalReceived. Nonempty text deltas are appended only if the whole delta fits 32768 characters, with long arithmetic preventing sum overflow. Invalid or oversized deltas never partially append.", "focus": [{"start": 34, "end": 44}, {"start": 46, "end": 50}]},
-        {"start": 55, "end": 80, "title": "Finalize only after enumeration succeeds; preserve partial text on failure", "explanation": "Complete is separate from receiving a Completed event because enumeration or iterator cleanup can still fail. It requires terminal evidence and nonblank text before changing state. Cancel and Fail affect only a still-streaming run and leave accepted text visible. Cancel explicitly labels that text incomplete and forbids an implied automatic resume; safeMessage must be supplied safely by the caller.", "focus": [{"start": 57, "end": 62}, {"start": 67, "end": 70}]}
+        {
+          "start": 1,
+          "end": 33,
+          "title": "Bind one immutable snapshot to one fresh request",
+          "explanation": "The run validates snapshot, label and optional clarification before creating a fresh request GUID. ExactText is copied into AnswerRequest without SourceRefs; Snapshot remains available locally for provenance. Streaming is the initial state and the buffer starts empty. The class declares caller serialization rather than providing locks for concurrent Apply calls. The fourth constructor argument previousAnswer is validated and stored with the immutable request. The run does not infer it from other runs or accumulate prior requests; caller-owned strings are immutable.",
+          "focus": [
+            {
+              "start": 15,
+              "end": 25
+            }
+          ]
+        },
+        {
+          "start": 34,
+          "end": 56,
+          "title": "Filter stale events before enforcing stream invariants",
+          "explanation": "Foreign-request or non-streaming events return false, making late callbacks harmless. Matching active events must have increasing positive sequence values and cannot follow terminal evidence; gaps are allowed. Completion must carry no text and only marks terminalReceived. Nonempty text deltas are appended only if the whole delta fits 32768 characters, with long arithmetic preventing sum overflow. Invalid or oversized deltas never partially append.",
+          "focus": [
+            {
+              "start": 36,
+              "end": 46
+            },
+            {
+              "start": 48,
+              "end": 52
+            }
+          ]
+        },
+        {
+          "start": 57,
+          "end": 82,
+          "title": "Finalize only after enumeration succeeds; preserve partial text on failure",
+          "explanation": "Complete is separate from receiving a Completed event because enumeration or iterator cleanup can still fail. It requires terminal evidence and nonblank text before changing state. Cancel and Fail affect only a still-streaming run and leave accepted text visible. Cancel explicitly labels that text incomplete and forbids an implied automatic resume; safeMessage must be supplied safely by the caller.",
+          "focus": [
+            {
+              "start": 59,
+              "end": 64
+            },
+            {
+              "start": 69,
+              "end": 72
+            }
+          ]
+        }
       ]
     },
     {
       "path": "src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs",
-      "sourceSha256": "8c2a8a3c0ac249fbda416087edeed07f58328d4a444d6820389a88ed27256ed4",
+      "sourceSha256": "80c66fac5f275e98efe01b49d36923b5dcb2767e5edaea13f9bd6304ddfe5577",
       "role": "Runs one-shot hosted-Copilot or explicitly offline local-model requests with exact stdin, strict event parsing and owned-directory cleanup.",
-      "entryPoints": ["CopilotCliAnswerProvider.StreamAsync", "CopilotCliAnswerProvider.InitializeProfile", "CopilotCliAnswerProvider.ResolveExecutable"],
+      "entryPoints": [
+        "CopilotCliAnswerProvider.StreamAsync",
+        "CopilotCliAnswerProvider.InitializeProfile",
+        "CopilotCliAnswerProvider.ResolveExecutable"
+      ],
       "blocks": [
-        {"start": 1, "end": 41, "title": "Separate explicit hosted and local modes from Agency", "explanation": "Public helpers resolve the executable or initialize a profile only when called. Production requests live under LocalAppData with a 120-second deadline and reject Git ancestors. The internal constructor permits only Copilot/LocalModel, validates both profile and request paths, and accepts a test-only launch transformer. Unlike Agency, this object has no persistent engine/session gate.", "focus": [{"start": 29, "end": 39}]},
-        {"start": 42, "end": 60, "title": "Validate clarification before executable or profile I/O", "explanation": "Optional metadata and ordinary question bounds are checked first. Null metadata leaves clarificationPrompt null; opted-in requests get AgencyAnswerPrompt's fixed envelope before resolution. Hosted mode validates the dedicated persistent profile, local mode does not read it. Fresh owned work/home/profile paths and a linked deadline are then allocated. Direct null requests do not gain the Agency policy envelope.", "focus": [{"start": 45, "end": 54}]},
-        {"start": 61, "end": 80, "title": "Version-check in isolation, then send through stdin", "explanation": "The request creates isolated directories and a temporary managed profile. Version verification uses that temporary profile for both modes; actual hosted requests use the explicit dedicated profile while local requests retain the temporary one. SendAsync receives raw ExactText for default/null metadata and the validated envelope only for clarification. It closes stdin after flushing, signalling the one-shot prompt's end without command-line prompt exposure.", "focus": [{"start": 66, "end": 77}]},
-        {"start": 81, "end": 111, "title": "Require parser terminal and real exit before success", "explanation": "Each record is checked against stderr failure and the strict Copilot parser; accepted text produces correlated increasing events. After EOF the child must exit, stderr must be checked and parser.Complete(exit) must succeed before Completed is yielded. Finally removes only the GUID-owned tree. Hosted profile session stores outside that tree are not deleted by this code, and cleanup errors can still fail enumeration after a completion event.", "focus": [{"start": 87, "end": 96}, {"start": 100, "end": 106}]},
-        {"start": 112, "end": 138, "title": "Use an offline bounded version process with no flag downgrade", "explanation": "Version stdin closes immediately. stdout is bounded at 4096 characters, and the first line must exactly match an allowed CLI version with zero exit. Unsupported output fails before sending the question; safety flags are never removed to make a newer binary work. Deadline cancellation and unsafe decoding/I/O receive fixed error codes rather than echoing process output.", "focus": [{"start": 122, "end": 130}]},
-        {"start": 139, "end": 155, "title": "Map stream and directory failures into safe provider errors", "explanation": "MoveNextAsync distinguishes the linked deadline from caller cancellation and maps pipe I/O to copilot_io. Directory creation maps permission/I/O failure to the profile error. Transform is an internal test seam, not an externally configurable command runner. TimedOut centralizes the fixed copilot_timeout status.", "focus": [{"start": 139, "end": 149}]}
+        {
+          "start": 1,
+          "end": 41,
+          "title": "Separate explicit hosted and local modes from Agency",
+          "explanation": "Public helpers resolve the executable or initialize a profile only when called. Production requests live under LocalAppData with a 120-second deadline and reject Git ancestors. The internal constructor permits only Copilot/LocalModel, validates both profile and request paths, and accepts a test-only launch transformer. Unlike Agency, this object has no persistent engine/session gate.",
+          "focus": [
+            {
+              "start": 29,
+              "end": 39
+            }
+          ]
+        },
+        {
+          "start": 42,
+          "end": 61,
+          "title": "Validate clarification before executable or profile I/O",
+          "explanation": "Ordinary question bounds and optional clarification are checked before side effects. contextualPrompt remains null only when both optional fields are null; otherwise AgencyAnswerPrompt validates and serializes the explicit context. Executable resolution, hosted-profile validation and fresh workspace/deadline creation follow. The both-null path keeps its raw direct input rather than gaining an Agency envelope.",
+          "focus": [
+            {
+              "start": 45,
+              "end": 55
+            }
+          ]
+        },
+        {
+          "start": 62,
+          "end": 81,
+          "title": "Version-check in isolation, then send through stdin",
+          "explanation": "Fresh work/home and temporary profile directories precede version validation. Hosted mode then uses the configured persistent profile; local mode retains the temporary one. Both-null requests send raw ExactText; previous-answer and/or clarification requests send the full validated envelope. SendAsync flushes strict UTF-8 stdin and closes it, so context does not inflate Windows argv or create a prompt file.",
+          "focus": [
+            {
+              "start": 67,
+              "end": 78
+            }
+          ]
+        },
+        {
+          "start": 82,
+          "end": 112,
+          "title": "Require parser terminal and real exit before success",
+          "explanation": "Each record is checked against stderr failure and the strict Copilot parser; accepted text produces correlated increasing events. After EOF the child must exit, stderr must be checked and parser.Complete(exit) must succeed before Completed is yielded. Finally removes only the GUID-owned tree. Hosted profile session stores outside that tree are not deleted by this code, and cleanup errors can still fail enumeration after a completion event.",
+          "focus": [
+            {
+              "start": 88,
+              "end": 97
+            },
+            {
+              "start": 101,
+              "end": 107
+            }
+          ]
+        },
+        {
+          "start": 113,
+          "end": 139,
+          "title": "Use an offline bounded version process with no flag downgrade",
+          "explanation": "Version stdin closes immediately. stdout is bounded at 4096 characters, and the first line must exactly match an allowed CLI version with zero exit. Unsupported output fails before sending the question; safety flags are never removed to make a newer binary work. Deadline cancellation and unsafe decoding/I/O receive fixed error codes rather than echoing process output.",
+          "focus": [
+            {
+              "start": 123,
+              "end": 131
+            }
+          ]
+        },
+        {
+          "start": 140,
+          "end": 156,
+          "title": "Map stream and directory failures into safe provider errors",
+          "explanation": "MoveNextAsync distinguishes the linked deadline from caller cancellation and maps pipe I/O to copilot_io. Directory creation maps permission/I/O failure to the profile error. Transform is an internal test seam, not an externally configurable command runner. TimedOut centralizes the fixed copilot_timeout status.",
+          "focus": [
+            {
+              "start": 140,
+              "end": 150
+            }
+          ]
+        }
       ]
     },
     {
@@ -221,48 +461,523 @@
     },
     {
       "path": "tests/PhantomFudge.Core.Tests/AgencyAnswerPromptTests.cs",
-      "sourceSha256": "0cfa22f671a4c5067a31612b8838adbe96fcb7e1b553e0396b11f35487594f80",
+      "sourceSha256": "8f832212a06e85d97acb7c161d8228504feb524647dd5ecb34ddd7ddfc968c01",
       "role": "Checks fixed prompt structure, literal-data preservation and mode-specific follow-up policy without invoking a model.",
-      "entryPoints": ["AgencyAnswerPromptTests.EnvelopeIsConstantPolicyAndExactlyOneQuestionDataField", "AgencyAnswerPromptTests.OptedInEnvelopeContainsOnlyFixedTaskAndExplicitQuestionAndHistory", "AgencyAnswerPromptTests.ActualSystemRoleAllowsOnlyTheExplicitInterpretationException"],
+      "entryPoints": [
+        "AgencyAnswerPromptTests.EnvelopeIsConstantPolicyAndExactlyOneQuestionDataField",
+        "AgencyAnswerPromptTests.OptedInEnvelopeContainsOnlyFixedTaskAndExplicitQuestionAndHistory",
+        "AgencyAnswerPromptTests.ActualSystemRoleAllowsOnlyTheExplicitInterpretationException"
+      ],
       "blocks": [
-        {"start": 1, "end": 29, "title": "Round-trip default/null prompts through JSON", "explanation": "Fixtures include clear/noisy problem wording, injected JSON-looking text, attachment/command syntax, spacing and Unicode. Tests require the fixed policy prefix, exactly one decoded userQuestion field, and no literal newline/CR/@ in the serialized data. Both omitted and explicit null clarification must equal the string overload. These assertions prove envelope identity, not model resistance to hostile content.", "focus": [{"start": 20, "end": 27}]},
-        {"start": 30, "end": 58, "title": "Assert exact top-level task selection for all opted-in stages", "explanation": "Initial, correction and confirmed cases use hostile-looking current text and explicit synthetic history. Property lists must be exactly userQuestion/task/history and mode/instruction; the chosen instruction comes from the stage, not embedded JSON text. Initial gets empty history. This catches accidental default-history inclusion or arbitrary task fields before any transport is involved.", "focus": [{"start": 46, "end": 56}]},
-        {"start": 59, "end": 71, "title": "Preserve history fields without adding request identity", "explanation": "Every decoded history element must contain exactly userText and interpretation and equal the original strings. Encoded data must have no raw newline/CR/@. Changing RequestId must leave the prompt identical and its old GUID absent, showing correlation metadata is local transport state rather than model context.", "focus": [{"start": 61, "end": 69}]},
-        {"start": 72, "end": 91, "title": "Keep the agent-body policy aligned with clarification", "explanation": "Assertions inspect AgentDefinition itself, not merely a user prompt: it ends with the policy, includes tools: [], both task modes and the no-capability-escalation language. Stage instructions retain their explicit-action semantics. The UTF-8 byte-size assertion protects the 4096-byte profile validation bound. This verifies authored role content; actual placement in an external model's SYSTEM message is measured separately by acp_probe.py.", "focus": [{"start": 75, "end": 85}]},
-        {"start": 92, "end": 119, "title": "Reject invalid context and avoid prompt overfitting", "explanation": "Malformed UTF-16 and a fully consumed history budget fail before serialization with specific codes. Policy checks require runnable C#, complexity and direct-answer defaults while excluding the benchmark problem name, noisy phrase and workspace command. A separate direct-input Unicode case requires agency_question. These structural tests cannot establish generated code correctness or successful ASR interpretation.", "focus": [{"start": 95, "end": 100}]},
-        {"start": 120, "end": 135, "title": "Positive and negative controls for the nonanswer heuristic", "explanation": "The theory labels direct requests for a problem, a clarification footer and a final clarification line as nonanswers. Assumption-based solutions, explanatory quotations, ordinary prose and code-fenced prompt strings are negative controls. This tests the listed lexical patterns and fence handling, not exhaustive semantic detection or all Markdown nesting forms.", "focus": [{"start": 127, "end": 134}]}
+        {
+          "start": 1,
+          "end": 30,
+          "title": "Round-trip default/null prompts through JSON",
+          "explanation": "Fixtures include clear/noisy problem wording, injected JSON-looking text, attachment/command syntax, spacing and Unicode. Tests require the fixed policy prefix, exactly one decoded userQuestion field, and no literal newline/CR/@ in the serialized data. Both omitted and explicit null clarification must equal the string overload. These assertions prove envelope identity, not model resistance to hostile content. The explicit fourth null argument is compared byte-for-byte with the original direct overload as well.",
+          "focus": [
+            {
+              "start": 20,
+              "end": 27
+            }
+          ]
+        },
+        {
+          "start": 31,
+          "end": 59,
+          "title": "Assert exact top-level task selection for all opted-in stages",
+          "explanation": "Initial, correction and confirmed cases use hostile-looking current text and explicit synthetic history. Property lists must be exactly userQuestion/task/history and mode/instruction; the chosen instruction comes from the stage, not embedded JSON text. Initial gets empty history. This catches accidental default-history inclusion or arbitrary task fields before any transport is involved.",
+          "focus": [
+            {
+              "start": 47,
+              "end": 57
+            }
+          ]
+        },
+        {
+          "start": 60,
+          "end": 82,
+          "title": "Preserve history fields without adding request identity",
+          "explanation": "Every decoded history element must contain exactly userText and interpretation and equal the original strings. Encoded data must have no raw newline/CR/@. Changing RequestId must leave the prompt identical and its old GUID absent, showing correlation metadata is local transport state rather than model context. An explicitly constructed legacy clarification envelope is also compared byte-for-byte against the null-previous-answer request, preserving field order and existing fixed instructions.",
+          "focus": [
+            {
+              "start": 60,
+              "end": 67
+            }
+          ]
+        },
+        {
+          "start": 83,
+          "end": 137,
+          "title": "Round-trip prior answer data through all task modes",
+          "explanation": "Default, initial interpretation, correction and confirmation are exercised with whitespace, Unicode, quotes, newlines, @ and instruction-shaped JSON. Exact field sets, task selection, decoded strings and escaping must match; changing or omitting PreviousAnswer changes only explicitly supplied context. These are serialization checks, not live model-resistance proof.",
+          "focus": [
+            {
+              "start": 83,
+              "end": 90
+            }
+          ]
+        },
+        {
+          "start": 138,
+          "end": 155,
+          "title": "Keep independent maximum input budgets",
+          "explanation": "A full32768 UTF-16 previous answer made of surrogate pairs coexists with the maximum valid clarification/question budget. The decoded payload must be exact, and adding one unit must fail rather than truncate either field.",
+          "focus": [
+            {
+              "start": 138,
+              "end": 145
+            }
+          ]
+        },
+        {
+          "start": 156,
+          "end": 172,
+          "title": "Reject invalid context without serialization repair",
+          "explanation": "Blank, isolated/reversed surrogate and oversized context cases are rejected in ordinary, initial and confirmed requests. Invalid current-question Unicode is also rejected when valid previous-answer data is present.",
+          "focus": [
+            {
+              "start": 156,
+              "end": 163
+            }
+          ]
+        },
+        {
+          "start": 173,
+          "end": 185,
+          "title": "Assert the conditional instruction boundary",
+          "explanation": "The authored suffix is checked for background-only use, fixed task selection and lack of tool/workspace/follow-up grants. The ordinary direct prompt must not contain this suffix.",
+          "focus": [
+            {
+              "start": 173,
+              "end": 180
+            }
+          ]
+        },
+        {
+          "start": 186,
+          "end": 205,
+          "title": "Keep the agent-body policy aligned with clarification",
+          "explanation": "Assertions inspect AgentDefinition itself, not merely a user prompt: it ends with the policy, includes tools: [], both task modes and the no-capability-escalation language. Stage instructions retain their explicit-action semantics. The UTF-8 byte-size assertion protects the 4096-byte profile validation bound. This verifies authored role content; actual placement in an external model's SYSTEM message is measured separately by acp_probe.py.",
+          "focus": [
+            {
+              "start": 189,
+              "end": 199
+            }
+          ]
+        },
+        {
+          "start": 206,
+          "end": 233,
+          "title": "Reject invalid context and avoid prompt overfitting",
+          "explanation": "Malformed UTF-16 and a fully consumed history budget fail before serialization with specific codes. Policy checks require runnable C#, complexity and direct-answer defaults while excluding the benchmark problem name, noisy phrase and workspace command. A separate direct-input Unicode case requires agency_question. These structural tests cannot establish generated code correctness or successful ASR interpretation.",
+          "focus": [
+            {
+              "start": 209,
+              "end": 214
+            }
+          ]
+        },
+        {
+          "start": 234,
+          "end": 249,
+          "title": "Positive and negative controls for the nonanswer heuristic",
+          "explanation": "The theory labels direct requests for a problem, a clarification footer and a final clarification line as nonanswers. Assumption-based solutions, explanatory quotations, ordinary prose and code-fenced prompt strings are negative controls. This tests the listed lexical patterns and fence handling, not exhaustive semantic detection or all Markdown nesting forms.",
+          "focus": [
+            {
+              "start": 241,
+              "end": 248
+            }
+          ]
+        }
       ]
     },
     {
       "path": "tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs",
-      "sourceSha256": "18b400c5be9cb9557ad04f84bff8804e59ce74918a49cd71f8eed35fa3ca79b6",
+      "sourceSha256": "a9a1da7959114351c67376b2a1b4c44c3ff30c102c609ba788a63179d86529eb",
       "role": "Exercises the production Agency lifecycle against scripted PowerShell ACP peers, including configuration, cancellation, ownership and clarification failures; no real model is part of this fixture.",
-      "entryPoints": ["AgencyCliAnswerProviderTests.CreateProvider", "AgencyCliAnswerProviderTests.FakeServer", "AgencyCliAnswerProviderTests.WarmProcessCreatesAndClosesAFreshSessionForEveryExactQuestion", "AgencyCliAnswerProviderTests.UnqualifiedStatesNeverCompleteAndOwnedEngineIsReaped"],
+      "entryPoints": [
+        "AgencyCliAnswerProviderTests.CreateProvider",
+        "AgencyCliAnswerProviderTests.FakeServer",
+        "AgencyCliAnswerProviderTests.WarmProcessCreatesAndClosesAFreshSessionForEveryExactQuestion",
+        "AgencyCliAnswerProviderTests.UnqualifiedStatesNeverCompleteAndOwnedEngineIsReaped"
+      ],
       "blocks": [
-        {"start": 1, "end": 31, "title": "Transport warmup has no conversation or question", "explanation": "Each fixture owns a unique test root and counts transformed launches/version checks. On Windows, two transport warmups must emit only initialize and launch only version plus engine. The first request adds new/select/prompt/close; Stop empties the request root. This establishes the scripted protocol sequence, not absence of unobservable work inside a real Agency installation.", "focus": [{"start": 21, "end": 29}]},
-        {"start": 32, "end": 56, "title": "Separate configuration lookup from prepared-session readiness", "explanation": "EffectiveModel cases verify default and explicit choices without any launch. The warmup test expects initialize/new/set_config_option but no prompt, repeats warmup idempotently and checks owned cleanup after Stop. Non-Windows process cases return without execution rather than proving portability; EffectiveModel itself remains a non-process test.", "focus": [{"start": 48, "end": 54}]},
-        {"start": 57, "end": 86, "title": "Reuse the engine but never reuse question sessions", "explanation": "Two public-safe clear/noisy strings are sent through the same provider. Each receives exactly two deltas plus Completed with request-local IDs and sequences 1,2,3. Captured questions must equal their originals and have different session IDs, while launch/version counts remain two/one. The fake returns a fixed answer, so this proves payload and lifecycle, not that a model understands either wording.", "focus": [{"start": 67, "end": 74}, {"start": 78, "end": 80}]},
-        {"start": 87, "end": 107, "title": "Automatic preparation adds an empty session only", "explanation": "With prepareNext enabled, explicit WarmUpAsync synchronizes with background preparation. After each answer, new-session count exceeds prompt count by one. Stop freezes the method log and leaves no owned workspace after a brief wait. The delay samples post-stop behavior; it is not a proof over every possible concurrent schedule.", "focus": [{"start": 94, "end": 105}]},
-        {"start": 108, "end": 124, "title": "Keep attachment and command-looking syntax literal", "explanation": "Inputs beginning with /help or @ paths, and multiline shell/delegation syntax, are recovered from the fake server's parsed JSON exactly. literalAt must be false in the transmitted prompt. This proves the production envelope reaching the scripted peer, not the full external CLI's treatment of every possible escape sequence.", "focus": [{"start": 117, "end": 121}]},
-        {"start": 125, "end": 156, "title": "Clarification history is explicit and disappears for independent requests", "explanation": "Initial interpretation, correction, confirmation and a normal request share one engine but use distinct sessions. Each capture is structurally compared to AgencyAnswerPrompt's expected JSON, must contain one text prompt and no literal @, and must close once. The final normal request has no implicit earlier context. This transport test uses fixed synthetic interpretations; it does not simulate human approval.", "focus": [{"start": 143, "end": 154}]},
-        {"start": 157, "end": 194, "title": "Permit follow-up prose only for interpretation metadata", "explanation": "Three nonanswer shapes are crossed with default, interpret and confirmed stages. Interpretation accepts the text and closes normally; default/confirmed require agency_nonanswer, no session/close method and complete engine-directory cleanup. Every case sends exactly one prompt. Partial deltas may have been delivered before terminal rejection; the test collects them indirectly rather than checking UI labelling.", "focus": [{"start": 178, "end": 183}, {"start": 187, "end": 192}]},
-        {"start": 195, "end": 217, "title": "The interpretation exception does not weaken ACP safety", "explanation": "Permission/input requests, tools, plans, missing notices, bad/missing terminals, empty/oversized answers, close failure and agent changes are injected while Confirmed is false. Exact failure codes and cleaned request directories are required. One prompt is counted in each case. These cases isolate transport invariants from the prose-only follow-up exception.", "focus": [{"start": 210, "end": 215}]},
-        {"start": 218, "end": 236, "title": "Reject clarification before launch or workspace creation", "explanation": "Null, blank, malformed-surrogate and 8193-character current text, plus a full history with no room for Yes, must yield clarification-specific errors. Launch count and method log stay empty, and the requests directory does not exist. The fixture's own sentinel/root setup is separate from provider side effects, so the assertion is not that the entire test performed no I/O.", "focus": [{"start": 228, "end": 234}]},
-        {"start": 237, "end": 256, "title": "Observe first-text timing once without body content", "explanation": "StageObserver records event, request ID, elapsed milliseconds and code for one synthetic request. FirstAnswerText appears once, every stage is associated with the request and fixed codes omit the sentinel word. Submission and close-completion markers are required. The 30-second range is a fixture bound, not a latency SLO or a test of the entire diagnostics persistence subsystem.", "focus": [{"start": 244, "end": 254}]},
-        {"start": 257, "end": 292, "title": "Enumerate configuration and protocol rejection paths", "explanation": "The table covers reverse RPCs, plan/tool updates, wrong session/response identities, malformed ID type, notices/terminal failures, model/effort/agent drift, allow-all, engine mismatch, nonanswers, output overflow and authentication. Each must return its safe code, omit private error text and clean the owned tree. Early model/config/engine failures additionally must never reach session/prompt.", "focus": [{"start": 283, "end": 290}]},
-        {"start": 293, "end": 324, "title": "Cancel or abandon after one delta without preserving the engine", "explanation": "A delayed prompt yields Synthetic before cancellation or iterator disposal. Cancellation must throw; both paths remove the owned workspace. After abandonment a later warmup creates another engine but reuses the unchanged wrapper-version stamp, reflected in one version check and three total launches. These cases test iterator cleanup through the real process wrapper, not real-model cancellation acknowledgement.", "focus": [{"start": 299, "end": 306}, {"start": 314, "end": 322}]},
-        {"start": 325, "end": 350, "title": "Stop during readiness and distinguish the answer deadline", "explanation": "Delayed initialize/new-session scripts let the test wait for an observed method before calling StopAsync. Warmup must cancel without a prompt and clean its tree. A separate four-second deadline during a delayed answer must return agency_timeout. Poll loops and deadlines keep these synthetic process tests bounded but remain scheduling-sensitive observations.", "focus": [{"start": 333, "end": 338}, {"start": 345, "end": 348}]},
-        {"start": 351, "end": 378, "title": "Invalidate version metadata and reject reused session IDs", "explanation": "Stopping/restarting with an unchanged sentinel executable reuses the version result; appending bytes forces another verification. A fake third session reuses the first ID and must fail before sending the third prompt. These tests prove length/stamp invalidation and per-engine session identity tracking, not cryptographic executable trust or globally unique IDs across engine rotation.", "focus": [{"start": 355, "end": 363}, {"start": 370, "end": 376}]},
-        {"start": 379, "end": 404, "title": "Refuse warm-profile customization injection", "explanation": "After preparation, the test adds an unapproved skill, alters the controlled agent body or creates another agent. The next request must fail agency_profile before any prompt and remove its owned state. These selected point-in-time mutations exercise known discovery paths; they do not cover all filesystem races, reparse permutations or opaque engine caches.", "focus": [{"start": 395, "end": 402}]},
-        {"start": 405, "end": 430, "title": "Rotate after 32 sessions and stop unsupported wrappers before ACP", "explanation": "Thirty-three successful questions require 33 new/close pairs and a second engine but only one unchanged wrapper-version check. Explicit disposal empties the tree. An unsupported wrapper string must cause agency_version after one version launch with no ACP method log. The tests rely on the transformer, not a real installed wrapper.", "focus": [{"start": 410, "end": 417}, {"start": 424, "end": 428}]},
-        {"start": 431, "end": 463, "title": "Assert no-side-effect guards and the exact launch surface", "explanation": "Pre-cancelled/empty requests perform zero launches; disposed providers reject both warmup APIs. A separate ProcessStartInfo inspection requires hidden redirected shell-free launch, exact default model/low effort and all candidate flags, including nonempty sentinel and deny-read. Prompt, plugin/MCP injection, allow-all/yolo and login arguments are forbidden. Inspecting flags does not prove how every CLI version interprets them.", "focus": [{"start": 453, "end": 461}]},
-        {"start": 464, "end": 495, "title": "Check environment stripping and the cosmetic settings exception", "explanation": "Synthetic credentials, routing/proxy settings and discovery variables are removed, but Agency's real-style APPDATA/LOCALAPPDATA values remain. Generated settings accept only a cosmetic announcement addition; changing disableAllHooks or adding hooks fails, as do array/malformed JSON shapes. These are configuration-function tests, not monitoring of real authentication storage or network traffic.", "focus": [{"start": 470, "end": 478}, {"start": 484, "end": 493}]},
-        {"start": 496, "end": 510, "title": "Reject unsafe resolution and implicit provider crossover", "explanation": "Relative executables, shell strings, missing .exe and .cmd paths fail resolution with agency_not_found. A Copilot-mode settings object cannot construct Agency, and Agency cannot carry a loopback endpoint. No installed binary is required for these negative checks, and no fallback provider is selected.", "focus": [{"start": 501, "end": 508}]},
-        {"start": 511, "end": 545, "title": "Replace launches with a deterministic fake peer, not Agency", "explanation": "CreateProvider writes a nonexecutable sentinel, then the internal transformer counts launches, verifies generated TOML/agent content and substitutes Windows PowerShell. Version output is synthesized; engine output comes from FakeServer with a chosen scenario and escaped capture directory. prepareNext defaults false for deterministic assertions. Helpers read the method log and drain the real provider iterator. Thus transport/lifecycle logic is real, but binary/model qualification is not.", "focus": [{"start": 522, "end": 532}]},
-        {"start": 546, "end": 575, "title": "Fake ACP initialize and session configuration are executable test logic", "explanation": "Emit writes compact flushed NDJSON; Chunk wraps agent_message_chunk with current session identity. The loop parses each request and records its method. initialize advertises the required close capability or a bad version; delayed scenarios sleep. session/new generates IDs and all five option values, with switches for replayed IDs, wrong model/effort, allow-all and missing agent advertisement. Those variations drive early rejection assertions.", "focus": [{"start": 563, "end": 574}]},
-        {"start": 576, "end": 601, "title": "Fake agent selection, prompt capture and forbidden capabilities", "explanation": "The fake verifies the requested agent config ID/value, optionally fails selection, and emits both an update and result. Prompt handling checks session identity, parses the envelope's final JSON line, and records exact question/history plus literalAt/prompt count. Authentication writes only synthetic private detail to stderr; reverse permission/input RPCs and tool/plan updates deliberately violate the client boundary. Valid scenarios then emit both configuration notices.", "focus": [{"start": 585, "end": 596}]},
-        {"start": 602, "end": 627, "title": "Fake nonanswers, configuration drift and terminal corruption", "explanation": "Branches emit leading refusals, a direct clarification or a long code-fenced answer with a clarification footer to exercise terminal prose scanning. Agent-changed emits invalid full configuration mid-prompt. Other branches change session ID, exceed answer capacity, omit text, pause after one delta, end the process without terminal, or return max_tokens instead of end_turn. The normal path produces two fixed chunks, not inferred text.", "focus": [{"start": 615, "end": 626}]},
-        {"start": 628, "end": 640, "title": "Fake close and response-identity failures remain observable", "explanation": "close-failure emits a matching RPC error with synthetic private text. Otherwise the peer echoes the active numeric ID, except wrong-response and wrong-id-type scenarios. Unknown methods terminate the script. The class Dispose recursively removes its test root after provider disposal by individual tests. This final script block is essential negative-control logic, not disposable fixture boilerplate.", "focus": [{"start": 628, "end": 635}]}
+        {
+          "start": 1,
+          "end": 31,
+          "title": "Transport warmup has no conversation or question",
+          "explanation": "Each fixture owns a unique test root and counts transformed launches/version checks. On Windows, two transport warmups must emit only initialize and launch only version plus engine. The first request adds new/select/prompt/close; Stop empties the request root. This establishes the scripted protocol sequence, not absence of unobservable work inside a real Agency installation.",
+          "focus": [
+            {
+              "start": 21,
+              "end": 29
+            }
+          ]
+        },
+        {
+          "start": 32,
+          "end": 56,
+          "title": "Separate configuration lookup from prepared-session readiness",
+          "explanation": "EffectiveModel cases verify default and explicit choices without any launch. The warmup test expects initialize/new/set_config_option but no prompt, repeats warmup idempotently and checks owned cleanup after Stop. Non-Windows process cases return without execution rather than proving portability; EffectiveModel itself remains a non-process test.",
+          "focus": [
+            {
+              "start": 48,
+              "end": 54
+            }
+          ]
+        },
+        {
+          "start": 57,
+          "end": 86,
+          "title": "Reuse the engine but never reuse question sessions",
+          "explanation": "Two public-safe clear/noisy strings are sent through the same provider. Each receives exactly two deltas plus Completed with request-local IDs and sequences 1,2,3. Captured questions must equal their originals and have different session IDs, while launch/version counts remain two/one. The fake returns a fixed answer, so this proves payload and lifecycle, not that a model understands either wording.",
+          "focus": [
+            {
+              "start": 67,
+              "end": 74
+            },
+            {
+              "start": 78,
+              "end": 80
+            }
+          ]
+        },
+        {
+          "start": 87,
+          "end": 107,
+          "title": "Automatic preparation adds an empty session only",
+          "explanation": "With prepareNext enabled, explicit WarmUpAsync synchronizes with background preparation. After each answer, new-session count exceeds prompt count by one. Stop freezes the method log and leaves no owned workspace after a brief wait. The delay samples post-stop behavior; it is not a proof over every possible concurrent schedule.",
+          "focus": [
+            {
+              "start": 94,
+              "end": 105
+            }
+          ]
+        },
+        {
+          "start": 108,
+          "end": 124,
+          "title": "Keep attachment and command-looking syntax literal",
+          "explanation": "Inputs beginning with /help or @ paths, and multiline shell/delegation syntax, are recovered from the fake server's parsed JSON exactly. literalAt must be false in the transmitted prompt. This proves the production envelope reaching the scripted peer, not the full external CLI's treatment of every possible escape sequence.",
+          "focus": [
+            {
+              "start": 117,
+              "end": 121
+            }
+          ]
+        },
+        {
+          "start": 125,
+          "end": 156,
+          "title": "Clarification history is explicit and disappears for independent requests",
+          "explanation": "Initial interpretation, correction, confirmation and a normal request share one engine but use distinct sessions. Each capture is structurally compared to AgencyAnswerPrompt's expected JSON, must contain one text prompt and no literal @, and must close once. The final normal request has no implicit earlier context. This transport test uses fixed synthetic interpretations; it does not simulate human approval.",
+          "focus": [
+            {
+              "start": 125,
+              "end": 132
+            }
+          ]
+        },
+        {
+          "start": 157,
+          "end": 204,
+          "title": "Send different context through distinct ACP sessions",
+          "explanation": "Six synthetic requests cover direct follow-up, interpretation, correction, confirmation, a different prior answer and no context. Captured JSON must exactly match each explicit request; every session ID is unique, each has one prompt and closes once, and transport reuse does not supply history.",
+          "focus": [
+            {
+              "start": 157,
+              "end": 164
+            }
+          ]
+        },
+        {
+          "start": 205,
+          "end": 228,
+          "title": "Transmit the full prior-answer budget",
+          "explanation": "The synthetic ACP peer receives all32768 UTF-16 units with and without the full existing clarification budget. Exact question/history/answer comparisons detect truncation; no live model capacity or latency is inferred.",
+          "focus": [
+            {
+              "start": 205,
+              "end": 212
+            }
+          ]
+        },
+        {
+          "start": 229,
+          "end": 251,
+          "title": "Reject malformed context before process or workspace work",
+          "explanation": "Blank, oversized and malformed-surrogate inputs are tried across direct and clarification states. Safe error codes must match, private sentinel text must not escape into errors, launch count stays zero, and no request directory is created.",
+          "focus": [
+            {
+              "start": 229,
+              "end": 236
+            }
+          ]
+        },
+        {
+          "start": 252,
+          "end": 268,
+          "title": "Do not consume a prepared session for rejected input",
+          "explanation": "An empty prepared session exists before an invalid-context request. Method history and launch count must remain unchanged; a subsequent valid request uses that same unprompted session instead of wasting it.",
+          "focus": [
+            {
+              "start": 252,
+              "end": 259
+            }
+          ]
+        },
+        {
+          "start": 269,
+          "end": 287,
+          "title": "Keep tool and follow-up failures closed",
+          "explanation": "Instruction-shaped prior answer data cannot authorize permission/input/tool/plan requests or an unsolicited follow-up response. The existing safe error and owned-workspace cleanup are required in direct and confirmed modes.",
+          "focus": [
+            {
+              "start": 269,
+              "end": 276
+            }
+          ]
+        },
+        {
+          "start": 288,
+          "end": 325,
+          "title": "Permit follow-up prose only for interpretation metadata",
+          "explanation": "Three nonanswer shapes are crossed with default, interpret and confirmed stages. Interpretation accepts the text and closes normally; default/confirmed require agency_nonanswer, no session/close method and complete engine-directory cleanup. Every case sends exactly one prompt. Partial deltas may have been delivered before terminal rejection; the test collects them indirectly rather than checking UI labelling.",
+          "focus": [
+            {
+              "start": 309,
+              "end": 314
+            },
+            {
+              "start": 318,
+              "end": 323
+            }
+          ]
+        },
+        {
+          "start": 326,
+          "end": 348,
+          "title": "The interpretation exception does not weaken ACP safety",
+          "explanation": "Permission/input requests, tools, plans, missing notices, bad/missing terminals, empty/oversized answers, close failure and agent changes are injected while Confirmed is false. Exact failure codes and cleaned request directories are required. One prompt is counted in each case. These cases isolate transport invariants from the prose-only follow-up exception.",
+          "focus": [
+            {
+              "start": 341,
+              "end": 346
+            }
+          ]
+        },
+        {
+          "start": 349,
+          "end": 367,
+          "title": "Reject clarification before launch or workspace creation",
+          "explanation": "Null, blank, malformed-surrogate and 8193-character current text, plus a full history with no room for Yes, must yield clarification-specific errors. Launch count and method log stay empty, and the requests directory does not exist. The fixture's own sentinel/root setup is separate from provider side effects, so the assertion is not that the entire test performed no I/O.",
+          "focus": [
+            {
+              "start": 359,
+              "end": 365
+            }
+          ]
+        },
+        {
+          "start": 368,
+          "end": 387,
+          "title": "Observe first-text timing once without body content",
+          "explanation": "StageObserver records event, request ID, elapsed milliseconds and code for one synthetic request. FirstAnswerText appears once, every stage is associated with the request and fixed codes omit the sentinel word. Submission and close-completion markers are required. The 30-second range is a fixture bound, not a latency SLO or a test of the entire diagnostics persistence subsystem.",
+          "focus": [
+            {
+              "start": 375,
+              "end": 385
+            }
+          ]
+        },
+        {
+          "start": 388,
+          "end": 423,
+          "title": "Enumerate configuration and protocol rejection paths",
+          "explanation": "The table covers reverse RPCs, plan/tool updates, wrong session/response identities, malformed ID type, notices/terminal failures, model/effort/agent drift, allow-all, engine mismatch, nonanswers, output overflow and authentication. Each must return its safe code, omit private error text and clean the owned tree. Early model/config/engine failures additionally must never reach session/prompt.",
+          "focus": [
+            {
+              "start": 414,
+              "end": 421
+            }
+          ]
+        },
+        {
+          "start": 424,
+          "end": 455,
+          "title": "Cancel or abandon after one delta without preserving the engine",
+          "explanation": "A delayed prompt yields Synthetic before cancellation or iterator disposal. Cancellation must throw; both paths remove the owned workspace. After abandonment a later warmup creates another engine but reuses the unchanged wrapper-version stamp, reflected in one version check and three total launches. These cases test iterator cleanup through the real process wrapper, not real-model cancellation acknowledgement.",
+          "focus": [
+            {
+              "start": 430,
+              "end": 437
+            },
+            {
+              "start": 445,
+              "end": 453
+            }
+          ]
+        },
+        {
+          "start": 456,
+          "end": 481,
+          "title": "Stop during readiness and distinguish the answer deadline",
+          "explanation": "Delayed initialize/new-session scripts let the test wait for an observed method before calling StopAsync. Warmup must cancel without a prompt and clean its tree. A separate four-second deadline during a delayed answer must return agency_timeout. Poll loops and deadlines keep these synthetic process tests bounded but remain scheduling-sensitive observations.",
+          "focus": [
+            {
+              "start": 464,
+              "end": 469
+            },
+            {
+              "start": 476,
+              "end": 479
+            }
+          ]
+        },
+        {
+          "start": 482,
+          "end": 509,
+          "title": "Invalidate version metadata and reject reused session IDs",
+          "explanation": "Stopping/restarting with an unchanged sentinel executable reuses the version result; appending bytes forces another verification. A fake third session reuses the first ID and must fail before sending the third prompt. These tests prove length/stamp invalidation and per-engine session identity tracking, not cryptographic executable trust or globally unique IDs across engine rotation.",
+          "focus": [
+            {
+              "start": 486,
+              "end": 494
+            },
+            {
+              "start": 501,
+              "end": 507
+            }
+          ]
+        },
+        {
+          "start": 510,
+          "end": 535,
+          "title": "Refuse warm-profile customization injection",
+          "explanation": "After preparation, the test adds an unapproved skill, alters the controlled agent body or creates another agent. The next request must fail agency_profile before any prompt and remove its owned state. These selected point-in-time mutations exercise known discovery paths; they do not cover all filesystem races, reparse permutations or opaque engine caches.",
+          "focus": [
+            {
+              "start": 526,
+              "end": 533
+            }
+          ]
+        },
+        {
+          "start": 536,
+          "end": 561,
+          "title": "Rotate after 32 sessions and stop unsupported wrappers before ACP",
+          "explanation": "Thirty-three successful questions require 33 new/close pairs and a second engine but only one unchanged wrapper-version check. Explicit disposal empties the tree. An unsupported wrapper string must cause agency_version after one version launch with no ACP method log. The tests rely on the transformer, not a real installed wrapper.",
+          "focus": [
+            {
+              "start": 541,
+              "end": 548
+            },
+            {
+              "start": 555,
+              "end": 559
+            }
+          ]
+        },
+        {
+          "start": 562,
+          "end": 594,
+          "title": "Assert no-side-effect guards and the exact launch surface",
+          "explanation": "Pre-cancelled/empty requests perform zero launches; disposed providers reject both warmup APIs. A separate ProcessStartInfo inspection requires hidden redirected shell-free launch, exact default model/low effort and all candidate flags, including nonempty sentinel and deny-read. Prompt, plugin/MCP injection, allow-all/yolo and login arguments are forbidden. Inspecting flags does not prove how every CLI version interprets them.",
+          "focus": [
+            {
+              "start": 584,
+              "end": 592
+            }
+          ]
+        },
+        {
+          "start": 595,
+          "end": 626,
+          "title": "Check environment stripping and the cosmetic settings exception",
+          "explanation": "Synthetic credentials, routing/proxy settings and discovery variables are removed, but Agency's real-style APPDATA/LOCALAPPDATA values remain. Generated settings accept only a cosmetic announcement addition; changing disableAllHooks or adding hooks fails, as do array/malformed JSON shapes. These are configuration-function tests, not monitoring of real authentication storage or network traffic.",
+          "focus": [
+            {
+              "start": 601,
+              "end": 609
+            },
+            {
+              "start": 615,
+              "end": 624
+            }
+          ]
+        },
+        {
+          "start": 627,
+          "end": 641,
+          "title": "Reject unsafe resolution and implicit provider crossover",
+          "explanation": "Relative executables, shell strings, missing .exe and .cmd paths fail resolution with agency_not_found. A Copilot-mode settings object cannot construct Agency, and Agency cannot carry a loopback endpoint. No installed binary is required for these negative checks, and no fallback provider is selected.",
+          "focus": [
+            {
+              "start": 632,
+              "end": 639
+            }
+          ]
+        },
+        {
+          "start": 642,
+          "end": 676,
+          "title": "Replace launches with a deterministic fake peer, not Agency",
+          "explanation": "CreateProvider writes a nonexecutable sentinel, then the internal transformer counts launches, verifies generated TOML/agent content and substitutes Windows PowerShell. Version output is synthesized; engine output comes from FakeServer with a chosen scenario and escaped capture directory. prepareNext defaults false for deterministic assertions. Helpers read the method log and drain the real provider iterator. Thus transport/lifecycle logic is real, but binary/model qualification is not.",
+          "focus": [
+            {
+              "start": 653,
+              "end": 663
+            }
+          ]
+        },
+        {
+          "start": 677,
+          "end": 706,
+          "title": "Fake ACP initialize and session configuration are executable test logic",
+          "explanation": "Emit writes compact flushed NDJSON; Chunk wraps agent_message_chunk with current session identity. The loop parses each request and records its method. initialize advertises the required close capability or a bad version; delayed scenarios sleep. session/new generates IDs and all five option values, with switches for replayed IDs, wrong model/effort, allow-all and missing agent advertisement. Those variations drive early rejection assertions.",
+          "focus": [
+            {
+              "start": 694,
+              "end": 705
+            }
+          ]
+        },
+        {
+          "start": 707,
+          "end": 732,
+          "title": "Fake agent selection, prompt capture and forbidden capabilities",
+          "explanation": "The fake verifies the requested agent config ID/value, optionally fails selection, and emits both an update and result. Prompt handling checks session identity, parses the envelope's final JSON line, and records exact question/history plus literalAt/prompt count. Authentication writes only synthetic private detail to stderr; reverse permission/input RPCs and tool/plan updates deliberately violate the client boundary. Valid scenarios then emit both configuration notices.",
+          "focus": [
+            {
+              "start": 716,
+              "end": 727
+            }
+          ]
+        },
+        {
+          "start": 733,
+          "end": 758,
+          "title": "Fake nonanswers, configuration drift and terminal corruption",
+          "explanation": "Branches emit leading refusals, a direct clarification or a long code-fenced answer with a clarification footer to exercise terminal prose scanning. Agent-changed emits invalid full configuration mid-prompt. Other branches change session ID, exceed answer capacity, omit text, pause after one delta, end the process without terminal, or return max_tokens instead of end_turn. The normal path produces two fixed chunks, not inferred text.",
+          "focus": [
+            {
+              "start": 746,
+              "end": 757
+            }
+          ]
+        },
+        {
+          "start": 759,
+          "end": 771,
+          "title": "Fake close and response-identity failures remain observable",
+          "explanation": "close-failure emits a matching RPC error with synthetic private text. Otherwise the peer echoes the active numeric ID, except wrong-response and wrong-id-type scenarios. Unknown methods terminate the script. The class Dispose recursively removes its test root after provider disposal by individual tests. This final script block is essential negative-control logic, not disposable fixture boilerplate.",
+          "focus": [
+            {
+              "start": 759,
+              "end": 766
+            }
+          ]
+        }
       ]
     },
     {
@@ -305,29 +1020,258 @@
     },
     {
       "path": "tests/PhantomFudge.Core.Tests/AnswerRunTests.cs",
-      "sourceSha256": "eb9acbb3ae2f6385962f71d43416b6ddca1a292421b38450b03b89f943e196ec",
+      "sourceSha256": "4549cf628f7a2d64dfb3566e7a982c99fde2c605224651b53bee719c537b4ef6",
       "role": "Tests request minimization, per-run clarification identity, terminal state and provider-setting boundaries in memory.",
-      "entryPoints": ["AnswerRunTests.RequestContainsExactTextWithoutProvenance", "AnswerRunTests.TextArrivesBeforeCompletionAndNeedsTerminalEvidence", "AnswerRunTests.LocalEndpointsCannotSelectAnotherDestination"],
+      "entryPoints": [
+        "AnswerRunTests.RequestContainsExactTextWithoutProvenance",
+        "AnswerRunTests.TextArrivesBeforeCompletionAndNeedsTerminalEvidence",
+        "AnswerRunTests.LocalEndpointsCannotSelectAnotherDestination"
+      ],
       "blocks": [
-        {"start": 1, "end": 24, "title": "Freeze a synthetic draft and inspect the request surface", "explanation": "Create builds a real QuestionDraft snapshot with a synthetic provider label. The test requires exact snapshot text, a nonempty request GUID, null clarification by default and exactly three reflected request properties. This guards against accidentally serializing SourceRefs/provenance through an expanded request contract.", "focus": [{"start": 17, "end": 22}]},
-        {"start": 25, "end": 52, "title": "Separate current reply, stored exchange and original snapshot", "explanation": "After run construction the source history is cleared and draft edited; the run must keep its original snapshot, whitespace/Unicode correction and copied history. A new ordinary run must still have null clarification. A Yes snapshot with Confirmed metadata remains Yes as ExactText while the interpretation stays in history; this is request representation, not proof of a UI click.", "focus": [{"start": 33, "end": 39}, {"start": 47, "end": 50}]},
-        {"start": 53, "end": 79, "title": "Validate before constructing and finalize only with terminal evidence", "explanation": "Over-budget history/current text and malformed current Unicode fail when creating an opted-in run. Separately, a Hello delta is immediately readable while the state remains Streaming; Complete throws until an empty Completed event arrives. This proves two-phase application finalization, not that a provider's Completed event was honestly generated.", "focus": [{"start": 58, "end": 64}, {"start": 70, "end": 77}]},
-        {"start": 80, "end": 102, "title": "Ignore foreign/late callbacks but reject active protocol corruption", "explanation": "A foreign request cannot append; after cancellation, late matching text is ignored and Complete does not revive the run. During an active stream, duplicate sequence and post-terminal text throw. These tests distinguish lifecycle-stale events from corrupt events belonging to the current still-streaming request.", "focus": [{"start": 84, "end": 90}, {"start": 97, "end": 100}]},
-        {"start": 103, "end": 121, "title": "Retain accepted text on overflow and reject empty completion", "explanation": "An exact-capacity delta is accepted; the next character throws before append. Fail leaves the 32768-unit prefix visible and marks Failed. A separate terminal-only run cannot become complete with an empty answer. Whitespace handling is implemented in AnswerRun.Complete but this test uses empty text specifically.", "focus": [{"start": 106, "end": 111}, {"start": 117, "end": 119}]},
-        {"start": 122, "end": 150, "title": "Reject alternate destinations and provider mixing", "explanation": "Endpoint negatives cover DNS localhost, abbreviated/integer loopback, attacker suffix, HTTPS, credentials, query/fragment and encoded path. Exact IPv4 and bracketed IPv6 HTTP loopback examples pass. Undefined mode, missing local model, hosted/local endpoint mixing, shell-like path and argument-like model fail. These tests validate URI/settings rules, not redirects, external CLI network behavior or explicit-port enforcement.", "focus": [{"start": 142, "end": 148}]}
+        {
+          "start": 1,
+          "end": 25,
+          "title": "Freeze a synthetic draft and inspect the request surface",
+          "explanation": "Create freezes a real synthetic QuestionDraft. The surface test requires exact question text, a nonempty request GUID, null optional fields and exactly four reflected properties: RequestId, ExactText, Clarification and PreviousAnswer. It catches accidental exposure of source provenance or extra conversation objects.",
+          "focus": [
+            {
+              "start": 1,
+              "end": 8
+            }
+          ]
+        },
+        {
+          "start": 26,
+          "end": 51,
+          "title": "Freeze one prior answer without automatic accumulation",
+          "explanation": "A completed synthetic run supplies its exact text to a new AnswerRun. Later edits to the draft and a copied record cannot mutate that request. A later independent run has null context, so context is neither inferred nor recursively accumulated.",
+          "focus": [
+            {
+              "start": 26,
+              "end": 33
+            }
+          ]
+        },
+        {
+          "start": 52,
+          "end": 71,
+          "title": "Validate context independently of clarification",
+          "explanation": "A full surrogate-pair previous answer fits the32768-unit bound even alongside a maximum clarification exchange. One extra unit fails before a new run is created.",
+          "focus": [
+            {
+              "start": 52,
+              "end": 59
+            }
+          ]
+        },
+        {
+          "start": 72,
+          "end": 95,
+          "title": "Fail on blank, oversized or malformed prior text",
+          "explanation": "Invalid contexts are rejected with specific safe codes and no sentinel echo. The current question snapshot remains valid and no provider process is involved.",
+          "focus": [
+            {
+              "start": 72,
+              "end": 79
+            }
+          ]
+        },
+        {
+          "start": 96,
+          "end": 125,
+          "title": "Separate current reply, stored exchange and original snapshot",
+          "explanation": "After run construction the source history is cleared and draft edited; the run must keep its original snapshot, whitespace/Unicode correction and copied history. A new ordinary run must still have null clarification. A Yes snapshot with Confirmed metadata remains Yes as ExactText while the interpretation stays in history; this is request representation, not proof of a UI click. These existing correction/confirmation tests now additionally carry a fixed previous answer, proving it remains separate from the current Yes/correction and explicitly copied clarification history.",
+          "focus": [
+            {
+              "start": 104,
+              "end": 111
+            },
+            {
+              "start": 119,
+              "end": 122
+            }
+          ]
+        },
+        {
+          "start": 126,
+          "end": 152,
+          "title": "Validate before constructing and finalize only with terminal evidence",
+          "explanation": "Over-budget history/current text and malformed current Unicode fail when creating an opted-in run. Separately, a Hello delta is immediately readable while the state remains Streaming; Complete throws until an empty Completed event arrives. This proves two-phase application finalization, not that a provider's Completed event was honestly generated.",
+          "focus": [
+            {
+              "start": 131,
+              "end": 137
+            },
+            {
+              "start": 143,
+              "end": 150
+            }
+          ]
+        },
+        {
+          "start": 153,
+          "end": 175,
+          "title": "Ignore foreign/late callbacks but reject active protocol corruption",
+          "explanation": "A foreign request cannot append; after cancellation, late matching text is ignored and Complete does not revive the run. During an active stream, duplicate sequence and post-terminal text throw. These tests distinguish lifecycle-stale events from corrupt events belonging to the current still-streaming request.",
+          "focus": [
+            {
+              "start": 157,
+              "end": 163
+            },
+            {
+              "start": 170,
+              "end": 173
+            }
+          ]
+        },
+        {
+          "start": 176,
+          "end": 194,
+          "title": "Retain accepted text on overflow and reject empty completion",
+          "explanation": "An exact-capacity delta is accepted; the next character throws before append. Fail leaves the 32768-unit prefix visible and marks Failed. A separate terminal-only run cannot become complete with an empty answer. Whitespace handling is implemented in AnswerRun.Complete but this test uses empty text specifically.",
+          "focus": [
+            {
+              "start": 179,
+              "end": 184
+            },
+            {
+              "start": 190,
+              "end": 192
+            }
+          ]
+        },
+        {
+          "start": 195,
+          "end": 223,
+          "title": "Reject alternate destinations and provider mixing",
+          "explanation": "Endpoint negatives cover DNS localhost, abbreviated/integer loopback, attacker suffix, HTTPS, credentials, query/fragment and encoded path. Exact IPv4 and bracketed IPv6 HTTP loopback examples pass. Undefined mode, missing local model, hosted/local endpoint mixing, shell-like path and argument-like model fail. These tests validate URI/settings rules, not redirects, external CLI network behavior or explicit-port enforcement.",
+          "focus": [
+            {
+              "start": 215,
+              "end": 221
+            }
+          ]
+        }
       ]
     },
     {
       "path": "tests/PhantomFudge.Core.Tests/CopilotCliAnswerProviderTests.cs",
-      "sourceSha256": "34e038c117190fe6a785c6fb284f9817b56d81cdb426377cf651945d0d0514b5",
+      "sourceSha256": "6da1dec55532212351f3257c80d36c0a5262f8ee6f3c2fca21829188d7c716da",
       "role": "Checks raw default stdin versus opted-in envelopes through a synthetic one-shot CLI and real provider cleanup.",
-      "entryPoints": ["CopilotCliAnswerProviderTests.OnlyOptedInRequestsSendTheFixedEnvelopeAndExplicitHistory", "CopilotCliAnswerProviderTests.CreateProvider", "CopilotCliAnswerProviderTests.FakeCli"],
+      "entryPoints": [
+        "CopilotCliAnswerProviderTests.OnlyOptedInRequestsSendTheFixedEnvelopeAndExplicitHistory",
+        "CopilotCliAnswerProviderTests.CreateProvider",
+        "CopilotCliAnswerProviderTests.FakeCli"
+      ],
       "blocks": [
-        {"start": 1, "end": 32, "title": "Arrange all request stages without a real local model", "explanation": "A unique root and launch counter support a transformer-backed LocalModel provider. Default, initial, correction and confirmed cases use whitespace, Unicode and command/JSON-looking synthetic strings. Confirmation sends Yes; other cases send raw input. The loopback address is a dead sentinel because PowerShell replaces the external CLI and does not make model requests.", "focus": [{"start": 23, "end": 31}]},
-        {"start": 33, "end": 54, "title": "Default is raw stdin; clarification is the fixed envelope", "explanation": "Every case must complete with synthetic text and the correct request ID. Default capture equals raw text and excludes policy. Opted-in capture equals AgencyAnswerPrompt.Create, contains no literal @, and decodes to exact current text/history count. Two launches mean version plus answer; the owned request tree is empty and unused hosted profile absent. No assertion establishes a controlled SYSTEM role for direct Copilot.", "focus": [{"start": 37, "end": 48}]},
-        {"start": 55, "end": 89, "title": "Opt-in metadata neither permits tools nor delays validation", "explanation": "Both interpretation and confirmation reject a synthetic tool request with copilot_tools and clean their tree. Invalid clarification is then tested with an explicitly nonexistent executable: clarification errors must occur first and no request/stdin files may appear. This verifies ordering independently of executable availability and avoids treating setup failure as successful input validation.", "focus": [{"start": 76, "end": 87}]},
-        {"start": 90, "end": 116, "title": "Inspect production launch flags before replacing the child", "explanation": "CreateProvider writes a nonexecutable sentinel and uses the internal transformer. Normal launches must contain the sentinel and deny-shell flags and no question-bearing arguments. It then substitutes noninteractive no-profile Windows PowerShell, with either an allowed synthetic version string or FakeCli. Therefore tests cover application launch assembly and process handling, not the actual CLI's flag interpretation.", "focus": [{"start": 101, "end": 112}]},
-        {"start": 117, "end": 139, "title": "Fake stdin capture and final-only event stream", "explanation": "The script reads all stdin as UTF-8, writes only synthetic captured text, then emits a turn/model start, one final assistant message, turn end, idle and result. A switch inserts a shell toolRequest in that final message so the parser must reject before exposing associated content. Read drains the provider stream; fixture Dispose removes the test root. No streaming-delta timing is exercised by this final-only peer.", "focus": [{"start": 118, "end": 128}]}
+        {
+          "start": 1,
+          "end": 32,
+          "title": "Arrange all request stages without a real local model",
+          "explanation": "A unique root and launch counter support a transformer-backed LocalModel provider. Default, initial, correction and confirmed cases use whitespace, Unicode and command/JSON-looking synthetic strings. Confirmation sends Yes; other cases send raw input. The loopback address is a dead sentinel because PowerShell replaces the external CLI and does not make model requests.",
+          "focus": [
+            {
+              "start": 23,
+              "end": 31
+            }
+          ]
+        },
+        {
+          "start": 33,
+          "end": 54,
+          "title": "Default is raw stdin; clarification is the fixed envelope",
+          "explanation": "Every case must complete with synthetic text and the correct request ID. Default capture equals raw text and excludes policy. Opted-in capture equals AgencyAnswerPrompt.Create, contains no literal @, and decodes to exact current text/history count. Two launches mean version plus answer; the owned request tree is empty and unused hosted profile absent. No assertion establishes a controlled SYSTEM role for direct Copilot.",
+          "focus": [
+            {
+              "start": 37,
+              "end": 48
+            }
+          ]
+        },
+        {
+          "start": 55,
+          "end": 89,
+          "title": "Opt-in metadata neither permits tools nor delays validation",
+          "explanation": "Both interpretation and confirmation reject a synthetic tool request with copilot_tools and clean their tree. Invalid clarification is then tested with an explicitly nonexistent executable: clarification errors must occur first and no request/stdin files may appear. This verifies ordering independently of executable availability and avoids treating setup failure as successful input validation.",
+          "focus": [
+            {
+              "start": 76,
+              "end": 87
+            }
+          ]
+        },
+        {
+          "start": 90,
+          "end": 140,
+          "title": "Keep hosted and local follow-up prompts exact",
+          "explanation": "Both Copilot modes run six synthetic requests through production launch assembly and redirected stdin. Each explicit field and task stage must round-trip exactly; the final null-context request remains raw ExactText. Every request cleans its owned directory and performs separate version/request child launches.",
+          "focus": [
+            {
+              "start": 90,
+              "end": 97
+            }
+          ]
+        },
+        {
+          "start": 141,
+          "end": 163,
+          "title": "Send maximum context through stdin, not argv",
+          "explanation": "Both modes with and without clarification receive the complete maximum-size contextual envelope. Exact stdin/decoded-string checks detect truncation while the shared fixture asserts unchanged fixed argv.",
+          "focus": [
+            {
+              "start": 141,
+              "end": 148
+            }
+          ]
+        },
+        {
+          "start": 164,
+          "end": 192,
+          "title": "Validate before executable and profile side effects",
+          "explanation": "A nonexistent executable proves invalid prior text is rejected earlier than resolution or I/O. Blank, oversized and malformed Unicode cases across clarification stages leave zero launches and an empty fixture root.",
+          "focus": [
+            {
+              "start": 164,
+              "end": 171
+            }
+          ]
+        },
+        {
+          "start": 193,
+          "end": 217,
+          "title": "Retain question and tool-safety gates with context",
+          "explanation": "Missing/blank/oversized questions, empty IDs and invalid question Unicode fail before a launch. Tool-requesting synthetic children remain rejected in direct/initial/confirmed modes even when prior answer text asks to bypass the restrictions.",
+          "focus": [
+            {
+              "start": 193,
+              "end": 200
+            }
+          ]
+        },
+        {
+          "start": 218,
+          "end": 255,
+          "title": "Inspect production launch flags before replacing the child",
+          "explanation": "CreateProvider writes a nonexecutable sentinel and uses the internal transformer. Normal launches must contain the sentinel and deny-shell flags and no question-bearing arguments. It then substitutes noninteractive no-profile Windows PowerShell, with either an allowed synthetic version string or FakeCli. Therefore tests cover application launch assembly and process handling, not the actual CLI's flag interpretation. The helper now accepts hosted or local mode. Before substitution it requires the entire fixed safety argv, verifies context is absent from environment values, checks offline loopback configuration only for LocalModel, and initializes the explicit hosted profile when needed. The actual invoked child is still synthetic PowerShell.",
+          "focus": [
+            {
+              "start": 218,
+              "end": 225
+            }
+          ]
+        },
+        {
+          "start": 256,
+          "end": 278,
+          "title": "Fake stdin capture and final-only event stream",
+          "explanation": "The script reads all stdin as UTF-8, writes only synthetic captured text, then emits a turn/model start, one final assistant message, turn end, idle and result. A switch inserts a shell toolRequest in that final message so the parser must reject before exposing associated content. Read drains the provider stream; fixture Dispose removes the test root. No streaming-delta timing is exercised by this final-only peer.",
+          "focus": [
+            {
+              "start": 257,
+              "end": 267
+            }
+          ]
+        }
       ]
     },
     {

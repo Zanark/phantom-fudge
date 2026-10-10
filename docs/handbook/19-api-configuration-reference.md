@@ -236,7 +236,7 @@ Answer font 8–24 is a session-only choice, **not** a permitted JSON property. 
 passed after correcting the configuration-error boundary to catch `InvalidDataException`.
 The [guide](../KEYBOARD-CONTROLS.md) records that bounded evidence; citation/atlas/book completion
 and external shortcut/foreground qualification remain separate.
-(src/PhantomFudge.Core/KeyboardCommands.cs:15-79;
+(src/PhantomFudge.Core/KeyboardCommands.cs:15-80;
 src/PhantomFudge.App/MainWindow.AnswerFont.cs:9-43.)
 
 ### Speech environment and secret ownership
@@ -343,7 +343,7 @@ V1 is Computer-only. V2 source subsets must be nonempty, unique, and canonically
 The server strips the prefix before validation/accounting. At 32,000 PCM bytes/second, 100 ms means 3,200 PCM bytes or 3,201 v2 message bytes; neither duration nor queue credit includes the prefix. (`services\transcription\server.py:26-28`, source/format constants; `services\transcription\server.py:319-357`, `Session.receive`; `services\transcription\server.py:361-392`, `Session.publish`; `src\PhantomFudge.Core\AudioSource.cs:3-23`, wire identities.)
 
 Final IDs increase globally across the session, while final times and replacement partials are source-local. Thus Computer ending at 5 seconds followed by Mic ending at 2 seconds is valid. Labels identify inputs, not speakers. `{"type":"stop"}` stops the entire session; source-scoped commit and speech v3 remain **unimplemented**. The desktop Ask action freezes a snapshot and optionally invokes its configured installed answer
-provider; it is not a speech-protocol control or a direct Azure request. (`services\transcription\server.py:306-316`, control handling; `services\transcription\server.py:361-417`, publication/drain; `docs\DUAL-SOURCE-AUDIO.md:10-17`, identity boundary; `docs\AI-ANSWER-ARCHITECTURE.md:461-506`, proposed commit.)
+provider; it is not a speech-protocol control or a direct Azure request. (`services\transcription\server.py:306-316`, control handling; `services\transcription\server.py:361-417`, publication/drain; `docs\DUAL-SOURCE-AUDIO.md:10-17`, identity boundary; `docs\AI-ANSWER-ARCHITECTURE.md:473-518`, proposed commit.)
 
 ```mermaid
 ---
@@ -377,6 +377,27 @@ sequenceDiagram
 Stop waits for a queue slot rather than discarding accepted PCM. Each declared source receives a final, even if empty, before `stopped`. Native drain has its own timeout and requires v2 stop-final evidence from every source; disconnection is not equivalent to completed drain. (`services\transcription\server.py:306-316`, `Session.receive`; `services\transcription\server.py:394-498`, `Session.recognize`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:241-289`, `StopAsync`; `src\PhantomFudge.App\Audio\TranscriptionSocket.cs:463-474`, `ProcessMessage`.)
 
 ## 6. Resource defaults are code limits, not CLI knobs
+
+### Answer context is request data, not configuration
+
+The local-source request shape is
+`AnswerRequest(RequestId, ExactText, Clarification = null, PreviousAnswer = null)`.
+`AnswerRun(snapshot, providerLabel, clarification = null, previousAnswer = null)` validates and
+freezes those optional inputs before provider work. Null prior context preserves existing direct
+behavior; a non-null string must be nonblank strict Unicode and at most32768UTF-16 units.
+Question text remains at8192; clarification history plus current input remains at32768.
+These independent character limits exclude JSON/policy overhead and are not model token budgets.
+([Contracts](../../src/PhantomFudge.Core/Answers/AnswerContracts.cs),
+[coordinator](../../src/PhantomFudge.Core/Answers/AnswerRun.cs),
+[clarification](../../src/PhantomFudge.Core/Answers/AnswerClarification.cs).)
+
+**Previous answer** defaults off/session-only; it is not an `answers.json` or `keyboard.json`
+setting. `context on/off` are finite built-in commands invoking the same UI handler, never shell
+or model commands and never an implicit send. Clear/provider changes reset the option; an active
+clarification retains its captured string for explicit replies/retry. The submitted context is
+inspectable in Setup/details. This addition is not in v0.2.0-preview.1.
+([UI controller](../../src/PhantomFudge.App/MainWindow.AnswerContext.cs),
+[command grammar](../../src/PhantomFudge.Core/KeyboardCommands.cs).)
 
 | Boundary | Current default |
 | --- | --- |

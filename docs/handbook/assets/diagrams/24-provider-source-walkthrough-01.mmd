@@ -8,28 +8,28 @@ config:
     lineColor: "#8b949e"
     clusterBkg: "#161b22"
     clusterBorder: "#30363d"
+  fontFamily: "Segoe UI, Arial, sans-serif"
+  flowchart:
+    nodeSpacing: 36
+    rankSpacing: 16
+    padding: 6
+    htmlLabels: false
 ---
 flowchart TD
     accTitle: Explicit question and clarification routes
-    accDescr: Ask freezes a snapshot. Snapshot-only stays local. Agency serializes every question under the controlled role. Direct Copilot preserves raw default text and envelopes only opted-in clarification.
-    A["Explicit Ask"] --> B["Frozen snapshot"]
-    B --> C{"Provider enabled?"}
-    C -->|No| D["Local snapshot only"]
-    C -->|Yes| E["AnswerRun and request"]
-    E --> F{"Selected adapter"}
-    F -->|Agency| G["Fixed policy and JSON"]
-    F -->|Copilot or LocalModel| H{"Clarification metadata?"}
-    H -->|Null| I["Raw exact stdin"]
-    H -->|Present| J["Fixed policy and task JSON"]
+    accDescr: Ask freezes a snapshot and optional previous answer. Snapshot-only stays local. Agency uses the controlled role; direct Copilot preserves raw default text and envelopes either opted-in context.
+    A["Explicit Ask: freeze reviewed text"] --> C{"Selected mode"}
+    C -->|Snapshot only| D["Retain locally; no request"]
+    C -->|Agency| G["Fixed policy and JSON"]
+    C -->|Copilot or LocalModel| H{"Clarification or prior answer?"}
+    H -->|Neither| I["Raw exact stdin"]
+    H -->|Either| J["Fixed policy and context JSON"]
     G --> K["Fresh ACP session"]
     I --> L["One-shot CLI process"]
     J --> L
     style A fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style B fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style C fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style D fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style E fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    style F fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style G fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style H fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style I fill:#2d333b,stroke:#6d5dfc,color:#e6edf3

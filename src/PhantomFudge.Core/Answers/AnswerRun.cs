@@ -12,14 +12,16 @@ public sealed class AnswerRun
     private long sequence;
     private bool terminalReceived;
 
-    public AnswerRun(QuestionSnapshot snapshot, string providerLabel, AnswerClarification? clarification = null)
+    public AnswerRun(QuestionSnapshot snapshot, string providerLabel, AnswerClarification? clarification = null,
+        string? previousAnswer = null)
     {
         ArgumentNullException.ThrowIfNull(snapshot);
         ArgumentException.ThrowIfNullOrWhiteSpace(providerLabel);
         clarification?.ValidateFor(snapshot.ExactText);
+        AnswerRequest.ValidatePreviousAnswer(previousAnswer);
         Snapshot = snapshot;
         ProviderLabel = providerLabel;
-        Request = new(Guid.NewGuid(), snapshot.ExactText, clarification);
+        Request = new(Guid.NewGuid(), snapshot.ExactText, clarification, previousAnswer);
     }
 
     public QuestionSnapshot Snapshot { get; }
