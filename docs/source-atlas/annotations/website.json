@@ -1,0 +1,324 @@
+{
+  "schemaVersion": 1,
+  "id": "website",
+  "title": "Static website, immutable tutorial media and pending Pages publication",
+  "chapter": "docs/WEBSITE.md",
+  "files": [
+    {
+      "path": ".github/workflows/pages.yml",
+      "sourceSha256": "039bd86255d00873674ee030f6c50a58d5d7a1df72905d4f422869aa32edc9e3",
+      "role": "Defines the future site-only GitHub Pages build and deployment, separate from native installer publication.",
+      "entryPoints": ["Scoped pushes to main", "workflow_dispatch"],
+      "blocks": [
+        {
+          "start": 1, "end": 18,
+          "title": "Scope triggers and serialize deployment without write access in the build",
+          "explanation": "Only main pushes touching site, tools/Site or this workflow automatically trigger the job; workflow_dispatch is the explicit alternative. The workflow-level token has contents:read. A shared pages concurrency group with cancel-in-progress:false does not cancel an already running deployment when another request arrives. These declarations prepare an execution path; they do not demonstrate that a Pages run or public deployment occurred.",
+          "focus": [{"start": 3, "end": 13}]
+        },
+        {
+          "start": 19, "end": 32,
+          "title": "Pin the Actions and test the checked-out static player",
+          "explanation": "The build explicitly requests contents:read and pages:read, allowing checkout and configure-pages to read repository/Pages configuration without publication writes. checkout, setup-node and configure-pages are pinned to full commit identities. Node22 runs the static-player tests before media acquisition. ubuntu-latest is not an immutable runner image. These Node tests do not run the Windows browser fixture, native application, artwork renderer or media encoder.",
+          "focus": [{"start": 22, "end": 32}]
+        },
+        {
+          "start": 33, "end": 45,
+          "title": "Download the separate tutorial release and upload only the assembled site",
+          "explanation": "GH_TOKEN and GH_REPO are set for the download step from the current workflow context. Node reads release and filename from site/media.json; gh downloads only the matching asset into runner scratch space. The next step passes the expected tutorial filename to build.mjs, whose size/hash gate runs before site assembly. The pinned upload action receives artifacts/site, not a repository-wide archive. A missing tutorial release fails this prerequisite; this workflow never creates it.",
+          "focus": [{"start": 37, "end": 45}]
+        },
+        {
+          "start": 46, "end": 58,
+          "title": "Grant publication permissions only to the dependent deploy job",
+          "explanation": "needs:build prevents this job from deploying after a failed build. Its token receives pages:write and id-token:write, and the github-pages environment records the deployment URL returned by the named deployment step. The final action is also commit-pinned. Environment configuration, authorized source publication and the separate media release remain prerequisites; a URL expression in YAML is not evidence that a live website exists.",
+          "focus": [{"start": 47, "end": 58}]
+        }
+      ]
+    },
+    {
+      "path": "tools/Site/build.mjs",
+      "sourceSha256": "62a2d3f8c398ffde0f40be2108294dd18ccfb7b834fd54fb4eb78db3c9af4b63",
+      "role": "Assembles a public static output only after the supplied full tutorial matches its configured immutable identity.",
+      "entryPoints": ["node tools/Site/build.mjs --video <MP4>", ".github/workflows/pages.yml build job"],
+      "blocks": [
+        {
+          "start": 1, "end": 10,
+          "title": "Resolve fixed repository-relative assembly inputs",
+          "explanation": "Node built-ins provide streaming file reads, copying and hashing without a site package installation. The repository root comes from this module's location, so running from another working directory does not change the site source or output root. site/media.json supplies the required video identity; the generated destination is always artifacts/site. No native application, installer or documentation output is selected here.",
+          "focus": [{"start": 7, "end": 10}]
+        },
+        {
+          "start": 11, "end": 18,
+          "title": "Reject wrong media before deleting a previous preview",
+          "explanation": "The command requires exactly --video and one path. The path resolves against the caller's working directory. stat checks its byte length first, then createReadStream feeds the complete file into SHA256 without loading the entire159MB video into memory. A mismatch throws before output removal. The check establishes equality with the configured bytes, not rights, perceptual quality or the truth of narration.",
+          "focus": [{"start": 11, "end": 17}]
+        },
+        {
+          "start": 19, "end": 30,
+          "title": "Check symlinks and replace only the generated website directory",
+          "explanation": "checkTree recursively rejects symbolic-link entries under site. After that walk succeeds, rm removes the fixed output tree, cp copies the complete site directory, and a media subdirectory receives the verified MP4 under the configured filename. The completion log reports its identity. The copy scope excludes unrelated repository directories, but it is not a content sanitizer: every ordinary file placed in site is a publication input and needs review.",
+          "focus": [{"start": 25, "end": 30}]
+        }
+      ]
+    },
+    {
+      "path": "tools/Site/import-tutorial.mjs",
+      "sourceSha256": "de72eb5eb14f612a2e75e85eb9fff3fa9f512cfd5210b88cb64eca70da901843",
+      "role": "Projects a completed tutorial into public player data and named caption/chapter downloads without copying its private inventory.",
+      "entryPoints": ["node tools/Site/import-tutorial.mjs <completed tutorial directory>"],
+      "blocks": [
+        {
+          "start": 1, "end": 14,
+          "title": "Read the completed tutorial and compare its recorded video identity",
+          "explanation": "The module resolves repository output independently of the supplied input folder. It requires an input argument, then parses chapters, transcript, the original media manifest and the website's media identity. Comparing original.videoSha256 to media.sha256 rejects a different recorded tutorial. This importer does not read and hash the MP4 itself; build.mjs performs that full-byte verification during final site assembly.",
+          "focus": [{"start": 10, "end": 14}]
+        },
+        {
+          "start": 15, "end": 24,
+          "title": "Project the enhanced-player module and copy five public downloads",
+          "explanation": "The module keeps title/duration, chapter id/title/start/end and cue start/end/text, discarding unrelated object fields from tutorial-data.mjs. JSON.stringify writes the projected structure as an ES-module export. The five explicitly named SRT, VTT, chapter and transcript files are copied intact rather than field-sanitized. Their source content must already be public-safe; the later static-input test is a bounded additional check.",
+          "focus": [{"start": 15, "end": 24}]
+        },
+        {
+          "start": 25, "end": 32,
+          "title": "Publish selected media provenance instead of delivery inventory",
+          "explanation": "The emitted media manifest contains the configured video identity, origin/caveat from the transcript, the synthetic narration description, the fixed194-lesson count, computed cue count, projected chapters and source-manifest hash. It deliberately does not serialize the entire original delivery manifest. The log reports chapter/cue totals. Importing captions is not narration generation, video encoding, a live recording or publication.",
+          "focus": [{"start": 26, "end": 31}]
+        }
+      ]
+    },
+    {
+      "path": "tools/Site/make-artwork.mjs",
+      "sourceSha256": "e10476c7e72f9d6f8a2ffe5e76cbb6a21f0f90ff7e1cc062a4d5ffbb98247b7c",
+      "role": "Authors original DeepSeaFoam SVG artwork and renders website JPEGs with the existing isolated documentation browser dependency.",
+      "entryPoints": ["node tools/Site/make-artwork.mjs", "--browser override", "SITE_BROWSER environment override"],
+      "blocks": [
+        {
+          "start": 1, "end": 24,
+          "title": "Reuse installed tooling and declare palette and font roles",
+          "explanation": "The header identifies this as original artwork with no downloaded images/fonts. Module-relative paths separate public site/assets from ignored review work. createRequire resolves puppeteer-core through tools/Docs rather than a new site dependency tree. --browser takes precedence over SITE_BROWSER and the installed Edge default. The named colors and system-font fallbacks define the composition's appearance; no font files are distributed by these declarations.",
+          "focus": [{"start": 11, "end": 22}]
+        },
+        {
+          "start": 25, "end": 65,
+          "title": "Construct the phantom body, lighting and face from vector geometry",
+          "explanation": "Reusable SVG definitions describe ivory-to-teal body shading, a transparent aura, horizontal mist and panel/base shading. The phantom template builds the aura and dotted arc, asymmetric folded-tail silhouette, contour highlights, eyes, tiny glints and smile. Coordinates and paths are authored geometry, not a crop of another showcase. These static templates do not themselves animate the website; client styles own motion.",
+          "focus": [{"start": 44, "end": 55}]
+        },
+        {
+          "start": 66, "end": 104,
+          "title": "Add the notebook and cursor, then wrap accessible reusable SVGs",
+          "explanation": "A transformed notebook group layers cover, spine, text lines, checkmark and bookmark. The arm, seafoam cursor, small stars and lower mist finish the phantom. svg supplies dimensions, viewBox, image role, title/description IDs and shared definitions; background builds size-relative shapes for larger compositions. Inputs to these template helpers are fixed authored values here, not arbitrary external SVG or text.",
+          "focus": [{"start": 89, "end": 99}]
+        },
+        {
+          "start": 105, "end": 126,
+          "title": "Lay out the full-size tutorial poster",
+          "explanation": "The1920x1080 poster combines the shared background, large two-line product title, explicit walkthrough wording,38-minute/15-chapter label, a transformed phantom and drawn play emblem. The SVG's accessible description describes the illustration rather than an actual app screenshot. These labels are editorial metadata tied to the current tutorial and require review if the video changes; the decorative play glyph is not a media control.",
+          "focus": [{"start": 112, "end": 121}]
+        },
+        {
+          "start": 127, "end": 150,
+          "title": "Provide social, standalone-ghost and compact-icon compositions",
+          "explanation": "The social card uses a separate1200x630 layout rather than scaling the whole poster blindly. The standalone ghost retains a640x720 viewBox and its own description. The64px favicon simplifies the silhouette and face over a rounded deep-teal background so the illustration remains recognizable at small sizes. Each uses the same palette helpers, while dimensions and typography serve distinct display roles.",
+          "focus": [{"start": 140, "end": 149}]
+        },
+        {
+          "start": 151, "end": 177,
+          "title": "Persist SVGs and render without page-level network fetches",
+          "explanation": "Public ghost/favicon/poster SVGs are written to assets; the social SVG remains in the ignored artwork workspace. An owned headless browser uses a dedicated browser-profile directory. Request interception permits only data URLs for the rendered page. Each composition is loaded from its in-memory template at its native viewport, waits for font readiness, then produces a JPEG; review-only ghost/favicon rasters stay outside public assets.",
+          "focus": [{"start": 165, "end": 176}]
+        },
+        {
+          "start": 178, "end": 185,
+          "title": "Create the small-poster review image and close the owned browser",
+          "explanation": "A480x270 viewport renders the poster at thumbnail scale, exposing typography and composition issues that a full-size render can conceal. The image goes to ignored review work, not the public asset set. finally closes the owned browser even if rendering fails. The final log reports files rendered; visual inspection and rights/quality acceptance are separate, not performed by printing this message.",
+          "focus": [{"start": 178, "end": 184}]
+        }
+      ]
+    },
+    {
+      "path": "tools/Site/make-demo-media.py",
+      "sourceSha256": "2416df61177f1e605cf6a356475d5c0ef6de11a562d9449c90d879f8443658d3",
+      "role": "Derives silent, labelled website excerpts and reviewed provenance from one hash-locked scripted sample-data tutorial.",
+      "entryPoints": ["main", "--inspect-source", "--encode", "--review-outputs", "--provenance --record-reviewed"],
+      "blocks": [
+        {
+          "start": 1, "end": 25,
+          "title": "Declare installed dependencies and fixed source/output geometry",
+          "explanation": "The tool imports existing Pillow, PyAV and imageio-ffmpeg; it does not install or download them. ROOT derives from the file location, SOURCE names the ignored completed tutorial and SOURCE_HASH fixes its exact identity. Public derivatives go to site/assets, while review work goes to .local/site-art. The1000x720 output has a1000x600 content pane between separate header/footer regions and uses30fps source timing.",
+          "focus": [{"start": 19, "end": 25}]
+        },
+        {
+          "start": 26, "end": 67,
+          "title": "Author exact action/result excerpts with explicit montage disclosures",
+          "explanation": "DEMOS names three edits. Selection concatenates useful-row selection, a later Ask and a later completed answer; context keeps one continuous toggle excerpt; cover joins covering and later revealing while omitting an explanatory hold. Each segment gives zero-based inclusive start/exclusive end frames, crop geometry and a visible label, with action frames retained as provenance. Review times include actions/results and joins. Neither omitted waiting nor an edited answer sequence measures latency.",
+          "focus": [{"start": 31, "end": 40}]
+        },
+        {
+          "start": 68, "end": 90,
+          "title": "Read system fonts, stream source hashes and seek representative frames",
+          "explanation": "font selects installed Segoe regular/semibold faces. sha256 reads oneMiB chunks instead of loading the whole video. frame_at seeks backward to a keyframe using the stream time base, decodes forward and accepts a frame within half a30fps frame of the requested time. It returns an RGB image or raises when no frame qualifies. This sampled-frame helper is separate from strict sequential source extraction.",
+          "focus": [{"start": 81, "end": 88}]
+        },
+        {
+          "start": 91, "end": 112,
+          "title": "Build source contact sheets for editorial inspection",
+          "explanation": "inspect_source samples an authored set of times from the immutable tutorial, saves full-size JPEGs and thumbnails them into a two-column contact sheet. When additional rows exceed the initial sheet height, it expands the canvas before pasting, preserving earlier samples. Labels report the requested source time. The routine creates inspection material; it does not decide whether an action/result is readable or approve the edit.",
+          "focus": [{"start": 98, "end": 109}]
+        },
+        {
+          "start": 113, "end": 146,
+          "title": "Verify retained source frames and aspect-contain their crop",
+          "explanation": "source_frames seeks before the requested span, converts timestamps to30fps indices, skips earlier frames and stops at the exclusive end. It rejects a gap or unexpected sequence and validates the final count. compose crops the declared source rectangle, proportionally downsizes it into the content pane and centers it on deep teal. Header, sample-data label and footer remain outside that pane; no reconstructed UI, time acceleration or new click animation is inserted.",
+          "focus": [{"start": 119, "end": 129}]
+        },
+        {
+          "start": 147, "end": 180,
+          "title": "Encode silent H.264 and a lower-frame-rate GIF without speeding time",
+          "explanation": "encode writes only a video stream, using1000x720 yuv420p H.264 with faststart and explicit sequential30fps timestamps across retained spans. Flushing the encoder precedes the expected-frame-count assertion. The existing ffmpeg executable derives a10fps,192-color looping GIF with Bayer dithering and no audio; fewer frames do not accelerate retained source time. A hard5MB GIF ceiling is enforced, then a configured output-time JPEG poster is extracted. This ceiling is not the smaller measured delivered size.",
+          "focus": [{"start": 164, "end": 174}]
+        },
+        {
+          "start": 181, "end": 210,
+          "title": "Inspect decoded derivatives rather than only the unencoded composition",
+          "explanation": "gif_frame_at walks actual encoded GIF frames and their millisecond durations to find the visible frame at a requested time, rejecting times outside the loop. review_outputs samples each authored action/result/join time into full-size JPEGs and contact sheets. It separately samples early/middle/end MP4 frames. These are review aids over decoded delivery files, not exhaustive frame inspection or an automated readability judgment.",
+          "focus": [{"start": 197, "end": 208}]
+        },
+        {
+          "start": 211, "end": 245,
+          "title": "Record exact delivered asset identities and inspect media properties",
+          "explanation": "provenance enumerates five artwork outputs and three formats for each demo. Every asset receives size, SHA256 and authored alternative text. Pillow supplies raster dimensions and summed GIF frame durations; PyAV supplies MP4 dimensions, frame rate and duration while rejecting an unexpected audio stream. The records describe actual output files rather than assuming successful encoding from filenames alone. SVG dimensions are not decoded by this branch.",
+          "focus": [{"start": 236, "end": 245}]
+        },
+        {
+          "start": 246, "end": 277,
+          "title": "Map retained source spans onto output time and disclose scripted origin",
+          "explanation": "A running output cursor maps each source frame span to output start/end seconds at speed1, preserving crop/action metadata and the authored omission notes. Poster and sampled review times are recorded separately. The source section uses a repository-relative ignored-artifact path, exact video identity, geometry, duration and explicit scripted unchanged-XAML/sample-I/O disclosure. It does not claim a real desktop recording, physical mouse input, meeting capture or model response.",
+          "focus": [{"start": 250, "end": 260}]
+        },
+        {
+          "start": 278, "end": 307,
+          "title": "Describe artwork, review limits and regeneration before sealing provenance",
+          "explanation": "The remaining manifest records original artwork description, palette/font roles, sampled visual-review limits and reproduction commands using existing dependencies. It explicitly states that browser/font/codec versions can change regenerated bytes and that flags do not substitute for inspection. A final full source SHA256 check precedes writing asset-provenance.json, so a changed tutorial cannot be sealed with the expected identity. Review statements are assertions supplied after separate inspection, not deductions from hashing.",
+          "focus": [{"start": 294, "end": 305}]
+        },
+        {
+          "start": 308, "end": 336,
+          "title": "Require explicit generation steps and a separate review assertion",
+          "explanation": "main parses independent inspection, encoding, output-review and provenance switches. Every invocation verifies the immutable tutorial hash before preparing assets or acting. Encoding loops over the three authored demos; review only creates sampled evidence. Provenance additionally requires --record-reviewed and rejects its absence through argparse. The flag's help expressly says it performs no review. Running without any chosen option fails instead of silently claiming a completed derivative build.",
+          "focus": [{"start": 321, "end": 332}]
+        }
+      ]
+    },
+    {
+      "path": "tools/Site/review-browser.mjs",
+      "sourceSha256": "ca3ce2464aee1dd3e7ae63f5ea48b6ef23958a86579e49051a728336e347c927",
+      "role": "Exercises the assembled website in an owned muted Edge profile and writes bounded local browser evidence without attaching to user processes.",
+      "entryPoints": ["node tools/Site/review-browser.mjs [preview URL]", "EDGE_PATH environment override"],
+      "blocks": [
+        {
+          "start": 1, "end": 34,
+          "title": "Create an isolated browser and collect observable page failures",
+          "explanation": "The script resolves existing Docs Puppeteer, imports expected tutorial data and accepts a preview URL. Evidence goes to .local/site-review. mkdtemp uses Node's OS scratch root for an owned profile; TEMP/TMP can direct that root to ignored project scratch space. Headless Edge is muted and never attaches to a user's browser. Page errors, console errors, HTTP failures and off-origin HTTP(S) requests are collected; the request listener observes rather than blocks network access.",
+          "focus": [{"start": 23, "end": 34}]
+        },
+        {
+          "start": 35, "end": 67,
+          "title": "Verify initial stillness, coordinated motion pause and media transport",
+          "explanation": "After the page and hero images load, the fixture asserts that the video is paused and saves a desktop screenshot. Clicking motion must set the pressed state, replace all animated images with JPEGs and leave the ghost transform unchanged across250ms. Video metadata must match expected duration and1080p dimensions. Muted play/pause,1.5x speed and forward/back ten-second controls are exercised using actual media time, not only DOM button presence.",
+          "focus": [{"start": 48, "end": 59}]
+        },
+        {
+          "start": 68, "end": 97,
+          "title": "Seek every chapter and exercise literal transcript navigation",
+          "explanation": "The loop advances chapter pages as needed, clicks each of15chapters and waits for settled media within80ms of its start plus the active aria-current highlight. A previous-answer search checks matching cue text, seeks a result and verifies extra-caption text. An impossible query must disable next navigation and report zero results; clearing and paging must report the expected six-at-a-time ranges over525cues. These are browser assertions, not a full narration review.",
+          "focus": [{"start": 69, "end": 78}]
+        },
+        {
+          "start": 98, "end": 125,
+          "title": "Check full-size demo tabs and finite responsive layouts",
+          "explanation": "Player and showcase screenshots are taken with paused motion. Each of the selection/context/cover tabs must expose its decoded image, then Home from the cover tab must select the first tab. Five widths from1440down to320must avoid document overflow and nested chapter/transcript scrolling. Mobile captures document representative layouts. These finite viewport checks do not establish every device, zoom, assistive-technology or human-comfort combination.",
+          "focus": [{"start": 110, "end": 119}]
+        },
+        {
+          "start": 126, "end": 141,
+          "title": "Verify reduced-motion defaults and the native-video fallback",
+          "explanation": "Emulated prefers-reduced-motion followed by reload must produce a paused body class, no ghost animation and JPEG demos. Explicit motion resume must switch to GIFs and restore animation. Disabling JavaScript before another reload must leave native video controls and the chapter-list noscript text available. Enhanced chapter buttons/search are not asserted in that fallback; the test distinguishes progressive enhancement from a script-only media page.",
+          "focus": [{"start": 127, "end": 138}]
+        },
+        {
+          "start": 142, "end": 150,
+          "title": "Write a pass receipt only after error checks and always clean up ownership",
+          "explanation": "Before browser.json is written, the error, failed-response and external-request arrays must all be empty. The receipt contains URL, checks, metadata and muted:true, then the console reports those bounded results. finally closes this browser and removes only the profile created for this invocation. A thrown assertion prevents a new successful receipt; retained older evidence must not be mistaken for the failing run or a live Pages verification.",
+          "focus": [{"start": 142, "end": 150}]
+        }
+      ]
+    },
+    {
+      "path": "tools/Site/serve.mjs",
+      "sourceSha256": "4038725f3514da8846594e7e6aeb211c496907172d9f2962c40c7aa566b04bd6",
+      "role": "Serves the assembled website over loopback with start-based byte ranges so the full tutorial can seek during local review.",
+      "entryPoints": ["node tools/Site/serve.mjs [port]", "HTTP requests to 127.0.0.1"],
+      "blocks": [
+        {
+          "start": 1, "end": 19,
+          "title": "Resolve requests beneath the fixed assembled output",
+          "explanation": "The server roots all files at artifacts/site and defaults to port4173. After URL decoding it strips an optional phantom-fudge prefix and leading slashes, then resolves the remaining path. A lexical root/descendant check rejects escape attempts with403. stat rejects directories with404; an empty path maps to index.html. This local server consumes the already-reviewed assembly rather than exposing the repository or rebuilding files on request.",
+          "focus": [{"start": 10, "end": 19}]
+        },
+        {
+          "start": 20, "end": 34,
+          "title": "Advertise media types and handle one explicit byte range",
+          "explanation": "Responses set the known extension MIME type, Accept-Ranges and no-store. The range parser supports bytes=start-end or bytes=start- with a mandatory starting offset; malformed, beyond-end or reversed requests receive416and the total size. A valid end is capped at the final byte, with206and exact Content-Range/Length. Non-range responses use200. HEAD stops after headers. Suffix and multipart ranges are not implemented.",
+          "focus": [{"start": 25, "end": 34}]
+        },
+        {
+          "start": 35, "end": 45,
+          "title": "Stream the selected span and keep the listener local",
+          "explanation": "createReadStream sends only the selected start/end span. A stream error destroys the response, and a closed response destroys the file stream instead of continuing unnecessary reads. Missing paths return404; other caught errors are logged and return a generic500body. listen binds explicitly to127.0.0.1and prints the prefixed preview URL. This process is a local preview server, not a Pages deployment or native speech service.",
+          "focus": [{"start": 35, "end": 45}]
+        }
+      ]
+    },
+    {
+      "path": "tools/Site/test-site.mjs",
+      "sourceSha256": "2702099c132599c92006e71b52c6c8b6ebe5bd704c244e08ac09ac66eac6ef9e",
+      "role": "Runs six dependency-free Node tests over player helpers, the full tutorial data and bounded static-publication inputs.",
+      "entryPoints": ["node --test tools/Site/test-site.mjs", ".github/workflows/pages.yml Check static player"],
+      "blocks": [
+        {
+          "start": 1, "end": 18,
+          "title": "Import pure player helpers and test formatting and seek bounds",
+          "explanation": "Node's test/assert and filesystem APIs load the actual player helpers and generated tutorial module without a DOM. Formatting cases cover38-minute output, an hour and negative input. Seek tests cover clamping below zero and just before duration, plus rejection of NaN and nonpositive duration. These tests verify helper semantics and do not play video or open the native application.",
+          "focus": [{"start": 10, "end": 17}]
+        },
+        {
+          "start": 19, "end": 38,
+          "title": "Validate every chapter boundary and caption interval",
+          "explanation": "The chapter test requires15entries, exact-start selection, tolerance for a two-microsecond early media reading, distinction from10ms before a boundary and adjacency to the previous chapter. The cue test requires525nonblank, positive-duration, ordered nonoverlapping intervals within tutorial duration, and checks midpoint lookup for every cue. Time zero must be outside captions. This is structural/timing evidence, not semantic narration accuracy.",
+          "focus": [{"start": 28, "end": 37}]
+        },
+        {
+          "start": 39, "end": 47,
+          "title": "Keep search literal and pagination lossless",
+          "explanation": "Whitespace trimming and case folding must make the two previous-answer queries equivalent and nonempty. Regex-like characters remain literal and return no invented match; a blank query restores all525cues. Concatenating three five-chapter pages must reproduce the whole chapter list in order. The final six-cue page has three entries, exercising a partial last page rather than assuming all pages are full.",
+          "focus": [{"start": 39, "end": 47}]
+        },
+        {
+          "start": 48, "end": 57,
+          "title": "Check required HTML controls and honest fallback wording",
+          "explanation": "The file-level HTML test looks for the expected player/search/motion IDs, native controls and metadata-only preload, while rejecting autoplay and external script src URLs. It also requires the source-only previous-answer notice and the non-universal-invisibility wording. String matching does not prove DOM interaction, accessibility or CSS layout; those behaviors belong to the separate isolated browser fixture and visual review.",
+          "focus": [{"start": 49, "end": 56}]
+        },
+        {
+          "start": 58, "end": 72,
+          "title": "Reject common private-path leaks and the full video in site inputs",
+          "explanation": "inspect walks the site tree recursively and refuses symlinks. For named text-like extensions it rejects common absolute production paths, private-context markers, sourceRoot and API-key assignment patterns. Every entry is checked against the full tutorial MP4 filename, keeping that large asset out of source/site. This targeted scan is not a general secret detector or rights audit; public-safe source inputs and explicit asset review remain necessary.",
+          "focus": [{"start": 60, "end": 71}]
+        }
+      ]
+    }
+  ]
+}

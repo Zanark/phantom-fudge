@@ -156,6 +156,12 @@
           "children": []
         },
         {
+          "title": "website",
+          "name": "Static Website and Tutorial Pipeline",
+          "prompt": "Use docs/WEBSITE.md as the canonical website guide. Trace immutable-video verification and site-only assembly in tools/Site/build.mjs:7-30, public tutorial projection in tools/Site/import-tutorial.mjs:10-31, loopback range serving in tools/Site/serve.mjs:10-45 and sampled derivative provenance in tools/Site/make-demo-media.py:147-178,246-305. Explain the separate tutorial release and job-scoped Pages workflow, not a live deployment. Ground browser evidence limits in tools/Site/review-browser.mjs:69-96,115-150; preserve current-source versus v0.2.0-preview.1 and sample-data versus real-operation distinctions.",
+          "children": []
+        },
+        {
           "title": "17-privacy-and-assurance",
           "name": "Privacy and Assurance",
           "prompt": "Ground boundaries in docs/QUALIFICATION.md:1, AGENTS.md:14, src/PhantomFudge.App/LocalFailureNotice.cs:1 and services/transcription/server.py:1.",

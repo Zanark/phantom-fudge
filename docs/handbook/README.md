@@ -17,10 +17,10 @@ not included in v0.2.0-preview.1**. Start with
 ## Reading order
 
 For the Windows 11 x64 prerelease, begin with [Install, update and remove](../INSTALLATION.md).
-It is registered near the front of the book. The private release requires repository access;
+It is registered near the front of the book. The repository and release downloads are public;
 see the versioned release for downloads and [current evidence](../IMPLEMENTATION-STATUS.md)
-for qualification boundaries. The maintained source atlas explains 205 first-party files, including the
-native launcher, installer recipe and pinned speech-runtime builder.
+for qualification boundaries. The maintained source atlas includes the native launcher, installer
+recipe, pinned speech-runtime builder and website tooling; its manifest records the current counts.
 
 For the complete current experience with the new images, start with the
 [illustrated workflow](../CURRENT-WORKFLOW.md). It appears near the front of both generated editions.
@@ -36,6 +36,7 @@ device navigation, session answer size and their bounded synthetic evidence.
 | Performance and planned AI | [12 Benchmarks](12-performance-and-benchmarks.md), [13 Azure answer design](13-proposed-azure-answer-flow.md), [14 Latency, identity, privacy](14-answer-latency-identity-and-privacy.md) |
 | Engineering practice | [15 Development](15-development-and-testing.md), [16 Distribution](16-distribution-and-troubleshooting.md), [17 Assurance](17-privacy-and-assurance.md), [18 Extensions](18-extending-the-system.md) |
 | Windows installation | [Native launcher, update/uninstall guards and retained data](../INSTALLATION.md) |
+| Static website and tutorial | [Local preview, media provenance and pending Pages publication](../WEBSITE.md) |
 | Reference and journey | [19 API/configuration](19-api-configuration-reference.md), [20 Glossary/map](20-glossary-and-repository-map.md), [21 Evidence/roadmap](21-evidence-and-roadmap.md), [Development journal](../../JOURNAL.md) |
 | Installed answer providers | [Agency, offline local models, setup and retention](../ANSWER-PROVIDERS.md) |
 | Optional question assistance | [Clarify first, explicit corrections and confirmation](../QUESTION-CLARIFICATION.md) |

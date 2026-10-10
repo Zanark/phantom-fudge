@@ -15,7 +15,7 @@ outline: deep
 
 The new recipe publishes the app and native launcher self-contained, assembles an offline speech
 runtime/model payload and emits versioned Setup, optional Portable ZIP and checksums. The target
-is `v0.2.0-preview.1` / Windows version `0.2.0.1`, unsigned and private-repository scoped. End users
+is `v0.2.0-preview.1` / Windows version `0.2.0.1`, unsigned; release downloads are public. End users
 do not need PowerShell7, a system Python or the .NET SDK. Builds require actual generated-PCM
 inference and natural process exit, separately from import and dependency-metadata checks.
 (scripts/Build-Installer.ps1:30-44,76-114)
@@ -36,7 +36,7 @@ directories. The canonical guide explains the
 (src/PhantomFudge.Launcher/Program.cs:50-58,94-100)
 (src/PhantomFudge.Launcher/MaintenanceOperation.cs:48-118)
 
-The repository remains private, so a GitHub prerelease is available only to permitted readers.
+The repository and its published prerelease downloads are now public.
 The owner authorized this prerelease work without making it a qualified release or selecting a
 project license. Unsigned-policy blocks must be respected, not bypassed. Exact hashes, lifecycle
 tests and publication state belong in [implementation status](../IMPLEMENTATION-STATUS.md), not

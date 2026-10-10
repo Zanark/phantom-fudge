@@ -1,0 +1,351 @@
+{
+  "schema": 1,
+  "source": {
+    "file": "artifacts/tutorial/20261010-221225/Phantom-Fudge-Full-Tutorial.mp4",
+    "sha256": "388ee914e1ffdc0ac3911d2a2e8dc6c8f33d8aad047f1aeff02fbe41138e1fde",
+    "bytes": 159267662,
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "duration_seconds": 2297.767,
+    "preservation": "Original full tutorial read only; exact SHA-256 verified before and after derivation.",
+    "disclosure": "Actual unchanged-XAML WPF visual-tree renders with scripted sample I/O. Not a live meeting, desktop recording, physical mouse recording, real audio capture or model response. Pointer guides already exist in the tutorial.",
+    "timing_evidence": "Exact shot action metadata aligned with the prepared final timeline; zero-based source frame ranges are start-inclusive/end-exclusive."
+  },
+  "artwork": {
+    "creator": "Original vector illustration authored by GitHub Copilot for Phantom Fudge.",
+    "description": "Asymmetric warm-ivory phantom, notebook, cursor, seafoam mist and original composition; no borrowed illustrations, logos, images or downloaded fonts.",
+    "palette": "DeepSeaFoam canonical colors; palette includes Solarized-derived colors.",
+    "colors": {
+      "base": "#000F13",
+      "panel": "#001E26",
+      "accent": "#00A591",
+      "text": "#93A1A1",
+      "faint": "#839496",
+      "warm": "#EEE8D5",
+      "lightEdge": "#FDF6E3",
+      "border": "#586E75"
+    },
+    "fonts": "Installed Segoe UI Variable Display / Segoe UI; Arial / sans-serif SVG fallbacks. No font files distributed.",
+    "review": "Actual 1920×1080 poster, 480×270 poster, 1200×630 social card, 640×720 ghost raster and 64×64 favicon inspected."
+  },
+  "derivatives": {
+    "geometry": "1000×720. Source crops aspect-contained in a 1000×600 pane at (0,68), never stretched. Editorial labels and disclosures occupy separate header/footer areas, never cover UI.",
+    "motion": "All retained source spans run at 1×; native tutorial camera and pointer guides preserved. GIF 10 fps; silent H.264 MP4 30 fps.",
+    "review_limit": "Representative decoded GIF frames at early/action/result/end and all internal edit boundaries, plus early/middle/end decoded MP4 stills were inspected. Active controls and results are readable at native size. The tutorial's existing focus camera can crop peripheral labels and neighboring panels; the excerpts do not reconstruct those missing pixels. This is sampled visual review, not exhaustive frame review, direct listening, user approval, live integration testing or capture qualification.",
+    "demos": {
+      "demo-selection": {
+        "alt": "Scripted sample: select a second transcript row, later explicitly Ask, then read the completed sample answer.",
+        "edit_note": "Three explicitly labelled later excerpts. Intervening draft editing, setup, waiting and most streaming are omitted. Not one continuous request or a latency measurement.",
+        "segments": [
+          {
+            "scene": "select-second",
+            "start_frame": 17971,
+            "end_frame": 18073,
+            "action_frame": 17992,
+            "crop_xywh": [
+              64,
+              183,
+              1334,
+              685
+            ],
+            "label": "01 / Select the useful transcript lines",
+            "source_start_seconds": 599.0333333333333,
+            "source_end_seconds_exclusive": 602.4333333333333,
+            "output_start_seconds": 0,
+            "output_end_seconds": 3.4,
+            "speed": 1
+          },
+          {
+            "scene": "answer-ask",
+            "start_frame": 29295,
+            "end_frame": 29382,
+            "action_frame": 29316,
+            "crop_xywh": [
+              44,
+              340,
+              1442,
+              560
+            ],
+            "label": "02 / Later: review the question, then Ask",
+            "source_start_seconds": 976.5,
+            "source_end_seconds_exclusive": 979.4,
+            "output_start_seconds": 3.4,
+            "output_end_seconds": 6.3,
+            "speed": 1
+          },
+          {
+            "scene": "answer-read",
+            "start_frame": 29700,
+            "end_frame": 29811,
+            "crop_xywh": [
+              78,
+              219,
+              1120,
+              632
+            ],
+            "label": "03 / Later: read the completed sample answer",
+            "source_start_seconds": 990.0,
+            "source_end_seconds_exclusive": 993.7,
+            "output_start_seconds": 6.3,
+            "output_end_seconds": 10.0,
+            "speed": 1
+          }
+        ],
+        "poster_output_seconds": 2.5,
+        "sampled_gif_review_seconds": [
+          0,
+          0.6,
+          0.8,
+          2.9,
+          3.3,
+          3.4,
+          4,
+          4.2,
+          6.2,
+          6.3,
+          8,
+          9.9
+        ],
+        "sampled_mp4_review_seconds": [
+          0,
+          4,
+          9.9
+        ]
+      },
+      "demo-context": {
+        "alt": "Scripted sample: click Previous answer immediately left of Ask; it changes from OFF to ON without sending.",
+        "edit_note": "One continuous unaccelerated excerpt showing the toggle and a reading hold. The toggle does not send. This feature is in current source, not v0.2.0-preview.1.",
+        "segments": [
+          {
+            "scene": "context-on",
+            "start_frame": 31515,
+            "end_frame": 31710,
+            "action_frame": 31537,
+            "crop_xywh": [
+              44,
+              342,
+              1442,
+              558
+            ],
+            "label": "Previous answer / opt in for your next Ask",
+            "source_start_seconds": 1050.5,
+            "source_end_seconds_exclusive": 1057.0,
+            "output_start_seconds": 0,
+            "output_end_seconds": 6.5,
+            "speed": 1
+          }
+        ],
+        "poster_output_seconds": 3,
+        "sampled_gif_review_seconds": [
+          0,
+          0.5,
+          0.8,
+          1,
+          2.2,
+          6.4
+        ],
+        "sampled_mp4_review_seconds": [
+          0,
+          1,
+          6.4
+        ]
+      },
+      "demo-cover": {
+        "alt": "Scripted sample: click the top-left book icon to show NOTEPAD IS READY, then later click the same icon to reveal the workspace.",
+        "edit_note": "The intervening explanatory cover hold is omitted. Both clicks and their resulting states are retained. The entire cover and top-left control remain in frame.",
+        "segments": [
+          {
+            "scene": "cover-click",
+            "start_frame": 61220,
+            "end_frame": 61328,
+            "action_frame": 61243,
+            "crop_xywh": [
+              146,
+              128,
+              1238,
+              794
+            ],
+            "label": "01 / Cover the workspace",
+            "source_start_seconds": 2040.6666666666667,
+            "source_end_seconds_exclusive": 2044.2666666666667,
+            "output_start_seconds": 0,
+            "output_end_seconds": 3.6,
+            "speed": 1
+          },
+          {
+            "scene": "cover-restore",
+            "start_frame": 61925,
+            "end_frame": 62057,
+            "action_frame": 61947,
+            "crop_xywh": [
+              146,
+              128,
+              1238,
+              794
+            ],
+            "label": "02 / Later: reveal with the same icon",
+            "source_start_seconds": 2064.1666666666665,
+            "source_end_seconds_exclusive": 2068.5666666666666,
+            "output_start_seconds": 3.6,
+            "output_end_seconds": 8.0,
+            "speed": 1
+          }
+        ],
+        "poster_output_seconds": 2.5,
+        "sampled_gif_review_seconds": [
+          0,
+          0.6,
+          0.8,
+          1,
+          3.5,
+          3.6,
+          4.2,
+          4.4,
+          7.9
+        ],
+        "sampled_mp4_review_seconds": [
+          0,
+          3.5,
+          7.9
+        ]
+      }
+    }
+  },
+  "reproduction": {
+    "artwork": "node tools/Site/make-artwork.mjs",
+    "media": "python tools/Site/make-demo-media.py --encode --review-outputs",
+    "after_visual_review": "python tools/Site/make-demo-media.py --provenance --record-reviewed",
+    "dependencies": "Existing tools/Docs Puppeteer, installed Edge (or --browser), Pillow, PyAV and imageio-ffmpeg. No network or package installation.",
+    "note": "Hashes describe these delivered files. Codec/browser/font versions can change regenerated bytes. Inspect outputs before updating a review assertion."
+  },
+  "files": [
+    {
+      "file": "ghost.svg",
+      "bytes": 3795,
+      "sha256": "a342fe9f42f40113322eb570ab7b8c87a339413ec0f967ab48e01a2aae20ae7f",
+      "alt": "Original ivory phantom carrying a teal notebook beside a seafoam cursor."
+    },
+    {
+      "file": "favicon.svg",
+      "bytes": 1358,
+      "sha256": "184e09ab8842f0c8eb7fd9ff1f904111674b9319ad639faab0f89d290b410e13",
+      "alt": "Small ivory Phantom Fudge ghost on deep teal."
+    },
+    {
+      "file": "tutorial-poster.svg",
+      "bytes": 5610,
+      "sha256": "b63fad28a9603dd87c4855693faa07deba166f07e370d2a7c819667478854190",
+      "alt": "Phantom Fudge: the complete walkthrough, 38 minutes and 15 chapters, with an original notebook-carrying ghost."
+    },
+    {
+      "file": "tutorial-poster.jpg",
+      "bytes": 175003,
+      "sha256": "98a37e00cf863d833cc3638e5ae3bb5167ce3d5da750f1fbd848ccdad466a507",
+      "alt": "Phantom Fudge: the complete walkthrough, 38 minutes and 15 chapters, with an original notebook-carrying ghost.",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "social-card.jpg",
+      "bytes": 89920,
+      "sha256": "7936c2b4b549358bb8d9227c0f5b87f526eab265c7a15c565bda2d52e33de2a5",
+      "alt": "Phantom Fudge, your words, your context, your call, with an ivory phantom and teal notebook.",
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "file": "demo-selection.gif",
+      "bytes": 1589317,
+      "sha256": "5babffd56e700277e41a3febba33f65375251323007a9ef341f29373335fd5b0",
+      "alt": "Scripted sample: select a second transcript row, later explicitly Ask, then read the completed sample answer.",
+      "width": 1000,
+      "height": 720,
+      "frames": 100,
+      "duration_seconds": 10.0,
+      "fps": 10,
+      "loop": "infinite"
+    },
+    {
+      "file": "demo-selection.jpg",
+      "bytes": 117851,
+      "sha256": "28eb6fb89c228fdead4bd44229e3f68b7e7551f3e143b3dc1450ff5677c21ce4",
+      "alt": "Scripted sample: select a second transcript row, later explicitly Ask, then read the completed sample answer.",
+      "width": 1000,
+      "height": 720
+    },
+    {
+      "file": "demo-selection.mp4",
+      "bytes": 342647,
+      "sha256": "8ec3b32440df3d38d682d2bd08d05bf54de4fb590e8b2e57c09ffba6c0afe72b",
+      "alt": "Scripted sample: select a second transcript row, later explicitly Ask, then read the completed sample answer.",
+      "width": 1000,
+      "height": 720,
+      "fps": 30.0,
+      "duration_seconds": 10.0,
+      "audio_streams": 0
+    },
+    {
+      "file": "demo-context.gif",
+      "bytes": 762311,
+      "sha256": "0fb326c4d95ac95e4e17b477e840c2bfa21d9df11dd896a341f5394426dde055",
+      "alt": "Scripted sample: click Previous answer immediately left of Ask; it changes from OFF to ON without sending.",
+      "width": 1000,
+      "height": 720,
+      "frames": 65,
+      "duration_seconds": 6.5,
+      "fps": 10,
+      "loop": "infinite"
+    },
+    {
+      "file": "demo-context.jpg",
+      "bytes": 89674,
+      "sha256": "7827e7f87bd5052a1735dd46df0922efed64dc73efcd6c89f08dd342779a5ddb",
+      "alt": "Scripted sample: click Previous answer immediately left of Ask; it changes from OFF to ON without sending.",
+      "width": 1000,
+      "height": 720
+    },
+    {
+      "file": "demo-context.mp4",
+      "bytes": 154619,
+      "sha256": "299b629d7f0b63725ebd0c2310e8f05558d92b31824450b83afa95de2c41aa27",
+      "alt": "Scripted sample: click Previous answer immediately left of Ask; it changes from OFF to ON without sending.",
+      "width": 1000,
+      "height": 720,
+      "fps": 30.0,
+      "duration_seconds": 6.5,
+      "audio_streams": 0
+    },
+    {
+      "file": "demo-cover.gif",
+      "bytes": 385778,
+      "sha256": "7209ad32ca61f2affd9c3496dba4e553ae45200149a70d0cc095e5ad053178c4",
+      "alt": "Scripted sample: click the top-left book icon to show NOTEPAD IS READY, then later click the same icon to reveal the workspace.",
+      "width": 1000,
+      "height": 720,
+      "frames": 80,
+      "duration_seconds": 8.0,
+      "fps": 10,
+      "loop": "infinite"
+    },
+    {
+      "file": "demo-cover.jpg",
+      "bytes": 42352,
+      "sha256": "c4bf5ce1158ac477e6228826b9c751965c4d3545b9d613debe1bcfdd4f348a7e",
+      "alt": "Scripted sample: click the top-left book icon to show NOTEPAD IS READY, then later click the same icon to reveal the workspace.",
+      "width": 1000,
+      "height": 720
+    },
+    {
+      "file": "demo-cover.mp4",
+      "bytes": 86925,
+      "sha256": "31317b4c41ee8924eda7a2d4a1273ca59f4e61701ff5cb0b4c0b2fac23fcd372",
+      "alt": "Scripted sample: click the top-left book icon to show NOTEPAD IS READY, then later click the same icon to reveal the workspace.",
+      "width": 1000,
+      "height": 720,
+      "fps": 30.0,
+      "duration_seconds": 8.0,
+      "audio_streams": 0
+    }
+  ]
+}

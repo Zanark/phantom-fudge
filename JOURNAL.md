@@ -1473,3 +1473,25 @@ Workstream59 is complete locally. The [handbook manifest](docs/handbook/manifest
 The atlas covers205files/31766physical lines/1261authored blocks; the book has36chapters/73diagrams.
 The published installer and its attached PDFs remain unchanged. This completion adds no live-model,
 audio, owner-comfort or recipient-capture qualification.
+
+## 2026-10-11 - A public-facing Phantom, completed locally
+
+The owner made the repository public, configured GitHub Pages for Actions, and requested a
+DeepSeaFoam landing page with moving ghosts, a custom video thumbnail, the full chapter player,
+and quick zoomed GIFs on the README and site. The website now provides original ivory/seafoam
+ghost artwork, three large tabbed sample-data loops, all15tutorial chapters and525searchable
+caption cues, playback speed, ten-second jumps and optional extra captions. Explicit pagination
+avoids inner scrolling. A motion control pauses ghosts and swaps GIFs for stills; reduced-motion
+visitors start static.
+
+The immutable38-minute MP4 is159MB, so the deployment plan stores it in a separate tutorial-media
+release rather than git history. The Actions workflow verifies exact bytes and SHA256 and publishes
+only the static site plus video. It does not collect notes or invoke transcription or a provider.
+The preview installer is unchanged; current-source previous-answer context remains separately labelled.
+
+The owner initially approved publishing. The active GitHub CLI identity then proved to have READ-only
+repository access, and release creation returned404. Rather than change authentication, the owner
+chose to **finish locally and leave publishing pending**. No release, asset upload, commit or push was
+completed. The local preview, source, media provenance and deployment guide are available in
+[Website and tutorial](docs/WEBSITE.md). This is local browser/media evidence, not a live Pages
+deployment or capture-compatibility qualification.

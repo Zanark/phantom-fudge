@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Phantom Fudge — the complete walkthrough</title><desc id="desc">Original ivory phantom holding a notebook in deep teal seafoam mist. 38 minutes, 15 chapters.</desc>
+  <defs>
+  <linearGradient id="body" x1=".2" y1="0" x2=".7" y2="1">
+    <stop stop-color="#FDF6E3"/><stop offset=".67" stop-color="#EEE8D5"/>
+    <stop offset="1" stop-color="#00A591"/>
+  </linearGradient>
+  <radialGradient id="aura"><stop stop-color="#00A591" stop-opacity=".27"/>
+    <stop offset="1" stop-color="#00A591" stop-opacity="0"/></radialGradient>
+  <linearGradient id="mist" x1="0" x2="1"><stop stop-color="#00A591" stop-opacity="0"/>
+    <stop offset=".6" stop-color="#00A591" stop-opacity=".19"/>
+    <stop offset="1" stop-color="#EEE8D5" stop-opacity="0"/></linearGradient>
+  <linearGradient id="shade" x1="0" x2="1" y1="0" y2="1">
+    <stop stop-color="#001E26"/><stop offset="1" stop-color="#000F13"/>
+  </linearGradient></defs>
+  <rect width="1920" height="1080" fill="#000F13"/>
+  <ellipse cx="1459.2" cy="529.2" rx="921.5999999999999" ry="777.6"
+    fill="url(#aura)"/>
+  <path d="M-100 982.8000000000001C441.6 669.6 1286.4 1188
+    2000 637.1999999999999L2000 1160H-100Z" fill="url(#mist)" opacity=".5"/>
+  <path d="M-100 1015.1999999999999C576 756 1324.8 1166.4
+    1980 756" fill="none" stroke="#00A591" stroke-opacity=".16" stroke-width="2"/>
+  <path d="M76.8 896.4C748.8000000000001 615.5999999999999 1209.6 1166.4
+    1939.2 939.6" fill="none" stroke="#EEE8D5" stroke-opacity=".08" stroke-width="1"/>
+  <g font-family="'Segoe UI Variable Display', 'Segoe UI', Arial, sans-serif">
+    <path d="M113 131H172" stroke="#00A591" stroke-width="4"/>
+    <text x="196" y="142" fill="#EEE8D5" font-size="28" letter-spacing="4.7" font-weight="600">
+      THE COMPLETE WALKTHROUGH</text>
+    <text x="105" y="356" fill="#EEE8D5" font-size="157" letter-spacing="-7" font-weight="700">Phantom</text>
+    <text x="105" y="519" fill="#EEE8D5" font-size="157" letter-spacing="-7" font-weight="700">Fudge</text>
+    <text x="115" y="612" fill="#93A1A1" font-size="35">Select a thought. Ask with intent.</text>
+    <path d="M116 704H259" stroke="#00A591" stroke-width="3"/>
+    <text x="115" y="774" fill="#EEE8D5" font-size="35" letter-spacing="2.4" font-weight="600">
+      38 MIN · 15 CHAPTERS</text>
+    <text x="116" y="980" fill="#839496" font-size="21" letter-spacing="2.1">
+      LOCAL TRANSCRIPTION / SPEAKER NOTES / EXPLICIT ASK</text>
+  </g>
+  <g transform="translate(1057 45) scale(1.24)">
+  <ellipse cx="328" cy="386" rx="293" ry="310" fill="url(#aura)"/>
+  <path d="M80 522C39 414 76 179 278 97C427 36 551 126 538 274"
+    fill="none" stroke="#00A591" stroke-width="1.5" opacity=".35" stroke-dasharray="2 12"/>
+  <path d="M165 348C166 250 147 175 212 118C261 73 351 80 406 134
+    C472 199 447 291 470 357C490 418 544 455 556 500
+    C527 496 508 481 494 468C505 533 555 555 593 551
+    C566 600 509 614 459 589C442 580 431 568 417 551
+    C413 589 393 616 365 636C342 614 326 588 317 559
+    C291 600 257 624 217 617C228 589 230 566 222 544
+    C191 572 151 581 108 565C169 525 160 436 165 348Z"
+    fill="url(#body)"/>
+  <path d="M181 347C185 270 166 198 217 145C248 111 296 102 335 114"
+    fill="none" stroke="#FDF6E3" stroke-width="6" opacity=".67" stroke-linecap="round"/>
+  <path d="M466 485C467 531 496 563 535 568M234 533C255 508 262 481 259 453"
+    fill="none" stroke="#000F13" stroke-opacity=".1" stroke-width="7" stroke-linecap="round"/>
+  <g fill="#000F13">
+    <ellipse cx="264" cy="262" rx="18" ry="30" transform="rotate(-12 264 262)"/>
+    <ellipse cx="350" cy="248" rx="18" ry="30" transform="rotate(-12 350 248)"/>
+  </g>
+  <g fill="#FDF6E3">
+    <ellipse cx="269" cy="254" rx="4.5" ry="8"/>
+    <ellipse cx="355" cy="240" rx="4.5" ry="8"/>
+  </g>
+  <path d="M297 309Q314 321 331 303" fill="none" stroke="#000F13"
+    stroke-width="5" stroke-linecap="round"/>
+  <g transform="translate(302 397) rotate(-11)">
+    <rect x="-7" y="3" width="157" height="186" rx="15" fill="#000F13" opacity=".16"/>
+    <rect width="148" height="180" rx="12" fill="#001E26" stroke="#00A591" stroke-width="3"/>
+    <path d="M27 0V180" fill="none" stroke="#586E75" stroke-opacity=".7" stroke-width="2"/>
+    <path d="M45 38H123M45 60H113M45 82H123M45 104H101" fill="none"
+      stroke="#EEE8D5" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+    <path d="M45 141l13 11 28-30" fill="none" stroke="#00A591" stroke-width="5"
+      stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M109 0V28l8-5 8 5V0" fill="#00A591"/>
+  </g>
+  <path d="M208 389C226 364 251 374 270 402L302 439C311 450 299 467 285 460
+    L257 444" fill="url(#body)" stroke="#FDF6E3" stroke-width="2"/>
+  <g transform="translate(487 158) rotate(10)">
+    <path d="M0 0L7 64 22 45 44 52Z" fill="#00A591" stroke="#FDF6E3"
+      stroke-width="3" stroke-linejoin="round"/>
+  </g>
+  <path d="M131 218v26m-13-13h26M457 91v18m-9-9h18M568 362v22m-11-11h22"
+    stroke="#EEE8D5" stroke-width="2" opacity=".55" stroke-linecap="round"/>
+  <path d="M41 652C179 590 336 703 595 615" fill="none" stroke="url(#mist)" stroke-width="39"
+    stroke-linecap="round"/>
+  <path d="M68 666C214 619 421 712 577 669" fill="none" stroke="#00A591"
+    stroke-opacity=".16" stroke-width="1.5"/></g>
+  <g transform="translate(977 783)">
+    <circle r="61" fill="#00A591" fill-opacity=".1" stroke="#00A591" stroke-width="2"/>
+    <path d="M-12-22L23 0-12 22Z" fill="#EEE8D5" stroke-linejoin="round"/>
+  </g></svg>

@@ -1,0 +1,15 @@
+DeepSeaFoam
+Canonical palette: https://github.com/Zanark/DeepSeaFoam
+Palette version referenced: 0.7.0, solid semantic roles.
+Origin: SpriteCanvas. Solarized ancestry credited to Ethan Schoonover:
+https://ethanschoonover.com/solarized/
+
+This site uses DeepSeaFoam's semantic color values. Its HTML, CSS, ghost
+illustrations and thumbnail composition are original Phantom Fudge work.
+No DeepSeaFoam showcase illustrations, photographs, audio, product icons,
+fonts or other excluded artwork were copied.
+
+All UI demonstrations contain isolated sample data. They are not captures
+of a real meeting or proof of screen-sharing exclusion.
+Narration: synthetic Microsoft Zira Desktop / Windows System.Speech.
+No fonts, trackers, analytics or third-party scripts are loaded by this site.

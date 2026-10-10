@@ -1,0 +1,111 @@
+{
+  "video": {
+    "repository": "Zanark/phantom-fudge",
+    "release": "tutorial-2026-10-10",
+    "file": "Phantom-Fudge-Full-Tutorial.mp4",
+    "sha256": "388ee914e1ffdc0ac3911d2a2e8dc6c8f33d8aad047f1aeff02fbe41138e1fde",
+    "bytes": 159267662,
+    "durationSeconds": 2297.767,
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "origin": "Scripted app demo • sample data. Producer-supplied WPF visual-tree frames use unchanged production XAML and app reducers in a private source copy with isolated I/O adapters, sample transcripts and a fake provider. This is not desktop video or a recording of physical OS mouse input. Cursor guides illustrate scripted control activation; keyboard badges show supplied handler inputs. Narration is synthetic Windows System.Speech TTS. Recording states and provider responses are samples: no real audio or inference. Native installation, file-picker and provider setup steps are instructional boundaries, not evidence that those operations were executed.",
+  "caveat": "This tutorial shows the current local source. Previous-answer context is not included in the published v0.2.0-preview.1 installer. The published installer is an unsigned Windows 11 x64 preview, not universal capture qualification.",
+  "narration": "Synthetic Microsoft Zira Desktop / Windows System.Speech",
+  "lessons": 194,
+  "captionCues": 525,
+  "chapters": [
+    {
+      "id": "welcome",
+      "title": "Welcome and important boundaries",
+      "start": 0,
+      "end": 59.5
+    },
+    {
+      "id": "installation",
+      "title": "Install, launch, update and remove",
+      "start": 59.5,
+      "end": 204.96666666666667
+    },
+    {
+      "id": "workspace",
+      "title": "Understand the workspace",
+      "start": 204.96666666666667,
+      "end": 335.96666666666664
+    },
+    {
+      "id": "audio",
+      "title": "Select audio without scrolling",
+      "start": 335.96666666666664,
+      "end": 505.5
+    },
+    {
+      "id": "transcription",
+      "title": "Start, read and stop transcription",
+      "start": 505.5,
+      "end": 586.4333333333333
+    },
+    {
+      "id": "questions",
+      "title": "Build and review a question",
+      "start": 586.4333333333333,
+      "end": 772.1
+    },
+    {
+      "id": "providers",
+      "title": "Set up an optional answer provider",
+      "start": 772.1,
+      "end": 955.0666666666667
+    },
+    {
+      "id": "answers",
+      "title": "Ask, read, copy and cancel",
+      "start": 955.0666666666667,
+      "end": 1049.2333333333333
+    },
+    {
+      "id": "followups",
+      "title": "Follow up with the previous answer",
+      "start": 1049.2333333333333,
+      "end": 1126.7
+    },
+    {
+      "id": "clarification",
+      "title": "Clarify a question before answering",
+      "start": 1126.7,
+      "end": 1276.5333333333333
+    },
+    {
+      "id": "cancel-errors",
+      "title": "Cancel and recover from answer errors",
+      "start": 1276.5333333333333,
+      "end": 1337.9333333333334
+    },
+    {
+      "id": "notes",
+      "title": "Speaker notes and local files",
+      "start": 1337.9333333333334,
+      "end": 1570.5666666666666
+    },
+    {
+      "id": "export",
+      "title": "Export and clear the transcript",
+      "start": 1570.5666666666666,
+      "end": 1631.7
+    },
+    {
+      "id": "keyboard",
+      "title": "Keyboard-first controls",
+      "start": 1631.7,
+      "end": 2039.4333333333334
+    },
+    {
+      "id": "cover",
+      "title": "Cover, hide, recovery and exit",
+      "start": 2039.4333333333334,
+      "end": 2297.766666666667
+    }
+  ],
+  "sourceManifestSha256": "b032716a836b684760b7c95d1dce0f131cdeeeef349be728fbaba4b584b88a56"
+}

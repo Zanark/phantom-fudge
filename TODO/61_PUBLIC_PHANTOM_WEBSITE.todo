@@ -1,0 +1,50 @@
+# Public Phantom landing page
+
+Status: IN_PROGRESS
+Milestone: Public static website and chaptered tutorial
+Dependencies: 60_FULL_VIDEO_TUTORIAL.todo
+
+## Scope
+
+- Owner made the repository public and configured workflow-based Pages.
+- Authorized a DeepSeaFoam landing page, original ghost motion/thumbnail, full tutorial controls,
+  chapters and searchable transcript. Follow-up adds zoomed action GIFs on README and website.
+- Explicitly approved publication of scoped website changes and a separate tutorial-assets release.
+  Preserve v0.2.0-preview.1 and the full tutorial MP4 bytes. Do not publish private production receipts.
+- Later scope decision: finish locally and leave publication pending. Active CLI account has READ
+  only (push=false); release creation returned404. No release/asset was created or source pushed.
+- October11 02:54 follow-up: make a self-contained deployable version and add more GIFs on both
+  website and README. Replace the separate-release prerequisite with a reviewed web-optimized
+  full tutorial below GitHub's100MiB per-file limit. Preserve the original and existing release.
+
+## Tasks
+
+- [x] Build accessible responsive static landing page using canonical palette and original ghosts.
+- [x] Retain playback/pause, +/-10s, time, speed, captions, chapters, search and tutorial disclosures.
+- [x] Create and inspect thumbnail and action GIFs; integrate README and site.
+- [x] Keep large MP4 out of git; verify asset hash during isolated Pages assembly.
+- [x] Review local browser behavior, reduced motion, responsive layouts and exact tutorial media.
+- [x] Prepare pinned Pages workflow and document the owner-deferred publication step.
+- [ ] Bundle the complete web tutorial and build using repository files alone, with no media release.
+- [ ] Add five more source-grounded GIFs with still/MP4 derivatives and both gallery integrations.
+- [ ] Check fresh-tree assembly, media integrity, eight tabs, failure paths and responsive playback.
+- [ ] Refresh maintained website guide/source atlas/handbook and deployment instructions.
+
+## Initial local completion evidence (before the 02:54 revision)
+
+- site plus tools\Site; generated preview artifacts\site. Guide: docs\WEBSITE.md.
+- Original1920x1080thumbnail/1200x630socialcard and3GIFs:10s/6.5s/8s at original speed.
+  Sampled decoded action/results and original raster artwork reviewed. All GIFs under1.6MB.
+- Node6targeted tests; isolated muted Edge exercises all15chapter seeks,525cue search/pagination,
+  playback/speed/jumps/captions,3demo tabs, motion pause/reduced-motion and no-JavaScript fallback.
+  320-1440px layouts have no horizontal overflow or nested chapter/transcript scrolling.
+- Full159267662-byte tutorial retained; SHA256388ee914e1ffdc0ac3911d2a2e8dc6c8f33d8aad047f1aeff02fbe41138e1fde.
+- Browser screenshots/receipt remain in ignored .local\site-review. Public assets retain bounded
+  source provenance, not private producer paths. Public Pages execution remains unperformed.
+
+## Boundaries
+
+- Sample-data demonstrations, synthetic narration; native setup instructions are not live execution.
+- Current-source Previous answer is absent from the unchanged published installer.
+- No capture-compatibility, universal invisibility or live meeting/provider claims.
+- Website-only behavior change, no native UI/source or installer update.

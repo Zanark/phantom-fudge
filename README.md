@@ -2,11 +2,28 @@
 
 **Local transcription. Speaker notes. Questions under your control.**
 
-[Windows download](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1) · [Install / update / remove](docs/INSTALLATION.md) · [Workflow](docs/CURRENT-WORKFLOW.md) · [Docs](docs/README.md) · [Roadmap](TODO/00_INDEX.todo)
+[Windows download](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1) · [Website & video tutorial](docs/WEBSITE.md) · [Install / update / remove](docs/INSTALLATION.md) · [Workflow](docs/CURRENT-WORKFLOW.md) · [Docs](docs/README.md) · [Roadmap](TODO/00_INDEX.todo)
 
-> **v0.2.0-preview.1 is published: unsigned Windows 11 x64 preview.** Repository access required. [Evidence and limits](docs/IMPLEMENTATION-STATUS.md). Capture exclusion is not universal. Answers are snapshot-only until an external provider is configured.
+> **v0.2.0-preview.1 is published: unsigned Windows 11 x64 preview.** [Evidence and limits](docs/IMPLEMENTATION-STATUS.md). Capture exclusion is not universal. Answers are snapshot-only until an external provider is configured.
 
-**New in local source, not that release:** opt-in [previous-answer context](docs/LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).
+**New in current source, not that release:** opt-in [previous-answer context](docs/LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).
+
+## See it in action
+
+**Select transcript lines. Explicitly Ask. Read the answer.**
+
+[![Zoomed sample-data excerpts: select useful lines, later Ask, then read the sample answer](site/assets/demo-selection.gif)](site/assets/demo-selection.gif)
+
+**Follow up with context** · **Cover and reveal**
+
+<p align="center">
+  <a href="site/assets/demo-context.gif"><img src="site/assets/demo-context.gif" width="48%" alt="Sample: Previous answer changes from OFF to ON without sending; current source only"></a>
+  <a href="site/assets/demo-cover.gif"><img src="site/assets/demo-cover.gif" width="48%" alt="Sample: click the book icon to cover the workspace, then later reveal it"></a>
+</p>
+
+*Scripted sample-data GIFs, not live meeting captures. Select/Ask/read is an edited sequence, not a latency measurement. Click to enlarge. [Clip provenance](site/assets/asset-provenance.json).*
+
+**[Complete 38-minute tutorial and DeepSeaFoam website](docs/WEBSITE.md)** — 15 chapters, searchable transcript, playback speed and captions. Local preview ready; GitHub Pages publication pending write access.
 
 ## From meeting audio to an answer
 

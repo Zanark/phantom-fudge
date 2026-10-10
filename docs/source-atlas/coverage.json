@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "counts": {
-    "files": 205,
-    "lines": 31766,
-    "nonblankLines": 29588,
-    "blocks": 1261,
-    "groups": 10
+    "files": 213,
+    "lines": 32681,
+    "nonblankLines": 30450,
+    "blocks": 1303,
+    "groups": 11
   },
   "meaning": "Every in-scope physical line is assigned to an authored block; this is not proof of complete semantic understanding.",
   "annotated": [
@@ -2656,9 +2656,9 @@
     },
     {
       "path": "docs/handbook/book.json",
-      "sourceSha256": "81a1666769d4801db23685d7bc3950db3797e7a25c06c745671f2078eea7e012",
-      "lines": 50,
-      "nonblankLines": 50,
+      "sourceSha256": "bcea9a8b8089876b529b3a452632d8ef251c91dc1ee4361649f9135d683297ee",
+      "lines": 51,
+      "nonblankLines": 51,
       "blocks": [
         {
           "start": 1,
@@ -2667,12 +2667,12 @@
         },
         {
           "start": 23,
-          "end": 41,
+          "end": 42,
           "title": "Connect conceptual chapters with the new source walkthroughs"
         },
         {
-          "start": 42,
-          "end": 50,
+          "start": 43,
+          "end": 51,
           "title": "Append the public journal and select output artifacts"
         }
       ],
@@ -2681,9 +2681,9 @@
     },
     {
       "path": "docs/handbook/catalogue.json",
-      "sourceSha256": "8f016935d8cdd95549fa32bd25f76548219358bfc3ccee4b33ec9d7934bd3e21",
-      "lines": 253,
-      "nonblankLines": 253,
+      "sourceSha256": "3c8d4eea3b57f1341c8d29352535b75089ae66990c80e00824834285c7ce5d0f",
+      "lines": 259,
+      "nonblankLines": 259,
       "blocks": [
         {
           "start": 1,
@@ -2702,12 +2702,12 @@
         },
         {
           "start": 135,
-          "end": 202,
+          "end": 208,
           "title": "Connect engineering procedures with reference and evidence"
         },
         {
-          "start": 203,
-          "end": 253,
+          "start": 209,
+          "end": 259,
           "title": "Add dedicated statement-level walkthroughs for seven source domains"
         }
       ],
@@ -8363,6 +8363,296 @@
       ],
       "chapter": "docs/handbook/26-speech-source-walkthrough.md",
       "anchor": "file-services-transcription-whisper-models-json-339e1423"
+    },
+    {
+      "path": ".github/workflows/pages.yml",
+      "sourceSha256": "039bd86255d00873674ee030f6c50a58d5d7a1df72905d4f422869aa32edc9e3",
+      "lines": 58,
+      "nonblankLines": 54,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 18,
+          "title": "Scope triggers and serialize deployment without write access in the build"
+        },
+        {
+          "start": 19,
+          "end": 32,
+          "title": "Pin the Actions and test the checked-out static player"
+        },
+        {
+          "start": 33,
+          "end": 45,
+          "title": "Download the separate tutorial release and upload only the assembled site"
+        },
+        {
+          "start": 46,
+          "end": 58,
+          "title": "Grant publication permissions only to the dependent deploy job"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-github-workflows-pages-yml-267452bb"
+    },
+    {
+      "path": "tools/Site/build.mjs",
+      "sourceSha256": "62a2d3f8c398ffde0f40be2108294dd18ccfb7b834fd54fb4eb78db3c9af4b63",
+      "lines": 30,
+      "nonblankLines": 28,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 10,
+          "title": "Resolve fixed repository-relative assembly inputs"
+        },
+        {
+          "start": 11,
+          "end": 18,
+          "title": "Reject wrong media before deleting a previous preview"
+        },
+        {
+          "start": 19,
+          "end": 30,
+          "title": "Check symlinks and replace only the generated website directory"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-tools-site-build-mjs-602531f2"
+    },
+    {
+      "path": "tools/Site/import-tutorial.mjs",
+      "sourceSha256": "de72eb5eb14f612a2e75e85eb9fff3fa9f512cfd5210b88cb64eca70da901843",
+      "lines": 32,
+      "nonblankLines": 31,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 14,
+          "title": "Read the completed tutorial and compare its recorded video identity"
+        },
+        {
+          "start": 15,
+          "end": 24,
+          "title": "Project the enhanced-player module and copy five public downloads"
+        },
+        {
+          "start": 25,
+          "end": 32,
+          "title": "Publish selected media provenance instead of delivery inventory"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-tools-site-import-tutorial-mjs-c403da44"
+    },
+    {
+      "path": "tools/Site/make-artwork.mjs",
+      "sourceSha256": "e10476c7e72f9d6f8a2ffe5e76cbb6a21f0f90ff7e1cc062a4d5ffbb98247b7c",
+      "lines": 185,
+      "nonblankLines": 174,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 24,
+          "title": "Reuse installed tooling and declare palette and font roles"
+        },
+        {
+          "start": 25,
+          "end": 65,
+          "title": "Construct the phantom body, lighting and face from vector geometry"
+        },
+        {
+          "start": 66,
+          "end": 104,
+          "title": "Add the notebook and cursor, then wrap accessible reusable SVGs"
+        },
+        {
+          "start": 105,
+          "end": 126,
+          "title": "Lay out the full-size tutorial poster"
+        },
+        {
+          "start": 127,
+          "end": 150,
+          "title": "Provide social, standalone-ghost and compact-icon compositions"
+        },
+        {
+          "start": 151,
+          "end": 177,
+          "title": "Persist SVGs and render without page-level network fetches"
+        },
+        {
+          "start": 178,
+          "end": 185,
+          "title": "Create the small-poster review image and close the owned browser"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-tools-site-make-artwork-mjs-208bfe44"
+    },
+    {
+      "path": "tools/Site/make-demo-media.py",
+      "sourceSha256": "2416df61177f1e605cf6a356475d5c0ef6de11a562d9449c90d879f8443658d3",
+      "lines": 336,
+      "nonblankLines": 308,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 25,
+          "title": "Declare installed dependencies and fixed source/output geometry"
+        },
+        {
+          "start": 26,
+          "end": 67,
+          "title": "Author exact action/result excerpts with explicit montage disclosures"
+        },
+        {
+          "start": 68,
+          "end": 90,
+          "title": "Read system fonts, stream source hashes and seek representative frames"
+        },
+        {
+          "start": 91,
+          "end": 112,
+          "title": "Build source contact sheets for editorial inspection"
+        },
+        {
+          "start": 113,
+          "end": 146,
+          "title": "Verify retained source frames and aspect-contain their crop"
+        },
+        {
+          "start": 147,
+          "end": 180,
+          "title": "Encode silent H.264 and a lower-frame-rate GIF without speeding time"
+        },
+        {
+          "start": 181,
+          "end": 210,
+          "title": "Inspect decoded derivatives rather than only the unencoded composition"
+        },
+        {
+          "start": 211,
+          "end": 245,
+          "title": "Record exact delivered asset identities and inspect media properties"
+        },
+        {
+          "start": 246,
+          "end": 277,
+          "title": "Map retained source spans onto output time and disclose scripted origin"
+        },
+        {
+          "start": 278,
+          "end": 307,
+          "title": "Describe artwork, review limits and regeneration before sealing provenance"
+        },
+        {
+          "start": 308,
+          "end": 336,
+          "title": "Require explicit generation steps and a separate review assertion"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-tools-site-make-demo-media-py-ad47efb9"
+    },
+    {
+      "path": "tools/Site/review-browser.mjs",
+      "sourceSha256": "ca3ce2464aee1dd3e7ae63f5ea48b6ef23958a86579e49051a728336e347c927",
+      "lines": 150,
+      "nonblankLines": 145,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 34,
+          "title": "Create an isolated browser and collect observable page failures"
+        },
+        {
+          "start": 35,
+          "end": 67,
+          "title": "Verify initial stillness, coordinated motion pause and media transport"
+        },
+        {
+          "start": 68,
+          "end": 97,
+          "title": "Seek every chapter and exercise literal transcript navigation"
+        },
+        {
+          "start": 98,
+          "end": 125,
+          "title": "Check full-size demo tabs and finite responsive layouts"
+        },
+        {
+          "start": 126,
+          "end": 141,
+          "title": "Verify reduced-motion defaults and the native-video fallback"
+        },
+        {
+          "start": 142,
+          "end": 150,
+          "title": "Write a pass receipt only after error checks and always clean up ownership"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-tools-site-review-browser-mjs-839a1b14"
+    },
+    {
+      "path": "tools/Site/serve.mjs",
+      "sourceSha256": "4038725f3514da8846594e7e6aeb211c496907172d9f2962c40c7aa566b04bd6",
+      "lines": 45,
+      "nonblankLines": 44,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 19,
+          "title": "Resolve requests beneath the fixed assembled output"
+        },
+        {
+          "start": 20,
+          "end": 34,
+          "title": "Advertise media types and handle one explicit byte range"
+        },
+        {
+          "start": 35,
+          "end": 45,
+          "title": "Stream the selected span and keep the listener local"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-tools-site-serve-mjs-5248fd37"
+    },
+    {
+      "path": "tools/Site/test-site.mjs",
+      "sourceSha256": "2702099c132599c92006e71b52c6c8b6ebe5bd704c244e08ac09ac66eac6ef9e",
+      "lines": 72,
+      "nonblankLines": 71,
+      "blocks": [
+        {
+          "start": 1,
+          "end": 18,
+          "title": "Import pure player helpers and test formatting and seek bounds"
+        },
+        {
+          "start": 19,
+          "end": 38,
+          "title": "Validate every chapter boundary and caption interval"
+        },
+        {
+          "start": 39,
+          "end": 47,
+          "title": "Keep search literal and pagination lossless"
+        },
+        {
+          "start": 48,
+          "end": 57,
+          "title": "Check required HTML controls and honest fallback wording"
+        },
+        {
+          "start": 58,
+          "end": 72,
+          "title": "Reject common private-path leaks and the full video in site inputs"
+        }
+      ],
+      "chapter": "docs/WEBSITE.md",
+      "anchor": "file-tools-site-test-site-mjs-200df30f"
     }
   ],
   "excludedOrMirrored": [

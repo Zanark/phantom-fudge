@@ -1,0 +1,127 @@
+{
+  "title": "Phantom Fudge - The Complete Tutorial",
+  "fps": 30,
+  "duration": 2297.766666666667,
+  "chapters": [
+    {
+      "id": "welcome",
+      "title": "Welcome and important boundaries",
+      "startFrame": 0,
+      "start": 0.0,
+      "endFrame": 1785,
+      "end": 59.5
+    },
+    {
+      "id": "installation",
+      "title": "Install, launch, update and remove",
+      "startFrame": 1785,
+      "start": 59.5,
+      "endFrame": 6149,
+      "end": 204.96666666666667
+    },
+    {
+      "id": "workspace",
+      "title": "Understand the workspace",
+      "startFrame": 6149,
+      "start": 204.96666666666667,
+      "endFrame": 10079,
+      "end": 335.96666666666664
+    },
+    {
+      "id": "audio",
+      "title": "Select audio without scrolling",
+      "startFrame": 10079,
+      "start": 335.96666666666664,
+      "endFrame": 15165,
+      "end": 505.5
+    },
+    {
+      "id": "transcription",
+      "title": "Start, read and stop transcription",
+      "startFrame": 15165,
+      "start": 505.5,
+      "endFrame": 17593,
+      "end": 586.4333333333333
+    },
+    {
+      "id": "questions",
+      "title": "Build and review a question",
+      "startFrame": 17593,
+      "start": 586.4333333333333,
+      "endFrame": 23163,
+      "end": 772.1
+    },
+    {
+      "id": "providers",
+      "title": "Set up an optional answer provider",
+      "startFrame": 23163,
+      "start": 772.1,
+      "endFrame": 28652,
+      "end": 955.0666666666667
+    },
+    {
+      "id": "answers",
+      "title": "Ask, read, copy and cancel",
+      "startFrame": 28652,
+      "start": 955.0666666666667,
+      "endFrame": 31477,
+      "end": 1049.2333333333333
+    },
+    {
+      "id": "followups",
+      "title": "Follow up with the previous answer",
+      "startFrame": 31477,
+      "start": 1049.2333333333333,
+      "endFrame": 33801,
+      "end": 1126.7
+    },
+    {
+      "id": "clarification",
+      "title": "Clarify a question before answering",
+      "startFrame": 33801,
+      "start": 1126.7,
+      "endFrame": 38296,
+      "end": 1276.5333333333333
+    },
+    {
+      "id": "cancel-errors",
+      "title": "Cancel and recover from answer errors",
+      "startFrame": 38296,
+      "start": 1276.5333333333333,
+      "endFrame": 40138,
+      "end": 1337.9333333333334
+    },
+    {
+      "id": "notes",
+      "title": "Speaker notes and local files",
+      "startFrame": 40138,
+      "start": 1337.9333333333334,
+      "endFrame": 47117,
+      "end": 1570.5666666666666
+    },
+    {
+      "id": "export",
+      "title": "Export and clear the transcript",
+      "startFrame": 47117,
+      "start": 1570.5666666666666,
+      "endFrame": 48951,
+      "end": 1631.7
+    },
+    {
+      "id": "keyboard",
+      "title": "Keyboard-first controls",
+      "startFrame": 48951,
+      "start": 1631.7,
+      "endFrame": 61183,
+      "end": 2039.4333333333334
+    },
+    {
+      "id": "cover",
+      "title": "Cover, hide, recovery and exit",
+      "startFrame": 61183,
+      "start": 2039.4333333333334,
+      "endFrame": 68933,
+      "end": 2297.766666666667
+    }
+  ]
+}

@@ -1,0 +1,3156 @@
+{
+  "origin": "Scripted app demo • sample data. Producer-supplied WPF visual-tree frames use unchanged production XAML and app reducers in a private source copy with isolated I/O adapters, sample transcripts and a fake provider. This is not desktop video or a recording of physical OS mouse input. Cursor guides illustrate scripted control activation; keyboard badges show supplied handler inputs. Narration is synthetic Windows System.Speech TTS. Recording states and provider responses are samples: no real audio or inference. Native installation, file-picker and provider setup steps are instructional boundaries, not evidence that those operations were executed.",
+  "caveat": "This tutorial shows the current local source. Previous-answer context is not included in the published v0.2.0-preview.1 installer. The published installer is an unsigned Windows 11 x64 preview, not universal capture qualification.",
+  "cues": [
+    {
+      "start": 0.44999999999999996,
+      "end": 3.83,
+      "text": "Welcome to the complete Phantom Fudge tutorial.",
+      "shot": "title"
+    },
+    {
+      "start": 3.83,
+      "end": 9.7,
+      "text": "We will walk through audio, notes, questions, answers, follow-ups,",
+      "shot": "title"
+    },
+    {
+      "start": 9.7,
+      "end": 13.299999999999999,
+      "text": "keyboard controls, and day-to-day recovery.",
+      "shot": "title"
+    },
+    {
+      "start": 13.299999999999999,
+      "end": 17.795,
+      "text": "Use the chapter list beside the video to jump directly to any lesson.",
+      "shot": "title"
+    },
+    {
+      "start": 18.916666666666664,
+      "end": 23.086666666666666,
+      "text": "This is a scripted demonstration of the real Windows interface.",
+      "shot": "honest-demo"
+    },
+    {
+      "start": 23.086666666666666,
+      "end": 27.606666666666662,
+      "text": "Transcript text, device names, and answers are samples.",
+      "shot": "honest-demo"
+    },
+    {
+      "start": 27.606666666666662,
+      "end": 31.571666666666665,
+      "text": "No meeting, microphone, or remote model is used.",
+      "shot": "honest-demo"
+    },
+    {
+      "start": 31.571666666666665,
+      "end": 35.16166666666666,
+      "text": "Click guides show scripted control activations.",
+      "shot": "honest-demo"
+    },
+    {
+      "start": 35.16166666666666,
+      "end": 37.26166666666667,
+      "text": "Native file pickers are omitted;",
+      "shot": "honest-demo"
+    },
+    {
+      "start": 37.26166666666667,
+      "end": 40.986666666666665,
+      "text": "sample files and clipboard output stay isolated.",
+      "shot": "honest-demo"
+    },
+    {
+      "start": 42.11666666666667,
+      "end": 45.75666666666666,
+      "text": "The current source includes the Previous answer toggle.",
+      "shot": "version"
+    },
+    {
+      "start": 45.75666666666666,
+      "end": 51.06166666666667,
+      "text": "The published version zero point two preview one does not include that newer feature.",
+      "shot": "version"
+    },
+    {
+      "start": 51.06166666666667,
+      "end": 56.55166666666666,
+      "text": "This tutorial does not update the published installer, and it does not prove that every screen-sharing",
+      "shot": "version"
+    },
+    {
+      "start": 56.55166666666666,
+      "end": 58.83166666666666,
+      "text": "product excludes the window.",
+      "shot": "version"
+    },
+    {
+      "start": 59.95,
+      "end": 65.4,
+      "text": "On the private GitHub release page, download the Windows eleven, sixty-four-bit Setup",
+      "shot": "install"
+    },
+    {
+      "start": 65.4,
+      "end": 69.045,
+      "text": "file. Check the published checksum.",
+      "shot": "install"
+    },
+    {
+      "start": 69.045,
+      "end": 74.58,
+      "text": "Open Setup, review the unsigned-preview warning, and follow the installer.",
+      "shot": "install"
+    },
+    {
+      "start": 74.58,
+      "end": 79.235,
+      "text": "Finish and close Setup, then launch Phantom Fudge from Start.",
+      "shot": "install"
+    },
+    {
+      "start": 79.235,
+      "end": 81.85,
+      "text": "Setup does not launch it for you.",
+      "shot": "install"
+    },
+    {
+      "start": 82.95,
+      "end": 85.235,
+      "text": "The installer is per-user.",
+      "shot": "install-runtime"
+    },
+    {
+      "start": 85.235,
+      "end": 91.16,
+      "text": "It bundles the desktop runtime, local speech runtime, and speech models.",
+      "shot": "install-runtime"
+    },
+    {
+      "start": 91.16,
+      "end": 97.015,
+      "text": "You do not need developer tools, system Python, or Docker for normal installed use.",
+      "shot": "install-runtime"
+    },
+    {
+      "start": 97.015,
+      "end": 103.075,
+      "text": "Answer providers are separate: installing Phantom Fudge does not configure an AI account.",
+      "shot": "install-runtime"
+    },
+    {
+      "start": 104.18333333333334,
+      "end": 109.49833333333333,
+      "text": "For the portable package, extract the entire archive and open Phantom Fudge dot Launcher in",
+      "shot": "portable-source"
+    },
+    {
+      "start": 109.49833333333333,
+      "end": 113.96333333333334,
+      "text": "its launcher folder. Keep the whole extraction together.",
+      "shot": "portable-source"
+    },
+    {
+      "start": 113.96333333333334,
+      "end": 119.45833333333333,
+      "text": "For the latest source, follow the prerequisites and use the repository launcher.",
+      "shot": "portable-source"
+    },
+    {
+      "start": 119.45833333333333,
+      "end": 123.31833333333333,
+      "text": "That source route includes the newer previous-answer feature.",
+      "shot": "portable-source"
+    },
+    {
+      "start": 124.45,
+      "end": 130.445,
+      "text": "Source development uses PowerShell seven point two or later, Python three point thirteen,",
+      "shot": "source-prerequisites"
+    },
+    {
+      "start": 130.445,
+      "end": 135.055,
+      "text": "and the .NET ten SDK selected by global dot JSON.",
+      "shot": "source-prerequisites"
+    },
+    {
+      "start": 135.055,
+      "end": 139.45,
+      "text": "Follow the Desktop Runtime prerequisite for development builds.",
+      "shot": "source-prerequisites"
+    },
+    {
+      "start": 139.45,
+      "end": 145.21,
+      "text": "Initialize Transcription prepares dependencies and models before the source launcher runs.",
+      "shot": "source-prerequisites"
+    },
+    {
+      "start": 145.21,
+      "end": 149.36,
+      "text": "Installed normal use does not require these developer tools.",
+      "shot": "source-prerequisites"
+    },
+    {
+      "start": 150.48333333333332,
+      "end": 156.52333333333334,
+      "text": "If speech startup fails, the installed launcher offers Open notes without transcription.",
+      "shot": "notes-only-launch"
+    },
+    {
+      "start": 156.52333333333334,
+      "end": 159.25833333333333,
+      "text": "The source equivalent is Notes Only.",
+      "shot": "notes-only-launch"
+    },
+    {
+      "start": 159.25833333333333,
+      "end": 161.44333333333333,
+      "text": "This skips speech-service startup;",
+      "shot": "notes-only-launch"
+    },
+    {
+      "start": 161.44333333333333,
+      "end": 166.97333333333333,
+      "text": "it does not disable an already configured answer provider or stop an existing service.",
+      "shot": "notes-only-launch"
+    },
+    {
+      "start": 168.08333333333331,
+      "end": 173.39333333333332,
+      "text": "Before an update, save notes, export anything you need, and close the app with",
+      "shot": "update"
+    },
+    {
+      "start": 173.39333333333332,
+      "end": 177.31333333333333,
+      "text": "X. Then run the newer versioned Setup.",
+      "shot": "update"
+    },
+    {
+      "start": 177.31333333333333,
+      "end": 181.36833333333334,
+      "text": "The installer supports install, repair, and update;",
+      "shot": "update"
+    },
+    {
+      "start": 181.36833333333334,
+      "end": 185.77833333333334,
+      "text": "an app that has not finished shutting down is not a successful update.",
+      "shot": "update"
+    },
+    {
+      "start": 186.88333333333333,
+      "end": 192.44833333333332,
+      "text": "To remove the installed app, open Windows Settings, Apps, Installed apps,",
+      "shot": "uninstall"
+    },
+    {
+      "start": 192.44833333333332,
+      "end": 195.79333333333335,
+      "text": "then find Phantom Fudge and choose Uninstall.",
+      "shot": "uninstall"
+    },
+    {
+      "start": 195.79333333333335,
+      "end": 199.71333333333334,
+      "text": "External notes, exports, and settings are retained.",
+      "shot": "uninstall"
+    },
+    {
+      "start": 199.71333333333334,
+      "end": 204.28833333333333,
+      "text": "Uninstalling the program is not a secure erase of those separate files.",
+      "shot": "uninstall"
+    },
+    {
+      "start": 205.41666666666666,
+      "end": 209.86666666666667,
+      "text": "The app starts in presentation mode, with notes collapsed.",
+      "shot": "home"
+    },
+    {
+      "start": 209.86666666666667,
+      "end": 214.69666666666666,
+      "text": "The transcript is on the left; your question and answer are on the right.",
+      "shot": "home"
+    },
+    {
+      "start": 214.69666666666666,
+      "end": 220.09666666666666,
+      "text": "Both audio sources are selected by default, but nothing is recorded until you explicitly press",
+      "shot": "home"
+    },
+    {
+      "start": 220.09666666666666,
+      "end": 221.31166666666667,
+      "text": "Start.",
+      "shot": "home"
+    },
+    {
+      "start": 222.41666666666666,
+      "end": 226.21666666666667,
+      "text": "Click Hide Q slash A to collapse the question pane.",
+      "shot": "qa-hide"
+    },
+    {
+      "start": 226.21666666666667,
+      "end": 230.76666666666668,
+      "text": "It also cancels an active answer and stops provider preparation.",
+      "shot": "qa-hide"
+    },
+    {
+      "start": 230.76666666666668,
+      "end": 234.19666666666666,
+      "text": "Your transcript and saved files are not erased.",
+      "shot": "qa-hide"
+    },
+    {
+      "start": 235.31666666666666,
+      "end": 239.4766666666667,
+      "text": "Click Show Q slash A to bring the question workspace back.",
+      "shot": "qa-show"
+    },
+    {
+      "start": 239.4766666666667,
+      "end": 242.08166666666668,
+      "text": "Wide windows use side-by-side panes;",
+      "shot": "qa-show"
+    },
+    {
+      "start": 242.08166666666668,
+      "end": 244.61166666666668,
+      "text": "narrower windows adapt the layout.",
+      "shot": "qa-show"
+    },
+    {
+      "start": 245.71666666666667,
+      "end": 250.61666666666667,
+      "text": "Drag the empty title-bar grip to move the window, not the text area.",
+      "shot": "move-resize"
+    },
+    {
+      "start": 250.61666666666667,
+      "end": 253.4766666666667,
+      "text": "Drag an edge or corner to resize it.",
+      "shot": "move-resize"
+    },
+    {
+      "start": 253.4766666666667,
+      "end": 256.3066666666667,
+      "text": "Keep the controls comfortably readable.",
+      "shot": "move-resize"
+    },
+    {
+      "start": 256.3066666666667,
+      "end": 258.7216666666667,
+      "text": "There is no ordinary taskbar button;",
+      "shot": "move-resize"
+    },
+    {
+      "start": 258.7216666666667,
+      "end": 263.06666666666666,
+      "text": "use the recovery shortcut or relaunch the app if you lose the window.",
+      "shot": "move-resize"
+    },
+    {
+      "start": 264.18333333333334,
+      "end": 266.40833333333336,
+      "text": "Here the window is narrowed.",
+      "shot": "resize-compact"
+    },
+    {
+      "start": 266.40833333333336,
+      "end": 272.68833333333333,
+      "text": "The actual interface rearranges itself instead of placing every control in a scrolling outer panel.",
+      "shot": "resize-compact"
+    },
+    {
+      "start": 272.68833333333333,
+      "end": 276.0733333333333,
+      "text": "Long text can still scroll inside its own reader.",
+      "shot": "resize-compact"
+    },
+    {
+      "start": 277.18333333333334,
+      "end": 281.79333333333335,
+      "text": "Use a wider window when you want the transcript and answer visible together.",
+      "shot": "resize-wide"
+    },
+    {
+      "start": 281.79333333333335,
+      "end": 285.2683333333334,
+      "text": "A wider layout is helpful for the first walkthrough.",
+      "shot": "resize-wide"
+    },
+    {
+      "start": 286.3833333333333,
+      "end": 290.3283333333333,
+      "text": "Click the sun and theme-name button to switch to Harbor Daylight.",
+      "shot": "daylight"
+    },
+    {
+      "start": 290.3283333333333,
+      "end": 292.48833333333334,
+      "text": "The next theme is named on the button;",
+      "shot": "daylight"
+    },
+    {
+      "start": 292.48833333333334,
+      "end": 295.48333333333335,
+      "text": "your transcript and question are preserved.",
+      "shot": "daylight"
+    },
+    {
+      "start": 296.5833333333333,
+      "end": 300.85333333333335,
+      "text": "Click Plain B slash W for the neutral black-and-white look.",
+      "shot": "plain"
+    },
+    {
+      "start": 300.85333333333335,
+      "end": 304.11833333333334,
+      "text": "It is a theme reset, not a data reset.",
+      "shot": "plain"
+    },
+    {
+      "start": 305.25,
+      "end": 308.88,
+      "text": "Click the theme button again to return to Deep Sea Foam.",
+      "shot": "dark"
+    },
+    {
+      "start": 308.88,
+      "end": 312.71500000000003,
+      "text": "Choose whichever theme gives you the clearest reading contrast.",
+      "shot": "dark"
+    },
+    {
+      "start": 313.81666666666666,
+      "end": 318.63166666666666,
+      "text": "Drag Background toward ten percent to make the background more transparent.",
+      "shot": "opacity-low"
+    },
+    {
+      "start": 318.63166666666666,
+      "end": 320.76666666666665,
+      "text": "The text stays solid.",
+      "shot": "opacity-low"
+    },
+    {
+      "start": 320.76666666666665,
+      "end": 325.1066666666667,
+      "text": "This is not click-through, and it does not make the process hidden.",
+      "shot": "opacity-low"
+    },
+    {
+      "start": 326.21666666666664,
+      "end": 331.46666666666664,
+      "text": "Drag Background back toward one hundred percent when the material behind the window makes text difficult",
+      "shot": "opacity-high"
+    },
+    {
+      "start": 331.46666666666664,
+      "end": 335.28666666666663,
+      "text": "to read. This setting is for the current session.",
+      "shot": "opacity-high"
+    },
+    {
+      "start": 336.41666666666663,
+      "end": 338.45666666666665,
+      "text": "Click Audio setup.",
+      "shot": "audio-setup"
+    },
+    {
+      "start": 338.45666666666665,
+      "end": 343.78666666666663,
+      "text": "Opening it closes Q slash A and cancels its answer or preparation, but does not stop",
+      "shot": "audio-setup"
+    },
+    {
+      "start": 343.78666666666663,
+      "end": 347.9216666666666,
+      "text": "audio. Stop before changing devices.",
+      "shot": "audio-setup"
+    },
+    {
+      "start": 347.9216666666666,
+      "end": 350.03666666666663,
+      "text": "These cards use sample names;",
+      "shot": "audio-setup"
+    },
+    {
+      "start": 350.03666666666663,
+      "end": 353.65666666666664,
+      "text": "on your machine they show the available Windows devices.",
+      "shot": "audio-setup"
+    },
+    {
+      "start": 354.7833333333333,
+      "end": 359.8533333333333,
+      "text": "Click Computer to transcribe the sound played by your selected output device.",
+      "shot": "computer-mode"
+    },
+    {
+      "start": 359.8533333333333,
+      "end": 365.3633333333333,
+      "text": "This can include other applications and microphone sidetone, not just the meeting.",
+      "shot": "computer-mode"
+    },
+    {
+      "start": 366.48333333333335,
+      "end": 372.11833333333334,
+      "text": "Click the card for the device where you actually hear the meeting, such as your headphones.",
+      "shot": "computer-card"
+    },
+    {
+      "start": 372.11833333333334,
+      "end": 375.95833333333337,
+      "text": "The highlighted border and filled dot identify the selection.",
+      "shot": "computer-card"
+    },
+    {
+      "start": 377.0833333333333,
+      "end": 380.72833333333335,
+      "text": "Click Mic if you only want microphone transcription.",
+      "shot": "mic-mode"
+    },
+    {
+      "start": 380.72833333333335,
+      "end": 385.47833333333335,
+      "text": "This is a separate source; the app does not read meeting chat messages.",
+      "shot": "mic-mode"
+    },
+    {
+      "start": 386.5833333333333,
+      "end": 389.5133333333333,
+      "text": "Choose the microphone you intend to use.",
+      "shot": "mic-card"
+    },
+    {
+      "start": 389.5133333333333,
+      "end": 395.0983333333333,
+      "text": "If that selected input fails during capture, the session stops rather than silently substituting",
+      "shot": "mic-card"
+    },
+    {
+      "start": 395.0983333333333,
+      "end": 401.3333333333333,
+      "text": "another microphone. After an explicit Refresh, check the selected card again.",
+      "shot": "mic-card"
+    },
+    {
+      "start": 402.45,
+      "end": 405.59,
+      "text": "Click Both to use Computer and Mic together.",
+      "shot": "both-mode"
+    },
+    {
+      "start": 405.59,
+      "end": 409.25,
+      "text": "Their transcript lines keep separate source labels.",
+      "shot": "both-mode"
+    },
+    {
+      "start": 409.25,
+      "end": 414.545,
+      "text": "Those labels identify the input track, not individual people in the meeting.",
+      "shot": "both-mode"
+    },
+    {
+      "start": 415.65,
+      "end": 419.78999999999996,
+      "text": "While stopped, click Refresh after connecting hardware.",
+      "shot": "refresh-devices"
+    },
+    {
+      "start": 419.78999999999996,
+      "end": 423.695,
+      "text": "Either Refresh button rediscovers both device lists.",
+      "shot": "refresh-devices"
+    },
+    {
+      "start": 423.695,
+      "end": 427.115,
+      "text": "The previous selection stays if its device still exists;",
+      "shot": "refresh-devices"
+    },
+    {
+      "start": 427.115,
+      "end": 430.52,
+      "text": "otherwise the first available device is selected.",
+      "shot": "refresh-devices"
+    },
+    {
+      "start": 430.52,
+      "end": 433.145,
+      "text": "Recheck both cards before Start.",
+      "shot": "refresh-devices"
+    },
+    {
+      "start": 434.25,
+      "end": 439.23,
+      "text": "For a machine with many outputs, the card layout adds page arrows.",
+      "shot": "device-pages-fixture"
+    },
+    {
+      "start": 439.23,
+      "end": 444.345,
+      "text": "This sample list shows that behavior without changing any Windows audio settings.",
+      "shot": "device-pages-fixture"
+    },
+    {
+      "start": 445.45,
+      "end": 448.55,
+      "text": "Click the right arrow to see the next page.",
+      "shot": "device-next"
+    },
+    {
+      "start": 448.55,
+      "end": 453.6,
+      "text": "The page label also tells you which page contains the currently selected device.",
+      "shot": "device-next"
+    },
+    {
+      "start": 454.71666666666664,
+      "end": 457.26166666666666,
+      "text": "Click the left arrow to go back.",
+      "shot": "device-previous"
+    },
+    {
+      "start": 457.26166666666666,
+      "end": 461.19666666666666,
+      "text": "Changing pages does not itself select a different device.",
+      "shot": "device-previous"
+    },
+    {
+      "start": 462.31666666666666,
+      "end": 465.7266666666667,
+      "text": "We will return to the small sample device list.",
+      "shot": "device-return"
+    },
+    {
+      "start": 465.7266666666667,
+      "end": 470.4266666666667,
+      "text": "In normal use, select your intended card before leaving setup.",
+      "shot": "device-return"
+    },
+    {
+      "start": 471.55,
+      "end": 476.18,
+      "text": "Click Service setup to see the session-only local service token field.",
+      "shot": "service-setup"
+    },
+    {
+      "start": 476.18,
+      "end": 479.14500000000004,
+      "text": "Normally the launcher supplies this for you.",
+      "shot": "service-setup"
+    },
+    {
+      "start": 479.14500000000004,
+      "end": 481.49,
+      "text": "Edit mode enables manual entry;",
+      "shot": "service-setup"
+    },
+    {
+      "start": 481.49,
+      "end": 486.02000000000004,
+      "text": "never publish or paste your actual token into a tutorial or chat.",
+      "shot": "service-setup"
+    },
+    {
+      "start": 487.15,
+      "end": 491.06,
+      "text": "Click Close service setup to put the advanced field away.",
+      "shot": "service-close"
+    },
+    {
+      "start": 491.06,
+      "end": 493.805,
+      "text": "Native local recognition is the normal path;",
+      "shot": "service-close"
+    },
+    {
+      "start": 493.805,
+      "end": 496.58,
+      "text": "Docker is not a startup requirement.",
+      "shot": "service-close"
+    },
+    {
+      "start": 497.68333333333334,
+      "end": 500.55833333333334,
+      "text": "Click Done to return to the workspace.",
+      "shot": "audio-done"
+    },
+    {
+      "start": 500.55833333333334,
+      "end": 504.8283333333334,
+      "text": "Choosing devices and closing setup do not begin transcription.",
+      "shot": "audio-done"
+    },
+    {
+      "start": 505.95,
+      "end": 511.3,
+      "text": "Click Start. In normal use this starts the selected audio inputs.",
+      "shot": "start"
+    },
+    {
+      "start": 511.3,
+      "end": 514.565,
+      "text": "Here it starts only the labelled sample stream.",
+      "shot": "start"
+    },
+    {
+      "start": 514.565,
+      "end": 519.27,
+      "text": "The red dot means selected inputs are running, not merely selected.",
+      "shot": "start"
+    },
+    {
+      "start": 520.3833333333333,
+      "end": 524.6183333333332,
+      "text": "A partial line appears while recognition is still in progress.",
+      "shot": "partial-computer"
+    },
+    {
+      "start": 524.6183333333332,
+      "end": 527.5433333333333,
+      "text": "It can change as more speech arrives.",
+      "shot": "partial-computer"
+    },
+    {
+      "start": 527.5433333333333,
+      "end": 532.0933333333332,
+      "text": "Treat it as provisional, especially before sending it as a question.",
+      "shot": "partial-computer"
+    },
+    {
+      "start": 533.2166666666667,
+      "end": 537.9366666666666,
+      "text": "The completed line moves into the transcript history with its Computer label.",
+      "shot": "final-computer"
+    },
+    {
+      "start": 537.9366666666666,
+      "end": 542.9266666666666,
+      "text": "Local recognition is fallible, so review important words and names.",
+      "shot": "final-computer"
+    },
+    {
+      "start": 544.0500000000001,
+      "end": 546.88,
+      "text": "A microphone line is labelled Mic.",
+      "shot": "mic-transcript"
+    },
+    {
+      "start": 546.88,
+      "end": 550.705,
+      "text": "Computer and Mic stay separate even when Both is selected.",
+      "shot": "mic-transcript"
+    },
+    {
+      "start": 550.705,
+      "end": 554.97,
+      "text": "Headphones help reduce speaker echo that a microphone might pick up.",
+      "shot": "mic-transcript"
+    },
+    {
+      "start": 556.0833333333334,
+      "end": 559.2233333333334,
+      "text": "New lines continue arriving while you read.",
+      "shot": "more-transcript"
+    },
+    {
+      "start": 559.2233333333334,
+      "end": 564.0783333333334,
+      "text": "The app does not automatically send the entire meeting to an answer provider.",
+      "shot": "more-transcript"
+    },
+    {
+      "start": 564.0783333333334,
+      "end": 566.6283333333333,
+      "text": "You choose the text to ask about.",
+      "shot": "more-transcript"
+    },
+    {
+      "start": 567.75,
+      "end": 571.255,
+      "text": "Click Stop to stop the selected audio inputs.",
+      "shot": "stop"
+    },
+    {
+      "start": 571.255,
+      "end": 575.66,
+      "text": "Wait for final draining and the stopped state before changing devices.",
+      "shot": "stop"
+    },
+    {
+      "start": 575.66,
+      "end": 580.885,
+      "text": "Stop does not cancel a separate answer, and an accepted final transcript line may still",
+      "shot": "stop"
+    },
+    {
+      "start": 580.885,
+      "end": 585.76,
+      "text": "arrive while draining. This workflow does not save raw audio.",
+      "shot": "stop"
+    },
+    {
+      "start": 586.8833333333333,
+      "end": 589.5433333333333,
+      "text": "Click the first transcript line.",
+      "shot": "select-first"
+    },
+    {
+      "start": 589.5433333333333,
+      "end": 594.5983333333332,
+      "text": "Its text becomes a local question draft, and question editing opens.",
+      "shot": "select-first"
+    },
+    {
+      "start": 594.5983333333332,
+      "end": 597.0583333333333,
+      "text": "A click does not send anything.",
+      "shot": "select-first"
+    },
+    {
+      "start": 598.1833333333334,
+      "end": 600.8733333333333,
+      "text": "Click the microphone line as well.",
+      "shot": "select-second"
+    },
+    {
+      "start": 600.8733333333333,
+      "end": 606.5883333333334,
+      "text": "Multiple lines combine in transcript order, not in the order you happened to click them.",
+      "shot": "select-second"
+    },
+    {
+      "start": 607.7166666666667,
+      "end": 611.2816666666666,
+      "text": "Click the selected microphone line again to remove it.",
+      "shot": "deselect-second"
+    },
+    {
+      "start": 611.2816666666666,
+      "end": 615.9666666666667,
+      "text": "You can build a useful question without copying unrelated meeting context.",
+      "shot": "deselect-second"
+    },
+    {
+      "start": 617.0833333333334,
+      "end": 623.4483333333334,
+      "text": "Select the microphone line again because it contains the useful instruction to keep the answer concise.",
+      "shot": "select-second-again"
+    },
+    {
+      "start": 623.4483333333334,
+      "end": 626.3283333333334,
+      "text": "Review the assembled draft before editing.",
+      "shot": "select-second-again"
+    },
+    {
+      "start": 627.45,
+      "end": 631.16,
+      "text": "Edit the draft into the exact question you want answered.",
+      "shot": "edit-question"
+    },
+    {
+      "start": 631.16,
+      "end": 635.83,
+      "text": "Typing here is independent of Notes Edit and does not stop transcription.",
+      "shot": "edit-question"
+    },
+    {
+      "start": 636.95,
+      "end": 642.32,
+      "text": "If you now click another transcript line, the app keeps your edited draft instead of silently",
+      "shot": "selection-guard"
+    },
+    {
+      "start": 642.32,
+      "end": 647.76,
+      "text": "overwriting it. Clear the question first when you truly want a new selection.",
+      "shot": "selection-guard"
+    },
+    {
+      "start": 648.8833333333333,
+      "end": 651.5583333333333,
+      "text": "Click Done to leave question editing.",
+      "shot": "done-edit"
+    },
+    {
+      "start": 651.5583333333333,
+      "end": 655.4983333333333,
+      "text": "This is not Ask; the reviewed text remains local.",
+      "shot": "done-edit"
+    },
+    {
+      "start": 656.6166666666667,
+      "end": 660.8216666666666,
+      "text": "Click Copy draft if you want to use the question somewhere else.",
+      "shot": "copy-question"
+    },
+    {
+      "start": 660.8216666666666,
+      "end": 666.0316666666666,
+      "text": "In real use this writes to the Windows clipboard, outside capture protection.",
+      "shot": "copy-question"
+    },
+    {
+      "start": 666.0316666666666,
+      "end": 669.8316666666666,
+      "text": "This demonstration uses an isolated clipboard sink.",
+      "shot": "copy-question"
+    },
+    {
+      "start": 670.95,
+      "end": 673.565,
+      "text": "Click Setup slash details.",
+      "shot": "snapshot-details"
+    },
+    {
+      "start": 673.565,
+      "end": 679.93,
+      "text": "Snapshot only is the safe local mode: it freezes your question without sending a model request.",
+      "shot": "snapshot-details"
+    },
+    {
+      "start": 681.0500000000001,
+      "end": 686.155,
+      "text": "Click Freeze locally. The submitted snapshot is a separate copy.",
+      "shot": "freeze-locally"
+    },
+    {
+      "start": 686.155,
+      "end": 690.065,
+      "text": "Later draft changes cannot rewrite that earlier snapshot.",
+      "shot": "freeze-locally"
+    },
+    {
+      "start": 691.1833333333334,
+      "end": 694.5483333333334,
+      "text": "Freezing returns to the reading view automatically.",
+      "shot": "snapshot-close-details"
+    },
+    {
+      "start": 694.5483333333334,
+      "end": 700.3433333333334,
+      "text": "You can reopen Setup slash details to inspect the provider notice and draft provenance.",
+      "shot": "snapshot-close-details"
+    },
+    {
+      "start": 700.3433333333334,
+      "end": 703.2233333333334,
+      "text": "The snapshot and draft remain separate.",
+      "shot": "snapshot-close-details"
+    },
+    {
+      "start": 704.35,
+      "end": 708.35,
+      "text": "Click Clear question, immediately to the right of Ask.",
+      "shot": "question-clear"
+    },
+    {
+      "start": 708.35,
+      "end": 714.55,
+      "text": "It clears the draft, snapshot, answer, clarification, and previous-answer selection.",
+      "shot": "question-clear"
+    },
+    {
+      "start": 714.55,
+      "end": 718.185,
+      "text": "It does not erase the meeting transcript or your notes.",
+      "shot": "question-clear"
+    },
+    {
+      "start": 719.3166666666667,
+      "end": 722.7766666666666,
+      "text": "Click Choose source for the compact selection panel.",
+      "shot": "choose-source"
+    },
+    {
+      "start": 722.7766666666666,
+      "end": 726.7116666666667,
+      "text": "This is an alternative to clicking the main transcript directly.",
+      "shot": "choose-source"
+    },
+    {
+      "start": 727.8166666666667,
+      "end": 731.4416666666667,
+      "text": "Click Mic to show microphone segments in this chooser.",
+      "shot": "filter-mic"
+    },
+    {
+      "start": 731.4416666666667,
+      "end": 733.6866666666667,
+      "text": "Filtering changes what you browse;",
+      "shot": "filter-mic"
+    },
+    {
+      "start": 733.6866666666667,
+      "end": 735.9666666666667,
+      "text": "it does not send a question.",
+      "shot": "filter-mic"
+    },
+    {
+      "start": 737.0833333333334,
+      "end": 739.9833333333333,
+      "text": "Click the microphone segment you want.",
+      "shot": "chooser-row"
+    },
+    {
+      "start": 739.9833333333333,
+      "end": 745.0333333333333,
+      "text": "Then use the explicit Use selected action to copy that selection into your draft.",
+      "shot": "chooser-row"
+    },
+    {
+      "start": 746.1500000000001,
+      "end": 750.2800000000001,
+      "text": "Click Use selected. The app creates the draft locally;",
+      "shot": "use-selected"
+    },
+    {
+      "start": 750.2800000000001,
+      "end": 752.73,
+      "text": "Ask remains a separate action.",
+      "shot": "use-selected"
+    },
+    {
+      "start": 753.85,
+      "end": 756.855,
+      "text": "Open Choose source again and use All to browse both tracks.",
+      "shot": "chooser-all"
+    },
+    {
+      "start": 756.855,
+      "end": 759.75,
+      "text": "Computer filters to playback only.",
+      "shot": "chooser-all"
+    },
+    {
+      "start": 759.75,
+      "end": 764.9599999999999,
+      "text": "The source chooser is optional; direct transcript clicks are usually faster.",
+      "shot": "chooser-all"
+    },
+    {
+      "start": 766.0833333333334,
+      "end": 771.4333333333333,
+      "text": "Close the chooser and clear this sample question so we can move on to the answer workflow.",
+      "shot": "chooser-close"
+    },
+    {
+      "start": 772.5500000000001,
+      "end": 778.075,
+      "text": "Phantom Fudge supports an installed Agency provider, direct Copilot, or a separately configured",
+      "shot": "provider-options"
+    },
+    {
+      "start": 778.075,
+      "end": 784.15,
+      "text": "local model. Agency and ordinary Copilot can use remote model services.",
+      "shot": "provider-options"
+    },
+    {
+      "start": 784.15,
+      "end": 789.11,
+      "text": "A local command-line process does not by itself mean offline inference.",
+      "shot": "provider-options"
+    },
+    {
+      "start": 790.2166666666667,
+      "end": 795.2566666666667,
+      "text": "In the source workflow, use Initialize Answers with Provider Agency.",
+      "shot": "provider-agency"
+    },
+    {
+      "start": 795.2566666666667,
+      "end": 798.5366666666666,
+      "text": "Use the exact qualified Agency build shown here;",
+      "shot": "provider-agency"
+    },
+    {
+      "start": 798.5366666666666,
+      "end": 801.4116666666666,
+      "text": "other versions fail until qualified.",
+      "shot": "provider-agency"
+    },
+    {
+      "start": 801.4116666666666,
+      "end": 805.2366666666667,
+      "text": "The helper writes non-secret settings and may build the app.",
+      "shot": "provider-agency"
+    },
+    {
+      "start": 805.2366666666667,
+      "end": 808.5616666666666,
+      "text": "It does not install Agency or sign you in.",
+      "shot": "provider-agency"
+    },
+    {
+      "start": 808.5616666666666,
+      "end": 810.9216666666666,
+      "text": "Then return and Reload setup.",
+      "shot": "provider-agency"
+    },
+    {
+      "start": 812.0500000000001,
+      "end": 817.41,
+      "text": "Direct Copilot requires a separately installed compatible CLI, with the supported versions",
+      "shot": "provider-copilot"
+    },
+    {
+      "start": 817.41,
+      "end": 822.2900000000001,
+      "text": "shown here. Choose Provider Copilot through the source helper.",
+      "shot": "provider-copilot"
+    },
+    {
+      "start": 822.2900000000001,
+      "end": 824.635,
+      "text": "Connect explicitly starts sign-in;",
+      "shot": "provider-copilot"
+    },
+    {
+      "start": 824.635,
+      "end": 827.64,
+      "text": "do not trigger it casually during a meeting.",
+      "shot": "provider-copilot"
+    },
+    {
+      "start": 827.64,
+      "end": 832.5550000000001,
+      "text": "This hosted route remains unqualified after an earlier failed smoke attempt.",
+      "shot": "provider-copilot"
+    },
+    {
+      "start": 833.6833333333334,
+      "end": 839.0233333333333,
+      "text": "LocalModel needs both a compatible direct Copilot CLI and an already-running OpenAI-compatible",
+      "shot": "provider-local"
+    },
+    {
+      "start": 839.0233333333333,
+      "end": 844.9533333333334,
+      "text": "model server. Configure its real model identifier and loopback endpoint.",
+      "shot": "provider-local"
+    },
+    {
+      "start": 844.9533333333334,
+      "end": 850.3183333333334,
+      "text": "There is no hosted fallback, but a local endpoint could itself proxy remotely, so",
+      "shot": "provider-local"
+    },
+    {
+      "start": 850.3183333333334,
+      "end": 852.8383333333334,
+      "text": "verify the server's behavior.",
+      "shot": "provider-local"
+    },
+    {
+      "start": 852.8383333333334,
+      "end": 856.1133333333333,
+      "text": "No actual local model was qualified here.",
+      "shot": "provider-local"
+    },
+    {
+      "start": 857.2166666666667,
+      "end": 862.0616666666666,
+      "text": "This is a source-checkout example, not an installed model promise.",
+      "shot": "provider-local-command"
+    },
+    {
+      "start": 862.0616666666666,
+      "end": 865.4366666666666,
+      "text": "Replace the model and port with your real setup.",
+      "shot": "provider-local-command"
+    },
+    {
+      "start": 865.4366666666666,
+      "end": 870.1866666666666,
+      "text": "The helper writes this user's answers dot JSON at the shown path.",
+      "shot": "provider-local-command"
+    },
+    {
+      "start": 870.1866666666666,
+      "end": 872.5166666666667,
+      "text": "Installed packages omit the helper;",
+      "shot": "provider-local-command"
+    },
+    {
+      "start": 872.5166666666667,
+      "end": 877.0916666666667,
+      "text": "use the provider guide for that file's schema, then Reload setup.",
+      "shot": "provider-local-command"
+    },
+    {
+      "start": 878.2166666666667,
+      "end": 882.9766666666667,
+      "text": "Click Setup slash details to inspect the mode and provider notice.",
+      "shot": "provider-show"
+    },
+    {
+      "start": 882.9766666666667,
+      "end": 885.5616666666666,
+      "text": "This panel selects and reloads settings;",
+      "shot": "provider-show"
+    },
+    {
+      "start": 885.5616666666666,
+      "end": 889.7366666666667,
+      "text": "it is not an account, model, or executable-path editor.",
+      "shot": "provider-show"
+    },
+    {
+      "start": 889.7366666666667,
+      "end": 893.0416666666666,
+      "text": "Read the data boundary before enabling a provider.",
+      "shot": "provider-show"
+    },
+    {
+      "start": 894.1500000000001,
+      "end": 898.73,
+      "text": "After changing provider configuration, click Reload setup.",
+      "shot": "reload"
+    },
+    {
+      "start": 898.73,
+      "end": 902.375,
+      "text": "Loading configuration does not submit your question.",
+      "shot": "reload"
+    },
+    {
+      "start": 902.375,
+      "end": 906.715,
+      "text": "The real Agency path may prepare its transport in the background.",
+      "shot": "reload"
+    },
+    {
+      "start": 907.8166666666667,
+      "end": 913.2466666666667,
+      "text": "For the remaining lessons, this isolated copy uses a sample provider instead of contacting",
+      "shot": "provider-sample"
+    },
+    {
+      "start": 913.2466666666667,
+      "end": 918.5016666666667,
+      "text": "Agency. The application still runs its real question, streaming,",
+      "shot": "provider-sample"
+    },
+    {
+      "start": 918.5016666666667,
+      "end": 922.3016666666666,
+      "text": "context, and clarification state changes.",
+      "shot": "provider-sample"
+    },
+    {
+      "start": 923.4166666666667,
+      "end": 928.2316666666667,
+      "text": "Click Snapshot only whenever you want to freeze questions without sending them.",
+      "shot": "snapshot-toggle"
+    },
+    {
+      "start": 928.2316666666667,
+      "end": 933.2766666666666,
+      "text": "Changing provider mode resets previous-answer context and clarification.",
+      "shot": "snapshot-toggle"
+    },
+    {
+      "start": 934.3833333333333,
+      "end": 938.3433333333332,
+      "text": "Click the configured-provider button to enable answers again.",
+      "shot": "configured-toggle"
+    },
+    {
+      "start": 938.3433333333332,
+      "end": 941.5883333333333,
+      "text": "On a real Agency setup, wait for readiness;",
+      "shot": "configured-toggle"
+    },
+    {
+      "start": 941.5883333333333,
+      "end": 946.7933333333333,
+      "text": "if preparation fails, read the status rather than repeatedly pressing Ask.",
+      "shot": "configured-toggle"
+    },
+    {
+      "start": 947.9166666666667,
+      "end": 950.5766666666667,
+      "text": "Close Setup slash details.",
+      "shot": "provider-hide"
+    },
+    {
+      "start": 950.5766666666667,
+      "end": 954.3866666666667,
+      "text": "The question reader is now ready for an explicit request.",
+      "shot": "provider-hide"
+    },
+    {
+      "start": 955.5166666666668,
+      "end": 959.1466666666668,
+      "text": "Click Type slash edit to enter a question directly.",
+      "shot": "answer-edit-open"
+    },
+    {
+      "start": 959.1466666666668,
+      "end": 963.6016666666667,
+      "text": "You do not need a transcript selection if you already know what to ask.",
+      "shot": "answer-edit-open"
+    },
+    {
+      "start": 964.7166666666667,
+      "end": 968.0566666666666,
+      "text": "Type a clear question with the constraints you want.",
+      "shot": "answer-type"
+    },
+    {
+      "start": 968.0566666666666,
+      "end": 973.3416666666667,
+      "text": "Only this reviewed question is used, unless you explicitly enable a documented context",
+      "shot": "answer-type"
+    },
+    {
+      "start": 973.3416666666667,
+      "end": 974.5416666666666,
+      "text": "option.",
+      "shot": "answer-type"
+    },
+    {
+      "start": 975.6500000000001,
+      "end": 982.0500000000001,
+      "text": "Click Ask provider. The app freezes the exact text and streams the answer into the reader.",
+      "shot": "answer-ask"
+    },
+    {
+      "start": 982.0500000000001,
+      "end": 987.35,
+      "text": "This sample response is scripted, not evidence of model quality or latency.",
+      "shot": "answer-ask"
+    },
+    {
+      "start": 988.45,
+      "end": 991.78,
+      "text": "Wait for the completed answer before relying on it.",
+      "shot": "answer-read"
+    },
+    {
+      "start": 991.78,
+      "end": 994.19,
+      "text": "The answer is plain text.",
+      "shot": "answer-read"
+    },
+    {
+      "start": 994.19,
+      "end": 998.93,
+      "text": "You remain responsible for checking accuracy and speaking in your own words.",
+      "shot": "answer-read"
+    },
+    {
+      "start": 1000.0500000000001,
+      "end": 1003.225,
+      "text": "Drag the Size slider in the answer section.",
+      "shot": "answer-font"
+    },
+    {
+      "start": 1003.225,
+      "end": 1009.48,
+      "text": "It changes the answer and interpretation font from eight to twenty-four, for this session only.",
+      "shot": "answer-font"
+    },
+    {
+      "start": 1009.48,
+      "end": 1012.735,
+      "text": "It does not resize the transcript or notes.",
+      "shot": "answer-font"
+    },
+    {
+      "start": 1013.85,
+      "end": 1017.3299999999999,
+      "text": "Click Copy answer to copy the displayed result.",
+      "shot": "answer-copy"
+    },
+    {
+      "start": 1017.3299999999999,
+      "end": 1021.99,
+      "text": "The Windows clipboard is not protected by the window's capture policy.",
+      "shot": "answer-copy"
+    },
+    {
+      "start": 1021.99,
+      "end": 1025.6,
+      "text": "This tutorial routes copying to an isolated sink.",
+      "shot": "answer-copy"
+    },
+    {
+      "start": 1026.7166666666667,
+      "end": 1033.1916666666666,
+      "text": "While Agency is preparing, use Cancel preparation, or Cancel prep in a narrow layout.",
+      "shot": "cancel-preparation"
+    },
+    {
+      "start": 1033.1916666666666,
+      "end": 1039.2816666666668,
+      "text": "Wait for cleanup. Use configured provider or Reload setup prepares it again.",
+      "shot": "cancel-preparation"
+    },
+    {
+      "start": 1039.2816666666668,
+      "end": 1042.9766666666667,
+      "text": "Cancelling preparation does not stop transcription.",
+      "shot": "cancel-preparation"
+    },
+    {
+      "start": 1042.9766666666667,
+      "end": 1045.5566666666666,
+      "text": "Preparation differs from a submitted answer;",
+      "shot": "cancel-preparation"
+    },
+    {
+      "start": 1045.5566666666666,
+      "end": 1048.5566666666666,
+      "text": "neither guarantees a fixed response time.",
+      "shot": "cancel-preparation"
+    },
+    {
+      "start": 1049.6833333333334,
+      "end": 1054.5483333333334,
+      "text": "For a follow-up, click Previous answer immediately to the left of Ask.",
+      "shot": "context-on"
+    },
+    {
+      "start": 1054.5483333333334,
+      "end": 1056.6283333333333,
+      "text": "It is off by default.",
+      "shot": "context-on"
+    },
+    {
+      "start": 1056.6283333333333,
+      "end": 1058.9533333333334,
+      "text": "Turning it on does not send anything;",
+      "shot": "context-on"
+    },
+    {
+      "start": 1058.9533333333334,
+      "end": 1063.5733333333333,
+      "text": "the next explicit Ask captures the completed answer currently displayed.",
+      "shot": "context-on"
+    },
+    {
+      "start": 1064.6833333333334,
+      "end": 1067.2733333333333,
+      "text": "Edit the question to your follow-up.",
+      "shot": "followup-type"
+    },
+    {
+      "start": 1067.2733333333333,
+      "end": 1072.8683333333333,
+      "text": "Do not click Clear first: Clear would remove the answer you want to use as context.",
+      "shot": "followup-type"
+    },
+    {
+      "start": 1073.9833333333333,
+      "end": 1079.6983333333333,
+      "text": "Click Ask provider. This request includes the new question and one immutable previous-answer",
+      "shot": "followup-ask"
+    },
+    {
+      "start": 1079.6983333333333,
+      "end": 1085.5783333333334,
+      "text": "snapshot. It does not automatically include old questions, older answers,",
+      "shot": "followup-ask"
+    },
+    {
+      "start": 1085.5783333333334,
+      "end": 1088.0583333333334,
+      "text": "notes, or the whole meeting.",
+      "shot": "followup-ask"
+    },
+    {
+      "start": 1089.1833333333334,
+      "end": 1093.3633333333335,
+      "text": "Open Setup slash details after the response completes.",
+      "shot": "followup-details"
+    },
+    {
+      "start": 1093.3633333333335,
+      "end": 1098.9583333333333,
+      "text": "The previous-answer field shows the exact submitted context, not whatever happens to be displayed",
+      "shot": "followup-details"
+    },
+    {
+      "start": 1098.9583333333333,
+      "end": 1100.0983333333334,
+      "text": "later.",
+      "shot": "followup-details"
+    },
+    {
+      "start": 1101.2166666666667,
+      "end": 1106.7566666666667,
+      "text": "Close details. After a successful follow-up, the option stays on,",
+      "shot": "followup-details-close"
+    },
+    {
+      "start": 1106.7566666666667,
+      "end": 1110.8066666666666,
+      "text": "but the next request uses only the newest completed answer.",
+      "shot": "followup-details-close"
+    },
+    {
+      "start": 1110.8066666666666,
+      "end": 1114.9416666666666,
+      "text": "Failed, cancelled, and unfinished output is not eligible.",
+      "shot": "followup-details-close"
+    },
+    {
+      "start": 1116.05,
+      "end": 1119.81,
+      "text": "Click Previous answer again for an unrelated question.",
+      "shot": "context-off"
+    },
+    {
+      "start": 1119.81,
+      "end": 1122.29,
+      "text": "It turns off without sending.",
+      "shot": "context-off"
+    },
+    {
+      "start": 1122.29,
+      "end": 1126.02,
+      "text": "Clear and provider changes also reset this selection.",
+      "shot": "context-off"
+    },
+    {
+      "start": 1127.15,
+      "end": 1133.315,
+      "text": "Click Clear question, then Done, to begin a separate example outside question-edit mode.",
+      "shot": "clarify-reset"
+    },
+    {
+      "start": 1133.315,
+      "end": 1138.71,
+      "text": "This deliberately discards the previous Q slash A state while keeping the transcript.",
+      "shot": "clarify-reset"
+    },
+    {
+      "start": 1139.8166666666666,
+      "end": 1142.1116666666665,
+      "text": "Check Clarify first.",
+      "shot": "clarify-on"
+    },
+    {
+      "start": 1142.1116666666665,
+      "end": 1146.6316666666667,
+      "text": "The first request will ask for an interpretation rather than a solution.",
+      "shot": "clarify-on"
+    },
+    {
+      "start": 1146.6316666666667,
+      "end": 1149.9516666666666,
+      "text": "Checking the box alone does not make a request.",
+      "shot": "clarify-on"
+    },
+    {
+      "start": 1151.0833333333335,
+      "end": 1155.5283333333334,
+      "text": "Click Type slash edit and write the question that needs clarification.",
+      "shot": "clarify-edit"
+    },
+    {
+      "start": 1155.5283333333334,
+      "end": 1157.9083333333335,
+      "text": "Click Done when the wording is ready.",
+      "shot": "clarify-edit"
+    },
+    {
+      "start": 1159.25,
+      "end": 1161.5349999999999,
+      "text": "Click Interpret question.",
+      "shot": "interpret"
+    },
+    {
+      "start": 1161.5349999999999,
+      "end": 1165.7549999999999,
+      "text": "The app locks the original draft and displays an interpretation.",
+      "shot": "interpret"
+    },
+    {
+      "start": 1165.7549999999999,
+      "end": 1168.0249999999999,
+      "text": "This is not the final answer.",
+      "shot": "interpret"
+    },
+    {
+      "start": 1169.15,
+      "end": 1171.805,
+      "text": "Read what the provider thinks you mean.",
+      "shot": "interpret-review"
+    },
+    {
+      "start": 1171.805,
+      "end": 1175.615,
+      "text": "If it is correct, use Yes, answer.",
+      "shot": "interpret-review"
+    },
+    {
+      "start": 1175.615,
+      "end": 1179.63,
+      "text": "If it is wrong or incomplete, type a correction instead.",
+      "shot": "interpret-review"
+    },
+    {
+      "start": 1180.75,
+      "end": 1186.705,
+      "text": "Copy interpretation copies what the provider thinks you mean, not a confirmed solution.",
+      "shot": "interpret-copy"
+    },
+    {
+      "start": 1186.705,
+      "end": 1192.1299999999999,
+      "text": "Copy original preserves the original question rather than substituting the correction field.",
+      "shot": "interpret-copy"
+    },
+    {
+      "start": 1193.25,
+      "end": 1196.495,
+      "text": "Click Type reply to enable the reply editor.",
+      "shot": "reply-open"
+    },
+    {
+      "start": 1196.495,
+      "end": 1200.53,
+      "text": "A correction does not silently replace the original draft.",
+      "shot": "reply-open"
+    },
+    {
+      "start": 1201.65,
+      "end": 1204.025,
+      "text": "Specify what was missing.",
+      "shot": "reply-type"
+    },
+    {
+      "start": 1204.025,
+      "end": 1208.595,
+      "text": "Here we request a remote-audience example and three practical tips.",
+      "shot": "reply-type"
+    },
+    {
+      "start": 1208.595,
+      "end": 1213.93,
+      "text": "Yes, answer is disabled while a correction is written, so it cannot silently discard",
+      "shot": "reply-type"
+    },
+    {
+      "start": 1213.93,
+      "end": 1215.4550000000002,
+      "text": "that correction.",
+      "shot": "reply-type"
+    },
+    {
+      "start": 1216.5833333333335,
+      "end": 1222.7433333333333,
+      "text": "Click Send reply. This sends the correction with this question's clarification history.",
+      "shot": "reply-send"
+    },
+    {
+      "start": 1222.7433333333333,
+      "end": 1225.2883333333334,
+      "text": "The app waits for another interpretation;",
+      "shot": "reply-send"
+    },
+    {
+      "start": 1225.2883333333334,
+      "end": 1227.5333333333335,
+      "text": "it does not auto-confirm.",
+      "shot": "reply-send"
+    },
+    {
+      "start": 1228.65,
+      "end": 1233.94,
+      "text": "Once the revised interpretation is correct, click Yes, answer.",
+      "shot": "reply-confirm"
+    },
+    {
+      "start": 1233.94,
+      "end": 1239.68,
+      "text": "Typing exact Yes and pressing Send reply also confirms, ignoring surrounding whitespace",
+      "shot": "reply-confirm"
+    },
+    {
+      "start": 1239.68,
+      "end": 1246.3600000000001,
+      "text": "and case. Yes, but followed by more text is a correction, not confirmation.",
+      "shot": "reply-confirm"
+    },
+    {
+      "start": 1247.4833333333333,
+      "end": 1249.7683333333332,
+      "text": "The solution now appears.",
+      "shot": "clarified-answer"
+    },
+    {
+      "start": 1249.7683333333332,
+      "end": 1255.2983333333334,
+      "text": "Previous answer, when enabled initially, stays pinned through clarification.",
+      "shot": "clarified-answer"
+    },
+    {
+      "start": 1255.2983333333334,
+      "end": 1261.0333333333333,
+      "text": "After four interpretations, confirm the intended question or Clear to start over.",
+      "shot": "clarified-answer"
+    },
+    {
+      "start": 1261.0333333333333,
+      "end": 1267.1033333333332,
+      "text": "Setup slash details shows the extra instruction and completed clarification exchanges.",
+      "shot": "clarified-answer"
+    },
+    {
+      "start": 1268.2166666666667,
+      "end": 1273.0766666666666,
+      "text": "Uncheck Clarify first when you no longer need the interpretation step.",
+      "shot": "clarify-off"
+    },
+    {
+      "start": 1273.0766666666666,
+      "end": 1275.8566666666666,
+      "text": "The original question remains available.",
+      "shot": "clarify-off"
+    },
+    {
+      "start": 1276.9833333333333,
+      "end": 1280.8383333333334,
+      "text": "We will demonstrate a deliberately slow sample response.",
+      "shot": "cancel-prepare"
+    },
+    {
+      "start": 1280.8383333333334,
+      "end": 1285.0283333333332,
+      "text": "There is no real model request or network delay in this example.",
+      "shot": "cancel-prepare"
+    },
+    {
+      "start": 1286.15,
+      "end": 1291.38,
+      "text": "Click Ask provider. While a response is in progress, do not start another",
+      "shot": "cancel-start"
+    },
+    {
+      "start": 1291.38,
+      "end": 1293.77,
+      "text": "request or switch providers.",
+      "shot": "cancel-start"
+    },
+    {
+      "start": 1294.8833333333334,
+      "end": 1297.8733333333334,
+      "text": "Click Cancel answer and wait for cleanup.",
+      "shot": "cancel-click"
+    },
+    {
+      "start": 1297.8733333333334,
+      "end": 1302.8783333333333,
+      "text": "Any copied partial result begins with Incomplete answer in square brackets.",
+      "shot": "cancel-click"
+    },
+    {
+      "start": 1302.8783333333333,
+      "end": 1307.5833333333335,
+      "text": "It is not a completed answer and cannot become previous-answer context.",
+      "shot": "cancel-click"
+    },
+    {
+      "start": 1308.6833333333334,
+      "end": 1313.4733333333334,
+      "text": "Click Clear question when you want to discard the cancelled result and begin again.",
+      "shot": "cancel-clear"
+    },
+    {
+      "start": 1313.4733333333334,
+      "end": 1316.5933333333332,
+      "text": "This does not clear your meeting transcript.",
+      "shot": "cancel-clear"
+    },
+    {
+      "start": 1317.7166666666667,
+      "end": 1319.9916666666666,
+      "text": "Read the provider status.",
+      "shot": "answer-troubleshooting"
+    },
+    {
+      "start": 1319.9916666666666,
+      "end": 1326.4516666666666,
+      "text": "Check configuration and authorization through the provider's documented setup, then Reload setup.",
+      "shot": "answer-troubleshooting"
+    },
+    {
+      "start": 1326.4516666666666,
+      "end": 1331.6666666666667,
+      "text": "Do not paste tokens into the question, and do not assume a failed local model will fall back",
+      "shot": "answer-troubleshooting"
+    },
+    {
+      "start": 1331.6666666666667,
+      "end": 1337.2816666666668,
+      "text": "to the cloud. Snapshot only remains available for local question drafting.",
+      "shot": "answer-troubleshooting"
+    },
+    {
+      "start": 1338.3833333333334,
+      "end": 1341.5833333333335,
+      "text": "Click Notes to expand the speaker-note area.",
+      "shot": "notes-open"
+    },
+    {
+      "start": 1341.5833333333335,
+      "end": 1346.8233333333335,
+      "text": "This closes Q slash A and cancels its answer or preparation, but leaves transcription",
+      "shot": "notes-open"
+    },
+    {
+      "start": 1346.8233333333335,
+      "end": 1349.3233333333335,
+      "text": "running and preserves the question.",
+      "shot": "notes-open"
+    },
+    {
+      "start": 1349.3233333333335,
+      "end": 1354.1433333333334,
+      "text": "Entering global Notes Edit next is different: that stops audio too.",
+      "shot": "notes-open"
+    },
+    {
+      "start": 1355.25,
+      "end": 1357.76,
+      "text": "Click the top-bar Edit button.",
+      "shot": "notes-edit"
+    },
+    {
+      "start": 1357.76,
+      "end": 1363.3799999999999,
+      "text": "Unlike question editing, global Notes Edit stops transcription and cancels answer or preparation",
+      "shot": "notes-edit"
+    },
+    {
+      "start": 1363.3799999999999,
+      "end": 1368.2549999999999,
+      "text": "activity. It enables note typing and file operations.",
+      "shot": "notes-edit"
+    },
+    {
+      "start": 1368.2549999999999,
+      "end": 1371.7849999999999,
+      "text": "Control Alt E is the direct Notes Edit shortcut.",
+      "shot": "notes-edit"
+    },
+    {
+      "start": 1372.9166666666667,
+      "end": 1375.6916666666666,
+      "text": "Type plain-text notes in the editor.",
+      "shot": "notes-type"
+    },
+    {
+      "start": 1375.6916666666666,
+      "end": 1378.6266666666668,
+      "text": "Keep prompts short enough to glance at.",
+      "shot": "notes-type"
+    },
+    {
+      "start": 1378.6266666666668,
+      "end": 1381.4566666666667,
+      "text": "New notes are not automatically saved.",
+      "shot": "notes-type"
+    },
+    {
+      "start": 1382.5833333333335,
+      "end": 1387.8483333333334,
+      "text": "With keyboard-control mode inactive, Notes Edit supports Control S, O,",
+      "shot": "notes-edit-shortcuts"
+    },
+    {
+      "start": 1387.8483333333334,
+      "end": 1391.8983333333335,
+      "text": "N and F for save, open, new and find.",
+      "shot": "notes-edit-shortcuts"
+    },
+    {
+      "start": 1391.8983333333335,
+      "end": 1396.8583333333333,
+      "text": "Control Z undoes recent note edits, with a hundred undo units.",
+      "shot": "notes-edit-shortcuts"
+    },
+    {
+      "start": 1396.8583333333333,
+      "end": 1400.0783333333334,
+      "text": "New and a successful Open clear that history.",
+      "shot": "notes-edit-shortcuts"
+    },
+    {
+      "start": 1400.0783333333334,
+      "end": 1404.0633333333335,
+      "text": "Undo is not autosave or recovery of a discarded document.",
+      "shot": "notes-edit-shortcuts"
+    },
+    {
+      "start": 1405.1833333333334,
+      "end": 1408.3733333333334,
+      "text": "Click A plus to enlarge the notes text.",
+      "shot": "notes-bigger"
+    },
+    {
+      "start": 1408.3733333333334,
+      "end": 1411.8933333333334,
+      "text": "This control is separate from the answer Size slider.",
+      "shot": "notes-bigger"
+    },
+    {
+      "start": 1413.0166666666667,
+      "end": 1416.2566666666667,
+      "text": "Click A minus to reduce the notes font again.",
+      "shot": "notes-smaller"
+    },
+    {
+      "start": 1416.2566666666667,
+      "end": 1420.1866666666665,
+      "text": "The notes control supports sizes from twelve to forty-two.",
+      "shot": "notes-smaller"
+    },
+    {
+      "start": 1421.3166666666666,
+      "end": 1426.6366666666665,
+      "text": "Uncheck Wrap if you want long lines to remain on one line with horizontal scrolling.",
+      "shot": "notes-nowrap"
+    },
+    {
+      "start": 1426.6366666666665,
+      "end": 1430.0516666666665,
+      "text": "This affects notes, not the answer reader.",
+      "shot": "notes-nowrap"
+    },
+    {
+      "start": 1431.1833333333334,
+      "end": 1435.0633333333333,
+      "text": "Check Wrap again for a compact, glanceable note.",
+      "shot": "notes-wrap"
+    },
+    {
+      "start": 1435.0633333333333,
+      "end": 1438.1183333333333,
+      "text": "Content is preserved when wrapping changes.",
+      "shot": "notes-wrap"
+    },
+    {
+      "start": 1439.25,
+      "end": 1442.18,
+      "text": "Click Find to open the note search field.",
+      "shot": "notes-find"
+    },
+    {
+      "start": 1442.18,
+      "end": 1446.12,
+      "text": "This search is separate from transcript search in keyboard mode.",
+      "shot": "notes-find"
+    },
+    {
+      "start": 1447.25,
+      "end": 1449.73,
+      "text": "Type the word you want to find.",
+      "shot": "notes-find-type"
+    },
+    {
+      "start": 1449.73,
+      "end": 1452.1499999999999,
+      "text": "Here we will search for example.",
+      "shot": "notes-find-type"
+    },
+    {
+      "start": 1453.25,
+      "end": 1456.1,
+      "text": "Click Next to select the next match.",
+      "shot": "notes-next"
+    },
+    {
+      "start": 1456.1,
+      "end": 1459.0449999999998,
+      "text": "The search wraps back to the beginning when needed.",
+      "shot": "notes-next"
+    },
+    {
+      "start": 1460.15,
+      "end": 1463.0,
+      "text": "Click Close find when you are finished.",
+      "shot": "notes-find-close"
+    },
+    {
+      "start": 1463.0,
+      "end": 1466.66,
+      "text": "Your note is still unsaved until you explicitly save it.",
+      "shot": "notes-find-close"
+    },
+    {
+      "start": 1467.7833333333333,
+      "end": 1474.0533333333333,
+      "text": "Click Save. On the first save, choose a destination in the Windows file picker.",
+      "shot": "notes-save"
+    },
+    {
+      "start": 1474.0533333333333,
+      "end": 1480.0533333333333,
+      "text": "The picker is omitted here; the real save operation writes only an isolated sample file.",
+      "shot": "notes-save"
+    },
+    {
+      "start": 1480.0533333333333,
+      "end": 1482.7183333333332,
+      "text": "Saved locally confirms the write.",
+      "shot": "notes-save"
+    },
+    {
+      "start": 1483.8500000000001,
+      "end": 1489.69,
+      "text": "Use Save as when you want another destination or need to resolve a file that changed outside the app.",
+      "shot": "notes-save-as"
+    },
+    {
+      "start": 1489.69,
+      "end": 1493.44,
+      "text": "Do not overwrite a file without checking what it contains.",
+      "shot": "notes-save-as"
+    },
+    {
+      "start": 1494.55,
+      "end": 1498.105,
+      "text": "Click Open and choose a UTF-eight text file.",
+      "shot": "notes-open-file"
+    },
+    {
+      "start": 1498.105,
+      "end": 1501.155,
+      "text": "This demo opens an isolated example.",
+      "shot": "notes-open-file"
+    },
+    {
+      "start": 1501.155,
+      "end": 1506.8149999999998,
+      "text": "The app accepts files up to one mebibyte and retains your current content if opening fails.",
+      "shot": "notes-open-file"
+    },
+    {
+      "start": 1507.9166666666667,
+      "end": 1511.3716666666667,
+      "text": "Make an edit to see the unsaved-change safeguard.",
+      "shot": "notes-new-edit"
+    },
+    {
+      "start": 1511.3716666666667,
+      "end": 1514.8766666666668,
+      "text": "The status clearly says there are unsaved changes.",
+      "shot": "notes-new-edit"
+    },
+    {
+      "start": 1515.9833333333333,
+      "end": 1522.1883333333333,
+      "text": "Click New. Because the note is unsaved, an inline confirmation appears.",
+      "shot": "notes-new"
+    },
+    {
+      "start": 1522.1883333333333,
+      "end": 1525.9483333333333,
+      "text": "Save notes, cancel, or explicitly discard;",
+      "shot": "notes-new"
+    },
+    {
+      "start": 1525.9483333333333,
+      "end": 1528.9083333333333,
+      "text": "do not treat closing the panel as a save.",
+      "shot": "notes-new"
+    },
+    {
+      "start": 1530.0166666666667,
+      "end": 1533.9516666666666,
+      "text": "Click Cancel to keep the unsaved note and return to editing.",
+      "shot": "notes-cancel"
+    },
+    {
+      "start": 1535.0833333333335,
+      "end": 1541.0133333333335,
+      "text": "Click New once more. We will deliberately discard only this throwaway sample draft.",
+      "shot": "notes-new-again"
+    },
+    {
+      "start": 1542.1166666666668,
+      "end": 1544.4816666666668,
+      "text": "Click Discard and continue.",
+      "shot": "notes-discard"
+    },
+    {
+      "start": 1544.4816666666668,
+      "end": 1546.8466666666668,
+      "text": "The new blank note appears.",
+      "shot": "notes-discard"
+    },
+    {
+      "start": 1546.8466666666668,
+      "end": 1552.0816666666667,
+      "text": "This is a destructive choice for unsaved note text, not an undoable save.",
+      "shot": "notes-discard"
+    },
+    {
+      "start": 1553.1833333333334,
+      "end": 1556.6183333333333,
+      "text": "Click Present when you are ready to read rather than edit.",
+      "shot": "notes-present"
+    },
+    {
+      "start": 1556.6183333333333,
+      "end": 1558.8933333333334,
+      "text": "The note becomes read-only.",
+      "shot": "notes-present"
+    },
+    {
+      "start": 1558.8933333333334,
+      "end": 1561.8483333333334,
+      "text": "Audio does not automatically restart.",
+      "shot": "notes-present"
+    },
+    {
+      "start": 1562.95,
+      "end": 1565.595,
+      "text": "Click Notes to collapse the area.",
+      "shot": "notes-collapse"
+    },
+    {
+      "start": 1565.595,
+      "end": 1569.895,
+      "text": "Collapsing is just a layout action, not a save or delete.",
+      "shot": "notes-collapse"
+    },
+    {
+      "start": 1571.0166666666667,
+      "end": 1573.3616666666667,
+      "text": "Click Edit before exporting.",
+      "shot": "export-edit"
+    },
+    {
+      "start": 1573.3616666666667,
+      "end": 1578.6716666666666,
+      "text": "Export is intentionally disabled in presentation mode because native file dialogs are outside",
+      "shot": "export-edit"
+    },
+    {
+      "start": 1578.6716666666666,
+      "end": 1580.5916666666667,
+      "text": "capture assurance.",
+      "shot": "export-edit"
+    },
+    {
+      "start": 1581.7166666666667,
+      "end": 1585.3216666666667,
+      "text": "Click Export and choose a text-file destination.",
+      "shot": "export-transcript"
+    },
+    {
+      "start": 1585.3216666666667,
+      "end": 1588.3466666666666,
+      "text": "The Windows picker is omitted in this demo.",
+      "shot": "export-transcript"
+    },
+    {
+      "start": 1588.3466666666666,
+      "end": 1590.6466666666668,
+      "text": "The transcript is saved as text;",
+      "shot": "export-transcript"
+    },
+    {
+      "start": 1590.6466666666668,
+      "end": 1593.0466666666666,
+      "text": "no audio recording is written.",
+      "shot": "export-transcript"
+    },
+    {
+      "start": 1594.15,
+      "end": 1597.035,
+      "text": "Open Audio setup after export.",
+      "shot": "export-setup"
+    },
+    {
+      "start": 1597.035,
+      "end": 1602.4950000000001,
+      "text": "Clear transcript is inside this panel, separate from the red Clear question button.",
+      "shot": "export-setup"
+    },
+    {
+      "start": 1603.6166666666668,
+      "end": 1608.9316666666668,
+      "text": "Click Clear transcript after recording has stopped and the transcript has been exported.",
+      "shot": "clear-transcript"
+    },
+    {
+      "start": 1608.9316666666668,
+      "end": 1614.6566666666668,
+      "text": "If it is still unsaved, the app refuses to clear it and asks you to export first.",
+      "shot": "clear-transcript"
+    },
+    {
+      "start": 1615.7833333333333,
+      "end": 1619.5683333333332,
+      "text": "Click Done, then Present to leave file-edit mode.",
+      "shot": "export-done"
+    },
+    {
+      "start": 1619.5683333333332,
+      "end": 1622.4233333333332,
+      "text": "Nothing resumes recording automatically.",
+      "shot": "export-done"
+    },
+    {
+      "start": 1623.55,
+      "end": 1626.8899999999999,
+      "text": "Collapse Notes and show Q slash A again.",
+      "shot": "export-notes-collapse"
+    },
+    {
+      "start": 1626.8899999999999,
+      "end": 1631.0349999999999,
+      "text": "We will load a fresh sample conversation for keyboard practice.",
+      "shot": "export-notes-collapse"
+    },
+    {
+      "start": 1632.15,
+      "end": 1635.4550000000002,
+      "text": "The next lines are synthetic practice text.",
+      "shot": "keys-sample-a"
+    },
+    {
+      "start": 1635.4550000000002,
+      "end": 1641.825,
+      "text": "Keyboard controls let you select, review, and submit without moving a mouse around the window.",
+      "shot": "keys-sample-a"
+    },
+    {
+      "start": 1642.95,
+      "end": 1646.41,
+      "text": "Click Keys, or press Control Alt K.",
+      "shot": "keys-open"
+    },
+    {
+      "start": 1646.41,
+      "end": 1648.565,
+      "text": "The strip says Control.",
+      "shot": "keys-open"
+    },
+    {
+      "start": 1648.565,
+      "end": 1651.565,
+      "text": "Letters act as commands only in this local mode;",
+      "shot": "keys-open"
+    },
+    {
+      "start": 1651.565,
+      "end": 1654.03,
+      "text": "there is no global letter hook.",
+      "shot": "keys-open"
+    },
+    {
+      "start": 1654.03,
+      "end": 1658.56,
+      "text": "From Control, I enters question or reply editing directly.",
+      "shot": "keys-open"
+    },
+    {
+      "start": 1659.6833333333334,
+      "end": 1664.6333333333334,
+      "text": "Press F1, or question mark, for the on-screen key map.",
+      "shot": "keys-help"
+    },
+    {
+      "start": 1664.6333333333334,
+      "end": 1667.0083333333334,
+      "text": "Escape returns to Control.",
+      "shot": "keys-help"
+    },
+    {
+      "start": 1668.1166666666668,
+      "end": 1672.0866666666668,
+      "text": "Press Escape. The mode label returns to Control;",
+      "shot": "keys-help-back"
+    },
+    {
+      "start": 1672.0866666666668,
+      "end": 1674.4966666666667,
+      "text": "you have not submitted a question.",
+      "shot": "keys-help-back"
+    },
+    {
+      "start": 1675.6166666666668,
+      "end": 1678.1766666666667,
+      "text": "Press V to enter Select mode.",
+      "shot": "keys-select"
+    },
+    {
+      "start": 1678.1766666666667,
+      "end": 1683.6366666666668,
+      "text": "Use J and K, or the arrow keys, to move between transcript rows.",
+      "shot": "keys-select"
+    },
+    {
+      "start": 1683.6366666666668,
+      "end": 1686.5416666666667,
+      "text": "Moving the cursor does not select a row.",
+      "shot": "keys-select"
+    },
+    {
+      "start": 1687.65,
+      "end": 1691.095,
+      "text": "Press G twice to jump to the first available row.",
+      "shot": "keys-first"
+    },
+    {
+      "start": 1691.095,
+      "end": 1693.72,
+      "text": "Shift G jumps to the latest row.",
+      "shot": "keys-first"
+    },
+    {
+      "start": 1693.72,
+      "end": 1696.57,
+      "text": "Page keys move through larger lists.",
+      "shot": "keys-first"
+    },
+    {
+      "start": 1697.6833333333334,
+      "end": 1700.6183333333333,
+      "text": "Press Space to select the highlighted row.",
+      "shot": "keys-space"
+    },
+    {
+      "start": 1700.6183333333333,
+      "end": 1703.2133333333334,
+      "text": "Pressing it again deselects that row.",
+      "shot": "keys-space"
+    },
+    {
+      "start": 1704.3166666666666,
+      "end": 1708.6366666666665,
+      "text": "Press J to move down, then Space to add the second row.",
+      "shot": "keys-down"
+    },
+    {
+      "start": 1708.6366666666665,
+      "end": 1711.6916666666666,
+      "text": "The draft combines selected text locally.",
+      "shot": "keys-down"
+    },
+    {
+      "start": 1712.8166666666666,
+      "end": 1715.3616666666665,
+      "text": "Press one to browse Mic rows.",
+      "shot": "keys-mic"
+    },
+    {
+      "start": 1715.3616666666665,
+      "end": 1719.4766666666665,
+      "text": "Two shows Computer, and three restores all sources.",
+      "shot": "keys-mic"
+    },
+    {
+      "start": 1719.4766666666665,
+      "end": 1722.9516666666666,
+      "text": "Existing selected rows are preserved when you filter.",
+      "shot": "keys-mic"
+    },
+    {
+      "start": 1724.0833333333335,
+      "end": 1726.8033333333335,
+      "text": "Press three to see all sources again.",
+      "shot": "keys-all"
+    },
+    {
+      "start": 1728.0833333333335,
+      "end": 1732.8733333333334,
+      "text": "Press F3, or slash, to open transcript search.",
+      "shot": "keys-search"
+    },
+    {
+      "start": 1732.8733333333334,
+      "end": 1737.2883333333334,
+      "text": "This is not the note Find feature, and it does not call a model.",
+      "shot": "keys-search"
+    },
+    {
+      "start": 1738.4166666666667,
+      "end": 1743.3066666666666,
+      "text": "Type remote, then press Enter to find matching transcript text.",
+      "shot": "keys-search-type"
+    },
+    {
+      "start": 1743.3066666666666,
+      "end": 1749.2816666666668,
+      "text": "To clear the filter later, open Search, erase its text, and press Enter.",
+      "shot": "keys-search-type"
+    },
+    {
+      "start": 1749.2816666666668,
+      "end": 1752.2566666666667,
+      "text": "Escape from Search returns to Select.",
+      "shot": "keys-search-type"
+    },
+    {
+      "start": 1753.3833333333334,
+      "end": 1756.6783333333333,
+      "text": "Press Enter from Select mode to move into Edit.",
+      "shot": "keys-review"
+    },
+    {
+      "start": 1756.6783333333333,
+      "end": 1759.9283333333333,
+      "text": "That Enter only prepares the draft for review.",
+      "shot": "keys-review"
+    },
+    {
+      "start": 1759.9283333333333,
+      "end": 1764.4283333333333,
+      "text": "Control Enter cannot bypass this review while you are still selecting.",
+      "shot": "keys-review"
+    },
+    {
+      "start": 1765.55,
+      "end": 1769.99,
+      "text": "In Edit mode, letters are normal text and Enter adds a newline.",
+      "shot": "keys-edit"
+    },
+    {
+      "start": 1769.99,
+      "end": 1772.895,
+      "text": "Control Enter explicitly submits.",
+      "shot": "keys-edit"
+    },
+    {
+      "start": 1772.895,
+      "end": 1777.5849999999998,
+      "text": "Escape to Control before using modal F one help or F two commands.",
+      "shot": "keys-edit"
+    },
+    {
+      "start": 1778.7166666666667,
+      "end": 1782.1016666666667,
+      "text": "Press Control Enter to send the reviewed question.",
+      "shot": "keys-submit"
+    },
+    {
+      "start": 1782.1016666666667,
+      "end": 1786.4516666666666,
+      "text": "This uses the same snapshot and provider rules as clicking Ask.",
+      "shot": "keys-submit"
+    },
+    {
+      "start": 1787.5833333333335,
+      "end": 1791.9633333333334,
+      "text": "Wait for the answer, then press Escape to return to Control.",
+      "shot": "keys-control"
+    },
+    {
+      "start": 1791.9633333333334,
+      "end": 1794.9683333333335,
+      "text": "Leaving Edit does not make another request.",
+      "shot": "keys-control"
+    },
+    {
+      "start": 1796.0833333333335,
+      "end": 1798.3883333333335,
+      "text": "Press A to enter Read mode.",
+      "shot": "keys-read"
+    },
+    {
+      "start": 1798.3883333333335,
+      "end": 1802.0483333333334,
+      "text": "J and K, arrows, and page keys move through the answer;",
+      "shot": "keys-read"
+    },
+    {
+      "start": 1802.0483333333334,
+      "end": 1804.6083333333333,
+      "text": "Home and End reach its boundaries.",
+      "shot": "keys-read"
+    },
+    {
+      "start": 1805.7166666666667,
+      "end": 1808.3766666666666,
+      "text": "Press plus to enlarge the answer.",
+      "shot": "keys-font-plus"
+    },
+    {
+      "start": 1808.3766666666666,
+      "end": 1813.2166666666667,
+      "text": "Minus reduces it, within the same eight-to-twenty-four range as the slider.",
+      "shot": "keys-font-plus"
+    },
+    {
+      "start": 1814.3166666666666,
+      "end": 1818.6516666666666,
+      "text": "Press End to move to the end, then Home to return to the beginning.",
+      "shot": "keys-read-end"
+    },
+    {
+      "start": 1818.6516666666666,
+      "end": 1821.2166666666665,
+      "text": "The text itself is unchanged.",
+      "shot": "keys-read-end"
+    },
+    {
+      "start": 1822.3166666666666,
+      "end": 1826.3016666666665,
+      "text": "Press Escape to return to Control before choosing another mode.",
+      "shot": "keys-read-back"
+    },
+    {
+      "start": 1827.4166666666667,
+      "end": 1830.5466666666666,
+      "text": "Press F2 to open the built-in command line.",
+      "shot": "command-font-open"
+    },
+    {
+      "start": 1831.65,
+      "end": 1835.0800000000002,
+      "text": "Type font sixteen for an exact answer size.",
+      "shot": "command-font-type"
+    },
+    {
+      "start": 1836.1833333333334,
+      "end": 1839.0733333333333,
+      "text": "Press Enter to execute this command.",
+      "shot": "command-font-execute"
+    },
+    {
+      "start": 1839.0733333333333,
+      "end": 1841.6483333333333,
+      "text": "Read the status before moving on.",
+      "shot": "command-font-execute"
+    },
+    {
+      "start": 1842.75,
+      "end": 1845.8799999999999,
+      "text": "Press F2 to open the built-in command line.",
+      "shot": "command-context-open"
+    },
+    {
+      "start": 1846.9833333333333,
+      "end": 1852.4483333333333,
+      "text": "Type context on to include the displayed completed answer on your next explicit Ask.",
+      "shot": "command-context-type"
+    },
+    {
+      "start": 1853.55,
+      "end": 1856.4399999999998,
+      "text": "Press Enter to execute this command.",
+      "shot": "command-context-execute"
+    },
+    {
+      "start": 1856.4399999999998,
+      "end": 1859.0149999999999,
+      "text": "Read the status before moving on.",
+      "shot": "command-context-execute"
+    },
+    {
+      "start": 1860.1166666666668,
+      "end": 1863.2466666666667,
+      "text": "Press F2 to open the built-in command line.",
+      "shot": "command-context-off-open"
+    },
+    {
+      "start": 1864.3500000000001,
+      "end": 1867.635,
+      "text": "Type context off for an unrelated question.",
+      "shot": "command-context-off-type"
+    },
+    {
+      "start": 1868.75,
+      "end": 1871.6399999999999,
+      "text": "Press Enter to execute this command.",
+      "shot": "command-context-off-execute"
+    },
+    {
+      "start": 1871.6399999999999,
+      "end": 1874.215,
+      "text": "Read the status before moving on.",
+      "shot": "command-context-off-execute"
+    },
+    {
+      "start": 1875.3166666666666,
+      "end": 1878.4466666666665,
+      "text": "Press F2 to open the built-in command line.",
+      "shot": "command-devices-open"
+    },
+    {
+      "start": 1879.55,
+      "end": 1883.0949999999998,
+      "text": "Type devices to open keyboard device selection.",
+      "shot": "command-devices-type"
+    },
+    {
+      "start": 1883.0949999999998,
+      "end": 1887.125,
+      "text": "First stop transcription and finish or cancel any answer.",
+      "shot": "command-devices-type"
+    },
+    {
+      "start": 1888.25,
+      "end": 1891.1399999999999,
+      "text": "Press Enter to execute this command.",
+      "shot": "command-devices-execute"
+    },
+    {
+      "start": 1891.1399999999999,
+      "end": 1893.715,
+      "text": "Read the status before moving on.",
+      "shot": "command-devices-execute"
+    },
+    {
+      "start": 1894.8166666666666,
+      "end": 1898.9516666666666,
+      "text": "In Devices mode, arrow keys move the highlighted card.",
+      "shot": "keys-device-move"
+    },
+    {
+      "start": 1898.9516666666666,
+      "end": 1903.3666666666666,
+      "text": "Space selects it. Tab switches between Computer and Mic;",
+      "shot": "keys-device-move"
+    },
+    {
+      "start": 1903.3666666666666,
+      "end": 1907.5266666666666,
+      "text": "left and right brackets change pages when more devices exist.",
+      "shot": "keys-device-move"
+    },
+    {
+      "start": 1908.65,
+      "end": 1912.625,
+      "text": "Press Escape to close device setup and return to Control.",
+      "shot": "keys-devices-back"
+    },
+    {
+      "start": 1913.75,
+      "end": 1916.8799999999999,
+      "text": "Press F2 to open the built-in command line.",
+      "shot": "command-theme-open"
+    },
+    {
+      "start": 1917.9833333333333,
+      "end": 1921.9733333333334,
+      "text": "Type theme light to switch the visual theme without using the pointer.",
+      "shot": "command-theme-type"
+    },
+    {
+      "start": 1923.0833333333335,
+      "end": 1925.9733333333334,
+      "text": "Press Enter to execute this command.",
+      "shot": "command-theme-execute"
+    },
+    {
+      "start": 1925.9733333333334,
+      "end": 1928.5483333333334,
+      "text": "Read the status before moving on.",
+      "shot": "command-theme-execute"
+    },
+    {
+      "start": 1929.65,
+      "end": 1932.78,
+      "text": "Press F2 to open the built-in command line.",
+      "shot": "command-opacity-open"
+    },
+    {
+      "start": 1933.8833333333334,
+      "end": 1937.8933333333334,
+      "text": "Type opacity eighty-five to set background tint directly.",
+      "shot": "command-opacity-type"
+    },
+    {
+      "start": 1939.0166666666667,
+      "end": 1941.9066666666665,
+      "text": "Press Enter to execute this command.",
+      "shot": "command-opacity-execute"
+    },
+    {
+      "start": 1941.9066666666665,
+      "end": 1944.4816666666666,
+      "text": "Read the status before moving on.",
+      "shot": "command-opacity-execute"
+    },
+    {
+      "start": 1945.5833333333335,
+      "end": 1948.7133333333334,
+      "text": "Press F2 to open the built-in command line.",
+      "shot": "command-dark-open"
+    },
+    {
+      "start": 1949.8166666666666,
+      "end": 1952.9966666666667,
+      "text": "Type theme dark to return to Deep Sea Foam.",
+      "shot": "command-dark-type"
+    },
+    {
+      "start": 1954.2166666666667,
+      "end": 1957.1066666666666,
+      "text": "Press Enter to execute this command.",
+      "shot": "command-dark-execute"
+    },
+    {
+      "start": 1957.1066666666666,
+      "end": 1959.6816666666666,
+      "text": "Read the status before moving on.",
+      "shot": "command-dark-execute"
+    },
+    {
+      "start": 1960.7833333333333,
+      "end": 1963.2083333333333,
+      "text": "Press F2 and type font.",
+      "shot": "command-autocomplete-open"
+    },
+    {
+      "start": 1963.2083333333333,
+      "end": 1965.8983333333333,
+      "text": "Tab can complete a matching built-in command;",
+      "shot": "command-autocomplete-open"
+    },
+    {
+      "start": 1965.8983333333333,
+      "end": 1968.7283333333332,
+      "text": "Escape cancels without executing it.",
+      "shot": "command-autocomplete-open"
+    },
+    {
+      "start": 1969.8500000000001,
+      "end": 1973.855,
+      "text": "Press Escape to leave this completed suggestion without running it.",
+      "shot": "command-autocomplete-cancel"
+    },
+    {
+      "start": 1974.9833333333333,
+      "end": 1980.7283333333332,
+      "text": "Commands also cover start, stop, source Mic or Computer or Both, clarify",
+      "shot": "command-reference"
+    },
+    {
+      "start": 1980.7283333333332,
+      "end": 1986.6233333333332,
+      "text": "on or off, confirm, copy question, copy answer, clear question,",
+      "shot": "command-reference"
+    },
+    {
+      "start": 1986.6233333333332,
+      "end": 1990.6283333333333,
+      "text": "cancel, ask, mask, and help.",
+      "shot": "command-reference"
+    },
+    {
+      "start": 1990.6283333333333,
+      "end": 1995.7783333333332,
+      "text": "Each command uses the same guarded action as the corresponding interface control.",
+      "shot": "command-reference"
+    },
+    {
+      "start": 1995.7783333333332,
+      "end": 1997.6033333333332,
+      "text": "This is not a shell.",
+      "shot": "command-reference"
+    },
+    {
+      "start": 1998.7166666666667,
+      "end": 2004.4816666666666,
+      "text": "Save the exact three-field UTF-eight JSON shown here as keyboard dot JSON,",
+      "shot": "shortcut-settings"
+    },
+    {
+      "start": 2004.4816666666666,
+      "end": 2007.1116666666667,
+      "text": "then restart after saving work.",
+      "shot": "shortcut-settings"
+    },
+    {
+      "start": 2007.1116666666667,
+      "end": 2009.5766666666666,
+      "text": "Control Alt stays fixed.",
+      "shot": "shortcut-settings"
+    },
+    {
+      "start": 2009.5766666666666,
+      "end": 2014.0516666666667,
+      "text": "Enabled false disables global activation, not Keys.",
+      "shot": "shortcut-settings"
+    },
+    {
+      "start": 2014.0516666666667,
+      "end": 2018.2366666666667,
+      "text": "Invalid settings or a shortcut conflict leave Keys available.",
+      "shot": "shortcut-settings"
+    },
+    {
+      "start": 2018.2366666666667,
+      "end": 2022.0116666666665,
+      "text": "Use your configured activation key rather than assuming K.",
+      "shot": "shortcut-settings"
+    },
+    {
+      "start": 2023.1166666666668,
+      "end": 2026.6166666666668,
+      "text": "Press Escape from Control to leave keyboard mode.",
+      "shot": "keys-leave"
+    },
+    {
+      "start": 2026.6166666666668,
+      "end": 2030.6116666666667,
+      "text": "Returning focus to the earlier application is best-effort.",
+      "shot": "keys-leave"
+    },
+    {
+      "start": 2030.6116666666667,
+      "end": 2033.9766666666667,
+      "text": "Switching applications disarms the controller.",
+      "shot": "keys-leave"
+    },
+    {
+      "start": 2033.9766666666667,
+      "end": 2038.7816666666668,
+      "text": "Use Keys or your configured Control Alt activation chord to enter again.",
+      "shot": "keys-leave"
+    },
+    {
+      "start": 2039.8833333333334,
+      "end": 2042.7033333333334,
+      "text": "Click the book icon at the top left.",
+      "shot": "cover-click"
+    },
+    {
+      "start": 2042.7033333333334,
+      "end": 2048.5783333333334,
+      "text": "The workspace is replaced by Notepad is ready, with the same icon available to restore it.",
+      "shot": "cover-click"
+    },
+    {
+      "start": 2049.683333333333,
+      "end": 2052.758333333333,
+      "text": "The cover changes what the window displays.",
+      "shot": "cover-hold"
+    },
+    {
+      "start": 2052.758333333333,
+      "end": 2056.278333333333,
+      "text": "Transcription and answers can continue underneath it.",
+      "shot": "cover-hold"
+    },
+    {
+      "start": 2056.278333333333,
+      "end": 2062.2433333333333,
+      "text": "It does not provide universal invisibility, erase data, or hide the process from Windows.",
+      "shot": "cover-hold"
+    },
+    {
+      "start": 2063.35,
+      "end": 2066.86,
+      "text": "Click the book icon again to restore the workspace.",
+      "shot": "cover-restore"
+    },
+    {
+      "start": 2066.86,
+      "end": 2070.415,
+      "text": "The current question, answer, and layout return.",
+      "shot": "cover-restore"
+    },
+    {
+      "start": 2071.5166666666664,
+      "end": 2075.0616666666665,
+      "text": "Enter keyboard control with Control Alt K, then press M.",
+      "shot": "cover-keys"
+    },
+    {
+      "start": 2075.0616666666665,
+      "end": 2078.5116666666668,
+      "text": "Masking disarms keyboard mode and shows the cover.",
+      "shot": "cover-keys"
+    },
+    {
+      "start": 2079.6166666666663,
+      "end": 2084.4766666666665,
+      "text": "Press Control Alt K again to restore the workspace and enter Control mode.",
+      "shot": "cover-hotkey-back"
+    },
+    {
+      "start": 2084.4766666666665,
+      "end": 2088.1016666666665,
+      "text": "This is useful when you do not want to reach for the pointer.",
+      "shot": "cover-hotkey-back"
+    },
+    {
+      "start": 2089.2166666666667,
+      "end": 2093.621666666667,
+      "text": "Press Escape to leave keyboard control before the next pointer action.",
+      "shot": "cover-keys-exit"
+    },
+    {
+      "start": 2094.75,
+      "end": 2099.9700000000003,
+      "text": "Click Hide. Unlike Cover, it hides the window, stops transcription, and",
+      "shot": "hide"
+    },
+    {
+      "start": 2099.9700000000003,
+      "end": 2103.15,
+      "text": "cancels answer or preparation activity.",
+      "shot": "hide"
+    },
+    {
+      "start": 2103.15,
+      "end": 2105.9950000000003,
+      "text": "The blank stage shows the hidden window.",
+      "shot": "hide"
+    },
+    {
+      "start": 2105.9950000000003,
+      "end": 2110.4300000000003,
+      "text": "Reveal it when ready, then start transcription again explicitly.",
+      "shot": "hide"
+    },
+    {
+      "start": 2111.5499999999997,
+      "end": 2115.12,
+      "text": "Press Control Alt Space to reveal the window again.",
+      "shot": "recover"
+    },
+    {
+      "start": 2115.12,
+      "end": 2118.2149999999997,
+      "text": "Relaunching the app is another recovery route.",
+      "shot": "recover"
+    },
+    {
+      "start": 2118.2149999999997,
+      "end": 2122.14,
+      "text": "Hiding and recovery do not automatically resume recording.",
+      "shot": "recover"
+    },
+    {
+      "start": 2123.25,
+      "end": 2129.9100000000003,
+      "text": "Click Diagnostics to reload diagnostic settings and open the local log folder outside window protection.",
+      "shot": "diagnostics"
+    },
+    {
+      "start": 2129.9100000000003,
+      "end": 2135.57,
+      "text": "Default logs contain timing and error metadata, not audio or text bodies.",
+      "shot": "diagnostics"
+    },
+    {
+      "start": 2135.57,
+      "end": 2138.7000000000003,
+      "text": "Text logging is a separate retention choice.",
+      "shot": "diagnostics"
+    },
+    {
+      "start": 2139.8166666666666,
+      "end": 2143.5316666666668,
+      "text": "Run these diagnostic helpers from the source checkout.",
+      "shot": "diagnostic-tools"
+    },
+    {
+      "start": 2143.5316666666668,
+      "end": 2146.0916666666667,
+      "text": "Installed packages omit them.",
+      "shot": "diagnostic-tools"
+    },
+    {
+      "start": 2146.0916666666667,
+      "end": 2150.8816666666667,
+      "text": "After changing the mode, click Diagnostics or restart to apply it.",
+      "shot": "diagnostic-tools"
+    },
+    {
+      "start": 2150.8816666666667,
+      "end": 2155.931666666667,
+      "text": "Export stays local and excludes text unless Include Text is requested.",
+      "shot": "diagnostic-tools"
+    },
+    {
+      "start": 2155.931666666667,
+      "end": 2160.576666666667,
+      "text": "Clearing the interface does not erase old logs or provider retention.",
+      "shot": "diagnostic-tools"
+    },
+    {
+      "start": 2161.683333333333,
+      "end": 2168.133333333333,
+      "text": "Confirm the meeting plays through the selected Computer device, and that Mic is enabled only when intended.",
+      "shot": "speech-troubleshooting"
+    },
+    {
+      "start": 2168.133333333333,
+      "end": 2171.328333333333,
+      "text": "Check Windows microphone permission if needed.",
+      "shot": "speech-troubleshooting"
+    },
+    {
+      "start": 2171.328333333333,
+      "end": 2174.183333333333,
+      "text": "Stop before refreshing devices.",
+      "shot": "speech-troubleshooting"
+    },
+    {
+      "start": 2174.183333333333,
+      "end": 2179.648333333333,
+      "text": "If the service or token is missing, use the documented launcher and local service setup;",
+      "shot": "speech-troubleshooting"
+    },
+    {
+      "start": 2179.648333333333,
+      "end": 2182.4083333333333,
+      "text": "do not paste a secret into notes.",
+      "shot": "speech-troubleshooting"
+    },
+    {
+      "start": 2183.5166666666664,
+      "end": 2188.991666666667,
+      "text": "Before relying on capture exclusion, test your exact sharing mode with a recipient and harmless",
+      "shot": "capture-boundaries"
+    },
+    {
+      "start": 2188.991666666667,
+      "end": 2195.4216666666666,
+      "text": "text. A successful Windows protection request is not proof of what an audience sees.",
+      "shot": "capture-boundaries"
+    },
+    {
+      "start": 2195.4216666666666,
+      "end": 2201.0116666666668,
+      "text": "Native dialogs, files, clipboard history, accessibility, cameras, and unsupported",
+      "shot": "capture-boundaries"
+    },
+    {
+      "start": 2201.0116666666668,
+      "end": 2204.1666666666665,
+      "text": "capture paths remain separate boundaries.",
+      "shot": "capture-boundaries"
+    },
+    {
+      "start": 2205.2833333333333,
+      "end": 2210.5783333333334,
+      "text": "Click Details in the status area to read the capture limitation in the application.",
+      "shot": "details"
+    },
+    {
+      "start": 2210.5783333333334,
+      "end": 2214.5233333333335,
+      "text": "Keep this distinction in mind even when the window looks quiet.",
+      "shot": "details"
+    },
+    {
+      "start": 2215.6499999999996,
+      "end": 2219.355,
+      "text": "Click Details again to return to the compact status.",
+      "shot": "details-close"
+    },
+    {
+      "start": 2220.483333333333,
+      "end": 2226.3883333333333,
+      "text": "Click X to exit. If notes, transcript, or question text remain unsaved,",
+      "shot": "exit-warning"
+    },
+    {
+      "start": 2226.3883333333333,
+      "end": 2230.3333333333335,
+      "text": "the inline confirmation gives you a chance to preserve them.",
+      "shot": "exit-warning"
+    },
+    {
+      "start": 2230.3333333333335,
+      "end": 2232.9183333333335,
+      "text": "Copy question text before discarding;",
+      "shot": "exit-warning"
+    },
+    {
+      "start": 2232.9183333333335,
+      "end": 2235.963333333333,
+      "text": "a note save is not a transcript export.",
+      "shot": "exit-warning"
+    },
+    {
+      "start": 2237.083333333333,
+      "end": 2240.4733333333334,
+      "text": "Click Cancel to keep the app and current content.",
+      "shot": "exit-cancel"
+    },
+    {
+      "start": 2240.4733333333334,
+      "end": 2246.063333333333,
+      "text": "The exit attempt already stopped transcription and provider work before this confirmation.",
+      "shot": "exit-cancel"
+    },
+    {
+      "start": 2246.063333333333,
+      "end": 2248.528333333333,
+      "text": "Cancel does not resume them.",
+      "shot": "exit-cancel"
+    },
+    {
+      "start": 2248.528333333333,
+      "end": 2255.083333333333,
+      "text": "Save, export or copy what you need, then restart transcription explicitly if continuing.",
+      "shot": "exit-cancel"
+    },
+    {
+      "start": 2256.183333333333,
+      "end": 2261.5133333333333,
+      "text": "For a normal session: check your sharing path, choose the correct devices, press",
+      "shot": "finish-checklist"
+    },
+    {
+      "start": 2261.5133333333333,
+      "end": 2266.478333333333,
+      "text": "Start, select and review the question, then explicitly Ask.",
+      "shot": "finish-checklist"
+    },
+    {
+      "start": 2266.478333333333,
+      "end": 2272.123333333333,
+      "text": "Use Previous answer for a follow-up, and Clarify first when wording is unclear.",
+      "shot": "finish-checklist"
+    },
+    {
+      "start": 2272.123333333333,
+      "end": 2277.313333333333,
+      "text": "At the end, Stop, save or export what you need, and exit.",
+      "shot": "finish-checklist"
+    },
+    {
+      "start": 2278.4166666666665,
+      "end": 2284.6766666666667,
+      "text": "You have now seen the interface, optional provider setup, transcript and notes workflows,",
+      "shot": "finish"
+    },
+    {
+      "start": 2284.6766666666667,
+      "end": 2290.491666666667,
+      "text": "follow-up context, clarification, keyboard modes, and recovery.",
+      "shot": "finish"
+    },
+    {
+      "start": 2290.491666666667,
+      "end": 2295.9416666666666,
+      "text": "The chapter player and searchable transcript let you revisit any step without watching the whole tutorial",
+      "shot": "finish"
+    },
+    {
+      "start": 2295.9416666666666,
+      "end": 2297.1116666666667,
+      "text": "again.",
+      "shot": "finish"
+    }
+  ]
+}

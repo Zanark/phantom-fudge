@@ -6,6 +6,7 @@ deep, source-linked reference; the [development journal](../JOURNAL.md) tells th
 
 | Need | Read |
 | --- | --- |
+| Watch the full tutorial or preview the ghost-themed website | [Website, video controls and Pages deployment](WEBSITE.md) |
 | Install, update or remove the Windows11 x64 preview | [Installer guide](INSTALLATION.md) and [published asset identities](release-0.2.0-preview.1.json) |
 | See all current features and images in one walkthrough | [Illustrated workflow, controls and state transitions](CURRENT-WORKFLOW.md) |
 | Understand the product, stack and boundaries | [Product overview](OVERVIEW.md), [product contract](PRODUCT.md) |
@@ -32,8 +33,7 @@ deep, source-linked reference; the [development journal](../JOURNAL.md) tells th
 | Change the docs or regenerate images | [Maintenance contract](DOCUMENTATION-MAINTENANCE.md), [book tooling](../tools/Docs/README.md) |
 
 The app is a **local, unqualified Windows preview**, not a universally invisible application.
-The repository is private; release downloads require repository access. Publishing a prerelease
-does not change repository visibility or establish a qualified release.
+The repository is now public. This visibility change does not establish a qualified release.
 The current native Python service does not need Docker. Providers are explicit: installed Copilot
 can use cloud models or a configured local endpoint. Direct Azure remains future work.
 Handbook UI images are actual WPF visual-tree renders with **synthetic content and device labels**,

@@ -89,7 +89,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 32px 0; }
   a { color: inherit; text-decoration: none; }
   .chapter-note { font-size: 8pt; }
 }
-</style></head><body><main><header class="cover"><div class="edition">Engineering edition 2026-10-10</div><img src="assets/cover.svg" alt="Original diagrammatic handbook cover"><h1>Phantom Fudge Engineering Handbook</h1><p>A local-first conversation companion, from Windows surfaces to source-labelled speech</p><p>Local capture and explicit provider answers. Measured evidence is bounded. Direct Azure remains future work.</p></header><div class="status">This book distinguishes implemented behavior, measured observations, proposals and unknowns. No universal screen-capture or cursor invisibility is promised. Documentation images use synthetic content.</div><h2 id="contents">Contents</h2><nav class="toc"><a href="#ch-00-reading-map">00 - Reading Map and Current Reality</a><a href="#ch-01-principal-engineer-guide">01 - Principal Engineer Guide</a><a href="#ch-02-zero-to-hero">02 - Zero-to-Hero Learning Path</a><a href="#ch-installation">Install, update and remove Phantom Fudge</a><a href="#ch-current-workflow">Current Workflow: An Illustrated Guide</a><a href="#ch-keyboard-controls">Keyboard Controls and Answer Size</a><a href="#ch-03-product-boundaries-and-decisions">03 - Product Boundaries and Decisions</a><a href="#ch-04-windows-capture-and-cursors">04 — Windows Capture, Cursors, and Focus</a><a href="#ch-05-desktop-ui-and-themes">05 — Desktop UI and Semantic Themes</a><a href="#ch-06-notes-transcripts-and-storage">06 — Notes, Transcripts, and Explicit Storage</a><a href="#ch-07-dual-input-capture">7. Dual-input capture: two sources, one owned session</a><a href="#ch-08-streaming-protocol">8. Streaming protocol: preserving identity under backpressure</a><a href="#ch-09-python-recognition">9. Python recognition: fast previews, bounded Whisper finals</a><a href="#ch-10-native-service-lifecycle">10. Native service lifecycle: readiness without accidental capture</a><a href="#ch-11-state-machines-and-failure-containment">11 — State Machines and Failure Containment</a><a href="#ch-12-performance-and-benchmarks">12. Performance and Benchmarks</a><a href="#ch-13-proposed-azure-answer-flow">13. Local Questions, Installed Providers and Future Azure</a><a href="#ch-14-answer-latency-identity-and-privacy">14. Answer Latency, Identity, and Privacy</a><a href="#ch-15-development-and-testing">15 - Development and Testing</a><a href="#ch-16-distribution-and-troubleshooting">16 - Distribution and Troubleshooting</a><a href="#ch-17-privacy-and-assurance">17 - Privacy and Assurance</a><a href="#ch-18-extending-the-system">18. Extending the System</a><a href="#ch-19-api-configuration-reference">19. API and configuration reference</a><a href="#ch-20-glossary-and-repository-map">20 — Glossary and Repository Map</a><a href="#ch-21-evidence-and-roadmap">21. Evidence and Roadmap</a><a href="#ch-22-desktop-source-walkthrough">Desktop source walkthrough: one window, explicit intent</a><a href="#ch-23-domain-source-walkthrough">Domain source walkthrough: identity, exact text and bounded local state</a><a href="#ch-24-provider-source-walkthrough">Provider source walkthrough: exact questions, controlled roles and terminal evidence</a><a href="#ch-25-native-audio-source-walkthrough">Native audio: source ownership, bounded transport and evidence limits</a><a href="#ch-26-speech-source-walkthrough">Speech source walkthrough: bounded local recognition and owned lifecycle</a><a href="#ch-27-operations-source-walkthrough">Operations source walkthrough: ownership, consent, and honest measurements</a><a href="#ch-28-documentation-source-walkthrough">28 - Documentation Compiler and Root Configuration, Statement by Statement</a><a href="#ch-answer-providers">Answer Providers: Agency, Local Models and Future Azure</a><a href="#ch-question-clarification">Clarify First: Review Intent Before an Answer</a><a href="#ch-cover-and-privacy">Cover Mode and Privacy Boundaries</a><a href="#ch-journal">Development Journal: The Journey of Phantom Fudge</a></nav><section class="chapter" id="ch-00-reading-map"><div class="chapter-note">Source: docs/handbook/00-reading-map.md</div><h1 id="ch-00-reading-map-reading-map-and-current-reality">Reading map and current reality</h1>
+</style></head><body><main><header class="cover"><div class="edition">Engineering edition 2026-10-11</div><img src="assets/cover.svg" alt="Original diagrammatic handbook cover"><h1>Phantom Fudge Engineering Handbook</h1><p>A local-first conversation companion, from Windows surfaces to source-labelled speech</p><p>Local capture and explicit provider answers. Measured evidence is bounded. Direct Azure remains future work.</p></header><div class="status">This book distinguishes implemented behavior, measured observations, proposals and unknowns. No universal screen-capture or cursor invisibility is promised. Documentation images use synthetic content.</div><h2 id="contents">Contents</h2><nav class="toc"><a href="#ch-00-reading-map">00 - Reading Map and Current Reality</a><a href="#ch-01-principal-engineer-guide">01 - Principal Engineer Guide</a><a href="#ch-02-zero-to-hero">02 - Zero-to-Hero Learning Path</a><a href="#ch-installation">Install, update and remove Phantom Fudge</a><a href="#ch-current-workflow">Current Workflow: An Illustrated Guide</a><a href="#ch-keyboard-controls">Keyboard Controls and Answer Size</a><a href="#ch-03-product-boundaries-and-decisions">03 - Product Boundaries and Decisions</a><a href="#ch-04-windows-capture-and-cursors">04 — Windows Capture, Cursors, and Focus</a><a href="#ch-05-desktop-ui-and-themes">05 — Desktop UI and Semantic Themes</a><a href="#ch-06-notes-transcripts-and-storage">06 — Notes, Transcripts, and Explicit Storage</a><a href="#ch-07-dual-input-capture">7. Dual-input capture: two sources, one owned session</a><a href="#ch-08-streaming-protocol">8. Streaming protocol: preserving identity under backpressure</a><a href="#ch-09-python-recognition">9. Python recognition: fast previews, bounded Whisper finals</a><a href="#ch-10-native-service-lifecycle">10. Native service lifecycle: readiness without accidental capture</a><a href="#ch-11-state-machines-and-failure-containment">11 — State Machines and Failure Containment</a><a href="#ch-12-performance-and-benchmarks">12. Performance and Benchmarks</a><a href="#ch-13-proposed-azure-answer-flow">13. Local Questions, Installed Providers and Future Azure</a><a href="#ch-14-answer-latency-identity-and-privacy">14. Answer Latency, Identity, and Privacy</a><a href="#ch-15-development-and-testing">15 - Development and Testing</a><a href="#ch-16-distribution-and-troubleshooting">16 - Distribution and Troubleshooting</a><a href="#ch-website">Phantom Fudge Website and Tutorial Pipeline</a><a href="#ch-17-privacy-and-assurance">17 - Privacy and Assurance</a><a href="#ch-18-extending-the-system">18. Extending the System</a><a href="#ch-19-api-configuration-reference">19. API and configuration reference</a><a href="#ch-20-glossary-and-repository-map">20 — Glossary and Repository Map</a><a href="#ch-21-evidence-and-roadmap">21. Evidence and Roadmap</a><a href="#ch-22-desktop-source-walkthrough">Desktop source walkthrough: one window, explicit intent</a><a href="#ch-23-domain-source-walkthrough">Domain source walkthrough: identity, exact text and bounded local state</a><a href="#ch-24-provider-source-walkthrough">Provider source walkthrough: exact questions, controlled roles and terminal evidence</a><a href="#ch-25-native-audio-source-walkthrough">Native audio: source ownership, bounded transport and evidence limits</a><a href="#ch-26-speech-source-walkthrough">Speech source walkthrough: bounded local recognition and owned lifecycle</a><a href="#ch-27-operations-source-walkthrough">Operations source walkthrough: ownership, consent, and honest measurements</a><a href="#ch-28-documentation-source-walkthrough">28 - Documentation Compiler and Root Configuration, Statement by Statement</a><a href="#ch-answer-providers">Answer Providers: Agency, Local Models and Future Azure</a><a href="#ch-question-clarification">Clarify First: Review Intent Before an Answer</a><a href="#ch-cover-and-privacy">Cover Mode and Privacy Boundaries</a><a href="#ch-journal">Development Journal: The Journey of Phantom Fudge</a></nav><section class="chapter" id="ch-00-reading-map"><div class="chapter-note">Source: docs/handbook/00-reading-map.md</div><h1 id="ch-00-reading-map-reading-map-and-current-reality">Reading map and current reality</h1>
 <blockquote>
 <p><strong>TL;DR:</strong> Phantom Fudge is a Windows conversation companion with local speech recognition,
 not an invisible process and not yet an Azure question-answering product. Read this book as
@@ -717,8 +717,8 @@ test/documentation improvement that follows one real invariant end to end.</p>
 <p><strong>Installer edition: unsigned Windows 11 x64 preview.</strong> Downloads and availability are listed at
 <a href="https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1">v0.2.0-preview.1</a>.
 Candidate checks provide bounded current-host evidence, not clean-VM qualification or
-universal compatibility. The repository is <strong>private</strong>: its releases
-inherit that visibility and require repository access. Publication does not make it public.
+universal compatibility. The repository and its published releases are <strong>public</strong>.
+Public availability does not establish signing or broaden the qualification evidence.
 See <a href="../IMPLEMENTATION-STATUS.md">release evidence</a> and <a href="../../TODO/58_INSTALLER_RELEASE.todo">workstream58</a>.</p>
 <p>The DLL-qualified oneDNN runtime has passed the full offline rebuild with dependency audits, real
 synthetic-PCM inference, Unicode-path loading and natural process exit. There are 85 focused
@@ -820,7 +820,7 @@ or evidence of capture exclusion. (scripts/Build-Installer.ps1:79-114)</p>
 <p>Once the release evidence confirms that assets are available:</p>
 <ol>
 <li>
-<p>Open the versioned release above while signed in with repository access. Download
+<p>Open the public versioned release above. Download
 <code>PhantomFudge-0.2.0-preview.1-win-x64-Setup.exe</code> and <code>SHA256SUMS.txt</code>.</p>
 </li>
 <li>
@@ -1029,7 +1029,7 @@ flowchart TB
 <tbody>
 <tr>
 <td>Release link is unavailable</td>
-<td>Confirm that publication has completed and your account has private-repository access; do not substitute an old ZIP</td>
+<td>Confirm the exact versioned release URL and listed asset availability; do not substitute an old ZIP</td>
 </tr>
 <tr>
 <td>Windows blocks the unsigned EXE</td>
@@ -5428,7 +5428,7 @@ Neither distribution promises that every machine or recorder is supported.</p>
 <h2 id="ch-16-distribution-and-troubleshooting-installer-versus-development-bundle">Installer versus development bundle</h2>
 <p>The new recipe publishes the app and native launcher self-contained, assembles an offline speech
 runtime/model payload and emits versioned Setup, optional Portable ZIP and checksums. The target
-is <code>v0.2.0-preview.1</code> / Windows version <code>0.2.0.1</code>, unsigned and private-repository scoped. End users
+is <code>v0.2.0-preview.1</code> / Windows version <code>0.2.0.1</code>, unsigned; release downloads are public. End users
 do not need PowerShell7, a system Python or the .NET SDK. Builds require actual generated-PCM
 inference and natural process exit, separately from import and dependency-metadata checks.
 (scripts/Build-Installer.ps1:30-44,76-114)
@@ -5447,7 +5447,7 @@ directories. The canonical guide explains the
 (tools/Installer/PhantomFudge.iss:10-40,47-65,107-161)
 (src/PhantomFudge.Launcher/Program.cs:50-58,94-100)
 (src/PhantomFudge.Launcher/MaintenanceOperation.cs:48-118)</p>
-<p>The repository remains private, so a GitHub prerelease is available only to permitted readers.
+<p>The repository and its published prerelease downloads are now public.
 The owner authorized this prerelease work without making it a qualified release or selecting a
 project license. Unsigned-policy blocks must be respected, not bypassed. Exact hashes, lifecycle
 tests and publication state belong in <a href="../IMPLEMENTATION-STATUS.md">implementation status</a>, not
@@ -5698,6 +5698,154 @@ references. Freshness tooling detects changed inputs, but semantic review remain
 <li><code>src\PhantomFudge.App\LocalFailureNotice.cs:1-30</code> — non-content failure notice.</li>
 <li><code>docs\IMPLEMENTATION-STATUS.md:1-322</code> — candidate evidence and limits.</li>
 </ul>
+<p class="top-link"><a href="#contents">Back to contents</a></p></section>
+<section class="chapter" id="ch-website"><div class="chapter-note">Source: docs/WEBSITE.md</div><h1 id="ch-website-phantom-fudge-website-and-tutorial-pipeline">Phantom Fudge Website and Tutorial Pipeline</h1>
+<p>The <code>site</code> directory is a standalone static landing page. It uses the canonical DeepSeaFoam
+palette, original ghost artwork, motion controls, sample-data GIFs, and a full chaptered tutorial.
+The native application and published installer are separate products; this website does not run
+transcription, sign into a provider, collect notes or change Windows capture behavior.
+The publication boundary is deliberately small: the assembler reads <code>site/media.json</code>, verifies
+the supplied MP4, and copies <code>site</code> plus that file rather than the repository.
+(<code>tools/Site/build.mjs:7-30</code>)</p>
+<h2 id="ch-website-watch-and-navigate">Watch and navigate</h2>
+<p>The video supports native controls plus Play/Pause, back/forward ten seconds, playback speed
+and optional extra captions. Captions are also embedded in the MP4. Five chapters and six
+transcript results appear per page, with explicit previous/next buttons instead of nested
+scrolling. Search is literal and case-insensitive; selecting a result seeks without autoplay.</p>
+<p>The three large GIF demonstrations use keyboard-accessible tabs rather than tiny previews.
+<strong>Pause motion</strong> freezes ghosts and replaces animated GIFs with stills. Reduced-motion visitors
+start with static artwork. No JavaScript means native video, static demo images and downloadable
+chapter/caption files; enhanced search and chapter buttons require JavaScript.</p>
+<p>These are scripted, sample-data demonstrations using actual WPF frames and synthetic narration.
+The current-source Previous answer feature is not in <code>v0.2.0-preview.1</code>. Native installation,
+file-picker and provider steps in the tutorial are instructions, not recordings of those operations.</p>
+<p>The player behavior is implemented in <a href="../../site/app.mjs">app.mjs</a> and its
+<a href="../../site/player-core.mjs">pure timing/search helpers</a>. The existing browser fixture exercises
+all chapter starts, search and caption controls; the Node tests check all 525 cue intervals.
+Those checks do not establish live meeting, provider or capture compatibility.
+(<code>tools/Site/review-browser.mjs:48-96</code>; <code>tools/Site/test-site.mjs:19-47</code>)</p>
+<h2 id="ch-website-assembly-boundary">Assembly boundary</h2>
+<p>The full video is an immutable input, not a generated side effect of the website build. A wrong
+length or SHA256 fails before the previous local preview is removed. The source-tree walk rejects
+symlinks before copying; this is not a general sanitizer for arbitrary files placed under <code>site</code>.
+Keep that directory public-safe and run its focused content checks.
+(<code>tools/Site/build.mjs:10-29</code>; <code>tools/Site/test-site.mjs:58-72</code>)</p>
+<figure class="diagram"><img src="assets/diagrams/website-01.svg" alt="Phantom Fudge Website and Tutorial Pipeline diagram 1"><figcaption>Phantom Fudge Website and Tutorial Pipeline - diagram 1. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
+config: {&quot;theme&quot;:&quot;base&quot;,&quot;themeVariables&quot;:{&quot;primaryColor&quot;:&quot;#2d333b&quot;,&quot;primaryBorderColor&quot;:&quot;#6d5dfc&quot;,&quot;primaryTextColor&quot;:&quot;#e6edf3&quot;,&quot;lineColor&quot;:&quot;#8b949e&quot;,&quot;textColor&quot;:&quot;#e6edf3&quot;}}
+---
+flowchart TB
+    accTitle: Local website assembly
+    accDescr: The immutable MP4 must match the public media identity before only site files and video are copied into the local preview.
+    A[&quot;Supplied tutorial MP4&quot;] --&gt; C[&quot;Check bytes and SHA256&quot;]
+    B[&quot;site/media.json&quot;] --&gt; C
+    C --&gt; D[&quot;Reject site symlinks&quot;]
+    D --&gt; E[&quot;Replace artifacts/site&quot;]
+    F[&quot;Reviewed site files&quot;] --&gt; E
+    E --&gt; G[&quot;Loopback preview and review&quot;]
+    classDef stage fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    class A,B,C,D,E,F,G stage
+</code></pre></details><h2 id="ch-website-local-preview">Local preview</h2>
+<p>Node 22 or later is sufficient to assemble and serve the site. No package installation is needed.
+Obtain the exact MP4 identified in <code>site/media.json</code>, or use the completed local tutorial.</p>
+<pre><code class="language-powershell">node .\tools\Site\build.mjs --video .\artifacts\tutorial\20261010-221225\Phantom-Fudge-Full-Tutorial.mp4
+node .\tools\Site\serve.mjs 4173
+</code></pre>
+<p>Open <code>http://127.0.0.1:4173/phantom-fudge/</code>. The preview server binds only to loopback and supports
+HTTP byte ranges for seeking. Assembly replaces only the generated <code>artifacts/site</code> directory.
+The server accepts a single start-based range, including an open end, returns 416 for invalid ranges,
+and handles HEAD without sending the body. It is a local review server, not the Pages deployment.
+(<code>tools/Site/serve.mjs:10-45</code>)</p>
+<pre><code class="language-powershell">node --test .\tools\Site\test-site.mjs
+node .\tools\Site\review-browser.mjs http://127.0.0.1:4173/phantom-fudge/
+</code></pre>
+<p>The browser review uses the existing <code>tools/Docs</code> Puppeteer dependency and an isolated, muted Edge
+profile. Set <code>EDGE_PATH</code> if needed. Review screenshots and receipts stay in ignored <code>.local/site-review</code>.
+The profile uses Node's OS scratch-directory selection and is removed in <code>finally</code>; when local
+policy requires repository-contained scratch space, set <code>TEMP</code> and <code>TMP</code> to an existing ignored
+project directory in that shell before launching the review. The fixture observes external
+requests and fails if any occur; it is not a network-blocking browser sandbox.
+(<code>tools/Site/review-browser.mjs:9-34,142-150</code>)</p>
+<h2 id="ch-website-github-pages-deployment">GitHub Pages deployment</h2>
+<p>The repository's Pages source must be <strong>GitHub Actions</strong>. <code>.github/workflows/pages.yml</code> builds on
+website-related pushes to <code>main</code> or manual dispatch. It downloads the dedicated
+<code>tutorial-2026-10-10</code> release asset, verifies its exact byte count and SHA256, then copies only
+<code>site</code> plus that MP4 into a Pages artifact. The 159 MB MP4 is never checked into git.</p>
+<p>The tutorial asset release is not an app update and must not replace or become the latest installer
+release. Publish it only with repository-write approval and retain immutable media bytes.
+Pinned Actions and job-scoped permissions separate artifact construction from Pages deployment.
+No secrets, private source inventories, local paths, context stores or repository-wide archives
+belong in the Pages artifact.
+The <a href="../../.github/workflows/pages.yml">workflow source</a> runs Node 22 tests, downloads with a read-only
+repository token with <code>contents: read</code> and <code>pages: read</code>, calls the hash-verifying assembler and
+uploads <code>artifacts/site</code>. Only the dependent
+deploy job receives <code>pages: write</code> and <code>id-token: write</code>, using the <code>github-pages</code> environment.
+<code>cancel-in-progress: false</code> keeps a newer run from cancelling the current deployment.
+(<code>.github/workflows/pages.yml:12-58</code>; <code>tools/Site/build.mjs:10-30</code>)</p>
+<p><strong>Publication status:</strong> pending. The active GitHub CLI account has read-only access; the owner
+chose to finish locally rather than change authentication. No tutorial release or website push
+was performed. An authorized maintainer must publish the media asset before the first workflow run.
+This owner-deferred state is recorded in <a href="../../TODO/61_PUBLIC_PHANTOM_WEBSITE.todo">workstream61</a>.
+Neither a prepared workflow nor a local browser pass means the website URL is live.</p>
+<figure class="diagram"><img src="assets/diagrams/website-02.svg" alt="Phantom Fudge Website and Tutorial Pipeline diagram 2"><figcaption>Phantom Fudge Website and Tutorial Pipeline - diagram 2. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
+config: {&quot;theme&quot;:&quot;base&quot;,&quot;themeVariables&quot;:{&quot;primaryColor&quot;:&quot;#2d333b&quot;,&quot;primaryBorderColor&quot;:&quot;#6d5dfc&quot;,&quot;primaryTextColor&quot;:&quot;#e6edf3&quot;,&quot;lineColor&quot;:&quot;#8b949e&quot;,&quot;textColor&quot;:&quot;#e6edf3&quot;}}
+---
+flowchart TB
+    accTitle: Pending GitHub Pages publication
+    accDescr: Publication remains pending; a future authorized maintainer supplies a separate media release before the read-only build and dependent Pages deployment can run.
+    A[&quot;Future authorized tutorial release&quot;] --&gt; B[&quot;Build: test, download and verify&quot;]
+    B --&gt; C[&quot;Upload site-only artifact&quot;]
+    C --&gt; D[&quot;Deploy: Pages write and identity token&quot;]
+    D --&gt; E[&quot;Verify live site separately&quot;]
+    classDef stage fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    class A,B,C,D,E stage
+</code></pre></details><h2 id="ch-website-updating-the-tutorial">Updating the tutorial</h2>
+<p><code>node .\tools\Site\import-tutorial.mjs &lt;completed-tutorial-directory&gt;</code> imports allowlisted public
+chapter/caption data from the tutorial identified by <code>site/media.json</code>. It does not import private
+delivery inventories. The generated module projects chapter IDs/titles/times and cue times/text;
+the five named chapter/caption files are copied intact and must themselves be public-safe.
+Changing the video requires a newly versioned asset identity and review;
+do not silently overwrite a published video with different bytes.
+(<code>tools/Site/import-tutorial.mjs:10-31</code>)</p>
+<p>The public <code>assets/media-manifest.json</code> records source/media identity and demo limitations.
+<code>assets/asset-provenance.json</code> records the GIF excerpts and artwork sources.
+Theme credit lives in <code>site/THEME-NOTICE.txt</code>; no sibling showcase artwork or fonts are copied.</p>
+<h2 id="ch-website-artwork-excerpts-and-source-references">Artwork, excerpts and source references</h2>
+<p>The website build consumes the delivered art and demo files; it does not run their generators.
+Regeneration is a separate reviewed operation with the already-installed dependencies below.</p>
+<table>
+<thead>
+<tr>
+<th>Source and entry point</th>
+<th>Responsibility and limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>make-artwork.mjs</code> top-level renderer</td>
+<td>Original SVG compositions and JPEG exports using existing Docs Puppeteer and installed Edge; <code>--browser</code> or <code>SITE_BROWSER</code> selects another installed executable. Page requests other than data URLs are blocked. (<code>tools/Site/make-artwork.mjs:11-37,151-185</code>)</td>
+</tr>
+<tr>
+<td><code>make-demo-media.py</code> / <code>source_frames</code>, <code>encode</code></td>
+<td>Hash-checked tutorial frame ranges, aspect-contained crops, silent 30fps MP4 and 10fps GIF derivatives, without accelerating retained spans. Selection and cover concatenate explicitly labelled later excerpts, not continuous response latency. (<code>tools/Site/make-demo-media.py:19-66,113-178</code>)</td>
+</tr>
+<tr>
+<td><code>make-demo-media.py</code> / <code>review_outputs</code>, <code>provenance</code></td>
+<td>Decoded sample/contact sheets and exact asset/edit maps. <code>--record-reviewed</code> asserts a separate visual inspection; it performs no review. Existing Pillow, PyAV and imageio-ffmpeg are required. (<code>tools/Site/make-demo-media.py:193-208,246-336</code>)</td>
+</tr>
+<tr>
+<td><code>test-site.mjs</code> / six Node tests</td>
+<td>Timing, chapter boundaries, all cues, literal search, controls and a bounded public-input scan. No native application or provider is launched. (<code>tools/Site/test-site.mjs:1-72</code>)</td>
+</tr>
+<tr>
+<td><code>review-browser.mjs</code> / isolated browser</td>
+<td>Muted playback, all chapter seeks, paginated search, demo tabs, responsive/reduced-motion/no-JavaScript checks and local screenshots. Automation is not human UX approval. (<code>tools/Site/review-browser.mjs:21-150</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>For the complete per-line tooling and workflow explanations, use the
+<a href="../source-atlas/index.html">source atlas</a>. The website guide is also registered in the
+<a href="README.md">engineering handbook</a>. Maintained editions do not replace PDFs attached to
+the published installer release.</p>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section>
 <section class="chapter" id="ch-17-privacy-and-assurance"><div class="chapter-note">Source: docs/handbook/17-privacy-and-assurance.md</div><h1 id="ch-17-privacy-and-assurance-privacy-and-assurance">Privacy and assurance</h1>
 <blockquote>
@@ -11524,4 +11672,22 @@ No source/citation migration was replayed and no runtime behavior changed during
 The atlas covers205files/31766physical lines/1261authored blocks; the book has36chapters/73diagrams.
 The published installer and its attached PDFs remain unchanged. This completion adds no live-model,
 audio, owner-comfort or recipient-capture qualification.</p>
+<h2 id="ch-journal-2026-10-11-a-public-facing-phantom-completed-locally">2026-10-11 - A public-facing Phantom, completed locally</h2>
+<p>The owner made the repository public, configured GitHub Pages for Actions, and requested a
+DeepSeaFoam landing page with moving ghosts, a custom video thumbnail, the full chapter player,
+and quick zoomed GIFs on the README and site. The website now provides original ivory/seafoam
+ghost artwork, three large tabbed sample-data loops, all15tutorial chapters and525searchable
+caption cues, playback speed, ten-second jumps and optional extra captions. Explicit pagination
+avoids inner scrolling. A motion control pauses ghosts and swaps GIFs for stills; reduced-motion
+visitors start static.</p>
+<p>The immutable38-minute MP4 is159MB, so the deployment plan stores it in a separate tutorial-media
+release rather than git history. The Actions workflow verifies exact bytes and SHA256 and publishes
+only the static site plus video. It does not collect notes or invoke transcription or a provider.
+The preview installer is unchanged; current-source previous-answer context remains separately labelled.</p>
+<p>The owner initially approved publishing. The active GitHub CLI identity then proved to have READ-only
+repository access, and release creation returned404. Rather than change authentication, the owner
+chose to <strong>finish locally and leave publishing pending</strong>. No release, asset upload, commit or push was
+completed. The local preview, source, media provenance and deployment guide are available in
+<a href="#ch-website">Website and tutorial</a>. This is local browser/media evidence, not a live Pages
+deployment or capture-compatibility qualification.</p>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section></main></body></html>

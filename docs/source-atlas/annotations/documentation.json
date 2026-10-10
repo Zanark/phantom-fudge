@@ -166,7 +166,7 @@
     },
     {
       "path": "docs/handbook/book.json",
-      "sourceSha256": "81a1666769d4801db23685d7bc3950db3797e7a25c06c745671f2078eea7e012",
+      "sourceSha256": "bcea9a8b8089876b529b3a452632d8ef251c91dc1ee4361649f9135d683297ee",
       "role": "Defines the authoritative reading order and generated filenames for the illustrated handbook.",
       "entryPoints": [
         "loadBook",
@@ -188,25 +188,25 @@
         },
         {
           "start": 23,
-          "end": 41,
+          "end": 42,
           "title": "Connect conceptual chapters with the new source walkthroughs",
-          "explanation": "The remaining ordered chapters include proposed Azure boundaries, engineering/reference topics, seven source-level walkthroughs and the installed-provider/clarification guides outside the handbook folder. Relative paths are resolved against the handbook root and checked against the public repository boundary. The source walkthroughs complement the per-file atlas rather than embedding every implementation file as undifferentiated text. The cover/privacy guide is included as an additional full chapter, not only an external link.",
+          "explanation": "The remaining ordered chapters include proposed Azure boundaries, engineering/reference topics, seven source-level walkthroughs and the installed-provider/clarification guides outside the handbook folder. WEBSITE.md is now a full chapter immediately after distribution, explaining local assembly, immutable media and pending Pages publication without changing native release status. Relative paths resolve against the handbook root and remain inside the public repository. The source walkthroughs complement the per-file atlas; website and cover/privacy guides are registered chapters, not merely external links.",
           "focus": [
             {
-              "start": 30,
-              "end": 40
+              "start": 25,
+              "end": 35
             }
           ]
         },
         {
-          "start": 42,
-          "end": 50,
+          "start": 43,
+          "end": 51,
           "title": "Append the public journal and select output artifacts",
           "explanation": "The public root JOURNAL is an appendix, distinct from the private context journal. The outputs object names the HTML and PDF editions used by the compiler, links and freshness manifest. These output names describe generated documentation, not a Windows application release or permission to upload the book. Private stores are forbidden by the path validator even if someone tries to add one here.",
           "focus": [
             {
-              "start": 42,
-              "end": 49
+              "start": 43,
+              "end": 50
             }
           ]
         }
@@ -214,7 +214,7 @@
     },
     {
       "path": "docs/handbook/catalogue.json",
-      "sourceSha256": "8f016935d8cdd95549fa32bd25f76548219358bfc3ccee4b33ec9d7934bd3e21",
+      "sourceSha256": "3c8d4eea3b57f1341c8d29352535b75089ae66990c80e00824834285c7ce5d0f",
       "role": "Preserves the source-linked research and writing map, with constrained onboarding and subsystem/source-walkthrough sections.",
       "entryPoints": [
         "validateCatalogue",
@@ -259,25 +259,25 @@
         },
         {
           "start": 135,
-          "end": 202,
+          "end": 208,
           "title": "Connect engineering procedures with reference and evidence",
-          "explanation": "Engineering identifies test runners, distribution, privacy and extension seams. Reference identifies configuration/API definitions, glossary and evidence/roadmap sources. Each child has the same title/name/prompt/children schema, making validation uniform. The catalogue is not itself the dependency graph or authoritative work-item status; those remain in source, receipts and the TODO index. Reference also includes a current-workflow node tied to the actual card, recording and cover implementations. The installation node points to the root guide, guarded native startup/maintenance and distinct runtime verification gates; current evidence belongs in the dated status document rather than permanently frozen test counts in this writing brief.",
+          "explanation": "Engineering identifies test runners, installation, distribution, the static website, privacy and extension seams. The website node binds its guide to hash-verified assembly, public tutorial projection, loopback serving, explicit edit/provenance maps and browser evidence limits; it deliberately does not describe a live deployment. Reference retains configuration/API, glossary, evidence and the card/recording/cover workflow. Uniform title/name/prompt/children nodes guide writing, not authoritative work-item status. Native installation and its distinct runtime gates remain separate from tutorial-media publication.",
           "focus": [
             {
-              "start": 139,
-              "end": 147
+              "start": 153,
+              "end": 163
             }
           ]
         },
         {
-          "start": 203,
-          "end": 253,
+          "start": 209,
+          "end": 259,
           "title": "Add dedicated statement-level walkthroughs for seven source domains",
           "explanation": "The annotated-source section points to the new desktop, domain, provider, native-audio, Python-speech, operations and documentation/compiler chapters. Keeping it at top level avoids burying implementation reference under onboarding. Its seven children respect the maximum-eight-child rule. The writing prompts cite code entry points, while the authored annotation JSON supplies exact full-file line partitions and source hashes.",
           "focus": [
             {
-              "start": 203,
-              "end": 214
+              "start": 209,
+              "end": 220
             }
           ]
         }

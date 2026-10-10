@@ -1,0 +1,2105 @@
+1
+00:00:00,450 --> 00:00:03,830
+Welcome to the complete Phantom Fudge tutorial.
+
+2
+00:00:03,830 --> 00:00:09,700
+We will walk through audio, notes, questions, answers, follow-ups,
+
+3
+00:00:09,700 --> 00:00:13,300
+keyboard controls, and day-to-day recovery.
+
+4
+00:00:13,300 --> 00:00:17,795
+Use the chapter list beside the video to jump directly to any lesson.
+
+5
+00:00:18,917 --> 00:00:23,087
+This is a scripted demonstration of the real Windows interface.
+
+6
+00:00:23,087 --> 00:00:27,607
+Transcript text, device names, and answers are samples.
+
+7
+00:00:27,607 --> 00:00:31,572
+No meeting, microphone, or remote model is used.
+
+8
+00:00:31,572 --> 00:00:35,162
+Click guides show scripted control activations.
+
+9
+00:00:35,162 --> 00:00:37,262
+Native file pickers are omitted;
+
+10
+00:00:37,262 --> 00:00:40,987
+sample files and clipboard output stay isolated.
+
+11
+00:00:42,117 --> 00:00:45,757
+The current source includes the Previous answer toggle.
+
+12
+00:00:45,757 --> 00:00:51,062
+The published version zero point two preview one does not include that newer feature.
+
+13
+00:00:51,062 --> 00:00:56,552
+This tutorial does not update the published installer, and it does not prove that every screen-sharing
+
+14
+00:00:56,552 --> 00:00:58,832
+product excludes the window.
+
+15
+00:00:59,950 --> 00:01:05,400
+On the private GitHub release page, download the Windows eleven, sixty-four-bit Setup
+
+16
+00:01:05,400 --> 00:01:09,045
+file. Check the published checksum.
+
+17
+00:01:09,045 --> 00:01:14,580
+Open Setup, review the unsigned-preview warning, and follow the installer.
+
+18
+00:01:14,580 --> 00:01:19,235
+Finish and close Setup, then launch Phantom Fudge from Start.
+
+19
+00:01:19,235 --> 00:01:21,850
+Setup does not launch it for you.
+
+20
+00:01:22,950 --> 00:01:25,235
+The installer is per-user.
+
+21
+00:01:25,235 --> 00:01:31,160
+It bundles the desktop runtime, local speech runtime, and speech models.
+
+22
+00:01:31,160 --> 00:01:37,015
+You do not need developer tools, system Python, or Docker for normal installed use.
+
+23
+00:01:37,015 --> 00:01:43,075
+Answer providers are separate: installing Phantom Fudge does not configure an AI account.
+
+24
+00:01:44,183 --> 00:01:49,498
+For the portable package, extract the entire archive and open Phantom Fudge dot Launcher in
+
+25
+00:01:49,498 --> 00:01:53,963
+its launcher folder. Keep the whole extraction together.
+
+26
+00:01:53,963 --> 00:01:59,458
+For the latest source, follow the prerequisites and use the repository launcher.
+
+27
+00:01:59,458 --> 00:02:03,318
+That source route includes the newer previous-answer feature.
+
+28
+00:02:04,450 --> 00:02:10,445
+Source development uses PowerShell seven point two or later, Python three point thirteen,
+
+29
+00:02:10,445 --> 00:02:15,055
+and the .NET ten SDK selected by global dot JSON.
+
+30
+00:02:15,055 --> 00:02:19,450
+Follow the Desktop Runtime prerequisite for development builds.
+
+31
+00:02:19,450 --> 00:02:25,210
+Initialize Transcription prepares dependencies and models before the source launcher runs.
+
+32
+00:02:25,210 --> 00:02:29,360
+Installed normal use does not require these developer tools.
+
+33
+00:02:30,483 --> 00:02:36,523
+If speech startup fails, the installed launcher offers Open notes without transcription.
+
+34
+00:02:36,523 --> 00:02:39,258
+The source equivalent is Notes Only.
+
+35
+00:02:39,258 --> 00:02:41,443
+This skips speech-service startup;
+
+36
+00:02:41,443 --> 00:02:46,973
+it does not disable an already configured answer provider or stop an existing service.
+
+37
+00:02:48,083 --> 00:02:53,393
+Before an update, save notes, export anything you need, and close the app with
+
+38
+00:02:53,393 --> 00:02:57,313
+X. Then run the newer versioned Setup.
+
+39
+00:02:57,313 --> 00:03:01,368
+The installer supports install, repair, and update;
+
+40
+00:03:01,368 --> 00:03:05,778
+an app that has not finished shutting down is not a successful update.
+
+41
+00:03:06,883 --> 00:03:12,448
+To remove the installed app, open Windows Settings, Apps, Installed apps,
+
+42
+00:03:12,448 --> 00:03:15,793
+then find Phantom Fudge and choose Uninstall.
+
+43
+00:03:15,793 --> 00:03:19,713
+External notes, exports, and settings are retained.
+
+44
+00:03:19,713 --> 00:03:24,288
+Uninstalling the program is not a secure erase of those separate files.
+
+45
+00:03:25,417 --> 00:03:29,867
+The app starts in presentation mode, with notes collapsed.
+
+46
+00:03:29,867 --> 00:03:34,697
+The transcript is on the left; your question and answer are on the right.
+
+47
+00:03:34,697 --> 00:03:40,097
+Both audio sources are selected by default, but nothing is recorded until you explicitly press
+
+48
+00:03:40,097 --> 00:03:41,312
+Start.
+
+49
+00:03:42,417 --> 00:03:46,217
+Click Hide Q slash A to collapse the question pane.
+
+50
+00:03:46,217 --> 00:03:50,767
+It also cancels an active answer and stops provider preparation.
+
+51
+00:03:50,767 --> 00:03:54,197
+Your transcript and saved files are not erased.
+
+52
+00:03:55,317 --> 00:03:59,477
+Click Show Q slash A to bring the question workspace back.
+
+53
+00:03:59,477 --> 00:04:02,082
+Wide windows use side-by-side panes;
+
+54
+00:04:02,082 --> 00:04:04,612
+narrower windows adapt the layout.
+
+55
+00:04:05,717 --> 00:04:10,617
+Drag the empty title-bar grip to move the window, not the text area.
+
+56
+00:04:10,617 --> 00:04:13,477
+Drag an edge or corner to resize it.
+
+57
+00:04:13,477 --> 00:04:16,307
+Keep the controls comfortably readable.
+
+58
+00:04:16,307 --> 00:04:18,722
+There is no ordinary taskbar button;
+
+59
+00:04:18,722 --> 00:04:23,067
+use the recovery shortcut or relaunch the app if you lose the window.
+
+60
+00:04:24,183 --> 00:04:26,408
+Here the window is narrowed.
+
+61
+00:04:26,408 --> 00:04:32,688
+The actual interface rearranges itself instead of placing every control in a scrolling outer panel.
+
+62
+00:04:32,688 --> 00:04:36,073
+Long text can still scroll inside its own reader.
+
+63
+00:04:37,183 --> 00:04:41,793
+Use a wider window when you want the transcript and answer visible together.
+
+64
+00:04:41,793 --> 00:04:45,268
+A wider layout is helpful for the first walkthrough.
+
+65
+00:04:46,383 --> 00:04:50,328
+Click the sun and theme-name button to switch to Harbor Daylight.
+
+66
+00:04:50,328 --> 00:04:52,488
+The next theme is named on the button;
+
+67
+00:04:52,488 --> 00:04:55,483
+your transcript and question are preserved.
+
+68
+00:04:56,583 --> 00:05:00,853
+Click Plain B slash W for the neutral black-and-white look.
+
+69
+00:05:00,853 --> 00:05:04,118
+It is a theme reset, not a data reset.
+
+70
+00:05:05,250 --> 00:05:08,880
+Click the theme button again to return to Deep Sea Foam.
+
+71
+00:05:08,880 --> 00:05:12,715
+Choose whichever theme gives you the clearest reading contrast.
+
+72
+00:05:13,817 --> 00:05:18,632
+Drag Background toward ten percent to make the background more transparent.
+
+73
+00:05:18,632 --> 00:05:20,767
+The text stays solid.
+
+74
+00:05:20,767 --> 00:05:25,107
+This is not click-through, and it does not make the process hidden.
+
+75
+00:05:26,217 --> 00:05:31,467
+Drag Background back toward one hundred percent when the material behind the window makes
+text difficult
+
+76
+00:05:31,467 --> 00:05:35,287
+to read. This setting is for the current session.
+
+77
+00:05:36,417 --> 00:05:38,457
+Click Audio setup.
+
+78
+00:05:38,457 --> 00:05:43,787
+Opening it closes Q slash A and cancels its answer or preparation, but does not stop
+
+79
+00:05:43,787 --> 00:05:47,922
+audio. Stop before changing devices.
+
+80
+00:05:47,922 --> 00:05:50,037
+These cards use sample names;
+
+81
+00:05:50,037 --> 00:05:53,657
+on your machine they show the available Windows devices.
+
+82
+00:05:54,783 --> 00:05:59,853
+Click Computer to transcribe the sound played by your selected output device.
+
+83
+00:05:59,853 --> 00:06:05,363
+This can include other applications and microphone sidetone, not just the meeting.
+
+84
+00:06:06,483 --> 00:06:12,118
+Click the card for the device where you actually hear the meeting, such as your headphones.
+
+85
+00:06:12,118 --> 00:06:15,958
+The highlighted border and filled dot identify the selection.
+
+86
+00:06:17,083 --> 00:06:20,728
+Click Mic if you only want microphone transcription.
+
+87
+00:06:20,728 --> 00:06:25,478
+This is a separate source; the app does not read meeting chat messages.
+
+88
+00:06:26,583 --> 00:06:29,513
+Choose the microphone you intend to use.
+
+89
+00:06:29,513 --> 00:06:35,098
+If that selected input fails during capture, the session stops rather than silently substituting
+
+90
+00:06:35,098 --> 00:06:41,333
+another microphone. After an explicit Refresh, check the selected card again.
+
+91
+00:06:42,450 --> 00:06:45,590
+Click Both to use Computer and Mic together.
+
+92
+00:06:45,590 --> 00:06:49,250
+Their transcript lines keep separate source labels.
+
+93
+00:06:49,250 --> 00:06:54,545
+Those labels identify the input track, not individual people in the meeting.
+
+94
+00:06:55,650 --> 00:06:59,790
+While stopped, click Refresh after connecting hardware.
+
+95
+00:06:59,790 --> 00:07:03,695
+Either Refresh button rediscovers both device lists.
+
+96
+00:07:03,695 --> 00:07:07,115
+The previous selection stays if its device still exists;
+
+97
+00:07:07,115 --> 00:07:10,520
+otherwise the first available device is selected.
+
+98
+00:07:10,520 --> 00:07:13,145
+Recheck both cards before Start.
+
+99
+00:07:14,250 --> 00:07:19,230
+For a machine with many outputs, the card layout adds page arrows.
+
+100
+00:07:19,230 --> 00:07:24,345
+This sample list shows that behavior without changing any Windows audio settings.
+
+101
+00:07:25,450 --> 00:07:28,550
+Click the right arrow to see the next page.
+
+102
+00:07:28,550 --> 00:07:33,600
+The page label also tells you which page contains the currently selected device.
+
+103
+00:07:34,717 --> 00:07:37,262
+Click the left arrow to go back.
+
+104
+00:07:37,262 --> 00:07:41,197
+Changing pages does not itself select a different device.
+
+105
+00:07:42,317 --> 00:07:45,727
+We will return to the small sample device list.
+
+106
+00:07:45,727 --> 00:07:50,427
+In normal use, select your intended card before leaving setup.
+
+107
+00:07:51,550 --> 00:07:56,180
+Click Service setup to see the session-only local service token field.
+
+108
+00:07:56,180 --> 00:07:59,145
+Normally the launcher supplies this for you.
+
+109
+00:07:59,145 --> 00:08:01,490
+Edit mode enables manual entry;
+
+110
+00:08:01,490 --> 00:08:06,020
+never publish or paste your actual token into a tutorial or chat.
+
+111
+00:08:07,150 --> 00:08:11,060
+Click Close service setup to put the advanced field away.
+
+112
+00:08:11,060 --> 00:08:13,805
+Native local recognition is the normal path;
+
+113
+00:08:13,805 --> 00:08:16,580
+Docker is not a startup requirement.
+
+114
+00:08:17,683 --> 00:08:20,558
+Click Done to return to the workspace.
+
+115
+00:08:20,558 --> 00:08:24,828
+Choosing devices and closing setup do not begin transcription.
+
+116
+00:08:25,950 --> 00:08:31,300
+Click Start. In normal use this starts the selected audio inputs.
+
+117
+00:08:31,300 --> 00:08:34,565
+Here it starts only the labelled sample stream.
+
+118
+00:08:34,565 --> 00:08:39,270
+The red dot means selected inputs are running, not merely selected.
+
+119
+00:08:40,383 --> 00:08:44,618
+A partial line appears while recognition is still in progress.
+
+120
+00:08:44,618 --> 00:08:47,543
+It can change as more speech arrives.
+
+121
+00:08:47,543 --> 00:08:52,093
+Treat it as provisional, especially before sending it as a question.
+
+122
+00:08:53,217 --> 00:08:57,937
+The completed line moves into the transcript history with its Computer label.
+
+123
+00:08:57,937 --> 00:09:02,927
+Local recognition is fallible, so review important words and names.
+
+124
+00:09:04,050 --> 00:09:06,880
+A microphone line is labelled Mic.
+
+125
+00:09:06,880 --> 00:09:10,705
+Computer and Mic stay separate even when Both is selected.
+
+126
+00:09:10,705 --> 00:09:14,970
+Headphones help reduce speaker echo that a microphone might pick up.
+
+127
+00:09:16,083 --> 00:09:19,223
+New lines continue arriving while you read.
+
+128
+00:09:19,223 --> 00:09:24,078
+The app does not automatically send the entire meeting to an answer provider.
+
+129
+00:09:24,078 --> 00:09:26,628
+You choose the text to ask about.
+
+130
+00:09:27,750 --> 00:09:31,255
+Click Stop to stop the selected audio inputs.
+
+131
+00:09:31,255 --> 00:09:35,660
+Wait for final draining and the stopped state before changing devices.
+
+132
+00:09:35,660 --> 00:09:40,885
+Stop does not cancel a separate answer, and an accepted final transcript line may still
+
+133
+00:09:40,885 --> 00:09:45,760
+arrive while draining. This workflow does not save raw audio.
+
+134
+00:09:46,883 --> 00:09:49,543
+Click the first transcript line.
+
+135
+00:09:49,543 --> 00:09:54,598
+Its text becomes a local question draft, and question editing opens.
+
+136
+00:09:54,598 --> 00:09:57,058
+A click does not send anything.
+
+137
+00:09:58,183 --> 00:10:00,873
+Click the microphone line as well.
+
+138
+00:10:00,873 --> 00:10:06,588
+Multiple lines combine in transcript order, not in the order you happened to click them.
+
+139
+00:10:07,717 --> 00:10:11,282
+Click the selected microphone line again to remove it.
+
+140
+00:10:11,282 --> 00:10:15,967
+You can build a useful question without copying unrelated meeting context.
+
+141
+00:10:17,083 --> 00:10:23,448
+Select the microphone line again because it contains the useful instruction to keep the answer
+concise.
+
+142
+00:10:23,448 --> 00:10:26,328
+Review the assembled draft before editing.
+
+143
+00:10:27,450 --> 00:10:31,160
+Edit the draft into the exact question you want answered.
+
+144
+00:10:31,160 --> 00:10:35,830
+Typing here is independent of Notes Edit and does not stop transcription.
+
+145
+00:10:36,950 --> 00:10:42,320
+If you now click another transcript line, the app keeps your edited draft instead of silently
+
+146
+00:10:42,320 --> 00:10:47,760
+overwriting it. Clear the question first when you truly want a new selection.
+
+147
+00:10:48,883 --> 00:10:51,558
+Click Done to leave question editing.
+
+148
+00:10:51,558 --> 00:10:55,498
+This is not Ask; the reviewed text remains local.
+
+149
+00:10:56,617 --> 00:11:00,822
+Click Copy draft if you want to use the question somewhere else.
+
+150
+00:11:00,822 --> 00:11:06,032
+In real use this writes to the Windows clipboard, outside capture protection.
+
+151
+00:11:06,032 --> 00:11:09,832
+This demonstration uses an isolated clipboard sink.
+
+152
+00:11:10,950 --> 00:11:13,565
+Click Setup slash details.
+
+153
+00:11:13,565 --> 00:11:19,930
+Snapshot only is the safe local mode: it freezes your question without sending a model request.
+
+154
+00:11:21,050 --> 00:11:26,155
+Click Freeze locally. The submitted snapshot is a separate copy.
+
+155
+00:11:26,155 --> 00:11:30,065
+Later draft changes cannot rewrite that earlier snapshot.
+
+156
+00:11:31,183 --> 00:11:34,548
+Freezing returns to the reading view automatically.
+
+157
+00:11:34,548 --> 00:11:40,343
+You can reopen Setup slash details to inspect the provider notice and draft provenance.
+
+158
+00:11:40,343 --> 00:11:43,223
+The snapshot and draft remain separate.
+
+159
+00:11:44,350 --> 00:11:48,350
+Click Clear question, immediately to the right of Ask.
+
+160
+00:11:48,350 --> 00:11:54,550
+It clears the draft, snapshot, answer, clarification, and previous-answer selection.
+
+161
+00:11:54,550 --> 00:11:58,185
+It does not erase the meeting transcript or your notes.
+
+162
+00:11:59,317 --> 00:12:02,777
+Click Choose source for the compact selection panel.
+
+163
+00:12:02,777 --> 00:12:06,712
+This is an alternative to clicking the main transcript directly.
+
+164
+00:12:07,817 --> 00:12:11,442
+Click Mic to show microphone segments in this chooser.
+
+165
+00:12:11,442 --> 00:12:13,687
+Filtering changes what you browse;
+
+166
+00:12:13,687 --> 00:12:15,967
+it does not send a question.
+
+167
+00:12:17,083 --> 00:12:19,983
+Click the microphone segment you want.
+
+168
+00:12:19,983 --> 00:12:25,033
+Then use the explicit Use selected action to copy that selection into your draft.
+
+169
+00:12:26,150 --> 00:12:30,280
+Click Use selected. The app creates the draft locally;
+
+170
+00:12:30,280 --> 00:12:32,730
+Ask remains a separate action.
+
+171
+00:12:33,850 --> 00:12:36,855
+Open Choose source again and use All to browse both tracks.
+
+172
+00:12:36,855 --> 00:12:39,750
+Computer filters to playback only.
+
+173
+00:12:39,750 --> 00:12:44,960
+The source chooser is optional; direct transcript clicks are usually faster.
+
+174
+00:12:46,083 --> 00:12:51,433
+Close the chooser and clear this sample question so we can move on to the answer workflow.
+
+175
+00:12:52,550 --> 00:12:58,075
+Phantom Fudge supports an installed Agency provider, direct Copilot, or a separately configured
+
+176
+00:12:58,075 --> 00:13:04,150
+local model. Agency and ordinary Copilot can use remote model services.
+
+177
+00:13:04,150 --> 00:13:09,110
+A local command-line process does not by itself mean offline inference.
+
+178
+00:13:10,217 --> 00:13:15,257
+In the source workflow, use Initialize Answers with Provider Agency.
+
+179
+00:13:15,257 --> 00:13:18,537
+Use the exact qualified Agency build shown here;
+
+180
+00:13:18,537 --> 00:13:21,412
+other versions fail until qualified.
+
+181
+00:13:21,412 --> 00:13:25,237
+The helper writes non-secret settings and may build the app.
+
+182
+00:13:25,237 --> 00:13:28,562
+It does not install Agency or sign you in.
+
+183
+00:13:28,562 --> 00:13:30,922
+Then return and Reload setup.
+
+184
+00:13:32,050 --> 00:13:37,410
+Direct Copilot requires a separately installed compatible CLI, with the supported versions
+
+185
+00:13:37,410 --> 00:13:42,290
+shown here. Choose Provider Copilot through the source helper.
+
+186
+00:13:42,290 --> 00:13:44,635
+Connect explicitly starts sign-in;
+
+187
+00:13:44,635 --> 00:13:47,640
+do not trigger it casually during a meeting.
+
+188
+00:13:47,640 --> 00:13:52,555
+This hosted route remains unqualified after an earlier failed smoke attempt.
+
+189
+00:13:53,683 --> 00:13:59,023
+LocalModel needs both a compatible direct Copilot CLI and an already-running OpenAI-compatible
+
+190
+00:13:59,023 --> 00:14:04,953
+model server. Configure its real model identifier and loopback endpoint.
+
+191
+00:14:04,953 --> 00:14:10,318
+There is no hosted fallback, but a local endpoint could itself proxy remotely, so
+
+192
+00:14:10,318 --> 00:14:12,838
+verify the server's behavior.
+
+193
+00:14:12,838 --> 00:14:16,113
+No actual local model was qualified here.
+
+194
+00:14:17,217 --> 00:14:22,062
+This is a source-checkout example, not an installed model promise.
+
+195
+00:14:22,062 --> 00:14:25,437
+Replace the model and port with your real setup.
+
+196
+00:14:25,437 --> 00:14:30,187
+The helper writes this user's answers dot JSON at the shown path.
+
+197
+00:14:30,187 --> 00:14:32,517
+Installed packages omit the helper;
+
+198
+00:14:32,517 --> 00:14:37,092
+use the provider guide for that file's schema, then Reload setup.
+
+199
+00:14:38,217 --> 00:14:42,977
+Click Setup slash details to inspect the mode and provider notice.
+
+200
+00:14:42,977 --> 00:14:45,562
+This panel selects and reloads settings;
+
+201
+00:14:45,562 --> 00:14:49,737
+it is not an account, model, or executable-path editor.
+
+202
+00:14:49,737 --> 00:14:53,042
+Read the data boundary before enabling a provider.
+
+203
+00:14:54,150 --> 00:14:58,730
+After changing provider configuration, click Reload setup.
+
+204
+00:14:58,730 --> 00:15:02,375
+Loading configuration does not submit your question.
+
+205
+00:15:02,375 --> 00:15:06,715
+The real Agency path may prepare its transport in the background.
+
+206
+00:15:07,817 --> 00:15:13,247
+For the remaining lessons, this isolated copy uses a sample provider instead of contacting
+
+207
+00:15:13,247 --> 00:15:18,502
+Agency. The application still runs its real question, streaming,
+
+208
+00:15:18,502 --> 00:15:22,302
+context, and clarification state changes.
+
+209
+00:15:23,417 --> 00:15:28,232
+Click Snapshot only whenever you want to freeze questions without sending them.
+
+210
+00:15:28,232 --> 00:15:33,277
+Changing provider mode resets previous-answer context and clarification.
+
+211
+00:15:34,383 --> 00:15:38,343
+Click the configured-provider button to enable answers again.
+
+212
+00:15:38,343 --> 00:15:41,588
+On a real Agency setup, wait for readiness;
+
+213
+00:15:41,588 --> 00:15:46,793
+if preparation fails, read the status rather than repeatedly pressing Ask.
+
+214
+00:15:47,917 --> 00:15:50,577
+Close Setup slash details.
+
+215
+00:15:50,577 --> 00:15:54,387
+The question reader is now ready for an explicit request.
+
+216
+00:15:55,517 --> 00:15:59,147
+Click Type slash edit to enter a question directly.
+
+217
+00:15:59,147 --> 00:16:03,602
+You do not need a transcript selection if you already know what to ask.
+
+218
+00:16:04,717 --> 00:16:08,057
+Type a clear question with the constraints you want.
+
+219
+00:16:08,057 --> 00:16:13,342
+Only this reviewed question is used, unless you explicitly enable a documented context
+
+220
+00:16:13,342 --> 00:16:14,542
+option.
+
+221
+00:16:15,650 --> 00:16:22,050
+Click Ask provider. The app freezes the exact text and streams the answer into the reader.
+
+222
+00:16:22,050 --> 00:16:27,350
+This sample response is scripted, not evidence of model quality or latency.
+
+223
+00:16:28,450 --> 00:16:31,780
+Wait for the completed answer before relying on it.
+
+224
+00:16:31,780 --> 00:16:34,190
+The answer is plain text.
+
+225
+00:16:34,190 --> 00:16:38,930
+You remain responsible for checking accuracy and speaking in your own words.
+
+226
+00:16:40,050 --> 00:16:43,225
+Drag the Size slider in the answer section.
+
+227
+00:16:43,225 --> 00:16:49,480
+It changes the answer and interpretation font from eight to twenty-four, for this session only.
+
+228
+00:16:49,480 --> 00:16:52,735
+It does not resize the transcript or notes.
+
+229
+00:16:53,850 --> 00:16:57,330
+Click Copy answer to copy the displayed result.
+
+230
+00:16:57,330 --> 00:17:01,990
+The Windows clipboard is not protected by the window's capture policy.
+
+231
+00:17:01,990 --> 00:17:05,600
+This tutorial routes copying to an isolated sink.
+
+232
+00:17:06,717 --> 00:17:13,192
+While Agency is preparing, use Cancel preparation, or Cancel prep in a narrow layout.
+
+233
+00:17:13,192 --> 00:17:19,282
+Wait for cleanup. Use configured provider or Reload setup prepares it again.
+
+234
+00:17:19,282 --> 00:17:22,977
+Cancelling preparation does not stop transcription.
+
+235
+00:17:22,977 --> 00:17:25,557
+Preparation differs from a submitted answer;
+
+236
+00:17:25,557 --> 00:17:28,557
+neither guarantees a fixed response time.
+
+237
+00:17:29,683 --> 00:17:34,548
+For a follow-up, click Previous answer immediately to the left of Ask.
+
+238
+00:17:34,548 --> 00:17:36,628
+It is off by default.
+
+239
+00:17:36,628 --> 00:17:38,953
+Turning it on does not send anything;
+
+240
+00:17:38,953 --> 00:17:43,573
+the next explicit Ask captures the completed answer currently displayed.
+
+241
+00:17:44,683 --> 00:17:47,273
+Edit the question to your follow-up.
+
+242
+00:17:47,273 --> 00:17:52,868
+Do not click Clear first: Clear would remove the answer you want to use as context.
+
+243
+00:17:53,983 --> 00:17:59,698
+Click Ask provider. This request includes the new question and one immutable previous-answer
+
+244
+00:17:59,698 --> 00:18:05,578
+snapshot. It does not automatically include old questions, older answers,
+
+245
+00:18:05,578 --> 00:18:08,058
+notes, or the whole meeting.
+
+246
+00:18:09,183 --> 00:18:13,363
+Open Setup slash details after the response completes.
+
+247
+00:18:13,363 --> 00:18:18,958
+The previous-answer field shows the exact submitted context, not whatever happens to be displayed
+
+248
+00:18:18,958 --> 00:18:20,098
+later.
+
+249
+00:18:21,217 --> 00:18:26,757
+Close details. After a successful follow-up, the option stays on,
+
+250
+00:18:26,757 --> 00:18:30,807
+but the next request uses only the newest completed answer.
+
+251
+00:18:30,807 --> 00:18:34,942
+Failed, cancelled, and unfinished output is not eligible.
+
+252
+00:18:36,050 --> 00:18:39,810
+Click Previous answer again for an unrelated question.
+
+253
+00:18:39,810 --> 00:18:42,290
+It turns off without sending.
+
+254
+00:18:42,290 --> 00:18:46,020
+Clear and provider changes also reset this selection.
+
+255
+00:18:47,150 --> 00:18:53,315
+Click Clear question, then Done, to begin a separate example outside question-edit mode.
+
+256
+00:18:53,315 --> 00:18:58,710
+This deliberately discards the previous Q slash A state while keeping the transcript.
+
+257
+00:18:59,817 --> 00:19:02,112
+Check Clarify first.
+
+258
+00:19:02,112 --> 00:19:06,632
+The first request will ask for an interpretation rather than a solution.
+
+259
+00:19:06,632 --> 00:19:09,952
+Checking the box alone does not make a request.
+
+260
+00:19:11,083 --> 00:19:15,528
+Click Type slash edit and write the question that needs clarification.
+
+261
+00:19:15,528 --> 00:19:17,908
+Click Done when the wording is ready.
+
+262
+00:19:19,250 --> 00:19:21,535
+Click Interpret question.
+
+263
+00:19:21,535 --> 00:19:25,755
+The app locks the original draft and displays an interpretation.
+
+264
+00:19:25,755 --> 00:19:28,025
+This is not the final answer.
+
+265
+00:19:29,150 --> 00:19:31,805
+Read what the provider thinks you mean.
+
+266
+00:19:31,805 --> 00:19:35,615
+If it is correct, use Yes, answer.
+
+267
+00:19:35,615 --> 00:19:39,630
+If it is wrong or incomplete, type a correction instead.
+
+268
+00:19:40,750 --> 00:19:46,705
+Copy interpretation copies what the provider thinks you mean, not a confirmed solution.
+
+269
+00:19:46,705 --> 00:19:52,130
+Copy original preserves the original question rather than substituting the correction field.
+
+270
+00:19:53,250 --> 00:19:56,495
+Click Type reply to enable the reply editor.
+
+271
+00:19:56,495 --> 00:20:00,530
+A correction does not silently replace the original draft.
+
+272
+00:20:01,650 --> 00:20:04,025
+Specify what was missing.
+
+273
+00:20:04,025 --> 00:20:08,595
+Here we request a remote-audience example and three practical tips.
+
+274
+00:20:08,595 --> 00:20:13,930
+Yes, answer is disabled while a correction is written, so it cannot silently discard
+
+275
+00:20:13,930 --> 00:20:15,455
+that correction.
+
+276
+00:20:16,583 --> 00:20:22,743
+Click Send reply. This sends the correction with this question's clarification history.
+
+277
+00:20:22,743 --> 00:20:25,288
+The app waits for another interpretation;
+
+278
+00:20:25,288 --> 00:20:27,533
+it does not auto-confirm.
+
+279
+00:20:28,650 --> 00:20:33,940
+Once the revised interpretation is correct, click Yes, answer.
+
+280
+00:20:33,940 --> 00:20:39,680
+Typing exact Yes and pressing Send reply also confirms, ignoring surrounding whitespace
+
+281
+00:20:39,680 --> 00:20:46,360
+and case. Yes, but followed by more text is a correction, not confirmation.
+
+282
+00:20:47,483 --> 00:20:49,768
+The solution now appears.
+
+283
+00:20:49,768 --> 00:20:55,298
+Previous answer, when enabled initially, stays pinned through clarification.
+
+284
+00:20:55,298 --> 00:21:01,033
+After four interpretations, confirm the intended question or Clear to start over.
+
+285
+00:21:01,033 --> 00:21:07,103
+Setup slash details shows the extra instruction and completed clarification exchanges.
+
+286
+00:21:08,217 --> 00:21:13,077
+Uncheck Clarify first when you no longer need the interpretation step.
+
+287
+00:21:13,077 --> 00:21:15,857
+The original question remains available.
+
+288
+00:21:16,983 --> 00:21:20,838
+We will demonstrate a deliberately slow sample response.
+
+289
+00:21:20,838 --> 00:21:25,028
+There is no real model request or network delay in this example.
+
+290
+00:21:26,150 --> 00:21:31,380
+Click Ask provider. While a response is in progress, do not start another
+
+291
+00:21:31,380 --> 00:21:33,770
+request or switch providers.
+
+292
+00:21:34,883 --> 00:21:37,873
+Click Cancel answer and wait for cleanup.
+
+293
+00:21:37,873 --> 00:21:42,878
+Any copied partial result begins with Incomplete answer in square brackets.
+
+294
+00:21:42,878 --> 00:21:47,583
+It is not a completed answer and cannot become previous-answer context.
+
+295
+00:21:48,683 --> 00:21:53,473
+Click Clear question when you want to discard the cancelled result and begin again.
+
+296
+00:21:53,473 --> 00:21:56,593
+This does not clear your meeting transcript.
+
+297
+00:21:57,717 --> 00:21:59,992
+Read the provider status.
+
+298
+00:21:59,992 --> 00:22:06,452
+Check configuration and authorization through the provider's documented setup, then Reload setup.
+
+299
+00:22:06,452 --> 00:22:11,667
+Do not paste tokens into the question, and do not assume a failed local model will fall back
+
+300
+00:22:11,667 --> 00:22:17,282
+to the cloud. Snapshot only remains available for local question drafting.
+
+301
+00:22:18,383 --> 00:22:21,583
+Click Notes to expand the speaker-note area.
+
+302
+00:22:21,583 --> 00:22:26,823
+This closes Q slash A and cancels its answer or preparation, but leaves transcription
+
+303
+00:22:26,823 --> 00:22:29,323
+running and preserves the question.
+
+304
+00:22:29,323 --> 00:22:34,143
+Entering global Notes Edit next is different: that stops audio too.
+
+305
+00:22:35,250 --> 00:22:37,760
+Click the top-bar Edit button.
+
+306
+00:22:37,760 --> 00:22:43,380
+Unlike question editing, global Notes Edit stops transcription and cancels answer or preparation
+
+307
+00:22:43,380 --> 00:22:48,255
+activity. It enables note typing and file operations.
+
+308
+00:22:48,255 --> 00:22:51,785
+Control Alt E is the direct Notes Edit shortcut.
+
+309
+00:22:52,917 --> 00:22:55,692
+Type plain-text notes in the editor.
+
+310
+00:22:55,692 --> 00:22:58,627
+Keep prompts short enough to glance at.
+
+311
+00:22:58,627 --> 00:23:01,457
+New notes are not automatically saved.
+
+312
+00:23:02,583 --> 00:23:07,848
+With keyboard-control mode inactive, Notes Edit supports Control S, O,
+
+313
+00:23:07,848 --> 00:23:11,898
+N and F for save, open, new and find.
+
+314
+00:23:11,898 --> 00:23:16,858
+Control Z undoes recent note edits, with a hundred undo units.
+
+315
+00:23:16,858 --> 00:23:20,078
+New and a successful Open clear that history.
+
+316
+00:23:20,078 --> 00:23:24,063
+Undo is not autosave or recovery of a discarded document.
+
+317
+00:23:25,183 --> 00:23:28,373
+Click A plus to enlarge the notes text.
+
+318
+00:23:28,373 --> 00:23:31,893
+This control is separate from the answer Size slider.
+
+319
+00:23:33,017 --> 00:23:36,257
+Click A minus to reduce the notes font again.
+
+320
+00:23:36,257 --> 00:23:40,187
+The notes control supports sizes from twelve to forty-two.
+
+321
+00:23:41,317 --> 00:23:46,637
+Uncheck Wrap if you want long lines to remain on one line with horizontal scrolling.
+
+322
+00:23:46,637 --> 00:23:50,052
+This affects notes, not the answer reader.
+
+323
+00:23:51,183 --> 00:23:55,063
+Check Wrap again for a compact, glanceable note.
+
+324
+00:23:55,063 --> 00:23:58,118
+Content is preserved when wrapping changes.
+
+325
+00:23:59,250 --> 00:24:02,180
+Click Find to open the note search field.
+
+326
+00:24:02,180 --> 00:24:06,120
+This search is separate from transcript search in keyboard mode.
+
+327
+00:24:07,250 --> 00:24:09,730
+Type the word you want to find.
+
+328
+00:24:09,730 --> 00:24:12,150
+Here we will search for example.
+
+329
+00:24:13,250 --> 00:24:16,100
+Click Next to select the next match.
+
+330
+00:24:16,100 --> 00:24:19,045
+The search wraps back to the beginning when needed.
+
+331
+00:24:20,150 --> 00:24:23,000
+Click Close find when you are finished.
+
+332
+00:24:23,000 --> 00:24:26,660
+Your note is still unsaved until you explicitly save it.
+
+333
+00:24:27,783 --> 00:24:34,053
+Click Save. On the first save, choose a destination in the Windows file picker.
+
+334
+00:24:34,053 --> 00:24:40,053
+The picker is omitted here; the real save operation writes only an isolated sample file.
+
+335
+00:24:40,053 --> 00:24:42,718
+Saved locally confirms the write.
+
+336
+00:24:43,850 --> 00:24:49,690
+Use Save as when you want another destination or need to resolve a file that changed outside the
+app.
+
+337
+00:24:49,690 --> 00:24:53,440
+Do not overwrite a file without checking what it contains.
+
+338
+00:24:54,550 --> 00:24:58,105
+Click Open and choose a UTF-eight text file.
+
+339
+00:24:58,105 --> 00:25:01,155
+This demo opens an isolated example.
+
+340
+00:25:01,155 --> 00:25:06,815
+The app accepts files up to one mebibyte and retains your current content if opening fails.
+
+341
+00:25:07,917 --> 00:25:11,372
+Make an edit to see the unsaved-change safeguard.
+
+342
+00:25:11,372 --> 00:25:14,877
+The status clearly says there are unsaved changes.
+
+343
+00:25:15,983 --> 00:25:22,188
+Click New. Because the note is unsaved, an inline confirmation appears.
+
+344
+00:25:22,188 --> 00:25:25,948
+Save notes, cancel, or explicitly discard;
+
+345
+00:25:25,948 --> 00:25:28,908
+do not treat closing the panel as a save.
+
+346
+00:25:30,017 --> 00:25:33,952
+Click Cancel to keep the unsaved note and return to editing.
+
+347
+00:25:35,083 --> 00:25:41,013
+Click New once more. We will deliberately discard only this throwaway sample draft.
+
+348
+00:25:42,117 --> 00:25:44,482
+Click Discard and continue.
+
+349
+00:25:44,482 --> 00:25:46,847
+The new blank note appears.
+
+350
+00:25:46,847 --> 00:25:52,082
+This is a destructive choice for unsaved note text, not an undoable save.
+
+351
+00:25:53,183 --> 00:25:56,618
+Click Present when you are ready to read rather than edit.
+
+352
+00:25:56,618 --> 00:25:58,893
+The note becomes read-only.
+
+353
+00:25:58,893 --> 00:26:01,848
+Audio does not automatically restart.
+
+354
+00:26:02,950 --> 00:26:05,595
+Click Notes to collapse the area.
+
+355
+00:26:05,595 --> 00:26:09,895
+Collapsing is just a layout action, not a save or delete.
+
+356
+00:26:11,017 --> 00:26:13,362
+Click Edit before exporting.
+
+357
+00:26:13,362 --> 00:26:18,672
+Export is intentionally disabled in presentation mode because native file dialogs are outside
+
+358
+00:26:18,672 --> 00:26:20,592
+capture assurance.
+
+359
+00:26:21,717 --> 00:26:25,322
+Click Export and choose a text-file destination.
+
+360
+00:26:25,322 --> 00:26:28,347
+The Windows picker is omitted in this demo.
+
+361
+00:26:28,347 --> 00:26:30,647
+The transcript is saved as text;
+
+362
+00:26:30,647 --> 00:26:33,047
+no audio recording is written.
+
+363
+00:26:34,150 --> 00:26:37,035
+Open Audio setup after export.
+
+364
+00:26:37,035 --> 00:26:42,495
+Clear transcript is inside this panel, separate from the red Clear question button.
+
+365
+00:26:43,617 --> 00:26:48,932
+Click Clear transcript after recording has stopped and the transcript has been exported.
+
+366
+00:26:48,932 --> 00:26:54,657
+If it is still unsaved, the app refuses to clear it and asks you to export first.
+
+367
+00:26:55,783 --> 00:26:59,568
+Click Done, then Present to leave file-edit mode.
+
+368
+00:26:59,568 --> 00:27:02,423
+Nothing resumes recording automatically.
+
+369
+00:27:03,550 --> 00:27:06,890
+Collapse Notes and show Q slash A again.
+
+370
+00:27:06,890 --> 00:27:11,035
+We will load a fresh sample conversation for keyboard practice.
+
+371
+00:27:12,150 --> 00:27:15,455
+The next lines are synthetic practice text.
+
+372
+00:27:15,455 --> 00:27:21,825
+Keyboard controls let you select, review, and submit without moving a mouse around the window.
+
+373
+00:27:22,950 --> 00:27:26,410
+Click Keys, or press Control Alt K.
+
+374
+00:27:26,410 --> 00:27:28,565
+The strip says Control.
+
+375
+00:27:28,565 --> 00:27:31,565
+Letters act as commands only in this local mode;
+
+376
+00:27:31,565 --> 00:27:34,030
+there is no global letter hook.
+
+377
+00:27:34,030 --> 00:27:38,560
+From Control, I enters question or reply editing directly.
+
+378
+00:27:39,683 --> 00:27:44,633
+Press F1, or question mark, for the on-screen key map.
+
+379
+00:27:44,633 --> 00:27:47,008
+Escape returns to Control.
+
+380
+00:27:48,117 --> 00:27:52,087
+Press Escape. The mode label returns to Control;
+
+381
+00:27:52,087 --> 00:27:54,497
+you have not submitted a question.
+
+382
+00:27:55,617 --> 00:27:58,177
+Press V to enter Select mode.
+
+383
+00:27:58,177 --> 00:28:03,637
+Use J and K, or the arrow keys, to move between transcript rows.
+
+384
+00:28:03,637 --> 00:28:06,542
+Moving the cursor does not select a row.
+
+385
+00:28:07,650 --> 00:28:11,095
+Press G twice to jump to the first available row.
+
+386
+00:28:11,095 --> 00:28:13,720
+Shift G jumps to the latest row.
+
+387
+00:28:13,720 --> 00:28:16,570
+Page keys move through larger lists.
+
+388
+00:28:17,683 --> 00:28:20,618
+Press Space to select the highlighted row.
+
+389
+00:28:20,618 --> 00:28:23,213
+Pressing it again deselects that row.
+
+390
+00:28:24,317 --> 00:28:28,637
+Press J to move down, then Space to add the second row.
+
+391
+00:28:28,637 --> 00:28:31,692
+The draft combines selected text locally.
+
+392
+00:28:32,817 --> 00:28:35,362
+Press one to browse Mic rows.
+
+393
+00:28:35,362 --> 00:28:39,477
+Two shows Computer, and three restores all sources.
+
+394
+00:28:39,477 --> 00:28:42,952
+Existing selected rows are preserved when you filter.
+
+395
+00:28:44,083 --> 00:28:46,803
+Press three to see all sources again.
+
+396
+00:28:48,083 --> 00:28:52,873
+Press F3, or slash, to open transcript search.
+
+397
+00:28:52,873 --> 00:28:57,288
+This is not the note Find feature, and it does not call a model.
+
+398
+00:28:58,417 --> 00:29:03,307
+Type remote, then press Enter to find matching transcript text.
+
+399
+00:29:03,307 --> 00:29:09,282
+To clear the filter later, open Search, erase its text, and press Enter.
+
+400
+00:29:09,282 --> 00:29:12,257
+Escape from Search returns to Select.
+
+401
+00:29:13,383 --> 00:29:16,678
+Press Enter from Select mode to move into Edit.
+
+402
+00:29:16,678 --> 00:29:19,928
+That Enter only prepares the draft for review.
+
+403
+00:29:19,928 --> 00:29:24,428
+Control Enter cannot bypass this review while you are still selecting.
+
+404
+00:29:25,550 --> 00:29:29,990
+In Edit mode, letters are normal text and Enter adds a newline.
+
+405
+00:29:29,990 --> 00:29:32,895
+Control Enter explicitly submits.
+
+406
+00:29:32,895 --> 00:29:37,585
+Escape to Control before using modal F one help or F two commands.
+
+407
+00:29:38,717 --> 00:29:42,102
+Press Control Enter to send the reviewed question.
+
+408
+00:29:42,102 --> 00:29:46,452
+This uses the same snapshot and provider rules as clicking Ask.
+
+409
+00:29:47,583 --> 00:29:51,963
+Wait for the answer, then press Escape to return to Control.
+
+410
+00:29:51,963 --> 00:29:54,968
+Leaving Edit does not make another request.
+
+411
+00:29:56,083 --> 00:29:58,388
+Press A to enter Read mode.
+
+412
+00:29:58,388 --> 00:30:02,048
+J and K, arrows, and page keys move through the answer;
+
+413
+00:30:02,048 --> 00:30:04,608
+Home and End reach its boundaries.
+
+414
+00:30:05,717 --> 00:30:08,377
+Press plus to enlarge the answer.
+
+415
+00:30:08,377 --> 00:30:13,217
+Minus reduces it, within the same eight-to-twenty-four range as the slider.
+
+416
+00:30:14,317 --> 00:30:18,652
+Press End to move to the end, then Home to return to the beginning.
+
+417
+00:30:18,652 --> 00:30:21,217
+The text itself is unchanged.
+
+418
+00:30:22,317 --> 00:30:26,302
+Press Escape to return to Control before choosing another mode.
+
+419
+00:30:27,417 --> 00:30:30,547
+Press F2 to open the built-in command line.
+
+420
+00:30:31,650 --> 00:30:35,080
+Type font sixteen for an exact answer size.
+
+421
+00:30:36,183 --> 00:30:39,073
+Press Enter to execute this command.
+
+422
+00:30:39,073 --> 00:30:41,648
+Read the status before moving on.
+
+423
+00:30:42,750 --> 00:30:45,880
+Press F2 to open the built-in command line.
+
+424
+00:30:46,983 --> 00:30:52,448
+Type context on to include the displayed completed answer on your next explicit Ask.
+
+425
+00:30:53,550 --> 00:30:56,440
+Press Enter to execute this command.
+
+426
+00:30:56,440 --> 00:30:59,015
+Read the status before moving on.
+
+427
+00:31:00,117 --> 00:31:03,247
+Press F2 to open the built-in command line.
+
+428
+00:31:04,350 --> 00:31:07,635
+Type context off for an unrelated question.
+
+429
+00:31:08,750 --> 00:31:11,640
+Press Enter to execute this command.
+
+430
+00:31:11,640 --> 00:31:14,215
+Read the status before moving on.
+
+431
+00:31:15,317 --> 00:31:18,447
+Press F2 to open the built-in command line.
+
+432
+00:31:19,550 --> 00:31:23,095
+Type devices to open keyboard device selection.
+
+433
+00:31:23,095 --> 00:31:27,125
+First stop transcription and finish or cancel any answer.
+
+434
+00:31:28,250 --> 00:31:31,140
+Press Enter to execute this command.
+
+435
+00:31:31,140 --> 00:31:33,715
+Read the status before moving on.
+
+436
+00:31:34,817 --> 00:31:38,952
+In Devices mode, arrow keys move the highlighted card.
+
+437
+00:31:38,952 --> 00:31:43,367
+Space selects it. Tab switches between Computer and Mic;
+
+438
+00:31:43,367 --> 00:31:47,527
+left and right brackets change pages when more devices exist.
+
+439
+00:31:48,650 --> 00:31:52,625
+Press Escape to close device setup and return to Control.
+
+440
+00:31:53,750 --> 00:31:56,880
+Press F2 to open the built-in command line.
+
+441
+00:31:57,983 --> 00:32:01,973
+Type theme light to switch the visual theme without using the pointer.
+
+442
+00:32:03,083 --> 00:32:05,973
+Press Enter to execute this command.
+
+443
+00:32:05,973 --> 00:32:08,548
+Read the status before moving on.
+
+444
+00:32:09,650 --> 00:32:12,780
+Press F2 to open the built-in command line.
+
+445
+00:32:13,883 --> 00:32:17,893
+Type opacity eighty-five to set background tint directly.
+
+446
+00:32:19,017 --> 00:32:21,907
+Press Enter to execute this command.
+
+447
+00:32:21,907 --> 00:32:24,482
+Read the status before moving on.
+
+448
+00:32:25,583 --> 00:32:28,713
+Press F2 to open the built-in command line.
+
+449
+00:32:29,817 --> 00:32:32,997
+Type theme dark to return to Deep Sea Foam.
+
+450
+00:32:34,217 --> 00:32:37,107
+Press Enter to execute this command.
+
+451
+00:32:37,107 --> 00:32:39,682
+Read the status before moving on.
+
+452
+00:32:40,783 --> 00:32:43,208
+Press F2 and type font.
+
+453
+00:32:43,208 --> 00:32:45,898
+Tab can complete a matching built-in command;
+
+454
+00:32:45,898 --> 00:32:48,728
+Escape cancels without executing it.
+
+455
+00:32:49,850 --> 00:32:53,855
+Press Escape to leave this completed suggestion without running it.
+
+456
+00:32:54,983 --> 00:33:00,728
+Commands also cover start, stop, source Mic or Computer or Both, clarify
+
+457
+00:33:00,728 --> 00:33:06,623
+on or off, confirm, copy question, copy answer, clear question,
+
+458
+00:33:06,623 --> 00:33:10,628
+cancel, ask, mask, and help.
+
+459
+00:33:10,628 --> 00:33:15,778
+Each command uses the same guarded action as the corresponding interface control.
+
+460
+00:33:15,778 --> 00:33:17,603
+This is not a shell.
+
+461
+00:33:18,717 --> 00:33:24,482
+Save the exact three-field UTF-eight JSON shown here as keyboard dot JSON,
+
+462
+00:33:24,482 --> 00:33:27,112
+then restart after saving work.
+
+463
+00:33:27,112 --> 00:33:29,577
+Control Alt stays fixed.
+
+464
+00:33:29,577 --> 00:33:34,052
+Enabled false disables global activation, not Keys.
+
+465
+00:33:34,052 --> 00:33:38,237
+Invalid settings or a shortcut conflict leave Keys available.
+
+466
+00:33:38,237 --> 00:33:42,012
+Use your configured activation key rather than assuming K.
+
+467
+00:33:43,117 --> 00:33:46,617
+Press Escape from Control to leave keyboard mode.
+
+468
+00:33:46,617 --> 00:33:50,612
+Returning focus to the earlier application is best-effort.
+
+469
+00:33:50,612 --> 00:33:53,977
+Switching applications disarms the controller.
+
+470
+00:33:53,977 --> 00:33:58,782
+Use Keys or your configured Control Alt activation chord to enter again.
+
+471
+00:33:59,883 --> 00:34:02,703
+Click the book icon at the top left.
+
+472
+00:34:02,703 --> 00:34:08,578
+The workspace is replaced by Notepad is ready, with the same icon available to restore it.
+
+473
+00:34:09,683 --> 00:34:12,758
+The cover changes what the window displays.
+
+474
+00:34:12,758 --> 00:34:16,278
+Transcription and answers can continue underneath it.
+
+475
+00:34:16,278 --> 00:34:22,243
+It does not provide universal invisibility, erase data, or hide the process from Windows.
+
+476
+00:34:23,350 --> 00:34:26,860
+Click the book icon again to restore the workspace.
+
+477
+00:34:26,860 --> 00:34:30,415
+The current question, answer, and layout return.
+
+478
+00:34:31,517 --> 00:34:35,062
+Enter keyboard control with Control Alt K, then press M.
+
+479
+00:34:35,062 --> 00:34:38,512
+Masking disarms keyboard mode and shows the cover.
+
+480
+00:34:39,617 --> 00:34:44,477
+Press Control Alt K again to restore the workspace and enter Control mode.
+
+481
+00:34:44,477 --> 00:34:48,102
+This is useful when you do not want to reach for the pointer.
+
+482
+00:34:49,217 --> 00:34:53,622
+Press Escape to leave keyboard control before the next pointer action.
+
+483
+00:34:54,750 --> 00:34:59,970
+Click Hide. Unlike Cover, it hides the window, stops transcription, and
+
+484
+00:34:59,970 --> 00:35:03,150
+cancels answer or preparation activity.
+
+485
+00:35:03,150 --> 00:35:05,995
+The blank stage shows the hidden window.
+
+486
+00:35:05,995 --> 00:35:10,430
+Reveal it when ready, then start transcription again explicitly.
+
+487
+00:35:11,550 --> 00:35:15,120
+Press Control Alt Space to reveal the window again.
+
+488
+00:35:15,120 --> 00:35:18,215
+Relaunching the app is another recovery route.
+
+489
+00:35:18,215 --> 00:35:22,140
+Hiding and recovery do not automatically resume recording.
+
+490
+00:35:23,250 --> 00:35:29,910
+Click Diagnostics to reload diagnostic settings and open the local log folder outside window
+protection.
+
+491
+00:35:29,910 --> 00:35:35,570
+Default logs contain timing and error metadata, not audio or text bodies.
+
+492
+00:35:35,570 --> 00:35:38,700
+Text logging is a separate retention choice.
+
+493
+00:35:39,817 --> 00:35:43,532
+Run these diagnostic helpers from the source checkout.
+
+494
+00:35:43,532 --> 00:35:46,092
+Installed packages omit them.
+
+495
+00:35:46,092 --> 00:35:50,882
+After changing the mode, click Diagnostics or restart to apply it.
+
+496
+00:35:50,882 --> 00:35:55,932
+Export stays local and excludes text unless Include Text is requested.
+
+497
+00:35:55,932 --> 00:36:00,577
+Clearing the interface does not erase old logs or provider retention.
+
+498
+00:36:01,683 --> 00:36:08,133
+Confirm the meeting plays through the selected Computer device, and that Mic is enabled only when
+intended.
+
+499
+00:36:08,133 --> 00:36:11,328
+Check Windows microphone permission if needed.
+
+500
+00:36:11,328 --> 00:36:14,183
+Stop before refreshing devices.
+
+501
+00:36:14,183 --> 00:36:19,648
+If the service or token is missing, use the documented launcher and local service setup;
+
+502
+00:36:19,648 --> 00:36:22,408
+do not paste a secret into notes.
+
+503
+00:36:23,517 --> 00:36:28,992
+Before relying on capture exclusion, test your exact sharing mode with a recipient and harmless
+
+504
+00:36:28,992 --> 00:36:35,422
+text. A successful Windows protection request is not proof of what an audience sees.
+
+505
+00:36:35,422 --> 00:36:41,012
+Native dialogs, files, clipboard history, accessibility, cameras, and unsupported
+
+506
+00:36:41,012 --> 00:36:44,167
+capture paths remain separate boundaries.
+
+507
+00:36:45,283 --> 00:36:50,578
+Click Details in the status area to read the capture limitation in the application.
+
+508
+00:36:50,578 --> 00:36:54,523
+Keep this distinction in mind even when the window looks quiet.
+
+509
+00:36:55,650 --> 00:36:59,355
+Click Details again to return to the compact status.
+
+510
+00:37:00,483 --> 00:37:06,388
+Click X to exit. If notes, transcript, or question text remain unsaved,
+
+511
+00:37:06,388 --> 00:37:10,333
+the inline confirmation gives you a chance to preserve them.
+
+512
+00:37:10,333 --> 00:37:12,918
+Copy question text before discarding;
+
+513
+00:37:12,918 --> 00:37:15,963
+a note save is not a transcript export.
+
+514
+00:37:17,083 --> 00:37:20,473
+Click Cancel to keep the app and current content.
+
+515
+00:37:20,473 --> 00:37:26,063
+The exit attempt already stopped transcription and provider work before this confirmation.
+
+516
+00:37:26,063 --> 00:37:28,528
+Cancel does not resume them.
+
+517
+00:37:28,528 --> 00:37:35,083
+Save, export or copy what you need, then restart transcription explicitly if continuing.
+
+518
+00:37:36,183 --> 00:37:41,513
+For a normal session: check your sharing path, choose the correct devices, press
+
+519
+00:37:41,513 --> 00:37:46,478
+Start, select and review the question, then explicitly Ask.
+
+520
+00:37:46,478 --> 00:37:52,123
+Use Previous answer for a follow-up, and Clarify first when wording is unclear.
+
+521
+00:37:52,123 --> 00:37:57,313
+At the end, Stop, save or export what you need, and exit.
+
+522
+00:37:58,417 --> 00:38:04,677
+You have now seen the interface, optional provider setup, transcript and notes workflows,
+
+523
+00:38:04,677 --> 00:38:10,492
+follow-up context, clarification, keyboard modes, and recovery.
+
+524
+00:38:10,492 --> 00:38:15,942
+The chapter player and searchable transcript let you revisit any step without watching the whole
+tutorial
+
+525
+00:38:15,942 --> 00:38:17,112
+again.

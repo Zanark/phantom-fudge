@@ -2,7 +2,7 @@
 
 [Open the searchable source reader](index.html) | [Read the printable annotations](Phantom-Fudge-Source-Atlas.pdf) | [Coverage ledger](coverage.json) | [Engineering handbook](../handbook/README.md)
 
-205 first-party files, 31766 physical lines and 1261 authored explanation blocks.
+213 first-party files, 32681 physical lines and 1303 authored explanation blocks.
 
 Open any file to read its purpose, callers/readers, annotated ranges and focused code excerpts. Expand the full source for stable line links. Search matches code as well as explanations. The PDF prints explanations and selected snippets, not a second dump of every source file.
 
@@ -22,6 +22,7 @@ Physical-line assignment is mechanically checked; it does not prove that every s
 - [Operations, synthetic measurement, and installed-CLI probe source](../handbook/27-operations-source-walkthrough.md): 31 files.
 - [Answer providers, explicit previous-answer context, bounded clarification and process ownership](../handbook/24-provider-source-walkthrough.md): 33 files.
 - [Local speech: framing, bounded recognition, ownership and source-level tests](../handbook/26-speech-source-walkthrough.md): 23 files.
+- [Static website, immutable tutorial media and pending Pages publication](../WEBSITE.md): 8 files.
 
 ## Maintenance
 

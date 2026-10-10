@@ -1,0 +1,15 @@
+00:00:00  Welcome and important boundaries
+00:00:59  Install, launch, update and remove
+00:03:24  Understand the workspace
+00:05:35  Select audio without scrolling
+00:08:25  Start, read and stop transcription
+00:09:46  Build and review a question
+00:12:52  Set up an optional answer provider
+00:15:55  Ask, read, copy and cancel
+00:17:29  Follow up with the previous answer
+00:18:46  Clarify a question before answering
+00:21:16  Cancel and recover from answer errors
+00:22:17  Speaker notes and local files
+00:26:10  Export and clear the transcript
+00:27:11  Keyboard-first controls
+00:33:59  Cover, hide, recovery and exit

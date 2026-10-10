@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#000f13">
+  <meta name="description" content="A quiet Windows companion for speaker notes, local live transcription and deliberate AI answers. Meet Phantom Fudge and explore the complete chaptered tutorial.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta property="og:title" content="Phantom Fudge - A little phantom. A lot more presence.">
+  <meta property="og:description" content="Speaker notes, local transcription, and questions under your control. Watch the complete 15-chapter walkthrough.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zanark.github.io/phantom-fudge/">
+  <meta property="og:image" content="https://zanark.github.io/phantom-fudge/assets/social-card.jpg">
+  <meta property="og:image:alt" content="Phantom Fudge, a ghostly DeepSeaFoam companion, and the complete video walkthrough">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zanark.github.io/phantom-fudge/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>Phantom Fudge - Your quiet companion</title>
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="haunting" aria-hidden="true">
+    <img class="wanderer wanderer-one" src="assets/ghost.svg" alt="">
+    <img class="wanderer wanderer-two" src="assets/ghost.svg" alt="">
+    <div class="mist mist-one"></div><div class="mist mist-two"></div>
+  </div>
+  <header class="site-header shell">
+    <a class="brand" href="./" aria-label="Phantom Fudge home"><img src="assets/favicon.svg" alt="" width="34" height="34"><span>phantom<span class="brand-soft">fudge</span><span class="brand-dot">.</span></span></a>
+    <nav aria-label="Main navigation">
+      <a href="#showcase">In action</a><a href="#tutorial">Tutorial</a>
+      <a href="https://github.com/Zanark/phantom-fudge">GitHub <span aria-hidden="true">&#8599;</span></a>
+    </nav>
+    <button class="motion-toggle" id="motion" type="button" aria-pressed="false" hidden>Pause motion</button>
+  </header>
+  <main id="main">
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="signal"></span> A QUIETER KIND OF PRESENCE</p>
+        <h1 id="hero-title">A little phantom.<br>A lot more <em>presence.</em></h1>
+        <p class="hero-description">Your notes, the conversation, and your next thought. Together in a quiet Windows workspace, with local transcription and answers only when you ask.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1">Get the Windows preview <span aria-hidden="true">&#8599;</span></a>
+          <a class="text-link" href="#tutorial"><span class="play-small" aria-hidden="true">&#9654;</span> Take the full tour</a>
+        </div>
+        <p class="fine-print">Windows 11 x64 <span aria-hidden="true">&middot;</span> Unsigned preview <span aria-hidden="true">&middot;</span> Capture exclusion has limits</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <span class="spark spark-one">+</span><span class="spark spark-two">+</span><span class="spark spark-three">&middot;</span>
+        <div class="ghost-glow"></div>
+        <img class="hero-ghost" src="assets/ghost.svg" alt="" width="380" height="380">
+        <div class="floating-note"><span class="note-rule"></span><span class="note-rule"></span><span class="note-rule"></span><span class="note-label">a thought, kept close.</span></div>
+        <span class="art-caption">LESS NOISE. MORE YOU.</span>
+      </div>
+    </section>
+    <div class="intro-strip shell">
+      <p><span class="strip-number">01</span> Notes that stay close</p>
+      <p><span class="strip-number">02</span> Speech, transcribed locally</p>
+      <p><span class="strip-number">03</span> Questions under your control</p>
+    </div>
+
+    <section class="showcase shell section" id="showcase" aria-labelledby="showcase-title">
+      <div class="section-heading"><div><p class="eyebrow">SMALL MOVES. BIG DIFFERENCE.</p><h2 id="showcase-title">A glimpse behind the veil.</h2></div><p>Real controls, a closer look.<br>Short, silent sample-data demos.</p></div>
+      <div class="demo-tabs" id="demo-tabs" role="tablist" aria-label="Choose a tool demonstration" hidden>
+        <button type="button" id="tab-selection" role="tab" aria-controls="demo-selection" aria-selected="true">01 <span>Select &amp; Ask</span></button>
+        <button type="button" id="tab-context" role="tab" aria-controls="demo-context" aria-selected="false" tabindex="-1">02 <span>Follow-up context</span></button>
+        <button type="button" id="tab-cover" role="tab" aria-controls="demo-cover" aria-selected="false" tabindex="-1">03 <span>Notepad cover</span></button>
+      </div>
+      <div class="demo-grid">
+        <article class="demo-card" id="demo-selection">
+          <a href="#tutorial" class="demo-image" data-jump="questions" aria-label="Watch the question-selection chapter">
+            <img src="assets/demo-selection.jpg" data-motion="assets/demo-selection.gif" data-still="assets/demo-selection.jpg" loading="lazy" width="1000" height="720" alt="Scripted sample: select transcript lines, later explicitly Ask, then read the sample answer">
+          </a>
+          <div class="demo-copy"><span class="card-number">01 / YOUR WORDS</span><h3>Keep the useful part.</h3><p>Select transcript lines, shape the question, then explicitly Ask. Nothing is sent just because you selected it.</p></div>
+        </article>
+        <article class="demo-card" id="demo-context">
+          <a href="#tutorial" class="demo-image" data-jump="followups" aria-label="Watch the previous-answer chapter">
+            <img src="assets/demo-context.jpg" data-motion="assets/demo-context.gif" data-still="assets/demo-context.jpg" loading="lazy" width="1000" height="720" alt="Scripted sample enabling Previous answer without submitting a question">
+          </a>
+          <div class="demo-copy"><span class="card-number">02 / YOUR CONTEXT</span><h3>One answer leads to another.</h3><p>Opt in to send the displayed answer with a follow-up. One snapshot, not an automatic chat history. Available in current source.</p></div>
+        </article>
+        <article class="demo-card" id="demo-cover">
+          <a href="#tutorial" class="demo-image" data-jump="cover" aria-label="Watch the cover and recovery chapter">
+            <img src="assets/demo-cover.jpg" data-motion="assets/demo-cover.gif" data-still="assets/demo-cover.jpg" loading="lazy" width="1000" height="720" alt="Scripted sample using the book icon to cover and later reveal the workspace">
+          </a>
+          <div class="demo-copy"><span class="card-number">03 / YOUR SPACE</span><h3>Turn the cover.</h3><p>One book icon swaps the workspace for a plain notepad cover. Audio and answers keep going. It changes the view, not the privacy boundary.</p></div>
+        </article>
+      </div>
+      <p class="demo-disclosure">Zoomed, silent excerpts at original speed. Select &amp; Ask combines later moments, not one continuous request or a latency measurement. No live meeting or provider is shown. <a href="assets/asset-provenance.json">Clip details</a></p>
+    </section>
+
+    <section class="tutorial section" id="tutorial" aria-labelledby="tutorial-title">
+      <div class="shell">
+        <div class="section-heading"><div><p class="eyebrow">THE COMPLETE WALKTHROUGH</p><h2 id="tutorial-title">Meet every little detail.</h2></div><p class="tutorial-stats"><strong>38 min</strong> <span>/</span> 15 chapters <span>/</span> 194 lessons</p></div>
+        <div class="watch-layout">
+          <div class="player">
+            <div class="video-wrap">
+              <video id="video" controls preload="metadata" playsinline poster="assets/tutorial-poster.jpg" aria-label="Phantom Fudge complete tutorial">
+                <source src="media/Phantom-Fudge-Full-Tutorial.mp4" type="video/mp4">
+                Your browser cannot play this video. Download the MP4 using the link below.
+              </video>
+              <div id="caption" class="caption-overlay" hidden aria-hidden="true"></div>
+            </div>
+            <div class="controls" id="controls" hidden>
+              <button id="play" class="play-button" type="button">Play</button>
+              <button id="back" type="button" aria-label="Back ten seconds">&minus;10s</button>
+              <button id="forward" type="button" aria-label="Forward ten seconds">+10s</button>
+              <output class="time" id="time" aria-label="Playback position" aria-live="off">0:00 / 38:17</output>
+              <span class="rate-control"><label for="speed">Speed</label>
+              <select id="speed"><option value=".75">0.75&times;</option><option value="1" selected>1&times;</option><option value="1.25">1.25&times;</option><option value="1.5">1.5&times;</option><option value="2">2&times;</option></select></span>
+              <button id="captions" type="button" aria-pressed="false">Extra captions: off</button>
+            </div>
+            <p id="status" class="status" role="status" hidden></p>
+            <p class="caption-note">Captions are already in the video. Extra captions add a larger browser layer.</p>
+            <div class="downloads"><a href="media/Phantom-Fudge-Full-Tutorial.mp4" download>Download MP4 <span aria-hidden="true">&#8595;</span></a><a href="assets/captions.srt" download>SRT</a><a href="assets/captions.vtt" download>VTT</a><a href="assets/chapters.txt" download>Chapter list</a><a href="assets/tutorial-poster.jpg" download>Thumbnail</a></div>
+          </div>
+          <aside class="chapter-panel" aria-labelledby="chapters-heading">
+            <div class="panel-heading"><h3 id="chapters-heading">Pick your chapter</h3><span class="small-tag">15</span></div>
+            <p class="panel-hint">Straight to the part you need.</p>
+            <nav id="chapters" class="chapters" aria-label="Tutorial chapters"></nav>
+            <div class="pager" id="chapter-pager" hidden><button id="chapter-prev" type="button" aria-label="Previous five chapters">&#8592;</button><output id="chapter-page" aria-live="polite"></output><button id="chapter-next" type="button" aria-label="Next five chapters">&#8594;</button></div>
+            <noscript><p>Chapter navigation needs JavaScript. The video and <a href="assets/chapters.txt">timestamped chapter list</a> work without it.</p></noscript>
+            <div class="chapter-footnote"><span class="signal"></span> Scripted app demo &middot; sample data</div>
+          </aside>
+        </div>
+        <div class="version-notice"><span class="notice-mark" aria-hidden="true">i</span><p><strong>Know which version you are watching.</strong> This tour shows current source. Previous-answer context is not in the published <a href="https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1">v0.2.0-preview.1</a> installer. That download is an unsigned Windows 11 x64 preview.</p></div>
+        <div class="details-grid">
+          <section class="panel transcript-panel" aria-labelledby="transcript-title">
+            <details open>
+              <summary id="transcript-title">Search the transcript</summary>
+              <label for="search" class="panel-hint">Find a control, action or explanation. Select a result to jump there.</label>
+              <input type="search" id="search" placeholder="Try &quot;keyboard&quot; or &quot;previous answer&quot;" autocomplete="off" maxlength="200" disabled>
+              <div id="transcript" class="transcript"></div>
+              <div class="pager" id="transcript-pager" hidden><button id="transcript-prev" type="button" aria-label="Previous transcript results">&#8592;</button><output id="transcript-page" aria-live="polite"></output><button id="transcript-next" type="button" aria-label="Next transcript results">&#8594;</button></div>
+              <noscript><p><a href="assets/transcript.json">Download the transcript</a> or enable JavaScript to search it.</p></noscript>
+            </details>
+          </section>
+          <section class="panel scope-panel" aria-labelledby="scope-title">
+            <p class="eyebrow">NO SMOKE AND MIRRORS</p><h3 id="scope-title">What this tutorial demonstrates</h3>
+            <p>Actual WPF interface frames, scripted controls, and sample transcripts and answers. The private demo copy uses isolated I/O, not your desktop, meeting or microphone.</p>
+            <p>Click guides illustrate control activation; keyboard badges show scripted inputs. They are not a recording of physical mouse movements. Zooms enlarge captured UI, not recreated controls.</p>
+            <p>Installation, file pickers and provider setup are instructional steps, not footage proving those operations were performed. These examples do not establish screen-sharing compatibility.</p>
+            <p class="source-line">Synthetic narration: Microsoft Zira Desktop / Windows System.Speech. No music.</p>
+            <a class="text-link" href="assets/media-manifest.json">Read the media provenance <span aria-hidden="true">&#8599;</span></a>
+          </section>
+        </div>
+      </div>
+    </section>
+    <section class="shell section last-section" aria-labelledby="boundaries-title">
+      <div class="keyboard-note"><span class="eyebrow">LESS MOUSE. MORE FLOW.</span><h2>Keep your hands<br>on the conversation.</h2><p><kbd>Ctrl</kbd> <span>+</span> <kbd>Alt</kbd> <span>+</span> <kbd>K</kbd></p><p>Enter keyboard-first controls in the app. Select, edit, read and run built-in commands without chasing buttons.</p><a class="text-link" href="https://github.com/Zanark/phantom-fudge/blob/main/docs/KEYBOARD-CONTROLS.md">Explore the keyboard guide &#8599;</a></div>
+      <div class="boundaries"><p class="eyebrow">A PHANTOM. NOT A PROMISE OF INVISIBILITY.</p><h2 id="boundaries-title">Quiet by design.<br>Honest about the limits.</h2><p>Phantom Fudge requests Windows capture exclusion. That is not universal invisibility, a security boundary, or a guarantee for every screen-sharing tool. Test your exact sharing setup before relying on it.</p><p>Transcription runs locally after explicit Start. Optional answer providers have their own setup and data boundaries. Covering the workspace does not stop recording or answers.</p><div class="resource-links"><a href="https://github.com/Zanark/phantom-fudge/blob/main/docs/COVER-AND-PRIVACY.md">Privacy boundaries &#8599;</a><a href="https://github.com/Zanark/phantom-fudge/blob/main/docs/INSTALLATION.md">Install &amp; recover &#8599;</a><a href="https://github.com/Zanark/phantom-fudge/blob/main/docs/README.md">All documentation &#8599;</a></div></div>
+    </section>
+  </main>
+  <footer class="site-footer shell"><a class="brand" href="./"><img src="assets/favicon.svg" width="28" height="28" alt=""><span>phantom<span class="brand-soft">fudge</span>.</span></a><p>A little less noise, a little more presence.</p><p>Made with <a href="https://zanark.github.io/DeepSeaFoam/">DeepSeaFoam</a> <span aria-hidden="true">&middot;</span> <a href="THEME-NOTICE.txt">Credits</a></p></footer>
+</body>
+</html>

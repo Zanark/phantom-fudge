@@ -407,3 +407,10 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
   Simplified compressed diagrams; rejected intermediate invalid SVG corrected before final rendering.
   Script twins match; Layout.cs/lockfiles/release receipt unchanged. No new runtime/model/audio/
   installer/commit/push/publication or recipient qualification; published assets remain immutable.
+- 2026-10-11 - DONE61 locally: DeepSeaFoam static landing page with original ghosts/thumbnail,
+ 3zoomed action GIFs,15chapter video player,525cue searchable transcript, motion pause and
+ reduced-motion defaults. Node6tests and local muted Edge interaction/responsive checks pass.
+ Repo is public and Pages uses Actions; explicit publish approval was later deferred by owner
+ after CLI confirmedREAD/push=false and release creation returned404. No release, push or auth
+ change. Scoped Pages pipeline verifies the immutable159267662-byte MP4 before deployment.
+ No runtime/installer changes or live audio/provider operations. Public guide: docs\WEBSITE.md.

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+  width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Phantom Fudge</title><desc id="desc">Ivory ghost with two eyes on deep teal.</desc>
+  <defs>
+  <linearGradient id="body" x1=".2" y1="0" x2=".7" y2="1">
+    <stop stop-color="#FDF6E3"/><stop offset=".67" stop-color="#EEE8D5"/>
+    <stop offset="1" stop-color="#00A591"/>
+  </linearGradient>
+  <radialGradient id="aura"><stop stop-color="#00A591" stop-opacity=".27"/>
+    <stop offset="1" stop-color="#00A591" stop-opacity="0"/></radialGradient>
+  <linearGradient id="mist" x1="0" x2="1"><stop stop-color="#00A591" stop-opacity="0"/>
+    <stop offset=".6" stop-color="#00A591" stop-opacity=".19"/>
+    <stop offset="1" stop-color="#EEE8D5" stop-opacity="0"/></linearGradient>
+  <linearGradient id="shade" x1="0" x2="1" y1="0" y2="1">
+    <stop stop-color="#001E26"/><stop offset="1" stop-color="#000F13"/>
+  </linearGradient></defs><rect width="64" height="64" rx="16" fill="#000F13"/>
+  <path d="M15 37V26C15 7 46 7 47 26L49 39Q50 47 56 49Q46 54 40 46L33 54 27 47 16 52Q18 44 15 37Z"
+    fill="#EEE8D5"/>
+  <ellipse cx="26" cy="28" rx="3" ry="5" fill="#000F13"/>
+  <ellipse cx="37" cy="27" rx="3" ry="5" fill="#000F13"/>
+  <path d="M50 10v8m-4-4h8" stroke="#00A591" stroke-width="2" stroke-linecap="round"/></svg>

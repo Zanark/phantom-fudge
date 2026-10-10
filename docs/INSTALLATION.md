@@ -9,8 +9,8 @@ outline: deep
 **Installer edition: unsigned Windows 11 x64 preview.** Downloads and availability are listed at
 [v0.2.0-preview.1](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1).
 Candidate checks provide bounded current-host evidence, not clean-VM qualification or
-universal compatibility. The repository is **private**: its releases
-inherit that visibility and require repository access. Publication does not make it public.
+universal compatibility. The repository and its published releases are **public**.
+Public availability does not establish signing or broaden the qualification evidence.
 See [release evidence](IMPLEMENTATION-STATUS.md) and [workstream58](../TODO/58_INSTALLER_RELEASE.todo).
 
 The DLL-qualified oneDNN runtime has passed the full offline rebuild with dependency audits, real
@@ -71,7 +71,7 @@ or evidence of capture exclusion. (scripts/Build-Installer.ps1:79-114)
 
 Once the release evidence confirms that assets are available:
 
-1. Open the versioned release above while signed in with repository access. Download
+1. Open the public versioned release above. Download
    `PhantomFudge-0.2.0-preview.1-win-x64-Setup.exe` and `SHA256SUMS.txt`.
 2. Compare the EXE's SHA-256 with its exact filename in the checksum file. Windows PowerShell can
    perform this optional check; **PowerShell7 is not required to install or run the app**:
@@ -263,7 +263,7 @@ flowchart TB
 
 | Symptom | Next safe action |
 | --- | --- |
-| Release link is unavailable | Confirm that publication has completed and your account has private-repository access; do not substitute an old ZIP |
+| Release link is unavailable | Confirm the exact versioned release URL and listed asset availability; do not substitute an old ZIP |
 | Windows blocks the unsigned EXE | Follow your organization's review process; do not disable SmartScreen or other controls |
 | Existing window is hidden | Relaunch from Start or use Ctrl+Alt+Space; save and close it before an update |
 | Local speech cannot start | Use the notes-only option if offered; inspect local status, not a real-audio test |

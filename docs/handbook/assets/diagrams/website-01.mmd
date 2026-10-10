@@ -1,0 +1,14 @@
+---
+config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3"}}
+---
+flowchart TB
+    accTitle: Local website assembly
+    accDescr: The immutable MP4 must match the public media identity before only site files and video are copied into the local preview.
+    A["Supplied tutorial MP4"] --> C["Check bytes and SHA256"]
+    B["site/media.json"] --> C
+    C --> D["Reject site symlinks"]
+    D --> E["Replace artifacts/site"]
+    F["Reviewed site files"] --> E
+    E --> G["Loopback preview and review"]
+    classDef stage fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
+    class A,B,C,D,E,F,G stage
