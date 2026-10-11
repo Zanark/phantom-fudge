@@ -156,7 +156,7 @@ width, keeping Previous answer / Ask / Clear visible; Edit/Copy may wrap within 
 [usage](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).)
 
 This is **included in Preview 2**, not the immutable Preview 1 assets. [Workstream59](../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo)
-records October10 source validation; [workstream62](../TODO/62_PUBLIC_PREVIEW_RELEASE.todo) tracks new package/publication evidence.
+records October10 source validation; completed [workstream62](../TODO/62_PUBLIC_PREVIEW_RELEASE.todo) records public Preview 2's bounded package/publication evidence.
 
 ### October9 10:07: direct multi-line questions
 

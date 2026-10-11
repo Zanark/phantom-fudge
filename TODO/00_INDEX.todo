@@ -11,10 +11,10 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Current state
 
-- Workstream62 is IN_PROGRESS: owner authorized a new PUBLIC v0.2.0-preview.2 prerelease.
-  Windows0.2.0.2 includes Previous answer; package build/tests and publication evidence are pending.
-  Documentation preparation is complete; parent must package from clean committed source with the full editions.
-  No new runtime results, cleanVM/capture/provider/migration proof or signing is implied.
+- Workstream62 is DONE: PUBLIC v0.2.0-preview.2 published October11 06:49:15IST from clean2ad0fa0.
+  Windows0.2.0.2 includes Previous answer; all five downloaded assets matched docs\release-0.2.0-preview.2.json.
+  Core791/Python37/Site14; launcher10, packaged UI21context/38keyboard and lifecycle11/3684files pass; Portable3685entries matched.
+  Released handbook391/atlas709pages stay immutable after caught/recovered PDF drift; maintained books add follow-up. No cleanVM/capture/provider/genuine-migration/broad-qualification or signing claim.
 - Workstream61 is DONE and the website is LIVE, including maintained documentation.
   Self-contained82.18MiB full1080p tutorial, eight action GIFs, release-free Pages workflow and
   concise276-word default page with original DeepSeaFoam ghosts/decorations. Fresh public-only
@@ -22,7 +22,7 @@ capture proof rather than assuming a window can be universally undetectable.
   Initial local delivery had three zoomed GIFs and a separate media-release prerequisite.
   Owner made repo public/configured Pages; later chose local delivery because active CLI is READ-only.
   That deferral is superseded:77fca8a7cd1dd61dd5b1a09e72a898a73395cac1 pushed,
-  Pages38092635522 build/deploy success and public URL HTTP200. Older failed38088016577 is superseded.
+  Pages38092635522 succeeded; later38101185167on2ad0fa0/HTTP200verified both Preview2links and notices. Failed38088016577is superseded.
 - Workstream60 is DONE:15chapter/194lesson full tutorial delivered locally under
   artifacts\tutorial\20261010-221225. Measured38:17.767,1080p/30fps, narrated click/key guides,
   captions and offline searchable player. Scripted actual-WPF/sample-data demonstration;
@@ -35,7 +35,7 @@ capture proof rather than assuming a window can be universally undetectable.
   rendered review are complete; current artifact identities are in their manifests. Do not republish old assets.
 - Workstream58 is DONE: v0.2.0-preview.1 was published October10 01:52IST from clean commit
   e25c8d5624e5afd2f50cda80f964e2e32737fce1. Private unsigned Windows11 x64 preview, not a qualified release.
-  The repository is now public; that historical release's Setup, Portable, PDFs and checksums matched. See docs\INSTALLATION.md
+  That historical release's Setup, Portable, PDFs and checksums matched. See docs\INSTALLATION.md
   and docs\release-0.2.0-preview.1.json for asset identities, retained-data policy and evidence limits.
   Final lifecycle11checks/3684files, Portable3685hashedentries, launcher10selfchecks, serial UI38keys;
   runtime85/native55focused tests and actual generatedPCM/Unicode/naturalexit gates pass.
@@ -50,10 +50,10 @@ capture proof rather than assuming a window can be universally undetectable.
   global letters; controls now ship in v0.2.0-preview.1. External hotkey/foreground comfort remains unqualified.
 - Implementation authorized October 8. Local experimental implementation is now in progress.
 - User approved Windows 11 first with Teams, Zoom, Google Meet, and OBS qualified separately.
-- WPF/C#/.NET10 now uses owner-requested background translucency; four-product qualification still blocks release.
+- WPF/C#/.NET10 now uses owner-requested background translucency; four-product qualification still blocks qualified v1.
 - Live meeting-output transcription19 and native Python runtime22 are required; Docker20 is deferred until last.
 - Local synthetic GDI/UI/speech evidence and approved hardware-loopback recognition exist.
-- Historical private prerelease58 and public website61 are complete; public prerelease62 is pending.
+- Historical private prerelease58, public website61 and public prerelease62 are complete.
   Four-product qualification, actual Docker execution and owner UX acceptance remain open.
 - WORKFLOWS statuses describe authored procedures, not app execution.
 - Owner14:01 adds selected microphone dictation alongside computer output; task26 supersedes the
@@ -70,16 +70,16 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Next action
 
-Workstream62 documentation/edition review is complete. Parent next owns clean committed
-installer packaging, exact-payload tests and the separately authorized public prerelease.
-Workstream61's self-contained website/eight GIFs are live; docs\WEBSITE.md records the successful run.
-Preview2 link edits and native release availability must be verified separately from that deployment.
+Workstream62 is complete: use docs\release-0.2.0-preview.2.json for exact published bytes and limits.
+Keep Setup/Portable and released PDFs immutable; later repository evidence is a separate follow-up commit.
+Workstream61's self-contained website/eight GIFs are live; docs\WEBSITE.md records Pages38101185167.
+Both Preview2 links and native public availability were independently checked, not inferred from local assembly.
 
 Workstream60 is complete. Open artifacts\tutorial\20261010-221225\index.html for the original
 offline video, chapters and searchable transcript. Installer assets remain unchanged.
 
-Workstream59 is complete; its source is now in the Preview2 candidate. New publication is authorized
-only under62; documentation preparation must not call models, record audio, sign in or publish.
+Workstream59 is complete; its source ships in public Preview2. Publication does not authorize more
+model calls, recording, sign-in, asset replacement or release operations.
 
 Workstream58 is complete and immutable;62is the new release request. Continue broader
 qualification only under the corresponding workstreams: clean machines, actual devices/shortcuts,
@@ -119,8 +119,8 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 
 | ID | File | Status | Gate |
 | --- | --- | --- | --- |
-| 62 | 62_PUBLIC_PREVIEW_RELEASE.todo | IN_PROGRESS | Public Preview2 preparation; exact package and publication evidence pending |
-| 61 | 61_PUBLIC_PHANTOM_WEBSITE.todo | DONE | Self-contained site/eight GIFs live; Pages38092635522 successful, HTTP200 |
+| 62 | 62_PUBLIC_PREVIEW_RELEASE.todo | DONE | Public unsigned Preview2; five exact downloads verified; bounded package evidence, immutable release PDFs |
+| 61 | 61_PUBLIC_PHANTOM_WEBSITE.todo | DONE | Site/eight GIFs live; Pages38101185167/HTTP200, both Preview2links verified |
 | 60 | 60_FULL_VIDEO_TUTORIAL.todo | DONE | Local38-minute tutorial and offline chaptered player |
 | 01 | 01_PRODUCT_DECISIONS.todo | IN_PROGRESS | G0 |
 | 02 | 02_FEASIBILITY_RESEARCH.todo | DONE | G0 desk research only |

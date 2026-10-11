@@ -12,7 +12,7 @@ The October10 local-source **Previous answer** option is a second, independent e
 one displayed completed answer, captured on Ask, without its old question or earlier request
 context. It is off/session-only, bounded to32768UTF-16 units and treated as background data, not
 instructions or authority. Clarification retains the same captured string through explicit replies.
-This feature is included in the Preview 2 candidate, not the immutable Preview 1 installer.
+This feature is included in public Preview 2, not the immutable Preview 1 installer.
 ([Context boundary](../src/PhantomFudge.App/MainWindow.AnswerContext.cs),
 [request validation](../src/PhantomFudge.Core/Answers/AnswerContracts.cs),
 [fixed prompt](../src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs).)

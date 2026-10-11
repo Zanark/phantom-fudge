@@ -144,7 +144,7 @@ snapshot; clearing UI state cannot mutate an already frozen snapshot object.
 
 ## Follow up with the previous answer
 
-**Included in the Preview 2 candidate; absent from the immutable Preview 1 installer.** [Release status](IMPLEMENTATION-STATUS.md).
+**Included in public Preview 2; absent from the immutable Preview 1 installer.** [Exact-package receipt](release-0.2.0-preview.2.json).
 It solves a narrow problem: questions such as “Why does that use a dictionary?” need the answer
 you are looking at, but not an entire conversation or meeting transcript.
 

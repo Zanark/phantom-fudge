@@ -1583,3 +1583,89 @@ frozen-source atlas entries, with representative PDF pages. The installation evi
 was shortened for print readability. The [handbook manifest](docs/handbook/manifest.json) and
 [atlas manifest](docs/source-atlas/manifest.json) identify the current full editions; these results
 are documentation/site evidence, not new packaged-app tests or a published Preview2 release.
+
+## 2026-10-11 06:20 IST - Parent source validation, package gates still open
+
+The parent reports `dotnet test tests\PhantomFudge.Core.Tests -c Release --no-restore` passing
+**791/791 tests, zero skipped, in 3m55s**. This fresh full source-suite result is distinct from
+October10's396focused Core/21context/38keyboard evidence, which remains historical.
+The test project references the Core project and links selected launcher implementation files;
+it is not the final assembled desktop or installer. (tests/PhantomFudge.Core.Tests/PhantomFudge.Core.Tests.csproj:20-27)
+
+The parent also reports `node --test tools\Site\test-site.mjs` passing **14/14**, a bundled website
+build of **101,108,997bytes** and unchanged tutorial hash. The site tests bind both release links
+to configured version metadata while retaining the Preview1 tutorial-label caveat.
+(tools/Site/test-site.mjs:58-63)
+These local results do not prove deployment of the new links or availability of native assets.
+
+At this checkpoint the parent found no production PhantomFudge process, normal installation or
+`InstalledRuntime\.local` tree on the host. That is a precondition for a later isolated lifecycle
+fixture, not a test pass or clean-VM evidence; host state must be checked again before running it.
+[Workstream62](TODO/62_PUBLIC_PREVIEW_RELEASE.todo) remains IN_PROGRESS: final package, UI, lifecycle
+and publication results are pending. The documentation refresh precedes the parent's clean commit
+and final installer build because the installer embeds the completed handbook PDF.
+(scripts/Build-Installer.ps1:48-54)
+
+## 2026-10-11 06:37 IST - Stop after a broken documentation freeze
+
+The preceding06:20 entry's assertion that the documentation refresh preceded the clean commit
+was wrong. After the initial frozen handoff, the parent committed
+`2ad0fa03a8c699619bda24c33ef6aa0250d6ef38` at06:22:45IST and assembled the release with
+`sourceDirty=false`. The documentation agent then processed queued source-test evidence and
+modified17tracked prose/generated files at06:25-06:28, including both maintained PDFs.
+The later37-test/draft checkpoint did not cause another tracked rebuild; it was local-only.
+Calling the second editions “unchanged” referred to the wrong baseline and did not preserve the freeze.
+
+The initial final-assets check caught the newer maintained handbook versus the embedded clean-build
+copy. The parent recovered both exact committed PDFs with `git archive` and repeated complete
+payload, archive and attachment verification. Setup and Portable bytes were unchanged.
+This prevented a mixed-edition publication; the failed attempt is preserved in the public receipt.
+The lesson is operational: a package's documentation inputs are immutable after assembly, even
+when later evidence is accurate. It must enter a separate follow-up, not replacement attachments.
+(scripts/Build-Installer.ps1:48-54,76-88; docs/release-0.2.0-preview.2.json:61-77)
+
+## 2026-10-11 06:49:15 IST - Public Preview 2 published with exact committed editions
+
+**v0.2.0-preview.2 is public**, published at2026-10-11T01:19:15Z from clean `2ad0fa0`.
+It is an unsigned Windows11 x64 prerelease, not qualified v1. API digests and all five downloaded
+assets matched; anonymous release API access and HTTP200 on the release page were confirmed.
+The [authoritative public receipt](docs/release-0.2.0-preview.2.json) records exact names, sizes,
+hashes, source identity and limits. Preview1's release time, five assets and peeled source tag
+were verified unchanged. (docs/release-0.2.0-preview.2.json:3-17,51,79-106)
+
+Current source results are Core791/791, Python runtime-packaging37/37 and Site14/14, with
+Docs preparation21/21 recorded earlier. Separately, the exact launcher passed10self-checks;
+serial packaged UI passed all groups including21context/38keyboard. The isolated installer
+lifecycle passed11checks against3,684inventoried files, and all3,685Portable entries matched.
+These are not one interchangeable test total. (docs/release-0.2.0-preview.2.json:18-29)
+
+The final offline build used a Latin-accented Unicode path. Its model hashes, modified dependency
+metadata, bundled loaded-CRT paths, actual Vosk/production VAD/encoder/decoder execution and natural
+exit passed using one second of generated PCM. Static audits covered92speech and861App/Launcher
+PE files. There was no real audio capture or external answer-provider request.
+Current-host isolation, omitted shortcuts and simulated older metadata do not prove clean-VM,
+genuine old-binary migration, recognition quality, installed-service or recipient compatibility.
+(docs/release-0.2.0-preview.2.json:28-50,68-77)
+
+The released handbook remains **391pages**, SHA256
+`1941c9618326a4250627b0253b94ff323db25194c3cb31506f354bcd02b7652d`;
+the released atlas remains **709pages**, SHA256
+`473aa604081b3a486b923b76649a408fccacc5e6747684ac570541176687fa6f`.
+These identify the package-matching attachments, not subsequent maintained repository books.
+(docs/release-0.2.0-preview.2.json:90-100)
+
+[Pages run38101185167](https://github.com/Zanark/phantom-fudge/actions/runs/38101185167) succeeded
+on2ad0fa0. The live site returned200 with exactly two Preview2links and the context/tutorial
+notices. Previous answer now ships; frozen tutorial installer labels, captions, media and existing
+24WPF/11READMEimage provenance remain unchanged. The successful site is companion documentation,
+not capture qualification. (docs/release-0.2.0-preview.2.json:52-59; site/index.html:44-47,156-174)
+
+At06:51IST the owner authorized this separate publication-documentation follow-up. It reconciles
+the preserved post-freeze edits, closes workstream62 and links the public receipt without altering
+published assets, committed-edition snapshots or final published notes. All authored/tracking
+inputs precede the maintained full atlas-then-handbook builds; their manifests and separate
+render-review receipt identify the newer editions. No native code, media, installer/site/tool
+source, Git, authentication, audio, provider or context operation belongs to this follow-up.
+The new receipt remains outside atlas source discovery (`sourceKind=null`, not `evidence`);
+its classifier explanation is clarified rather than widened.
+(tools/Docs/source-atlas.mjs:11-12,36-46,58-66)

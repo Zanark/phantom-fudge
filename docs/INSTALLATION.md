@@ -6,28 +6,28 @@ outline: deep
 
 # Install, update and remove Phantom Fudge
 
-**Installer edition: unsigned Windows 11 x64 prerelease candidate.** Check available assets at
+**Installer edition: public, unsigned Windows 11 x64 prerelease.** Download
 [v0.2.0-preview.2](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2).
-Preview 2 includes previous-answer context; its exact package and publication evidence is pending.
-The public repository and live website do not establish clean-VM or universal compatibility.
+Preview 2 includes previous-answer context; all five downloaded release assets matched.
+Current-host synthetic package checks and a live website do not establish clean-VM or universal compatibility.
 Tutorial installer labels remain Preview 1; they do not identify the new package.
-See [release evidence](IMPLEMENTATION-STATUS.md) and [workstream62](../TODO/62_PUBLIC_PREVIEW_RELEASE.todo).
+See the [exact public receipt](release-0.2.0-preview.2.json), [release evidence](IMPLEMENTATION-STATUS.md) and completed [workstream62](../TODO/62_PUBLIC_PREVIEW_RELEASE.todo).
 
-**Historical October10 / Preview 1 evidence:** the oneDNN runtime passed the offline rebuild with dependency audits, real
-synthetic-PCM inference, Unicode-path loading and natural process exit. There are 85 focused
-runtime tests and 55 native tests recorded as passing, not rerun for Preview 2. The Ruy/Vosk failures are historical;
-their old stages remain rejected. The complete candidate3 build also passed the enforced PE audit,
-loaded-DLL and real-PCM/clean-exit gates. Lifecycle3 used identical functional runtime bytes;
-candidate3 added license/provenance files. Release-asset identities belong to the versioned download.
+**Published October11 at01:19:15UTC**, from clean source `2ad0fa03a8c699619bda24c33ef6aa0250d6ef38`.
+Setup and Portable contain the committed391-page handbook, not later maintained documentation.
+The released709-page atlas is a separate attachment; exact PDF hashes are in the public receipt.
+Historical Preview 1's85runtime/55native tests and candidate-stage failures remain [dated evidence](IMPLEMENTATION-STATUS.md).
+They are not reused as Preview 2 test runs. Tutorial instructions and the24WPF/11READMEimage
+fixtures are unchanged, not recordings of installation. (docs/release-0.2.0-preview.2.json:3-29,90-100)
 
-| Scope | Historical Preview 1 evidence | Qualification boundary |
-| --- | --- | --- |
-| Startup | 55 helper tests and 10 exact-EXE self-checks pass | Includes guarded delayed app startup; interactive Close and installed speech remain unqualified |
-| Desktop | Packaged UI passes prior regression groups and all 38 keyboard checks | Synthetic UI only; no audio capture or model requests |
-| Setup | Lifecycle3 passes 11 checks against 3,682 inventoried files | Current host, random AppId/path, no shortcuts, simulated older version; not a genuine old-binary or clean-VM test |
-| Speech | 85 focused tests; real hybrid/VAD/forced decoder execution, Unicode relocation and clean exit pass | Generated PCM only; no actual capture, service, provider request or new performance qualification |
-| DLLs | 92 speech PE files and five loaded bundled CRT/OpenMP paths; 861 app/launcher PE files inspected separately | Not a clean VM or app/launcher loaded-DLL test |
-| Assets | Consult the versioned release for availability and exact checksums | Component checks alone do not attest an arbitrary downloaded file |
+| Published Preview 2 evidence | Qualification boundary |
+| --- | --- |
+| **Startup:** 10 exact-launcher self-checks pass | Guarded handoff checks, not actual installed speech or interactive Close qualification |
+| **Desktop:** all packaged UI groups pass, including 21 context and 38 keyboard checks | Synthetic UI only; no audio capture or external-provider request |
+| **Setup:** 11 checks against 3,684 inventoried files | Current host, isolated identity/path, no shortcuts, simulated older metadata; no genuine old-binary/clean-VM claim |
+| **Speech:** offline Unicode-path build; real Vosk/VAD/encoder/decoder execution, model hashes and natural exit pass | One second of generated PCM, not actual capture, installed service or recognition-quality evidence |
+| **DLLs:** 92 speech PE files and actual bundled CRT paths; 861 App/Launcher PE files inspected separately | Static closure/selected loaded paths, not a clean VM or universal dynamic-loading test |
+| **Assets:** five downloaded assets byte-matched; all 3,685 Portable entries verified | Checksums identify exact bytes, not signer trust or broad compatibility |
 
 The recipe creates the same gate in both Setup and Uninstall initialization; the native launcher
 checks it before ordinary/notes-only startup. Detailed receipts and remaining acceptance gates are
@@ -69,7 +69,7 @@ or evidence of capture exclusion. (scripts/Build-Installer.ps1:79-114)
 
 ## Install and open
 
-Once the release evidence confirms that assets are available:
+The versioned public release and checksum file identify the downloadable assets:
 
 1. Open the public versioned release above. Download
    `PhantomFudge-0.2.0-preview.2-win-x64-Setup.exe` and `SHA256SUMS.txt`.
@@ -175,8 +175,8 @@ Setup rejects a downgrade and refuses an unrecognized, nonempty destination. The
 recipe uses a **fresh maintenance helper extracted from Setup**, rather than depending on a
 potentially damaged installed launcher. A numeric version fallback is stored under the per-user
 `HKCU\Software\PhantomFudge\Installer\<AppId>` key as `WindowsVersion`; if neither that nor
-`app-version.txt` is valid, Setup refuses. Historical Preview 1 lifecycle3 passed same-version and damaged-launcher/version
-repair against candidate2. Its upgrade case changes a version record, not a genuine older binary.
+`app-version.txt` is valid, Setup refuses. Preview 2's11-check isolated lifecycle passed same-version and damaged-launcher/version
+repair; its upgrade case changes older metadata, not a genuine older binary. (docs/release-0.2.0-preview.2.json:19-20,68-70)
 (tools/Installer/PhantomFudge.iss:51-52,107-148)
 (src/PhantomFudge.Launcher/Program.cs:50-58,94-100)
 (scripts/Test-Installer.ps1:61-74)
@@ -307,17 +307,17 @@ decoding/PyAV while retaining the in-memory PCM array path in source.
 `CTranslate2 4.6.0+phantomfudge2` uses oneDNN3.1.1 and Microsoft compiler OpenMP (`vcomp140`),
 without CUDA/cuDNN or proprietary Intel OpenMP. Vosk's package is unmodified: the service adapter
 loads a non-ASCII Windows model path through a locked, temporary wide-API working-directory change.
-The final handoff reports real synthetic inference and natural exit, including Unicode relocation.
+The public receipt records real generated-PCM inference and natural exit in the Unicode build path.
 No clean-VM qualification is claimed.
 Earlier development-build speech timings/accuracy do **not** qualify these binaries; this guide
-makes no recognition-performance claim. Exact installer inventory and redistribution review are
-separate release gates.
+makes no recognition-performance claim. The published inventory identifies the shipped files;
+engineering provenance does not establish publisher licensing entitlement or legal certification.
 (tools/Installer/bundle_runtime.py:246-282,332-376,412-462,597-609)
 (services/transcription/recognizer.py:44-63)
 (services/transcription/tests/test_packaged_pcm_runtime.py:35-97,126-138)
 
 The [current workflow](CURRENT-WORKFLOW.md) and [keyboard guide](KEYBOARD-CONTROLS.md) explain the
-unchanged desktop UI. Their existing23synthetic WPF images and10README derivatives are UI
+unchanged desktop UI. Their existing24synthetic WPF images and11README derivatives are UI
 examples, not installer screenshots or evidence that installation succeeded. No installer
 screenshots are presented here. Docker remains a separate optional final-stage task, not part of
 installation. Capture qualification remains [NOT_TESTED for the product matrix](QUALIFICATION.md).

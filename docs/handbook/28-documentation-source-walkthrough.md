@@ -78,6 +78,14 @@ statement-level interpretation. Root build/configuration inputs and the book cat
 explicit exceptions to the implementation-directory rule.
 ([`sourceKind`](../../tools/Docs/source-atlas.mjs).)
 
+The public release receipts are deliberately different: `docs/release-0.2.0-preview.1.json` and
+`docs/release-0.2.0-preview.2.json` return **null**, not `evidence`. The root allowlist includes
+the book/catalogue JSON, not arbitrary files under `docs`; the source-root rejection happens
+before the `/results/` evidence rule, and discovery skips null-kind paths. These receipts identify
+release observations and immutable assets through authored links/citations, not statement-level
+source coverage. Preview 2's new receipt needs no speculative compiler change or fabricated
+annotation entry. (tools/Docs/source-atlas.mjs:11-12,36-46,58-66)
+
 The website's authored HTML/CSS/JavaScript and `site/media.json` are also first-party inputs.
 Only explicitly named tutorial/caption exports and the generated asset-provenance receipt receive
 the `generated` kind; their bytes still affect freshness. New code under `site/assets` is not
@@ -242,7 +250,14 @@ ranges, catalogue constraints and diagram requirements. Those checks do not repl
 source annotations, and annotations do not replace diagrams or end-to-end explanations.
 (tools/Docs/build.mjs:37-73,116-154; [`main`](../../tools/Docs/build.mjs).)
 
-The command order is intentional:
+The command order is intentional.
+
+For a release, complete authored/tracking inputs and both reviewed editions before clean source
+assembly. Once packaging has started, queued evidence updates must wait for a separate follow-up;
+rebuilding workspace PDFs cannot replace the bytes embedded in an existing package. Preview 2's
+attachment check caught exactly that freeze violation, and committed PDFs were recovered before
+publication. Maintained books may subsequently advance without rewriting release assets.
+(scripts/Build-Installer.ps1:48-54,76-88; docs/release-0.2.0-preview.2.json:61-77)
 
 ```powershell
 node --test .\tools\Docs\test-docs.mjs

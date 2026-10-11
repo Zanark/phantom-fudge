@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "version": "0.2.0-preview.2",
+  "windowsVersion": "0.2.0.2",
+  "tag": "v0.2.0-preview.2",
+  "sourceCommit": "2ad0fa03a8c699619bda24c33ef6aa0250d6ef38",
+  "sourceDirty": false,
+  "publishedAt": "2026-10-11T01:19:15Z",
+  "url": "https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2",
+  "privateRepository": false,
+  "prerelease": true,
+  "signed": false,
+  "platform": "Windows 11 x64",
+  "minimumWindowsBuild": 22000,
+  "anonymousReleaseApiAvailable": true,
+  "releasePageHttpStatus": 200,
+  "downloadedAssetsMatch": true,
+  "portableFilesVerified": 3685,
+  "installerInventoriedFiles": 3684,
+  "installerLifecycleChecksPassed": 11,
+  "launcherSelfChecksPassed": 10,
+  "packagedUiPassed": true,
+  "previousAnswerContextUiChecksPassed": 21,
+  "keyboardUiChecksPassed": 38,
+  "sourceCoreTestsPassed": 791,
+  "runtimePackagingTestsPassed": 37,
+  "siteTestsPassed": 14,
+  "speechPeFilesAudited": 92,
+  "appAndLauncherPeFilesAudited": 861,
+  "offlineRuntimeBuild": true,
+  "packageBuildPathContainsNonAscii": true,
+  "runtimeModelHashesPassed": true,
+  "installedDependencyMetadataPassed": true,
+  "upstreamDependencyGraphIntact": false,
+  "bundledCrtLoadPathsPassed": true,
+  "generatedPcm": {
+    "seconds": 1,
+    "voskPassed": true,
+    "productionFinalPassed": true,
+    "vadInvocations": 1,
+    "encoderInvocations": 1,
+    "decoderInvocations": 1,
+    "naturalExitPassed": true,
+    "encodedFileRejected": true,
+    "pythonNetworkSocketsOpened": 0,
+    "recognitionQualityAssessed": false
+  },
+  "realAudioCaptured": false,
+  "externalModelRequests": 0,
+  "cleanVmTested": false,
+  "previousReleaseUnchanged": true,
+  "pages": {
+    "url": "https://zanark.github.io/phantom-fudge/",
+    "runId": 38101185167,
+    "sourceCommit": "2ad0fa03a8c699619bda24c33ef6aa0250d6ef38",
+    "conclusion": "success",
+    "httpStatus": 200,
+    "previewTwoLinksVerified": 2,
+    "historicalTutorialLabelsDisclosed": true
+  },
+  "failedAttempts": [
+    {
+      "stage": "Release attachment consistency",
+      "failure": "A post-freeze documentation rebuild made the maintained handbook differ from the already-built installer copy.",
+      "resolution": "Recovered both PDFs from the exact clean source commit; repeated payload, archive and attachment verification passed before upload. Setup and Portable bytes were unchanged."
+    }
+  ],
+  "qualificationLimits": [
+    "Current-host isolated installer identity and path; shortcuts omitted.",
+    "Older-version metadata simulated; not a genuine old-binary migration matrix.",
+    "Packaged UI ran serially using synthetic transcript, device and provider data; no real audio or external answer-provider request.",
+    "Speech inference used generated PCM, not recognition-quality or real installed-service qualification.",
+    "Dependency metadata describes the disclosed modified CPU-only and PCM-only distributions, not the unmodified upstream dependency graph.",
+    "Static PE closure and exercised loaded-module paths do not establish clean-VM or hardware-wide compatibility.",
+    "No recipient-side screen-sharing, universal capture exclusion, real shortcut-collision or owner-comfort qualification.",
+    "Published PDFs are immutable tagged-build editions; maintained repository documentation adds publication follow-up.",
+    "Unsigned; checksums identify bytes, not signer trust. Respect operating-system and organizational security controls."
+  ],
+  "assets": [
+    {
+      "name": "PhantomFudge-0.2.0-preview.2-win-x64-Setup.exe",
+      "bytes": 657321566,
+      "sha256": "622fd54e64d8398afae51deadd5503a90436e28dced1e08fc4c9391730e4a72e"
+    },
+    {
+      "name": "PhantomFudge-0.2.0-preview.2-win-x64-Portable.zip",
+      "bytes": 704334831,
+      "sha256": "4c0910c22de0ab1718cecda6ebeb5980c40d2a583e6c8a6726f74e2b873d7b34"
+    },
+    {
+      "name": "Phantom-Fudge-Engineering-Handbook.pdf",
+      "bytes": 12148657,
+      "sha256": "1941c9618326a4250627b0253b94ff323db25194c3cb31506f354bcd02b7652d",
+      "pages": 391
+    },
+    {
+      "name": "Phantom-Fudge-Source-Atlas.pdf",
+      "bytes": 18847198,
+      "sha256": "473aa604081b3a486b923b76649a408fccacc5e6747684ac570541176687fa6f",
+      "pages": 709
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 435,
+      "sha256": "3932f56695947725c2bf6c60bed9dd0633852394daeeaa9fe00399f02e656b99"
+    }
+  ]
+}

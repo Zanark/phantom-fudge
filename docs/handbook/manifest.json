@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-11T00:47:16.996Z",
+  "generatedAtUtc": "2026-10-11T01:51:58.097Z",
   "edition": "2026-10-11",
   "inputs": {
     "AGENTS.md": "a2e00965ef5387b5af1b7c69d6594145d8d67d0a6294974b0bf6cb0b1921642d",
@@ -8,11 +8,11 @@
     "Directory.Build.props": "1bb1bc2e04dc4fee54dd8627dde84f43783cab0f3ffc18224fcdacac0137a6d7",
     "docs/AI-ANSWER-ARCHITECTURE.md": "dc731390bc3c5ce7fdc16b5bcfaa79658e2a3c0d78e528b0dd7e68880a6ed80a",
     "docs/AI-ANSWER-EVALUATION.md": "ef160f486bc2af9642eed8e72ca62a79a4139cd7af2f91cbee415cf05934bcc0",
-    "docs/AI-ANSWER-PRIVACY.md": "149e93ca5f044a394800ca4e0dfda0ec5662e7d369ecd59853cd7b483c9e6d45",
+    "docs/AI-ANSWER-PRIVACY.md": "c31862f84519786703526be76461124b073537319845b7b98c7ed91696714170",
     "docs/AI-ANSWER-RESEARCH.md": "6e8606afc392a23c1f237845fdc11f00a69fb94420e9da4f8b4c644ed9c1d105",
     "docs/answer-provider-smoke.json": "7bf9dde741fd48659d3700c8a9a996a788e32729a0a829f1b4c6787e9204081b",
     "docs/ANSWER-PROVIDERS.md": "d33a799fd1b5a4d3af096290feecec75ca5ba623ba6ca8cb8dbbeb51f6cec761",
-    "docs/ARCHITECTURE.md": "f67da65117270d2c9d91013b018416dd8e1a0277250922fe3d7e83c51782e49c",
+    "docs/ARCHITECTURE.md": "ae7dc3219882d8e40d40c143c6239ccad80f33561187c581b66b959f59445bc8",
     "docs/assets/readme/answer-context.png": "f839e9c7f029303c1091976e705b1a60727f7289cd3f88d3b10cdf998066f2d7",
     "docs/assets/readme/audio-devices.png": "d2a8401c88e20294e208a11f39be0d7d009109f1d22a11c55442d9f3d2fdfdd7",
     "docs/assets/readme/clarification.png": "0832766f1f9ad6dae0c4c5c3ef3759ad201243cd28457aca7c01aeb0bae9a6db",
@@ -26,40 +26,40 @@
     "docs/assets/readme/selection.png": "7d80068f5f1ea1ab9763be469f35920ea75ebfb61c0bfacd9cb6090dbbc1bd12",
     "docs/assets/readme/transcript.png": "28e288097fca3495c67ae2159a015f8e00f2a58db647554800841a579cd6c758",
     "docs/COVER-AND-PRIVACY.md": "489797b60b80e071a3693f13f871cf48157e4f778fe1dbc56611074a4d322071",
-    "docs/CURRENT-WORKFLOW.md": "466b55002f5c964bc20db4237a66cf6b7dbcbedee6390896f1c6d5dcb6714967",
+    "docs/CURRENT-WORKFLOW.md": "64e5fd27fb170a28ee5a2698a93cf9eaa74377da02b92f7e61d52c2280fb58c3",
     "docs/CURSOR-AND-THEMES.md": "bab42d313e5f1920e1666a575fedc34f84dc5543aea413c7665b4e8f5726b664",
     "docs/DEVELOPMENT-WORKFLOW.md": "1f0852195c0afe455b2e754c6da1496ca4f450ce8d99cb2a3103a4ad4fc0b7f4",
-    "docs/DOCUMENTATION-MAINTENANCE.md": "87faa05a6691d079a1bcd5ac403b25d7558fcfa0c1eea714bbf1735d66f1d11a",
+    "docs/DOCUMENTATION-MAINTENANCE.md": "80cb750621767c2191e1dbfea5db0a9051884062abaa13da4809212b9ead398f",
     "docs/DUAL-SOURCE-AUDIO.md": "61eb2c59cc56b2ab0fbbc7921bcb71ed5bc11c2dbdf6f611c898b074f786d05b",
-    "docs/handbook/00-reading-map.md": "dd88551fb693af58e007eb8f2861d652614e5f38f1851cbfcb99749703899c48",
+    "docs/handbook/00-reading-map.md": "5ff16f03f95c432913278086d5c8501297285415287e07c2df31389890aed29d",
     "docs/handbook/01-principal-engineer-guide.md": "fd7ddab98ccb4814354c4690f362996b8a878b444e36c59585cc7b076b552606",
     "docs/handbook/02-zero-to-hero.md": "ccf3a3f638ff9c7b10293981b23c9d7dcbf756070c128058eb3ee540eb2a61ed",
-    "docs/handbook/03-product-boundaries-and-decisions.md": "08cf431186779e4b178734d3c6a00a4913efdc6eeb5cc054debf5093fce6f0f9",
+    "docs/handbook/03-product-boundaries-and-decisions.md": "a6ca5de46a1621b5778dceabd76d33e3dd9c74597dffe4460c6ba9f303550b45",
     "docs/handbook/04-windows-capture-and-cursors.md": "079e85636ca4fd9006a9565041739b0afd25ff05515d602f0b07ea3107170a83",
-    "docs/handbook/05-desktop-ui-and-themes.md": "d587f63ea0d3d195cbdbf7a5a80eb9881b9a4bfb204957258864d5ad8b65fca9",
+    "docs/handbook/05-desktop-ui-and-themes.md": "aeb7eccae0120890062f161753f4682942a247f66feca96b14914a2d596ee089",
     "docs/handbook/06-notes-transcripts-and-storage.md": "00769ef786de4170f180f33163a06b2e6ca3a5621dd9cd27e6f1b02a14402c8e",
     "docs/handbook/07-dual-input-capture.md": "76566a19916d3234ecb9459dc655af6640dc8974ae4afde47ac048ffbc36ffff",
     "docs/handbook/08-streaming-protocol.md": "39d303e563f912acfbfceb76b94fbd6f6e883523445d7dfe9e53a7ec3c90fc25",
     "docs/handbook/09-python-recognition.md": "f0257d99a7fbd0a48d58ad15be8dee9cd2f7808c3866f6c6a75086ab822e84f8",
-    "docs/handbook/10-native-service-lifecycle.md": "e72f0f341351eef3ef07d6d1832521424a8a757e3b40ecfb189dcb543bef998f",
+    "docs/handbook/10-native-service-lifecycle.md": "bdc0a4abc297fdc0b10f9a446d90d92ed7ea471d54b5bb6ba8cfe5b5c759673e",
     "docs/handbook/11-state-machines-and-failure-containment.md": "ca4ae51ae79273f47d8b10291b6f62518e1f996344e4499a6959b11c141b5fa0",
     "docs/handbook/12-performance-and-benchmarks.md": "6eb4a750b489fe1f1744c02bc87c191fdb0f73a80f592f9af861923bc811c11c",
     "docs/handbook/13-proposed-azure-answer-flow.md": "36b20da2a958d235f6b3c6dd940f2d1af3fbbf0b37a60cc7d999c4ef9e407350",
     "docs/handbook/14-answer-latency-identity-and-privacy.md": "927ce24a5a93baf98b89e775ac96f84da68bb1efdf475f0dafb8ef6028d4d9ca",
     "docs/handbook/15-development-and-testing.md": "0a58c61c6318bac5379acc4abfc507023ed7bccd62d3a9edd09fec99916da427",
-    "docs/handbook/16-distribution-and-troubleshooting.md": "84d9e9cdf148e49ae6ca0b1fed3e61cf1192ae04b321215be7da457c2a8963d9",
-    "docs/handbook/17-privacy-and-assurance.md": "994d340cd858720fcfc582a9e7fae4f4709642de87eb7cde392e78fb7a387f15",
+    "docs/handbook/16-distribution-and-troubleshooting.md": "4335c88c3dbbeb15ef4791065d99f85d29d10a3722cff39b53d759df157b557e",
+    "docs/handbook/17-privacy-and-assurance.md": "9157dc50469ad5a0bdce2f489500f080ba4763a7a47a65afaba305acd5623984",
     "docs/handbook/18-extending-the-system.md": "f773884453a62983b3389d952285e0acc05780311bf364f2e428f189f460560a",
     "docs/handbook/19-api-configuration-reference.md": "5cdc668e6fb9692bcf42963b83d21228d1ba5861da1cb23244a8c4c5e984a944",
     "docs/handbook/20-glossary-and-repository-map.md": "30d82e45932a33d718547b3eece52b3de8cf7630430caf56277cb654ddd3ef31",
-    "docs/handbook/21-evidence-and-roadmap.md": "b4bd1467e8a532609e60571cf289633fb368d8cc60798a1dbb18879cf7b4be5e",
+    "docs/handbook/21-evidence-and-roadmap.md": "0ba7aeaafbf7706075394339629f3f14f7ca903f1c1e0ea77f3c2578fe84ffa3",
     "docs/handbook/22-desktop-source-walkthrough.md": "1ba9c7476c3a35c0dc8f9eeef2cb40c47a23bbf2f432a292154b4afca531d160",
     "docs/handbook/23-domain-source-walkthrough.md": "a889e80bc7e049d39c57fea6cd03302221210fe6ed79fc2e35b435a2b9aafc6f",
     "docs/handbook/24-provider-source-walkthrough.md": "e86ee4154887a2b47ff86d6ad84609d629b8f5c5b9998ee28a231613f54e193c",
     "docs/handbook/25-native-audio-source-walkthrough.md": "b551600d8a0de8a256847663a6fa61b0865f78adde24b42a523783216dd6b85f",
     "docs/handbook/26-speech-source-walkthrough.md": "67b15177203aa36148103f112be7de2a623207ab9abdd718442b658dfcdd04d2",
     "docs/handbook/27-operations-source-walkthrough.md": "8676e7113d74f176227ad39cfd2bb9a15fce7f0d22c2d6723273adb83ae756ed",
-    "docs/handbook/28-documentation-source-walkthrough.md": "f2ab8777a7c0a195b80cd090bf5a986fc5f6cc0cb6614827a9bcce517135825a",
+    "docs/handbook/28-documentation-source-walkthrough.md": "58e1402091d4d4d26877e1dab6b349092d42c11058cc2986814f319b2e30b9e8",
     "docs/handbook/assets/cover.svg": "cca6a0b1d452c7376989650c5f51eb37398b06ba10df8e759a60d3b5193f8074",
     "docs/handbook/assets/screenshots/answer-background-10.png": "778e94d10d1ea2dbda39eaeeb383adc172cebf8cf5fdc728b22b29e069ad2b03",
     "docs/handbook/assets/screenshots/answer-background-100.png": "f771bc5d1ee214b14a228045562b830fc1845ad7ac0941b5eac3cbac95f47ddf",
@@ -87,26 +87,27 @@
     "docs/handbook/assets/screenshots/transcript-deepseafoam.png": "9d2e18383acc0903456e3a47cb5a4df40db3bd61c89be92776e5ec35b8da81b8",
     "docs/handbook/assets/screenshots/transcript-multiselect.png": "9af2d2f9606233360807436ecbe92f954d3f13e3d442b6fbf7f6fb58361556a3",
     "docs/handbook/book.json": "bcea9a8b8089876b529b3a452632d8ef251c91dc1ee4361649f9135d683297ee",
-    "docs/handbook/catalogue.json": "beea67299a3964e36f89465933a3d50ccb72ca7116ec00a2000b05c4ece1e294",
-    "docs/handbook/README.md": "5adf24926014d9bf03e40eea474cc3914c7bbbda9138f8dd0097ee4be3795345",
-    "docs/IMPLEMENTATION-STATUS.md": "bec956a225a6750600272c9dc602e6d200d96ba280415e61d3ba53f2b504a81b",
-    "docs/INSTALLATION.md": "b030b9f1d76fc09bb0b06ff7122e40766b9ffe808cb5963a9d6f53c700a4b578",
+    "docs/handbook/catalogue.json": "0ac512c31a4be3455e4d2210675ae1b0c6a5f806e4d6182cdfd0f55476d2b490",
+    "docs/handbook/README.md": "fa7fd5667134e15e63ffac35dd1e01a9a2466276c824d8904840d5662cc0f991",
+    "docs/IMPLEMENTATION-STATUS.md": "48ce413af30ecab08e323d5a28f1aa467739308968759f269491ee30a25e8377",
+    "docs/INSTALLATION.md": "7a85958b7d0abd4acda44d0e3a6b0ea8ba884561e421dfecbc59fe17e3684fef",
     "docs/KEYBOARD-CONTROLS.md": "8c1da609a6460da7849d4d3e14bbfcb24d02d7decbd044099ceea6aef4349186",
-    "docs/LOCAL-QUESTIONS.md": "488b883fec37569be3f6adaffb8fcac140b9cdcb80744bb1b5025eed6795ea28",
-    "docs/OVERVIEW.md": "848d1e88307b0e5b324cb6db40e85417ea372d93e984841072e3d3d2698a531f",
-    "docs/PREVIEW-GUIDE.md": "842ce6e8e84c196cd19c3ad3813120b94b0fc2d98ddd1d7df2a9b2db2867994b",
-    "docs/PRODUCT.md": "d4d9c1a10ebdff57e597cb96beb31b1c242c82870e5a5069a39ecdf427d29308",
-    "docs/QUALIFICATION.md": "0202d933a9edb4b30c557e6036c8edfde4848e09508b7f58fc47a41586241c85",
+    "docs/LOCAL-QUESTIONS.md": "956356f069b8684afa7dec760a00534c4488c5e96f18b5ffb5b4e7123048fb2e",
+    "docs/OVERVIEW.md": "a47f7b43315549e66c4b4a40e5e5eb48878328c5bec349e217e87c5113e57913",
+    "docs/PREVIEW-GUIDE.md": "d2ec0b35cd9a688cb7c738f2e536de5506fa52790d920502ebb20eb38656e11a",
+    "docs/PRODUCT.md": "ce2a38b3447bc6770dac378f3035bcd0d0e983e56988948f012179444ac8bfe7",
+    "docs/QUALIFICATION.md": "3226eca4c03b5e1e68829c303e1ae9b9e9ea1223bd810b62d9bb4a7c55748ca9",
     "docs/QUESTION-CLARIFICATION.md": "255ae0c3d7a95662efc186c306c68b847054c6939de9b1ecb5f0e61f8f12f2a8",
-    "docs/README.md": "0011c4d1cb78e8d7925c6845690027763f12daf45d0b5b32b81f55b241673383",
-    "docs/source-atlas/manifest.json": "d53c35fc5e3c68256fe5da709d476eee4b33d36ed2f458d746ff57bc98b50c79",
+    "docs/README.md": "ddda70d64482af79d8131f8f7d176d57e652ecff24357e2dec196a1aa7a3a12a",
+    "docs/release-0.2.0-preview.2.json": "7b70ef581d18650a55cbc7445548e60bb18dc438468171c29f81d80d1636b95e",
+    "docs/source-atlas/manifest.json": "964960062bc99060fcf550f687306a067ebd83d858ed46515ee05666b542391f",
     "docs/SPEECH-BENCHMARK.md": "46c89e70fc06891a837c3fc2323ed9712510a0175981ea3e916516d750dda39d",
     "docs/TODO-CONVENTIONS.md": "7d214300834874ea780761859b992ea4ccf834ce2a34eef2697437d8d841e753",
-    "docs/WEBSITE.md": "f72fdfdf187c2059f1974cf67e540cdfbc730820416767a6999f392077cf643e",
+    "docs/WEBSITE.md": "df9d550324cb1160a81280d699e40c48da30327d69cece87ff60fdb3a0f9d850",
     "global.json": "bf68d4a0fc2613967f53bd6af5a6570666b755f5f6bf4688a120736ae523ccaa",
-    "JOURNAL.md": "3f698ae7c9ee471f91f8ee14e75dfda591ef0458cff9e9300fc5920d2bb9bf88",
+    "JOURNAL.md": "c632f5e5e99a7622bf47d0b1285302a18d153f9060d59725c4b636e198eaf167",
     "PhantomFudge.slnx": "83273f1f97cbf17a0f001c4221eb997d18dac384b630d16a080d24253ca51379",
-    "README.md": "71bef3c58a5d634ac4f60cba116d56a0eed50cdb15514ff6ebe29e1daef2237f",
+    "README.md": "733206978649fb15d359a3cf2b3dfa36cfd8a9ca0ea3822039fdda4e532caf45",
     "scripts/Build-Handbook.ps1": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
     "scripts/Build-Handbook.txt": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
     "scripts/Build-Installer.ps1": "fce0d469b571c669c551ddbb93db2f8279d0fe32e79be999db7120aabb525b9f",
@@ -257,11 +258,11 @@
     "tests/PhantomFudge.Core.Tests/ThemePaletteTests.cs": "3bbb5308677f535c629c9909df63e1f1879a6e915a8165aed891cc1d57247f53",
     "tests/PhantomFudge.Core.Tests/TranscriptBufferTests.cs": "4ebd424f1684c9d8fd623322e19153427fb2b94858ca93034baeae20c1a91558",
     "tests/PhantomFudge.Core.Tests/WorkspaceLayoutTests.cs": "3b1261c8523b8218a3359dddec3118f53d653f8a981b8696a57d264cfc404d69",
-    "TODO/00_INDEX.todo": "df0dd285c99f0ceff8056fa857c672003c72096503f3f6621d076be1275a3e8d",
+    "TODO/00_INDEX.todo": "107f21b8b7b7e53413c261d4d4488660cc6c91f414aa95431799fc70c40d12c6",
     "TODO/08_LOCAL_STORAGE.todo": "ef568213f4a837ed48f2011b6dd93a1298fdd40a2151983350a252ec985a789d",
     "TODO/13_COMPATIBILITY_QUALIFICATION.todo": "9ef0db53d6031e1744d377e3a02163cbdf0e406b3e92a7d9b018b9ae9af0abf1",
     "TODO/14_PACKAGING_RELEASE.todo": "869edd690efd9a23798bd90d9c3277b6e077da8069ab6bd6eedcf1c09a8a2794",
-    "TODO/16_DEVELOPMENT_LEDGER.todo": "19520a0c69f4e271bb0031f84404e583d30d0502eb0d2399f58d95ebe59fea39",
+    "TODO/16_DEVELOPMENT_LEDGER.todo": "f0b158d032258129b7be14e1a268d7ef0d5d91c20e604d761a2e8e2ae5cb4f76",
     "TODO/17_RELEASE_ACCEPTANCE.todo": "ced71d32d0045f0b7b490bd2d99171be177fbc215e7cbfe051ba06f62cdfe526",
     "TODO/20_DOCKER_LOCAL_SERVICE.todo": "701e74651abb517d595a86261d3c48b78e2399d0bce83a7db12a39e8a2d746de",
     "TODO/22_NATIVE_PYTHON_RUNTIME.todo": "444317a249a394d5e625649bbb43da82db9049c36a8812e98f34170dbbabbb13",
@@ -457,7 +458,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 1153
+      "words": 1156
     },
     {
       "file": "docs/handbook/01-principal-engineer-guide.md",
@@ -755,6 +756,16 @@
       "title": "Install, update and remove Phantom Fudge",
       "citations": [
         {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 3,
+          "end": 29
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 90,
+          "end": 100
+        },
+        {
           "file": "tools/Installer/PhantomFudge.iss",
           "start": 72,
           "end": 76
@@ -948,6 +959,16 @@
           "file": "scripts/Build-Installer.ps1",
           "start": 56,
           "end": 74
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 19,
+          "end": 20
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 68,
+          "end": 70
         },
         {
           "file": "tools/Installer/PhantomFudge.iss",
@@ -1271,7 +1292,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2710
+      "words": 2685
     },
     {
       "file": "docs/CURRENT-WORKFLOW.md",
@@ -1569,7 +1590,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2424
+      "words": 2427
     },
     {
       "file": "docs/KEYBOARD-CONTROLS.md",
@@ -1900,7 +1921,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 1101
+      "words": 1105
     },
     {
       "file": "docs/handbook/04-windows-capture-and-cursors.md",
@@ -2771,7 +2792,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 3852
+      "words": 3851
     },
     {
       "file": "docs/handbook/06-notes-transcripts-and-storage.md",
@@ -4921,7 +4942,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 3091
+      "words": 3089
     },
     {
       "file": "docs/handbook/11-state-machines-and-failure-containment.md",
@@ -6918,6 +6939,21 @@
           "end": 227
         },
         {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 26,
+          "end": 26
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 30,
+          "end": 50
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 68,
+          "end": 77
+        },
+        {
           "file": "tools/Installer/runtime-lock.json",
           "start": 1,
           "end": 11
@@ -6996,6 +7032,11 @@
           "file": "scripts/Build-Installer.ps1",
           "start": 56,
           "end": 98
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 18,
+          "end": 20
         },
         {
           "file": "scripts/Test-Installer.ps1",
@@ -7128,6 +7169,16 @@
           "end": 35
         },
         {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 61,
+          "end": 77
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 90,
+          "end": 100
+        },
+        {
           "file": "scripts/Publish-Preview.ps1",
           "start": 1,
           "end": 52
@@ -7164,7 +7215,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2035
+      "words": 2074
     },
     {
       "file": "docs/WEBSITE.md",
@@ -7269,6 +7320,11 @@
           "file": "tools/Site/build.mjs",
           "start": 28,
           "end": 52
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 52,
+          "end": 59
         },
         {
           "file": "tools/Site/build.mjs",
@@ -7407,7 +7463,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2215
+      "words": 2266
     },
     {
       "file": "docs/handbook/17-privacy-and-assurance.md",
@@ -7540,7 +7596,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 1347
+      "words": 1372
     },
     {
       "file": "docs/handbook/18-extending-the-system.md",
@@ -9731,6 +9787,41 @@
           "end": 176
         },
         {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 18,
+          "end": 29
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 68,
+          "end": 75
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 28,
+          "end": 50
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 68,
+          "end": 77
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 3,
+          "end": 17
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 52,
+          "end": 59
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 79,
+          "end": 106
+        },
+        {
           "file": "docs/TODO-CONVENTIONS.md",
           "start": 64,
           "end": 70
@@ -9859,6 +9950,26 @@
           "file": "scripts/Export-Diagnostics.ps1",
           "start": 14,
           "end": 80
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 61,
+          "end": 66
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 51,
+          "end": 51
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 76,
+          "end": 76
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 90,
+          "end": 100
         },
         {
           "file": "scripts/Publish-Preview.ps1",
@@ -10087,7 +10198,7 @@
         }
       ],
       "diagrams": 3,
-      "words": 2432
+      "words": 2730
     },
     {
       "file": "docs/handbook/22-desktop-source-walkthrough.md",
@@ -13287,6 +13398,21 @@
           "end": 48
         },
         {
+          "file": "tools/Docs/source-atlas.mjs",
+          "start": 11,
+          "end": 12
+        },
+        {
+          "file": "tools/Docs/source-atlas.mjs",
+          "start": 36,
+          "end": 46
+        },
+        {
+          "file": "tools/Docs/source-atlas.mjs",
+          "start": 58,
+          "end": 66
+        },
+        {
           "file": "tools/Docs/build.mjs",
           "start": 75,
           "end": 87
@@ -13300,10 +13426,25 @@
           "file": "tools/Docs/build.mjs",
           "start": 116,
           "end": 154
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 48,
+          "end": 54
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 76,
+          "end": 88
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 61,
+          "end": 77
         }
       ],
       "diagrams": 2,
-      "words": 1866
+      "words": 2001
     },
     {
       "file": "docs/ANSWER-PROVIDERS.md",
@@ -13817,19 +13958,104 @@
           "file": "tools/Installer/PhantomFudge.iss",
           "start": 107,
           "end": 161
+        },
+        {
+          "file": "tests/PhantomFudge.Core.Tests/PhantomFudge.Core.Tests.csproj",
+          "start": 20,
+          "end": 27
+        },
+        {
+          "file": "tools/Site/test-site.mjs",
+          "start": 58,
+          "end": 63
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 48,
+          "end": 54
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 48,
+          "end": 54
+        },
+        {
+          "file": "scripts/Build-Installer.ps1",
+          "start": 76,
+          "end": 88
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 61,
+          "end": 77
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 3,
+          "end": 17
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 51,
+          "end": 51
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 79,
+          "end": 106
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 18,
+          "end": 29
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 28,
+          "end": 50
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 68,
+          "end": 77
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 90,
+          "end": 100
+        },
+        {
+          "file": "docs/release-0.2.0-preview.2.json",
+          "start": 52,
+          "end": 59
+        },
+        {
+          "file": "tools/Docs/source-atlas.mjs",
+          "start": 11,
+          "end": 12
+        },
+        {
+          "file": "tools/Docs/source-atlas.mjs",
+          "start": 36,
+          "end": 46
+        },
+        {
+          "file": "tools/Docs/source-atlas.mjs",
+          "start": 58,
+          "end": 66
         }
       ],
       "diagrams": 2,
-      "words": 13956
+      "words": 14665
     }
   ],
   "diagramCount": 75,
-  "wordCount": 95306,
+  "wordCount": 96545,
   "pdf": {
     "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.pdf",
-    "sha256": "1941c9618326a4250627b0253b94ff323db25194c3cb31506f354bcd02b7652d",
-    "bytes": 12148657,
-    "pages": 391,
+    "sha256": "d3524a570c9331b26f8a28ac96a32145dc79efd43b388537b6c9b47cf428cc05",
+    "bytes": 12214101,
+    "pages": 395,
     "inspection": {
       "missingImages": [],
       "overflowing": [],
@@ -14754,11 +14980,11 @@
     },
     {
       "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.html",
-      "sha256": "27aeea232ff0035b8613c401a583e23762dc92ca08d0f2ad56993ff3c5217ffd"
+      "sha256": "5e5ab3f88666abd727a4d1ec1d8c593c83e17484dbccf47be95d93755490ad2e"
     },
     {
       "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.pdf",
-      "sha256": "1941c9618326a4250627b0253b94ff323db25194c3cb31506f354bcd02b7652d"
+      "sha256": "d3524a570c9331b26f8a28ac96a32145dc79efd43b388537b6c9b47cf428cc05"
     }
   ]
 }

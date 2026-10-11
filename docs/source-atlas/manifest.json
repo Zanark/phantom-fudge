@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-11T00:46:59.025Z",
+  "generatedAtUtc": "2026-10-11T01:51:37.197Z",
   "complete": true,
   "counts": {
     "files": 220,
@@ -17,7 +17,7 @@
     "PhantomFudge.slnx": "83273f1f97cbf17a0f001c4221eb997d18dac384b630d16a080d24253ca51379",
     "compose.yaml": "072523fcbae8d0e1b017bae97bb6bfa595108b56b0b2989cb014f761b5ff6e3e",
     "docs/handbook/book.json": "bcea9a8b8089876b529b3a452632d8ef251c91dc1ee4361649f9135d683297ee",
-    "docs/handbook/catalogue.json": "beea67299a3964e36f89465933a3d50ccb72ca7116ec00a2000b05c4ece1e294",
+    "docs/handbook/catalogue.json": "0ac512c31a4be3455e4d2210675ae1b0c6a5f806e4d6182cdfd0f55476d2b490",
     "global.json": "bf68d4a0fc2613967f53bd6af5a6570666b755f5f6bf4688a120736ae523ccaa",
     "scripts/Build-Handbook.ps1": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
     "scripts/Build-Handbook.txt": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
@@ -304,12 +304,12 @@
     "docs/handbook/25-native-audio-source-walkthrough.md": "b551600d8a0de8a256847663a6fa61b0865f78adde24b42a523783216dd6b85f",
     "docs/source-atlas/annotations/desktop.json": "045aca885f098986e0b7ae017b5378d681bc40f4ffacf580549781288cf65efc",
     "docs/handbook/22-desktop-source-walkthrough.md": "1ba9c7476c3a35c0dc8f9eeef2cb40c47a23bbf2f432a292154b4afca531d160",
-    "docs/source-atlas/annotations/documentation.json": "8b61445761642f6af73d9e03ce6e32b39126f4a4e6f85ce091ab91ce57544638",
-    "docs/handbook/28-documentation-source-walkthrough.md": "f2ab8777a7c0a195b80cd090bf5a986fc5f6cc0cb6614827a9bcce517135825a",
+    "docs/source-atlas/annotations/documentation.json": "52cf4aa93db1a385bdea97bbb2ee84c1ea369f8974de3d2de6bacffdd2295ee0",
+    "docs/handbook/28-documentation-source-walkthrough.md": "58e1402091d4d4d26877e1dab6b349092d42c11058cc2986814f319b2e30b9e8",
     "docs/source-atlas/annotations/domain.json": "d3872b18e1561f27cfd01d8eb0f3f81dfdeca0d841653e1706fcd7dba4a6d76f",
     "docs/handbook/23-domain-source-walkthrough.md": "a889e80bc7e049d39c57fea6cd03302221210fe6ed79fc2e35b435a2b9aafc6f",
     "docs/source-atlas/annotations/installer-launcher.json": "81fee755a82f54d07815d3cbd2b05dfab7889f6ef4f249fe47fb9ed26218ab67",
-    "docs/INSTALLATION.md": "b030b9f1d76fc09bb0b06ff7122e40766b9ffe808cb5963a9d6f53c700a4b578",
+    "docs/INSTALLATION.md": "7a85958b7d0abd4acda44d0e3a6b0ea8ba884561e421dfecbc59fe17e3684fef",
     "docs/source-atlas/annotations/installer-packaging.json": "464344359aca61b429c070cf43751599e208aa1137dab215832c89375968947c",
     "docs/source-atlas/annotations/installer-runtime.json": "ecb12b9c7294f43db848e51f8ad495814a35c186e22d2ea8c4d94eb27d79f639",
     "docs/source-atlas/annotations/operations.json": "601157335dadb1f25339af4b80fd1c3c77a1f5d69b98b9b7f99c70faf81e8a30",
@@ -319,28 +319,28 @@
     "docs/source-atlas/annotations/speech.json": "60a0d4e854c0c7e3b3f0ae0c957a855d09a5eafe1d38b7d616b2b384ea58e87d",
     "docs/handbook/26-speech-source-walkthrough.md": "67b15177203aa36148103f112be7de2a623207ab9abdd718442b658dfcdd04d2",
     "docs/source-atlas/annotations/website.json": "0baf2e99825dd03fe40813f78a79e1f4e2a27aade93b3ab3ac237fb6e07dc7ca",
-    "docs/WEBSITE.md": "f72fdfdf187c2059f1974cf67e540cdfbc730820416767a6999f392077cf643e"
+    "docs/WEBSITE.md": "df9d550324cb1160a81280d699e40c48da30327d69cece87ff60fdb3a0f9d850"
   },
   "pdf": {
     "file": "docs/source-atlas/Phantom-Fudge-Source-Atlas.pdf",
-    "sha256": "473aa604081b3a486b923b76649a408fccacc5e6747684ac570541176687fa6f",
+    "sha256": "7e640ff75470f103e74cf3c468b784d4762bf4477ba9f7a0d65bfe1f582ea606",
     "pages": 709,
-    "bytes": 18847198
+    "bytes": 18848140
   },
   "artifacts": [
     {
       "file": "docs/source-atlas/Phantom-Fudge-Source-Atlas.pdf",
-      "sha256": "473aa604081b3a486b923b76649a408fccacc5e6747684ac570541176687fa6f",
+      "sha256": "7e640ff75470f103e74cf3c468b784d4762bf4477ba9f7a0d65bfe1f582ea606",
       "pages": 709,
-      "bytes": 18847198
+      "bytes": 18848140
     },
     {
       "file": "docs/source-atlas/index.html",
-      "sha256": "ceefadd608a5b72a18b9746960741170b2772fd23e57776906b002819b88a818"
+      "sha256": "5df1fb9e6249d8e262dcf218e21ebcd8467b2541e41843e34a89663f93086148"
     },
     {
       "file": "docs/source-atlas/coverage.json",
-      "sha256": "845322f5dd484fe30c82226a366f9864edd48ab1ad16156e1e6115f4edc8c9ae"
+      "sha256": "fa043aaeefb47acd6f9bf9aba6dd8f71f185167bc71fd0990e26565e7c2d543b"
     },
     {
       "file": "docs/source-atlas/README.md",

@@ -1,10 +1,10 @@
 # Phantom Fudge legacy development bundle
 
 This guide is the root README shipped by the **legacy `Publish-Preview.ps1` ZIP workflow**.
-It is not the first-run procedure for the v0.2.0-preview.2 installer candidate or self-contained
+It is not the first-run procedure for the published v0.2.0-preview.2 installer or self-contained
 portable payload. For those, read the repository's `docs\INSTALLATION.md` and release evidence.
-Check assets for the public unsigned Windows 11 x64 prerelease at
-https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2; package/publication evidence is pending.
+Download the public unsigned Windows 11 x64 prerelease at
+https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2; the repository's `docs/release-0.2.0-preview.2.json` records exact identities and limits.
 
 This local development bundle includes the Windows app and native Python speech-service
 source/setup scripts. **Docker is not needed.** The app remains discoverable to Windows and
@@ -22,7 +22,7 @@ Extract the entire ZIP. Use PowerShell 7.2+ and an installed Python 3.13 interpr
 Setup creates a package-local Python environment, installs pinned dependencies, explicitly
 downloads verified Vosk and Whisper small.en English models, and creates a local token. No meeting data is uploaded.
 The C# runtime is included; the Python interpreter/model/venv are not baked into the ZIP.
-That statement applies to this legacy bundle, not to the new installer's intended bundled
+That statement applies to this legacy bundle, not to the published installer's bundled
 Python/Vosk/Whisper layout. Historical ZIPs do not gain later UI changes when this guide changes.
 
 Later launches only need `Run-PhantomFudge.ps1`. It starts or reuses the native Python

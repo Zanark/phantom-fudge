@@ -59,7 +59,7 @@
         {
           "title": "keyboard-controls",
           "name": "Keyboard Controls and Answer Size",
-          "prompt": "Use docs/KEYBOARD-CONTROLS.md as the canonical guide. Trace activation, literal Edit, selection/review/submit and explicit lifecycle commands through src/PhantomFudge.App/MainWindow.Keyboard.cs:65-368, MainWindow.KeyboardSelection.cs:110-159 and MainWindow.KeyboardDevices.cs:42-71. Explain invalid-config fallback in src/PhantomFudge.App/MainWindow.Keyboard.cs:38-63 and armed Edit with foreground-only async editor retargeting at src/PhantomFudge.App/MainWindow.Keyboard.cs:127-139. Explain session-only font choice from src/PhantomFudge.App/MainWindow.AnswerFont.cs:9-43 and exact shortcut JSON/allowed keys from src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs:7-114. Separate final synthetic runtime evidence from pending atlas/book completion and unqualified external hotkey/foreground comfort; do not promise global cursor control.",
+          "prompt": "Use docs/KEYBOARD-CONTROLS.md as the canonical guide. Trace activation, literal Edit, selection/review/submit and explicit lifecycle commands through src/PhantomFudge.App/MainWindow.Keyboard.cs:65-368, MainWindow.KeyboardSelection.cs:110-159 and MainWindow.KeyboardDevices.cs:42-71. Explain invalid-config fallback in src/PhantomFudge.App/MainWindow.Keyboard.cs:38-63 and armed Edit with foreground-only async editor retargeting at src/PhantomFudge.App/MainWindow.Keyboard.cs:127-139. Explain session-only font choice from src/PhantomFudge.App/MainWindow.AnswerFont.cs:9-43 and exact shortcut JSON/allowed keys from src/PhantomFudge.Core/KeyboardShortcutConfiguration.cs:7-114. Separate October10 source evidence from public Preview2's exact-package checks in docs/release-0.2.0-preview.2.json:18-29 and unqualified external hotkey/foreground comfort; do not promise global cursor control.",
           "children": []
         },
         {
@@ -201,7 +201,7 @@
         {
           "title": "21-evidence-and-roadmap",
           "name": "Evidence and Roadmap",
-          "prompt": "Separate code, local synthetic evidence, owner statements and unqualified scope using docs/IMPLEMENTATION-STATUS.md:1, QUALIFICATION.md, SPEECH-BENCHMARK.md and TODO/16_DEVELOPMENT_LEDGER.todo:1.",
+          "prompt": "Separate code, local synthetic evidence, owner statements and unqualified scope using docs/IMPLEMENTATION-STATUS.md:1, QUALIFICATION.md, SPEECH-BENCHMARK.md and TODO/16_DEVELOPMENT_LEDGER.todo:1. Public Preview2 is recorded in docs/release-0.2.0-preview.2.json:3-106; explain the caught post-freeze PDF mismatch, recovered committed editions, unchanged Setup/Portable and independent maintained follow-up instead of silently replacing release attachments.",
           "children": []
         }
       ]

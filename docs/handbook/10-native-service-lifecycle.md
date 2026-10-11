@@ -14,9 +14,9 @@ The second boundary is **ready service versus recording application**. Initializ
 
 ## Installed preview: a different entry point, the same capture boundary
 
-The v0.2.0-preview.2 Windows11 x64 installer candidate replaces end-user PowerShell/Python setup
-with a native Start-menu launcher and a bundled runtime/model payload. Preview 2 package evidence
-is pending; Preview 1's October10 current-host fixture is historical, not a new package pass.
+The published v0.2.0-preview.2 Windows11 x64 installer replaces end-user PowerShell/Python setup
+with a native Start-menu launcher and a bundled runtime/model payload. Its [public receipt](../release-0.2.0-preview.2.json)
+records10launcher self-checks,11isolated lifecycle checks and real generated-PCM execution, not installed-service or recipient qualification.
 Clean-VM and actual-device qualification remain open. Follow
 [Installation](../INSTALLATION.md) for the short procedure and
 [implementation status](../IMPLEMENTATION-STATUS.md) for evidence.

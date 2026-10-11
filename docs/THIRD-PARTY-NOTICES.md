@@ -1,12 +1,12 @@
 # Third-party notices
 
 These dependency notices do not choose a license for Phantom Fudge. **The owner has not selected
-a project license.** Public repository visibility and the authorized Preview 2 prerelease do not
-supply one. Preview 2's exact assembled notice/inventory evidence is pending.
+a project license.** The live website and published Preview 2 prerelease do not
+supply one. The [public receipt](release-0.2.0-preview.2.json) identifies the exact assembled payload and modified dependency-graph checks.
 
-The historical v0.2.0-preview.1 payload includes its exact third-party license/notice files under
+The published v0.2.0-preview.2 payload includes its exact third-party license/notice files under
 `licenses` and the installed runtime/package directories. Preserve those files when redistributing
-an authorized artifact. [Release provenance](release-0.2.0-preview.1.json) records the assembled
+an authorized artifact. [Current provenance](release-0.2.0-preview.2.json) and [historical Preview 1 provenance](release-0.2.0-preview.1.json) record their separate
 artifact identities. Publication is not a legal certification or proof of publisher licensing entitlement.
 
 ## NAudio 2.2.1 - MIT
@@ -70,7 +70,7 @@ audio, product icons or bundled fonts were copied. See CURSOR-AND-THEMES.md for 
 
 Vosk 0.3.45 and the explicitly downloaded `vosk-model-small-en-us-0.15` are Apache-2.0.
 The model is not committed to the repository and was not included in the older native development
-ZIP. The new installer is intended to include the verified model for offline operation. Provenance
+ZIP. The published installer includes the verified model for offline operation. Provenance
 and the observed archive hash are in `services\transcription\model.json` and that service's README.
 
 The accurate English model is `Systran/faster-whisper-small.en`, with MIT licensing and the
@@ -83,11 +83,11 @@ it rather than infer every dependency's terms from Vosk or Whisper.
 
 ### Application-private package changes
 
-The final runtime candidate uses pinned embedded **CPython 3.13.14 x64**, not a copy of the developer's
+The published runtime uses pinned embedded **CPython 3.13.14 x64**, not a copy of the developer's
 virtual environment. It retains the CPython license, Python package license metadata, selected
 upstream notices and CPU-source notices under `licenses\speech-runtime`.
-**This is engineering provenance, not legal certification. Exact installer redistribution review
-remains a release gate, and no project license has been selected.**
+**This is engineering provenance, not legal certification. Publisher licensing entitlement
+is not established by package checks, and no project license has been selected.**
 (tools/Installer/runtime-lock.json:1-11)
 (tools/Installer/bundle_runtime.py:465-535,668-673,687-694)
 
@@ -103,8 +103,8 @@ Fudge project license. The PCM-only transformation is bound to the exact locked 
 `audio.py`; hashes also protect the unchanged transcription, feature extraction, VAD and padding
 helper code. Installed metadata closure describes the **modified** dependency graph, explicitly
 not an intact upstream graph or proof of execution. The separate generated-PCM gate requires real
-Vosk/Whisper execution and clean child exit. The final handoff reports that gate and Unicode
-relocation passing; the earlier Ruy stage remains rejected. See [current evidence](IMPLEMENTATION-STATUS.md).
+Vosk/Whisper execution and clean child exit. Preview 2 passed that gate in a Unicode build
+path; the earlier Ruy stage remains rejected. See [current evidence](IMPLEMENTATION-STATUS.md).
 Old development-build performance/accuracy evidence does not qualify the new backend.
 (tools/Installer/runtime-lock.json:31-51)
 (tools/Installer/bundle_runtime.py:108-126,332-390,538-609)

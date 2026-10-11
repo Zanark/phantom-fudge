@@ -10,15 +10,15 @@ edition's counts, source hashes, citations and artifact hashes; it is the author
 
 The prerelease attachments are the immutable tagged-build editions. This maintained repository
 edition also records publication follow-up; it does not silently replace those release assets.
-The Previous answer toggle and `context on/off` commands are **included in the Preview 2 candidate**.
-Exact package/publication evidence is pending in [current status](../IMPLEMENTATION-STATUS.md); Preview 1 is historical. Start with
+The Previous answer toggle and `context on/off` commands are **included in public Preview 2**.
+The [public receipt](../release-0.2.0-preview.2.json) identifies the released391-page handbook and709-page atlas; this maintained edition adds subsequent evidence. Start with
 [follow-up usage](../LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).
 
 ## Reading order
 
 For the Windows 11 x64 prerelease, begin with [Install, update and remove](../INSTALLATION.md).
-It is registered near the front of the book. The repository and release downloads are public;
-see the versioned release for downloads and [current evidence](../IMPLEMENTATION-STATUS.md)
+It is registered near the front of the book. Public Preview 2 was published October11 at01:19:15UTC;
+all five downloaded assets matched. Read [current evidence](../IMPLEMENTATION-STATUS.md)
 for qualification boundaries. The maintained source atlas includes the native launcher, installer
 recipe, pinned speech-runtime builder and authored website/player sources as well as website tooling.
 Named generated tutorial exports are indexed separately; the atlas manifest records edition counts.

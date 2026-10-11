@@ -81,7 +81,7 @@ arrow-key wrapping without autoplay. A failed video request must show a visible 
 remains available. (`tools/Site/review-browser.mjs:51-148,178-193`; `tools/Site/test-site.mjs:22-50,85-116`)
 
 The earlier website delivery passed14Node test cases and nine muted-browser review groups. A second build/test
-from an isolated fresh public-only tree also passed without the private original tutorial.
+from an isolated fresh public-only tree also passed without the private original tutorial. On October 11 at 06:20 IST the parent reported another `node --test tools\Site\test-site.mjs` pass (14/14), a 101,108,997-byte bundled website build and unchanged tutorial SHA256. These local checks are distinct from the later verified deployment below and native-package evidence in [workstream62](../TODO/62_PUBLIC_PREVIEW_RELEASE.todo).
 
 ## Assembly boundary
 
@@ -170,12 +170,12 @@ deploy job receives `pages: write` and `id-token: write`, using the `github-page
 `cancel-in-progress: false` keeps a newer run from cancelling the current deployment.
 (`.github/workflows/pages.yml:12-50`; `tools/Site/build.mjs:28-52`)
 
-**Publication status: live.** The parent supplied October11 evidence: commit
-`77fca8a7cd1dd61dd5b1a09e72a898a73395cac1` was pushed; [Pages run38092635522](https://github.com/Zanark/phantom-fudge/actions/runs/38092635522)
-completed build and deploy successfully, and [the public URL](https://zanark.github.io/phantom-fudge/) returned HTTP200.
-Run38088016577 on `490e786` failed on three-versus-eight demo counts and obsolete release metadata; it is superseded, not a current blocker.
-The earlier read-only/deferred decision remains historical in [workstream61](../TODO/61_PUBLIC_PHANTOM_WEBSITE.todo).
-This does not attest deployment of the new Preview 2 link edits or publication of its package; [workstream62](../TODO/62_PUBLIC_PREVIEW_RELEASE.todo) tracks that follow-up.
+**Publication status: live with Preview 2 links.** [Pages run38101185167](https://github.com/Zanark/phantom-fudge/actions/runs/38101185167)
+completed successfully on `2ad0fa03a8c699619bda24c33ef6aa0250d6ef38`; [the public URL](https://zanark.github.io/phantom-fudge/) returned HTTP200.
+Exactly two Preview 2 release links and the context/tutorial-label notices were verified. (docs/release-0.2.0-preview.2.json:52-59)
+Earlier successful run38092635522 on `77fca8a7cd1dd61dd5b1a09e72a898a73395cac1` remains historical. Failed38088016577 on `490e786` (three/eight demos and obsolete release metadata) is superseded.
+The earlier read-only/deferred decision remains historical in [workstream61](../TODO/61_PUBLIC_PHANTOM_WEBSITE.todo); no media was regenerated for this release.
+The separately published native prerelease and five matched downloads are recorded in the [public receipt](release-0.2.0-preview.2.json), not inferred from website HTTP200.
 
 ```mermaid
 ---

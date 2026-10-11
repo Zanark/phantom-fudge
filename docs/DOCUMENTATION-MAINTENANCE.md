@@ -111,3 +111,23 @@ their existence is not permission to push, publish, deploy or send them anywhere
 The full procedure is [workflow06](../TODO/WORKFLOWS/06_LIVING_DOCUMENTATION.todo).
 Workstream38 establishes the initial edition; the ongoing obligation applies to every subsequent
 feature even when38 is DONE.
+
+## Release editions are immutable package inputs
+
+Finish authored pages, TODOs, ledger and journal before the final atlas-then-handbook build and
+render review. Packaging copies the handbook PDF into its payload, so a handoff freeze applies
+to those exact bytes, not merely to application source. Process all queued work before handing
+off; once assembly begins, later evidence belongs in a separately authorized follow-up change.
+Do not regenerate or substitute attachments for an already-built release.
+(scripts/Build-Installer.ps1:48-54,76-88)
+
+Preview 2's initial attachment check caught a post-freeze documentation rebuild. The parent
+recovered the exact committed PDFs, repeated payload/archive/attachment checks and published
+unchanged Setup/Portable with those PDFs. Preserve that failed attempt, not just the eventual
+pass. Maintained repository books can add publication follow-up; the release receipt continues
+to name the immutable released editions. (docs/release-0.2.0-preview.2.json:61-77,90-100)
+
+`docs/release-*.json` receipts are outside the atlas's implementation-source inventory:
+`sourceKind` returns null before its `/results/` evidence rule. Link/cite the authoritative receipt
+from authored guides; do not describe it as a discovered `evidence` entry or widen the classifier
+merely because a new receipt exists. (tools/Docs/source-atlas.mjs:11-12,36-46,58-66)

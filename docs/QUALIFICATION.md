@@ -2,7 +2,7 @@
 
 **Product matrix: NOT_TESTED for all meeting/OBS qualification candidates.**
 October8 local synthetic GDI/UI and output-transcription probes exist; see IMPLEMENTATION-STATUS.md.
-Those probes do not populate PASS for any Teams/Zoom/Meet/OBS backend.
+Those probes and [public Preview 2's source/package/PCM checks](release-0.2.0-preview.2.json) do not populate PASS for any Teams/Zoom/Meet/OBS backend; all capture rows retain their existing scope.
 This is a test design, not a compatibility certification. Documentation research cannot
 populate PASS results.
 

@@ -1,6 +1,6 @@
 ---
 title: "16 - Distribution and Troubleshooting"
-description: "Installed and source workflows, guarded repair, final runtime evidence and pending release qualification."
+description: "Public Preview 2 distribution, guarded repair, exact runtime evidence and unresolved broader qualification."
 outline: deep
 ---
 
@@ -15,7 +15,7 @@ outline: deep
 
 The new recipe publishes the app and native launcher self-contained, assembles an offline speech
 runtime/model payload and emits versioned Setup, optional Portable ZIP and checksums. The target
-is `v0.2.0-preview.2` / Windows version `0.2.0.2`, unsigned; check public assets for availability. End users
+is the published `v0.2.0-preview.2` / Windows version `0.2.0.2`, unsigned. End users
 do not need PowerShell7, a system Python or the .NET SDK. Builds require actual generated-PCM
 inference and natural process exit, separately from import and dependency-metadata checks.
 (scripts/Build-Installer.ps1:30-44,76-114)
@@ -24,7 +24,7 @@ inference and natural process exit, separately from import and dependency-metada
 The Inno recipe is per-user, uses a stable AppId, rejects downgrades and unrecognized nonempty
 destinations, and gates update/uninstall on maintenance. Repair/update uses
 a fresh self-contained helper directory extracted from Setup rather than a potentially corrupted
-old launcher. Preview 1 lifecycle3 is historical; Preview 2 exact-package evidence remains pending.
+old launcher. Preview 2's [public receipt](../release-0.2.0-preview.2.json) records11isolated lifecycle checks; Preview 1 lifecycle3 remains historical.
 Uninstall invokes the installed launcher. `WindowsVersion` under
 `HKCU\Software\PhantomFudge\Installer\<AppId>` is the fallback for a damaged version file.
 It does not force-close an app. Save/export, stop capture
@@ -69,15 +69,15 @@ The final runtime is not a copy of the developer's venv: it uses pinned embedded
 with oneDNN3.1.1/Microsoft compiler OpenMP (`vcomp140`). It excludes CUDA/cuDNN/proprietary
 Intel OpenMP and PyAV/FFmpeg. Variants/notices are listed in
 [third-party notices](../THIRD-PARTY-NOTICES.md#application-private-package-changes).
-The parent confirms85 focused runtime tests; the final offline rebuild passes real generated-PCM hybrid inference, production VAD,
-forced Whisper encoder/decoder execution and natural exit, repeated after Unicode relocation.
+Preview 2's offline build passed real generated-PCM hybrid inference, production VAD,
+forced Whisper encoder/decoder execution and natural exit in a Latin-accented Unicode build path.
 Vosk's unmodified package uses a first-party startup adapter for non-ASCII Windows model paths.
 The older Ruy stages failed at process exit and remain rejected; metadata closure alone describes
 only the modified installed graph and cannot establish execution. No actual capture, service,
 provider request or clean-VM test was performed by this runtime qualification.
-Final redistribution/provenance review remains separate from the passing lifecycle fixture, and existing development
-speech measurements must not be inherited by this different binary set. See
-[dated runtime evidence](../IMPLEMENTATION-STATUS.md) for the exact payload identity.
+Its37runtime-packaging source tests are distinct from historical Preview 1's85focused runtime tests.
+Published inventories/notices identify the bytes, not legal entitlement or inherited development
+speech performance. (docs/release-0.2.0-preview.2.json:26,30-50,68-77)
 (tools/Installer/runtime-lock.json:1-11)
 (tools/Installer/bundle_runtime.py:246-282,332-376,412-462,538-609)
 (services/transcription/recognizer.py:44-63)
@@ -86,9 +86,9 @@ speech measurements must not be inherited by this different binary set. See
 Fresh-machine confidence needs more than a restricted `PATH`. The frozen builder now checks PE
 normal/delay imports and exported forwarder DLL names against bundled files or a reviewed Windows11
 inbox list, then observes actual DLL paths in its import and synthetic-PCM probes. The parent
-reports 92 speech PE files and five bundled CRT paths passing, plus a separate static pass over
-861 app/launcher PE files. The final DLL-qualified runtime rebuild has passed this stronger gate
-and recorded new provenance; functional DLLs are reported unchanged from candidate2. Neither static closure nor these
+records92speech PE files and bundled CRT paths passing, plus a separate static pass over
+861App/Launcher PE files. These Preview 2 results identify the newly assembled payload,
+not merely historical candidate2. Neither static closure nor these
 selected loaded-module observations are a clean-VM or universal dynamic-loading test.
 (tools/Installer/bundle_runtime.py:677-694)
 (tools/Installer/runtime_audit.py:126-166,169-234)
@@ -106,14 +106,14 @@ and rejects reparse points and private payload paths before writing the inventor
 path; shortcut creation is omitted and Setup has no launch action. It compares the inventory's filenames
 with the payload exactly, then checks installed lengths/hashes. Repair, damaged-launcher/version
 record recovery, downgrade rejection, uninstall and a retained synthetic external file are distinct
-assertions. The inspected lifecycle3 receipt passes 11 checks for 3,682 inventoried files from
-the parent's current-runtime candidate2 build. The earlier lifecycle2 result is historical.
+assertions. Preview 2 passed11checks against3,684inventoried files;3,685Portable entries also matched.
+Preview 1's earlier lifecycle3/candidate2 result (3,682files) is historical. (docs/release-0.2.0-preview.2.json:18-20)
 (scripts/Test-Installer.ps1:15-18,31-84)
 (tools/Installer/PhantomFudge.iss:62-76)
 
 The “upgrade” case writes an older numeric version record into the current fixture. It does not
 install a genuine older binary or qualify a clean Windows VM, migration across actual releases,
-Start-menu behavior or the supported hardware matrix. Lifecycle3's PASS retains those limits.
+Start-menu behavior or the supported hardware matrix. Preview 2's PASS retains those limits.
 (scripts/Test-Installer.ps1:69-74,96-104)
 
 The frozen launcher's separate `--validate-install` mode checks the owned marker, bounded compact
@@ -293,6 +293,14 @@ signing does not guarantee SmartScreen or organizational acceptance.
 The handbook and journal are now part of that discipline. A release that changes what the user
 sees needs current screenshots; a protocol change needs a current sequence diagram and source
 references. Freshness tooling detects changed inputs, but semantic review remains the author's job.
+
+Preview 2 exposed why a documentation freeze is a byte-identity boundary. Queued documentation
+work rebuilt the maintained handbook after the first frozen handoff and clean package assembly.
+The attachment check caught the mismatch; the parent recovered both committed PDFs and repeated
+payload/archive/attachment verification before upload, without changing Setup or Portable.
+The published391-page handbook and709-page atlas remain immutable. Later repository editions,
+including this publication follow-up, must not replace those attachments.
+(docs/release-0.2.0-preview.2.json:61-77,90-100)
 
 ## References
 

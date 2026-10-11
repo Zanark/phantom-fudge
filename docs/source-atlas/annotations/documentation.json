@@ -214,7 +214,7 @@
     },
     {
       "path": "docs/handbook/catalogue.json",
-      "sourceSha256": "beea67299a3964e36f89465933a3d50ccb72ca7116ec00a2000b05c4ece1e294",
+      "sourceSha256": "0ac512c31a4be3455e4d2210675ae1b0c6a5f806e4d6182cdfd0f55476d2b490",
       "role": "Preserves the source-linked research and writing map, with constrained onboarding and subsystem/source-walkthrough sections.",
       "entryPoints": [
         "validateCatalogue",
@@ -237,7 +237,7 @@
           "start": 29,
           "end": 80,
           "title": "Separate product/platform foundations from desktop content state",
-          "explanation": "Foundations covers product decisions and capture/cursor behavior; desktop covers UI/themes, keyboard control, storage and state machines. The keyboard node points to its canonical guide and concrete modal, selection, device, font and configuration entry points. Prompts use real source paths instead of inventing layers. A prompt is a writing brief, not a fresh passing receipt: read current code and chapter prose even when a brief retains an earlier pending-evidence instruction.",
+          "explanation": "Foundations covers product decisions and capture/cursor behavior; desktop covers UI/themes, keyboard control, storage and state machines. The keyboard node points to its canonical guide and concrete modal, selection, device, font and configuration entry points. Its evidence instruction now separates October10 source observations from the public Preview2 receipt's exact-package checks, without claiming external hotkey/foreground comfort. Prompts are source-linked writing briefs, not freshly executed tests; code, dated receipts and chapter prose still require review.",
           "focus": [
             {
               "start": 49,
@@ -261,7 +261,7 @@
           "start": 135,
           "end": 208,
           "title": "Connect engineering procedures with reference and evidence",
-          "explanation": "Engineering connects test, installation, distribution, website, privacy and extension guides. The website brief preserves the theme/eight demos and nested-original versus bundled-web identity. It now requires live Pages evidence to be distinguished from source/deployment recipes, and ties Preview2 release links/context scope to the static test while retaining recorded Preview1 tutorial labels. Workstream62 supplies package/publication state rather than inheriting a native pass from website evidence. Reference retains API/configuration, glossary and the illustrated workflow. Writing prompts are research guidance, not test results or proof of live hosting.",
+          "explanation": "Engineering connects test, installation, distribution, website, privacy and extension guides. The website brief separates observed live Pages evidence from deployment recipes and static release-link assertions, while retaining theme/eight demos, web/original identities and recorded Preview1 tutorial labels. Workstream62 supplies package/publication state instead of inheriting native qualification from HTTP200. Reference retains API/configuration, glossary and the illustrated workflow; its evidence brief now cites the public Preview2 receipt and requires the caught post-freeze PDF mismatch, recovered committed editions and unchanged Setup/Portable to remain explicit. Maintained follow-up books are not replacement release attachments. These prompts guide research; they do not execute tests or publish anything.",
           "focus": [
             {
               "start": 153,
@@ -623,7 +623,7 @@
           "start": 36,
           "end": 56,
           "title": "Classify provenance and reject path aliases",
-          "explanation": "sourceKind includes site alongside the established implementation roots, so authored HTML/CSS/JavaScript and media.json need annotations. After excluding private/cache paths, it recognizes only the explicitly named generated website exports; other asset code/config remains first-party. Results, locks and possible PS mirrors retain distinct kinds, while unrecognized binary formats are outside source annotation. readPublic validates the repository path and real target and refuses symlink aliases.",
+          "explanation": "sourceKind includes site alongside the established implementation roots, so authored HTML/CSS/JavaScript and media.json need annotations. The rootInputs exception admits book/catalogue JSON, not arbitrary docs: docs/release-0.2.0-preview.1.json and docs/release-0.2.0-preview.2.json return null at the source-root rejection before the /results/ evidence rule. They remain authoritative release receipts linked from prose, not discovered evidence or files needing source annotations. After private/cache exclusion, only named website exports are generated; other asset code/config remains first-party. Results, locks and possible PS mirrors retain distinct kinds. readPublic validates the repository path and real target and refuses symlink aliases.",
           "focus": [
             {
               "start": 36,

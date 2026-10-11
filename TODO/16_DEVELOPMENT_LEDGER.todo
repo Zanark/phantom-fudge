@@ -446,3 +446,32 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
   included in the closing full handbook rebuild/check; exact identities remain in edition manifests.
   No native package results or publication claimed. Parent next builds from clean committed source;
   README/media/image receipts and immutable Preview1 record remain protected.62stays IN_PROGRESS.
+- 2026-10-11 06:20 IST -62parent-reported current source test: dotnet test
+  tests\PhantomFudge.Core.Tests -c Release --no-restore passed791/791,0skipped,in3m55s.
+  node --test tools\Site\test-site.mjs passed14/14; bundled website101108997bytes, tutorial hash
+  unchanged. No production app, normal installation or InstalledRuntime\.local existed at preflight;
+  this is a fixture precondition, not a lifecycle pass or clean-VM result. Package/UI/lifecycle and
+  publication remain pending. Documentation records this bounded evidence before atlas/book refresh,
+  parent clean commit and final installer assembly. October10 Core396/context21/keyboard38stay historical.
+- 2026-10-11 06:37 IST -62freeze correction: the preceding entry's claimed ordering was wrong.
+  Parent committed clean2ad0fa0at06:22:45and built with the original complete PDFs. The documentation
+  agent processed queued source-result work and rewrote17tracked docs/generated files at06:25-06:28.
+  Initial final-assets verification caught the newer handbook versus the embedded copy. Parent
+  recovered exact committed PDFs via git archive and repeated payload/archive/attachment checks;
+  Setup/Portable unchanged. No mixed release published. This failure remains in the public receipt.
+- 2026-10-11 06:49:15 IST - DONE62: PUBLIC v0.2.0-preview.2, prerelease/unsigned Windows11x64,
+  publishedAt2026-10-11T01:19:15Z from2ad0fa03a8c699619bda24c33ef6aa0250d6ef38/sourceDirty=false.
+  API digests/all five downloads matched; anonymous API/release-page200. Preview1 unchanged.
+  Core791/Python37/Site14 and Docs preparation21 are distinct source/tool results; launcher10,
+  serial packaged UI21context/38keyboard/all groups, lifecycle11/3684files and Portable3685pass.
+  Offline Unicode-path real generated PCM/model hashes/loadedCRT/naturalexit pass; speechPE92,
+  App/LauncherPE861. Isolated current-host/simulated metadata only: no actual capture/provider,
+  genuine migration, cleanVM, recognition quality, shortcut/owner or recipient qualification.
+  Released handbook391/hash1941c9618326a4250627b0253b94ff323db25194c3cb31506f354bcd02b7652d;
+  atlas709/hash473aa604081b3a486b923b76649a408fccacc5e6747684ac570541176687fa6f.
+  Latest Pages38101185167on2ad0fa0success/HTTP200/two Preview2links and notices verified.
+- 2026-10-11 06:51 IST - Authorized separate maintained-documentation follow-up: reconcile preserved
+  post-freeze edits with docs\release-0.2.0-preview.2.json. Parent receipt/released assets/final notes
+  stay unchanged. Existing atlas classifier excludes docs release receipts before evidence rules;
+  semantic annotation clarifies it without tool/source changes. Final authored/tracking inputs
+  precede full atlas then handbook; manifests/local review identify later maintained editions.

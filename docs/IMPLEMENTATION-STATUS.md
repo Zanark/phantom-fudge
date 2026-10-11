@@ -1,8 +1,8 @@
 # Implementation status - 2026-10-11
 
-**Preparing public [v0.2.0-preview.2 — check available assets](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2):**
-unsigned Windows11 x64 prerelease, with previous-answer context included. Exact package/publication evidence is pending in
-[workstream62](../TODO/62_PUBLIC_PREVIEW_RELEASE.todo). The [website is live](WEBSITE.md); neither fact establishes capture/device/clean-VM qualification.
+**Published public [v0.2.0-preview.2](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2), October11 at01:19:15UTC:**
+unsigned Windows11 x64 prerelease from clean `2ad0fa03a8c699619bda24c33ef6aa0250d6ef38`, with previous-answer context. All five downloaded assets matched the [release receipt](release-0.2.0-preview.2.json).
+[Workstream62](../TODO/62_PUBLIC_PREVIEW_RELEASE.todo) is DONE; [exact-package evidence and recovery](#public-preview-2-exact-package-and-publication-evidence) retain current-host limits. The [live website](WEBSITE.md) has both Preview 2 links; none of this establishes broad capture/device/clean-VM qualification.
 
 **Historical Preview 1, October10 01:52 IST (then private):** Setup, Portable ZIP, both PDFs and SHA256SUMS were published
 after downloading all five assets and matching their exact bytes. The immutable tag points to
@@ -24,9 +24,9 @@ Repository editions may add this publication follow-up; release attachments rema
 
 ## Current source summary
 
-**October10 source evidence, now included in the Preview 2 candidate (not a new test run).** The default-off toggle
-immediately left of Ask adds one displayed completed answer as background; clarification retains
-the same snapshot through corrections, confirmation and explicit first-interpretation retry.
+**October 11 source validation:** `dotnet test tests\PhantomFudge.Core.Tests -c Release --no-restore` passed **791/791**, zero skipped, in **3m55s**. Runtime-packaging Python tests passed **37/37**; site tests passed **14/14**. The parent-reported website build was **101,108,997 bytes**, tutorial SHA256 unchanged. Subsequent package/publication results are recorded separately in [the release receipt](release-0.2.0-preview.2.json).
+
+**Historical October10 source evidence, included in Preview 2 (not rerun here):** the default-off toggle immediately left of Ask adds one displayed completed answer as background; clarification retains the same snapshot through corrections, confirmation and explicit first-interpretation retry.
 Keyboard `context on/off` shares the guarded handler. The focused Core suite passed396cases;
 the final synthetic UI fixture passed21context checks,38keyboard checks and existing UI groups.
 All24WPF images and11README derivatives were refreshed; parent reviewed normal context, all24contact-sheet entries and full minimum question/clarification images.
@@ -42,7 +42,7 @@ newer features.
 
 | Current feature | Source behavior and boundary | Guide |
 | --- | --- | --- |
-| Installer / native launcher | Preview 2 candidate; exact package results pending. Guarded install, repair, update and removal unchanged | [Installation](INSTALLATION.md) |
+| Installer / native launcher | Public Preview 2;10launcher self-checks and11isolated lifecycle checks pass. Guarded install, repair, update and removal unchanged | [Installation](INSTALLATION.md) |
 | Audio device cards | No list scrollbars; explicit overflow pages retain selected endpoint identity | [Setup](CURRENT-WORKFLOW.md#1-choose-audio-device-cards) |
 | Red recording dot | Follows active transcription, not startup or input-mode selection; no audio-file save implied | [Capture state](CURRENT-WORKFLOW.md#2-start-transcription-and-watch-the-red-dot) |
 | Multi-line question selection | Whole Mic/Computer segments, raw text in display order, no automatic Ask | [Local questions](LOCAL-QUESTIONS.md) |
@@ -55,11 +55,11 @@ newer features.
 | Privacy requests | Existing capture affinity/tool-window plus accepted Peek request; cached peer still reads retained text | [Feasibility matrix](COVER-AND-PRIVACY.md#feasible-measures-in-practical-order) |
 | Diagnostics | Metadata by default; conversation bodies only through explicit Text opt-in | [Local diagnostics](DIAGNOSTICS.md) |
 
-**Check Preview 2 assets before downloading Setup or the complete Portable ZIP**, or run source through
+**Download public Preview 2 Setup or the complete Portable ZIP**, or run source through
 `scripts\Run-PhantomFudge.ps1`. Save/copy required text and close an older instance with X before
 updating. The immutable045022ZIP predates the later selection/clarification/action/font/card/cover
 changes. Preview 1 is also historical and lacks Previous answer; workstream58 remains complete.
-Workstream62 requires fresh exact-package evidence; October10 test counts above are not inherited results for Preview 2.
+Workstream62 records fresh exact-package evidence; October10 test counts above remain historical, not inherited results for Preview 2.
 
 **Earlier evidence, not a keyboard-increment pass:** the140313synthetic UI fixture covers the then-current combined interface,
 including15cover assertions, source selection, cards, font/layout/action, clarification and alpha
@@ -71,8 +71,8 @@ for documentation.
 
 The [WPF image manifest](handbook/assets/screenshots/manifest.json),
 [README derivative manifest](assets/readme/manifest.json), [source-atlas ledger](source-atlas/coverage.json)
-and [handbook manifest](handbook/manifest.json) carry their recorded provenance. The keyboard increment
-includes23WPF images and10README derivatives plus refreshed atlas/book editions. Images are separate
+and [handbook manifest](handbook/manifest.json) carry their recorded provenance. The historical keyboard increment
+had23WPF images/10README derivatives; context increased them to24/11, unchanged for this release. Images are separate
 synthetic examples, not a continuous meeting or capture-exclusion proof.
 
 ## Historical checkpoint - October10 01:11: runtime gates passed before release assembly
@@ -905,3 +905,52 @@ This is documentation/tooling work: all runtime and non-documentation-tool sourc
 unchanged. No application, service, audio, model, authentication or release operation was performed.
 Mechanical line coverage is not a claim of complete semantic understanding or external-library
 qualification. [Workstream46](../TODO/46_ANNOTATED_SOURCE_REFERENCE.todo) records the delivery.
+
+## Public Preview 2: exact-package and publication evidence
+
+The parent published **v0.2.0-preview.2 at2026-10-11T01:19:15Z (06:49:15IST)** from
+`2ad0fa03a8c699619bda24c33ef6aa0250d6ef38`; the build records `sourceDirty=false`.
+The release is public and prerelease, not draft or signed. API asset digests and all five downloaded
+files matched the published sizes/hashes; anonymous API access and the release page returned success.
+The [authoritative public receipt](release-0.2.0-preview.2.json) is the exact identity record.
+(docs/release-0.2.0-preview.2.json:3-29,79-106)
+
+| Observed scope | Preview 2 result | Limit |
+| --- | --- | --- |
+| Source suites | Core791/791; Python runtime-packaging37/37; site14/14; documentation preparation21/21 | Source/tool results are not package or recipient qualification |
+| Exact launcher and desktop |10launcher self-checks; serial packaged UI passes all groups, including21context and38keyboard checks | Synthetic transcript/device/provider data; no actual capture or external-provider request |
+| Setup and archive |11lifecycle checks against3,684inventoried files;3,685Portable entries matched | Isolated current-host identity/path, shortcuts omitted; older metadata simulated, not genuine old-binary migration |
+| Speech | Offline build in a non-ASCII Latin-accented path; model hashes, installed dependency metadata, Vosk, production VAD, encoder/decoder and natural exit pass | One second of generated PCM; recognition quality and installed-service operation not assessed |
+| Native dependencies |92speech PE files and bundled loaded-CRT paths pass;861App/Launcher PE files pass static closure | Modified CPU-only/PCM-only dependency graph, not intact upstream dependencies or clean-VM/dynamic-loading proof |
+| Website | Pages38101185167 succeeded on2ad0fa0; live HTTP200, exactly two Preview 2 links and context/tutorial notices | Static site/media evidence, not app compatibility |
+
+The package gates and their boundaries are recorded in the receipt, not inferred from the build
+recipe. The21documentation-preparation tests are the earlier preparation run recorded above.
+(docs/release-0.2.0-preview.2.json:18-59,68-77)
+
+### The attachment check caught a broken documentation freeze
+
+After the initial documentation handoff, the parent committed the complete editions and built
+Setup/Portable from clean source. The documentation agent then resumed queued source-result work
+and rebuilt maintained PDFs after claiming a freeze. The initial final-assets check detected that
+the newer workspace handbook no longer matched the handbook already embedded in the payload.
+That was a coordination failure, not a package failure or an acceptable replacement edition.
+
+The parent recovered both exact PDFs with `git archive` from `2ad0fa0` and repeated complete
+payload, archive and attachment verification before upload. **Setup and Portable bytes did not
+change; no mixed-edition release was published.** The failed check remains in the public receipt.
+(docs/release-0.2.0-preview.2.json:61-66)
+
+The immutable released handbook is **391pages**, SHA256
+`1941c9618326a4250627b0253b94ff323db25194c3cb31506f354bcd02b7652d`;
+the released atlas is **709pages**, SHA256
+`473aa604081b3a486b923b76649a408fccacc5e6747684ac570541176687fa6f`.
+Maintained repository editions may now add this authorized publication follow-up; their manifests
+identify those newer books, not replacement release attachments. Preview 1's release time,
+five assets and peeled source tag were verified unchanged; recorded tutorial Preview 1 labels
+also remain historical. (docs/release-0.2.0-preview.2.json:51,76,90-100)
+
+No clean VM, real audio capture, external answer-provider request, genuine old-binary migration,
+real shortcut-collision, recipient screen-share or owner-comfort qualification is established.
+Checksums identify bytes, not signer trust; respect Windows and organizational security controls.
+(docs/release-0.2.0-preview.2.json:48-50,68-77)

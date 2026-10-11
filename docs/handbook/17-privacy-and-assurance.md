@@ -21,7 +21,7 @@ The first useful threat-model step is therefore to state what is controlled. The
 its HWND and can request display affinity. It owns the selected capture objects and can require
 explicit Start. It owns the local protocol and can authenticate it. It does not own a meeting
 application's cursor-inclusion setting, the Windows microphone indicator or a camera aimed
-at the display.
+at the display. Public Preview 2 passed exact-package synthetic UI, isolated lifecycle and generated-PCM checks, not recipient capture or external-provider tests; see the [public receipt](../release-0.2.0-preview.2.json) and [bounded evidence](21-evidence-and-roadmap.md#the-evidence-ladder-stronger-claims-require-additional-proof).
 
 ## Trust boundaries
 

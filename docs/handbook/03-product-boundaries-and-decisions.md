@@ -31,7 +31,7 @@ The October10 request deliberately widens the default single-question payload by
 explicitly selected item: the displayed completed answer. **Previous answer** sits left of Ask,
 starts off and never sends on toggle. It is not approval for accumulated chat, transcript capture,
 tools or implicit publication. Clarification keeps the same prior snapshot while its interpretation
-replaces the screen. Preview 2 includes this feature; its separately authorized release is tracked in workstream62.
+replaces the screen. Public Preview 2 includes this feature; completed [workstream62](../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo) records its release without promoting it to qualified v1.
 ([Product requirement R24](../PRODUCT.md),
 [`CapturePreviousAnswer`](../../src/PhantomFudge.App/MainWindow.AnswerContext.cs),
 [workstream59](../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo).)

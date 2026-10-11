@@ -2,9 +2,9 @@
 
 **Local transcription. Speaker notes. Questions under your control.**
 
-[Windows download — check assets](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2) · [Website & video tutorial](https://zanark.github.io/phantom-fudge/) · [Install / update / remove](docs/INSTALLATION.md) · [Workflow](docs/CURRENT-WORKFLOW.md) · [Docs](docs/README.md) · [Roadmap](TODO/00_INDEX.todo)
+[Windows download](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2) · [Website & video tutorial](https://zanark.github.io/phantom-fudge/) · [Install / update / remove](docs/INSTALLATION.md) · [Workflow](docs/CURRENT-WORKFLOW.md) · [Docs](docs/README.md) · [Roadmap](TODO/00_INDEX.todo)
 
-> **v0.2.0-preview.2: unsigned Windows 11 x64 prerelease candidate.** Package/publication evidence is pending. [Status and limits](docs/IMPLEMENTATION-STATUS.md). Capture exclusion is not universal. Answers are snapshot-only until an external provider is configured.
+> **v0.2.0-preview.2 is public: unsigned Windows 11 x64 prerelease.** [Verified assets](docs/release-0.2.0-preview.2.json) · [Status and limits](docs/IMPLEMENTATION-STATUS.md). Current-host synthetic evidence only; capture exclusion is not universal. Answers are snapshot-only until an external provider is configured.
 
 **Included in Preview 2:** opt-in [previous-answer context](docs/LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer). Tutorial installer labels still show Preview 1.
 

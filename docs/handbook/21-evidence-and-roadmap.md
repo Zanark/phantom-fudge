@@ -16,13 +16,24 @@ The engineering unit of assurance is therefore a **bounded claim**: a behavior, 
 
 ## The evidence ladder: stronger claims require additional proof
 
-**Preview 2 scope:** workstream59's previous-answer context is included; [workstream62](../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo)
-tracks the separately authorized public release, with exact-package/publication evidence pending. Historical October10
-synthetic evidence is not a new Preview 2 run:396focused Core cases and the then-current full
-UI fixture with21context and38keyboard checks passed.24WPF images and11README derivatives were
-refreshed, including the follow-up illustration. Maintained edition identities are recorded through
-[workstream59](../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo); no new model/audio/authentication call,
-owner comfort result or recorder qualification is implied.
+**Preview 2 scope: published.** Workstream59's previous-answer context is included; [workstream62](../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo)
+is DONE for the public unsigned Windows11 x64 prerelease, not broad qualification. Historical October10
+synthetic evidence remains separate:396focused Core cases and the then-current UI fixture's21context/38keyboard checks passed.
+The24WPF images and11README derivatives retain their [workstream59](../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo) provenance; no recorder/owner qualification is implied.
+
+**October 11 source and package evidence are separate:** Core **791/791** (zero skipped,3m55s), Python runtime-packaging **37/37**, site **14/14**, and the earlier documentation preparation **21/21**. The parent reported a101,108,997-byte website build with unchanged tutorial hash. The [public receipt](../release-0.2.0-preview.2.json) identifies source and exact-package results, rather than adding them into one test total.
+The serial packaged UI passed all groups, including **21context/38keyboard** checks; the exact launcher passed10self-checks. Lifecycle passed11checks against3,684inventoried files and all3,685Portable entries matched. These are current-host synthetic checks, with isolated installer identity/path, no shortcuts and simulated older metadata. (docs/release-0.2.0-preview.2.json:18-29,68-75)
+
+The offline Unicode-path build passed actual Vosk, production VAD, encoder/decoder, model hashes,
+bundled-CRT and natural-exit gates using one second of generated PCM. Speech92/App-and-Launcher861PE
+audits are not clean-VM or universal loaded-module proof. No real audio capture, external-provider
+request, recognition-quality result or genuine old-binary migration follows.
+(docs/release-0.2.0-preview.2.json:28-50,68-77)
+
+Publication was separately verified at01:19:15UTC: public, not draft, prerelease, from clean
+`2ad0fa03a8c699619bda24c33ef6aa0250d6ef38`; all five downloaded assets and API digests matched.
+Pages38101185167 succeeded on that revision; live HTTP200 and both Preview 2 links were checked.
+(docs/release-0.2.0-preview.2.json:3-17,52-59,79-106)
 
 The ladder is not permission to infer the next rung. Each transition requires evidence appropriate to its scope; an owner report remains a separate observation until reproduced under a known configuration. (docs\TODO-CONVENTIONS.md:64-70, noninterchangeable evidence; docs\CURSOR-AND-THEMES.md:45-62, unresolved owner report.)
 
@@ -127,6 +138,27 @@ and tokens remain excluded (`src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.
 
 ## A preview artifact is an identity, not a release claim
 
+### Preview 2: the failed attachment check preserved a consistent release
+
+The documentation agent claimed a freeze, then processed queued source-result work and rebuilt
+the maintained PDFs after the parent committed and assembled the clean package. The initial
+final-assets check rejected the newer workspace handbook because it differed from the embedded
+copy. The parent recovered the exact committed PDFs with `git archive 2ad0fa0`, then repeated
+payload, archive and attachment verification. Setup/Portable bytes were unchanged; the failure
+was retained and a mixed-edition release was prevented.
+(docs/release-0.2.0-preview.2.json:61-66)
+
+The release's **391-page handbook** has SHA256
+`1941c9618326a4250627b0253b94ff323db25194c3cb31506f354bcd02b7652d`;
+its **709-page atlas** has SHA256
+`473aa604081b3a486b923b76649a408fccacc5e6747684ac570541176687fa6f`.
+Those are immutable attachment identities, not the identities of later maintained books.
+Publication follow-up belongs in a separate repository change; the edition manifests identify
+its newer outputs. Preview 1's release time, five asset identities and peeled source tag remain
+unchanged. (docs/release-0.2.0-preview.2.json:51,76,90-100)
+
+### Historical development bundle
+
 The historical installed-provider bundle before the quality correction was:
 
 ```text
@@ -160,7 +192,7 @@ The owner handles permission and recipient rehearsal externally; those preferenc
 
 ## Roadmap: statuses describe scope, dependencies describe order
 
-The current index covers **01–62**. Preview1 release58, source context59, tutorial60 and live website61 are complete; public Preview2 release62 remains IN_PROGRESS pending exact package/publication evidence. The historical01–43 baseline below is not a new test run. (TODO/00_INDEX.todo:14-45)
+The current index covers **01–62**. Preview1 release58, source context59, tutorial60, live website61 and public Preview2 release62 are DONE for their scoped deliveries. Recipient, real-device, clean-VM, genuine migration and owner-comfort qualification remain open. The historical01–43 baseline below is not a new test run. (TODO/00_INDEX.todo:14-45)
 
 | IDs | Earlier workstream baseline; consult the index for current evidence |
 | --- | --- |

@@ -86,3 +86,12 @@ Dependencies: 60_FULL_VIDEO_TUTORIAL.todo
   it is superseded, not a current publication blocker. The earlier local/deferred chronology remains.
 - This evidence identifies the deployed website revision, not publication of Preview2 link edits,
   a native installer build, new app tests or capture/provider qualification.
+
+## Preview2 publication follow-up - October11
+
+- Under completed workstream62, Pages38101185167 succeeded on clean source
+  2ad0fa03a8c699619bda24c33ef6aa0250d6ef38. Live HTTP200, exactly two Preview2release links
+  and Previous answer/Preview1tutorial notices were verified; docs\release-0.2.0-preview.2.json
+  records this separately from native assets and current-host synthetic package results.
+- This supersedes the earlier revision's link-verification gap, not its historical chronology.
+  No tutorial media, captions, GIFs or native UI were regenerated for release follow-up.

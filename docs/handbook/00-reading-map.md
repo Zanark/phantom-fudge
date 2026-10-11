@@ -15,7 +15,7 @@ description: "How to read the engineering handbook without confusing implementat
 **Use the current interface first:** the [illustrated workflow](../CURRENT-WORKFLOW.md) brings together
 device cards, recording status, multi-line questions, optional clarification, current action/font
 choices, Previous answer and the continuing-work cover. Preview 2 includes these controls;
-[package/publication evidence is pending](../IMPLEMENTATION-STATUS.md). Older dated results and Preview 1 tutorial labels stay historical.
+the [public release receipt](../release-0.2.0-preview.2.json) records package/publication evidence. Older dated results and Preview 1 tutorial labels stay historical.
 
 The original problem sounded like a small notepad: show private speaker notes while presenting.
 That problem expanded into a local transcription-first interface, selectable Computer/Mic/Both

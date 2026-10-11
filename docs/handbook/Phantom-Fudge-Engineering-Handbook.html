@@ -100,7 +100,7 @@ and its completion, and a researched proposal and working software.</p>
 <p><strong>Use the current interface first:</strong> the <a href="#ch-current-workflow">illustrated workflow</a> brings together
 device cards, recording status, multi-line questions, optional clarification, current action/font
 choices, Previous answer and the continuing-work cover. Preview 2 includes these controls;
-<a href="../IMPLEMENTATION-STATUS.md">package/publication evidence is pending</a>. Older dated results and Preview 1 tutorial labels stay historical.</p>
+the <a href="../release-0.2.0-preview.2.json">public release receipt</a> records package/publication evidence. Older dated results and Preview 1 tutorial labels stay historical.</p>
 <p>The original problem sounded like a small notepad: show private speaker notes while presenting.
 That problem expanded into a local transcription-first interface, selectable Computer/Mic/Both
 inputs, and a researched proposal for explicitly sending a question to an Azure model. The
@@ -714,56 +714,49 @@ test/documentation improvement that follows one real invariant end to end.</p>
 </ul>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section>
 <section class="chapter" id="ch-installation"><div class="chapter-note">Source: docs/INSTALLATION.md</div><h1 id="ch-installation-install-update-and-remove-phantom-fudge">Install, update and remove Phantom Fudge</h1>
-<p><strong>Installer edition: unsigned Windows 11 x64 prerelease candidate.</strong> Check available assets at
+<p><strong>Installer edition: public, unsigned Windows 11 x64 prerelease.</strong> Download
 <a href="https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2">v0.2.0-preview.2</a>.
-Preview 2 includes previous-answer context; its exact package and publication evidence is pending.
-The public repository and live website do not establish clean-VM or universal compatibility.
+Preview 2 includes previous-answer context; all five downloaded release assets matched.
+Current-host synthetic package checks and a live website do not establish clean-VM or universal compatibility.
 Tutorial installer labels remain Preview 1; they do not identify the new package.
-See <a href="../IMPLEMENTATION-STATUS.md">release evidence</a> and <a href="../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo">workstream62</a>.</p>
-<p><strong>Historical October10 / Preview 1 evidence:</strong> the oneDNN runtime passed the offline rebuild with dependency audits, real
-synthetic-PCM inference, Unicode-path loading and natural process exit. There are 85 focused
-runtime tests and 55 native tests recorded as passing, not rerun for Preview 2. The Ruy/Vosk failures are historical;
-their old stages remain rejected. The complete candidate3 build also passed the enforced PE audit,
-loaded-DLL and real-PCM/clean-exit gates. Lifecycle3 used identical functional runtime bytes;
-candidate3 added license/provenance files. Release-asset identities belong to the versioned download.</p>
+See the <a href="../release-0.2.0-preview.2.json">exact public receipt</a>, <a href="../IMPLEMENTATION-STATUS.md">release evidence</a> and completed <a href="../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo">workstream62</a>.</p>
+<p><strong>Published October11 at01:19:15UTC</strong>, from clean source <code>2ad0fa03a8c699619bda24c33ef6aa0250d6ef38</code>.
+Setup and Portable contain the committed391-page handbook, not later maintained documentation.
+The released709-page atlas is a separate attachment; exact PDF hashes are in the public receipt.
+Historical Preview 1's85runtime/55native tests and candidate-stage failures remain <a href="../IMPLEMENTATION-STATUS.md">dated evidence</a>.
+They are not reused as Preview 2 test runs. Tutorial instructions and the24WPF/11READMEimage
+fixtures are unchanged, not recordings of installation. (docs/release-0.2.0-preview.2.json:3-29,90-100)</p>
 <table>
 <thead>
 <tr>
-<th>Scope</th>
-<th>Historical Preview 1 evidence</th>
+<th>Published Preview 2 evidence</th>
 <th>Qualification boundary</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Startup</td>
-<td>55 helper tests and 10 exact-EXE self-checks pass</td>
-<td>Includes guarded delayed app startup; interactive Close and installed speech remain unqualified</td>
+<td><strong>Startup:</strong> 10 exact-launcher self-checks pass</td>
+<td>Guarded handoff checks, not actual installed speech or interactive Close qualification</td>
 </tr>
 <tr>
-<td>Desktop</td>
-<td>Packaged UI passes prior regression groups and all 38 keyboard checks</td>
-<td>Synthetic UI only; no audio capture or model requests</td>
+<td><strong>Desktop:</strong> all packaged UI groups pass, including 21 context and 38 keyboard checks</td>
+<td>Synthetic UI only; no audio capture or external-provider request</td>
 </tr>
 <tr>
-<td>Setup</td>
-<td>Lifecycle3 passes 11 checks against 3,682 inventoried files</td>
-<td>Current host, random AppId/path, no shortcuts, simulated older version; not a genuine old-binary or clean-VM test</td>
+<td><strong>Setup:</strong> 11 checks against 3,684 inventoried files</td>
+<td>Current host, isolated identity/path, no shortcuts, simulated older metadata; no genuine old-binary/clean-VM claim</td>
 </tr>
 <tr>
-<td>Speech</td>
-<td>85 focused tests; real hybrid/VAD/forced decoder execution, Unicode relocation and clean exit pass</td>
-<td>Generated PCM only; no actual capture, service, provider request or new performance qualification</td>
+<td><strong>Speech:</strong> offline Unicode-path build; real Vosk/VAD/encoder/decoder execution, model hashes and natural exit pass</td>
+<td>One second of generated PCM, not actual capture, installed service or recognition-quality evidence</td>
 </tr>
 <tr>
-<td>DLLs</td>
-<td>92 speech PE files and five loaded bundled CRT/OpenMP paths; 861 app/launcher PE files inspected separately</td>
-<td>Not a clean VM or app/launcher loaded-DLL test</td>
+<td><strong>DLLs:</strong> 92 speech PE files and actual bundled CRT paths; 861 App/Launcher PE files inspected separately</td>
+<td>Static closure/selected loaded paths, not a clean VM or universal dynamic-loading test</td>
 </tr>
 <tr>
-<td>Assets</td>
-<td>Consult the versioned release for availability and exact checksums</td>
-<td>Component checks alone do not attest an arbitrary downloaded file</td>
+<td><strong>Assets:</strong> five downloaded assets byte-matched; all 3,685 Portable entries verified</td>
+<td>Checksums identify exact bytes, not signer trust or broad compatibility</td>
 </tr>
 </tbody>
 </table>
@@ -817,7 +810,7 @@ policy may warn or block it. Check the origin and checksum; <strong>do not disab
 bypass your organization's policy</strong>. A checksum identifies bytes; it is not a signing identity
 or evidence of capture exclusion. (scripts/Build-Installer.ps1:79-114)</p>
 <h2 id="ch-installation-install-and-open">Install and open</h2>
-<p>Once the release evidence confirms that assets are available:</p>
+<p>The versioned public release and checksum file identify the downloadable assets:</p>
 <ol>
 <li>
 <p>Open the public versioned release above. Download
@@ -917,8 +910,8 @@ installation. The stable AppId keeps the installation identity.</li>
 recipe uses a <strong>fresh maintenance helper extracted from Setup</strong>, rather than depending on a
 potentially damaged installed launcher. A numeric version fallback is stored under the per-user
 <code>HKCU\Software\PhantomFudge\Installer\&lt;AppId&gt;</code> key as <code>WindowsVersion</code>; if neither that nor
-<code>app-version.txt</code> is valid, Setup refuses. Historical Preview 1 lifecycle3 passed same-version and damaged-launcher/version
-repair against candidate2. Its upgrade case changes a version record, not a genuine older binary.
+<code>app-version.txt</code> is valid, Setup refuses. Preview 2's11-check isolated lifecycle passed same-version and damaged-launcher/version
+repair; its upgrade case changes older metadata, not a genuine older binary. (docs/release-0.2.0-preview.2.json:19-20,68-70)
 (tools/Installer/PhantomFudge.iss:51-52,107-148)
 (src/PhantomFudge.Launcher/Program.cs:50-58,94-100)
 (scripts/Test-Installer.ps1:61-74)</p>
@@ -1091,16 +1084,16 @@ decoding/PyAV while retaining the in-memory PCM array path in source.
 <code>CTranslate2 4.6.0+phantomfudge2</code> uses oneDNN3.1.1 and Microsoft compiler OpenMP (<code>vcomp140</code>),
 without CUDA/cuDNN or proprietary Intel OpenMP. Vosk's package is unmodified: the service adapter
 loads a non-ASCII Windows model path through a locked, temporary wide-API working-directory change.
-The final handoff reports real synthetic inference and natural exit, including Unicode relocation.
+The public receipt records real generated-PCM inference and natural exit in the Unicode build path.
 No clean-VM qualification is claimed.
 Earlier development-build speech timings/accuracy do <strong>not</strong> qualify these binaries; this guide
-makes no recognition-performance claim. Exact installer inventory and redistribution review are
-separate release gates.
+makes no recognition-performance claim. The published inventory identifies the shipped files;
+engineering provenance does not establish publisher licensing entitlement or legal certification.
 (tools/Installer/bundle_runtime.py:246-282,332-376,412-462,597-609)
 (services/transcription/recognizer.py:44-63)
 (services/transcription/tests/test_packaged_pcm_runtime.py:35-97,126-138)</p>
 <p>The <a href="#ch-current-workflow">current workflow</a> and <a href="#ch-keyboard-controls">keyboard guide</a> explain the
-unchanged desktop UI. Their existing23synthetic WPF images and10README derivatives are UI
+unchanged desktop UI. Their existing24synthetic WPF images and11README derivatives are UI
 examples, not installer screenshots or evidence that installation succeeded. No installer
 screenshots are presented here. Docker remains a separate optional final-stage task, not part of
 installation. Capture qualification remains <a href="../QUALIFICATION.md">NOT_TESTED for the product matrix</a>.</p>
@@ -1179,8 +1172,8 @@ whole self-contained launcher directory extracted by Setup, not a standalone cop
 <p>Phantom Fudge combines local transcription, an editable question and explicit provider answers.
 Choosing an input does not record it; selecting words does not send them; covering the workspace
 does not stop work. This guide brings the current controls and images together so those boundaries
-are visible before a meeting. It describes <strong>the Preview 2 candidate</strong>, including previous-answer
-context. Check <a href="../IMPLEMENTATION-STATUS.md">release status</a> for package evidence; Preview 1 assets and tutorial labels stay historical.</p>
+are visible before a meeting. It describes <strong>public Preview 2</strong>, including previous-answer
+context. The <a href="../release-0.2.0-preview.2.json">release receipt</a> records synthetic package checks, not capture/provider qualification; Preview 1 assets and tutorial labels stay historical.</p>
 <p>All pictures below are <strong>separate synthetic WPF examples</strong>. They show actual controls with generated
 text/device labels, not a real conversation, live model result or screen-sharing qualification.
 The <a href="assets/screenshots/manifest.json">source-image manifest</a> and
@@ -2077,7 +2070,7 @@ The <a href="#ch-journal">public journal</a> tells the fuller chronological stor
 explicitly selected item: the displayed completed answer. <strong>Previous answer</strong> sits left of Ask,
 starts off and never sends on toggle. It is not approval for accumulated chat, transcript capture,
 tools or implicit publication. Clarification keeps the same prior snapshot while its interpretation
-replaces the screen. Preview 2 includes this feature; its separately authorized release is tracked in workstream62.
+replaces the screen. Public Preview 2 includes this feature; completed <a href="../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo">workstream62</a> records its release without promoting it to qualified v1.
 (<a href="../PRODUCT.md">Product requirement R24</a>,
 <a href="../../src/PhantomFudge.App/MainWindow.AnswerContext.cs"><code>CapturePreviousAnswer</code></a>,
 <a href="../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo">workstream59</a>.)</p>
@@ -2495,7 +2488,7 @@ turn. See <a href="#ch-question-clarification">the complete clarification chapte
 on explicit Ask. It is session-only, locks during busy work/active clarification, and resets on
 Clear/provider change. Setup/details reads prior text from the submitted request, not the new answer
 currently replacing it. The same snapshot survives interpretation, corrections and confirmation.
-This addition is <strong>included in the Preview 2 candidate</strong>, not the immutable Preview 1 installer.
+This addition is <strong>included in public Preview 2</strong>, not the immutable Preview 1 installer.
 (<a href="../../src/PhantomFudge.App/MainWindow.AnswerContext.cs">Context controller</a>,
 <a href="../LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer">full usage</a>.)</p>
 <p><img src="assets/screenshots/answer-context.png" alt="Synthetic previous-answer follow-up controls"></p>
@@ -3733,9 +3726,9 @@ sequenceDiagram
 <p>“Something is listening on port 8765” is insufficient evidence that Phantom Fudge may reuse or stop it. The listener could belong to another checkout, lack the installed client's speech version, run the wrong recognition configuration, or be transcribing an active session. <code>manage.py</code> treats a local service as owned only after combining a workspace receipt, authenticated runtime response, expected service identity, management version, and matching instance UUID. It does not convert a discovered PID into permission to terminate a process. (<code>services\transcription\manage.py:94-165</code>, <code>read_record</code>, <code>owned_info</code>; <code>services\transcription\manage.py:186-200</code>, <code>stop_owned</code>.)</p>
 <p>The second boundary is <strong>ready service versus recording application</strong>. Initialization provisions dependencies and weights. Start makes an idle recognizer service available. The application still requires explicit Start before endpoint acquisition, and transport readiness precedes native capture. Keeping these operations distinct makes a launcher convenient without turning it into an automatic recorder. (<code>scripts\Initialize-Transcription.ps1:119-165</code>, Python setup; <code>scripts\Start-Transcription.ps1:8-15</code>, native start; <code>src\PhantomFudge.App\MainWindow.xaml.cs:652-700</code>, <code>Start_Click</code>; <code>src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:102-115</code>, <code>StartCoreAsync</code>.)</p>
 <h2 id="ch-10-native-service-lifecycle-installed-preview-a-different-entry-point-the-same-capture-boundary">Installed preview: a different entry point, the same capture boundary</h2>
-<p>The v0.2.0-preview.2 Windows11 x64 installer candidate replaces end-user PowerShell/Python setup
-with a native Start-menu launcher and a bundled runtime/model payload. Preview 2 package evidence
-is pending; Preview 1's October10 current-host fixture is historical, not a new package pass.
+<p>The published v0.2.0-preview.2 Windows11 x64 installer replaces end-user PowerShell/Python setup
+with a native Start-menu launcher and a bundled runtime/model payload. Its <a href="../release-0.2.0-preview.2.json">public receipt</a>
+records10launcher self-checks,11isolated lifecycle checks and real generated-PCM execution, not installed-service or recipient qualification.
 Clean-VM and actual-device qualification remain open. Follow
 <a href="#ch-installation">Installation</a> for the short procedure and
 <a href="../IMPLEMENTATION-STATUS.md">implementation status</a> for evidence.
@@ -5428,7 +5421,7 @@ Neither distribution promises that every machine or recorder is supported.</p>
 <h2 id="ch-16-distribution-and-troubleshooting-installer-versus-development-bundle">Installer versus development bundle</h2>
 <p>The new recipe publishes the app and native launcher self-contained, assembles an offline speech
 runtime/model payload and emits versioned Setup, optional Portable ZIP and checksums. The target
-is <code>v0.2.0-preview.2</code> / Windows version <code>0.2.0.2</code>, unsigned; check public assets for availability. End users
+is the published <code>v0.2.0-preview.2</code> / Windows version <code>0.2.0.2</code>, unsigned. End users
 do not need PowerShell7, a system Python or the .NET SDK. Builds require actual generated-PCM
 inference and natural process exit, separately from import and dependency-metadata checks.
 (scripts/Build-Installer.ps1:30-44,76-114)
@@ -5436,7 +5429,7 @@ inference and natural process exit, separately from import and dependency-metada
 <p>The Inno recipe is per-user, uses a stable AppId, rejects downgrades and unrecognized nonempty
 destinations, and gates update/uninstall on maintenance. Repair/update uses
 a fresh self-contained helper directory extracted from Setup rather than a potentially corrupted
-old launcher. Preview 1 lifecycle3 is historical; Preview 2 exact-package evidence remains pending.
+old launcher. Preview 2's <a href="../release-0.2.0-preview.2.json">public receipt</a> records11isolated lifecycle checks; Preview 1 lifecycle3 remains historical.
 Uninstall invokes the installed launcher. <code>WindowsVersion</code> under
 <code>HKCU\Software\PhantomFudge\Installer\&lt;AppId&gt;</code> is the fallback for a damaged version file.
 It does not force-close an app. Save/export, stop capture
@@ -5475,15 +5468,15 @@ early. Uncertain liveness stays protected rather than authorizing replacement or
 with oneDNN3.1.1/Microsoft compiler OpenMP (<code>vcomp140</code>). It excludes CUDA/cuDNN/proprietary
 Intel OpenMP and PyAV/FFmpeg. Variants/notices are listed in
 <a href="../THIRD-PARTY-NOTICES.md#application-private-package-changes">third-party notices</a>.
-The parent confirms85 focused runtime tests; the final offline rebuild passes real generated-PCM hybrid inference, production VAD,
-forced Whisper encoder/decoder execution and natural exit, repeated after Unicode relocation.
+Preview 2's offline build passed real generated-PCM hybrid inference, production VAD,
+forced Whisper encoder/decoder execution and natural exit in a Latin-accented Unicode build path.
 Vosk's unmodified package uses a first-party startup adapter for non-ASCII Windows model paths.
 The older Ruy stages failed at process exit and remain rejected; metadata closure alone describes
 only the modified installed graph and cannot establish execution. No actual capture, service,
 provider request or clean-VM test was performed by this runtime qualification.
-Final redistribution/provenance review remains separate from the passing lifecycle fixture, and existing development
-speech measurements must not be inherited by this different binary set. See
-<a href="../IMPLEMENTATION-STATUS.md">dated runtime evidence</a> for the exact payload identity.
+Its37runtime-packaging source tests are distinct from historical Preview 1's85focused runtime tests.
+Published inventories/notices identify the bytes, not legal entitlement or inherited development
+speech performance. (docs/release-0.2.0-preview.2.json:26,30-50,68-77)
 (tools/Installer/runtime-lock.json:1-11)
 (tools/Installer/bundle_runtime.py:246-282,332-376,412-462,538-609)
 (services/transcription/recognizer.py:44-63)
@@ -5491,9 +5484,9 @@ speech measurements must not be inherited by this different binary set. See
 <p>Fresh-machine confidence needs more than a restricted <code>PATH</code>. The frozen builder now checks PE
 normal/delay imports and exported forwarder DLL names against bundled files or a reviewed Windows11
 inbox list, then observes actual DLL paths in its import and synthetic-PCM probes. The parent
-reports 92 speech PE files and five bundled CRT paths passing, plus a separate static pass over
-861 app/launcher PE files. The final DLL-qualified runtime rebuild has passed this stronger gate
-and recorded new provenance; functional DLLs are reported unchanged from candidate2. Neither static closure nor these
+records92speech PE files and bundled CRT paths passing, plus a separate static pass over
+861App/Launcher PE files. These Preview 2 results identify the newly assembled payload,
+not merely historical candidate2. Neither static closure nor these
 selected loaded-module observations are a clean-VM or universal dynamic-loading test.
 (tools/Installer/bundle_runtime.py:677-694)
 (tools/Installer/runtime_audit.py:126-166,169-234)
@@ -5509,13 +5502,13 @@ and rejects reparse points and private payload paths before writing the inventor
 path; shortcut creation is omitted and Setup has no launch action. It compares the inventory's filenames
 with the payload exactly, then checks installed lengths/hashes. Repair, damaged-launcher/version
 record recovery, downgrade rejection, uninstall and a retained synthetic external file are distinct
-assertions. The inspected lifecycle3 receipt passes 11 checks for 3,682 inventoried files from
-the parent's current-runtime candidate2 build. The earlier lifecycle2 result is historical.
+assertions. Preview 2 passed11checks against3,684inventoried files;3,685Portable entries also matched.
+Preview 1's earlier lifecycle3/candidate2 result (3,682files) is historical. (docs/release-0.2.0-preview.2.json:18-20)
 (scripts/Test-Installer.ps1:15-18,31-84)
 (tools/Installer/PhantomFudge.iss:62-76)</p>
 <p>The “upgrade” case writes an older numeric version record into the current fixture. It does not
 install a genuine older binary or qualify a clean Windows VM, migration across actual releases,
-Start-menu behavior or the supported hardware matrix. Lifecycle3's PASS retains those limits.
+Start-menu behavior or the supported hardware matrix. Preview 2's PASS retains those limits.
 (scripts/Test-Installer.ps1:69-74,96-104)</p>
 <p>The frozen launcher's separate <code>--validate-install</code> mode checks the owned marker, bounded compact
 manifest and expected file/model-directory layout without invoking the app, Python or inference.
@@ -5688,6 +5681,13 @@ signing does not guarantee SmartScreen or organizational acceptance.</p>
 <p>The handbook and journal are now part of that discipline. A release that changes what the user
 sees needs current screenshots; a protocol change needs a current sequence diagram and source
 references. Freshness tooling detects changed inputs, but semantic review remains the author's job.</p>
+<p>Preview 2 exposed why a documentation freeze is a byte-identity boundary. Queued documentation
+work rebuilt the maintained handbook after the first frozen handoff and clean package assembly.
+The attachment check caught the mismatch; the parent recovered both committed PDFs and repeated
+payload/archive/attachment verification before upload, without changing Setup or Portable.
+The published391-page handbook and709-page atlas remain immutable. Later repository editions,
+including this publication follow-up, must not replace those attachments.
+(docs/release-0.2.0-preview.2.json:61-77,90-100)</p>
 <h2 id="ch-16-distribution-and-troubleshooting-references">References</h2>
 <ul>
 <li><code>scripts\Publish-Preview.ps1:1-52</code> — package recipe.</li>
@@ -5803,7 +5803,7 @@ The expanded fixtures require eight demo triplets and exercise their chapter jum
 arrow-key wrapping without autoplay. A failed video request must show a visible error while search
 remains available. (<code>tools/Site/review-browser.mjs:51-148,178-193</code>; <code>tools/Site/test-site.mjs:22-50,85-116</code>)</p>
 <p>The earlier website delivery passed14Node test cases and nine muted-browser review groups. A second build/test
-from an isolated fresh public-only tree also passed without the private original tutorial.</p>
+from an isolated fresh public-only tree also passed without the private original tutorial. On October 11 at 06:20 IST the parent reported another <code>node --test tools\Site\test-site.mjs</code> pass (14/14), a 101,108,997-byte bundled website build and unchanged tutorial SHA256. These local checks are distinct from the later verified deployment below and native-package evidence in <a href="../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo">workstream62</a>.</p>
 <h2 id="ch-website-assembly-boundary">Assembly boundary</h2>
 <p>The bundled full video must be a reviewed input, not a generated side effect of the website build.
 The source-tree walk rejects symlinks, non-file entries and any individual file at or above
@@ -5873,12 +5873,12 @@ tests and the hash-verifying assembler. Only the dependent
 deploy job receives <code>pages: write</code> and <code>id-token: write</code>, using the <code>github-pages</code> environment.
 <code>cancel-in-progress: false</code> keeps a newer run from cancelling the current deployment.
 (<code>.github/workflows/pages.yml:12-50</code>; <code>tools/Site/build.mjs:28-52</code>)</p>
-<p><strong>Publication status: live.</strong> The parent supplied October11 evidence: commit
-<code>77fca8a7cd1dd61dd5b1a09e72a898a73395cac1</code> was pushed; <a href="https://github.com/Zanark/phantom-fudge/actions/runs/38092635522">Pages run38092635522</a>
-completed build and deploy successfully, and <a href="https://zanark.github.io/phantom-fudge/">the public URL</a> returned HTTP200.
-Run38088016577 on <code>490e786</code> failed on three-versus-eight demo counts and obsolete release metadata; it is superseded, not a current blocker.
-The earlier read-only/deferred decision remains historical in <a href="../../TODO/61_PUBLIC_PHANTOM_WEBSITE.todo">workstream61</a>.
-This does not attest deployment of the new Preview 2 link edits or publication of its package; <a href="../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo">workstream62</a> tracks that follow-up.</p>
+<p><strong>Publication status: live with Preview 2 links.</strong> <a href="https://github.com/Zanark/phantom-fudge/actions/runs/38101185167">Pages run38101185167</a>
+completed successfully on <code>2ad0fa03a8c699619bda24c33ef6aa0250d6ef38</code>; <a href="https://zanark.github.io/phantom-fudge/">the public URL</a> returned HTTP200.
+Exactly two Preview 2 release links and the context/tutorial-label notices were verified. (docs/release-0.2.0-preview.2.json:52-59)
+Earlier successful run38092635522 on <code>77fca8a7cd1dd61dd5b1a09e72a898a73395cac1</code> remains historical. Failed38088016577 on <code>490e786</code> (three/eight demos and obsolete release metadata) is superseded.
+The earlier read-only/deferred decision remains historical in <a href="../../TODO/61_PUBLIC_PHANTOM_WEBSITE.todo">workstream61</a>; no media was regenerated for this release.
+The separately published native prerelease and five matched downloads are recorded in the <a href="../release-0.2.0-preview.2.json">public receipt</a>, not inferred from website HTTP200.</p>
 <figure class="diagram"><img src="assets/diagrams/website-02.svg" alt="Phantom Fudge Website and Tutorial Pipeline diagram 2"><figcaption>Phantom Fudge Website and Tutorial Pipeline - diagram 2. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
 config: {&quot;theme&quot;:&quot;base&quot;,&quot;themeVariables&quot;:{&quot;primaryColor&quot;:&quot;#2d333b&quot;,&quot;primaryBorderColor&quot;:&quot;#6d5dfc&quot;,&quot;primaryTextColor&quot;:&quot;#e6edf3&quot;,&quot;lineColor&quot;:&quot;#8b949e&quot;,&quot;textColor&quot;:&quot;#e6edf3&quot;}}
 ---
@@ -6036,7 +6036,7 @@ The current product explicitly does not promise process invisibility or a securi
 its HWND and can request display affinity. It owns the selected capture objects and can require
 explicit Start. It owns the local protocol and can authenticate it. It does not own a meeting
 application's cursor-inclusion setting, the Windows microphone indicator or a camera aimed
-at the display.</p>
+at the display. Public Preview 2 passed exact-package synthetic UI, isolated lifecycle and generated-PCM checks, not recipient capture or external-provider tests; see the <a href="../release-0.2.0-preview.2.json">public receipt</a> and <a href="#ch-21-evidence-and-roadmap-the-evidence-ladder-stronger-claims-require-additional-proof">bounded evidence</a>.</p>
 <h2 id="ch-17-privacy-and-assurance-trust-boundaries">Trust boundaries</h2>
 <figure class="diagram"><img src="assets/diagrams/17-privacy-and-assurance-01.svg" alt="17 - Privacy and Assurance diagram 1"><figcaption>17 - Privacy and Assurance - diagram 1. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
 config: {&quot;theme&quot;:&quot;base&quot;,&quot;themeVariables&quot;:{&quot;primaryColor&quot;:&quot;#2d333b&quot;,&quot;primaryBorderColor&quot;:&quot;#6d5dfc&quot;,&quot;primaryTextColor&quot;:&quot;#e6edf3&quot;,&quot;lineColor&quot;:&quot;#8b949e&quot;,&quot;clusterBkg&quot;:&quot;#161b22&quot;,&quot;clusterBorder&quot;:&quot;#30363d&quot;}}
@@ -7619,13 +7619,21 @@ sequenceDiagram
 <p>This chapter reads the frozen application source and current public evidence summaries. It does not rerun application tests, inspect private capture receipts, requalify a package, or perform cloud/audio operations. “Recorded result” below means the cited repository reports that observation, not that this documentation session independently repeated it. The qualification contract explicitly rejects substituting local previews, API return codes, or missing recordings for recipient evidence. (TODO\13_COMPATIBILITY_QUALIFICATION.todo:24-35, acceptance and evidence.)</p>
 <p>The engineering unit of assurance is therefore a <strong>bounded claim</strong>: a behavior, an exact subject, an environment, a procedure, an observation, and its limits. The repository's result template already asks for source identity, package hash, operating system, GPU, sharing backend, positive controls, frame coverage, and reviewer approval. A result without those boundaries may help investigation, but should not silently widen support. (docs\QUALIFICATION.md:150-176, result record.)</p>
 <h2 id="ch-21-evidence-and-roadmap-the-evidence-ladder-stronger-claims-require-additional-proof">The evidence ladder: stronger claims require additional proof</h2>
-<p><strong>Preview 2 scope:</strong> workstream59's previous-answer context is included; <a href="../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo">workstream62</a>
-tracks the separately authorized public release, with exact-package/publication evidence pending. Historical October10
-synthetic evidence is not a new Preview 2 run:396focused Core cases and the then-current full
-UI fixture with21context and38keyboard checks passed.24WPF images and11README derivatives were
-refreshed, including the follow-up illustration. Maintained edition identities are recorded through
-<a href="../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo">workstream59</a>; no new model/audio/authentication call,
-owner comfort result or recorder qualification is implied.</p>
+<p><strong>Preview 2 scope: published.</strong> Workstream59's previous-answer context is included; <a href="../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo">workstream62</a>
+is DONE for the public unsigned Windows11 x64 prerelease, not broad qualification. Historical October10
+synthetic evidence remains separate:396focused Core cases and the then-current UI fixture's21context/38keyboard checks passed.
+The24WPF images and11README derivatives retain their <a href="../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo">workstream59</a> provenance; no recorder/owner qualification is implied.</p>
+<p><strong>October 11 source and package evidence are separate:</strong> Core <strong>791/791</strong> (zero skipped,3m55s), Python runtime-packaging <strong>37/37</strong>, site <strong>14/14</strong>, and the earlier documentation preparation <strong>21/21</strong>. The parent reported a101,108,997-byte website build with unchanged tutorial hash. The <a href="../release-0.2.0-preview.2.json">public receipt</a> identifies source and exact-package results, rather than adding them into one test total.
+The serial packaged UI passed all groups, including <strong>21context/38keyboard</strong> checks; the exact launcher passed10self-checks. Lifecycle passed11checks against3,684inventoried files and all3,685Portable entries matched. These are current-host synthetic checks, with isolated installer identity/path, no shortcuts and simulated older metadata. (docs/release-0.2.0-preview.2.json:18-29,68-75)</p>
+<p>The offline Unicode-path build passed actual Vosk, production VAD, encoder/decoder, model hashes,
+bundled-CRT and natural-exit gates using one second of generated PCM. Speech92/App-and-Launcher861PE
+audits are not clean-VM or universal loaded-module proof. No real audio capture, external-provider
+request, recognition-quality result or genuine old-binary migration follows.
+(docs/release-0.2.0-preview.2.json:28-50,68-77)</p>
+<p>Publication was separately verified at01:19:15UTC: public, not draft, prerelease, from clean
+<code>2ad0fa03a8c699619bda24c33ef6aa0250d6ef38</code>; all five downloaded assets and API digests matched.
+Pages38101185167 succeeded on that revision; live HTTP200 and both Preview 2 links were checked.
+(docs/release-0.2.0-preview.2.json:3-17,52-59,79-106)</p>
 <p>The ladder is not permission to infer the next rung. Each transition requires evidence appropriate to its scope; an owner report remains a separate observation until reproduced under a known configuration. (docs\TODO-CONVENTIONS.md:64-70, noninterchangeable evidence; docs\CURSOR-AND-THEMES.md:45-62, unresolved owner report.)</p>
 <figure class="diagram"><img src="assets/diagrams/21-evidence-and-roadmap-01.svg" alt="21. Evidence and Roadmap diagram 1"><figcaption>21. Evidence and Roadmap - diagram 1. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
 config:
@@ -7766,6 +7774,23 @@ interaction. Text is an explicit local opt-in and export strips it by default; r
 and tokens remain excluded (<code>src/PhantomFudge.Core/Diagnostics/LocalDiagnostics.cs:18-24,40-69</code>;
 <code>scripts/Export-Diagnostics.ps1:14-80</code>).</p>
 <h2 id="ch-21-evidence-and-roadmap-a-preview-artifact-is-an-identity-not-a-release-claim">A preview artifact is an identity, not a release claim</h2>
+<h3 id="ch-21-evidence-and-roadmap-preview-2-the-failed-attachment-check-preserved-a-consistent-release">Preview 2: the failed attachment check preserved a consistent release</h3>
+<p>The documentation agent claimed a freeze, then processed queued source-result work and rebuilt
+the maintained PDFs after the parent committed and assembled the clean package. The initial
+final-assets check rejected the newer workspace handbook because it differed from the embedded
+copy. The parent recovered the exact committed PDFs with <code>git archive 2ad0fa0</code>, then repeated
+payload, archive and attachment verification. Setup/Portable bytes were unchanged; the failure
+was retained and a mixed-edition release was prevented.
+(docs/release-0.2.0-preview.2.json:61-66)</p>
+<p>The release's <strong>391-page handbook</strong> has SHA256
+<code>1941c9618326a4250627b0253b94ff323db25194c3cb31506f354bcd02b7652d</code>;
+its <strong>709-page atlas</strong> has SHA256
+<code>473aa604081b3a486b923b76649a408fccacc5e6747684ac570541176687fa6f</code>.
+Those are immutable attachment identities, not the identities of later maintained books.
+Publication follow-up belongs in a separate repository change; the edition manifests identify
+its newer outputs. Preview 1's release time, five asset identities and peeled source tag remain
+unchanged. (docs/release-0.2.0-preview.2.json:51,76,90-100)</p>
+<h3 id="ch-21-evidence-and-roadmap-historical-development-bundle">Historical development bundle</h3>
 <p>The historical installed-provider bundle before the quality correction was:</p>
 <pre><code class="language-text">artifacts\phantom-fudge-0.1.0-preview-win-x64-20261008-235421.zip
 Size: 76,252,854 bytes
@@ -7788,7 +7813,7 @@ package passes do not establish universal activation or recipient behavior. Earl
 <p><strong>Hardware and usability:</strong> microphone access/denial, selected-device loss, echo, privacy indicators, headsets, alternative GPU/display/DPI/HDR combinations, startup transitions, accessibility, and long-session behavior remain scoped work. The code selects render versus capture endpoints explicitly; source inspection proves that branch exists, not that every physical configuration works. Owner readability/focus approval remains separate from automated success. (src\PhantomFudge.App\Audio\WasapiInput.cs:20-74, selection and <code>Direction</code>; TODO\26_MICROPHONE_AND_COMPUTER.todo:34-41, hardware gaps; docs\QUALIFICATION.md:66-77, environments; docs\IMPLEMENTATION-STATUS.md:371-380, remaining work.)</p>
 <p>The owner handles permission and recipient rehearsal externally; those preferences removed repeated runtime confirmations. They are not an engineering pass, and this roadmap does not reintroduce those dialogs. (docs\PREVIEW-GUIDE.md:79-84, interaction contract; TODO\16_DEVELOPMENT_LEDGER.todo:63-65, decision record.)</p>
 <h2 id="ch-21-evidence-and-roadmap-roadmap-statuses-describe-scope-dependencies-describe-order">Roadmap: statuses describe scope, dependencies describe order</h2>
-<p>The current index covers <strong>01–62</strong>. Preview1 release58, source context59, tutorial60 and live website61 are complete; public Preview2 release62 remains IN_PROGRESS pending exact package/publication evidence. The historical01–43 baseline below is not a new test run. (TODO/00_INDEX.todo:14-45)</p>
+<p>The current index covers <strong>01–62</strong>. Preview1 release58, source context59, tutorial60, live website61 and public Preview2 release62 are DONE for their scoped deliveries. Recipient, real-device, clean-VM, genuine migration and owner-comfort qualification remain open. The historical01–43 baseline below is not a new test run. (TODO/00_INDEX.todo:14-45)</p>
 <table>
 <thead>
 <tr>
@@ -9770,6 +9795,13 @@ existence and bytes are tracked, but the book does not pretend that every genera
 statement-level interpretation. Root build/configuration inputs and the book catalogue are
 explicit exceptions to the implementation-directory rule.
 (<a href="../../tools/Docs/source-atlas.mjs"><code>sourceKind</code></a>.)</p>
+<p>The public release receipts are deliberately different: <code>docs/release-0.2.0-preview.1.json</code> and
+<code>docs/release-0.2.0-preview.2.json</code> return <strong>null</strong>, not <code>evidence</code>. The root allowlist includes
+the book/catalogue JSON, not arbitrary files under <code>docs</code>; the source-root rejection happens
+before the <code>/results/</code> evidence rule, and discovery skips null-kind paths. These receipts identify
+release observations and immutable assets through authored links/citations, not statement-level
+source coverage. Preview 2's new receipt needs no speculative compiler change or fabricated
+annotation entry. (tools/Docs/source-atlas.mjs:11-12,36-46,58-66)</p>
 <p>The website's authored HTML/CSS/JavaScript and <code>site/media.json</code> are also first-party inputs.
 Only explicitly named tutorial/caption exports and the generated asset-provenance receipt receive
 the <code>generated</code> kind; their bytes still affect freshness. New code under <code>site/assets</code> is not
@@ -9905,7 +9937,13 @@ The existing book compiler separately validates frontmatter, five-source citatio
 ranges, catalogue constraints and diagram requirements. Those checks do not replace the authored
 source annotations, and annotations do not replace diagrams or end-to-end explanations.
 (tools/Docs/build.mjs:37-73,116-154; <a href="../../tools/Docs/build.mjs"><code>main</code></a>.)</p>
-<p>The command order is intentional:</p>
+<p>The command order is intentional.</p>
+<p>For a release, complete authored/tracking inputs and both reviewed editions before clean source
+assembly. Once packaging has started, queued evidence updates must wait for a separate follow-up;
+rebuilding workspace PDFs cannot replace the bytes embedded in an existing package. Preview 2's
+attachment check caught exactly that freeze violation, and committed PDFs were recovered before
+publication. Maintained books may subsequently advance without rewriting release assets.
+(scripts/Build-Installer.ps1:48-54,76-88; docs/release-0.2.0-preview.2.json:61-77)</p>
 <pre><code class="language-powershell">node --test .\tools\Docs\test-docs.mjs
 node .\tools\Docs\source-atlas.mjs --validate
 node .\tools\Docs\source-atlas.mjs
@@ -11943,4 +11981,76 @@ frozen-source atlas entries, with representative PDF pages. The installation evi
 was shortened for print readability. The <a href="manifest.json">handbook manifest</a> and
 <a href="../source-atlas/manifest.json">atlas manifest</a> identify the current full editions; these results
 are documentation/site evidence, not new packaged-app tests or a published Preview2 release.</p>
+<h2 id="ch-journal-2026-10-11-06-20-ist-parent-source-validation-package-gates-still-open">2026-10-11 06:20 IST - Parent source validation, package gates still open</h2>
+<p>The parent reports <code>dotnet test tests\PhantomFudge.Core.Tests -c Release --no-restore</code> passing
+<strong>791/791 tests, zero skipped, in 3m55s</strong>. This fresh full source-suite result is distinct from
+October10's396focused Core/21context/38keyboard evidence, which remains historical.
+The test project references the Core project and links selected launcher implementation files;
+it is not the final assembled desktop or installer. (tests/PhantomFudge.Core.Tests/PhantomFudge.Core.Tests.csproj:20-27)</p>
+<p>The parent also reports <code>node --test tools\Site\test-site.mjs</code> passing <strong>14/14</strong>, a bundled website
+build of <strong>101,108,997bytes</strong> and unchanged tutorial hash. The site tests bind both release links
+to configured version metadata while retaining the Preview1 tutorial-label caveat.
+(tools/Site/test-site.mjs:58-63)
+These local results do not prove deployment of the new links or availability of native assets.</p>
+<p>At this checkpoint the parent found no production PhantomFudge process, normal installation or
+<code>InstalledRuntime\.local</code> tree on the host. That is a precondition for a later isolated lifecycle
+fixture, not a test pass or clean-VM evidence; host state must be checked again before running it.
+<a href="../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo">Workstream62</a> remains IN_PROGRESS: final package, UI, lifecycle
+and publication results are pending. The documentation refresh precedes the parent's clean commit
+and final installer build because the installer embeds the completed handbook PDF.
+(scripts/Build-Installer.ps1:48-54)</p>
+<h2 id="ch-journal-2026-10-11-06-37-ist-stop-after-a-broken-documentation-freeze">2026-10-11 06:37 IST - Stop after a broken documentation freeze</h2>
+<p>The preceding06:20 entry's assertion that the documentation refresh preceded the clean commit
+was wrong. After the initial frozen handoff, the parent committed
+<code>2ad0fa03a8c699619bda24c33ef6aa0250d6ef38</code> at06:22:45IST and assembled the release with
+<code>sourceDirty=false</code>. The documentation agent then processed queued source-test evidence and
+modified17tracked prose/generated files at06:25-06:28, including both maintained PDFs.
+The later37-test/draft checkpoint did not cause another tracked rebuild; it was local-only.
+Calling the second editions “unchanged” referred to the wrong baseline and did not preserve the freeze.</p>
+<p>The initial final-assets check caught the newer maintained handbook versus the embedded clean-build
+copy. The parent recovered both exact committed PDFs with <code>git archive</code> and repeated complete
+payload, archive and attachment verification. Setup and Portable bytes were unchanged.
+This prevented a mixed-edition publication; the failed attempt is preserved in the public receipt.
+The lesson is operational: a package's documentation inputs are immutable after assembly, even
+when later evidence is accurate. It must enter a separate follow-up, not replacement attachments.
+(scripts/Build-Installer.ps1:48-54,76-88; docs/release-0.2.0-preview.2.json:61-77)</p>
+<h2 id="ch-journal-2026-10-11-06-49-15-ist-public-preview-2-published-with-exact-committed-editions">2026-10-11 06:49:15 IST - Public Preview 2 published with exact committed editions</h2>
+<p><strong>v0.2.0-preview.2 is public</strong>, published at2026-10-11T01:19:15Z from clean <code>2ad0fa0</code>.
+It is an unsigned Windows11 x64 prerelease, not qualified v1. API digests and all five downloaded
+assets matched; anonymous release API access and HTTP200 on the release page were confirmed.
+The <a href="../release-0.2.0-preview.2.json">authoritative public receipt</a> records exact names, sizes,
+hashes, source identity and limits. Preview1's release time, five assets and peeled source tag
+were verified unchanged. (docs/release-0.2.0-preview.2.json:3-17,51,79-106)</p>
+<p>Current source results are Core791/791, Python runtime-packaging37/37 and Site14/14, with
+Docs preparation21/21 recorded earlier. Separately, the exact launcher passed10self-checks;
+serial packaged UI passed all groups including21context/38keyboard. The isolated installer
+lifecycle passed11checks against3,684inventoried files, and all3,685Portable entries matched.
+These are not one interchangeable test total. (docs/release-0.2.0-preview.2.json:18-29)</p>
+<p>The final offline build used a Latin-accented Unicode path. Its model hashes, modified dependency
+metadata, bundled loaded-CRT paths, actual Vosk/production VAD/encoder/decoder execution and natural
+exit passed using one second of generated PCM. Static audits covered92speech and861App/Launcher
+PE files. There was no real audio capture or external answer-provider request.
+Current-host isolation, omitted shortcuts and simulated older metadata do not prove clean-VM,
+genuine old-binary migration, recognition quality, installed-service or recipient compatibility.
+(docs/release-0.2.0-preview.2.json:28-50,68-77)</p>
+<p>The released handbook remains <strong>391pages</strong>, SHA256
+<code>1941c9618326a4250627b0253b94ff323db25194c3cb31506f354bcd02b7652d</code>;
+the released atlas remains <strong>709pages</strong>, SHA256
+<code>473aa604081b3a486b923b76649a408fccacc5e6747684ac570541176687fa6f</code>.
+These identify the package-matching attachments, not subsequent maintained repository books.
+(docs/release-0.2.0-preview.2.json:90-100)</p>
+<p><a href="https://github.com/Zanark/phantom-fudge/actions/runs/38101185167">Pages run38101185167</a> succeeded
+on2ad0fa0. The live site returned200 with exactly two Preview2links and the context/tutorial
+notices. Previous answer now ships; frozen tutorial installer labels, captions, media and existing
+24WPF/11READMEimage provenance remain unchanged. The successful site is companion documentation,
+not capture qualification. (docs/release-0.2.0-preview.2.json:52-59; site/index.html:44-47,156-174)</p>
+<p>At06:51IST the owner authorized this separate publication-documentation follow-up. It reconciles
+the preserved post-freeze edits, closes workstream62 and links the public receipt without altering
+published assets, committed-edition snapshots or final published notes. All authored/tracking
+inputs precede the maintained full atlas-then-handbook builds; their manifests and separate
+render-review receipt identify the newer editions. No native code, media, installer/site/tool
+source, Git, authentication, audio, provider or context operation belongs to this follow-up.
+The new receipt remains outside atlas source discovery (<code>sourceKind=null</code>, not <code>evidence</code>);
+its classifier explanation is clarified rather than widened.
+(tools/Docs/source-atlas.mjs:11-12,36-46,58-66)</p>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section></main></body></html>

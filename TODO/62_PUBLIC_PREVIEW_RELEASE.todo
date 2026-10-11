@@ -1,14 +1,14 @@
 # Public Preview 2 release
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Public unsigned Windows11 x64 v0.2.0-preview.2 / Windows0.2.0.2
 Dependencies: 58_INSTALLER_RELEASE.todo, 59_PREVIOUS_ANSWER_CONTEXT.todo, 61_PUBLIC_PHANTOM_WEBSITE.todo
 
 ## Purpose
 
-Deliver the owner's October11 explicitly requested PUBLIC prerelease using the approved existing
-publishing helper. Include the already-implemented Previous answer increment and current reference
-editions, with the live website/full tutorial/eight demos as companion documentation.
+Delivered the owner's October11 explicitly requested PUBLIC prerelease using the approved existing
+publishing helper. It includes Previous answer and the clean committed reference editions,
+with the live website/full tutorial/eight demos as companion documentation.
 This is a new version, not replacement of Preview1 assets or promotion to qualified v1.
 
 ## Ownership and order
@@ -20,6 +20,9 @@ This is a new version, not replacement of Preview1 assets or promotion to qualif
   scripts\Build-Installer.ps1:48-54 embeds the handbook in the payload.
 - Final publication evidence is a separate follow-up after parent supplies exact receipts.
   No package build, test pass, asset hash, tag or publication is inferred from this preparation.
+- Publication completed at2026-10-11T01:19:15Z. The authoritative public receipt is
+  docs\release-0.2.0-preview.2.json; parent owns that receipt and the published assets.
+  This maintained-documentation follow-up does not replace the tagged-build PDFs or package.
 
 ## Tasks
 
@@ -28,26 +31,28 @@ This is a new version, not replacement of Preview1 assets or promotion to qualif
 - [x] Read the frozen source changes and update meaningful atlas explanations, exact ranges/hashes
   and guide citations; site test now compares both links to release.json, with five added lines.
 - [x] Update active download names/current scope; Previous answer is included in Preview2.
-  Keep availability-neutral links, unchanged install/update/uninstall safety and historical receipts.
+  Preparation used availability-neutral links; publication follow-up now links matched public assets.
+  Install/update/uninstall safety and historical receipts remain unchanged.
 - [x] Reconcile live Pages evidence:77fca8a7cd1dd61dd5b1a09e72a898a73395cac1,
   successful build/deploy38092635522and HTTP200. Failed38088016577is superseded.
 - [x] Prepare release notes for parent in .local\release-0.2.0-preview.2\release-notes.md.
 - [x] Build source atlas first, then full handbook HTML/PDF; review changed rendered chapter/atlas
   pages and run final freshness checks after tracking changes.
-- [ ] Parent builds Setup/complete Portable from clean committed source and records exact
+- [x] Parent builds Setup/complete Portable from clean committed source and records exact
   source commit, sourceDirty=false, payload/inventory, notices and outer asset checksums.
-- [ ] Parent records fresh exact-package lifecycle, launcher, synthetic desktop/context/keyboard,
+- [x] Parent records fresh exact-package lifecycle, launcher, synthetic desktop/context/keyboard,
   runtime/generated-PCM and archive-integrity results, retaining any failed attempts.
-- [ ] Parent publishes the authorized public prerelease through the approved helper and verifies
+- [x] Parent publishes the authorized public prerelease through the approved helper and verifies
   tag/source identity, prerelease/public visibility, five assets/downloaded bytes and checksums.
-- [ ] Record new release evidence and actual PDF identities without editing Preview1's receipt/assets;
+- [x] Record new release evidence and actual PDF identities without editing Preview1's receipt/assets;
   verify Preview2 site links separately from the earlier successful deployment and refresh final docs.
 
 ## Acceptance criteria
 
-- [ ] New public versioned assets and exact evidence are available and independently byte-matched;
+- [x] New public versioned assets and exact evidence are available and independently byte-matched;
   not merely source version edits, historical test counts or website HTTP200.
-- [x] Maintained full editions are current and reviewed for handoff before parent installer assembly.
+- [x] Original full editions reviewed before clean assembly; exact committed PDFs recovered after
+  the later freeze violation. Maintained follow-up editions are separate from immutable release assets.
 - [x] Preview1 tag/assets/release record and published371/645-page PDF identities stay historical.
 - [x] Preserve unsigned Windows11 x64 PRERELEASE and external-provider-not-included scope.
   New profiles remain SnapshotOnly; no automatic capture/login/provider installation or cloud fallback.
@@ -57,12 +62,41 @@ This is a new version, not replacement of Preview1 assets or promotion to qualif
 - [x] No cleanVM, real capture, live provider, genuine older-binary migration, universal invisibility
   or owner comfort proof is supplied by this workstream's documentation preparation.
 
-## Evidence and remaining gates
+## Published evidence and qualification limits
+
+- PUBLIC v0.2.0-preview.2 / Windows0.2.0.2; source2ad0fa03a8c699619bda24c33ef6aa0250d6ef38,
+  sourceDirty=false, publishedAt2026-10-11T01:19:15Z. isDraft=false/isPrerelease=true.
+  API digests and all five downloaded assets matched; anonymous API and release-page200 confirmed.
+- Core791/791(0skipped,3m55s), Python runtime-packaging37/37(8.47s), Site14/14;
+  Docs preparation21/21. These source/tool runs are separate from exact-package checks.
+- Exact launcher10self-checks; serial packaged UI all groups, including21context/38keyboard.
+  Lifecycle11against3684inventoried files; Portable3685exact entries; speechPE92 and App/LauncherPE861.
+- Offline Unicode-path build passed model hashes, modified dependency metadata, loaded bundled CRT,
+  actual Vosk/production VAD/encoder/decoder execution and natural process exit using generated PCM.
+  No audio capture/external provider, cleanVM, recognition-quality or real installed-service proof.
+- Lifecycle used isolated current-host identity/path, omitted shortcuts and simulated older metadata:
+  not a genuine old-binary migration or actual shortcut-collision/owner-comfort/capture matrix.
+- Released handbook391pages/SHA2561941c9618326a4250627b0253b94ff323db25194c3cb31506f354bcd02b7652d;
+  atlas709pages/SHA256473aa604081b3a486b923b76649a408fccacc5e6747684ac570541176687fa6f.
+  Setup/Portable sizes/hashes and all five identities are in docs\release-0.2.0-preview.2.json.
+- Initial final-assets check caught a post-freeze documentation rebuild: maintained handbook differed
+  from the embedded clean-build PDF. Parent recovered both PDFs via git archive2ad0fa0 and repeated
+  complete payload/archive/attachment checks. Setup/Portable bytes stayed unchanged; mixed publication
+  was prevented. The failed attempt remains in the public receipt, not hidden behind the later pass.
+- Preview1 release time, five asset identities and peeled source tag verified unchanged.
+  Pages38101185167 succeeded on2ad0fa0; live HTTP200, exactly two Preview2links and notices verified.
+  Tutorial labels/captions/media remain historical Preview1; no native/UI/media source changed.
+- docs/release-0.2.0-preview.2.json is outside atlas source roots (sourceKind=null, not evidence).
+  Existing classifier needs no change; its meaningful annotation and documentation explain why.
+  Maintained edition identities belong to their manifests; local follow-up review belongs under
+  .local\release-0.2.0-preview.2\docs-review\publication-follow-up, not the release assets.
+
+## Historical preparation evidence (superseded pending gates)
 
 - Parent supplied the four frozen version/site source changes. Runtime/UI source is unchanged since59.
 - October10 Core396/21context/38keyboard evidence belongs to59, not today's packaged build.
   Existing24WPF/11READMEimage provenance stays valid; no media or source screenshot rerender.
-- New package/test/publication evidence: PENDING. Current edition identities belong to
+- New exact-package/UI/lifecycle/publication evidence: PENDING. Current edition identities belong to
   docs\source-atlas\manifest.json and docs\handbook\manifest.json after the preparation build.
 - Version links name the candidate and ask readers to check assets; they do not assert availability.
   Tutorial recorded installer labels/captions/provenance remain Preview1.
@@ -79,6 +113,14 @@ This is a new version, not replacement of Preview1 assets or promotion to qualif
   README15images/eightGIFs load; handbook1440/768/390widths fit. No network requests or native app.
 - All four parent-owned frozen source hashes, Preview1 release record and both image manifests match
   the preparation baseline. No runtime/test/service/media or screenshot-source changes were made.
+- 2026-10-11 06:20 IST parent report: dotnet test tests\PhantomFudge.Core.Tests -c Release --no-restore
+  passed791/791, zero skipped, in3m55s. This is fresh source-suite evidence, not an exact-package run.
+  node --test tools\Site\test-site.mjs passed14/14; the bundled website build was101108997bytes
+  and the tutorial hash was unchanged. These results do not prove deployment of the new links.
+- At the same checkpoint the parent found no production PhantomFudge process, normal installation
+  or InstalledRuntime\.local tree on the host. An isolated lifecycle fixture can therefore be attempted
+  later without touching an existing installed runtime; no fixture pass or clean-VM proof is implied.
+  Final package, UI and lifecycle tests remain pending. Recheck host state before the later fixture.
 
 ## Completion log
 
@@ -88,3 +130,16 @@ This is a new version, not replacement of Preview1 assets or promotion to qualif
 - 2026-10-11 - Documentation preparation completed and rendered views reviewed. Shortened the
   installation evidence-table heading after PDF review; final full handbook rebuild/check includes
   this tracking update. Freeze this preparation for parent packaging; release remains IN_PROGRESS.
+- 2026-10-11 06:20 IST - Incorporated fresh parent source/site results without replacing October10
+  focused-suite/UI history or closing package gates. Full atlas then handbook refresh includes this
+  evidence before parent clean commit and final Build-Installer, whose payload embeds the handbook.
+- 2026-10-11 06:37 IST - Correction: that last ordering claim was wrong. Parent committed at06:22:45;
+  queued source-result work modified tracked docs at06:25-06:28after the first frozen handoff.
+  All17dirty tracked files were the documentation agent's. Work stopped; no reset or package changes.
+- 2026-10-11 06:49:15 IST - DONE62: public prerelease published with unchanged Setup/Portable and
+  recovered committed PDFs after the attachment mismatch was caught. All five downloads matched;
+  public availability, unchanged Preview1 and latest live Pages evidence verified separately.
+- 2026-10-11 06:51 IST - Owner authorized this separate final publication-documentation follow-up.
+  Reconcile the preserved17-file refresh; complete authored/tracking inputs before final full atlas
+  then handbook builds and review. No release mutation, runtime work, model/audio/authentication,
+  Git or context changes. Only maintained repository books advance beyond the released editions.

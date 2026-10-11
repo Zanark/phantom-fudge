@@ -7,7 +7,7 @@ deep, source-linked reference; the [development journal](../JOURNAL.md) tells th
 | Need | Read |
 | --- | --- |
 | Watch the full tutorial and eight demos | [Live website](https://zanark.github.io/phantom-fudge/) and [media/deployment evidence](WEBSITE.md) |
-| Install, update or remove the Windows11 x64 preview | [Installer guide](INSTALLATION.md) and [Preview 2 — check available assets](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2) |
+| Install, update or remove the Windows11 x64 preview | [Installer guide](INSTALLATION.md), [public Preview 2 downloads](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2) and [verified release receipt](release-0.2.0-preview.2.json) |
 | See all current features and images in one walkthrough | [Illustrated workflow, controls and state transitions](CURRENT-WORKFLOW.md) |
 | Understand the product, stack and boundaries | [Product overview](OVERVIEW.md), [product contract](PRODUCT.md) |
 | Read the illustrated book | [Offline HTML](handbook/Phantom-Fudge-Engineering-Handbook.html) or [printable PDF](handbook/Phantom-Fudge-Engineering-Handbook.pdf) |
@@ -32,8 +32,8 @@ deep, source-linked reference; the [development journal](../JOURNAL.md) tells th
 | Follow project conventions | [TODO format](TODO-CONVENTIONS.md), [contributor contract](../AGENTS.md) |
 | Change the docs or regenerate images | [Maintenance contract](DOCUMENTATION-MAINTENANCE.md), [book tooling](../tools/Docs/README.md) |
 
-**v0.2.0-preview.2 is the public unsigned Windows11 x64 prerelease candidate; package/publication evidence is pending.**
-The website is live; that does not qualify the app. [Historical Preview 1 identities](release-0.2.0-preview.1.json) remain unchanged.
+**v0.2.0-preview.2 is published: public, unsigned and Windows11 x64 only.** All five downloaded assets matched; [the receipt](release-0.2.0-preview.2.json) separates exact-package synthetic results from untested hardware/capture/provider scenarios.
+The website is live with both Preview 2 links. Maintained books may be newer than the immutable released391-page handbook/709-page atlas; [historical Preview 1 identities](release-0.2.0-preview.1.json) remain unchanged.
 The current native Python service does not need Docker. Providers are explicit: installed Copilot
 can use cloud models or a configured local endpoint. Direct Azure remains future work.
 Handbook UI images are actual WPF visual-tree renders with **synthetic content and device labels**,
