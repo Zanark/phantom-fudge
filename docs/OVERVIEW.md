@@ -129,8 +129,8 @@ source versus packaged execution, and uses a loopback endpoint
 preview. Never terminate it to force an update while unsaved notes may exist.
 
 Selection, clarification, typography/actions, recording indicator, device cards, cover and keyboard
-controls are included in **v0.2.0-preview.2**, together with Previous answer; historical045022 is obsolete.
-Preview 1 lacks Previous answer. Public Preview 2's five downloaded assets matched the [release receipt](release-0.2.0-preview.2.json); broader qualification remains open.
+controls are included in **v0.2.0-preview.3**, together with Previous answer and Agency update compatibility; historical045022 is obsolete.
+Preview1 lacks Previous answer. Public Preview3's five downloaded assets matched the [release receipt](release-0.2.0-preview.3.json); broader qualification remains open.
 See [current status](IMPLEMENTATION-STATUS.md).
 
 **Docker is optional and last.** It is not on the normal transcription path or the native-release

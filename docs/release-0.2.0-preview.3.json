@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "version": "0.2.0-preview.3",
+  "windowsVersion": "0.2.0.3",
+  "tag": "v0.2.0-preview.3",
+  "sourceCommit": "6732ba15fa5403adf2258a36c12e816ca4b5436b",
+  "sourceDirty": false,
+  "tagObject": "4915aa3cf4de04baaabecd1f1de7de6952e5e335",
+  "publishedAt": "2026-10-11T17:51:54Z",
+  "url": "https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.3",
+  "privateRepository": false,
+  "prerelease": true,
+  "signed": false,
+  "platform": "Windows 11 x64",
+  "minimumWindowsBuild": 22000,
+  "anonymousReleaseApiAvailable": true,
+  "releasePageHttpStatus": 200,
+  "downloadedAssetsMatch": true,
+  "downloadScope": "Complete authenticated downloads while draft; anonymous API/page and asset HEAD checks after publication.",
+  "portableFilesVerified": 3685,
+  "installerInventoriedFiles": 3684,
+  "installerLifecycleChecksPassed": 11,
+  "launcherSelfChecksPassed": 10,
+  "packagedUiPassed": true,
+  "previousAnswerContextUiChecksPassed": 21,
+  "keyboardUiChecksPassed": 38,
+  "sourceCoreTestsPassed": 809,
+  "runtimeBundleTestsPassed": 19,
+  "installedRuntimeTestsPassed": 18,
+  "documentationTestsPassed": 21,
+  "siteTestsPassed": 14,
+  "siteBrowserGroupsPassed": 9,
+  "speechPeFilesAudited": 92,
+  "appAndLauncherPeFilesAudited": 861,
+  "offlineRuntimeBuild": true,
+  "packageBuildPathContainsNonAscii": true,
+  "runtimeModelHashesPassed": true,
+  "installedDependencyMetadataPassed": true,
+  "upstreamDependencyGraphIntact": false,
+  "bundledCrtLoadPathsPassed": true,
+  "generatedPcm": {
+    "seconds": 1,
+    "voskPassed": true,
+    "productionFinalPassed": true,
+    "vadInvocations": 1,
+    "encoderInvocations": 1,
+    "decoderInvocations": 1,
+    "naturalExitPassed": true,
+    "encodedFileRejected": true,
+    "pythonNetworkSocketsOpened": 0,
+    "recognitionQualityAssessed": false
+  },
+  "realAudioCaptured": false,
+  "externalModelRequestsDuringReleasePackaging": 0,
+  "priorFeatureValidation": {
+    "workstream": 63,
+    "authorizedSyntheticCloudQuestions": 2,
+    "finalCompletionMs": 3223,
+    "finalPreparationMs": 12167,
+    "scope": "Earlier repair validation, not additional packaging inference or a latency guarantee."
+  },
+  "cleanVmTested": false,
+  "previousReleasesUnchanged": true,
+  "pages": {
+    "url": "https://zanark.github.io/phantom-fudge/",
+    "runId": 38161590671,
+    "sourceCommit": "6732ba15fa5403adf2258a36c12e816ca4b5436b",
+    "conclusion": "success",
+    "httpStatus": 200,
+    "previewThreeLinksVerified": 2,
+    "historicalTutorialLabelsDisclosed": true,
+    "agencyCompatibilityNoticeVerified": true
+  },
+  "failedAttempts": [
+    {
+      "stage": "Draft lookup/download",
+      "failure": "Tag-based draft lookup returned404 and the CLI could not resolve the draft for download.",
+      "resolution": "Used the existing release ID and asset IDs with binary-safe authenticated downloads. All five byte identities matched; assets were not replaced."
+    },
+    {
+      "stage": "Publication tag metadata",
+      "failure": "The initial publish response used a generated placeholder tag.",
+      "resolution": "Bound the same release ID to the already-verified v0.2.0-preview.3 tag, checked canonical anonymous availability, and removed only the newly generated placeholder tag. Published asset bytes and earlier releases were unchanged."
+    }
+  ],
+  "qualificationLimits": [
+    "Agency backward/forward compatibility requires the retained identity, ACP1/close, restricted configuration and tool/terminal contract; not every historical or future version.",
+    "Current-host isolated installer identity/path; shortcuts omitted and older-version metadata simulated, not a genuine old-binary migration.",
+    "Serial packaged UI uses synthetic transcript/device/provider data; no real meeting audio or external answer-provider request during release packaging.",
+    "Generated PCM and native dependency checks do not establish recognition quality, a clean VM, hardware-wide behavior or real installed speech operation.",
+    "No recipient-side capture, universal invisibility, actual shortcut-collision or owner-comfort certification.",
+    "Published PDFs are immutable tagged-build editions. Maintained repository books add publication follow-up separately.",
+    "Unsigned; checksums identify bytes, not signer trust. Respect operating-system and organizational security controls."
+  ],
+  "assets": [
+    {
+      "name": "Phantom-Fudge-Engineering-Handbook.pdf",
+      "bytes": 12250748,
+      "sha256": "067edd64d1d509af3ab4f0c23ae00735c9c2f94e2d0b99ad5c92e13d701be031",
+      "pages": 397
+    },
+    {
+      "name": "Phantom-Fudge-Source-Atlas.pdf",
+      "bytes": 18857076,
+      "sha256": "cc1b14462fd93d44a6bc5f2c2110f63a2aedc74b45b23ff353e9ce63057c9b78",
+      "pages": 709
+    },
+    {
+      "name": "PhantomFudge-0.2.0-preview.3-win-x64-Portable.zip",
+      "bytes": 704396587,
+      "sha256": "1536be57a08e0b99678549086c978f038b834da8e2f05a43bb829cbbe9b93d6b"
+    },
+    {
+      "name": "PhantomFudge-0.2.0-preview.3-win-x64-Setup.exe",
+      "bytes": 657382288,
+      "sha256": "83679a043ae60e3f4ad5a204248077c639135d4a239e4627f2b0ffc919a1ed23"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 435,
+      "sha256": "755b8e53a584d45fb37c12d20057de995ad7520848b0a1c44608b551e60d1825"
+    }
+  ]
+}

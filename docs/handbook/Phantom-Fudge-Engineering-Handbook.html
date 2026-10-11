@@ -714,22 +714,22 @@ test/documentation improvement that follows one real invariant end to end.</p>
 </ul>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section>
 <section class="chapter" id="ch-installation"><div class="chapter-note">Source: docs/INSTALLATION.md</div><h1 id="ch-installation-install-update-and-remove-phantom-fudge">Install, update and remove Phantom Fudge</h1>
-<p><strong>Installer edition: unsigned Windows 11 x64 v0.2.0-preview.3.</strong> Check
-<a href="https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.3">the versioned release</a> for downloadable assets.
+<p><strong>Installer edition: public, unsigned Windows 11 x64 v0.2.0-preview.3.</strong> Download
+<a href="https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.3">the versioned release</a>; all five assets matched the <a href="../release-0.2.0-preview.3.json">public receipt</a>.
 Preview 3 includes the Agency backward/forward compatibility repair and previous-answer context.
 Current-host synthetic evidence does not establish clean-VM, every future provider or universal capture compatibility.
 Tutorial installer labels remain Preview 1; they do not identify this package.
 See <a href="#ch-answer-providers-compatibility-across-agency-updates">provider compatibility</a>, <a href="../IMPLEMENTATION-STATUS.md">current evidence</a> and <a href="../../TODO/64_COMPATIBILITY_PREVIEW_RELEASE.todo">workstream64</a>.</p>
-<p><strong>Earlier Preview 2 evidence, not a Preview 3 test:</strong> published October11 at01:19:15UTC from clean source <code>2ad0fa03a8c699619bda24c33ef6aa0250d6ef38</code>.
-Setup and Portable contain the committed391-page handbook, not later maintained documentation.
+<p><strong>Preview 3 published October11 at17:51:54UTC</strong>, from clean source <code>6732ba15fa5403adf2258a36c12e816ca4b5436b</code>.
+Setup and Portable contain the committed397-page handbook, not later maintained documentation.
 The released709-page atlas is a separate attachment; exact PDF hashes are in the public receipt.
 Historical Preview 1's85runtime/55native tests and candidate-stage failures remain <a href="../IMPLEMENTATION-STATUS.md">dated evidence</a>.
-They are not reused as Preview 2 test runs. Tutorial instructions and the24WPF/11READMEimage
-fixtures are unchanged, not recordings of installation. (docs/release-0.2.0-preview.2.json:3-29,90-100)</p>
+They are not reused as Preview 3 test runs. Tutorial instructions and the24WPF/11READMEimage
+fixtures are unchanged, not recordings of installation. See <a href="../release-0.2.0-preview.3.json">Preview 3's exact evidence</a>.</p>
 <table>
 <thead>
 <tr>
-<th>Published Preview 2 evidence</th>
+<th>Published Preview 3 evidence</th>
 <th>Qualification boundary</th>
 </tr>
 </thead>
@@ -910,8 +910,8 @@ installation. The stable AppId keeps the installation identity.</li>
 recipe uses a <strong>fresh maintenance helper extracted from Setup</strong>, rather than depending on a
 potentially damaged installed launcher. A numeric version fallback is stored under the per-user
 <code>HKCU\Software\PhantomFudge\Installer\&lt;AppId&gt;</code> key as <code>WindowsVersion</code>; if neither that nor
-<code>app-version.txt</code> is valid, Setup refuses. Preview 2's11-check isolated lifecycle passed same-version and damaged-launcher/version
-repair; its upgrade case changes older metadata, not a genuine older binary. (docs/release-0.2.0-preview.2.json:19-20,68-70)
+<code>app-version.txt</code> is valid, Setup refuses. Preview 3's11-check isolated lifecycle passed same-version and damaged-launcher/version
+repair; its upgrade case changes older metadata, not a genuine older binary. (<a href="../release-0.2.0-preview.3.json">Release evidence</a>.)
 (tools/Installer/PhantomFudge.iss:51-52,107-148)
 (src/PhantomFudge.Launcher/Program.cs:50-58,94-100)
 (scripts/Test-Installer.ps1:61-74)</p>
@@ -1172,8 +1172,8 @@ whole self-contained launcher directory extracted by Setup, not a standalone cop
 <p>Phantom Fudge combines local transcription, an editable question and explicit provider answers.
 Choosing an input does not record it; selecting words does not send them; covering the workspace
 does not stop work. This guide brings the current controls and images together so those boundaries
-are visible before a meeting. It describes <strong>public Preview 2</strong>, including previous-answer
-context. The <a href="../release-0.2.0-preview.2.json">release receipt</a> records synthetic package checks, not capture/provider qualification; Preview 1 assets and tutorial labels stay historical.</p>
+are visible before a meeting. It describes <strong>public Preview3</strong>, including previous-answer
+context and Agency compatibility. The <a href="../release-0.2.0-preview.3.json">release receipt</a> records synthetic package checks, not capture/provider qualification; Preview1 assets and tutorial labels stay historical.</p>
 <p>All pictures below are <strong>separate synthetic WPF examples</strong>. They show actual controls with generated
 text/device labels, not a real conversation, live model result or screen-sharing qualification.
 The <a href="assets/screenshots/manifest.json">source-image manifest</a> and
@@ -5421,7 +5421,7 @@ Neither distribution promises that every machine or recorder is supported.</p>
 <h2 id="ch-16-distribution-and-troubleshooting-installer-versus-development-bundle">Installer versus development bundle</h2>
 <p>The new recipe publishes the app and native launcher self-contained, assembles an offline speech
 runtime/model payload and emits versioned Setup, optional Portable ZIP and checksums. The target
-is the published <code>v0.2.0-preview.2</code> / Windows version <code>0.2.0.2</code>, unsigned. End users
+is the published <code>v0.2.0-preview.3</code> / Windows version <code>0.2.0.3</code>, unsigned. End users
 do not need PowerShell7, a system Python or the .NET SDK. Builds require actual generated-PCM
 inference and natural process exit, separately from import and dependency-metadata checks.
 (scripts/Build-Installer.ps1:30-44,76-114)
@@ -5429,7 +5429,7 @@ inference and natural process exit, separately from import and dependency-metada
 <p>The Inno recipe is per-user, uses a stable AppId, rejects downgrades and unrecognized nonempty
 destinations, and gates update/uninstall on maintenance. Repair/update uses
 a fresh self-contained helper directory extracted from Setup rather than a potentially corrupted
-old launcher. Preview 2's <a href="../release-0.2.0-preview.2.json">public receipt</a> records11isolated lifecycle checks; Preview 1 lifecycle3 remains historical.
+old launcher. Preview3's <a href="../release-0.2.0-preview.3.json">public receipt</a> records11fresh isolated lifecycle checks; the Preview2 evidence below remains historical.
 Uninstall invokes the installed launcher. <code>WindowsVersion</code> under
 <code>HKCU\Software\PhantomFudge\Installer\&lt;AppId&gt;</code> is the fallback for a damaged version file.
 It does not force-close an app. Save/export, stop capture
@@ -5795,10 +5795,10 @@ The original selection/context/cover triplets remain protected, not silently re-
 <p>These are scripted, sample-data demonstrations using actual WPF frames and synthetic narration.
 Preview 2 includes Previous answer; frozen tutorial installer labels still show Preview 1. Native installation,
 file-picker and provider steps in the tutorial are instructions, not recordings of those operations.</p>
-<p>Current source points both download links to Preview3 and names its Agency update compatibility fix.
-This changes release navigation only, not the frozen tutorial, captions, GIFs or playback behavior.
-Its deployment is a separate publication step; historical Preview2 deployment evidence below remains
-historical rather than being relabelled as a Preview3 observation. (<code>site/index.html:44,156</code>)</p>
+<p>The live website points both download links to Preview3 and names its Agency update compatibility fix.
+<a href="https://github.com/Zanark/phantom-fudge/actions/runs/38161590671">Pages38161590671</a> succeeded on6732ba1; HTTP200 and both links/notices were checked.
+This changes navigation only, not the frozen tutorial/captions/GIFs or playback behavior. The
+<a href="../release-0.2.0-preview.3.json">Preview3 receipt</a> records this separately from the historical deployment below. (<code>site/index.html:44,156</code>)</p>
 <p>The player behavior is implemented in <a href="../../site/app.mjs">app.mjs</a> and its
 <a href="../../site/player-core.mjs">pure timing/search helpers</a>. The existing browser fixture exercises
 all chapter starts, search and caption controls; the Node tests check all 525 cue intervals.
@@ -5877,7 +5877,7 @@ tests and the hash-verifying assembler. Only the dependent
 deploy job receives <code>pages: write</code> and <code>id-token: write</code>, using the <code>github-pages</code> environment.
 <code>cancel-in-progress: false</code> keeps a newer run from cancelling the current deployment.
 (<code>.github/workflows/pages.yml:12-50</code>; <code>tools/Site/build.mjs:28-52</code>)</p>
-<p><strong>Publication status: live with Preview 2 links.</strong> <a href="https://github.com/Zanark/phantom-fudge/actions/runs/38101185167">Pages run38101185167</a>
+<p><strong>Earlier deployment: Preview2 links.</strong> <a href="https://github.com/Zanark/phantom-fudge/actions/runs/38101185167">Pages run38101185167</a>
 completed successfully on <code>2ad0fa03a8c699619bda24c33ef6aa0250d6ef38</code>; <a href="https://zanark.github.io/phantom-fudge/">the public URL</a> returned HTTP200.
 Exactly two Preview 2 release links and the context/tutorial-label notices were verified. (docs/release-0.2.0-preview.2.json:52-59)
 Earlier successful run38092635522 on <code>77fca8a7cd1dd61dd5b1a09e72a898a73395cac1</code> remains historical. Failed38088016577 on <code>490e786</code> (three/eight demos and obsolete release metadata) is superseded.
@@ -7623,11 +7623,12 @@ sequenceDiagram
 <p>This chapter reads the frozen application source and current public evidence summaries. It does not rerun application tests, inspect private capture receipts, requalify a package, or perform cloud/audio operations. “Recorded result” below means the cited repository reports that observation, not that this documentation session independently repeated it. The qualification contract explicitly rejects substituting local previews, API return codes, or missing recordings for recipient evidence. (TODO\13_COMPATIBILITY_QUALIFICATION.todo:24-35, acceptance and evidence.)</p>
 <p>The engineering unit of assurance is therefore a <strong>bounded claim</strong>: a behavior, an exact subject, an environment, a procedure, an observation, and its limits. The repository's result template already asks for source identity, package hash, operating system, GPU, sharing backend, positive controls, frame coverage, and reviewer approval. A result without those boundaries may help investigation, but should not silently widen support. (docs\QUALIFICATION.md:150-176, result record.)</p>
 <h2 id="ch-21-evidence-and-roadmap-the-evidence-ladder-stronger-claims-require-additional-proof">The evidence ladder: stronger claims require additional proof</h2>
-<p><strong>Preview 2 scope: published.</strong> Workstream59's previous-answer context is included; <a href="../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo">workstream62</a>
+<p><strong>Preview3 scope: published.</strong> Previous-answer context and Agency compatibility are included; <a href="../../TODO/64_COMPATIBILITY_PREVIEW_RELEASE.todo">workstream64</a>
 is DONE for the public unsigned Windows11 x64 prerelease, not broad qualification. Historical October10
 synthetic evidence remains separate:396focused Core cases and the then-current UI fixture's21context/38keyboard checks passed.
 The24WPF images and11README derivatives retain their <a href="../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo">workstream59</a> provenance; no recorder/owner qualification is implied.</p>
-<p><strong>October 11 source and package evidence are separate:</strong> Core <strong>791/791</strong> (zero skipped,3m55s), Python runtime-packaging <strong>37/37</strong>, site <strong>14/14</strong>, and the earlier documentation preparation <strong>21/21</strong>. The parent reported a101,108,997-byte website build with unchanged tutorial hash. The <a href="../release-0.2.0-preview.2.json">public receipt</a> identifies source and exact-package results, rather than adding them into one test total.
+<p><strong>Preview3 evidence:</strong> source Core809, runtime-bundle19/installed-runtime18, Docs21 and Site14 passed. Exact packaged UI, Launcher10 and lifecycle11checks passed, with3685Portable entries verified. All five downloaded assets matched clean6732ba1; Pages38161590671 succeeded and both live links were checked. These separate scopes and their limits are in the <a href="../release-0.2.0-preview.3.json">Preview3 receipt</a>.</p>
+<p><strong>Earlier Preview2 source and package evidence:</strong> Core <strong>791/791</strong> (zero skipped,3m55s), Python runtime-packaging <strong>37/37</strong>, site <strong>14/14</strong>, and documentation preparation <strong>21/21</strong>. The parent reported a101,108,997-byte website build with unchanged tutorial hash. The <a href="../release-0.2.0-preview.2.json">historical receipt</a> identifies those exact source/package results, not new Preview3 tests.
 The serial packaged UI passed all groups, including <strong>21context/38keyboard</strong> checks; the exact launcher passed10self-checks. Lifecycle passed11checks against3,684inventoried files and all3,685Portable entries matched. These are current-host synthetic checks, with isolated installer identity/path, no shortcuts and simulated older metadata. (docs/release-0.2.0-preview.2.json:18-29,68-75)</p>
 <p>The offline Unicode-path build passed actual Vosk, production VAD, encoder/decoder, model hashes,
 bundled-CRT and natural-exit gates using one second of generated PCM. Speech92/App-and-Launcher861PE
@@ -12133,4 +12134,24 @@ guide identify0.2.0-preview.3/Windows0.2.0.3. The tutorial/GIFs remain unchanged
 reference editions must be frozen before the clean package build; exact package checks, public
 asset verification and the separate maintained publication receipt are still pending here.
 Preview1/2 stay immutable. No real recording, new login or extra model request is needed for packaging.</p>
+<h2 id="ch-journal-2026-10-11-23-21-54-ist-public-preview3-ships-the-agency-compatibility-repair">2026-10-11 23:21:54 IST - Public Preview3 ships the Agency compatibility repair</h2>
+<p>Published <strong>v0.2.0-preview.3</strong> from clean source <code>6732ba15fa5403adf2258a36c12e816ca4b5436b</code>,
+with annotated tag <code>4915aa3cf4de04baaabecd1f1de7de6952e5e335</code>. All five complete authenticated
+draft downloads matched, followed by canonical anonymous API/page and asset availability checks.
+The <a href="../release-0.2.0-preview.3.json">public receipt</a> retains the exact bytes and limits.</p>
+<p>Fresh qualification passed Core809, runtime-bundle19/installed-runtime18, Docs21/Site14 and nine
+browser groups; exact-package UI, Launcher10, lifecycle11/3684inventory and Portable3685entries
+were checked separately. SpeechPE92/App-and-LauncherPE861 and generated-PCM inference/natural exit
+passed. No real capture, meeting content or provider request was used during packaging.
+The installer fixture was removed; unchanged probe-owned diagnostic files were restored.</p>
+<p>Tag-based draft lookup/download failed, so verification used the existing release and asset IDs.
+The initial publish response used a generated placeholder tag; the same release was explicitly
+bound to the already-verified versioned tag, then only the accidental new placeholder was removed.
+Published assets were not rebuilt or replaced, and Preview1/2 remained unchanged.</p>
+<p>Main was pushed and <a href="https://github.com/Zanark/phantom-fudge/actions/runs/38161590671">Pages38161590671</a>
+succeeded for the release source. Both live Preview3 links and the compatibility/tutorial notices
+were checked. Released books remain the exact397-page handbook and709-page atlas from the tag;
+this maintained follow-up records publication without altering those attachments. The preview
+does not establish clean-VM, genuine old-binary migration, recipient capture or universal future
+provider compatibility.</p>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section></main></body></html>

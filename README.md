@@ -4,7 +4,7 @@
 
 [Windows download](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.3) · [Website & video tutorial](https://zanark.github.io/phantom-fudge/) · [Install / update / remove](docs/INSTALLATION.md) · [Workflow](docs/CURRENT-WORKFLOW.md) · [Docs](docs/README.md) · [Roadmap](TODO/00_INDEX.todo)
 
-> **v0.2.0-preview.3: unsigned Windows 11 x64 preview edition.** Check the versioned release for assets and [status and limits](docs/IMPLEMENTATION-STATUS.md). Capture exclusion is not universal. Answers are snapshot-only until an external provider is configured.
+> **v0.2.0-preview.3 is public: unsigned Windows 11 x64 preview.** [Verified release assets](docs/release-0.2.0-preview.3.json) · [Status and limits](docs/IMPLEMENTATION-STATUS.md). Capture exclusion is not universal. Answers are snapshot-only until an external provider is configured.
 
 **Included in Preview 2:** opt-in [previous-answer context](docs/LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer). Tutorial installer labels still show Preview 1.
 

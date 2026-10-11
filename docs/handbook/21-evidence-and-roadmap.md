@@ -16,12 +16,14 @@ The engineering unit of assurance is therefore a **bounded claim**: a behavior, 
 
 ## The evidence ladder: stronger claims require additional proof
 
-**Preview 2 scope: published.** Workstream59's previous-answer context is included; [workstream62](../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo)
+**Preview3 scope: published.** Previous-answer context and Agency compatibility are included; [workstream64](../../TODO/64_COMPATIBILITY_PREVIEW_RELEASE.todo)
 is DONE for the public unsigned Windows11 x64 prerelease, not broad qualification. Historical October10
 synthetic evidence remains separate:396focused Core cases and the then-current UI fixture's21context/38keyboard checks passed.
 The24WPF images and11README derivatives retain their [workstream59](../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo) provenance; no recorder/owner qualification is implied.
 
-**October 11 source and package evidence are separate:** Core **791/791** (zero skipped,3m55s), Python runtime-packaging **37/37**, site **14/14**, and the earlier documentation preparation **21/21**. The parent reported a101,108,997-byte website build with unchanged tutorial hash. The [public receipt](../release-0.2.0-preview.2.json) identifies source and exact-package results, rather than adding them into one test total.
+**Preview3 evidence:** source Core809, runtime-bundle19/installed-runtime18, Docs21 and Site14 passed. Exact packaged UI, Launcher10 and lifecycle11checks passed, with3685Portable entries verified. All five downloaded assets matched clean6732ba1; Pages38161590671 succeeded and both live links were checked. These separate scopes and their limits are in the [Preview3 receipt](../release-0.2.0-preview.3.json).
+
+**Earlier Preview2 source and package evidence:** Core **791/791** (zero skipped,3m55s), Python runtime-packaging **37/37**, site **14/14**, and documentation preparation **21/21**. The parent reported a101,108,997-byte website build with unchanged tutorial hash. The [historical receipt](../release-0.2.0-preview.2.json) identifies those exact source/package results, not new Preview3 tests.
 The serial packaged UI passed all groups, including **21context/38keyboard** checks; the exact launcher passed10self-checks. Lifecycle passed11checks against3,684inventoried files and all3,685Portable entries matched. These are current-host synthetic checks, with isolated installer identity/path, no shortcuts and simulated older metadata. (docs/release-0.2.0-preview.2.json:18-29,68-75)
 
 The offline Unicode-path build passed actual Vosk, production VAD, encoder/decoder, model hashes,

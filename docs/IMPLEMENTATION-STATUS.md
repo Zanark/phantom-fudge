@@ -1,12 +1,12 @@
 # Implementation status - 2026-10-11
 
-**Preview 3 publication in progress:** the Agency compatibility repair is implemented and tested in
-source; [workstream64](../TODO/64_COMPATIBILITY_PREVIEW_RELEASE.todo) tracks the separate clean-build,
-exact-package and public-download gates. Do not infer completion from the candidate version alone.
+**Preview 3 is public**, published October11 at17:51:54UTC from clean `6732ba15fa5403adf2258a36c12e816ca4b5436b`.
+The [release receipt](release-0.2.0-preview.3.json) records all five byte-matched downloads, exact-package
+checks and limits; [workstream64](../TODO/64_COMPATIBILITY_PREVIEW_RELEASE.todo) is complete. This remains an unsigned preview.
 
 **Earlier public [v0.2.0-preview.2](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2), October11 at01:19:15UTC:**
 unsigned Windows11 x64 prerelease from clean `2ad0fa03a8c699619bda24c33ef6aa0250d6ef38`, with previous-answer context. All five downloaded assets matched the [release receipt](release-0.2.0-preview.2.json).
-[Workstream62](../TODO/62_PUBLIC_PREVIEW_RELEASE.todo) is DONE; [exact-package evidence and recovery](#public-preview-2-exact-package-and-publication-evidence) retain current-host limits. The [live website](WEBSITE.md) has both Preview 2 links; none of this establishes broad capture/device/clean-VM qualification.
+[Workstream62](../TODO/62_PUBLIC_PREVIEW_RELEASE.todo) is DONE; [exact-package evidence and recovery](#public-preview-2-exact-package-and-publication-evidence) retain its historical limits. The [live website](WEBSITE.md) now links Preview 3; none of this establishes broad capture/device/clean-VM qualification.
 
 **Historical Preview 1, October10 01:52 IST (then private):** Setup, Portable ZIP, both PDFs and SHA256SUMS were published
 after downloading all five assets and matching their exact bytes. The immutable tag points to
@@ -28,14 +28,14 @@ Repository editions may add this publication follow-up; release attachments rema
 
 ## Current source summary
 
-**October11 evening, source-only provider compatibility correction:** Core **809/809** and the rebuilt
+**October11 evening provider compatibility correction, now included in Preview 3:** Core **809/809** and the rebuilt
 synthetic WPF fixture passed. Agency2026.10.8.13/Copilot1.0.93 reached readiness and completed the final
 authorized synthetic answer in3223ms after12167ms preparation. A separate exact-engine loopback mock
 observed two requests with zero tools, one exact user envelope, no assistant history and the policy in
 SYSTEM. These are bounded observations, not a latency SLO or real-meeting acceptance.
 Version pins are replaced by [runtime identity/capability/configuration checks](ANSWER-PROVIDERS.md#compatibility-across-agency-updates);
 fake future-compatible peers pass while breaking contracts remain rejected. Published Preview2 does
-**not** contain this fix; use current source or check Preview3's release assets. [Workstream63](../TODO/63_AGENCY_VERSION_COMPATIBILITY.todo).
+**not** contain this fix; Preview3's verified assets include it. [Workstream63](../TODO/63_AGENCY_VERSION_COMPATIBILITY.todo).
 
 **Earlier October11 pre-release source validation:** `dotnet test tests\PhantomFudge.Core.Tests -c Release --no-restore` passed **791/791**, zero skipped, in **3m55s**. Runtime-packaging Python tests passed **37/37**; site tests passed **14/14**. The parent-reported website build was **101,108,997 bytes**, tutorial SHA256 unchanged. Subsequent package/publication results are recorded separately in [the release receipt](release-0.2.0-preview.2.json).
 
@@ -55,7 +55,7 @@ newer features.
 
 | Current feature | Source behavior and boundary | Guide |
 | --- | --- | --- |
-| Installer / native launcher | Public Preview 2;10launcher self-checks and11isolated lifecycle checks pass. Guarded install, repair, update and removal unchanged | [Installation](INSTALLATION.md) |
+| Installer / native launcher | Public Preview 3;10launcher self-checks and11isolated lifecycle checks pass. Guarded install, repair, update and removal unchanged | [Installation](INSTALLATION.md) |
 | Audio device cards | No list scrollbars; explicit overflow pages retain selected endpoint identity | [Setup](CURRENT-WORKFLOW.md#1-choose-audio-device-cards) |
 | Red recording dot | Follows active transcription, not startup or input-mode selection; no audio-file save implied | [Capture state](CURRENT-WORKFLOW.md#2-start-transcription-and-watch-the-red-dot) |
 | Multi-line question selection | Whole Mic/Computer segments, raw text in display order, no automatic Ask | [Local questions](LOCAL-QUESTIONS.md) |
@@ -68,7 +68,7 @@ newer features.
 | Privacy requests | Existing capture affinity/tool-window plus accepted Peek request; cached peer still reads retained text | [Feasibility matrix](COVER-AND-PRIVACY.md#feasible-measures-in-practical-order) |
 | Diagnostics | Metadata by default; conversation bodies only through explicit Text opt-in | [Local diagnostics](DIAGNOSTICS.md) |
 
-**Download public Preview 2 Setup or the complete Portable ZIP**, or run source through
+**Download public Preview 3 Setup or the complete Portable ZIP**, or run source through
 `scripts\Run-PhantomFudge.ps1`. Save/copy required text and close an older instance with X before
 updating. The immutable045022ZIP predates the later selection/clarification/action/font/card/cover
 changes. Preview 1 is also historical and lacks Previous answer; workstream58 remains complete.

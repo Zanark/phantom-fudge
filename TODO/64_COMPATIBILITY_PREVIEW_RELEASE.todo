@@ -1,6 +1,6 @@
 # Agency Compatibility Preview Release
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Public unsigned Windows11 x64 v0.2.0-preview.3 / Windows0.2.0.3
 Dependencies: 58_INSTALLER_RELEASE.todo, 62_PUBLIC_PREVIEW_RELEASE.todo, 63_AGENCY_VERSION_COMPATIBILITY.todo
 
@@ -14,23 +14,23 @@ at20:29. This is not a claim that every device, capture backend or future provid
 
 - [x] Confirm publication request and existing repository-scoped publishing access.
 - [x] Update candidate version, current guides, website links and reviewed source annotations.
-- [ ] Freeze full source-matched handbook/atlas editions and commit all candidate inputs.
-- [ ] Build Setup/Portable from that clean commit using existing offline runtime/compiler.
-- [ ] Verify exact payload/archive inventories, native dependencies, generated PCM and clean exits.
-- [ ] Exercise exact packaged synthetic UI, launcher checks and isolated installer lifecycle.
-- [ ] Attach exact committed PDFs and verify checksums; keep prior releases immutable.
-- [ ] Publish the new tagged public prerelease and verify all five downloadable assets.
-- [ ] Record exact publication/qualification evidence, finish maintained documentation and push main.
+- [x] Freeze full source-matched handbook/atlas editions and commit all candidate inputs.
+- [x] Build Setup/Portable from that clean commit using existing offline runtime/compiler.
+- [x] Verify exact payload/archive inventories, native dependencies, generated PCM and clean exits.
+- [x] Exercise exact packaged synthetic UI, launcher checks and isolated installer lifecycle.
+- [x] Attach exact committed PDFs and verify checksums; keep prior releases immutable.
+- [x] Publish the new tagged public prerelease and verify all five downloadable assets.
+- [x] Record exact publication/qualification evidence and push the release source; maintain separate follow-up editions.
 
 ## Acceptance criteria
 
-- [ ] New assets contain workstream63's repair and match their clean source/tag identity.
-- [ ] Existing application/provider settings are not reset; no real recording, login or model call
+- [x] New assets contain workstream63's repair and match their clean source/tag identity.
+- [x] Existing application/provider settings are not reset; no real recording, login or model call
   is needed merely to package the already-exercised fix.
-- [ ] Synthetic/current-host evidence is separate from clean-VM, genuine old-binary migration,
+- [x] Synthetic/current-host evidence is separate from clean-VM, genuine old-binary migration,
   owner comfort, real-meeting recognition and recipient-capture qualification.
-- [ ] Preview1/2 tags and assets are unchanged; published books match the exact packaged commit.
-- [ ] No automatic fallback or relaxed safety contract is introduced by release packaging.
+- [x] Preview1/2 tags and assets are unchanged; published books match the exact packaged commit.
+- [x] No automatic fallback or relaxed safety contract is introduced by release packaging.
 
 ## Evidence
 
@@ -38,7 +38,15 @@ at20:29. This is not a claim that every device, capture backend or future provid
   Six older/current/future-compatible scripted cases passed again during the later confirmation.
 - The reported HTTP400 was confirmed by the owner to be in this coding chat, not Phantom Fudge;
   it is not evidence of an app HTTP defect or an observed server-side repair.
-- Packaging/publication gates for this candidate are pending, not inherited from Preview2.
+- Public Preview3 published at2026-10-11T17:51:54Z from clean6732ba15fa5403adf2258a36c12e816ca4b5436b.
+  Five full draft downloads matched; canonical anonymous API/page and all asset HEAD checks passed.
+  Exact receipt: docs\release-0.2.0-preview.3.json. Source pushed; Pages38161590671 succeeded.
+- Fresh package checks: UI including21context/38keyboard, Launcher10, lifecycle11/3684inventory,
+  Portable3685entries, speechPE92 and App/LauncherPE861, generated PCM/model/CRT/natural-exit gates.
+  Fixture installation/registry entries were removed; unchanged probe-owned diagnostic files restored.
+- Draft tag lookup/download required release/asset IDs. Initial publication metadata used a generated
+  placeholder tag; corrected the same release to the existing verified versioned tag and removed only
+  the new placeholder. Asset bytes and Preview1/2 were unchanged; failures remain in the receipt.
 - Candidate preparation passed Core809, runtime-bundle19 and installed-runtime18 tests,
   Docs21 and Site14. The existing range-capable site server passed all nine browser groups.
 - Full397-page handbook and709-page source atlas were generated and representative new version,

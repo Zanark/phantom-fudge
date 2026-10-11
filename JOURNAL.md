@@ -1718,3 +1718,28 @@ guide identify0.2.0-preview.3/Windows0.2.0.3. The tutorial/GIFs remain unchanged
 reference editions must be frozen before the clean package build; exact package checks, public
 asset verification and the separate maintained publication receipt are still pending here.
 Preview1/2 stay immutable. No real recording, new login or extra model request is needed for packaging.
+
+## 2026-10-11 23:21:54 IST - Public Preview3 ships the Agency compatibility repair
+
+Published **v0.2.0-preview.3** from clean source `6732ba15fa5403adf2258a36c12e816ca4b5436b`,
+with annotated tag `4915aa3cf4de04baaabecd1f1de7de6952e5e335`. All five complete authenticated
+draft downloads matched, followed by canonical anonymous API/page and asset availability checks.
+The [public receipt](docs/release-0.2.0-preview.3.json) retains the exact bytes and limits.
+
+Fresh qualification passed Core809, runtime-bundle19/installed-runtime18, Docs21/Site14 and nine
+browser groups; exact-package UI, Launcher10, lifecycle11/3684inventory and Portable3685entries
+were checked separately. SpeechPE92/App-and-LauncherPE861 and generated-PCM inference/natural exit
+passed. No real capture, meeting content or provider request was used during packaging.
+The installer fixture was removed; unchanged probe-owned diagnostic files were restored.
+
+Tag-based draft lookup/download failed, so verification used the existing release and asset IDs.
+The initial publish response used a generated placeholder tag; the same release was explicitly
+bound to the already-verified versioned tag, then only the accidental new placeholder was removed.
+Published assets were not rebuilt or replaced, and Preview1/2 remained unchanged.
+
+Main was pushed and [Pages38161590671](https://github.com/Zanark/phantom-fudge/actions/runs/38161590671)
+succeeded for the release source. Both live Preview3 links and the compatibility/tutorial notices
+were checked. Released books remain the exact397-page handbook and709-page atlas from the tag;
+this maintained follow-up records publication without altering those attachments. The preview
+does not establish clean-VM, genuine old-binary migration, recipient capture or universal future
+provider compatibility.

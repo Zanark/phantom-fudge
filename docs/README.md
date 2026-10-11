@@ -32,8 +32,8 @@ deep, source-linked reference; the [development journal](../JOURNAL.md) tells th
 | Follow project conventions | [TODO format](TODO-CONVENTIONS.md), [contributor contract](../AGENTS.md) |
 | Change the docs or regenerate images | [Maintenance contract](DOCUMENTATION-MAINTENANCE.md), [book tooling](../tools/Docs/README.md) |
 
-**Preview3 adds Agency backward/forward compatibility; check its versioned release for availability.** Earlier Preview2 is public, unsigned and Windows11 x64 only; [its receipt](release-0.2.0-preview.2.json) retains the exact earlier package evidence.
-The website is live with both Preview 2 links. Maintained books may be newer than the immutable released391-page handbook/709-page atlas; [historical Preview 1 identities](release-0.2.0-preview.1.json) remain unchanged.
+**Preview3 is public: unsigned Windows11 x64, with Agency backward/forward compatibility.** [Its receipt](release-0.2.0-preview.3.json) records exact package/publication evidence; [Preview2's receipt](release-0.2.0-preview.2.json) stays historical.
+The website is live with both Preview3 links. Maintained books may be newer than the immutable released397-page handbook/709-page atlas; [historical Preview1 identities](release-0.2.0-preview.1.json) remain unchanged.
 The current native Python service does not need Docker. Providers are explicit: installed Copilot
 can use cloud models or a configured local endpoint. Direct Azure remains future work.
 Handbook UI images are actual WPF visual-tree renders with **synthetic content and device labels**,

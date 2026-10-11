@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-11T17:25:07.649Z",
+  "generatedAtUtc": "2026-10-11T18:04:15.554Z",
   "edition": "2026-10-11",
   "inputs": {
     "AGENTS.md": "a2e00965ef5387b5af1b7c69d6594145d8d67d0a6294974b0bf6cb0b1921642d",
@@ -26,7 +26,7 @@
     "docs/assets/readme/selection.png": "7d80068f5f1ea1ab9763be469f35920ea75ebfb61c0bfacd9cb6090dbbc1bd12",
     "docs/assets/readme/transcript.png": "28e288097fca3495c67ae2159a015f8e00f2a58db647554800841a579cd6c758",
     "docs/COVER-AND-PRIVACY.md": "489797b60b80e071a3693f13f871cf48157e4f778fe1dbc56611074a4d322071",
-    "docs/CURRENT-WORKFLOW.md": "64e5fd27fb170a28ee5a2698a93cf9eaa74377da02b92f7e61d52c2280fb58c3",
+    "docs/CURRENT-WORKFLOW.md": "a3947a8a78fe693ff63b39f82609360d4e91ab11328de4fb3f3ba9b960f76688",
     "docs/CURSOR-AND-THEMES.md": "bab42d313e5f1920e1666a575fedc34f84dc5543aea413c7665b4e8f5726b664",
     "docs/DEVELOPMENT-WORKFLOW.md": "1f0852195c0afe455b2e754c6da1496ca4f450ce8d99cb2a3103a4ad4fc0b7f4",
     "docs/DOCUMENTATION-MAINTENANCE.md": "80cb750621767c2191e1dbfea5db0a9051884062abaa13da4809212b9ead398f",
@@ -47,12 +47,12 @@
     "docs/handbook/13-proposed-azure-answer-flow.md": "239297ee653d92541d528c01d458c97802af43bd25905e7748f812a474505d5e",
     "docs/handbook/14-answer-latency-identity-and-privacy.md": "22f2e4eb41bad6e7912ac6cd9b8bbee99928ec23f1ea6790ef0a6090908d9bd6",
     "docs/handbook/15-development-and-testing.md": "85ab86519dfd75db14609b0b2ef258315ddab45d5dafc9b194a245d4204e7d01",
-    "docs/handbook/16-distribution-and-troubleshooting.md": "081fab3698ba2dc162231069c3818e7fad09bb84cdb484bdef4fa671b4ed8f45",
+    "docs/handbook/16-distribution-and-troubleshooting.md": "72ffabccbefb998be9f7f38e69c66f028f94659a091d7e4182db33a6c13a5fe7",
     "docs/handbook/17-privacy-and-assurance.md": "9157dc50469ad5a0bdce2f489500f080ba4763a7a47a65afaba305acd5623984",
     "docs/handbook/18-extending-the-system.md": "0bc334b223a938dbbe8e40845eae17370c2b0164a65bc18b07d6b273839e01da",
     "docs/handbook/19-api-configuration-reference.md": "5cdc668e6fb9692bcf42963b83d21228d1ba5861da1cb23244a8c4c5e984a944",
     "docs/handbook/20-glossary-and-repository-map.md": "40f18c344a963d03210cdb25054b683e505e48fd611968bd76990c62116bc0d7",
-    "docs/handbook/21-evidence-and-roadmap.md": "44f53c1d97ebdd9e2929fb00ed118414be1d84694187320336ef4217e45873e1",
+    "docs/handbook/21-evidence-and-roadmap.md": "35013b351e06ed56a1bfb46ae4fb8bd6370a66bfc55dafada2568269e8bc10b9",
     "docs/handbook/22-desktop-source-walkthrough.md": "1ba9c7476c3a35c0dc8f9eeef2cb40c47a23bbf2f432a292154b4afca531d160",
     "docs/handbook/23-domain-source-walkthrough.md": "a889e80bc7e049d39c57fea6cd03302221210fe6ed79fc2e35b435a2b9aafc6f",
     "docs/handbook/24-provider-source-walkthrough.md": "dd7e97704fb1151f5d5dda88c5592bb5f73f40076c6de7f766d7842680e0d6a0",
@@ -88,26 +88,26 @@
     "docs/handbook/assets/screenshots/transcript-multiselect.png": "9af2d2f9606233360807436ecbe92f954d3f13e3d442b6fbf7f6fb58361556a3",
     "docs/handbook/book.json": "bcea9a8b8089876b529b3a452632d8ef251c91dc1ee4361649f9135d683297ee",
     "docs/handbook/catalogue.json": "0ac512c31a4be3455e4d2210675ae1b0c6a5f806e4d6182cdfd0f55476d2b490",
-    "docs/handbook/README.md": "fa7fd5667134e15e63ffac35dd1e01a9a2466276c824d8904840d5662cc0f991",
-    "docs/IMPLEMENTATION-STATUS.md": "bec5a867f3cda0135fa617691c4d7a36f5f16346383ca384f4494bba9b2ec372",
-    "docs/INSTALLATION.md": "0a2b2958134973cd8c4e243d5439ba2d9c8cd08a57dd1ef2e9b25a11f8212895",
+    "docs/handbook/README.md": "420ce58897935e8d07e9397f4dddd2eccb68e876358400d4daaac054da5b063d",
+    "docs/IMPLEMENTATION-STATUS.md": "1724a7525431a7bc572458961b0be52a4b47ada45a79b6dc47b6d954015c4a71",
+    "docs/INSTALLATION.md": "08eca411a445c4c2ccb4b5d8cd355678304edfbf8b6a5b82fbc060e7cc12a29b",
     "docs/KEYBOARD-CONTROLS.md": "8c1da609a6460da7849d4d3e14bbfcb24d02d7decbd044099ceea6aef4349186",
     "docs/LOCAL-QUESTIONS.md": "956356f069b8684afa7dec760a00534c4488c5e96f18b5ffb5b4e7123048fb2e",
-    "docs/OVERVIEW.md": "a47f7b43315549e66c4b4a40e5e5eb48878328c5bec349e217e87c5113e57913",
+    "docs/OVERVIEW.md": "a8a6d4d27bcb83644f1ff3abe72c2e47f70cc54dd28df1e7cd849fad5003df0c",
     "docs/PREVIEW-GUIDE.md": "d2ec0b35cd9a688cb7c738f2e536de5506fa52790d920502ebb20eb38656e11a",
     "docs/PRODUCT.md": "ce2a38b3447bc6770dac378f3035bcd0d0e983e56988948f012179444ac8bfe7",
     "docs/QUALIFICATION.md": "3226eca4c03b5e1e68829c303e1ae9b9e9ea1223bd810b62d9bb4a7c55748ca9",
     "docs/QUESTION-CLARIFICATION.md": "255ae0c3d7a95662efc186c306c68b847054c6939de9b1ecb5f0e61f8f12f2a8",
-    "docs/README.md": "a9519041ee91f9b81d572f27513d7f693a32d3c04701a4e4e59cb50860c55e66",
+    "docs/README.md": "e2c361f695b60090a0d514843e717ef97a5f4c18bf11589613ac6c24ab65ed19",
     "docs/release-0.2.0-preview.2.json": "7b70ef581d18650a55cbc7445548e60bb18dc438468171c29f81d80d1636b95e",
-    "docs/source-atlas/manifest.json": "09b09ae87351fec2f10f83f32dadcd546f4031d875075f39a497e057f7ededa2",
+    "docs/source-atlas/manifest.json": "cc62e079442eef3137db86ea226bd2882412399071277da8e1fea15fa4595239",
     "docs/SPEECH-BENCHMARK.md": "46c89e70fc06891a837c3fc2323ed9712510a0175981ea3e916516d750dda39d",
     "docs/TODO-CONVENTIONS.md": "7d214300834874ea780761859b992ea4ccf834ce2a34eef2697437d8d841e753",
-    "docs/WEBSITE.md": "290d21b02f4ec747f961d79115e9df79d74cd722605c1d5610460410bf979915",
+    "docs/WEBSITE.md": "b2c8025a9e8ac75cba21b938997c43cd9685a833216adfc4d10d797ae35a916a",
     "global.json": "bf68d4a0fc2613967f53bd6af5a6570666b755f5f6bf4688a120736ae523ccaa",
-    "JOURNAL.md": "01465583919bc364d7e869f7e60ee61d75cbfadf0b995d3c01a0c9988f13bd9a",
+    "JOURNAL.md": "da94b01a5e4a4e2a53affa487302b450fe43f0a73bb2c4859a79553c744dc065",
     "PhantomFudge.slnx": "83273f1f97cbf17a0f001c4221eb997d18dac384b630d16a080d24253ca51379",
-    "README.md": "1b1cd4e6fb6f0b18b954eec1e8c220e5d52b0005f9cbddbd9f28e03c00d95ea4",
+    "README.md": "73f28a4473f28ef296858537b57899504a22cb33cb900550f5f9ed93def03758",
     "scripts/Build-Handbook.ps1": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
     "scripts/Build-Handbook.txt": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
     "scripts/Build-Installer.ps1": "fce0d469b571c669c551ddbb93db2f8279d0fe32e79be999db7120aabb525b9f",
@@ -258,11 +258,11 @@
     "tests/PhantomFudge.Core.Tests/ThemePaletteTests.cs": "3bbb5308677f535c629c9909df63e1f1879a6e915a8165aed891cc1d57247f53",
     "tests/PhantomFudge.Core.Tests/TranscriptBufferTests.cs": "4ebd424f1684c9d8fd623322e19153427fb2b94858ca93034baeae20c1a91558",
     "tests/PhantomFudge.Core.Tests/WorkspaceLayoutTests.cs": "3b1261c8523b8218a3359dddec3118f53d653f8a981b8696a57d264cfc404d69",
-    "TODO/00_INDEX.todo": "41e298a8cf1aa99f23a789d3acb61d3aad9c7c0c34c78920dc45347607e570cc",
+    "TODO/00_INDEX.todo": "a667a21300c4476ee41569179ffdd821a578eab2fce2d51c196aebca63eb828e",
     "TODO/08_LOCAL_STORAGE.todo": "ef568213f4a837ed48f2011b6dd93a1298fdd40a2151983350a252ec985a789d",
     "TODO/13_COMPATIBILITY_QUALIFICATION.todo": "9ef0db53d6031e1744d377e3a02163cbdf0e406b3e92a7d9b018b9ae9af0abf1",
     "TODO/14_PACKAGING_RELEASE.todo": "869edd690efd9a23798bd90d9c3277b6e077da8069ab6bd6eedcf1c09a8a2794",
-    "TODO/16_DEVELOPMENT_LEDGER.todo": "1a4dea2e11f814d5da097a56ff93590e1b0483f214339338f9e41f683ef09bb1",
+    "TODO/16_DEVELOPMENT_LEDGER.todo": "6526dc3d2e1562ef401709780947f9d59532bc5a0a9b75abb56e2754d931c207",
     "TODO/17_RELEASE_ACCEPTANCE.todo": "ced71d32d0045f0b7b490bd2d99171be177fbc215e7cbfe051ba06f62cdfe526",
     "TODO/20_DOCKER_LOCAL_SERVICE.todo": "701e74651abb517d595a86261d3c48b78e2399d0bce83a7db12a39e8a2d746de",
     "TODO/22_NATIVE_PYTHON_RUNTIME.todo": "444317a249a394d5e625649bbb43da82db9049c36a8812e98f34170dbbabbb13",
@@ -756,16 +756,6 @@
       "title": "Install, update and remove Phantom Fudge",
       "citations": [
         {
-          "file": "docs/release-0.2.0-preview.2.json",
-          "start": 3,
-          "end": 29
-        },
-        {
-          "file": "docs/release-0.2.0-preview.2.json",
-          "start": 90,
-          "end": 100
-        },
-        {
           "file": "tools/Installer/PhantomFudge.iss",
           "start": 72,
           "end": 76
@@ -959,16 +949,6 @@
           "file": "scripts/Build-Installer.ps1",
           "start": 56,
           "end": 74
-        },
-        {
-          "file": "docs/release-0.2.0-preview.2.json",
-          "start": 19,
-          "end": 20
-        },
-        {
-          "file": "docs/release-0.2.0-preview.2.json",
-          "start": 68,
-          "end": 70
         },
         {
           "file": "tools/Installer/PhantomFudge.iss",
@@ -1292,7 +1272,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2693
+      "words": 2696
     },
     {
       "file": "docs/CURRENT-WORKFLOW.md",
@@ -1590,7 +1570,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2427
+      "words": 2428
     },
     {
       "file": "docs/KEYBOARD-CONTROLS.md",
@@ -7215,7 +7195,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2074
+      "words": 2075
     },
     {
       "file": "docs/WEBSITE.md",
@@ -7463,7 +7443,7 @@
         }
       ],
       "diagrams": 2,
-      "words": 2318
+      "words": 2311
     },
     {
       "file": "docs/handbook/17-privacy-and-assurance.md",
@@ -10198,7 +10178,7 @@
         }
       ],
       "diagrams": 3,
-      "words": 2730
+      "words": 2767
     },
     {
       "file": "docs/handbook/22-desktop-source-walkthrough.md",
@@ -14046,15 +14026,15 @@
         }
       ],
       "diagrams": 2,
-      "words": 15109
+      "words": 15312
     }
   ],
   "diagramCount": 75,
-  "wordCount": 97450,
+  "wordCount": 97688,
   "pdf": {
     "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.pdf",
-    "sha256": "067edd64d1d509af3ab4f0c23ae00735c9c2f94e2d0b99ad5c92e13d701be031",
-    "bytes": 12250748,
+    "sha256": "c7f2d0a134cd238de745aa687003f0da8031336353fdb0d2567f5e9b530e3f95",
+    "bytes": 12264538,
     "pages": 397,
     "inspection": {
       "missingImages": [],
@@ -14980,11 +14960,11 @@
     },
     {
       "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.html",
-      "sha256": "e2b624bc9817ca1d13845f594423b3be069cb76c131652d4c7f64015fc998b20"
+      "sha256": "ba6359c49892075de0d354248646ebb2211e723df0b68d1ea95ea13a05599577"
     },
     {
       "file": "docs/handbook/Phantom-Fudge-Engineering-Handbook.pdf",
-      "sha256": "067edd64d1d509af3ab4f0c23ae00735c9c2f94e2d0b99ad5c92e13d701be031"
+      "sha256": "c7f2d0a134cd238de745aa687003f0da8031336353fdb0d2567f5e9b530e3f95"
     }
   ]
 }

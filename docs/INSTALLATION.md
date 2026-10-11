@@ -6,21 +6,21 @@ outline: deep
 
 # Install, update and remove Phantom Fudge
 
-**Installer edition: unsigned Windows 11 x64 v0.2.0-preview.3.** Check
-[the versioned release](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.3) for downloadable assets.
+**Installer edition: public, unsigned Windows 11 x64 v0.2.0-preview.3.** Download
+[the versioned release](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.3); all five assets matched the [public receipt](release-0.2.0-preview.3.json).
 Preview 3 includes the Agency backward/forward compatibility repair and previous-answer context.
 Current-host synthetic evidence does not establish clean-VM, every future provider or universal capture compatibility.
 Tutorial installer labels remain Preview 1; they do not identify this package.
 See [provider compatibility](ANSWER-PROVIDERS.md#compatibility-across-agency-updates), [current evidence](IMPLEMENTATION-STATUS.md) and [workstream64](../TODO/64_COMPATIBILITY_PREVIEW_RELEASE.todo).
 
-**Earlier Preview 2 evidence, not a Preview 3 test:** published October11 at01:19:15UTC from clean source `2ad0fa03a8c699619bda24c33ef6aa0250d6ef38`.
-Setup and Portable contain the committed391-page handbook, not later maintained documentation.
+**Preview 3 published October11 at17:51:54UTC**, from clean source `6732ba15fa5403adf2258a36c12e816ca4b5436b`.
+Setup and Portable contain the committed397-page handbook, not later maintained documentation.
 The released709-page atlas is a separate attachment; exact PDF hashes are in the public receipt.
 Historical Preview 1's85runtime/55native tests and candidate-stage failures remain [dated evidence](IMPLEMENTATION-STATUS.md).
-They are not reused as Preview 2 test runs. Tutorial instructions and the24WPF/11READMEimage
-fixtures are unchanged, not recordings of installation. (docs/release-0.2.0-preview.2.json:3-29,90-100)
+They are not reused as Preview 3 test runs. Tutorial instructions and the24WPF/11READMEimage
+fixtures are unchanged, not recordings of installation. See [Preview 3's exact evidence](release-0.2.0-preview.3.json).
 
-| Published Preview 2 evidence | Qualification boundary |
+| Published Preview 3 evidence | Qualification boundary |
 | --- | --- |
 | **Startup:** 10 exact-launcher self-checks pass | Guarded handoff checks, not actual installed speech or interactive Close qualification |
 | **Desktop:** all packaged UI groups pass, including 21 context and 38 keyboard checks | Synthetic UI only; no audio capture or external-provider request |
@@ -175,8 +175,8 @@ Setup rejects a downgrade and refuses an unrecognized, nonempty destination. The
 recipe uses a **fresh maintenance helper extracted from Setup**, rather than depending on a
 potentially damaged installed launcher. A numeric version fallback is stored under the per-user
 `HKCU\Software\PhantomFudge\Installer\<AppId>` key as `WindowsVersion`; if neither that nor
-`app-version.txt` is valid, Setup refuses. Preview 2's11-check isolated lifecycle passed same-version and damaged-launcher/version
-repair; its upgrade case changes older metadata, not a genuine older binary. (docs/release-0.2.0-preview.2.json:19-20,68-70)
+`app-version.txt` is valid, Setup refuses. Preview 3's11-check isolated lifecycle passed same-version and damaged-launcher/version
+repair; its upgrade case changes older metadata, not a genuine older binary. ([Release evidence](release-0.2.0-preview.3.json).)
 (tools/Installer/PhantomFudge.iss:51-52,107-148)
 (src/PhantomFudge.Launcher/Program.cs:50-58,94-100)
 (scripts/Test-Installer.ps1:61-74)

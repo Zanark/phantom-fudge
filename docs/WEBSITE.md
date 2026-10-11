@@ -72,10 +72,10 @@ These are scripted, sample-data demonstrations using actual WPF frames and synth
 Preview 2 includes Previous answer; frozen tutorial installer labels still show Preview 1. Native installation,
 file-picker and provider steps in the tutorial are instructions, not recordings of those operations.
 
-Current source points both download links to Preview3 and names its Agency update compatibility fix.
-This changes release navigation only, not the frozen tutorial, captions, GIFs or playback behavior.
-Its deployment is a separate publication step; historical Preview2 deployment evidence below remains
-historical rather than being relabelled as a Preview3 observation. (`site/index.html:44,156`)
+The live website points both download links to Preview3 and names its Agency update compatibility fix.
+[Pages38161590671](https://github.com/Zanark/phantom-fudge/actions/runs/38161590671) succeeded on6732ba1; HTTP200 and both links/notices were checked.
+This changes navigation only, not the frozen tutorial/captions/GIFs or playback behavior. The
+[Preview3 receipt](release-0.2.0-preview.3.json) records this separately from the historical deployment below. (`site/index.html:44,156`)
 
 The player behavior is implemented in [app.mjs](../site/app.mjs) and its
 [pure timing/search helpers](../site/player-core.mjs). The existing browser fixture exercises
@@ -175,7 +175,7 @@ deploy job receives `pages: write` and `id-token: write`, using the `github-page
 `cancel-in-progress: false` keeps a newer run from cancelling the current deployment.
 (`.github/workflows/pages.yml:12-50`; `tools/Site/build.mjs:28-52`)
 
-**Publication status: live with Preview 2 links.** [Pages run38101185167](https://github.com/Zanark/phantom-fudge/actions/runs/38101185167)
+**Earlier deployment: Preview2 links.** [Pages run38101185167](https://github.com/Zanark/phantom-fudge/actions/runs/38101185167)
 completed successfully on `2ad0fa03a8c699619bda24c33ef6aa0250d6ef38`; [the public URL](https://zanark.github.io/phantom-fudge/) returned HTTP200.
 Exactly two Preview 2 release links and the context/tutorial-label notices were verified. (docs/release-0.2.0-preview.2.json:52-59)
 Earlier successful run38092635522 on `77fca8a7cd1dd61dd5b1a09e72a898a73395cac1` remains historical. Failed38088016577 on `490e786` (three/eight demos and obsolete release metadata) is superseded.

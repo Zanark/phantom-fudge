@@ -33,6 +33,11 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
 
 ## Completion log
 
+- 2026-10-11 23:21:54IST - Public Preview3 published from clean6732ba1; five downloads matched,
+  canonical anonymous assets available, prior release tags/assets unchanged. Fresh package UI,
+  Launcher10/lifecycle11,3685Portable entries, native dependencies and generated PCM passed.
+  Corrected same-release placeholder tag metadata; no asset replacement. Source pushed and
+  Pages38161590671/live two links verified. Maintained documentation remains separate from released397/709-page PDFs.
 - 2026-10-11 20:29 - Owner requested publication after the repair. Workstream64 prepares
   unsigned Windows11x64 Preview3 in the existing channel, with bounded exact-package checks.
   Source809/WPF/provider evidence is not a new package pass; earlier release assets stay immutable.

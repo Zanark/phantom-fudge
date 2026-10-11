@@ -11,9 +11,9 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Current state
 
-- Workstream64 is IN_PROGRESS: owner requested publication at20:29. Prepare public unsigned
-  Preview3 with workstream63's Agency compatibility repair, exact committed books and fresh package
-  checks. Prior previews stay immutable; no broad capture/device/future-provider guarantee.
+- Workstream64 is DONE: public unsigned Preview3 published October11 at23:21:54IST from clean6732ba1.
+  Five byte-matched downloads, exact packaged UI/Launcher10/lifecycle11 and native/PCM gates passed.
+  Pages38161590671 and live Preview3 links verified; released397/709-page books and earlier previews remain immutable.
 - Workstream63 is DONE locally: disabled Ask fixed and Agency version pins replaced by identity,
   ACP1/close and restricted-session checks. Core809 and synthetic WPF pass; actual1.0.93 answer
   completed after readiness. Contract-compatible future test versions pass; breaking changes fail.
@@ -77,7 +77,8 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Next action
 
-Complete workstream64's clean-source package, isolated qualification and verified public release.
+Workstream64 is complete. Use docs\release-0.2.0-preview.3.json for exact published artifacts and
+bounded evidence. No additional model request, installer rebuild or publication is pending.
 
 Workstream63 is complete in source. Save/close an older app instance with X before running
 scripts\Run-PhantomFudge.ps1; wait for Agency readiness and submit questions explicitly.
@@ -132,7 +133,7 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 
 | ID | File | Status | Gate |
 | --- | --- | --- | --- |
-| 64 | 64_COMPATIBILITY_PREVIEW_RELEASE.todo | IN_PROGRESS | Public Preview3; exact clean-build/package/download gates |
+| 64 | 64_COMPATIBILITY_PREVIEW_RELEASE.todo | DONE | Public Preview3; verified clean-source artifacts and bounded package evidence |
 | 63 | 63_AGENCY_VERSION_COMPATIBILITY.todo | DONE | Source-only runtime-contract compatibility; bounded synthetic evidence |
 | 62 | 62_PUBLIC_PREVIEW_RELEASE.todo | DONE | Public unsigned Preview2; five exact downloads verified; bounded package evidence, immutable release PDFs |
 | 61 | 61_PUBLIC_PHANTOM_WEBSITE.todo | DONE | Site/eight GIFs live; Pages38101185167/HTTP200, both Preview2links verified |
