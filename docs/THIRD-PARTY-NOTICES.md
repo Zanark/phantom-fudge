@@ -1,10 +1,10 @@
 # Third-party notices
 
 These dependency notices do not choose a license for Phantom Fudge. **The owner has not selected
-a project license.** The October9 installer/prerelease request does not supply one or change the
-repository's private visibility.
+a project license.** Public repository visibility and the authorized Preview 2 prerelease do not
+supply one. Preview 2's exact assembled notice/inventory evidence is pending.
 
-The published v0.2.0-preview.1 payload includes its exact third-party license/notice files under
+The historical v0.2.0-preview.1 payload includes its exact third-party license/notice files under
 `licenses` and the installed runtime/package directories. Preserve those files when redistributing
 an authorized artifact. [Release provenance](release-0.2.0-preview.1.json) records the assembled
 artifact identities. Publication is not a legal certification or proof of publisher licensing entitlement.

@@ -1,0 +1,90 @@
+# Public Preview 2 release
+
+Status: IN_PROGRESS
+Milestone: Public unsigned Windows11 x64 v0.2.0-preview.2 / Windows0.2.0.2
+Dependencies: 58_INSTALLER_RELEASE.todo, 59_PREVIOUS_ANSWER_CONTEXT.todo, 61_PUBLIC_PHANTOM_WEBSITE.todo
+
+## Purpose
+
+Deliver the owner's October11 explicitly requested PUBLIC prerelease using the approved existing
+publishing helper. Include the already-implemented Previous answer increment and current reference
+editions, with the live website/full tutorial/eight demos as companion documentation.
+This is a new version, not replacement of Preview1 assets or promotion to qualified v1.
+
+## Ownership and order
+
+- Documentation preparation owns README, authored guides/annotations, TODO/index/ledger/JOURNAL
+  and complete generated atlas/handbook editions. No native source, media or UI rerender.
+- Parent owns packaging, exact packaged-app tests, Git/publication, site source/test and installer
+  version fields. Build the installer from clean committed source AFTER the complete PDFs are ready:
+  scripts\Build-Installer.ps1:48-54 embeds the handbook in the payload.
+- Final publication evidence is a separate follow-up after parent supplies exact receipts.
+  No package build, test pass, asset hash, tag or publication is inferred from this preparation.
+
+## Tasks
+
+- [x] Set candidate0.2.0-preview.2/Windows0.2.0.2 in parent-owned release configuration and matching
+  installer defaults; align both website download links and preserve Preview1 tutorial caveat.
+- [x] Read the frozen source changes and update meaningful atlas explanations, exact ranges/hashes
+  and guide citations; site test now compares both links to release.json, with five added lines.
+- [x] Update active download names/current scope; Previous answer is included in Preview2.
+  Keep availability-neutral links, unchanged install/update/uninstall safety and historical receipts.
+- [x] Reconcile live Pages evidence:77fca8a7cd1dd61dd5b1a09e72a898a73395cac1,
+  successful build/deploy38092635522and HTTP200. Failed38088016577is superseded.
+- [x] Prepare release notes for parent in .local\release-0.2.0-preview.2\release-notes.md.
+- [x] Build source atlas first, then full handbook HTML/PDF; review changed rendered chapter/atlas
+  pages and run final freshness checks after tracking changes.
+- [ ] Parent builds Setup/complete Portable from clean committed source and records exact
+  source commit, sourceDirty=false, payload/inventory, notices and outer asset checksums.
+- [ ] Parent records fresh exact-package lifecycle, launcher, synthetic desktop/context/keyboard,
+  runtime/generated-PCM and archive-integrity results, retaining any failed attempts.
+- [ ] Parent publishes the authorized public prerelease through the approved helper and verifies
+  tag/source identity, prerelease/public visibility, five assets/downloaded bytes and checksums.
+- [ ] Record new release evidence and actual PDF identities without editing Preview1's receipt/assets;
+  verify Preview2 site links separately from the earlier successful deployment and refresh final docs.
+
+## Acceptance criteria
+
+- [ ] New public versioned assets and exact evidence are available and independently byte-matched;
+  not merely source version edits, historical test counts or website HTTP200.
+- [x] Maintained full editions are current and reviewed for handoff before parent installer assembly.
+- [x] Preview1 tag/assets/release record and published371/645-page PDF identities stay historical.
+- [x] Preserve unsigned Windows11 x64 PRERELEASE and external-provider-not-included scope.
+  New profiles remain SnapshotOnly; no automatic capture/login/provider installation or cloud fallback.
+- [x] Save/export/copy required text, Stop and close with X before repair/update/uninstall.
+  Hide/Cover are not Exit. Setup never launches; close Setup, then launch from Start.
+  Managed program directories are replaced; external settings, diagnostics and saved content remain.
+- [x] No cleanVM, real capture, live provider, genuine older-binary migration, universal invisibility
+  or owner comfort proof is supplied by this workstream's documentation preparation.
+
+## Evidence and remaining gates
+
+- Parent supplied the four frozen version/site source changes. Runtime/UI source is unchanged since59.
+- October10 Core396/21context/38keyboard evidence belongs to59, not today's packaged build.
+  Existing24WPF/11READMEimage provenance stays valid; no media or source screenshot rerender.
+- New package/test/publication evidence: PENDING. Current edition identities belong to
+  docs\source-atlas\manifest.json and docs\handbook\manifest.json after the preparation build.
+- Version links name the candidate and ask readers to check assets; they do not assert availability.
+  Tutorial recorded installer labels/captions/provenance remain Preview1.
+- Preparation commands passed: node --test .\tools\Docs\test-docs.mjs (21/21),
+  node --test .\tools\Site\test-site.mjs (14/14), node .\tools\Docs\source-atlas.mjs,
+  .\scripts\Build-Handbook.ps1 -AcceptReviewedSource and .\scripts\Build-Handbook.ps1 -Check.
+  These are new documentation/site results only, not packaged-app qualification.
+- Atlas220files/33872lines/31588nonblank/1359blocks/11groups; handbook37chapters/75diagrams.
+  Full PDF page counts and exact output identities are in the two manifests, not Preview1's receipt.
+- Rendered review covers21changed book chapters/appendix,14standalone prose pages, the changed
+  Pages diagram and all four frozen-source atlas entries. PDF samples cover installation, keyboard,
+  live-site status, evidence/journal and release/recipe/site-notice/test annotations.
+  Local review receipts/screenshots: .local\release-0.2.0-preview.2\docs-review.
+  README15images/eightGIFs load; handbook1440/768/390widths fit. No network requests or native app.
+- All four parent-owned frozen source hashes, Preview1 release record and both image manifests match
+  the preparation baseline. No runtime/test/service/media or screenshot-source changes were made.
+
+## Completion log
+
+- 2026-10-11 05:54 IST - Owner requested public Preview2 and approved the existing publishing helper.
+  Documentation preparation IN_PROGRESS; parent retains packaging/tests/Git/release ownership.
+  Source review and authored edits are underway; complete editions/render review precede handoff.
+- 2026-10-11 - Documentation preparation completed and rendered views reviewed. Shortened the
+  installation evidence-table heading after PDF review; final full handbook rebuild/check includes
+  this tracking update. Freeze this preparation for parent packaging; release remains IN_PROGRESS.

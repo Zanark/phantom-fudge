@@ -10,8 +10,8 @@ edition's counts, source hashes, citations and artifact hashes; it is the author
 
 The prerelease attachments are the immutable tagged-build editions. This maintained repository
 edition also records publication follow-up; it does not silently replace those release assets.
-The newer Previous answer toggle and `context on/off` commands are **implemented in the current
-repository source, not included in the older v0.2.0-preview.1 installer**. Start with
+The Previous answer toggle and `context on/off` commands are **included in the Preview 2 candidate**.
+Exact package/publication evidence is pending in [current status](../IMPLEMENTATION-STATUS.md); Preview 1 is historical. Start with
 [follow-up usage](../LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).
 
 ## Reading order
@@ -37,7 +37,7 @@ device navigation, session answer size and their bounded synthetic evidence.
 | Performance and planned AI | [12 Benchmarks](12-performance-and-benchmarks.md), [13 Azure answer design](13-proposed-azure-answer-flow.md), [14 Latency, identity, privacy](14-answer-latency-identity-and-privacy.md) |
 | Engineering practice | [15 Development](15-development-and-testing.md), [16 Distribution](16-distribution-and-troubleshooting.md), [17 Assurance](17-privacy-and-assurance.md), [18 Extensions](18-extending-the-system.md) |
 | Windows installation | [Native launcher, update/uninstall guards and retained data](../INSTALLATION.md) |
-| Static website and tutorial | [Local preview, media provenance and pending Pages publication](../WEBSITE.md) |
+| Static website and tutorial | [Live Pages site, media provenance and local preview](../WEBSITE.md) |
 | Reference and journey | [19 API/configuration](19-api-configuration-reference.md), [20 Glossary/map](20-glossary-and-repository-map.md), [21 Evidence/roadmap](21-evidence-and-roadmap.md), [Development journal](../../JOURNAL.md) |
 | Installed answer providers | [Agency, offline local models, setup and retention](../ANSWER-PROVIDERS.md) |
 | Optional question assistance | [Clarify first, explicit corrections and confirmation](../QUESTION-CLARIFICATION.md) |

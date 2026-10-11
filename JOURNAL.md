@@ -1541,3 +1541,45 @@ The maintained handbook and atlas were regenerated and freshness-checked after s
 No remote publication, authentication change, commit, push or deployment occurred. The retained
 loopback preview is `http://127.0.0.1:4187/phantom-fudge/`; local browser evidence is not proof that
 the GitHub Pages URL is live or that capture compatibility is qualified.
+
+## 2026-10-11 - Live website and preparation for public Preview 2
+
+The website's earlier publication deferral is now superseded. The parent supplied the pushed
+revision `77fca8a7cd1dd61dd5b1a09e72a898a73395cac1`, successful build and deployment in
+[Pages run38092635522](https://github.com/Zanark/phantom-fudge/actions/runs/38092635522), and an
+HTTP200 response from [the public site](https://zanark.github.io/phantom-fudge/).
+The older run38088016577 on `490e786` failed on three-versus-eight demo counts and obsolete release
+metadata; it is retained as history, not an outstanding deployment blocker. That website evidence
+does not establish deployment of subsequent release-link edits or qualification of a native package.
+
+At05:54IST the owner requested a new **PUBLIC v0.2.0-preview.2 prerelease** and approved the existing
+publishing helper. [Workstream62](TODO/62_PUBLIC_PREVIEW_RELEASE.todo) tracks this separately from the
+completed Preview1 release and Previous answer implementation. Preview2 includes the default-off,
+single-completed-answer context option and its keyboard commands; it adds no automatic history,
+provider installation or model request. The complete website,38-minute tutorial and eight demos are
+companion guides. Tutorial installer labels and recorded captions still describe Preview1.
+(src/PhantomFudge.App/MainWindow.AnswerContext.cs:9-44)
+(tools/Installer/release.json:2-5)
+(site/index.html:44-47,156-174)
+
+Documentation preparation updates active filenames/links, release scope and reviewed source-atlas
+explanations while keeping the original release record and published PDF identities immutable.
+No new installer build, package test count, hash, tag or publication is claimed here. The396Core,
+21context and38keyboard results are October10 source evidence; the unchanged24WPF/11READMEimages
+retain their existing provenance. There is no new media, capture, provider or migration test.
+
+The parent must build from clean committed source **after** the full atlas/handbook editions are
+ready, because packaging copies the handbook into the installed payload.
+(scripts/Build-Installer.ps1:48-54,76-88)
+Exact-package and publication evidence will be recorded in a separate follow-up. Unsigned
+Windows11 x64 prerelease scope, save/export/Stop/close-with-X maintenance, retained external data,
+no automatic Setup launch and no universal capture exclusion remain unchanged.
+(tools/Installer/PhantomFudge.iss:23-41,107-161)
+
+The preparation pass built the complete source atlas before the handbook and passed documentation
+tests21/21, static-site tests14/14 and full-edition freshness checks. Rendered review covered the
+21changed book chapters/appendix,14standalone prose pages, the updated Pages diagram and all four
+frozen-source atlas entries, with representative PDF pages. The installation evidence-table heading
+was shortened for print readability. The [handbook manifest](docs/handbook/manifest.json) and
+[atlas manifest](docs/source-atlas/manifest.json) identify the current full editions; these results
+are documentation/site evidence, not new packaged-app tests or a published Preview2 release.

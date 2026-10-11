@@ -186,8 +186,8 @@ LocalModel remains a separate compatible Copilot-engine OFFLINE/BYOK route, not 
 The prior-answer limit is32768UTF-16 units, separate from the8192question and32768clarification
 aggregate. More explicit input can cost additional tokens/time and exceed an external model's
 capacity; those character limits are not a latency or context-window promise. Historical prepared
-direct-answer measurements do not qualify this new local-source feature, which is absent from
-v0.2.0-preview.1. Clearing the toggle cannot delete previously submitted context from provider logs.
+direct-answer measurements do not qualify previous-answer context, now included in Preview 2 but
+absent from Preview 1. Clearing the toggle cannot delete previously submitted context from provider logs.
 ([Validation](../../src/PhantomFudge.Core/Answers/AnswerContracts.cs),
 [privacy](../AI-ANSWER-PRIVACY.md).)
 

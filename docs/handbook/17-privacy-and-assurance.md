@@ -180,8 +180,8 @@ provider changes reset it. Existing provider/OS/diagnostic retention limits stil
 The prompt labels prior text as background, not an instruction, task mode or tool grant.
 Nonblank strict Unicode and32768UTF-16 units bound the field; fresh sessions and existing tool
 denial remain. Synthetic input/transport checks are not a universal prompt-injection resistance
-or model-quality proof. This increment does not requalify recipient capture or alter published
-v0.2.0-preview.1 assets.
+or model-quality proof. Preview 2 includes this increment without requalifying recipient capture
+or altering the immutable Preview 1 assets.
 ([Prompt policy](../../src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs),
 [request validation](../../src/PhantomFudge.Core/Answers/AnswerContracts.cs),
 [workstream59](../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo).)

@@ -1,10 +1,10 @@
 # Phantom Fudge legacy development bundle
 
 This guide is the root README shipped by the **legacy `Publish-Preview.ps1` ZIP workflow**.
-It is not the first-run procedure for the published v0.2.0-preview.1 installer or self-contained
+It is not the first-run procedure for the v0.2.0-preview.2 installer candidate or self-contained
 portable payload. For those, read the repository's `docs\INSTALLATION.md` and release evidence.
-The private unsigned Windows 11 x64 prerelease is available at
-https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1.
+Check assets for the public unsigned Windows 11 x64 prerelease at
+https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2; package/publication evidence is pending.
 
 This local development bundle includes the Windows app and native Python speech-service
 source/setup scripts. **Docker is not needed.** The app remains discoverable to Windows and

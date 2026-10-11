@@ -86,7 +86,7 @@ before an answer and attach this question's bounded exchanges to each explicitly
 Default Ask still excludes history. Fresh ACP sessions, terminal requests, no tools and no automatic
 submissions remain unchanged. This is fixed task metadata, never machine diagnostics.
 
-**October10 local-source extension, not in v0.2.0-preview.1:** **Previous answer** is a separate
+**October10 extension, included in Preview 2 but absent from Preview 1:** **Previous answer** is a separate
 default-off toggle immediately left of Ask. It snapshots one completed displayed answer as
 `AnswerRequest.PreviousAnswer` on explicit Ask, before answer/interpretation rendering replaces it.
 Clarification corrections, confirmation and first-interpretation retries keep that same string.

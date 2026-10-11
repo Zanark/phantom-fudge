@@ -65,7 +65,7 @@ src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs:170-193.)
 | Visual cover lifecycle | 1 | 78 | 4 |
 | **Total** | **27** | **5,312** | **202** |
 
-The project declares a Windows .NET 10 WPF executable, a Core reference and NAudio 2.2.1; that declaration is not evidence of a build or device qualification. Selection/clarification increments 44/45 ship in v0.2.0-preview.1, unlike the historical `045022` ZIP. The newer Previous answer increment remains local source only. Direct Azure remains future work and Docker remains optional/last, not prerequisites of these handlers. (src/PhantomFudge.App/PhantomFudge.App.csproj:1) (TODO/00_INDEX.todo:45) (docs/OVERVIEW.md:131-134)
+The project declares a Windows .NET 10 WPF executable, a Core reference and NAudio 2.2.1; that declaration is not evidence of a build or device qualification. Preview 2 includes selection/clarification increments 44/45 and Previous answer; Preview 1 lacks the latter and the historical `045022` ZIP predates both. Exact package evidence is separate. Direct Azure remains future work and Docker remains optional/last, not prerequisites of these handlers. (src/PhantomFudge.App/PhantomFudge.App.csproj:1) (docs/OVERVIEW.md:131-134)
 
 ## 1. From process startup to protected reveal
 

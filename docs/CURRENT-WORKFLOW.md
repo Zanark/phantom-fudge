@@ -11,8 +11,8 @@ outline: deep
 Phantom Fudge combines local transcription, an editable question and explicit provider answers.
 Choosing an input does not record it; selecting words does not send them; covering the workspace
 does not stop work. This guide brings the current controls and images together so those boundaries
-are visible before a meeting. It describes **current source**. Previous-answer context is a
-local-source addition **not included in v0.2.0-preview.1**; existing release assets are unchanged.
+are visible before a meeting. It describes **the Preview 2 candidate**, including previous-answer
+context. Check [release status](IMPLEMENTATION-STATUS.md) for package evidence; Preview 1 assets and tutorial labels stay historical.
 
 All pictures below are **separate synthetic WPF examples**. They show actual controls with generated
 text/device labels, not a real conversation, live model result or screen-sharing qualification.

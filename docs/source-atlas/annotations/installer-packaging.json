@@ -20,29 +20,29 @@
     },
     {
       "path": "tools/Installer/release.json",
-      "sourceSha256": "d4a40bc89690d9b2c135b5722d07e2d0a1be9d03e4d77807948744f530cfade0",
+      "sourceSha256": "ab60a929a5f8696e2f57503a793a5254089333c8f13a25e1f96a4d4c2292b662",
       "role": "Pins the preview label, numeric Windows version, target platform and reviewed installer compiler provenance.",
-      "entryPoints": ["Build-Installer.ps1", "Test-Installer.ps1"],
+      "entryPoints": ["Build-Installer.ps1", "Test-Installer.ps1", "tools/Site/test-site.mjs release-link assertions"],
       "blocks": [
         {
           "start": 1, "end": 8,
           "title": "Separate human preview identity from numeric upgrade ordering",
-          "explanation": "The preview suffix identifies a prerelease download; windowsVersion is the four-component value consumed by the installer downgrade guard and executable version metadata. win-x64 and minimum Windows build22000 deliberately exclude other platforms. The compiler version and official archive hash are provenance, not an application signature: the build still requires an explicitly supplied compiler path.",
+          "explanation": "version selects0.2.0-preview.2 for filenames and release links; windowsVersion advances to0.2.0.2 for executable metadata and numeric downgrade ordering. The website test reads this same version and requires both release-tag links to match it, avoiding a stale hardcoded Preview1 target. These values select a candidate, not proof that it has been built or published. win-x64, minimum Windows build22000 and the reviewed Inno compiler version/archive hash are unchanged. Compiler provenance is not an application signature; the builder still requires an explicit compiler path.",
           "focus": [{"start": 2, "end": 7}]
         }
       ]
     },
     {
       "path": "tools/Installer/PhantomFudge.iss",
-      "sourceSha256": "cd209ff3878c6b683748997ab0fc45e5e57d2d0cd288686c72e18897486e2c65",
+      "sourceSha256": "665e2bf343931724b8f8b6aeabbde7498f538e30d81a20982589727f901b328c",
       "role": "Defines a per-user Windows11 x64 installation, guarded repair/upgrade and standard uninstall without automatic recording or forced application closure.",
       "entryPoints": ["PrepareToInstall", "InitializeUninstall", "IsRecognizedInstallation"],
       "blocks": [
         {
           "start": 1, "end": 43,
           "title": "Bind installation identity, platform and lifecycle policy",
-          "explanation": "PayloadDir is mandatory; release labels and installer identity have defaults that the builder or isolated fixture may override. The stable AppId selects the same installed product for upgrades. lowest privilege and LocalAppData Programs make installation per-user. x64os and Windows build22000 are actual gates, not claims about ARM emulation. Automatic application closing/restart are disabled, and the information page is a packaged explanation rather than a provider login or capture gate.",
-          "focus": [{"start": 23, "end": 33}, {"start": 34, "end": 42}]
+          "explanation": "PayloadDir is mandatory. Default AppVersion0.2.0-preview.2 and WindowsVersion0.2.0.2 match release.json; the builder supplies explicit overrides and an isolated fixture may override InstallerId. Advancing the numeric version permits forward ordering without changing the stable production AppId or maintenance policy. lowest privilege and LocalAppData Programs keep installation per-user; x64os/build22000 remain actual platform gates. Automatic closing/restart stay disabled. Matching version literals do not prove that a package or genuine old-binary upgrade was exercised.",
+          "focus": [{"start": 4, "end": 12}, {"start": 23, "end": 33}, {"start": 34, "end": 42}]
         },
         {
           "start": 44, "end": 67,

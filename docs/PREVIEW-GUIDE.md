@@ -4,12 +4,12 @@ This is an **unqualified Windows 11 x64 preview**, not a certified private meeti
 Rehearse with synthetic text and a separate recipient before using sensitive notes.
 The app remains visible to normal OS/process/accessibility inspection.
 
-For the published **v0.2.0-preview.1 installer**, use [Install, update and remove](INSTALLATION.md).
+For the **v0.2.0-preview.2 installer candidate**, use [Install, update and remove](INSTALLATION.md).
 That path bundles its own runtime and models and uses a native Start-menu launcher; it does not
-require the source-development tools below. The clean-source Setup, Portable ZIP, reference PDFs
-and checksums are published. See [current evidence](IMPLEMENTATION-STATUS.md) and
-[exact asset identities](release-0.2.0-preview.1.json); this is not clean-VM qualification.
-The repository/release remain private. Windows10, ARM, macOS and Linux are unsupported installer targets.
+require the source-development tools below. Check the versioned release for Setup, Portable ZIP,
+reference PDFs and checksums; exact package/publication evidence remains pending in [current status](IMPLEMENTATION-STATUS.md).
+[Preview 1 asset identities](release-0.2.0-preview.1.json) are historical, not evidence for Preview 2.
+The repository is public. Windows10, ARM, macOS and Linux are unsupported installer targets.
 Finish and close Setup before opening the app from Start; Setup never launches it. Setup and launcher
 status/error windows are ordinary visible UI, not capture-excluded: install and launch before sharing.
 (tools/Installer/PhantomFudge.iss:14-76)
@@ -278,7 +278,7 @@ replies with only this clarification conversation attached. See [the workflow](Q
 The newer **Previous answer** toggle immediately left of Ask explicitly adds the displayed
 completed answer. It is off/session-only, never sends by itself, retains the same snapshot through
 clarification and resets on Clear/provider change. `:context on/off` provides the keyboard route.
-This is **local source only, not in v0.2.0-preview.1**.
+This is **included in Preview 2**, not the immutable Preview 1 installer.
 See [follow-up usage](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).
 Selected partials keep identity/highlights through revisions and finalization until you edit;
 previously frozen snapshots never change. One draft can select at most256entries from one capture

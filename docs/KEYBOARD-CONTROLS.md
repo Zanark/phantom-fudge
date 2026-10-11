@@ -16,9 +16,9 @@ captured-cursor behavior. Activation uncovers the workspace but does not start a
 question. (`ToggleKeyboardControl`, `HandleKeyboardKey`;
 src/PhantomFudge.App/MainWindow.Keyboard.cs:65-85,218-266.)
 
-**Keyboard controls ship in v0.2.0-preview.1.** The new `context on/off` commands are a later
-local-source increment, **not in that release**. Save/copy needed text, close an older instance
-with X, then run `.\scripts\Run-PhantomFudge.ps1` to use current source.
+**Preview 2 includes keyboard controls and `context on/off`.** Preview 1 lacks the context commands.
+Save/copy needed text, stop transcription and close an older instance with X before updating.
+Check [installer availability and release evidence](INSTALLATION.md), or run `.\scripts\Run-PhantomFudge.ps1` from source.
 The historical keyboard fixture passed 38 keyboard assertions plus existing regressions; 297 Core
 and 18 documentation-tool tests passed. The source atlas and illustrated handbook are refreshed.
 The three images below are synthetic WPF examples, not personal captures or real audio/model

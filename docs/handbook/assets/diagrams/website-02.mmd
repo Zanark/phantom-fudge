@@ -2,11 +2,14 @@
 config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3"}}
 ---
 flowchart TB
-    accTitle: Pending GitHub Pages publication
-    accDescr: Publication remains pending; a future authorized source publication enables a read-only build of bundled media and a separate Pages-write deployment.
-    A["Future authorized source publication"] --> B["Read-only build: test and verify"]
+    accTitle: GitHub Pages publication boundary
+    accDescr: Authorized source publication enables a read-only build of bundled media and a separate Pages-write deployment; the deployed revision and live response are verified independently of native release assets.
+    A["Authorized source publication"] --> B["Read-only build: test and verify"]
     B --> C["Upload site-only artifact"]
     C --> D["Deploy: Pages write and identity token"]
     D --> E["Verify live site separately"]
-    classDef stage fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    class A,B,C,D,E stage
+    style A fill:#1e3a5f,stroke:#4a9eed,color:#e0e0e0
+    style B fill:#1e3a5f,stroke:#4a9eed,color:#e0e0e0
+    style C fill:#2d2d3d,stroke:#7a7a8a,color:#e0e0e0
+    style D fill:#2d4a3e,stroke:#4aba8a,color:#e0e0e0
+    style E fill:#2d4a3e,stroke:#4aba8a,color:#e0e0e0

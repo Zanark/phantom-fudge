@@ -18,6 +18,8 @@ Dependencies: 60_FULL_VIDEO_TUTORIAL.todo
   full tutorial below GitHub's100MiB per-file limit. Preserve the original and existing release.
 - Owner clarified "minimalistic": less visible text, not a different theme. Preserve ghosts and
   decorative effects; remove repetitive copy and collapse optional details without removing controls.
+- October11 publication follow-up supersedes the earlier deferral: reviewed source pushed and
+  Pages build/deploy succeeded. Preview2 link changes belong to the separate release workstream62.
 
 ## Tasks
 
@@ -49,8 +51,8 @@ Dependencies: 60_FULL_VIDEO_TUTORIAL.todo
 - Initial visible page copy616words ->276words; theme/ghosts/decorations retained. Transcript and
   About details start collapsed. README15images/eightGIFs render locally in light/dark/mobile layouts.
 - Receipts and sampled screenshots: ignored .local\site-review and .local\site-art.
-  Public Actions execution and live Pages URL remain unverified; no commit/push/upload performed.
-- Final maintained references current: atlas220files/33867lines/1359blocks/709PDFpages;
+  At this local checkpoint no commit/push/upload had occurred; later live evidence is recorded below.
+- Earlier website documentation checkpoint: atlas220files/33867lines/1359blocks/709PDFpages;
   handbook37chapters/94830words/75diagrams/389PDFpages. Root website source is explicitly covered.
   Documentation21tests, full atlas-before-handbook generation and freshness pass. Changed rendered
   guide/atlas/diagrams/PDF pages reviewed; final evidence .local\website-docs\final-review.
@@ -70,6 +72,17 @@ Dependencies: 60_FULL_VIDEO_TUTORIAL.todo
 ## Boundaries
 
 - Sample-data demonstrations, synthetic narration; native setup instructions are not live execution.
-- Current-source Previous answer is absent from the unchanged published installer.
+- Preview1 lacks Previous answer. Preview2 includes it under62; tutorial installer labels remain historical.
 - No capture-compatibility, universal invisibility or live meeting/provider claims.
-- Website-only behavior change, no native UI/source or installer update.
+- Workstream61 changed only website behavior, not native UI/source or installer implementation.
+
+## Publication follow-up - October11
+
+- Parent-supplied evidence:77fca8a7cd1dd61dd5b1a09e72a898a73395cac1 pushed.
+- Pages run38092635522 completed both build and deploy successfully:
+  https://github.com/Zanark/phantom-fudge/actions/runs/38092635522
+- https://zanark.github.io/phantom-fudge/ returned HTTP200.
+- Earlier run38088016577 on490e786 failed demo count3versus8and obsolete release metadata;
+  it is superseded, not a current publication blocker. The earlier local/deferred chronology remains.
+- This evidence identifies the deployed website revision, not publication of Preview2 link edits,
+  a native installer build, new app tests or capture/provider qualification.

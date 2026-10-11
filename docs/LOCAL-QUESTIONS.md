@@ -144,7 +144,7 @@ snapshot; clearing UI state cannot mutate an already frozen snapshot object.
 
 ## Follow up with the previous answer
 
-**Local source only: this addition is not included in published v0.2.0-preview.1.**
+**Included in the Preview 2 candidate; absent from the immutable Preview 1 installer.** [Release status](IMPLEMENTATION-STATUS.md).
 It solves a narrow problem: questions such as “Why does that use a dictionary?” need the answer
 you are looking at, but not an entire conversation or meeting transcript.
 
@@ -281,6 +281,6 @@ The export format remains unchanged. `MainWindow.QuestionDiagnostics.cs` and
 [`MainWindow.TranscriptSelectionDiagnostics.cs`](../src/PhantomFudge.App/MainWindow.TranscriptSelectionDiagnostics.cs)
 exercise the UI with synthetic data only. The native adapter stamps local session identity without changing v1/v2 wire
 schemas. The handbook and public JOURNAL describe this implemented slice separately from the
-remaining Azure design. The click-selection update is **source-only** via
+remaining Azure design. Click selection is included in Preview 2 and also available via
 `scripts\Run-PhantomFudge.ps1`; the immutable historical045022ZIP does not contain it.
 See [current implementation status](IMPLEMENTATION-STATUS.md).

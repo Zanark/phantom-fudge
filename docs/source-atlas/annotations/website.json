@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "id": "website",
-  "title": "Authored website, self-contained tutorial media and pending Pages publication",
+  "title": "Authored website, self-contained tutorial media and versioned Pages delivery",
   "chapter": "docs/WEBSITE.md",
   "files": [
     {
       "path": "site/index.html",
-      "sourceSha256": "2c61239c8e20dc882558954034d84da368e09d2ee181aa4de61ebfe703ebca13",
+      "sourceSha256": "8a7befbc654be804d4f0c43fb56222a8d1e40706aadf520c2140f973e656599d",
       "role": "Defines the low-copy DeepSeaFoam landing page, eight sample-demo panels, native tutorial player and progressive-enhancement hooks without removing decorative artwork.",
       "entryPoints": ["GET /phantom-fudge/", "app.mjs element IDs and data attributes", "Native video and disclosure controls"],
       "blocks": [
@@ -25,7 +25,7 @@
         {
           "start": 38, "end": 57,
           "title": "Shorten the hero copy without stripping the visual composition",
-          "explanation": "The hero keeps a brief product promise, explicit preview and full-tour links, and visible Windows/unsigned/capture-limit wording. Its companion art retains orbits, sparks, glow, the original ghost and floating notebook; aria-hidden keeps decorative labels out of the accessible content. The preview link targets the older versioned installer, not a newly packaged build. This is reduced visible copy, not a redesign that removes the DeepSeaFoam atmosphere.",
+          "explanation": "The hero keeps its short promise, full-tour link and visible Windows11 x64/unsigned/capture-limit wording. The Windows link now targets v0.2.0-preview.2, matching release.json through the static integration test; a versioned URL is not evidence that an asset is available or deployed. Orbits, sparks, glow, the original ghost and floating notebook remain unchanged, with decorative labels hidden from accessibility. The release-link update changes neither media nor the low-copy DeepSeaFoam composition.",
           "focus": [{"start": 40, "end": 47}, {"start": 49, "end": 55}]
         },
         {
@@ -60,8 +60,8 @@
         },
         {
           "start": 148, "end": 156,
-          "title": "Reserve paginated chapter navigation and distinguish the older installer",
-          "explanation": "The empty chapter nav and hidden pager are module targets, with labelled previous/next-five controls and a polite range output. A noscript paragraph directs readers to the timestamped chapter list. The scripted-sample footnote remains visible. The separate notice states that the tutorial represents current source and Previous-answer context is absent from the published preview installer; the installer link does not imply this source revision has been repackaged.",
+          "title": "Keep chapter navigation and distinguish Preview2 scope from tutorial labels",
+          "explanation": "The empty chapter nav and hidden pager remain module targets, with previous/next-five controls, a polite range output and a noscript chapter-list link. The sample-data footnote is unchanged. The version notice now states that Previous-answer context is included in Preview2 and links to the same v0.2.0-preview.2 release as the hero. It separately says tutorial installer labels show Preview1. This preserves recorded captions/provenance instead of pretending the tutorial installed the new package; the notice does not prove build or publication success.",
           "focus": [{"start": 148, "end": 156}]
         },
         {
@@ -652,7 +652,7 @@
     },
     {
       "path": "tools/Site/test-site.mjs",
-      "sourceSha256": "c825fadef1017135b8226c9e5362ebe7fa8b9dcbc2ba438ea0a1b47385daf6e2",
+      "sourceSha256": "5ca331b12d9fdfbdb63b8fa6440ffc4cf133a99955fe9f911f067ea800e1070d",
       "role": "Runs nine top-level dependency-free Node tests, including five damaged-input subtests, over player data, integrated assets and self-contained assembly.",
       "entryPoints": ["node --test tools/Site/test-site.mjs", ".github/workflows/pages.yml Check static player"],
       "blocks": [
@@ -675,40 +675,40 @@
           "focus": [{"start": 42, "end": 50}]
         },
         {
-          "start": 51, "end": 63,
-          "title": "Check required HTML controls and honest fallback wording",
-          "explanation": "The HTML test looks for player/search/motion IDs, native controls and metadata-only preload, rejecting autoplay and external script URLs. It requires the current-source versus older-installer previous-answer notice, non-universal-invisibility wording, hero/wanderer ghost classes and no literal details-open markup. String matching does not prove DOM interaction, accessibility or CSS layout; those belong to the browser fixture and visual review.",
-          "focus": [{"start": 52, "end": 62}]
+          "start": 51, "end": 68,
+          "title": "Bind both release links to configuration while preserving tutorial history",
+          "explanation": "After checking player/search/motion IDs, native controls and metadata preload without autoplay/external scripts, the test reads tools/Installer/release.json. It extracts exactly two repository release-tag links and requires every tag to equal v plus release.version, so a future version edit cannot leave one stale target. Separate assertions retain the included-context statement and the frozen Tutorial installer labels show Preview1 caveat. Non-universal-invisibility wording, closed details and ghost classes remain required. These are static string/configuration checks, not network availability, packaged-app execution or browser interaction evidence.",
+          "focus": [{"start": 58, "end": 67}]
         },
         {
-          "start": 64, "end": 79,
+          "start": 69, "end": 84,
           "title": "Reject common private-path leaks and files too large for regular Git",
           "explanation": "inspect walks the site tree recursively and refuses symlinks. For named text-like extensions it rejects common absolute production paths, private-context markers, sourceRoot and API-key assignment patterns. Every ordinary file, including bundled MP4s, must be below the builder's100MiB limit. This targeted scan is not a general secret detector or rights audit; binary metadata and every allowed text convention are not exhaustively inspected.",
-          "focus": [{"start": 66, "end": 77}]
+          "focus": [{"start": 71, "end": 82}]
         },
         {
-          "start": 80, "end": 97,
+          "start": 85, "end": 102,
           "title": "Require eight complete demo triplets, README links and valid chapter targets",
           "explanation": "The test extracts local demo GIF references from data-motion attributes, requires eight, and checks matching README links plus tab/panel IDs. Each demo must have nonempty GIF, JPEG and MP4 files. Every data-jump target must name an actual tutorial chapter. These file/string checks guard integration completeness; they do not decode images, follow clicks, validate ARIA behavior or judge the excerpts' truthfulness.",
-          "focus": [{"start": 83, "end": 94}]
+          "focus": [{"start": 88, "end": 99}]
         },
         {
-          "start": 98, "end": 112,
+          "start": 103, "end": 117,
           "title": "Bind the Pages recipe and public manifest to bundled web media",
           "explanation": "The workflow must invoke the argument-free builder and omit release downloads, --video, GH_TOKEN, custom secrets and LFS checkout. The media record must omit a release prerequisite, match the bundled file's actual size, fit the file budget and retain the immutable original's known bytes/hash. Duration must agree with the imported tutorial within50ms, and public provenance.video must equal media.json. Full payload hashing belongs to buildSite, not this metadata-only test.",
-          "focus": [{"start": 102, "end": 110}]
+          "focus": [{"start": 107, "end": 115}]
         },
         {
-          "start": 113, "end": 130,
+          "start": 118, "end": 135,
           "title": "Assemble a tiny independent fixture without copying its private sibling",
           "explanation": "An owned directory beneath os.tmpdir holds a synthetic site with a small video buffer, computed identity and index page; a private.txt sibling must stay outside the copy. buildSite must produce exactly index.html, media and media.json and preserve the fixture video bytes. A marker added to the generated output represents the prior preview for subsequent rejection tests. TEMP/TMP can redirect this scratch root into an ignored project directory.",
-          "focus": [{"start": 121, "end": 130}]
+          "focus": [{"start": 126, "end": 135}]
         },
         {
-          "start": 131, "end": 159,
+          "start": 136, "end": 164,
           "title": "Reject missing, corrupt, traversing and oversized media without replacing output",
           "explanation": "Five sequential subtests remove the media, alter the recorded length, corrupt same-size payload bytes, supply a parent-traversing filename, then grow a file exactly to the forbidden100MiB boundary. Each expects the corresponding failure and repairs inputs needed by the next case. The preserved marker must still exist after all rejections. finally deletes only this invocation's fixture tree. The tests cover pre-copy rejection, not rollback after a filesystem copy failure.",
-          "focus": [{"start": 140, "end": 149}]
+          "focus": [{"start": 145, "end": 154}]
         }
       ]
     }

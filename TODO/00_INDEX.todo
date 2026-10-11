@@ -11,13 +11,18 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Current state
 
-- Workstream61 is DONE locally, including maintained documentation.
+- Workstream62 is IN_PROGRESS: owner authorized a new PUBLIC v0.2.0-preview.2 prerelease.
+  Windows0.2.0.2 includes Previous answer; package build/tests and publication evidence are pending.
+  Documentation preparation is complete; parent must package from clean committed source with the full editions.
+  No new runtime results, cleanVM/capture/provider/migration proof or signing is implied.
+- Workstream61 is DONE and the website is LIVE, including maintained documentation.
   Self-contained82.18MiB full1080p tutorial, eight action GIFs, release-free Pages workflow and
   concise276-word default page with original DeepSeaFoam ghosts/decorations. Fresh public-only
-  assembly, Node14 and muted browser9groups pass. Publication still requires authorized write access.
+  assembly, Node14 and muted browser9groups passed in the earlier website review.
   Initial local delivery had three zoomed GIFs and a separate media-release prerequisite.
   Owner made repo public/configured Pages; later chose local delivery because active CLI is READ-only.
-  Website publication is deferred; no push/release or authentication change.
+  That deferral is superseded:77fca8a7cd1dd61dd5b1a09e72a898a73395cac1 pushed,
+  Pages38092635522 build/deploy success and public URL HTTP200. Older failed38088016577 is superseded.
 - Workstream60 is DONE:15chapter/194lesson full tutorial delivered locally under
   artifacts\tutorial\20261010-221225. Measured38:17.767,1080p/30fps, narrated click/key guides,
   captions and offline searchable player. Scripted actual-WPF/sample-data demonstration;
@@ -25,12 +30,12 @@ capture proof rather than assuming a window can be universally undetectable.
 - Workstream59 is DONE: October10 14:41 authorized a default-off Previous answer toggle
   immediately left of Ask. Only explicit Ask snapshots the displayed completed answer; corrections
   and confirmation retain the same snapshot. No automatic transcript/history or expanded tools.
-  Core396 and final synthetic UI21context/38keyboard checks pass;24WPF/11READMEimages refreshed.
-  This local-source increment is NOT included in v0.2.0-preview.1. Full reference editions and
+  October10 Core396 and UI21context/38keyboard passed;24WPF/11READMEimages remain valid, not rerun today.
+  This increment is included in Preview2, not v0.2.0-preview.1. Full reference editions and
   rendered review are complete; current artifact identities are in their manifests. Do not republish old assets.
 - Workstream58 is DONE: v0.2.0-preview.1 was published October10 01:52IST from clean commit
   e25c8d5624e5afd2f50cda80f964e2e32737fce1. Private unsigned Windows11 x64 preview, not a qualified release.
-  Setup, Portable, handbook, atlas and checksums were downloaded and matched. See docs\INSTALLATION.md
+  The repository is now public; that historical release's Setup, Portable, PDFs and checksums matched. See docs\INSTALLATION.md
   and docs\release-0.2.0-preview.1.json for asset identities, retained-data policy and evidence limits.
   Final lifecycle11checks/3684files, Portable3685hashedentries, launcher10selfchecks, serial UI38keys;
   runtime85/native55focused tests and actual generatedPCM/Unicode/naturalexit gates pass.
@@ -48,8 +53,8 @@ capture proof rather than assuming a window can be universally undetectable.
 - WPF/C#/.NET10 now uses owner-requested background translucency; four-product qualification still blocks release.
 - Live meeting-output transcription19 and native Python runtime22 are required; Docker20 is deferred until last.
 - Local synthetic GDI/UI/speech evidence and approved hardware-loopback recognition exist.
-- Source commit/push and private prerelease are complete. Four-product qualification, actual Docker
-  execution and owner UX acceptance remain open; no public repository visibility change was made.
+- Historical private prerelease58 and public website61 are complete; public prerelease62 is pending.
+  Four-product qualification, actual Docker execution and owner UX acceptance remain open.
 - WORKFLOWS statuses describe authored procedures, not app execution.
 - Owner14:01 adds selected microphone dictation alongside computer output; task26 supersedes the
   earlier never-microphone product scope. No chat reading or automatic capture is introduced.
@@ -65,18 +70,18 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Next action
 
-Workstream61 is complete: self-contained website, eight GIFs and current maintained documentation.
-The separate media-release prerequisite is removed. See docs\WEBSITE.md for preview and deployment.
-Publication requires authorized repository-write access.
-The owner explicitly chose to leave publication pending; no automatic authentication or push.
+Workstream62 documentation/edition review is complete. Parent next owns clean committed
+installer packaging, exact-payload tests and the separately authorized public prerelease.
+Workstream61's self-contained website/eight GIFs are live; docs\WEBSITE.md records the successful run.
+Preview2 link edits and native release availability must be verified separately from that deployment.
 
 Workstream60 is complete. Open artifacts\tutorial\20261010-221225\index.html for the original
 offline video, chapters and searchable transcript. Installer assets remain unchanged.
 
-Workstream59 is complete locally, including the updated illustrated reference editions. Do not call
-models, record audio, sign in, rebuild installers or publish without a separately authorized request.
+Workstream59 is complete; its source is now in the Preview2 candidate. New publication is authorized
+only under62; documentation preparation must not call models, record audio, sign in or publish.
 
-Workstream58 is complete; no additional installer publication is pending. Continue broader
+Workstream58 is complete and immutable;62is the new release request. Continue broader
 qualification only under the corresponding workstreams: clean machines, actual devices/shortcuts,
 genuine old-binary migration and recipient capture. The published installer retains external user data
 and needs no end-user PowerShell7/system Python. This preview does not close those broader gates.
@@ -114,7 +119,8 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 
 | ID | File | Status | Gate |
 | --- | --- | --- | --- |
-| 61 | 61_PUBLIC_PHANTOM_WEBSITE.todo | DONE | Self-contained site/eight GIFs/current books; publication owner-deferred |
+| 62 | 62_PUBLIC_PREVIEW_RELEASE.todo | IN_PROGRESS | Public Preview2 preparation; exact package and publication evidence pending |
+| 61 | 61_PUBLIC_PHANTOM_WEBSITE.todo | DONE | Self-contained site/eight GIFs live; Pages38092635522 successful, HTTP200 |
 | 60 | 60_FULL_VIDEO_TUTORIAL.todo | DONE | Local38-minute tutorial and offline chaptered player |
 | 01 | 01_PRODUCT_DECISIONS.todo | IN_PROGRESS | G0 |
 | 02 | 02_FEASIBILITY_RESEARCH.todo | DONE | G0 desk research only |
@@ -174,7 +180,7 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 | 56 | 56_MASK_ICON_POSITION.todo | DONE | Icon-only top-left mask toggle; same background-work behavior |
 | 57 | 57_KEYBOARD_CONTROLS.todo | DONE | Modal controls/session answer size; bounded synthetic evidence and maintained book |
 | 58 | 58_INSTALLER_RELEASE.todo | DONE | Private v0.2.0-preview.1 published; clean-source Setup/Portable/PDFs/checksums verified |
-| 59 | 59_PREVIOUS_ANSWER_CONTEXT.todo | DONE | Runtime, images and full reference editions complete; source-only, not in v0.2.0-preview.1 |
+| 59 | 59_PREVIOUS_ANSWER_CONTEXT.todo | DONE | October10 source/images/reference evidence; included in Preview2, not Preview1 |
 
 ## Dependency map
 
@@ -214,6 +220,7 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 38 + 44 + 45 -> 46 (annotated source reference; documentation/tooling only)
 44 + 47 + 51 + 56 -> 57 (keyboard selection/control, device navigation and session answer size)
 22 + 57 -> 58 (explicitly unqualified Windows11 x64 installer/private prerelease; not a substitute for13/17)
+58 + 59 + 61 -> 62 (new public Preview2 package/publication; previous release assets stay immutable)
 ```
 
 Numbers are stable IDs, not a strictly numeric execution order: 14 intentionally precedes 13.

@@ -6,21 +6,21 @@ outline: deep
 
 # Install, update and remove Phantom Fudge
 
-**Installer edition: unsigned Windows 11 x64 preview.** Downloads and availability are listed at
-[v0.2.0-preview.1](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1).
-Candidate checks provide bounded current-host evidence, not clean-VM qualification or
-universal compatibility. The repository and its published releases are **public**.
-Public availability does not establish signing or broaden the qualification evidence.
-See [release evidence](IMPLEMENTATION-STATUS.md) and [workstream58](../TODO/58_INSTALLER_RELEASE.todo).
+**Installer edition: unsigned Windows 11 x64 prerelease candidate.** Check available assets at
+[v0.2.0-preview.2](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2).
+Preview 2 includes previous-answer context; its exact package and publication evidence is pending.
+The public repository and live website do not establish clean-VM or universal compatibility.
+Tutorial installer labels remain Preview 1; they do not identify the new package.
+See [release evidence](IMPLEMENTATION-STATUS.md) and [workstream62](../TODO/62_PUBLIC_PREVIEW_RELEASE.todo).
 
-The DLL-qualified oneDNN runtime has passed the full offline rebuild with dependency audits, real
+**Historical October10 / Preview 1 evidence:** the oneDNN runtime passed the offline rebuild with dependency audits, real
 synthetic-PCM inference, Unicode-path loading and natural process exit. There are 85 focused
-runtime tests and 55 native tests passing. The earlier Ruy exit hang and Vosk path failure are historical;
+runtime tests and 55 native tests recorded as passing, not rerun for Preview 2. The Ruy/Vosk failures are historical;
 their old stages remain rejected. The complete candidate3 build also passed the enforced PE audit,
 loaded-DLL and real-PCM/clean-exit gates. Lifecycle3 used identical functional runtime bytes;
 candidate3 added license/provenance files. Release-asset identities belong to the versioned download.
 
-| Scope | Current evidence | Qualification boundary |
+| Scope | Historical Preview 1 evidence | Qualification boundary |
 | --- | --- | --- |
 | Startup | 55 helper tests and 10 exact-EXE self-checks pass | Includes guarded delayed app startup; interactive Close and installed speech remain unqualified |
 | Desktop | Packaged UI passes prior regression groups and all 38 keyboard checks | Synthetic UI only; no audio capture or model requests |
@@ -44,8 +44,8 @@ The installer removes the developer-tool setup burden, not the preview's qualifi
 It targets **Windows 11 x64** only. Windows 10, Windows on ARM, macOS and Linux are unsupported
 for this package. A compatible OS does not establish performance or device compatibility on every
 computer; no universal CPU, memory, microphone or capture guarantee is claimed. The release
-configuration pins `win-x64`, minimum Windows build22000, version `0.2.0-preview.1` and Windows
-file version `0.2.0.1`. (tools/Installer/release.json:1-8)
+configuration pins `win-x64`, minimum Windows build22000, version `0.2.0-preview.2` and Windows
+file version `0.2.0.2`. (tools/Installer/release.json:1-8)
 
 | Included by the installer | Not installed or configured for you |
 | --- | --- |
@@ -72,12 +72,12 @@ or evidence of capture exclusion. (scripts/Build-Installer.ps1:79-114)
 Once the release evidence confirms that assets are available:
 
 1. Open the public versioned release above. Download
-   `PhantomFudge-0.2.0-preview.1-win-x64-Setup.exe` and `SHA256SUMS.txt`.
+   `PhantomFudge-0.2.0-preview.2-win-x64-Setup.exe` and `SHA256SUMS.txt`.
 2. Compare the EXE's SHA-256 with its exact filename in the checksum file. Windows PowerShell can
    perform this optional check; **PowerShell7 is not required to install or run the app**:
 
    ```powershell
-   Get-FileHash .\PhantomFudge-0.2.0-preview.1-win-x64-Setup.exe -Algorithm SHA256
+   Get-FileHash .\PhantomFudge-0.2.0-preview.2-win-x64-Setup.exe -Algorithm SHA256
    ```
 
 3. Run Setup as your normal Windows user. The default location is
@@ -175,7 +175,7 @@ Setup rejects a downgrade and refuses an unrecognized, nonempty destination. The
 recipe uses a **fresh maintenance helper extracted from Setup**, rather than depending on a
 potentially damaged installed launcher. A numeric version fallback is stored under the per-user
 `HKCU\Software\PhantomFudge\Installer\<AppId>` key as `WindowsVersion`; if neither that nor
-`app-version.txt` is valid, Setup refuses. Lifecycle3 passed same-version and damaged-launcher/version
+`app-version.txt` is valid, Setup refuses. Historical Preview 1 lifecycle3 passed same-version and damaged-launcher/version
 repair against candidate2. Its upgrade case changes a version record, not a genuine older binary.
 (tools/Installer/PhantomFudge.iss:51-52,107-148)
 (src/PhantomFudge.Launcher/Program.cs:50-58,94-100)

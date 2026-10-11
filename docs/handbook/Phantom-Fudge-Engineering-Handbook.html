@@ -99,8 +99,8 @@ and its completion, and a researched proposal and working software.</p>
 <h2 id="ch-00-reading-map-overview-what-this-book-is-for">Overview: what this book is for</h2>
 <p><strong>Use the current interface first:</strong> the <a href="#ch-current-workflow">illustrated workflow</a> brings together
 device cards, recording status, multi-line questions, optional clarification, current action/font
-choices and the continuing-work cover. Older dated evidence elsewhere in the book remains historical;
-it does not redefine the controls in the current source.</p>
+choices, Previous answer and the continuing-work cover. Preview 2 includes these controls;
+<a href="../IMPLEMENTATION-STATUS.md">package/publication evidence is pending</a>. Older dated results and Preview 1 tutorial labels stay historical.</p>
 <p>The original problem sounded like a small notepad: show private speaker notes while presenting.
 That problem expanded into a local transcription-first interface, selectable Computer/Mic/Both
 inputs, and a researched proposal for explicitly sending a question to an Azure model. The
@@ -714,15 +714,15 @@ test/documentation improvement that follows one real invariant end to end.</p>
 </ul>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section>
 <section class="chapter" id="ch-installation"><div class="chapter-note">Source: docs/INSTALLATION.md</div><h1 id="ch-installation-install-update-and-remove-phantom-fudge">Install, update and remove Phantom Fudge</h1>
-<p><strong>Installer edition: unsigned Windows 11 x64 preview.</strong> Downloads and availability are listed at
-<a href="https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1">v0.2.0-preview.1</a>.
-Candidate checks provide bounded current-host evidence, not clean-VM qualification or
-universal compatibility. The repository and its published releases are <strong>public</strong>.
-Public availability does not establish signing or broaden the qualification evidence.
-See <a href="../IMPLEMENTATION-STATUS.md">release evidence</a> and <a href="../../TODO/58_INSTALLER_RELEASE.todo">workstream58</a>.</p>
-<p>The DLL-qualified oneDNN runtime has passed the full offline rebuild with dependency audits, real
+<p><strong>Installer edition: unsigned Windows 11 x64 prerelease candidate.</strong> Check available assets at
+<a href="https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2">v0.2.0-preview.2</a>.
+Preview 2 includes previous-answer context; its exact package and publication evidence is pending.
+The public repository and live website do not establish clean-VM or universal compatibility.
+Tutorial installer labels remain Preview 1; they do not identify the new package.
+See <a href="../IMPLEMENTATION-STATUS.md">release evidence</a> and <a href="../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo">workstream62</a>.</p>
+<p><strong>Historical October10 / Preview 1 evidence:</strong> the oneDNN runtime passed the offline rebuild with dependency audits, real
 synthetic-PCM inference, Unicode-path loading and natural process exit. There are 85 focused
-runtime tests and 55 native tests passing. The earlier Ruy exit hang and Vosk path failure are historical;
+runtime tests and 55 native tests recorded as passing, not rerun for Preview 2. The Ruy/Vosk failures are historical;
 their old stages remain rejected. The complete candidate3 build also passed the enforced PE audit,
 loaded-DLL and real-PCM/clean-exit gates. Lifecycle3 used identical functional runtime bytes;
 candidate3 added license/provenance files. Release-asset identities belong to the versioned download.</p>
@@ -730,7 +730,7 @@ candidate3 added license/provenance files. Release-asset identities belong to th
 <thead>
 <tr>
 <th>Scope</th>
-<th>Current evidence</th>
+<th>Historical Preview 1 evidence</th>
 <th>Qualification boundary</th>
 </tr>
 </thead>
@@ -780,8 +780,8 @@ kept in <a href="../IMPLEMENTATION-STATUS.md">release evidence</a>, not in the i
 It targets <strong>Windows 11 x64</strong> only. Windows 10, Windows on ARM, macOS and Linux are unsupported
 for this package. A compatible OS does not establish performance or device compatibility on every
 computer; no universal CPU, memory, microphone or capture guarantee is claimed. The release
-configuration pins <code>win-x64</code>, minimum Windows build22000, version <code>0.2.0-preview.1</code> and Windows
-file version <code>0.2.0.1</code>. (tools/Installer/release.json:1-8)</p>
+configuration pins <code>win-x64</code>, minimum Windows build22000, version <code>0.2.0-preview.2</code> and Windows
+file version <code>0.2.0.2</code>. (tools/Installer/release.json:1-8)</p>
 <table>
 <thead>
 <tr>
@@ -821,12 +821,12 @@ or evidence of capture exclusion. (scripts/Build-Installer.ps1:79-114)</p>
 <ol>
 <li>
 <p>Open the public versioned release above. Download
-<code>PhantomFudge-0.2.0-preview.1-win-x64-Setup.exe</code> and <code>SHA256SUMS.txt</code>.</p>
+<code>PhantomFudge-0.2.0-preview.2-win-x64-Setup.exe</code> and <code>SHA256SUMS.txt</code>.</p>
 </li>
 <li>
 <p>Compare the EXE's SHA-256 with its exact filename in the checksum file. Windows PowerShell can
 perform this optional check; <strong>PowerShell7 is not required to install or run the app</strong>:</p>
-<pre><code class="language-powershell">Get-FileHash .\PhantomFudge-0.2.0-preview.1-win-x64-Setup.exe -Algorithm SHA256
+<pre><code class="language-powershell">Get-FileHash .\PhantomFudge-0.2.0-preview.2-win-x64-Setup.exe -Algorithm SHA256
 </code></pre>
 </li>
 <li>
@@ -917,7 +917,7 @@ installation. The stable AppId keeps the installation identity.</li>
 recipe uses a <strong>fresh maintenance helper extracted from Setup</strong>, rather than depending on a
 potentially damaged installed launcher. A numeric version fallback is stored under the per-user
 <code>HKCU\Software\PhantomFudge\Installer\&lt;AppId&gt;</code> key as <code>WindowsVersion</code>; if neither that nor
-<code>app-version.txt</code> is valid, Setup refuses. Lifecycle3 passed same-version and damaged-launcher/version
+<code>app-version.txt</code> is valid, Setup refuses. Historical Preview 1 lifecycle3 passed same-version and damaged-launcher/version
 repair against candidate2. Its upgrade case changes a version record, not a genuine older binary.
 (tools/Installer/PhantomFudge.iss:51-52,107-148)
 (src/PhantomFudge.Launcher/Program.cs:50-58,94-100)
@@ -1179,8 +1179,8 @@ whole self-contained launcher directory extracted by Setup, not a standalone cop
 <p>Phantom Fudge combines local transcription, an editable question and explicit provider answers.
 Choosing an input does not record it; selecting words does not send them; covering the workspace
 does not stop work. This guide brings the current controls and images together so those boundaries
-are visible before a meeting. It describes <strong>current source</strong>. Previous-answer context is a
-local-source addition <strong>not included in v0.2.0-preview.1</strong>; existing release assets are unchanged.</p>
+are visible before a meeting. It describes <strong>the Preview 2 candidate</strong>, including previous-answer
+context. Check <a href="../IMPLEMENTATION-STATUS.md">release status</a> for package evidence; Preview 1 assets and tutorial labels stay historical.</p>
 <p>All pictures below are <strong>separate synthetic WPF examples</strong>. They show actual controls with generated
 text/device labels, not a real conversation, live model result or screen-sharing qualification.
 The <a href="assets/screenshots/manifest.json">source-image manifest</a> and
@@ -1616,9 +1616,9 @@ This feature does <strong>not</strong> lock, hide or warp the cursor, and it can
 captured-cursor behavior. Activation uncovers the workspace but does not start audio or send a
 question. (<code>ToggleKeyboardControl</code>, <code>HandleKeyboardKey</code>;
 src/PhantomFudge.App/MainWindow.Keyboard.cs:65-85,218-266.)</p>
-<p><strong>Keyboard controls ship in v0.2.0-preview.1.</strong> The new <code>context on/off</code> commands are a later
-local-source increment, <strong>not in that release</strong>. Save/copy needed text, close an older instance
-with X, then run <code>.\scripts\Run-PhantomFudge.ps1</code> to use current source.
+<p><strong>Preview 2 includes keyboard controls and <code>context on/off</code>.</strong> Preview 1 lacks the context commands.
+Save/copy needed text, stop transcription and close an older instance with X before updating.
+Check <a href="#ch-installation">installer availability and release evidence</a>, or run <code>.\scripts\Run-PhantomFudge.ps1</code> from source.
 The historical keyboard fixture passed 38 keyboard assertions plus existing regressions; 297 Core
 and 18 documentation-tool tests passed. The source atlas and illustrated handbook are refreshed.
 The three images below are synthetic WPF examples, not personal captures or real audio/model
@@ -2076,8 +2076,8 @@ The <a href="#ch-journal">public journal</a> tells the fuller chronological stor
 <p>The October10 request deliberately widens the default single-question payload by one bounded,
 explicitly selected item: the displayed completed answer. <strong>Previous answer</strong> sits left of Ask,
 starts off and never sends on toggle. It is not approval for accumulated chat, transcript capture,
-tools or a new publication. Clarification keeps the same prior snapshot while its interpretation
-replaces the screen. The source increment is not in v0.2.0-preview.1.
+tools or implicit publication. Clarification keeps the same prior snapshot while its interpretation
+replaces the screen. Preview 2 includes this feature; its separately authorized release is tracked in workstream62.
 (<a href="../PRODUCT.md">Product requirement R24</a>,
 <a href="../../src/PhantomFudge.App/MainWindow.AnswerContext.cs"><code>CapturePreviousAnswer</code></a>,
 <a href="../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo">workstream59</a>.)</p>
@@ -2495,7 +2495,7 @@ turn. See <a href="#ch-question-clarification">the complete clarification chapte
 on explicit Ask. It is session-only, locks during busy work/active clarification, and resets on
 Clear/provider change. Setup/details reads prior text from the submitted request, not the new answer
 currently replacing it. The same snapshot survives interpretation, corrections and confirmation.
-This addition is <strong>local source only, not in v0.2.0-preview.1</strong>.
+This addition is <strong>included in the Preview 2 candidate</strong>, not the immutable Preview 1 installer.
 (<a href="../../src/PhantomFudge.App/MainWindow.AnswerContext.cs">Context controller</a>,
 <a href="../LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer">full usage</a>.)</p>
 <p><img src="assets/screenshots/answer-context.png" alt="Synthetic previous-answer follow-up controls"></p>
@@ -3733,10 +3733,10 @@ sequenceDiagram
 <p>“Something is listening on port 8765” is insufficient evidence that Phantom Fudge may reuse or stop it. The listener could belong to another checkout, lack the installed client's speech version, run the wrong recognition configuration, or be transcribing an active session. <code>manage.py</code> treats a local service as owned only after combining a workspace receipt, authenticated runtime response, expected service identity, management version, and matching instance UUID. It does not convert a discovered PID into permission to terminate a process. (<code>services\transcription\manage.py:94-165</code>, <code>read_record</code>, <code>owned_info</code>; <code>services\transcription\manage.py:186-200</code>, <code>stop_owned</code>.)</p>
 <p>The second boundary is <strong>ready service versus recording application</strong>. Initialization provisions dependencies and weights. Start makes an idle recognizer service available. The application still requires explicit Start before endpoint acquisition, and transport readiness precedes native capture. Keeping these operations distinct makes a launcher convenient without turning it into an automatic recorder. (<code>scripts\Initialize-Transcription.ps1:119-165</code>, Python setup; <code>scripts\Start-Transcription.ps1:8-15</code>, native start; <code>src\PhantomFudge.App\MainWindow.xaml.cs:652-700</code>, <code>Start_Click</code>; <code>src\PhantomFudge.App\Audio\LoopbackTranscriber.cs:102-115</code>, <code>StartCoreAsync</code>.)</p>
 <h2 id="ch-10-native-service-lifecycle-installed-preview-a-different-entry-point-the-same-capture-boundary">Installed preview: a different entry point, the same capture boundary</h2>
-<p>The published v0.2.0-preview.1 Windows11 x64 installer replaces end-user PowerShell/Python setup
-with a native Start-menu launcher and a bundled runtime/model payload. The final clean-source
-payload passed the bounded current-host installer fixture; clean-VM and actual-device
-qualification remain open. Follow
+<p>The v0.2.0-preview.2 Windows11 x64 installer candidate replaces end-user PowerShell/Python setup
+with a native Start-menu launcher and a bundled runtime/model payload. Preview 2 package evidence
+is pending; Preview 1's October10 current-host fixture is historical, not a new package pass.
+Clean-VM and actual-device qualification remain open. Follow
 <a href="#ch-installation">Installation</a> for the short procedure and
 <a href="../IMPLEMENTATION-STATUS.md">implementation status</a> for evidence.
 (scripts/Build-Installer.ps1:30-44)
@@ -4835,8 +4835,8 @@ on cancellation/failure/owned shutdown:
     stop engine; remove owned workspace; retain only incomplete visible text
 </code></pre>
 <p>The explicit ACP role selection matters: CLI <code>--agent</code> alone did not select the custom agent in this pinned engine. The fixed policy is installed in the <strong>SYSTEM role</strong>. The single user payload also includes fixed policy plus JSON-escaped <code>ExactText</code>; it is not a raw-question-only wire message. Default Ask attaches no provenance, notes or previous answers. Opted-in clarification carries typed conversation metadata; the independent Previous answer toggle adds only the displayed completed answer as background. <code>@</code> is escaped to prevent file-reference interpretation without changing the decoded question. (src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:61-122, selection/prompt/close; src\PhantomFudge.Core\Answers\AgencyAnswerPrompt.cs:8-111, policy/envelope; tools\AgencyProbe\results\summary-final.json:197-219, historical role and history-isolation evidence.)</p>
-<p>Previous-answer context is a later <strong>local-source increment, not in v0.2.0-preview.1 or the
-historical timing trials</strong>. It does not resume a server conversation: explicit Ask captures one
+<p>Previous-answer context is <strong>included in Preview 2</strong>, absent from Preview 1 and not covered by the
+historical timing trials. It does not resume a server conversation: explicit Ask captures one
 string, and each correction/confirmation receives the same snapshot in a fresh session. Clear or
 provider change resets the option. A future Azure adapter must preserve this projection rather
 than serialize the entire <code>QuestionSnapshot</code> or previous <code>AnswerRequest</code>.
@@ -5130,8 +5130,8 @@ not telemetry, unselected transcript or a resumed provider session.</p>
 <p>The prior-answer limit is32768UTF-16 units, separate from the8192question and32768clarification
 aggregate. More explicit input can cost additional tokens/time and exceed an external model's
 capacity; those character limits are not a latency or context-window promise. Historical prepared
-direct-answer measurements do not qualify this new local-source feature, which is absent from
-v0.2.0-preview.1. Clearing the toggle cannot delete previously submitted context from provider logs.
+direct-answer measurements do not qualify previous-answer context, now included in Preview 2 but
+absent from Preview 1. Clearing the toggle cannot delete previously submitted context from provider logs.
 (<a href="../../src/PhantomFudge.Core/Answers/AnswerContracts.cs">Validation</a>,
 <a href="../AI-ANSWER-PRIVACY.md">privacy</a>.)</p>
 <h2 id="ch-14-answer-latency-identity-and-privacy-planned-direct-azure-identity-explicit-setup-silent-ask">PLANNED direct Azure identity: explicit setup, silent Ask</h2>
@@ -5428,7 +5428,7 @@ Neither distribution promises that every machine or recorder is supported.</p>
 <h2 id="ch-16-distribution-and-troubleshooting-installer-versus-development-bundle">Installer versus development bundle</h2>
 <p>The new recipe publishes the app and native launcher self-contained, assembles an offline speech
 runtime/model payload and emits versioned Setup, optional Portable ZIP and checksums. The target
-is <code>v0.2.0-preview.1</code> / Windows version <code>0.2.0.1</code>, unsigned; release downloads are public. End users
+is <code>v0.2.0-preview.2</code> / Windows version <code>0.2.0.2</code>, unsigned; check public assets for availability. End users
 do not need PowerShell7, a system Python or the .NET SDK. Builds require actual generated-PCM
 inference and natural process exit, separately from import and dependency-metadata checks.
 (scripts/Build-Installer.ps1:30-44,76-114)
@@ -5436,7 +5436,7 @@ inference and natural process exit, separately from import and dependency-metada
 <p>The Inno recipe is per-user, uses a stable AppId, rejects downgrades and unrecognized nonempty
 destinations, and gates update/uninstall on maintenance. Repair/update uses
 a fresh self-contained helper directory extracted from Setup rather than a potentially corrupted
-old launcher. Lifecycle3 passed the current candidate's isolated repair/lifecycle fixture.
+old launcher. Preview 1 lifecycle3 is historical; Preview 2 exact-package evidence remains pending.
 Uninstall invokes the installed launcher. <code>WindowsVersion</code> under
 <code>HKCU\Software\PhantomFudge\Installer\&lt;AppId&gt;</code> is the fallback for a damaged version file.
 It does not force-close an app. Save/export, stop capture
@@ -5707,11 +5707,11 @@ transcription, sign into a provider, collect notes or change Windows capture beh
 The publication boundary is deliberately small: the assembler reads <code>site/media.json</code>, verifies
 the web MP4 already bundled under <code>site/media</code>, and copies only <code>site</code>, not the repository.
 Normal assembly needs no original production tutorial, release download, LFS or media secret.
-(<code>tools/Site/build.mjs:28-52</code>; <code>tools/Site/test-site.mjs:98-130</code>)</p>
-<p><strong>Final local source freeze:</strong> the bundled web video is86,168,722bytes with SHA256
+(<code>tools/Site/build.mjs:28-52</code>; <code>tools/Site/test-site.mjs:103-135</code>)</p>
+<p><strong>Published website media:</strong> the bundled web video is86,168,722bytes with SHA256
 <code>28cd9c871b96e6db6cc4f14d740942c388a6abd235d8ba4e4031cf50ec75fc71</code>.
 It retains2297.767seconds,1920x1080,30fps and68,933frames. All eight GIF sets and the final
-page/browser integration were reviewed locally; publication remains pending. (<code>site/media.json:1-27</code>)</p>
+page/browser integration were reviewed locally; Pages is now live. See deployment evidence below. (<code>site/media.json:1-27</code>)</p>
 <h2 id="ch-website-less-visible-text-not-less-visual-design">Less visible text, not less visual design</h2>
 <p>The owner's clarification is <strong>less visible text only</strong>. Keep the DeepSeaFoam palette, original
 ghosts, glow, mist, orbits and decorative motion. The short hero and eight one-line demo captions
@@ -5723,7 +5723,7 @@ being hidden with those details. Long feature/privacy sections are not duplicate
 That is a regression guard for copy density, not a request to strip artwork, delete accessible
 labels, truncate the complete transcript or claim human design approval.
 (<code>tools/Site/review-browser.mjs:36-49,82-84</code>)</p>
-<p>The previous served page measured616default-visible words; the frozen revision measures276, a
+<p>The previous served page measured616default-visible words; the reviewed website revision measured276, a
 340-word reduction. The transcript and About text still exist behind their disclosures, and the
 DeepSeaFoam ghosts, glow, mist, orbits and eight demonstrations remain visible.</p>
 <h2 id="ch-website-watch-and-navigate">Watch and navigate</h2>
@@ -5793,7 +5793,7 @@ Retained spans run at1x; labelled jumps to later actions/results are not respons
 The original selection/context/cover triplets remain protected, not silently re-encoded.
 (<code>site/index.html:71-120</code>; <code>site/app.mjs:150-197</code>; <code>tools/Site/make-demo-media.py:26-159,430-477</code>)</p>
 <p>These are scripted, sample-data demonstrations using actual WPF frames and synthetic narration.
-The current-source Previous answer feature is not in <code>v0.2.0-preview.1</code>. Native installation,
+Preview 2 includes Previous answer; frozen tutorial installer labels still show Preview 1. Native installation,
 file-picker and provider steps in the tutorial are instructions, not recordings of those operations.</p>
 <p>The player behavior is implemented in <a href="../../site/app.mjs">app.mjs</a> and its
 <a href="../../site/player-core.mjs">pure timing/search helpers</a>. The existing browser fixture exercises
@@ -5801,8 +5801,8 @@ all chapter starts, search and caption controls; the Node tests check all 525 cu
 Those checks do not establish live meeting, provider or capture compatibility.
 The expanded fixtures require eight demo triplets and exercise their chapter jumps, Home/End and
 arrow-key wrapping without autoplay. A failed video request must show a visible error while search
-remains available. (<code>tools/Site/review-browser.mjs:51-148,178-193</code>; <code>tools/Site/test-site.mjs:22-50,80-111</code>)</p>
-<p>Final local gates passed14Node test cases and nine muted-browser review groups. A second build/test
+remains available. (<code>tools/Site/review-browser.mjs:51-148,178-193</code>; <code>tools/Site/test-site.mjs:22-50,85-116</code>)</p>
+<p>The earlier website delivery passed14Node test cases and nine muted-browser review groups. A second build/test
 from an isolated fresh public-only tree also passed without the private original tutorial.</p>
 <h2 id="ch-website-assembly-boundary">Assembly boundary</h2>
 <p>The bundled full video must be a reviewed input, not a generated side effect of the website build.
@@ -5815,7 +5815,7 @@ no rollback guarantee. (<code>tools/Site/build.mjs:8-44</code>)</p>
 input public-safe and run the bounded text scan and asset-integration tests. The failure fixture
 checks missing media, wrong bytes, same-size corruption, path traversal and the size boundary,
 and confirms that rejected inputs leave the old output intact.
-(<code>tools/Site/test-site.mjs:64-96,113-159</code>)</p>
+(<code>tools/Site/test-site.mjs:69-101,118-164</code>)</p>
 <figure class="diagram"><img src="assets/diagrams/website-01.svg" alt="Phantom Fudge Website and Tutorial Pipeline diagram 1"><figcaption>Phantom Fudge Website and Tutorial Pipeline - diagram 1. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
 config: {&quot;theme&quot;:&quot;base&quot;,&quot;themeVariables&quot;:{&quot;primaryColor&quot;:&quot;#2d333b&quot;,&quot;primaryBorderColor&quot;:&quot;#6d5dfc&quot;,&quot;primaryTextColor&quot;:&quot;#e6edf3&quot;,&quot;lineColor&quot;:&quot;#8b949e&quot;,&quot;textColor&quot;:&quot;#e6edf3&quot;}}
 ---
@@ -5855,7 +5855,7 @@ Both the browser profile and the assembly test fixture use Node's OS scratch-dir
 and are removed in <code>finally</code>; the commands above redirect that selection for the current shell.
 The browser fixture observes external
 requests and fails if any occur; it is not a network-blocking browser sandbox.
-(<code>tools/Site/review-browser.mjs:9-35,194-202</code>; <code>tools/Site/test-site.mjs:113-159</code>)</p>
+(<code>tools/Site/review-browser.mjs:9-35,194-202</code>; <code>tools/Site/test-site.mjs:118-164</code>)</p>
 <h2 id="ch-website-github-pages-deployment">GitHub Pages deployment</h2>
 <p>The repository's Pages source must be <strong>GitHub Actions</strong>. <code>.github/workflows/pages.yml</code> builds on
 website-related pushes to <code>main</code> or manual dispatch. It tests and assembles the checked-out
@@ -5873,24 +5873,27 @@ tests and the hash-verifying assembler. Only the dependent
 deploy job receives <code>pages: write</code> and <code>id-token: write</code>, using the <code>github-pages</code> environment.
 <code>cancel-in-progress: false</code> keeps a newer run from cancelling the current deployment.
 (<code>.github/workflows/pages.yml:12-50</code>; <code>tools/Site/build.mjs:28-52</code>)</p>
-<p><strong>Publication status:</strong> pending. The owner chose local completion rather than an authentication
-change after the active CLI account proved read-only. The later self-contained revision removes
-the separate media-release prerequisite; it does not authorize a push or deployment.
-An authorized maintainer must publish the complete reviewed source tree and verify the workflow
-and live site separately. The decisions are recorded in <a href="../../TODO/61_PUBLIC_PHANTOM_WEBSITE.todo">workstream61</a>.
-Neither a prepared workflow nor a local browser pass means the website URL is live.</p>
+<p><strong>Publication status: live.</strong> The parent supplied October11 evidence: commit
+<code>77fca8a7cd1dd61dd5b1a09e72a898a73395cac1</code> was pushed; <a href="https://github.com/Zanark/phantom-fudge/actions/runs/38092635522">Pages run38092635522</a>
+completed build and deploy successfully, and <a href="https://zanark.github.io/phantom-fudge/">the public URL</a> returned HTTP200.
+Run38088016577 on <code>490e786</code> failed on three-versus-eight demo counts and obsolete release metadata; it is superseded, not a current blocker.
+The earlier read-only/deferred decision remains historical in <a href="../../TODO/61_PUBLIC_PHANTOM_WEBSITE.todo">workstream61</a>.
+This does not attest deployment of the new Preview 2 link edits or publication of its package; <a href="../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo">workstream62</a> tracks that follow-up.</p>
 <figure class="diagram"><img src="assets/diagrams/website-02.svg" alt="Phantom Fudge Website and Tutorial Pipeline diagram 2"><figcaption>Phantom Fudge Website and Tutorial Pipeline - diagram 2. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
 config: {&quot;theme&quot;:&quot;base&quot;,&quot;themeVariables&quot;:{&quot;primaryColor&quot;:&quot;#2d333b&quot;,&quot;primaryBorderColor&quot;:&quot;#6d5dfc&quot;,&quot;primaryTextColor&quot;:&quot;#e6edf3&quot;,&quot;lineColor&quot;:&quot;#8b949e&quot;,&quot;textColor&quot;:&quot;#e6edf3&quot;}}
 ---
 flowchart TB
-    accTitle: Pending GitHub Pages publication
-    accDescr: Publication remains pending; a future authorized source publication enables a read-only build of bundled media and a separate Pages-write deployment.
-    A[&quot;Future authorized source publication&quot;] --&gt; B[&quot;Read-only build: test and verify&quot;]
+    accTitle: GitHub Pages publication boundary
+    accDescr: Authorized source publication enables a read-only build of bundled media and a separate Pages-write deployment; the deployed revision and live response are verified independently of native release assets.
+    A[&quot;Authorized source publication&quot;] --&gt; B[&quot;Read-only build: test and verify&quot;]
     B --&gt; C[&quot;Upload site-only artifact&quot;]
     C --&gt; D[&quot;Deploy: Pages write and identity token&quot;]
     D --&gt; E[&quot;Verify live site separately&quot;]
-    classDef stage fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    class A,B,C,D,E stage
+    style A fill:#1e3a5f,stroke:#4a9eed,color:#e0e0e0
+    style B fill:#1e3a5f,stroke:#4a9eed,color:#e0e0e0
+    style C fill:#2d2d3d,stroke:#7a7a8a,color:#e0e0e0
+    style D fill:#2d4a3e,stroke:#4aba8a,color:#e0e0e0
+    style E fill:#2d4a3e,stroke:#4aba8a,color:#e0e0e0
 </code></pre></details><h2 id="ch-website-updating-the-tutorial">Updating the tutorial</h2>
 <p><code>node .\tools\Site\import-tutorial.mjs &lt;completed-tutorial-directory&gt;</code> imports allowlisted public
 chapter/caption data from the tutorial identified by <code>site/media.json</code>. It does not import private
@@ -6004,7 +6007,7 @@ Neither a flag nor a hash comparison performs visual review.
 </tr>
 <tr>
 <td><code>test-site.mjs</code> / nine top-level Node tests and five failure subtests</td>
-<td>Timing, all cues, literal search, controls, eight demo triplets, public inputs and self-contained assembly. No native application or provider is launched. (<code>tools/Site/test-site.mjs:1-159</code>)</td>
+<td>Controls, both release links matched to <code>release.json</code>, Preview 2 context and frozen Preview 1 tutorial notices, timing/cues, eight demo triplets and self-contained assembly. No native app/provider launch or proof of asset availability. (<code>tools/Site/test-site.mjs:1-164</code>)</td>
 </tr>
 <tr>
 <td><code>review-browser.mjs</code> / isolated browser</td>
@@ -6159,8 +6162,8 @@ provider changes reset it. Existing provider/OS/diagnostic retention limits stil
 <p>The prompt labels prior text as background, not an instruction, task mode or tool grant.
 Nonblank strict Unicode and32768UTF-16 units bound the field; fresh sessions and existing tool
 denial remain. Synthetic input/transport checks are not a universal prompt-injection resistance
-or model-quality proof. This increment does not requalify recipient capture or alter published
-v0.2.0-preview.1 assets.
+or model-quality proof. Preview 2 includes this increment without requalifying recipient capture
+or altering the immutable Preview 1 assets.
 (<a href="../../src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs">Prompt policy</a>,
 <a href="../../src/PhantomFudge.Core/Answers/AnswerContracts.cs">request validation</a>,
 <a href="../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo">workstream59</a>.)</p>
@@ -7013,7 +7016,7 @@ These independent character limits exclude JSON/policy overhead and are not mode
 setting. <code>context on/off</code> are finite built-in commands invoking the same UI handler, never shell
 or model commands and never an implicit send. Clear/provider changes reset the option; an active
 clarification retains its captured string for explicit replies/retry. The submitted context is
-inspectable in Setup/details. This addition is not in v0.2.0-preview.1.
+inspectable in Setup/details. This addition is included in Preview 2, not the immutable Preview 1 installer.
 (<a href="../../src/PhantomFudge.App/MainWindow.AnswerContext.cs">UI controller</a>,
 <a href="../../src/PhantomFudge.Core/KeyboardCommands.cs">command grammar</a>.)</p>
 <table>
@@ -7253,7 +7256,7 @@ flowchart TB
 </tr>
 <tr>
 <td><code>docs</code> and <code>TODO</code></td>
-<td><a href="../QUALIFICATION.md">Qualification</a> defines evidence; <a href="../../TODO/00_INDEX.todo">TODO index</a> records dependencies and status, not executable behavior. (docs\QUALIFICATION.md:150-176; TODO\00_INDEX.todo:83-92)</td>
+<td><a href="../QUALIFICATION.md">Qualification</a> defines evidence; <a href="../../TODO/00_INDEX.todo">TODO index</a> records dependencies and status, not executable behavior. (docs\QUALIFICATION.md:150-176; TODO\00_INDEX.todo:107-116)</td>
 </tr>
 <tr>
 <td>Repository root</td>
@@ -7616,9 +7619,9 @@ sequenceDiagram
 <p>This chapter reads the frozen application source and current public evidence summaries. It does not rerun application tests, inspect private capture receipts, requalify a package, or perform cloud/audio operations. “Recorded result” below means the cited repository reports that observation, not that this documentation session independently repeated it. The qualification contract explicitly rejects substituting local previews, API return codes, or missing recordings for recipient evidence. (TODO\13_COMPATIBILITY_QUALIFICATION.todo:24-35, acceptance and evidence.)</p>
 <p>The engineering unit of assurance is therefore a <strong>bounded claim</strong>: a behavior, an exact subject, an environment, a procedure, an observation, and its limits. The repository's result template already asks for source identity, package hash, operating system, GPU, sharing backend, positive controls, frame coverage, and reviewer approval. A result without those boundaries may help investigation, but should not silently widen support. (docs\QUALIFICATION.md:150-176, result record.)</p>
 <h2 id="ch-21-evidence-and-roadmap-the-evidence-ladder-stronger-claims-require-additional-proof">The evidence ladder: stronger claims require additional proof</h2>
-<p><strong>Current source delta:</strong> workstream59 adds explicit previous-answer context after the immutable
-v0.2.0-preview.1 release. The user authorized implementation, not new publication. Its exact-source
-synthetic evidence is independent of the earlier release:396focused Core cases and a fresh full
+<p><strong>Preview 2 scope:</strong> workstream59's previous-answer context is included; <a href="../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo">workstream62</a>
+tracks the separately authorized public release, with exact-package/publication evidence pending. Historical October10
+synthetic evidence is not a new Preview 2 run:396focused Core cases and the then-current full
 UI fixture with21context and38keyboard checks passed.24WPF images and11README derivatives were
 refreshed, including the follow-up illustration. Maintained edition identities are recorded through
 <a href="../../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo">workstream59</a>; no new model/audio/authentication call,
@@ -7770,7 +7773,7 @@ Contents: 489 files
 Recorded SHA-256:
 88D98E7CAFA56B067A521571778D0F661A879DDCBF5EBBE9D412987D2BFA5A69
 </code></pre>
-<p>The new archive was hashed and its exact executable exercised with the synthetic fixture.
+<p>That historical archive was hashed and its exact executable exercised with the synthetic fixture.
 Question checks include immutable/no-auto-send behavior, source/session isolation, editing without
 audio cancellation, multiline fidelity and minimum layout, with no real recording/model call.
 The first source attempt's unexplained foreground assertion failure is retained; later source and
@@ -7778,19 +7781,19 @@ package passes do not establish universal activation or recipient behavior. Earl
 035959bundles are historical, not alternative qualification for183107.
 (<a href="../IMPLEMENTATION-STATUS.md">Current implementation receipt</a>;
 <a href="../../TODO/14_PACKAGING_RELEASE.todo">packaging evidence</a>.)</p>
-<p>The publication script creates a timestamped self-contained x64 preview, refuses overwrite, copies selected documentation/scripts/service source, archives the result, and prints its hash as a <strong>local unqualified preview</strong>. Running that script would not satisfy clean-machine, signing, recipient, or release gates. The latest package was generated for the implementation milestone, not as proof of release qualification. (scripts\Publish-Preview.ps1:10-52, publication flow; TODO\14_PACKAGING_RELEASE.todo:13-30, remaining acceptance.)</p>
+<p>The legacy publication script creates a timestamped self-contained x64 preview, refuses overwrite, copies selected documentation/scripts/service source, archives the result, and prints its hash as a <strong>local unqualified preview</strong>. Running that script would not satisfy clean-machine, signing, recipient, or release gates. That package was generated for its implementation milestone, not as proof of release qualification. (scripts\Publish-Preview.ps1:10-52, publication flow; TODO\14_PACKAGING_RELEASE.todo:13-30, remaining acceptance.)</p>
 <h2 id="ch-21-evidence-and-roadmap-what-still-needs-qualification">What still needs qualification</h2>
 <p><strong>Recipient pixels:</strong> the required meeting/OBS candidates remain <code>NOT_TESTED</code>. Record product/version, exact sharing source and backend, local visibility, remote live view, applicable recording, positive controls, and transitions. A window/tab result cannot justify whole-screen support; a missing licensed recording capability is not a pass. A black rectangle can fail the intended experience even without readable text. (docs\QUALIFICATION.md:3-7, status; docs\QUALIFICATION.md:28-64, matrix and artifact criteria; docs\QUALIFICATION.md:79-107, procedure.)</p>
 <p><strong>Cursor:</strong> reproduce the owner's report in the actual sharing mode and record hover/click/drag/type, foreground changes, and recipient cursor behavior independently. Do not substitute a fake cursor, recorder modification, or the local value <code>MA_NOACTIVATE=3</code> for that observation. (TODO\24_CURSOR_AND_FOCUS.todo:14-26, open gates; docs\QUALIFICATION.md:127-145, C15.)</p>
 <p><strong>Hardware and usability:</strong> microphone access/denial, selected-device loss, echo, privacy indicators, headsets, alternative GPU/display/DPI/HDR combinations, startup transitions, accessibility, and long-session behavior remain scoped work. The code selects render versus capture endpoints explicitly; source inspection proves that branch exists, not that every physical configuration works. Owner readability/focus approval remains separate from automated success. (src\PhantomFudge.App\Audio\WasapiInput.cs:20-74, selection and <code>Direction</code>; TODO\26_MICROPHONE_AND_COMPUTER.todo:34-41, hardware gaps; docs\QUALIFICATION.md:66-77, environments; docs\IMPLEMENTATION-STATUS.md:371-380, remaining work.)</p>
 <p>The owner handles permission and recipient rehearsal externally; those preferences removed repeated runtime confirmations. They are not an engineering pass, and this roadmap does not reintroduce those dialogs. (docs\PREVIEW-GUIDE.md:79-84, interaction contract; TODO\16_DEVELOPMENT_LEDGER.todo:63-65, decision record.)</p>
 <h2 id="ch-21-evidence-and-roadmap-roadmap-statuses-describe-scope-dependencies-describe-order">Roadmap: statuses describe scope, dependencies describe order</h2>
-<p>The current index covers workstreams <strong>01–43</strong>; documentation work adds an ongoing maintenance obligation without changing the implemented-versus-planned application boundary:</p>
+<p>The current index covers <strong>01–62</strong>. Preview1 release58, source context59, tutorial60 and live website61 are complete; public Preview2 release62 remains IN_PROGRESS pending exact package/publication evidence. The historical01–43 baseline below is not a new test run. (TODO/00_INDEX.todo:14-45)</p>
 <table>
 <thead>
 <tr>
 <th>IDs</th>
-<th>Current disposition</th>
+<th>Earlier workstream baseline; consult the index for current evidence</th>
 </tr>
 </thead>
 <tbody>
@@ -7836,7 +7839,7 @@ package passes do not establish universal activation or recipient behavior. Earl
 </tr>
 </tbody>
 </table>
-<p>“DONE” is scoped: a local Ask snapshot does not mean cloud submission or answers exist. <code>NOT_STARTED</code> does not automatically mean <code>BLOCKED</code>; the latter requires a concrete attempted-work blocker and needed action. Stable numbers are not execution order. (TODO\00_INDEX.todo:83-92, statuses; docs\TODO-CONVENTIONS.md:40-56, dependency semantics.)</p>
+<p>“DONE” is scoped: a local Ask snapshot does not mean cloud submission or answers exist. <code>NOT_STARTED</code> does not automatically mean <code>BLOCKED</code>; the latter requires a concrete attempted-work blocker and needed action. Stable numbers are not execution order. (TODO\00_INDEX.todo:107-116, statuses; docs\TODO-CONVENTIONS.md:40-56, dependency semantics.)</p>
 <h3 id="ch-21-evidence-and-roadmap-candidate-qualification-and-release">Candidate, qualification, and release</h3>
 <figure class="diagram"><img src="assets/diagrams/21-evidence-and-roadmap-02.svg" alt="21. Evidence and Roadmap diagram 2"><figcaption>21. Evidence and Roadmap - diagram 2. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
 config:
@@ -7872,7 +7875,7 @@ flowchart LR
     style Release fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     style Docker fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
     linkStyle default stroke:#8b949e
-</code></pre></details><p>The diagram abbreviates native prerequisites, not their completion requirements. Packaging <strong>14 precedes qualification 13</strong>; the current expanded release graph also includes planned answer client/UI/resilience work. Final acceptance 17 requires 13, 14, 15, and 35. Docker <strong>20 is LAST, optional, and depends on 17</strong>—never a prerequisite for ordinary transcription or native release. Recipe files do not prove a container ran. (TODO\00_INDEX.todo:130-170, dependency map; TODO\14_PACKAGING_RELEASE.todo:3-5, prerequisites; TODO\20_DOCKER_LOCAL_SERVICE.todo:3-10, final-stage contract; TODO\20_DOCKER_LOCAL_SERVICE.todo:29-36, execution limits.)</p>
+</code></pre></details><p>The diagram abbreviates native prerequisites, not their completion requirements. Packaging <strong>14 precedes qualification 13</strong>; the current expanded release graph also includes planned answer client/UI/resilience work. Final acceptance 17 requires 13, 14, 15, and 35. Docker <strong>20 is LAST, optional, and depends on 17</strong>—never a prerequisite for ordinary transcription or native release. Recipe files do not prove a container ran. (TODO\00_INDEX.todo:207-214, dependency map; TODO\14_PACKAGING_RELEASE.todo:3-5, prerequisites; TODO\20_DOCKER_LOCAL_SERVICE.todo:3-10, final-stage contract; TODO\20_DOCKER_LOCAL_SERVICE.todo:29-36, execution limits.)</p>
 <h3 id="ch-21-evidence-and-roadmap-installed-answers-exist-commit-azure-and-qualification-remain-open">Installed answers exist; commit, Azure and qualification remain open</h3>
 <figure class="diagram"><img src="assets/diagrams/21-evidence-and-roadmap-03.svg" alt="21. Evidence and Roadmap diagram 3"><figcaption>21. Evidence and Roadmap - diagram 3. Source-linked; status follows the chapter.</figcaption></figure><details class="diagram-source"><summary>Editable Mermaid source</summary><pre><code>---
 config:
@@ -7913,7 +7916,7 @@ flowchart TB
     linkStyle default stroke:#8b949e
 </code></pre></details><p>The local selected/typed draft and immutable snapshot are implemented. Continue with source-specific
 start/commit boundaries and approved cloud connection, not an automatic deployment. The target remains
-local ASR and direct C# streamed text in the same protected UI. Azure identity/resource/geography approvals, actual model availability, and latency measurements remain future gates. Optional 36 depends on 27 and 33; conditional 37 depends on 27 and 30, neither silently becoming mandatory. (TODO\00_INDEX.todo:146-160, answer dependencies; TODO\27_AI_ANSWER_RESEARCH.todo:13-32, research-only scope; docs\AI-ANSWER-ARCHITECTURE.md:685-739, delivery and unresolved decisions.)</p>
+local ASR and direct C# streamed text in the same protected UI. Azure identity/resource/geography approvals, actual model availability, and latency measurements remain future gates. Optional 36 depends on 27 and 33; conditional 37 depends on 27 and 30, neither silently becoming mandatory. (TODO\00_INDEX.todo:201-214, answer dependencies; TODO\27_AI_ANSWER_RESEARCH.todo:13-32, research-only scope; docs\AI-ANSWER-ARCHITECTURE.md:685-739, delivery and unresolved decisions.)</p>
 <h2 id="ch-21-evidence-and-roadmap-worked-review-algorithm-promote-claims-not-enthusiasm">Worked review algorithm: promote claims, not enthusiasm</h2>
 <p>The following is explanatory pseudocode for reviewing evidence, not an implemented tool or a test executed here. Its checks derive from the exact-candidate and positive-control requirements. (docs\QUALIFICATION.md:79-107, procedure; TODO\14_PACKAGING_RELEASE.todo:22-30, candidate freeze.)</p>
 <pre><code class="language-python">def assess_support_claim(claim, evidence):
@@ -7934,12 +7937,12 @@ local ASR and direct C# streamed text in the same protected UI. Azure identity/r
 <h2 id="ch-21-evidence-and-roadmap-keeping-the-book-honest-as-the-project-changes">Keeping the book honest as the project changes</h2>
 <p>Reviewing the book exposed historical wording that no longer matched the implementation. The summary now describes Computer/Microphone/Both and labels its initial-preview evidence historical; workstream17 distinguishes the existing preview from unstarted final acceptance; Workstream13 follows the current C01-C19 scenario set. These corrections preserve the earlier journey without erasing implemented work or promoting a local package to a qualified release. (docs\IMPLEMENTATION-STATUS.md:323-332, corrected summary and historical heading; TODO\17_RELEASE_ACCEPTANCE.todo:31-37, final acceptance scope; TODO\14_PACKAGING_RELEASE.todo:45-57, local artifacts; TODO\13_COMPATIBILITY_QUALIFICATION.todo:18-21, current scenario list; docs\QUALIFICATION.md:127-145, added scenarios.)</p>
 <p><strong>Current documentation coordination:</strong> workstream <strong>38</strong> is <strong>DONE for the initial local edition</strong>. Its receipt records the generated HTML/PDF, reviewed illustrations and freshness result. Workflow <strong>06</strong>, <code>06_LIVING_DOCUMENTATION.todo</code>, is <strong>DONE as a procedure definition</strong>, with ongoing execution <strong>IN_PROGRESS</strong>: future feature changes still need matching book updates. This is documentation completion, not application release acceptance. The documentation update did not replace the current preview ZIP. (TODO\38_LIVING_DOCUMENTATION.todo:3-22, status and tasks; TODO\WORKFLOWS\06_LIVING_DOCUMENTATION.todo:3-11, definition/execution distinction; docs\IMPLEMENTATION-STATUS.md:389-395, documentation edition boundary.)</p>
-<p>The public journal now supplies the narrative counterpart to the operational ledger. Future behavior changes require corresponding chapter, citation, diagram, image, and journal maintenance. Mechanical freshness detects drift in recorded inputs, but cannot prove semantic correctness or discover every uncited feature; human source review remains necessary. This extends the evidence discipline instead of relaxing application qualification. (JOURNAL.md:8-16, journal scope; docs\DOCUMENTATION-MAINTENANCE.md:12-27, completion requirements; docs\DOCUMENTATION-MAINTENANCE.md:69-81, freshness limitations; TODO\00_INDEX.todo:205-213, documentation definition of done.)</p>
+<p>The public journal now supplies the narrative counterpart to the operational ledger. Future behavior changes require corresponding chapter, citation, diagram, image, and journal maintenance. Mechanical freshness detects drift in recorded inputs, but cannot prove semantic correctness or discover every uncited feature; human source review remains necessary. This extends the evidence discipline instead of relaxing application qualification. (JOURNAL.md:8-16, journal scope; docs\DOCUMENTATION-MAINTENANCE.md:12-27, completion requirements; docs\DOCUMENTATION-MAINTENANCE.md:69-81, freshness limitations; TODO\00_INDEX.todo:264-270, documentation definition of done.)</p>
 <h2 id="ch-21-evidence-and-roadmap-exercises-and-references">Exercises and references</h2>
 <ol>
 <li>Classify the dual-source PCM result, owner cursor report, and Azure latency target. For each, write one supported claim and one prohibited inference. (docs\IMPLEMENTATION-STATUS.md:239-243; docs\CURSOR-AND-THEMES.md:47-61; docs\AI-ANSWER-EVALUATION.md:45-62.)</li>
 <li>Given a rebuilt package with unchanged UI, identify which previous qualification claims must become historical and which observations remain useful diagnostics. (docs\QUALIFICATION.md:24-26, version semantics.)</li>
-<li>Trace why completing optional Docker or cloud-ASR work cannot close native release 17. (TODO\00_INDEX.todo:152-160, release dependencies.)</li>
+<li>Trace why completing optional Docker or cloud-ASR work cannot close native release 17. (TODO\00_INDEX.todo:211-214, release dependencies.)</li>
 </ol>
 <p>Continue with the <a href="../IMPLEMENTATION-STATUS.md">implementation evidence</a>, <a href="../QUALIFICATION.md">qualification matrix</a>, <a href="../../TODO/00_INDEX.todo">TODO index</a>, <a href="../../TODO/16_DEVELOPMENT_LEDGER.todo">ledger</a>, <a href="#ch-journal">public journal</a>, and <a href="../DOCUMENTATION-MAINTENANCE.md">maintenance contract</a>. The <a href="../SPEECH-BENCHMARK.md">benchmark</a> and <a href="../AI-ANSWER-ARCHITECTURE.md">answer architecture</a> provide detailed measured-versus-planned boundaries.</p>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section>
@@ -8055,7 +8058,7 @@ src/PhantomFudge.App/MainWindow.KeyboardDiagnostics.cs:170-193.)</p>
 </tr>
 </tbody>
 </table>
-<p>The project declares a Windows .NET 10 WPF executable, a Core reference and NAudio 2.2.1; that declaration is not evidence of a build or device qualification. Selection/clarification increments 44/45 ship in v0.2.0-preview.1, unlike the historical <code>045022</code> ZIP. The newer Previous answer increment remains local source only. Direct Azure remains future work and Docker remains optional/last, not prerequisites of these handlers. (src/PhantomFudge.App/PhantomFudge.App.csproj:1) (TODO/00_INDEX.todo:45) (docs/OVERVIEW.md:131-134)</p>
+<p>The project declares a Windows .NET 10 WPF executable, a Core reference and NAudio 2.2.1; that declaration is not evidence of a build or device qualification. Preview 2 includes selection/clarification increments 44/45 and Previous answer; Preview 1 lacks the latter and the historical <code>045022</code> ZIP predates both. Exact package evidence is separate. Direct Azure remains future work and Docker remains optional/last, not prerequisites of these handlers. (src/PhantomFudge.App/PhantomFudge.App.csproj:1) (docs/OVERVIEW.md:131-134)</p>
 <h2 id="ch-22-desktop-source-walkthrough-1-from-process-startup-to-protected-reveal">1. From process startup to protected reveal</h2>
 <p><code>App.xaml</code> uses explicit shutdown and no <code>StartupUri</code>. Consequently, WPF does not automatically display a startup window before application code can configure it. <code>App.OnStartup</code> first handles exact command-line modes: explicit provider preparation, capture proof, UI smoke or documentation screenshots. Ordinary startup then constructs <code>SingleInstance</code>. A nonowner sends a six-byte <code>REVEAL</code> command and exits; the owner installs dispatcher-marshalled recovery callbacks and calls <code>ShowProtected</code>. (src/PhantomFudge.App/App.xaml:1) (src/PhantomFudge.App/App.xaml.cs:18) (src/PhantomFudge.App/App.xaml.cs:62)</p>
 <p>Recovery is deliberately narrow. <code>SingleInstance</code> hashes the current SID to name its channel, uses a <code>Local</code> mutex and <code>CurrentUserOnly</code> pipes, and accepts no file path or arbitrary text command. Connection/write uses a five-second deadline; the server gives an established peer two seconds to supply six bytes. It compares those six bytes with <code>REVEAL</code>, not the entire remainder of a peer stream. Mutex ownership is session-local; the hashed name itself is not a secret. (src/PhantomFudge.App/Native/SingleInstance.cs:18) (src/PhantomFudge.App/Native/SingleInstance.cs:28) (src/PhantomFudge.App/Native/SingleInstance.cs:51)</p>
@@ -8593,7 +8596,7 @@ the same string. Those separate lifetimes matter more than the checkbox's visual
 (<a href="../../src/PhantomFudge.App/MainWindow.AnswerContext.cs">UI capture</a>,
 <a href="../../src/PhantomFudge.App/MainWindow.Clarification.cs">clarification</a>,
 <a href="../../src/PhantomFudge.Core/Answers/AnswerRun.cs"><code>AnswerRun</code></a>.)</p>
-<p>This local-source feature is not included in v0.2.0-preview.1 or covered by earlier model-timing
+<p>This feature is included in Preview 2, absent from Preview 1 and not covered by earlier model-timing
 receipts. Structural/synthetic tests do not establish that a live model follows the policy or
 answers context-bearing questions correctly.</p>
 <p><code>AnswerClarification</code> copies each turn into a read-only collection, validating while enumerating. A fifth yielded item is rejected rather than allowing an arbitrary enumerable to be fully materialized. Each question, correction and interpretation must be nonblank, valid Unicode and at most 8,192 UTF-16 units. History plus current text may total 32,768 units; policy text and JSON overhead are outside that budget. Nothing is silently trimmed. (src/PhantomFudge.Core/Answers/AnswerClarification.cs:18) (src/PhantomFudge.Core/Answers/AnswerClarification.cs:38) (src/PhantomFudge.Core/Answers/AnswerClarification.cs:59)</p>
@@ -9461,7 +9464,7 @@ flowchart TD
 <h2 id="ch-27-operations-source-walkthrough-2-answer-preparation-authentication-and-probe-isolation">2. Answer preparation, authentication, and probe isolation</h2>
 <p><code>Initialize-Answers.ps1</code> requires an explicit provider. <code>SnapshotOnly</code> avoids executable preparation; the other modes invoke app preparation entry points and validate their returned installed executable. A 30-second preparation timeout kills only the owned child tree. The app writes a receipt and exits before ordinary window startup. Configuration subsequently moves from a temporary file to per-user <code>answers.json</code>; the runtime reader rejects oversized or unmapped settings. (scripts/Initialize-Answers.ps1:29) (scripts/Initialize-Answers.ps1:44) (src/PhantomFudge.App/App.xaml.cs:18) (src/PhantomFudge.Core/Answers/AnswerConfiguration.cs:15)</p>
 <p><code>LocalModel</code> requires an identifier and literal HTTP loopback <code>/v1</code> endpoint, not a hostname selected implicitly. That regex is only the first gate: its one-to-five-digit port shape is not numeric TCP-port validation. <code>-Connect</code> is Copilot-only and explicitly runs login in the dedicated profile, after scrubbing named inherited environment families. Unlike preparation, login has no scripted timeout. Failed login prevents enabling new settings but does not undo preparation/profile side effects. No question is submitted here; installed CLI execution must not be equated with offline inference. (scripts/Initialize-Answers.ps1:11) (scripts/Initialize-Answers.ps1:62)</p>
-<p>The desktop preserves the downstream distinction: ordinary Ask has no clarification history; <code>clarifyFirst</code> begins false, and a correction or Yes requires explicit submission. A typed correction is not discarded by clicking confirmation. Direct Azure remains future work. Selection/clarification ship in v0.2.0-preview.1 but not the historical <code>045022</code> ZIP; Previous answer is the newer local-source addition, not part of that published release. (src/PhantomFudge.App/MainWindow.Clarification.cs:11) (src/PhantomFudge.App/MainWindow.Clarification.cs:120) (TODO/00_INDEX.todo:45) (docs/OVERVIEW.md:131-134)</p>
+<p>The desktop preserves the downstream distinction: ordinary Ask has no clarification history; <code>clarifyFirst</code> begins false, and a correction or Yes requires explicit submission. A typed correction is not discarded by clicking confirmation. Direct Azure remains future work. Preview 2 includes selection/clarification and Previous answer; Preview 1 lacks the latter and the historical <code>045022</code> ZIP predates both. (src/PhantomFudge.App/MainWindow.Clarification.cs:11) (src/PhantomFudge.App/MainWindow.Clarification.cs:120) (docs/OVERVIEW.md:131-134)</p>
 <p>The two CopilotProbe files are <strong>active experiments</strong>, not passive configuration readers:</p>
 <table>
 <thead>
@@ -9943,10 +9946,10 @@ instruction and, for explicit replies, this question's bounded clarification exc
 It is off on launch. No machine metadata, unselected transcript or unrelated history is attached.
 Interpretation requests can ask a short clarifying question; normal and confirmed-answer requests
 retain the no-follow-up rule. Each user reply starts a separate request, never automatic stdin input.</p>
-<p><strong>Separate opt-in, local source only:</strong> <a href="../LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer">Previous answer</a>
+<p><strong>Separate opt-in, included in Preview 2:</strong> <a href="../LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer">Previous answer</a>
 adds the exact displayed completed answer in nullable <code>PreviousAnswer</code>, not an accumulated conversation.
-It is off on launch and captured only on explicit Ask. The feature is <strong>not in v0.2.0-preview.1</strong>;
-that release's tag and assets remain unchanged.</p>
+It is off on launch and captured only on explicit Ask. Preview 1's tag and assets remain unchanged;
+<a href="../IMPLEMENTATION-STATUS.md">Preview 2 package/publication evidence</a> is separate from source behavior.</p>
 <h2 id="ch-answer-providers-local-installation-is-not-necessarily-local-inference">Local installation is not necessarily local inference</h2>
 <table>
 <thead>
@@ -10354,8 +10357,8 @@ the interpretation now on screen or recursively copied from an earlier request.
 <p>If the first interpretation fails or is cancelled, explicitly retrying it keeps that original
 snapshot. The active clarification locks context changes even when no provider call is running.
 After a confirmed answer completes, the still-enabled option can use that new answer for a new
-question. Clear or a provider change resets it. This is a <strong>local-source addition, not in
-v0.2.0-preview.1</strong>. <a href="../LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer">Detailed usage</a>.</p>
+question. Clear or a provider change resets it. This is <strong>included in Preview 2, not the
+immutable Preview 1 installer</strong>. <a href="../LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer">Detailed usage</a>.</p>
 <table>
 <thead>
 <tr>
@@ -11904,4 +11907,40 @@ The maintained handbook and atlas were regenerated and freshness-checked after s
 <p>No remote publication, authentication change, commit, push or deployment occurred. The retained
 loopback preview is <code>http://127.0.0.1:4187/phantom-fudge/</code>; local browser evidence is not proof that
 the GitHub Pages URL is live or that capture compatibility is qualified.</p>
+<h2 id="ch-journal-2026-10-11-live-website-and-preparation-for-public-preview-2">2026-10-11 - Live website and preparation for public Preview 2</h2>
+<p>The website's earlier publication deferral is now superseded. The parent supplied the pushed
+revision <code>77fca8a7cd1dd61dd5b1a09e72a898a73395cac1</code>, successful build and deployment in
+<a href="https://github.com/Zanark/phantom-fudge/actions/runs/38092635522">Pages run38092635522</a>, and an
+HTTP200 response from <a href="https://zanark.github.io/phantom-fudge/">the public site</a>.
+The older run38088016577 on <code>490e786</code> failed on three-versus-eight demo counts and obsolete release
+metadata; it is retained as history, not an outstanding deployment blocker. That website evidence
+does not establish deployment of subsequent release-link edits or qualification of a native package.</p>
+<p>At05:54IST the owner requested a new <strong>PUBLIC v0.2.0-preview.2 prerelease</strong> and approved the existing
+publishing helper. <a href="../../TODO/62_PUBLIC_PREVIEW_RELEASE.todo">Workstream62</a> tracks this separately from the
+completed Preview1 release and Previous answer implementation. Preview2 includes the default-off,
+single-completed-answer context option and its keyboard commands; it adds no automatic history,
+provider installation or model request. The complete website,38-minute tutorial and eight demos are
+companion guides. Tutorial installer labels and recorded captions still describe Preview1.
+(src/PhantomFudge.App/MainWindow.AnswerContext.cs:9-44)
+(tools/Installer/release.json:2-5)
+(site/index.html:44-47,156-174)</p>
+<p>Documentation preparation updates active filenames/links, release scope and reviewed source-atlas
+explanations while keeping the original release record and published PDF identities immutable.
+No new installer build, package test count, hash, tag or publication is claimed here. The396Core,
+21context and38keyboard results are October10 source evidence; the unchanged24WPF/11READMEimages
+retain their existing provenance. There is no new media, capture, provider or migration test.</p>
+<p>The parent must build from clean committed source <strong>after</strong> the full atlas/handbook editions are
+ready, because packaging copies the handbook into the installed payload.
+(scripts/Build-Installer.ps1:48-54,76-88)
+Exact-package and publication evidence will be recorded in a separate follow-up. Unsigned
+Windows11 x64 prerelease scope, save/export/Stop/close-with-X maintenance, retained external data,
+no automatic Setup launch and no universal capture exclusion remain unchanged.
+(tools/Installer/PhantomFudge.iss:23-41,107-161)</p>
+<p>The preparation pass built the complete source atlas before the handbook and passed documentation
+tests21/21, static-site tests14/14 and full-edition freshness checks. Rendered review covered the
+21changed book chapters/appendix,14standalone prose pages, the updated Pages diagram and all four
+frozen-source atlas entries, with representative PDF pages. The installation evidence-table heading
+was shortened for print readability. The <a href="manifest.json">handbook manifest</a> and
+<a href="../source-atlas/manifest.json">atlas manifest</a> identify the current full editions; these results
+are documentation/site evidence, not new packaged-app tests or a published Preview2 release.</p>
 <p class="top-link"><a href="#contents">Back to contents</a></p></section></main></body></html>

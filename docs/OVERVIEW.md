@@ -25,7 +25,7 @@ state transition in one place, including what keeps running under Cover.
 | Live transcript and notes | Transcript-first interface with optional plain-text notes and explicit save/export | [Preview guide](PREVIEW-GUIDE.md) |
 | Questions and answers | Click several Mic/Computer lines, review one draft, then freeze locally or Ask an explicitly configured provider | [Question composer](LOCAL-QUESTIONS.md), [provider setup](ANSWER-PROVIDERS.md) |
 | Question clarification | Off by default; request an interpretation, then explicitly send Yes or a correction | [Clarify first](QUESTION-CLARIFICATION.md) |
-| Previous answer | New local source, not v0.2.0-preview.1: default-off toggle left of Ask includes one displayed completed answer, never accumulated history | [Follow-up context](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer) |
+| Previous answer | Included in Preview 2: default-off toggle left of Ask includes one displayed completed answer, never accumulated history | [Follow-up context](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer) |
 | Appearance | Larger responsive reading columns; white/black reading text; all reading surfaces share background translucency | [Themes and cursor behavior](CURSOR-AND-THEMES.md) |
 | Action hierarchy and text density | Large accent Ask followed by red-bordered Clear; transcript25%smaller and answer50%smaller | [Current sizes and controls](CURRENT-WORKFLOW.md#current-sizes-themes-and-visible-status) |
 | Notepad cover | NOTEPAD IS READY plus Uncover; already-started transcription and answers continue | [Cover and privacy limits](COVER-AND-PRIVACY.md) |
@@ -129,8 +129,8 @@ source versus packaged execution, and uses a loopback endpoint
 preview. Never terminate it to force an update while unsaved notes may exist.
 
 Selection, clarification, typography/actions, recording indicator, device cards, cover and keyboard
-controls ship in **v0.2.0-preview.1**, unlike historical045022. The newer Previous answer addition is
-**local source only**, through that launcher, and is not in the published release.
+controls are included in **v0.2.0-preview.2**, together with Previous answer; historical045022 is obsolete.
+Preview 1 lacks Previous answer. Preview 2 package/publication evidence is pending; check available release assets.
 See [current status](IMPLEMENTATION-STATUS.md).
 
 **Docker is optional and last.** It is not on the normal transcription path or the native-release

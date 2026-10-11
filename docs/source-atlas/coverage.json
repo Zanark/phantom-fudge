@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "counts": {
     "files": 220,
-    "lines": 33867,
-    "nonblankLines": 31583,
+    "lines": 33872,
+    "nonblankLines": 31588,
     "blocks": 1359,
     "groups": 11
   },
@@ -2681,7 +2681,7 @@
     },
     {
       "path": "docs/handbook/catalogue.json",
-      "sourceSha256": "bcbfbe3fa3625e09e3ccdce5c1433d0269abfcfef7dfa3905d2355875ba2b622",
+      "sourceSha256": "beea67299a3964e36f89465933a3d50ccb72ca7116ec00a2000b05c4ece1e294",
       "lines": 259,
       "nonblankLines": 259,
       "blocks": [
@@ -4491,7 +4491,7 @@
     },
     {
       "path": "tools/Installer/release.json",
-      "sourceSha256": "d4a40bc89690d9b2c135b5722d07e2d0a1be9d03e4d77807948744f530cfade0",
+      "sourceSha256": "ab60a929a5f8696e2f57503a793a5254089333c8f13a25e1f96a4d4c2292b662",
       "lines": 8,
       "nonblankLines": 8,
       "blocks": [
@@ -4506,7 +4506,7 @@
     },
     {
       "path": "tools/Installer/PhantomFudge.iss",
-      "sourceSha256": "cd209ff3878c6b683748997ab0fc45e5e57d2d0cd288686c72e18897486e2c65",
+      "sourceSha256": "665e2bf343931724b8f8b6aeabbde7498f538e30d81a20982589727f901b328c",
       "lines": 161,
       "nonblankLines": 149,
       "blocks": [
@@ -8366,7 +8366,7 @@
     },
     {
       "path": "site/index.html",
-      "sourceSha256": "2c61239c8e20dc882558954034d84da368e09d2ee181aa4de61ebfe703ebca13",
+      "sourceSha256": "8a7befbc654be804d4f0c43fb56222a8d1e40706aadf520c2140f973e656599d",
       "lines": 187,
       "nonblankLines": 186,
       "blocks": [
@@ -8413,7 +8413,7 @@
         {
           "start": 148,
           "end": 156,
-          "title": "Reserve paginated chapter navigation and distinguish the older installer"
+          "title": "Keep chapter navigation and distinguish Preview2 scope from tutorial labels"
         },
         {
           "start": 157,
@@ -8951,9 +8951,9 @@
     },
     {
       "path": "tools/Site/test-site.mjs",
-      "sourceSha256": "c825fadef1017135b8226c9e5362ebe7fa8b9dcbc2ba438ea0a1b47385daf6e2",
-      "lines": 159,
-      "nonblankLines": 155,
+      "sourceSha256": "5ca331b12d9fdfbdb63b8fa6440ffc4cf133a99955fe9f911f067ea800e1070d",
+      "lines": 164,
+      "nonblankLines": 160,
       "blocks": [
         {
           "start": 1,
@@ -8972,32 +8972,32 @@
         },
         {
           "start": 51,
-          "end": 63,
-          "title": "Check required HTML controls and honest fallback wording"
+          "end": 68,
+          "title": "Bind both release links to configuration while preserving tutorial history"
         },
         {
-          "start": 64,
-          "end": 79,
+          "start": 69,
+          "end": 84,
           "title": "Reject common private-path leaks and files too large for regular Git"
         },
         {
-          "start": 80,
-          "end": 97,
+          "start": 85,
+          "end": 102,
           "title": "Require eight complete demo triplets, README links and valid chapter targets"
         },
         {
-          "start": 98,
-          "end": 112,
+          "start": 103,
+          "end": 117,
           "title": "Bind the Pages recipe and public manifest to bundled web media"
         },
         {
-          "start": 113,
-          "end": 130,
+          "start": 118,
+          "end": 135,
           "title": "Assemble a tiny independent fixture without copying its private sibling"
         },
         {
-          "start": 131,
-          "end": 159,
+          "start": 136,
+          "end": 164,
           "title": "Reject missing, corrupt, traversing and oversized media without replacing output"
         }
       ],

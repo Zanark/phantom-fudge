@@ -1,10 +1,10 @@
-# Implementation status - 2026-10-10
+# Implementation status - 2026-10-11
 
-**Published: [v0.2.0-preview.1](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.1),
-an unsigned, private Windows 11 x64 prerelease.** Publication is not universal capture, device or
-clean-machine qualification.
+**Preparing public [v0.2.0-preview.2 — check available assets](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2):**
+unsigned Windows11 x64 prerelease, with previous-answer context included. Exact package/publication evidence is pending in
+[workstream62](../TODO/62_PUBLIC_PREVIEW_RELEASE.todo). The [website is live](WEBSITE.md); neither fact establishes capture/device/clean-VM qualification.
 
-**October10 01:52 IST:** Setup, Portable ZIP, both reference PDFs and SHA256SUMS were published
+**Historical Preview 1, October10 01:52 IST (then private):** Setup, Portable ZIP, both PDFs and SHA256SUMS were published
 after downloading all five assets and matching their exact bytes. The immutable tag points to
 `e25c8d5624e5afd2f50cda80f964e2e32737fce1`; installer metadata records that commit and
 `sourceDirty=false`. [The release record](release-0.2.0-preview.1.json) contains exact hashes and sizes.
@@ -24,7 +24,7 @@ Repository editions may add this publication follow-up; release attachments rema
 
 ## Current source summary
 
-**October10 previous-answer increment: implemented locally, source only.** The default-off toggle
+**October10 source evidence, now included in the Preview 2 candidate (not a new test run).** The default-off toggle
 immediately left of Ask adds one displayed completed answer as background; clarification retains
 the same snapshot through corrections, confirmation and explicit first-interpretation retry.
 Keyboard `context on/off` shares the guarded handler. The focused Core suite passed396cases;
@@ -33,7 +33,7 @@ All24WPF images and11README derivatives were refreshed; parent reviewed normal c
 The first new fixture exposed a compact snapshot-height regression; shorter secondary captions
 and a narrower context toggle corrected it before the final pass. No model or audio input was used.
 [Workstream59](../TODO/59_PREVIOUS_ANSWER_CONTEXT.todo) records source/edition evidence;
-**v0.2.0-preview.1 does not contain this addition**. No release asset/tag changes.
+**v0.2.0-preview.1 does not contain this addition**. Its release assets/tag remain unchanged.
 
 Start with the [illustrated current workflow](CURRENT-WORKFLOW.md). It includes the maintained
 images and the exact distinction between selecting, recording, sending, covering and stopping.
@@ -42,24 +42,24 @@ newer features.
 
 | Current feature | Source behavior and boundary | Guide |
 | --- | --- | --- |
-| Installer / native launcher | Published clean-source Setup and Portable preview; guarded install, repair, update and removal | [Installation](INSTALLATION.md) |
+| Installer / native launcher | Preview 2 candidate; exact package results pending. Guarded install, repair, update and removal unchanged | [Installation](INSTALLATION.md) |
 | Audio device cards | No list scrollbars; explicit overflow pages retain selected endpoint identity | [Setup](CURRENT-WORKFLOW.md#1-choose-audio-device-cards) |
 | Red recording dot | Follows active transcription, not startup or input-mode selection; no audio-file save implied | [Capture state](CURRENT-WORKFLOW.md#2-start-transcription-and-watch-the-red-dot) |
 | Multi-line question selection | Whole Mic/Computer segments, raw text in display order, no automatic Ask | [Local questions](LOCAL-QUESTIONS.md) |
 | Clarify first | Off by default; separate original/reply, explicit correction or Yes, bounded history | [Clarification](QUESTION-CLARIFICATION.md) |
-| Previous answer | Local-source increment; explicit single completed-answer snapshot, session-only/default-off, no accumulated history | [Follow-up context](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer) |
+| Previous answer | Included in Preview 2; explicit single completed-answer snapshot, session-only/default-off, no accumulated history | [Follow-up context](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer) |
 | Ask and Clear | Large accent Ask, red-bordered Clear immediately after it; existing guards retained | [Current controls](CURRENT-WORKFLOW.md#components-know-the-controls-before-sending) |
 | Reading sizes | Final transcript15; partial13.5/10.5; answer10/9 until a session choice8–24; question18, in WPF units | [Typography](CURRENT-WORKFLOW.md#current-sizes-themes-and-visible-status) |
-| Keyboard controls / answer Size | Included in the published preview; explicit local modes and session size8-24; external focus/comfort qualification remains | [Canonical keyboard guide](KEYBOARD-CONTROLS.md) |
+| Keyboard controls / answer Size | Included in Preview 2, with context commands; explicit local modes and session size8-24; external focus/comfort qualification remains | [Canonical keyboard guide](KEYBOARD-CONTROLS.md) |
 | Cover / Uncover | NOTEPAD IS READY; already-started transcription/answers continue on the same HWND | [Cover/privacy](COVER-AND-PRIVACY.md) |
 | Privacy requests | Existing capture affinity/tool-window plus accepted Peek request; cached peer still reads retained text | [Feasibility matrix](COVER-AND-PRIVACY.md#feasible-measures-in-practical-order) |
 | Diagnostics | Metadata by default; conversation bodies only through explicit Text opt-in | [Local diagnostics](DIAGNOSTICS.md) |
 
-**Use the published Setup or complete Portable ZIP**, or run current source through
+**Check Preview 2 assets before downloading Setup or the complete Portable ZIP**, or run source through
 `scripts\Run-PhantomFudge.ps1`. Save/copy required text and close an older instance with X before
 updating. The immutable045022ZIP predates the later selection/clarification/action/font/card/cover
-changes; use v0.2.0-preview.1 instead. Workstream58 is complete for this private, unqualified preview.
-Use current source, not that release, for the new Previous answer toggle.
+changes. Preview 1 is also historical and lacks Previous answer; workstream58 remains complete.
+Workstream62 requires fresh exact-package evidence; October10 test counts above are not inherited results for Preview 2.
 
 **Earlier evidence, not a keyboard-increment pass:** the140313synthetic UI fixture covers the then-current combined interface,
 including15cover assertions, source selection, cards, font/layout/action, clarification and alpha

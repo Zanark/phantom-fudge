@@ -190,7 +190,7 @@
           "start": 23,
           "end": 42,
           "title": "Connect conceptual chapters with the new source walkthroughs",
-          "explanation": "The remaining ordered chapters include proposed Azure boundaries, engineering/reference topics, seven source-level walkthroughs and the installed-provider/clarification guides outside the handbook folder. WEBSITE.md is now a full chapter immediately after distribution, explaining local assembly, immutable media and pending Pages publication without changing native release status. Relative paths resolve against the handbook root and remain inside the public repository. The source walkthroughs complement the per-file atlas; website and cover/privacy guides are registered chapters, not merely external links.",
+          "explanation": "The remaining ordered chapters include proposed Azure boundaries, engineering/reference topics, seven source-level walkthroughs and the installed-provider/clarification guides outside the handbook folder. WEBSITE.md is a full chapter immediately after distribution, connecting local assembly and immutable media with separately recorded Pages publication evidence, not native package qualification. Relative paths resolve against the handbook root and remain inside the public repository. The source walkthroughs complement the per-file atlas; website and cover/privacy guides are registered chapters, not merely external links.",
           "focus": [
             {
               "start": 25,
@@ -214,7 +214,7 @@
     },
     {
       "path": "docs/handbook/catalogue.json",
-      "sourceSha256": "bcbfbe3fa3625e09e3ccdce5c1433d0269abfcfef7dfa3905d2355875ba2b622",
+      "sourceSha256": "beea67299a3964e36f89465933a3d50ccb72ca7116ec00a2000b05c4ece1e294",
       "role": "Preserves the source-linked research and writing map, with constrained onboarding and subsystem/source-walkthrough sections.",
       "entryPoints": [
         "validateCatalogue",
@@ -261,7 +261,7 @@
           "start": 135,
           "end": 208,
           "title": "Connect engineering procedures with reference and evidence",
-          "explanation": "Engineering connects test, installation, distribution, website, privacy and extension guides. The website brief preserves DeepSeaFoam ghosts/effects while reducing visible copy, maps eight demos, distinguishes authored inputs from generated exports and follows nested-original versus bundled-web identity through assembly and review. Pending acceptance and publication stay explicit. Reference retains API/configuration, glossary, evidence and card/recording/cover workflow. These uniform writing nodes are not work-item status or proof of native qualification or live hosting.",
+          "explanation": "Engineering connects test, installation, distribution, website, privacy and extension guides. The website brief preserves the theme/eight demos and nested-original versus bundled-web identity. It now requires live Pages evidence to be distinguished from source/deployment recipes, and ties Preview2 release links/context scope to the static test while retaining recorded Preview1 tutorial labels. Workstream62 supplies package/publication state rather than inheriting a native pass from website evidence. Reference retains API/configuration, glossary and the illustrated workflow. Writing prompts are research guidance, not test results or proof of live hosting.",
           "focus": [
             {
               "start": 153,

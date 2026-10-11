@@ -266,8 +266,8 @@ on cancellation/failure/owned shutdown:
 
 The explicit ACP role selection matters: CLI `--agent` alone did not select the custom agent in this pinned engine. The fixed policy is installed in the **SYSTEM role**. The single user payload also includes fixed policy plus JSON-escaped `ExactText`; it is not a raw-question-only wire message. Default Ask attaches no provenance, notes or previous answers. Opted-in clarification carries typed conversation metadata; the independent Previous answer toggle adds only the displayed completed answer as background. `@` is escaped to prevent file-reference interpretation without changing the decoded question. (src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:61-122, selection/prompt/close; src\PhantomFudge.Core\Answers\AgencyAnswerPrompt.cs:8-111, policy/envelope; tools\AgencyProbe\results\summary-final.json:197-219, historical role and history-isolation evidence.)
 
-Previous-answer context is a later **local-source increment, not in v0.2.0-preview.1 or the
-historical timing trials**. It does not resume a server conversation: explicit Ask captures one
+Previous-answer context is **included in Preview 2**, absent from Preview 1 and not covered by the
+historical timing trials. It does not resume a server conversation: explicit Ask captures one
 string, and each correction/confirmation receives the same snapshot in a fresh session. Clear or
 provider change resets the option. A future Azure adapter must preserve this projection rather
 than serialize the entire `QuestionSnapshot` or previous `AnswerRequest`.

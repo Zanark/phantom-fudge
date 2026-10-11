@@ -55,7 +55,12 @@ test('site contains required controls, graceful native video and no external scr
   }
   assert.match(html, /<video[^>]+controls[^>]+preload="metadata"/);
   assert.doesNotMatch(html, /\bautoplay\b|<script[^>]+src="https?:/);
-  assert.match(html, /Previous-answer context is not in the published/);
+  const release = JSON.parse(await readFile(path.join(root, 'tools', 'Installer', 'release.json'), 'utf8'));
+  const releaseLinks = [...html.matchAll(/https:\/\/github\.com\/Zanark\/phantom-fudge\/releases\/tag\/([^"]+)/g)];
+  assert.equal(releaseLinks.length, 2);
+  assert.ok(releaseLinks.every(([, tag]) => tag === `v${release.version}`));
+  assert.match(html, /Previous-answer context is included in/);
+  assert.match(html, /Tutorial installer labels show Preview 1/);
   assert.match(html, /not universal invisibility/);
   assert.doesNotMatch(html, /<details open/);
   assert.match(html, /class="hero-ghost"/);

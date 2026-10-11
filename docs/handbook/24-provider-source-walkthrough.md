@@ -95,7 +95,7 @@ the same string. Those separate lifetimes matter more than the checkbox's visual
 [clarification](../../src/PhantomFudge.App/MainWindow.Clarification.cs),
 [`AnswerRun`](../../src/PhantomFudge.Core/Answers/AnswerRun.cs).)
 
-This local-source feature is not included in v0.2.0-preview.1 or covered by earlier model-timing
+This feature is included in Preview 2, absent from Preview 1 and not covered by earlier model-timing
 receipts. Structural/synthetic tests do not establish that a live model follows the policy or
 answers context-bearing questions correctly.
 

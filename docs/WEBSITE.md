@@ -1,6 +1,7 @@
 ---
 title: "Phantom Fudge Website and Tutorial Pipeline"
-description: "Build and review the self-contained DeepSeaFoam website, preserving original media, sample-data disclosures and pending publication."
+description: "Build and review the live DeepSeaFoam website, preserving original media, sample-data disclosures and versioned release boundaries."
+outline: deep
 ---
 
 # Phantom Fudge Website and Tutorial Pipeline
@@ -12,12 +13,12 @@ transcription, sign into a provider, collect notes or change Windows capture beh
 The publication boundary is deliberately small: the assembler reads `site/media.json`, verifies
 the web MP4 already bundled under `site/media`, and copies only `site`, not the repository.
 Normal assembly needs no original production tutorial, release download, LFS or media secret.
-(`tools/Site/build.mjs:28-52`; `tools/Site/test-site.mjs:98-130`)
+(`tools/Site/build.mjs:28-52`; `tools/Site/test-site.mjs:103-135`)
 
-**Final local source freeze:** the bundled web video is86,168,722bytes with SHA256
+**Published website media:** the bundled web video is86,168,722bytes with SHA256
 `28cd9c871b96e6db6cc4f14d740942c388a6abd235d8ba4e4031cf50ec75fc71`.
 It retains2297.767seconds,1920x1080,30fps and68,933frames. All eight GIF sets and the final
-page/browser integration were reviewed locally; publication remains pending. (`site/media.json:1-27`)
+page/browser integration were reviewed locally; Pages is now live. See deployment evidence below. (`site/media.json:1-27`)
 
 ## Less visible text, not less visual design
 
@@ -33,7 +34,7 @@ That is a regression guard for copy density, not a request to strip artwork, del
 labels, truncate the complete transcript or claim human design approval.
 (`tools/Site/review-browser.mjs:36-49,82-84`)
 
-The previous served page measured616default-visible words; the frozen revision measures276, a
+The previous served page measured616default-visible words; the reviewed website revision measured276, a
 340-word reduction. The transcript and About text still exist behind their disclosures, and the
 DeepSeaFoam ghosts, glow, mist, orbits and eight demonstrations remain visible.
 
@@ -68,7 +69,7 @@ The original selection/context/cover triplets remain protected, not silently re-
 (`site/index.html:71-120`; `site/app.mjs:150-197`; `tools/Site/make-demo-media.py:26-159,430-477`)
 
 These are scripted, sample-data demonstrations using actual WPF frames and synthetic narration.
-The current-source Previous answer feature is not in `v0.2.0-preview.1`. Native installation,
+Preview 2 includes Previous answer; frozen tutorial installer labels still show Preview 1. Native installation,
 file-picker and provider steps in the tutorial are instructions, not recordings of those operations.
 
 The player behavior is implemented in [app.mjs](../site/app.mjs) and its
@@ -77,9 +78,9 @@ all chapter starts, search and caption controls; the Node tests check all 525 cu
 Those checks do not establish live meeting, provider or capture compatibility.
 The expanded fixtures require eight demo triplets and exercise their chapter jumps, Home/End and
 arrow-key wrapping without autoplay. A failed video request must show a visible error while search
-remains available. (`tools/Site/review-browser.mjs:51-148,178-193`; `tools/Site/test-site.mjs:22-50,80-111`)
+remains available. (`tools/Site/review-browser.mjs:51-148,178-193`; `tools/Site/test-site.mjs:22-50,85-116`)
 
-Final local gates passed14Node test cases and nine muted-browser review groups. A second build/test
+The earlier website delivery passed14Node test cases and nine muted-browser review groups. A second build/test
 from an isolated fresh public-only tree also passed without the private original tutorial.
 
 ## Assembly boundary
@@ -95,7 +96,7 @@ These checks are not a general sanitizer for arbitrary files placed under `site`
 input public-safe and run the bounded text scan and asset-integration tests. The failure fixture
 checks missing media, wrong bytes, same-size corruption, path traversal and the size boundary,
 and confirms that rejected inputs leave the old output intact.
-(`tools/Site/test-site.mjs:64-96,113-159`)
+(`tools/Site/test-site.mjs:69-101,118-164`)
 
 ```mermaid
 ---
@@ -147,7 +148,7 @@ Both the browser profile and the assembly test fixture use Node's OS scratch-dir
 and are removed in `finally`; the commands above redirect that selection for the current shell.
 The browser fixture observes external
 requests and fails if any occur; it is not a network-blocking browser sandbox.
-(`tools/Site/review-browser.mjs:9-35,194-202`; `tools/Site/test-site.mjs:113-159`)
+(`tools/Site/review-browser.mjs:9-35,194-202`; `tools/Site/test-site.mjs:118-164`)
 
 ## GitHub Pages deployment
 
@@ -169,26 +170,29 @@ deploy job receives `pages: write` and `id-token: write`, using the `github-page
 `cancel-in-progress: false` keeps a newer run from cancelling the current deployment.
 (`.github/workflows/pages.yml:12-50`; `tools/Site/build.mjs:28-52`)
 
-**Publication status:** pending. The owner chose local completion rather than an authentication
-change after the active CLI account proved read-only. The later self-contained revision removes
-the separate media-release prerequisite; it does not authorize a push or deployment.
-An authorized maintainer must publish the complete reviewed source tree and verify the workflow
-and live site separately. The decisions are recorded in [workstream61](../TODO/61_PUBLIC_PHANTOM_WEBSITE.todo).
-Neither a prepared workflow nor a local browser pass means the website URL is live.
+**Publication status: live.** The parent supplied October11 evidence: commit
+`77fca8a7cd1dd61dd5b1a09e72a898a73395cac1` was pushed; [Pages run38092635522](https://github.com/Zanark/phantom-fudge/actions/runs/38092635522)
+completed build and deploy successfully, and [the public URL](https://zanark.github.io/phantom-fudge/) returned HTTP200.
+Run38088016577 on `490e786` failed on three-versus-eight demo counts and obsolete release metadata; it is superseded, not a current blocker.
+The earlier read-only/deferred decision remains historical in [workstream61](../TODO/61_PUBLIC_PHANTOM_WEBSITE.todo).
+This does not attest deployment of the new Preview 2 link edits or publication of its package; [workstream62](../TODO/62_PUBLIC_PREVIEW_RELEASE.todo) tracks that follow-up.
 
 ```mermaid
 ---
 config: {"theme":"base","themeVariables":{"primaryColor":"#2d333b","primaryBorderColor":"#6d5dfc","primaryTextColor":"#e6edf3","lineColor":"#8b949e","textColor":"#e6edf3"}}
 ---
 flowchart TB
-    accTitle: Pending GitHub Pages publication
-    accDescr: Publication remains pending; a future authorized source publication enables a read-only build of bundled media and a separate Pages-write deployment.
-    A["Future authorized source publication"] --> B["Read-only build: test and verify"]
+    accTitle: GitHub Pages publication boundary
+    accDescr: Authorized source publication enables a read-only build of bundled media and a separate Pages-write deployment; the deployed revision and live response are verified independently of native release assets.
+    A["Authorized source publication"] --> B["Read-only build: test and verify"]
     B --> C["Upload site-only artifact"]
     C --> D["Deploy: Pages write and identity token"]
     D --> E["Verify live site separately"]
-    classDef stage fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
-    class A,B,C,D,E stage
+    style A fill:#1e3a5f,stroke:#4a9eed,color:#e0e0e0
+    style B fill:#1e3a5f,stroke:#4a9eed,color:#e0e0e0
+    style C fill:#2d2d3d,stroke:#7a7a8a,color:#e0e0e0
+    style D fill:#2d4a3e,stroke:#4aba8a,color:#e0e0e0
+    style E fill:#2d4a3e,stroke:#4aba8a,color:#e0e0e0
 ```
 
 ## Updating the tutorial
@@ -278,7 +282,7 @@ Neither a flag nor a hash comparison performs visual review.
 | `make-demo-media.py` / `source_frames`, `encode` | Hash-checked tutorial frame ranges, aspect-contained crops, silent 30fps MP4 and 10fps GIF derivatives, without accelerating retained spans. Labelled later excerpts omit gaps; they do not measure response latency. (`tools/Site/make-demo-media.py:26-157,204-269`) |
 | `make-demo-media.py` / `review_outputs`, `provenance` | Decoded samples, exact edit maps and hash-bound review notes. Existing Pillow, PyAV and imageio-ffmpeg are required. Reused original-demo evidence is distinct from a new inspection. (`tools/Site/make-demo-media.py:284-374,395-427`) |
 | `prepare-web-video.py` / `main`, `validate` | Separate full-video compression, packet/decoded-audio verification, complete decode and local review frames; no implicit publication or visual approval. (`tools/Site/prepare-web-video.py:172-248`) |
-| `test-site.mjs` / nine top-level Node tests and five failure subtests | Timing, all cues, literal search, controls, eight demo triplets, public inputs and self-contained assembly. No native application or provider is launched. (`tools/Site/test-site.mjs:1-159`) |
+| `test-site.mjs` / nine top-level Node tests and five failure subtests | Controls, both release links matched to `release.json`, Preview 2 context and frozen Preview 1 tutorial notices, timing/cues, eight demo triplets and self-contained assembly. No native app/provider launch or proof of asset availability. (`tools/Site/test-site.mjs:1-164`) |
 | `review-browser.mjs` / isolated browser | Muted playback, all chapter seeks, paginated search, eight demo tabs, collapsed details, a default visible-copy budget, responsive/reduced-motion/no-JavaScript checks and missing-video feedback. Automation is not human UX approval. (`tools/Site/review-browser.mjs:22-202`) |
 
 For the per-line authored website, tooling and workflow explanations, use the

@@ -108,7 +108,7 @@ The separate default-off **Previous answer** toggle snapshots only a completed d
 on explicit Ask. It is session-only, locks during busy work/active clarification, and resets on
 Clear/provider change. Setup/details reads prior text from the submitted request, not the new answer
 currently replacing it. The same snapshot survives interpretation, corrections and confirmation.
-This addition is **local source only, not in v0.2.0-preview.1**.
+This addition is **included in the Preview 2 candidate**, not the immutable Preview 1 installer.
 ([Context controller](../../src/PhantomFudge.App/MainWindow.AnswerContext.cs),
 [full usage](../LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).)
 

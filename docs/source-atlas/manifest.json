@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-10T22:40:17.076Z",
+  "generatedAtUtc": "2026-10-11T00:46:59.025Z",
   "complete": true,
   "counts": {
     "files": 220,
-    "lines": 33867,
-    "nonblankLines": 31583,
+    "lines": 33872,
+    "nonblankLines": 31588,
     "blocks": 1359,
     "groups": 11
   },
@@ -17,7 +17,7 @@
     "PhantomFudge.slnx": "83273f1f97cbf17a0f001c4221eb997d18dac384b630d16a080d24253ca51379",
     "compose.yaml": "072523fcbae8d0e1b017bae97bb6bfa595108b56b0b2989cb014f761b5ff6e3e",
     "docs/handbook/book.json": "bcea9a8b8089876b529b3a452632d8ef251c91dc1ee4361649f9135d683297ee",
-    "docs/handbook/catalogue.json": "bcbfbe3fa3625e09e3ccdce5c1433d0269abfcfef7dfa3905d2355875ba2b622",
+    "docs/handbook/catalogue.json": "beea67299a3964e36f89465933a3d50ccb72ca7116ec00a2000b05c4ece1e294",
     "global.json": "bf68d4a0fc2613967f53bd6af5a6570666b755f5f6bf4688a120736ae523ccaa",
     "scripts/Build-Handbook.ps1": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
     "scripts/Build-Handbook.txt": "e46f5fa7d854b3d1d485ef0f36620adeb0913f51cd7c715cf98b0d462df90310",
@@ -91,7 +91,7 @@
     "site/assets/media-manifest.json": "f2c2ac22a11654581d0929227f5167ea1c1d483bb0e5eb862b239e0c954bc200",
     "site/assets/transcript.json": "6add37cab5aa7777e32288840063fa9c795303eb68bf82b8de88546b6ba6b9d7",
     "site/assets/tutorial-data.mjs": "ca56cae64a40b47eef953749d31aa281cee11f1cfbce55be4f9d80e7011fe6c0",
-    "site/index.html": "2c61239c8e20dc882558954034d84da368e09d2ee181aa4de61ebfe703ebca13",
+    "site/index.html": "8a7befbc654be804d4f0c43fb56222a8d1e40706aadf520c2140f973e656599d",
     "site/media.json": "01d31083a080456bb22d59170a46ee79bd96ca8a40a71c86dd3bd9cda75eb891",
     "site/player-core.mjs": "043d50626931799324bf7d4a0a227172471772da0694d99c7d0fefce2179d109",
     "site/styles.css": "49597736b100afddf0d1201299ad7fce02c53641de545de308a81493c29193b4",
@@ -267,9 +267,9 @@
     "tools/Docs/test-docs.mjs": "259877beb0d52eaef5dc0e8e94671cf1bc31cbfe499a54f8401724b1559bd8f6",
     "tools/DualSourceProbe/probe.py": "6ff0b3f74333cd01e7b8974bc094fe4fe148f23024550c8e538250f14e449c2c",
     "tools/DualSourceProbe/test_runtime_upgrade.py": "784e149ba6d9da2346fcf7c9b556e6bba6275649bd0a13fbc69c086536165b20",
-    "tools/Installer/PhantomFudge.iss": "cd209ff3878c6b683748997ab0fc45e5e57d2d0cd288686c72e18897486e2c65",
+    "tools/Installer/PhantomFudge.iss": "665e2bf343931724b8f8b6aeabbde7498f538e30d81a20982589727f901b328c",
     "tools/Installer/bundle_runtime.py": "776de36307d68159ade74a88ad6d1e558c4b480b727102b2891a38180c7b4b56",
-    "tools/Installer/release.json": "d4a40bc89690d9b2c135b5722d07e2d0a1be9d03e4d77807948744f530cfade0",
+    "tools/Installer/release.json": "ab60a929a5f8696e2f57503a793a5254089333c8f13a25e1f96a4d4c2292b662",
     "tools/Installer/runtime-contract.json": "b5ea3d2c2b80ef140b26f48b616e0f9122b4ee09d003cffe211e7f01dd237c99",
     "tools/Installer/runtime-lock.json": "4271b71567064386dfad426e5e1fbae4bb7d706b186a9e7cb034d4b5a63ebdc3",
     "tools/Installer/runtime_audit.py": "67e9ae694242e82186cee16bb81f6b9ed75eaab9c3b3631f82c6f980b4c6f4f2",
@@ -280,7 +280,7 @@
     "tools/Site/prepare-web-video.py": "287769d555dff5fef9e0f793bd8efab132601ca799e2871f5f60ee24b042d6e3",
     "tools/Site/review-browser.mjs": "8f6240961477721ebde6f1ef83eb03169214d3b7e4acc1844b00941bc669bd60",
     "tools/Site/serve.mjs": "4038725f3514da8846594e7e6aeb211c496907172d9f2962c40c7aa566b04bd6",
-    "tools/Site/test-site.mjs": "c825fadef1017135b8226c9e5362ebe7fa8b9dcbc2ba438ea0a1b47385daf6e2",
+    "tools/Site/test-site.mjs": "5ca331b12d9fdfbdb63b8fa6440ffc4cf133a99955fe9f911f067ea800e1070d",
     "tools/SpeechBench/SapiBridge.cs": "095a1d0ac24664c28f444df729c9862220a36c9548380b68183cfffeb10fe1bf",
     "tools/SpeechBench/bench.py": "e4129a6b46a33a43e07ee324327c687312be7a7bfc3de9184382df582d69a68e",
     "tools/SpeechBench/corpus.json": "3e3313d4e1249ecea55bec163f7759f440e5e5e0b4963af385fcaa424c6a8e12",
@@ -303,48 +303,48 @@
     "docs/source-atlas/annotations/audio-native.json": "ae678ff69af8e4f4e6669803238917d3a81449740446bac04e253fb3c8a75132",
     "docs/handbook/25-native-audio-source-walkthrough.md": "b551600d8a0de8a256847663a6fa61b0865f78adde24b42a523783216dd6b85f",
     "docs/source-atlas/annotations/desktop.json": "045aca885f098986e0b7ae017b5378d681bc40f4ffacf580549781288cf65efc",
-    "docs/handbook/22-desktop-source-walkthrough.md": "1298825b27f60622c5df10c6ef8c7e0948ce343476494655d959cb80a3b68759",
-    "docs/source-atlas/annotations/documentation.json": "dbb412286421135bdf9c5157c787404952b50c9a11db9b6fc0ae421a96187be0",
+    "docs/handbook/22-desktop-source-walkthrough.md": "1ba9c7476c3a35c0dc8f9eeef2cb40c47a23bbf2f432a292154b4afca531d160",
+    "docs/source-atlas/annotations/documentation.json": "8b61445761642f6af73d9e03ce6e32b39126f4a4e6f85ce091ab91ce57544638",
     "docs/handbook/28-documentation-source-walkthrough.md": "f2ab8777a7c0a195b80cd090bf5a986fc5f6cc0cb6614827a9bcce517135825a",
     "docs/source-atlas/annotations/domain.json": "d3872b18e1561f27cfd01d8eb0f3f81dfdeca0d841653e1706fcd7dba4a6d76f",
     "docs/handbook/23-domain-source-walkthrough.md": "a889e80bc7e049d39c57fea6cd03302221210fe6ed79fc2e35b435a2b9aafc6f",
     "docs/source-atlas/annotations/installer-launcher.json": "81fee755a82f54d07815d3cbd2b05dfab7889f6ef4f249fe47fb9ed26218ab67",
-    "docs/INSTALLATION.md": "bba47aa8a39e36dac0ec7f0b16d6418e416e2c9dc561707e51b354af280514b9",
-    "docs/source-atlas/annotations/installer-packaging.json": "d4ddec05b6a395b1eca784696a15da0d427494265c3059f0bb051126efe4a68b",
+    "docs/INSTALLATION.md": "b030b9f1d76fc09bb0b06ff7122e40766b9ffe808cb5963a9d6f53c700a4b578",
+    "docs/source-atlas/annotations/installer-packaging.json": "464344359aca61b429c070cf43751599e208aa1137dab215832c89375968947c",
     "docs/source-atlas/annotations/installer-runtime.json": "ecb12b9c7294f43db848e51f8ad495814a35c186e22d2ea8c4d94eb27d79f639",
     "docs/source-atlas/annotations/operations.json": "601157335dadb1f25339af4b80fd1c3c77a1f5d69b98b9b7f99c70faf81e8a30",
-    "docs/handbook/27-operations-source-walkthrough.md": "22f728ba4e15dafbd155c5d8b449e8235b0032b27bad023757746f7b03c4559c",
+    "docs/handbook/27-operations-source-walkthrough.md": "8676e7113d74f176227ad39cfd2bb9a15fce7f0d22c2d6723273adb83ae756ed",
     "docs/source-atlas/annotations/providers.json": "706152ec0a0b8515415cd0ce0089ac08140b012c770548b18679cae9af1de783",
-    "docs/handbook/24-provider-source-walkthrough.md": "c06ba4bbfd04e676feb48a59210cc22b74dd1bee3e3d035bb26378ef5e16a906",
+    "docs/handbook/24-provider-source-walkthrough.md": "e86ee4154887a2b47ff86d6ad84609d629b8f5c5b9998ee28a231613f54e193c",
     "docs/source-atlas/annotations/speech.json": "60a0d4e854c0c7e3b3f0ae0c957a855d09a5eafe1d38b7d616b2b384ea58e87d",
     "docs/handbook/26-speech-source-walkthrough.md": "67b15177203aa36148103f112be7de2a623207ab9abdd718442b658dfcdd04d2",
-    "docs/source-atlas/annotations/website.json": "202ffea7b49c58de826f4a139e1f28b8e57a306fd5a199fb724fbc92c6dc557f",
-    "docs/WEBSITE.md": "4c57ab5a6cb999a27ab8586beb921fb3a0a3142f5cb62bccc38a71a093b38be9"
+    "docs/source-atlas/annotations/website.json": "0baf2e99825dd03fe40813f78a79e1f4e2a27aade93b3ab3ac237fb6e07dc7ca",
+    "docs/WEBSITE.md": "f72fdfdf187c2059f1974cf67e540cdfbc730820416767a6999f392077cf643e"
   },
   "pdf": {
     "file": "docs/source-atlas/Phantom-Fudge-Source-Atlas.pdf",
-    "sha256": "187b1613374360b500b29ef6af8c450d6cb5c2d985df33a824a445b580bf163a",
+    "sha256": "473aa604081b3a486b923b76649a408fccacc5e6747684ac570541176687fa6f",
     "pages": 709,
-    "bytes": 18838392
+    "bytes": 18847198
   },
   "artifacts": [
     {
       "file": "docs/source-atlas/Phantom-Fudge-Source-Atlas.pdf",
-      "sha256": "187b1613374360b500b29ef6af8c450d6cb5c2d985df33a824a445b580bf163a",
+      "sha256": "473aa604081b3a486b923b76649a408fccacc5e6747684ac570541176687fa6f",
       "pages": 709,
-      "bytes": 18838392
+      "bytes": 18847198
     },
     {
       "file": "docs/source-atlas/index.html",
-      "sha256": "afd4f73e5b2ba9e2d4a6868622d37698e229113bf7f62641b79f0bc6946f00e5"
+      "sha256": "ceefadd608a5b72a18b9746960741170b2772fd23e57776906b002819b88a818"
     },
     {
       "file": "docs/source-atlas/coverage.json",
-      "sha256": "fd8e874e2c38a50d7ccefa3f281ac9ca070d8179453b645b35c59ea1fd0b7968"
+      "sha256": "845322f5dd484fe30c82226a366f9864edd48ab1ad16156e1e6115f4edc8c9ae"
     },
     {
       "file": "docs/source-atlas/README.md",
-      "sha256": "0ad2bba29b6bf5b2e44415f71507d0838e71c1dca8d62c5de7795853fe5e0e6a"
+      "sha256": "b0d4b0308262dc0b9b9e6ffc073c87e8b1932806967c927e553e1cf03235478e"
     }
   ]
 }

@@ -395,7 +395,7 @@ These independent character limits exclude JSON/policy overhead and are not mode
 setting. `context on/off` are finite built-in commands invoking the same UI handler, never shell
 or model commands and never an implicit send. Clear/provider changes reset the option; an active
 clarification retains its captured string for explicit replies/retry. The submitted context is
-inspectable in Setup/details. This addition is not in v0.2.0-preview.1.
+inspectable in Setup/details. This addition is included in Preview 2, not the immutable Preview 1 installer.
 ([UI controller](../../src/PhantomFudge.App/MainWindow.AnswerContext.cs),
 [command grammar](../../src/PhantomFudge.Core/KeyboardCommands.cs).)
 

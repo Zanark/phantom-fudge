@@ -15,7 +15,7 @@ outline: deep
 
 The new recipe publishes the app and native launcher self-contained, assembles an offline speech
 runtime/model payload and emits versioned Setup, optional Portable ZIP and checksums. The target
-is `v0.2.0-preview.1` / Windows version `0.2.0.1`, unsigned; release downloads are public. End users
+is `v0.2.0-preview.2` / Windows version `0.2.0.2`, unsigned; check public assets for availability. End users
 do not need PowerShell7, a system Python or the .NET SDK. Builds require actual generated-PCM
 inference and natural process exit, separately from import and dependency-metadata checks.
 (scripts/Build-Installer.ps1:30-44,76-114)
@@ -24,7 +24,7 @@ inference and natural process exit, separately from import and dependency-metada
 The Inno recipe is per-user, uses a stable AppId, rejects downgrades and unrecognized nonempty
 destinations, and gates update/uninstall on maintenance. Repair/update uses
 a fresh self-contained helper directory extracted from Setup rather than a potentially corrupted
-old launcher. Lifecycle3 passed the current candidate's isolated repair/lifecycle fixture.
+old launcher. Preview 1 lifecycle3 is historical; Preview 2 exact-package evidence remains pending.
 Uninstall invokes the installed launcher. `WindowsVersion` under
 `HKCU\Software\PhantomFudge\Installer\<AppId>` is the fallback for a damaged version file.
 It does not force-close an app. Save/export, stop capture

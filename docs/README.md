@@ -6,8 +6,8 @@ deep, source-linked reference; the [development journal](../JOURNAL.md) tells th
 
 | Need | Read |
 | --- | --- |
-| Watch the full tutorial or preview the ghost-themed website | [Website, video controls and Pages deployment](WEBSITE.md) |
-| Install, update or remove the Windows11 x64 preview | [Installer guide](INSTALLATION.md) and [published asset identities](release-0.2.0-preview.1.json) |
+| Watch the full tutorial and eight demos | [Live website](https://zanark.github.io/phantom-fudge/) and [media/deployment evidence](WEBSITE.md) |
+| Install, update or remove the Windows11 x64 preview | [Installer guide](INSTALLATION.md) and [Preview 2 — check available assets](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2) |
 | See all current features and images in one walkthrough | [Illustrated workflow, controls and state transitions](CURRENT-WORKFLOW.md) |
 | Understand the product, stack and boundaries | [Product overview](OVERVIEW.md), [product contract](PRODUCT.md) |
 | Read the illustrated book | [Offline HTML](handbook/Phantom-Fudge-Engineering-Handbook.html) or [printable PDF](handbook/Phantom-Fudge-Engineering-Handbook.pdf) |
@@ -23,7 +23,7 @@ deep, source-linked reference; the [development journal](../JOURNAL.md) tells th
 | Work without moving the pointer; choose answer size | [Keyboard modes, commands, device navigation, shortcut JSON and Size slider](KEYBOARD-CONTROLS.md) |
 | Cover the workspace without stopping it | [Notepad cover and privacy feasibility](COVER-AND-PRIVACY.md) |
 | Compose and answer a question | [Drafts and snapshots](LOCAL-QUESTIONS.md), [Copilot/local model setup](ANSWER-PROVIDERS.md) |
-| Follow up using the displayed answer | [Previous answer: explicit, bounded and default-off](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer); local source only, not v0.2.0-preview.1 |
+| Follow up using the displayed answer | [Previous answer: explicit, bounded and default-off](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer); included in Preview 2, absent from Preview 1 |
 | Repair the intent of a noisy question | [Optional interpretation and Yes/correction replies](QUESTION-CLARIFICATION.md) |
 | Design the future Azure answer feature | [Architecture](AI-ANSWER-ARCHITECTURE.md), [research](AI-ANSWER-RESEARCH.md), [evaluation](AI-ANSWER-EVALUATION.md), [privacy](AI-ANSWER-PRIVACY.md) |
 | Choose the next implementation task | [TODO index](../TODO/00_INDEX.todo), [delivery workflow](DEVELOPMENT-WORKFLOW.md) |
@@ -32,8 +32,8 @@ deep, source-linked reference; the [development journal](../JOURNAL.md) tells th
 | Follow project conventions | [TODO format](TODO-CONVENTIONS.md), [contributor contract](../AGENTS.md) |
 | Change the docs or regenerate images | [Maintenance contract](DOCUMENTATION-MAINTENANCE.md), [book tooling](../tools/Docs/README.md) |
 
-The app is a **local, unqualified Windows preview**, not a universally invisible application.
-The repository is now public. This visibility change does not establish a qualified release.
+**v0.2.0-preview.2 is the public unsigned Windows11 x64 prerelease candidate; package/publication evidence is pending.**
+The website is live; that does not qualify the app. [Historical Preview 1 identities](release-0.2.0-preview.1.json) remain unchanged.
 The current native Python service does not need Docker. Providers are explicit: installed Copilot
 can use cloud models or a configured local endpoint. Direct Azure remains future work.
 Handbook UI images are actual WPF visual-tree renders with **synthetic content and device labels**,

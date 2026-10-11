@@ -18,10 +18,10 @@ It is off on launch. No machine metadata, unselected transcript or unrelated his
 Interpretation requests can ask a short clarifying question; normal and confirmed-answer requests
 retain the no-follow-up rule. Each user reply starts a separate request, never automatic stdin input.
 
-**Separate opt-in, local source only:** [Previous answer](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer)
+**Separate opt-in, included in Preview 2:** [Previous answer](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer)
 adds the exact displayed completed answer in nullable `PreviousAnswer`, not an accumulated conversation.
-It is off on launch and captured only on explicit Ask. The feature is **not in v0.2.0-preview.1**;
-that release's tag and assets remain unchanged.
+It is off on launch and captured only on explicit Ask. Preview 1's tag and assets remain unchanged;
+[Preview 2 package/publication evidence](IMPLEMENTATION-STATUS.md) is separate from source behavior.
 
 ## Local installation is not necessarily local inference
 

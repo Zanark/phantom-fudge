@@ -121,8 +121,8 @@ the interpretation now on screen or recursively copied from an earlier request.
 If the first interpretation fails or is cancelled, explicitly retrying it keeps that original
 snapshot. The active clarification locks context changes even when no provider call is running.
 After a confirmed answer completes, the still-enabled option can use that new answer for a new
-question. Clear or a provider change resets it. This is a **local-source addition, not in
-v0.2.0-preview.1**. [Detailed usage](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).
+question. Clear or a provider change resets it. This is **included in Preview 2, not the
+immutable Preview 1 installer**. [Detailed usage](LOCAL-QUESTIONS.md#follow-up-with-the-previous-answer).
 
 | Boundary | Behavior |
 | --- | --- |
