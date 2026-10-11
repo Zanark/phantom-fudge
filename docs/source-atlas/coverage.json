@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "counts": {
     "files": 220,
-    "lines": 33872,
-    "nonblankLines": 31588,
+    "lines": 33926,
+    "nonblankLines": 31641,
     "blocks": 1359,
     "groups": 11
   },
@@ -4491,7 +4491,7 @@
     },
     {
       "path": "tools/Installer/release.json",
-      "sourceSha256": "ab60a929a5f8696e2f57503a793a5254089333c8f13a25e1f96a4d4c2292b662",
+      "sourceSha256": "839399c6b7418908bda1714434dd71236f22eef400fe2b2b42ad7643d02db819",
       "lines": 8,
       "nonblankLines": 8,
       "blocks": [
@@ -4506,7 +4506,7 @@
     },
     {
       "path": "tools/Installer/PhantomFudge.iss",
-      "sourceSha256": "665e2bf343931724b8f8b6aeabbde7498f538e30d81a20982589727f901b328c",
+      "sourceSha256": "7b0757c24526e7f48b81d98f9116babfb9aceaab573bbb91e51965cdfc799275",
       "lines": 161,
       "nonblankLines": 149,
       "blocks": [
@@ -6036,88 +6036,88 @@
     },
     {
       "path": "src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs",
-      "sourceSha256": "dc763cef4a9ebda22822639b3c3c2fa10eacfbc436eca2c42ea22905fe5c7def",
-      "lines": 359,
-      "nonblankLines": 341,
+      "sourceSha256": "02ddfd6585347425daef003e7cc673c538767d022c6f83e8caa6f7952658a403",
+      "lines": 362,
+      "nonblankLines": 344,
       "blocks": [
         {
           "start": 1,
-          "end": 30,
+          "end": 29,
           "title": "Separate engine, session and answer identities"
         },
         {
-          "start": 31,
-          "end": 43,
+          "start": 30,
+          "end": 42,
           "title": "Bound persistent transport and reuse"
         },
         {
-          "start": 44,
-          "end": 60,
+          "start": 43,
+          "end": 63,
           "title": "Verify ACP dialect before creating a conversation"
         },
         {
-          "start": 61,
-          "end": 88,
+          "start": 64,
+          "end": 91,
           "title": "Create a unique session and explicitly select the controlled role"
         },
         {
-          "start": 89,
-          "end": 115,
+          "start": 92,
+          "end": 118,
           "title": "One prompt, streamed text, and a mode-specific terminal check"
         },
         {
-          "start": 116,
-          "end": 136,
+          "start": 119,
+          "end": 139,
           "title": "Close before forgetting the session; separate control calls from answers"
         },
         {
-          "start": 137,
-          "end": 157,
+          "start": 140,
+          "end": 160,
           "title": "Serialize and flush one JSON-RPC request"
         },
         {
-          "start": 158,
-          "end": 177,
+          "start": 161,
+          "end": 180,
           "title": "Read under lifetime cancellation and enforce per-session budgets"
         },
         {
-          "start": 178,
-          "end": 211,
+          "start": 181,
+          "end": 214,
           "title": "Accept only bounded startup chatter before JSON"
         },
         {
-          "start": 212,
-          "end": 231,
+          "start": 215,
+          "end": 234,
           "title": "Reject reverse RPCs and correlate result identity"
         },
         {
-          "start": 232,
-          "end": 255,
+          "start": 235,
+          "end": 258,
           "title": "Associate text with the current session and with verified notices"
         },
         {
-          "start": 256,
-          "end": 275,
+          "start": 259,
+          "end": 278,
           "title": "Ignore known metadata but fail on capability or configuration drift"
         },
         {
-          "start": 276,
-          "end": 295,
+          "start": 279,
+          "end": 298,
           "title": "Recognize the nonempty no-tools sentinel notices"
         },
         {
-          "start": 296,
-          "end": 321,
+          "start": 299,
+          "end": 324,
           "title": "Require exactly five configuration identities"
         },
         {
-          "start": 322,
-          "end": 329,
+          "start": 325,
+          "end": 332,
           "title": "Stop the process before disposing the pipe iterator"
         },
         {
-          "start": 330,
-          "end": 359,
+          "start": 333,
+          "end": 362,
           "title": "Heuristically reject requests for more input outside code fences"
         }
       ],
@@ -6196,7 +6196,7 @@
     },
     {
       "path": "src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs",
-      "sourceSha256": "6580c4925f8720a14659dc86f8995b2c79f248317e99eb6ba584d7c207b5173c",
+      "sourceSha256": "80eae39e07001d26fdaba5119ebf89dc1e60b6b8494da37f8cb00d925d394c34",
       "lines": 472,
       "nonblankLines": 439,
       "blocks": [
@@ -6288,7 +6288,7 @@
         {
           "start": 425,
           "end": 455,
-          "title": "Verify the pinned wrapper before starting ACP"
+          "title": "Verify wrapper identity before starting ACP"
         },
         {
           "start": 456,
@@ -6301,23 +6301,23 @@
     },
     {
       "path": "src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs",
-      "sourceSha256": "d2ccc29a11040cce058163907669872fa5ce570b03b14c6020cdece05e1024c8",
-      "lines": 62,
-      "nonblankLines": 58,
+      "sourceSha256": "eebccc17c4a1b461e3de9d87438c3cc9c01548e4ed7cebf10e5902c80cd90ee0",
+      "lines": 65,
+      "nonblankLines": 61,
       "blocks": [
         {
           "start": 1,
-          "end": 24,
-          "title": "Pin wrapper identity and use redirected strict UTF-8 pipes"
+          "end": 27,
+          "title": "Recognize wrapper identity and use redirected strict UTF-8 pipes"
         },
         {
-          "start": 25,
-          "end": 39,
+          "start": 28,
+          "end": 42,
           "title": "Keep version checking separate from answering"
         },
         {
-          "start": 40,
-          "end": 62,
+          "start": 43,
+          "end": 65,
           "title": "Drop credentials and routing overrides but retain Agency's real app-data roots"
         }
       ],
@@ -6731,9 +6731,9 @@
     },
     {
       "path": "tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs",
-      "sourceSha256": "a9a1da7959114351c67376b2a1b4c44c3ff30c102c609ba788a63179d86529eb",
-      "lines": 771,
-      "nonblankLines": 731,
+      "sourceSha256": "7d5e5c6b1c62dfd5afdd7a94cb6dcf257aa927b67c5650a79a3ff25c2fd46d24",
+      "lines": 819,
+      "nonblankLines": 778,
       "blocks": [
         {
           "start": 1,
@@ -6742,142 +6742,142 @@
         },
         {
           "start": 32,
-          "end": 56,
+          "end": 59,
           "title": "Separate configuration lookup from prepared-session readiness"
         },
         {
-          "start": 57,
-          "end": 86,
+          "start": 60,
+          "end": 92,
           "title": "Reuse the engine but never reuse question sessions"
         },
         {
-          "start": 87,
-          "end": 107,
+          "start": 93,
+          "end": 113,
           "title": "Automatic preparation adds an empty session only"
         },
         {
-          "start": 108,
-          "end": 124,
+          "start": 114,
+          "end": 130,
           "title": "Keep attachment and command-looking syntax literal"
         },
         {
-          "start": 125,
-          "end": 156,
+          "start": 131,
+          "end": 162,
           "title": "Clarification history is explicit and disappears for independent requests"
         },
         {
-          "start": 157,
-          "end": 204,
+          "start": 163,
+          "end": 210,
           "title": "Send different context through distinct ACP sessions"
         },
         {
-          "start": 205,
-          "end": 228,
+          "start": 211,
+          "end": 234,
           "title": "Transmit the full prior-answer budget"
         },
         {
-          "start": 229,
-          "end": 251,
+          "start": 235,
+          "end": 257,
           "title": "Reject malformed context before process or workspace work"
         },
         {
-          "start": 252,
-          "end": 268,
+          "start": 258,
+          "end": 274,
           "title": "Do not consume a prepared session for rejected input"
         },
         {
-          "start": 269,
-          "end": 287,
+          "start": 275,
+          "end": 293,
           "title": "Keep tool and follow-up failures closed"
         },
         {
-          "start": 288,
-          "end": 325,
+          "start": 294,
+          "end": 331,
           "title": "Permit follow-up prose only for interpretation metadata"
         },
         {
-          "start": 326,
-          "end": 348,
+          "start": 332,
+          "end": 354,
           "title": "The interpretation exception does not weaken ACP safety"
         },
         {
-          "start": 349,
-          "end": 367,
+          "start": 355,
+          "end": 373,
           "title": "Reject clarification before launch or workspace creation"
         },
         {
-          "start": 368,
-          "end": 387,
+          "start": 374,
+          "end": 393,
           "title": "Observe first-text timing once without body content"
         },
         {
-          "start": 388,
-          "end": 423,
+          "start": 394,
+          "end": 436,
           "title": "Enumerate configuration and protocol rejection paths"
         },
         {
-          "start": 424,
-          "end": 455,
+          "start": 437,
+          "end": 468,
           "title": "Cancel or abandon after one delta without preserving the engine"
         },
         {
-          "start": 456,
-          "end": 481,
+          "start": 469,
+          "end": 494,
           "title": "Stop during readiness and distinguish the answer deadline"
         },
         {
-          "start": 482,
-          "end": 509,
+          "start": 495,
+          "end": 522,
           "title": "Invalidate version metadata and reject reused session IDs"
         },
         {
-          "start": 510,
-          "end": 535,
+          "start": 523,
+          "end": 548,
           "title": "Refuse warm-profile customization injection"
         },
         {
-          "start": 536,
-          "end": 561,
-          "title": "Rotate after 32 sessions and stop unsupported wrappers before ACP"
-        },
-        {
-          "start": 562,
+          "start": 549,
           "end": 594,
-          "title": "Assert no-side-effect guards and the exact launch surface"
+          "title": "Rotate after 32 sessions and reject malformed identities"
         },
         {
           "start": 595,
-          "end": 626,
+          "end": 627,
+          "title": "Assert no-side-effect guards and the exact launch surface"
+        },
+        {
+          "start": 628,
+          "end": 659,
           "title": "Check environment stripping and the cosmetic settings exception"
         },
         {
-          "start": 627,
-          "end": 641,
+          "start": 660,
+          "end": 674,
           "title": "Reject unsafe resolution and implicit provider crossover"
         },
         {
-          "start": 642,
-          "end": 676,
+          "start": 675,
+          "end": 718,
           "title": "Replace launches with a deterministic fake peer, not Agency"
         },
         {
-          "start": 677,
-          "end": 706,
+          "start": 719,
+          "end": 754,
           "title": "Fake ACP initialize and session configuration are executable test logic"
         },
         {
-          "start": 707,
-          "end": 732,
+          "start": 755,
+          "end": 780,
           "title": "Fake agent selection, prompt capture and forbidden capabilities"
         },
         {
-          "start": 733,
-          "end": 758,
+          "start": 781,
+          "end": 806,
           "title": "Fake nonanswers, configuration drift and terminal corruption"
         },
         {
-          "start": 759,
-          "end": 771,
+          "start": 807,
+          "end": 819,
           "title": "Fake close and response-identity failures remain observable"
         }
       ],
@@ -8366,7 +8366,7 @@
     },
     {
       "path": "site/index.html",
-      "sourceSha256": "8a7befbc654be804d4f0c43fb56222a8d1e40706aadf520c2140f973e656599d",
+      "sourceSha256": "ea0425d09ea74146ff74ea0bc3f777d46f10cf80ed104b056d800d51f8a4c0a3",
       "lines": 187,
       "nonblankLines": 186,
       "blocks": [
@@ -8413,7 +8413,7 @@
         {
           "start": 148,
           "end": 156,
-          "title": "Keep chapter navigation and distinguish Preview2 scope from tutorial labels"
+          "title": "Keep chapter navigation and distinguish Preview3 scope from tutorial labels"
         },
         {
           "start": 157,

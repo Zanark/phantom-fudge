@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "site/index.html",
-      "sourceSha256": "8a7befbc654be804d4f0c43fb56222a8d1e40706aadf520c2140f973e656599d",
+      "sourceSha256": "ea0425d09ea74146ff74ea0bc3f777d46f10cf80ed104b056d800d51f8a4c0a3",
       "role": "Defines the low-copy DeepSeaFoam landing page, eight sample-demo panels, native tutorial player and progressive-enhancement hooks without removing decorative artwork.",
       "entryPoints": ["GET /phantom-fudge/", "app.mjs element IDs and data attributes", "Native video and disclosure controls"],
       "blocks": [
@@ -25,7 +25,7 @@
         {
           "start": 38, "end": 57,
           "title": "Shorten the hero copy without stripping the visual composition",
-          "explanation": "The hero keeps its short promise, full-tour link and visible Windows11 x64/unsigned/capture-limit wording. The Windows link now targets v0.2.0-preview.2, matching release.json through the static integration test; a versioned URL is not evidence that an asset is available or deployed. Orbits, sparks, glow, the original ghost and floating notebook remain unchanged, with decorative labels hidden from accessibility. The release-link update changes neither media nor the low-copy DeepSeaFoam composition.",
+          "explanation": "The hero keeps its short promise, full-tour link and Windows11 x64/unsigned/capture-limit wording. The Windows link targets v0.2.0-preview.3, matching release.json through the static integration test; a versioned URL is not evidence of asset availability or deployment. Orbits, sparks, glow, the original ghost and floating notebook remain unchanged, with decorative labels hidden from accessibility. Release navigation changes neither media nor the low-copy DeepSeaFoam composition.",
           "focus": [{"start": 40, "end": 47}, {"start": 49, "end": 55}]
         },
         {
@@ -60,8 +60,8 @@
         },
         {
           "start": 148, "end": 156,
-          "title": "Keep chapter navigation and distinguish Preview2 scope from tutorial labels",
-          "explanation": "The empty chapter nav and hidden pager remain module targets, with previous/next-five controls, a polite range output and a noscript chapter-list link. The sample-data footnote is unchanged. The version notice now states that Previous-answer context is included in Preview2 and links to the same v0.2.0-preview.2 release as the hero. It separately says tutorial installer labels show Preview1. This preserves recorded captions/provenance instead of pretending the tutorial installed the new package; the notice does not prove build or publication success.",
+          "title": "Keep chapter navigation and distinguish Preview3 scope from tutorial labels",
+          "explanation": "The empty chapter nav and hidden pager retain previous/next-five controls, polite range output and a noscript list. The sample-data footnote is unchanged. The notice links Preview3, states that it includes previous-answer context with Agency update compatibility, and retains the separate Preview1 tutorial-label caveat. It points to the same release as the hero without changing recorded media/captions or pretending the tutorial installed the new package. The notice is not publication or compatibility proof.",
           "focus": [{"start": 148, "end": 156}]
         },
         {

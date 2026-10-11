@@ -6,26 +6,26 @@
   "files": [
     {
       "path": "src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs",
-      "sourceSha256": "dc763cef4a9ebda22822639b3c3c2fa10eacfbc436eca2c42ea22905fe5c7def",
+      "sourceSha256": "02ddfd6585347425daef003e7cc673c538767d022c6f83e8caa6f7952658a403",
       "role": "Implements the restricted persistent ACP conversation protocol; transport reuse must not become question-history reuse or a client-tool channel.",
       "entryPoints": ["AgencyAcpConnection.InitializeAsync", "AgencyAcpConnection.NewSessionAsync", "AgencyAcpConnection.PromptAsync", "AgencyAcpConnection.CloseSessionAsync", "AgencyAcpConnection.DisposeAsync"],
       "blocks": [
-        {"start": 1, "end": 30, "title": "Separate engine, session and answer identities", "explanation": "Imports support async streaming, accumulation and JSON parsing. The pinned engine version is independent of the Agency wrapper version. serial identifies RPC calls; sessionId and usedSessionIds identify conversations. Separate flags remember startup notices, tool-disable notices and whether actual answer text started. Counters bound each conversation while answerText supports terminal nonanswer screening.", "focus": [{"start": 11, "end": 16}]},
-        {"start": 31, "end": 43, "title": "Bound persistent transport and reuse", "explanation": "The shared record reader lives for the engine lifetime, tolerates empty lines, and has 33 times the ordinary total/record budget for initialization plus up to 32 sessions. A prepared session means an ID exists but no prompt was sent. CanReuse requires a live process and either that prepared session or remaining session capacity; it is not a readiness or authentication guarantee.", "focus": [{"start": 35, "end": 42}]},
-        {"start": 44, "end": 60, "title": "Verify ACP dialect before creating a conversation", "explanation": "initialize advertises protocol 1 and no client capabilities. Its response must report protocol 1, engine 1.0.92 and an object-valued session-close capability. Missing or mistyped fields become a safe version error. Requiring close is consequential: this adapter cannot preserve a warm process safely unless it can explicitly end each question's session.", "focus": [{"start": 46, "end": 53}]},
-        {"start": 61, "end": 88, "title": "Create a unique session and explicitly select the controlled role", "explanation": "An existing session rejects another new call. Resetting per-session notices, text, budgets and prompt state prevents success inherited from an earlier question. session/new supplies only the owned cwd and an empty MCP list. IDs must be nonempty, at most 128 characters and never previously used. Configuration is checked before assigning the ID; then agent selection is sent and its complete configuration rechecked. Initial empty agent selection is allowed only while selecting the advertised controlled agent.", "focus": [{"start": 74, "end": 82}]},
-        {"start": 89, "end": 115, "title": "One prompt, streamed text, and a mode-specific terminal check", "explanation": "PromptAsync requires a prepared, unused session and marks it consumed before writing, preventing a second prompt after a partial send. Completion requires the matching result, end_turn, nonzero text and both tool-configuration notices. Only explicit interpretation requests bypass RequestsMoreInput; default and confirmed answers fail with agency_nonanswer. Screening happens after deltas have streamed, so rejected text can already be visible as incomplete, not silently erased.", "focus": [{"start": 101, "end": 110}]},
-        {"start": 116, "end": 136, "title": "Close before forgetting the session; separate control calls from answers", "explanation": "CloseSessionAsync waits for the close result before clearing sessionId and answerText. The provider emits Completed only after this succeeds. CallAsync matches one RPC response while allowing non-answer updates during session operations; initialize permits no interleaved update. This keeps control-plane text from masquerading as an answer and makes close failure a request failure.", "focus": [{"start": 117, "end": 123}]},
-        {"start": 137, "end": 157, "title": "Serialize and flush one JSON-RPC request", "explanation": "Cancellation, previously observed stderr failure and process liveness are checked before assigning a monotonically increasing RPC ID. JSON serialization avoids shell interpolation; the newline is NDJSON framing and FlushAsync makes it observable promptly. On a pipe/encoding failure, a more informative stderr failure or cancellation wins before the generic agency_stdin error. Persistent ACP stdin remains open.", "focus": [{"start": 139, "end": 147}]},
-        {"start": 158, "end": 177, "title": "Read under lifetime cancellation and enforce per-session budgets", "explanation": "The record enumerator was constructed with engine lifetime cancellation; the provider links operation cancellation to that engine. ReadAsync checks the operation token around the read and prefers stderr failures when the pipe closes. EOF is incomplete rather than success. Decoded record lengths and counts are also limited per session, independently of the larger persistent-reader lifetime limits.", "focus": [{"start": 171, "end": 177}]},
-        {"start": 178, "end": 211, "title": "Accept only bounded startup chatter before JSON", "explanation": "Authentication notices are detected before classifying non-JSON stdout. Exactly one resolving notice and one resolved notice with one to six ASCII digits are permitted before JSON starts; resolved does not require a preceding resolving line. Arbitrary chatter or later startup banners fail. JSON has depth 32 and must be an object declaring jsonrpc 2.0. Clone preserves the element beyond the disposed JsonDocument.", "focus": [{"start": 198, "end": 208}]},
-        {"start": 212, "end": 231, "title": "Reject reverse RPCs and correlate result identity", "explanation": "An incoming method with an ID is a server-to-client request and is rejected as a tool/capability attempt, not answered with permission. Notifications return false for update processing. Responses require an integer ID equal to the active call and an object result. RPC errors are classified for authentication markers, otherwise exposed as a fixed safe message rather than raw error details.", "focus": [{"start": 216, "end": 227}]},
-        {"start": 232, "end": 255, "title": "Associate text with the current session and with verified notices", "explanation": "Only session/update is accepted. Once sessionId is set, update IDs must match; before the new-session result, updates need a nonempty ID not already used. Text chunks must declare text content. Configuration notices are consumed rather than displayed. Ordinary chunks require an answer-accepting call and both notices, then fit the remaining 32768-character budget. Empty chunks do not mark answerStarted or produce deltas.", "focus": [{"start": 244, "end": 254}]},
-        {"start": 256, "end": 275, "title": "Ignore known metadata but fail on capability or configuration drift", "explanation": "Command listings, session info, usage and thought chunks are not answer text. Configuration updates must still present the complete allowed configuration using the current selection phase. tool_call, tool_call_update and plan explicitly fail; unknown update kinds fail as protocol drift. Structural JSON errors map to a safe protocol error. Ignoring metadata is not independently checking the engine's internal behavior.", "focus": [{"start": 260, "end": 267}]},
-        {"start": 276, "end": 295, "title": "Recognize the nonempty no-tools sentinel notices", "explanation": "The exact unknown-tool sentinel notice and one syntactically bounded disabled-tools list are consumed only before answer text. Names allow ASCII letters/digits/underscore, with at most 128 names of 80 characters. The check does not enumerate an expected exhaustive disabled-tool set or prove the model received zero tools; it verifies the qualified notice shape in addition to launch/configuration restrictions.", "focus": [{"start": 280, "end": 291}]},
-        {"start": 296, "end": 321, "title": "Require exactly five configuration identities", "explanation": "A seen set rejects duplicate option IDs. mode must be ACP agent mode, allow_all off, model the requested identifier, reasoning low and agent the controlled name (or empty only before selection). The agent must also be advertised in its options. requireAll demands exactly these five IDs; unexpected future options are rejected rather than silently weakening assumptions.", "focus": [{"start": 305, "end": 315}]},
-        {"start": 322, "end": 329, "title": "Stop the process before disposing the pipe iterator", "explanation": "Disposing the owned process first cancels and reaps it, releasing an in-flight read before iterator disposal. Reversing that order can leave disposal waiting on a pipe whose producer remains alive. Only expected iterator teardown exceptions are swallowed; process cleanup failures remain visible.", "focus": [{"start": 324, "end": 327}]},
-        {"start": 330, "end": 359, "title": "Heuristically reject requests for more input outside code fences", "explanation": "The scanner toggles a code-fence flag for triple backticks or tildes, then evaluates prose. It catches selected leading refusals and line-leading clarification invitations after Markdown bullet/heading prefixes. Quoted explanatory prose and code samples need not be rejected. This finite string heuristic is neither semantic answer validation nor a full Markdown parser; false negatives/positives remain possible. The final factories centralize safe protocol, tools and version messages.", "focus": [{"start": 342, "end": 353}]}
+        {"start": 1, "end": 29, "title": "Separate engine, session and answer identities", "explanation": "Imports support async streaming, accumulation and JSON parsing. Engine identity is checked at initialization without a release-number whitelist. serial identifies RPC calls; sessionId and usedSessionIds identify conversations. Separate flags track startup and tool-disable notices and actual answer text. Per-session counters bound output; answerText supports terminal nonanswer screening.", "focus": [{"start": 11, "end": 15}]},
+        {"start": 30, "end": 42, "title": "Bound persistent transport and reuse", "explanation": "The shared record reader lives for the engine lifetime, tolerates empty lines, and has 33 times the ordinary total/record budget for initialization plus up to 32 sessions. A prepared session means an ID exists but no prompt was sent. CanReuse requires a live process and either that prepared session or remaining session capacity; it is not a readiness or authentication guarantee.", "focus": [{"start": 34, "end": 41}]},
+        {"start": 43, "end": 63, "title": "Verify ACP dialect before creating a conversation", "explanation": "initialize advertises protocol 1 and no client capabilities. The response must report protocol 1, agent name Copilot, a nonblank at-most-96-character version using ASCII letters/digits/dot/hyphen/plus, and object-valued session close. No particular engine release is required. Extra metadata does not alter these required checks. Missing, malformed or incompatible fields fail with agency_acp_contract before creating a session; close is essential to ending each question safely.", "focus": [{"start": 45, "end": 56}]},
+        {"start": 64, "end": 91, "title": "Create a unique session and explicitly select the controlled role", "explanation": "An existing session rejects another new call. Resetting per-session notices, text, budgets and prompt state prevents success inherited from an earlier question. session/new supplies only the owned cwd and an empty MCP list. IDs must be nonempty, at most 128 characters and never previously used. Configuration is checked before assigning the ID; then agent selection is sent and its complete configuration rechecked. Initial empty agent selection is allowed only while selecting the advertised controlled agent.", "focus": [{"start": 77, "end": 85}]},
+        {"start": 92, "end": 118, "title": "One prompt, streamed text, and a mode-specific terminal check", "explanation": "PromptAsync requires a prepared, unused session and marks it consumed before writing, preventing a second prompt after a partial send. Completion requires the matching result, end_turn, nonzero text and both tool-configuration notices. Only explicit interpretation requests bypass RequestsMoreInput; default and confirmed answers fail with agency_nonanswer. Screening happens after deltas have streamed, so rejected text can already be visible as incomplete, not silently erased.", "focus": [{"start": 104, "end": 113}]},
+        {"start": 119, "end": 139, "title": "Close before forgetting the session; separate control calls from answers", "explanation": "CloseSessionAsync waits for the close result before clearing sessionId and answerText. The provider emits Completed only after this succeeds. CallAsync matches one RPC response while allowing non-answer updates during session operations; initialize permits no interleaved update. This keeps control-plane text from masquerading as an answer and makes close failure a request failure.", "focus": [{"start": 120, "end": 126}]},
+        {"start": 140, "end": 160, "title": "Serialize and flush one JSON-RPC request", "explanation": "Cancellation, previously observed stderr failure and process liveness are checked before assigning a monotonically increasing RPC ID. JSON serialization avoids shell interpolation; the newline is NDJSON framing and FlushAsync makes it observable promptly. On a pipe/encoding failure, a more informative stderr failure or cancellation wins before the generic agency_stdin error. Persistent ACP stdin remains open.", "focus": [{"start": 142, "end": 150}]},
+        {"start": 161, "end": 180, "title": "Read under lifetime cancellation and enforce per-session budgets", "explanation": "The record enumerator was constructed with engine lifetime cancellation; the provider links operation cancellation to that engine. ReadAsync checks the operation token around the read and prefers stderr failures when the pipe closes. EOF is incomplete rather than success. Decoded record lengths and counts are also limited per session, independently of the larger persistent-reader lifetime limits.", "focus": [{"start": 174, "end": 180}]},
+        {"start": 181, "end": 214, "title": "Accept only bounded startup chatter before JSON", "explanation": "Authentication notices are detected before classifying non-JSON stdout. Exactly one resolving notice and one resolved notice with one to six ASCII digits are permitted before JSON starts; resolved does not require a preceding resolving line. Arbitrary chatter or later startup banners fail. JSON has depth 32 and must be an object declaring jsonrpc 2.0. Clone preserves the element beyond the disposed JsonDocument.", "focus": [{"start": 201, "end": 211}]},
+        {"start": 215, "end": 234, "title": "Reject reverse RPCs and correlate result identity", "explanation": "An incoming method with an ID is a server-to-client request and is rejected as a tool/capability attempt, not answered with permission. Notifications return false for update processing. Responses require an integer ID equal to the active call and an object result. RPC errors are classified for authentication markers, otherwise exposed as a fixed safe message rather than raw error details.", "focus": [{"start": 219, "end": 230}]},
+        {"start": 235, "end": 258, "title": "Associate text with the current session and with verified notices", "explanation": "Only session/update is accepted. Once sessionId is set, update IDs must match; before the new-session result, updates need a nonempty ID not already used. Text chunks must declare text content. Configuration notices are consumed rather than displayed. Ordinary chunks require an answer-accepting call and both notices, then fit the remaining 32768-character budget. Empty chunks do not mark answerStarted or produce deltas.", "focus": [{"start": 247, "end": 257}]},
+        {"start": 259, "end": 278, "title": "Ignore known metadata but fail on capability or configuration drift", "explanation": "Command listings, session info, usage and thought chunks are not answer text. Configuration updates must still present the complete allowed configuration using the current selection phase. tool_call, tool_call_update and plan explicitly fail; unknown update kinds fail as protocol drift. Structural JSON errors map to a safe protocol error. Ignoring metadata is not independently checking the engine's internal behavior.", "focus": [{"start": 263, "end": 270}]},
+        {"start": 279, "end": 298, "title": "Recognize the nonempty no-tools sentinel notices", "explanation": "The exact unknown-tool sentinel notice and one syntactically bounded disabled-tools list are consumed only before answer text. Names allow ASCII letters/digits/underscore, with at most 128 names of 80 characters. The check does not enumerate an expected exhaustive disabled-tool set or prove the model received zero tools; it verifies the qualified notice shape in addition to launch/configuration restrictions.", "focus": [{"start": 283, "end": 294}]},
+        {"start": 299, "end": 324, "title": "Require exactly five configuration identities", "explanation": "A seen set rejects duplicate option IDs. mode must be ACP agent mode, allow_all off, model the requested identifier, reasoning low and agent the controlled name (or empty only before selection). The agent must also be advertised in its options. requireAll demands exactly these five IDs; unexpected future options are rejected rather than silently weakening assumptions.", "focus": [{"start": 308, "end": 318}]},
+        {"start": 325, "end": 332, "title": "Stop the process before disposing the pipe iterator", "explanation": "Disposing the owned process first cancels and reaps it, releasing an in-flight read before iterator disposal. Reversing that order can leave disposal waiting on a pipe whose producer remains alive. Only expected iterator teardown exceptions are swallowed; process cleanup failures remain visible.", "focus": [{"start": 327, "end": 330}]},
+        {"start": 333, "end": 362, "title": "Heuristically reject requests for more input outside code fences", "explanation": "The scanner toggles a code-fence flag for triple backticks or tildes, then evaluates prose. It catches selected leading refusals and line-leading clarification invitations after Markdown bullet/heading prefixes. Quoted explanatory prose and code samples need not be rejected. This finite string heuristic is neither semantic answer validation nor a full Markdown parser; false negatives/positives remain possible. The final factories centralize safe protocol, tools and version messages.", "focus": [{"start": 345, "end": 356}]}
       ]
     },
     {
@@ -136,7 +136,7 @@
     },
     {
       "path": "src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs",
-      "sourceSha256": "6580c4925f8720a14659dc86f8995b2c79f248317e99eb6ba584d7c207b5173c",
+      "sourceSha256": "80eae39e07001d26fdaba5119ebf89dc1e60b6b8494da37f8cb00d925d394c34",
       "role": "Owns the persistent Agency engine, isolated profile, readiness, serialized request lifecycle and cleanup without reusing question conversations.",
       "entryPoints": ["AgencyCliAnswerProvider.StreamAsync", "AgencyCliAnswerProvider.WarmUpTransportAsync", "AgencyCliAnswerProvider.WarmUpAsync", "AgencyCliAnswerProvider.StopAsync", "AgencyCliAnswerProvider.DisposeAsync", "AgencyCliAnswerProvider.ResolveExecutable"],
       "blocks": [
@@ -150,26 +150,26 @@
         {"start": 171, "end": 198, "title": "Interrupt active work before waiting for ownership", "explanation": "StopAsync cancels stopping before waiting for the gate, allowing an operation blocked on a pipe to unwind and release it. It resets the engine and replaces the stop token only after cleanup; disposed providers receive an already-cancelled replacement. DisposeAsync is idempotent under stopLock, then stops and awaits any tracked preparation. Stop permits later reuse, whereas Dispose does not.", "focus": [{"start": 173, "end": 183}]},
         {"start": 199, "end": 229, "title": "Gate automatic preparation and link caller cancellation", "explanation": "Prepared sessions are not duplicated. BeginPreparation refuses disposed, stopped or cancelled operations; PrepareNextAsync suppresses expected shutdown exceptions and records a fixed failure code for provider errors rather than retrying a question. CreateOperation checks disposal while holding the same lock and links only the caller and current stop token. No prior request payload is carried into warmup.", "focus": [{"start": 203, "end": 209}]},
         {"start": 230, "end": 245, "title": "Distinguish deadline from caller or lifecycle cancellation", "explanation": "Gate waits and control operations translate cancellation to agency_timeout only when the caller did not cancel and the provider is not stopping. This preserves intentional Hide/Stop/caller cancellation as cancellation rather than mislabelling it a deadline. StepAsync also requires the operation token actually be cancelled, avoiding reinterpretation of unrelated cancellation exceptions.", "focus": [{"start": 239, "end": 244}]},
-        {"start": 246, "end": 273, "title": "Reuse only an unchanged executable and validated owned profile", "explanation": "Each readiness check rechecks request-root ancestors, resolves the executable and reads its length/timestamps. Reuse requires a reusable connection and equal stamp, then ValidateOwnedProfile checks customization drift. Otherwise the engine is reset, new GUID-owned directories are prepared and a changed stamp triggers wrapper version verification. A second stamp comparison detects changes during verification; this cache is not cryptographic identity.", "focus": [{"start": 248, "end": 255}, {"start": 263, "end": 270}]},
+        {"start": 246, "end": 273, "title": "Reuse only an unchanged executable and validated owned profile", "explanation": "Each readiness check rechecks the request root, resolves the executable and reads its length/timestamps. Reuse requires a live reusable connection and equal stamp, followed by profile validation. Otherwise the engine is reset, new GUID-owned directories are prepared and a changed stamp triggers wrapper identity verification. A second stamp check detects replacement during verification. identity_checked describes bounded version-response validation, not cryptographic identity or a pinned-release qualification.", "focus": [{"start": 248, "end": 255}, {"start": 263, "end": 270}]},
         {"start": 274, "end": 305, "title": "Own startup cancellation and remove the stopped engine tree", "explanation": "The new process receives engineLifetime and a fragmented-stderr authentication inspector before ACP initialize. The temporary operation registration covers startup. Reset cancels lifetime, disposes the connection, clears references and recursively removes only the generated owned directory. Cleanup I/O/permission failures are surfaced as agency_cleanup; they can supersede an earlier failure and are not silently called success.", "focus": [{"start": 286, "end": 295}, {"start": 296, "end": 300}]},
         {"start": 306, "end": 330, "title": "Record elapsed metadata and cache file metadata safely", "explanation": "Record reports elapsed milliseconds, request ID, fixed code and Agency label to diagnostics and the internal observer. ExecutableStamp contains path, length and UTC creation/modification ticks. File-access failures produce a fixed version error without exposing paths. Transform exists for controlled tests to replace launch behavior; normal production construction has no transformer.", "focus": [{"start": 315, "end": 325}]},
         {"start": 331, "end": 349, "title": "Create only the owned profile inputs", "explanation": "Prepare creates work/home/profile and its agents directory, then writes the exact TOML, safety settings and controlled agent definition as BOM-less UTF-8. Questions are never written here. Failures are mapped to agency_workspace. The logs path is supplied to Agency at launch, not created explicitly in this helper.", "focus": [{"start": 335, "end": 342}]},
         {"start": 350, "end": 369, "title": "Revalidate control files before warm-engine reuse", "explanation": "Owned directories are checked for forbidden/reparse ancestors. Each required file must exist, be at most 4096 bytes and not itself be a reparse point. TOML and agent Markdown must match exactly; settings use a semantic validator because the qualified wrapper can add cosmetic announcements. This is a point-in-time validation, not continuous filesystem isolation.", "focus": [{"start": 357, "end": 368}]},
         {"start": 370, "end": 398, "title": "Reject discovered skills, hooks, plugins and extra agents", "explanation": "The nested scan checks customization directories under the generated profile and known home/work discovery roots. Only the one named controlled agent is permitted in profile/agents; other populated or reparse customization directories fail. I/O and copilot_profile errors become agency_profile. This is a specific discovery-surface check, not an exhaustive sandbox against every possible external-engine file access.", "focus": [{"start": 375, "end": 384}]},
         {"start": 399, "end": 424, "title": "Allow cosmetic settings changes, never safety-setting changes", "explanation": "The settings validator bounds text and depth, rejects duplicate keys, requires every baseline property, and compares baseline values structurally. The sole extra key companyAnnouncements must be an array of at most 16 strings of at most 512 characters each. Unknown settings, altered booleans, missing baseline fields and malformed shapes fail instead of adopting wrapper changes wholesale.", "focus": [{"start": 409, "end": 420}]},
-        {"start": 425, "end": 455, "title": "Verify the pinned wrapper before starting ACP", "explanation": "A separately owned version process gets the same sanitized layout and authentication guard, closed stdin and at most 4096 stdout characters. It must exit zero and print the exact version/commit prefix followed by a space. Raw output is not included in errors. Timeout is distinguished from caller/Stop cancellation; unsafe I/O/decoding becomes agency_version. No model prompt is supplied to this process.", "focus": [{"start": 438, "end": 447}]},
+        {"start": 425, "end": 455, "title": "Verify wrapper identity before starting ACP", "explanation": "A separately owned version process gets the same sanitized layout and authentication guard, closed stdin and at most4096 stdout characters. It must exit zero and satisfy AgencyCliLaunch.HasVersionIdentity; no build/commit allowlist is consulted. ACP capability and session-safety checks occur next, before any question. Raw output is excluded from errors; malformed identity directs the user to check the executable and Reload setup. Timeout, I/O and decoding failures remain explicit.", "focus": [{"start": 438, "end": 447}]},
         {"start": 456, "end": 472, "title": "Normalize stream failures and executable rejection messages", "explanation": "ReadNextAsync maps operation-deadline cancellation separately and turns pipe I/O into a safe agency_io message. The terminal helpers centralize timeout and missing-executable errors. IsExecutable requires an absolute existing .exe but does not inspect executable contents; fake tests deliberately exploit the internal transformer after resolving a nonexecutable sentinel file.", "focus": [{"start": 458, "end": 460}, {"start": 465, "end": 468}]}
       ]
     },
     {
       "path": "src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs",
-      "sourceSha256": "d2ccc29a11040cce058163907669872fa5ce570b03b14c6020cdece05e1024c8",
+      "sourceSha256": "eebccc17c4a1b461e3de9d87438c3cc9c01548e4ed7cebf10e5902c80cd90ee0",
       "role": "Builds shell-free Agency launch information while preserving the wrapper's existing installation/authentication boundary explicitly.",
-      "entryPoints": ["AgencyCliLaunch.Create", "AgencyCliLaunch.SanitizeEnvironment"],
+      "entryPoints": ["AgencyCliLaunch.HasVersionIdentity", "AgencyCliLaunch.Create", "AgencyCliLaunch.SanitizeEnvironment"],
       "blocks": [
-        {"start": 1, "end": 24, "title": "Pin wrapper identity and use redirected strict UTF-8 pipes", "explanation": "The version prefix includes build and commit. ProcessStartInfo launches one executable without a shell or visible window, with all three standard streams redirected and strict BOM-less UTF-8 encodings. WorkingDirectory is the provider-owned work path, not the user's repository. These settings control the launched child, not every external process or service it might contact.", "focus": [{"start": 15, "end": 23}]},
-        {"start": 25, "end": 39, "title": "Keep version checking separate from answering", "explanation": "Environment sanitation runs for both launch forms. Version-only adds only --version; normal launches add wrapper error-level logging and owned logs, the fixed candidate flags, and one explicit model value. A null Model selects the profile default; question text never enters ArgumentList.", "focus": [{"start": 26, "end": 36}]},
-        {"start": 40, "end": 62, "title": "Drop credentials and routing overrides but retain Agency's real app-data roots", "explanation": "A case-insensitive allowlist removes inherited tokens, provider overrides, hooks and proxy/runtime injection settings. PATH retains only absolute entries other than the current directory. HOME/USERPROFILE/COPILOT_HOME point to owned paths; real APPDATA/LOCALAPPDATA remain because Agency manages cached installation/authentication there. This differs materially from direct Copilot isolation and does not imply offline inference or deletion of Agency's external caches.", "focus": [{"start": 49, "end": 60}]}
+        {"start": 1, "end": 27, "title": "Recognize wrapper identity and use redirected strict UTF-8 pipes", "explanation": "HasVersionIdentity uses a culture-invariant nonbacktracking regex over trimmed stdout. It recognizes Agency, three or four numeric version components, optional prerelease/build text, a hexadecimal commit and an optional single-line suffix, without pinning release values. This is identity syntax, not compatibility or signature proof. ProcessStartInfo still uses a shell-free invisible child, redirected strict UTF-8 pipes and the provider-owned work directory; runtime ACP checks establish readiness.", "focus": [{"start": 9, "end": 11}, {"start": 18, "end": 26}]},
+        {"start": 28, "end": 42, "title": "Keep version checking separate from answering", "explanation": "Environment sanitation runs for both launch forms. Version-only adds only --version; normal launches add wrapper error-level logging and owned logs, the fixed candidate flags, and one explicit model value. A null Model selects the profile default; question text never enters ArgumentList.", "focus": [{"start": 29, "end": 39}]},
+        {"start": 43, "end": 65, "title": "Drop credentials and routing overrides but retain Agency's real app-data roots", "explanation": "A case-insensitive allowlist removes inherited tokens, provider overrides, hooks and proxy/runtime injection settings. PATH retains only absolute entries other than the current directory. HOME/USERPROFILE/COPILOT_HOME point to owned paths; real APPDATA/LOCALAPPDATA remain because Agency manages cached installation/authentication there. This differs materially from direct Copilot isolation and does not imply offline inference or deletion of Agency's external caches.", "focus": [{"start": 52, "end": 63}]}
       ]
     },
     {
@@ -593,7 +593,7 @@
     },
     {
       "path": "tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs",
-      "sourceSha256": "a9a1da7959114351c67376b2a1b4c44c3ff30c102c609ba788a63179d86529eb",
+      "sourceSha256": "7d5e5c6b1c62dfd5afdd7a94cb6dcf257aa927b67c5650a79a3ff25c2fd46d24",
       "role": "Exercises the production Agency lifecycle against scripted PowerShell ACP peers, including configuration, cancellation, ownership and clarification failures; no real model is part of this fixture.",
       "entryPoints": [
         "AgencyCliAnswerProviderTests.CreateProvider",
@@ -616,365 +616,369 @@
         },
         {
           "start": 32,
-          "end": 56,
+          "end": 59,
           "title": "Separate configuration lookup from prepared-session readiness",
-          "explanation": "EffectiveModel cases verify default and explicit choices without any launch. The warmup test expects initialize/new/set_config_option but no prompt, repeats warmup idempotently and checks owned cleanup after Stop. Non-Windows process cases return without execution rather than proving portability; EffectiveModel itself remains a non-process test.",
+          "explanation": "EffectiveModel tests default and explicit choices without launching. Prepared-session cases use older/current/hypothetical-future wrapper and engine versions while retaining the same runtime contract. They require initialize/new/set_config_option with no prompt, idempotent repeated warmup and empty owned storage after Stop. Future versions are scripted test data, not actual release qualification.",
           "focus": [
             {
-              "start": 48,
-              "end": 54
+              "start": 51,
+              "end": 57
             }
           ]
         },
         {
-          "start": 57,
-          "end": 86,
+          "start": 60,
+          "end": 92,
           "title": "Reuse the engine but never reuse question sessions",
-          "explanation": "Two public-safe clear/noisy strings are sent through the same provider. Each receives exactly two deltas plus Completed with request-local IDs and sequences 1,2,3. Captured questions must equal their originals and have different session IDs, while launch/version counts remain two/one. The fake returns a fixed answer, so this proves payload and lifecycle, not that a model understands either wording.",
+          "explanation": "Older, current and hypothetical future-compatible peers each answer two exact synthetic questions through one engine. Each returns two deltas and Completed with local IDs/sequences. Captured questions must match, sessions must differ, and version/launch counts stay one/two. The fixed fake answer proves forward-compatible protocol selection and fresh-session behavior, not future binary or model quality.",
           "focus": [
             {
-              "start": 67,
-              "end": 74
+              "start": 73,
+              "end": 80
             },
             {
-              "start": 78,
-              "end": 80
+              "start": 84,
+              "end": 86
             }
           ]
         },
         {
-          "start": 87,
-          "end": 107,
+          "start": 93,
+          "end": 113,
           "title": "Automatic preparation adds an empty session only",
           "explanation": "With prepareNext enabled, explicit WarmUpAsync synchronizes with background preparation. After each answer, new-session count exceeds prompt count by one. Stop freezes the method log and leaves no owned workspace after a brief wait. The delay samples post-stop behavior; it is not a proof over every possible concurrent schedule.",
           "focus": [
             {
-              "start": 94,
-              "end": 105
+              "start": 100,
+              "end": 111
             }
           ]
         },
         {
-          "start": 108,
-          "end": 124,
+          "start": 114,
+          "end": 130,
           "title": "Keep attachment and command-looking syntax literal",
           "explanation": "Inputs beginning with /help or @ paths, and multiline shell/delegation syntax, are recovered from the fake server's parsed JSON exactly. literalAt must be false in the transmitted prompt. This proves the production envelope reaching the scripted peer, not the full external CLI's treatment of every possible escape sequence.",
           "focus": [
             {
-              "start": 117,
-              "end": 121
+              "start": 123,
+              "end": 127
             }
           ]
         },
         {
-          "start": 125,
-          "end": 156,
+          "start": 131,
+          "end": 162,
           "title": "Clarification history is explicit and disappears for independent requests",
           "explanation": "Initial interpretation, correction, confirmation and a normal request share one engine but use distinct sessions. Each capture is structurally compared to AgencyAnswerPrompt's expected JSON, must contain one text prompt and no literal @, and must close once. The final normal request has no implicit earlier context. This transport test uses fixed synthetic interpretations; it does not simulate human approval.",
           "focus": [
             {
-              "start": 125,
-              "end": 132
+              "start": 131,
+              "end": 138
             }
           ]
         },
         {
-          "start": 157,
-          "end": 204,
+          "start": 163,
+          "end": 210,
           "title": "Send different context through distinct ACP sessions",
           "explanation": "Six synthetic requests cover direct follow-up, interpretation, correction, confirmation, a different prior answer and no context. Captured JSON must exactly match each explicit request; every session ID is unique, each has one prompt and closes once, and transport reuse does not supply history.",
           "focus": [
             {
-              "start": 157,
-              "end": 164
+              "start": 163,
+              "end": 170
             }
           ]
         },
         {
-          "start": 205,
-          "end": 228,
+          "start": 211,
+          "end": 234,
           "title": "Transmit the full prior-answer budget",
           "explanation": "The synthetic ACP peer receives all32768 UTF-16 units with and without the full existing clarification budget. Exact question/history/answer comparisons detect truncation; no live model capacity or latency is inferred.",
           "focus": [
             {
-              "start": 205,
-              "end": 212
+              "start": 211,
+              "end": 218
             }
           ]
         },
         {
-          "start": 229,
-          "end": 251,
+          "start": 235,
+          "end": 257,
           "title": "Reject malformed context before process or workspace work",
           "explanation": "Blank, oversized and malformed-surrogate inputs are tried across direct and clarification states. Safe error codes must match, private sentinel text must not escape into errors, launch count stays zero, and no request directory is created.",
           "focus": [
             {
-              "start": 229,
-              "end": 236
+              "start": 235,
+              "end": 242
             }
           ]
         },
         {
-          "start": 252,
-          "end": 268,
+          "start": 258,
+          "end": 274,
           "title": "Do not consume a prepared session for rejected input",
           "explanation": "An empty prepared session exists before an invalid-context request. Method history and launch count must remain unchanged; a subsequent valid request uses that same unprompted session instead of wasting it.",
           "focus": [
             {
-              "start": 252,
-              "end": 259
+              "start": 258,
+              "end": 265
             }
           ]
         },
         {
-          "start": 269,
-          "end": 287,
+          "start": 275,
+          "end": 293,
           "title": "Keep tool and follow-up failures closed",
           "explanation": "Instruction-shaped prior answer data cannot authorize permission/input/tool/plan requests or an unsolicited follow-up response. The existing safe error and owned-workspace cleanup are required in direct and confirmed modes.",
           "focus": [
             {
-              "start": 269,
-              "end": 276
+              "start": 275,
+              "end": 282
             }
           ]
         },
         {
-          "start": 288,
-          "end": 325,
+          "start": 294,
+          "end": 331,
           "title": "Permit follow-up prose only for interpretation metadata",
           "explanation": "Three nonanswer shapes are crossed with default, interpret and confirmed stages. Interpretation accepts the text and closes normally; default/confirmed require agency_nonanswer, no session/close method and complete engine-directory cleanup. Every case sends exactly one prompt. Partial deltas may have been delivered before terminal rejection; the test collects them indirectly rather than checking UI labelling.",
           "focus": [
             {
-              "start": 309,
-              "end": 314
+              "start": 315,
+              "end": 320
             },
             {
-              "start": 318,
-              "end": 323
+              "start": 324,
+              "end": 329
             }
           ]
         },
         {
-          "start": 326,
-          "end": 348,
+          "start": 332,
+          "end": 354,
           "title": "The interpretation exception does not weaken ACP safety",
           "explanation": "Permission/input requests, tools, plans, missing notices, bad/missing terminals, empty/oversized answers, close failure and agent changes are injected while Confirmed is false. Exact failure codes and cleaned request directories are required. One prompt is counted in each case. These cases isolate transport invariants from the prose-only follow-up exception.",
           "focus": [
             {
-              "start": 341,
-              "end": 346
+              "start": 347,
+              "end": 352
             }
           ]
         },
         {
-          "start": 349,
-          "end": 367,
+          "start": 355,
+          "end": 373,
           "title": "Reject clarification before launch or workspace creation",
           "explanation": "Null, blank, malformed-surrogate and 8193-character current text, plus a full history with no room for Yes, must yield clarification-specific errors. Launch count and method log stay empty, and the requests directory does not exist. The fixture's own sentinel/root setup is separate from provider side effects, so the assertion is not that the entire test performed no I/O.",
           "focus": [
             {
-              "start": 359,
-              "end": 365
+              "start": 365,
+              "end": 371
             }
           ]
         },
         {
-          "start": 368,
-          "end": 387,
+          "start": 374,
+          "end": 393,
           "title": "Observe first-text timing once without body content",
           "explanation": "StageObserver records event, request ID, elapsed milliseconds and code for one synthetic request. FirstAnswerText appears once, every stage is associated with the request and fixed codes omit the sentinel word. Submission and close-completion markers are required. The 30-second range is a fixture bound, not a latency SLO or a test of the entire diagnostics persistence subsystem.",
           "focus": [
             {
-              "start": 375,
-              "end": 385
+              "start": 381,
+              "end": 391
             }
           ]
         },
         {
-          "start": 388,
-          "end": 423,
+          "start": 394,
+          "end": 436,
           "title": "Enumerate configuration and protocol rejection paths",
-          "explanation": "The table covers reverse RPCs, plan/tool updates, wrong session/response identities, malformed ID type, notices/terminal failures, model/effort/agent drift, allow-all, engine mismatch, nonanswers, output overflow and authentication. Each must return its safe code, omit private error text and clean the owned tree. Early model/config/engine failures additionally must never reach session/prompt.",
+          "explanation": "The negative matrix rejects reverse permission/input requests, tool/plan updates, mismatched response/session identity, missing notices, invalid terminal and nonanswers. Preparation cases also reject wrong Copilot identity, protocol2, missing or non-object close, missing/unknown configuration IDs, wrong model/effort, allow-all and absent/incorrect controlled roles. Assertions check safe codes, cleanup and that preflight failures occur before session/prompt.",
           "focus": [
             {
-              "start": 414,
-              "end": 421
+              "start": 426,
+              "end": 434
             }
           ]
         },
         {
-          "start": 424,
-          "end": 455,
+          "start": 437,
+          "end": 468,
           "title": "Cancel or abandon after one delta without preserving the engine",
           "explanation": "A delayed prompt yields Synthetic before cancellation or iterator disposal. Cancellation must throw; both paths remove the owned workspace. After abandonment a later warmup creates another engine but reuses the unchanged wrapper-version stamp, reflected in one version check and three total launches. These cases test iterator cleanup through the real process wrapper, not real-model cancellation acknowledgement.",
           "focus": [
             {
-              "start": 430,
-              "end": 437
+              "start": 443,
+              "end": 450
             },
             {
-              "start": 445,
-              "end": 453
+              "start": 458,
+              "end": 466
             }
           ]
         },
         {
-          "start": 456,
-          "end": 481,
+          "start": 469,
+          "end": 494,
           "title": "Stop during readiness and distinguish the answer deadline",
           "explanation": "Delayed initialize/new-session scripts let the test wait for an observed method before calling StopAsync. Warmup must cancel without a prompt and clean its tree. A separate four-second deadline during a delayed answer must return agency_timeout. Poll loops and deadlines keep these synthetic process tests bounded but remain scheduling-sensitive observations.",
           "focus": [
             {
-              "start": 464,
-              "end": 469
+              "start": 477,
+              "end": 482
             },
             {
-              "start": 476,
-              "end": 479
+              "start": 489,
+              "end": 492
             }
           ]
         },
         {
-          "start": 482,
-          "end": 509,
+          "start": 495,
+          "end": 522,
           "title": "Invalidate version metadata and reject reused session IDs",
           "explanation": "Stopping/restarting with an unchanged sentinel executable reuses the version result; appending bytes forces another verification. A fake third session reuses the first ID and must fail before sending the third prompt. These tests prove length/stamp invalidation and per-engine session identity tracking, not cryptographic executable trust or globally unique IDs across engine rotation.",
           "focus": [
             {
-              "start": 486,
-              "end": 494
+              "start": 499,
+              "end": 507
             },
             {
-              "start": 501,
-              "end": 507
+              "start": 514,
+              "end": 520
             }
           ]
         },
         {
-          "start": 510,
-          "end": 535,
+          "start": 523,
+          "end": 548,
           "title": "Refuse warm-profile customization injection",
           "explanation": "After preparation, the test adds an unapproved skill, alters the controlled agent body or creates another agent. The next request must fail agency_profile before any prompt and remove its owned state. These selected point-in-time mutations exercise known discovery paths; they do not cover all filesystem races, reparse permutations or opaque engine caches.",
           "focus": [
             {
-              "start": 526,
-              "end": 533
+              "start": 539,
+              "end": 546
             }
           ]
         },
         {
-          "start": 536,
-          "end": 561,
-          "title": "Rotate after 32 sessions and stop unsupported wrappers before ACP",
-          "explanation": "Thirty-three successful questions require 33 new/close pairs and a second engine but only one unchanged wrapper-version check. Explicit disposal empties the tree. An unsupported wrapper string must cause agency_version after one version launch with no ACP method log. The tests rely on the transformer, not a real installed wrapper.",
+          "start": 549,
+          "end": 594,
+          "title": "Rotate after 32 sessions and reject malformed identities",
+          "explanation": "Thirty-three successful synthetic sessions force bounded engine rotation without reusing histories. Wrapper-negative cases reject malformed Agency/version/commit identities, not new release numbers: each stops after the version process with no ACP methods. Malformed engine version metadata must fail with agency_acp_contract after initialize, before session/prompt, and remove owned storage. Compatible future identities are exercised separately.",
           "focus": [
             {
-              "start": 541,
-              "end": 548
+              "start": 574,
+              "end": 577
             },
             {
-              "start": 555,
-              "end": 559
-            }
-          ]
-        },
-        {
-          "start": 562,
-          "end": 594,
-          "title": "Assert no-side-effect guards and the exact launch surface",
-          "explanation": "Pre-cancelled/empty requests perform zero launches; disposed providers reject both warmup APIs. A separate ProcessStartInfo inspection requires hidden redirected shell-free launch, exact default model/low effort and all candidate flags, including nonempty sentinel and deny-read. Prompt, plugin/MCP injection, allow-all/yolo and login arguments are forbidden. Inspecting flags does not prove how every CLI version interprets them.",
-          "focus": [
-            {
-              "start": 584,
-              "end": 592
+              "start": 588,
+              "end": 591
             }
           ]
         },
         {
           "start": 595,
-          "end": 626,
+          "end": 627,
+          "title": "Assert no-side-effect guards and the exact launch surface",
+          "explanation": "Cancelled/invalid requests launch nothing, and disposed providers reject both warmup modes. Launch assertions retain the precise fixed profile, no-tools sentinel, deny flags, ACP and no-login/no-prompt arguments. Forward-compatible identity handling does not relax this execution surface.",
+          "focus": [
+            {
+              "start": 617,
+              "end": 625
+            }
+          ]
+        },
+        {
+          "start": 628,
+          "end": 659,
           "title": "Check environment stripping and the cosmetic settings exception",
           "explanation": "Synthetic credentials, routing/proxy settings and discovery variables are removed, but Agency's real-style APPDATA/LOCALAPPDATA values remain. Generated settings accept only a cosmetic announcement addition; changing disableAllHooks or adding hooks fails, as do array/malformed JSON shapes. These are configuration-function tests, not monitoring of real authentication storage or network traffic.",
           "focus": [
             {
-              "start": 601,
-              "end": 609
+              "start": 634,
+              "end": 642
             },
             {
-              "start": 615,
-              "end": 624
+              "start": 648,
+              "end": 657
             }
           ]
         },
         {
-          "start": 627,
-          "end": 641,
+          "start": 660,
+          "end": 674,
           "title": "Reject unsafe resolution and implicit provider crossover",
           "explanation": "Relative executables, shell strings, missing .exe and .cmd paths fail resolution with agency_not_found. A Copilot-mode settings object cannot construct Agency, and Agency cannot carry a loopback endpoint. No installed binary is required for these negative checks, and no fallback provider is selected.",
           "focus": [
             {
-              "start": 632,
-              "end": 639
+              "start": 665,
+              "end": 672
             }
           ]
         },
         {
-          "start": 642,
-          "end": 676,
+          "start": 675,
+          "end": 718,
           "title": "Replace launches with a deterministic fake peer, not Agency",
-          "explanation": "CreateProvider writes a nonexecutable sentinel, then the internal transformer counts launches, verifies generated TOML/agent content and substitutes Windows PowerShell. Version output is synthesized; engine output comes from FakeServer with a chosen scenario and escaped capture directory. prepareNext defaults false for deterministic assertions. Helpers read the method log and drain the real provider iterator. Thus transport/lifecycle logic is real, but binary/model qualification is not.",
+          "explanation": "The transformer counts launches, verifies generated controls and substitutes PowerShell for the nonexecutable sentinel. Wrapper and engine identities are independent fixture parameters, enabling future-compatible and malformed-identity tests. Methods reads the append log through FileShare.ReadWrite so polling does not conflict with the fake peer's writer on Windows; it does not suppress I/O failures. The real provider iterator is drained, but no actual model is used.",
           "focus": [
             {
-              "start": 653,
-              "end": 663
+              "start": 686,
+              "end": 697
             }
           ]
         },
         {
-          "start": 677,
-          "end": 706,
+          "start": 719,
+          "end": 754,
           "title": "Fake ACP initialize and session configuration are executable test logic",
-          "explanation": "Emit writes compact flushed NDJSON; Chunk wraps agent_message_chunk with current session identity. The loop parses each request and records its method. initialize advertises the required close capability or a bad version; delayed scenarios sleep. session/new generates IDs and all five option values, with switches for replayed IDs, wrong model/effort, allow-all and missing agent advertisement. Those variations drive early rejection assertions.",
+          "explanation": "The fake emits flushed NDJSON and records each method. initialize reports Copilot, the parameterized version, ACP1 and close, with negative variants for malformed identity, a different protocol, or missing/wrong-shaped close. session/new varies IDs, selected model/effort/permissions and role advertisement; missing or unknown configuration identities test strict preflight rejection. Delays exercise cancellation.",
           "focus": [
             {
-              "start": 694,
-              "end": 705
+              "start": 729,
+              "end": 734
+            },
+            {
+              "start": 743,
+              "end": 753
             }
           ]
         },
         {
-          "start": 707,
-          "end": 732,
+          "start": 755,
+          "end": 780,
           "title": "Fake agent selection, prompt capture and forbidden capabilities",
           "explanation": "The fake verifies the requested agent config ID/value, optionally fails selection, and emits both an update and result. Prompt handling checks session identity, parses the envelope's final JSON line, and records exact question/history plus literalAt/prompt count. Authentication writes only synthetic private detail to stderr; reverse permission/input RPCs and tool/plan updates deliberately violate the client boundary. Valid scenarios then emit both configuration notices.",
           "focus": [
             {
-              "start": 716,
-              "end": 727
+              "start": 764,
+              "end": 775
             }
           ]
         },
         {
-          "start": 733,
-          "end": 758,
+          "start": 781,
+          "end": 806,
           "title": "Fake nonanswers, configuration drift and terminal corruption",
           "explanation": "Branches emit leading refusals, a direct clarification or a long code-fenced answer with a clarification footer to exercise terminal prose scanning. Agent-changed emits invalid full configuration mid-prompt. Other branches change session ID, exceed answer capacity, omit text, pause after one delta, end the process without terminal, or return max_tokens instead of end_turn. The normal path produces two fixed chunks, not inferred text.",
           "focus": [
             {
-              "start": 746,
-              "end": 757
+              "start": 794,
+              "end": 805
             }
           ]
         },
         {
-          "start": 759,
-          "end": 771,
+          "start": 807,
+          "end": 819,
           "title": "Fake close and response-identity failures remain observable",
           "explanation": "close-failure emits a matching RPC error with synthetic private text. Otherwise the peer echoes the active numeric ID, except wrong-response and wrong-id-type scenarios. Unknown methods terminate the script. The class Dispose recursively removes its test root after provider disposal by individual tests. This final script block is essential negative-control logic, not disposable fixture boilerplate.",
           "focus": [
             {
-              "start": 759,
-              "end": 766
+              "start": 807,
+              "end": 814
             }
           ]
         }

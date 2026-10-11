@@ -11,6 +11,13 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Current state
 
+- Workstream64 is IN_PROGRESS: owner requested publication at20:29. Prepare public unsigned
+  Preview3 with workstream63's Agency compatibility repair, exact committed books and fresh package
+  checks. Prior previews stay immutable; no broad capture/device/future-provider guarantee.
+- Workstream63 is DONE locally: disabled Ask fixed and Agency version pins replaced by identity,
+  ACP1/close and restricted-session checks. Core809 and synthetic WPF pass; actual1.0.93 answer
+  completed after readiness. Contract-compatible future test versions pass; breaking changes fail.
+  Guides/source atlas/full handbook are maintained. Published Preview2 does not contain this fix.
 - Workstream62 is DONE: PUBLIC v0.2.0-preview.2 published October11 06:49:15IST from clean2ad0fa0.
   Windows0.2.0.2 includes Previous answer; all five downloaded assets matched docs\release-0.2.0-preview.2.json.
   Core791/Python37/Site14; launcher10, packaged UI21context/38keyboard and lifecycle11/3684files pass; Portable3685entries matched.
@@ -70,6 +77,12 @@ capture proof rather than assuming a window can be universally undetectable.
 
 ## Next action
 
+Complete workstream64's clean-source package, isolated qualification and verified public release.
+
+Workstream63 is complete in source. Save/close an older app instance with X before running
+scripts\Run-PhantomFudge.ps1; wait for Agency readiness and submit questions explicitly.
+Compatible version changes need no allowlist edit; genuine contract changes still require support.
+
 Workstream62 is complete: use docs\release-0.2.0-preview.2.json for exact published bytes and limits.
 Keep Setup/Portable and released PDFs immutable; later repository evidence is a separate follow-up commit.
 Workstream61's self-contained website/eight GIFs are live; docs\WEBSITE.md records Pages38101185167.
@@ -119,6 +132,8 @@ concrete attempted-work blocker is BLOCKED and must name the owner/action. See
 
 | ID | File | Status | Gate |
 | --- | --- | --- | --- |
+| 64 | 64_COMPATIBILITY_PREVIEW_RELEASE.todo | IN_PROGRESS | Public Preview3; exact clean-build/package/download gates |
+| 63 | 63_AGENCY_VERSION_COMPATIBILITY.todo | DONE | Source-only runtime-contract compatibility; bounded synthetic evidence |
 | 62 | 62_PUBLIC_PREVIEW_RELEASE.todo | DONE | Public unsigned Preview2; five exact downloads verified; bounded package evidence, immutable release PDFs |
 | 61 | 61_PUBLIC_PHANTOM_WEBSITE.todo | DONE | Site/eight GIFs live; Pages38101185167/HTTP200, both Preview2links verified |
 | 60 | 60_FULL_VIDEO_TUTORIAL.todo | DONE | Local38-minute tutorial and offline chaptered player |

@@ -1,0 +1,51 @@
+# Agency Compatibility Preview Release
+
+Status: IN_PROGRESS
+Milestone: Public unsigned Windows11 x64 v0.2.0-preview.3 / Windows0.2.0.3
+Dependencies: 58_INSTALLER_RELEASE.todo, 62_PUBLIC_PREVIEW_RELEASE.todo, 63_AGENCY_VERSION_COMPATIBILITY.todo
+
+## Purpose
+
+Publish the completed disabled-Ask repair and backward/forward runtime-contract compatibility
+through the existing unsigned preview channel. The owner requested publication on October11
+at20:29. This is not a claim that every device, capture backend or future provider is qualified.
+
+## Tasks
+
+- [x] Confirm publication request and existing repository-scoped publishing access.
+- [x] Update candidate version, current guides, website links and reviewed source annotations.
+- [ ] Freeze full source-matched handbook/atlas editions and commit all candidate inputs.
+- [ ] Build Setup/Portable from that clean commit using existing offline runtime/compiler.
+- [ ] Verify exact payload/archive inventories, native dependencies, generated PCM and clean exits.
+- [ ] Exercise exact packaged synthetic UI, launcher checks and isolated installer lifecycle.
+- [ ] Attach exact committed PDFs and verify checksums; keep prior releases immutable.
+- [ ] Publish the new tagged public prerelease and verify all five downloadable assets.
+- [ ] Record exact publication/qualification evidence, finish maintained documentation and push main.
+
+## Acceptance criteria
+
+- [ ] New assets contain workstream63's repair and match their clean source/tag identity.
+- [ ] Existing application/provider settings are not reset; no real recording, login or model call
+  is needed merely to package the already-exercised fix.
+- [ ] Synthetic/current-host evidence is separate from clean-VM, genuine old-binary migration,
+  owner comfort, real-meeting recognition and recipient-capture qualification.
+- [ ] Preview1/2 tags and assets are unchanged; published books match the exact packaged commit.
+- [ ] No automatic fallback or relaxed safety contract is introduced by release packaging.
+
+## Evidence
+
+- Workstream63 passed Core809, synthetic WPF and bounded current-Agency synthetic inference.
+  Six older/current/future-compatible scripted cases passed again during the later confirmation.
+- The reported HTTP400 was confirmed by the owner to be in this coding chat, not Phantom Fudge;
+  it is not evidence of an app HTTP defect or an observed server-side repair.
+- Packaging/publication gates for this candidate are pending, not inherited from Preview2.
+- Candidate preparation passed Core809, runtime-bundle19 and installed-runtime18 tests,
+  Docs21 and Site14. The existing range-capable site server passed all nine browser groups.
+- Full397-page handbook and709-page source atlas were generated and representative new version,
+  installation, website and source annotation pages reviewed. No real audio or provider call
+  was made during this release preparation. The earlier provider smoke belongs to workstream63.
+
+## Completion log
+
+- 2026-10-11 20:29 - Owner requested publication if the tool is working. Proceed under the
+  established bounded preview scope; general compatibility/qualified-v1 claims remain excluded.

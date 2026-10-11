@@ -40,11 +40,14 @@ public sealed class AgencyCliAnswerProviderTests : IDisposable
         Assert.Equal(0, launches);
     }
 
-    [Fact]
-    public async Task WarmupPreparesOneEmptySessionButNeverSubmitsAQuestion()
+    [Theory]
+    [InlineData("agency 2026.10.7.4 (commit: bcff2c0f)", "1.0.92")]
+    [InlineData("agency 2026.10.8.13 (commit: 59e43189)", "1.0.93")]
+    [InlineData("agency 2027.1.1.99 (commit: abcdef123456)", "2.5.0")]
+    public async Task WarmupPreparesOneEmptySessionButNeverSubmitsAQuestion(string wrapperVersion, string engineVersion)
     {
         if (!OperatingSystem.IsWindows()) return;
-        await using var provider = CreateProvider();
+        await using var provider = CreateProvider(wrapperVersion: wrapperVersion, engineVersion: engineVersion);
         await provider.WarmUpAsync();
         Assert.Equal(["initialize", "session/new", "session/set_config_option"], Methods());
         await provider.WarmUpAsync();
@@ -54,11 +57,14 @@ public sealed class AgencyCliAnswerProviderTests : IDisposable
         Assert.Empty(Directory.EnumerateFileSystemEntries(Path.Combine(root, "requests")));
     }
 
-    [Fact]
-    public async Task WarmProcessCreatesAndClosesAFreshSessionForEveryExactQuestion()
+    [Theory]
+    [InlineData("agency 2026.10.7.4 (commit: bcff2c0f)", "1.0.92")]
+    [InlineData("agency 2026.10.8.13 (commit: 59e43189)", "1.0.93")]
+    [InlineData("agency 2027.1.1.99 (commit: abcdef123456)", "2.5.0")]
+    public async Task WarmProcessCreatesAndClosesAFreshSessionForEveryExactQuestion(string wrapperVersion, string engineVersion)
     {
         if (!OperatingSystem.IsWindows()) return;
-        await using var provider = CreateProvider();
+        await using var provider = CreateProvider(wrapperVersion: wrapperVersion, engineVersion: engineVersion);
         await provider.WarmUpAsync();
         var first = new AnswerRequest(Guid.NewGuid(), "Write me the solution for the leet code problem two sum");
         var second = new AnswerRequest(Guid.NewGuid(), "okay so right mean the solution for the lead good problem to some");
@@ -406,7 +412,13 @@ public sealed class AgencyCliAnswerProviderTests : IDisposable
     [InlineData("needs-input", "agency_nonanswer")]
     [InlineData("needs-input-footer", "agency_nonanswer")]
     [InlineData("allow-all", "agency_configuration")]
-    [InlineData("bad-engine", "agency_engine_version")]
+    [InlineData("bad-engine", "agency_acp_contract")]
+    [InlineData("wrong-agent-name", "agency_acp_contract")]
+    [InlineData("wrong-protocol", "agency_acp_contract")]
+    [InlineData("missing-close", "agency_acp_contract")]
+    [InlineData("invalid-close", "agency_acp_contract")]
+    [InlineData("missing-setting", "agency_configuration")]
+    [InlineData("unknown-setting", "agency_configuration")]
     [InlineData("oversize", "copilot_limit")]
     [InlineData("auth", "agency_auth_required")]
     public async Task UnqualifiedStatesNeverCompleteAndOwnedEngineIsReaped(string scenario, string expected)
@@ -417,7 +429,8 @@ public sealed class AgencyCliAnswerProviderTests : IDisposable
         Assert.Equal(expected, error.Code);
         Assert.DoesNotContain("private-detail", error.Message);
         Assert.Empty(Directory.EnumerateFileSystemEntries(Path.Combine(root, "requests")));
-        if (scenario is "wrong-model" or "wrong-effort" or "allow-all" or "bad-engine" or "agent-not-advertised" or "wrong-agent-selection")
+        if (scenario is "wrong-model" or "wrong-effort" or "allow-all" or "bad-engine" or "agent-not-advertised" or "wrong-agent-selection" or
+            "wrong-agent-name" or "wrong-protocol" or "missing-close" or "invalid-close" or "missing-setting" or "unknown-setting")
             Assert.DoesNotContain("session/prompt", Methods());
     }
 
@@ -548,15 +561,35 @@ public sealed class AgencyCliAnswerProviderTests : IDisposable
         Assert.Empty(Directory.EnumerateFileSystemEntries(Path.Combine(root, "requests")));
     }
 
-    [Fact]
-    public async Task UnsupportedWrapperNeverStartsEngineOrReceivesQuestion()
+    [Theory]
+    [InlineData("unsupported")]
+    [InlineData("another-tool 2026.10.8.13 (commit: 59e43189)")]
+    [InlineData("agency 2026.10.8.13 (commit: missing)")]
+    [InlineData("agency unknown (commit: 59e43189)")]
+    [InlineData("agency 2026.10.8.13")]
+    [InlineData("agency 2026.10.8.13 (commit: 59e43189)extra")]
+    public async Task InvalidWrapperIdentityNeverStartsEngineOrReceivesQuestion(string wrapperVersion)
     {
         if (!OperatingSystem.IsWindows()) return;
-        await using var provider = CreateProvider("bad-wrapper");
+        await using var provider = CreateProvider(wrapperVersion: wrapperVersion);
         Assert.Equal("agency_version", (await Assert.ThrowsAsync<AnswerProviderException>(() =>
             Read(provider, new(Guid.NewGuid(), "Synthetic")))).Code);
         Assert.Equal(1, launches);
         Assert.Empty(Methods());
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(" ")]
+    [InlineData("not a version")]
+    public async Task InvalidEngineIdentityNeverCreatesASessionOrReceivesQuestion(string engineVersion)
+    {
+        if (!OperatingSystem.IsWindows()) return;
+        await using var provider = CreateProvider(engineVersion: engineVersion);
+        Assert.Equal("agency_acp_contract", (await Assert.ThrowsAsync<AnswerProviderException>(() =>
+            Read(provider, new(Guid.NewGuid(), "Synthetic")))).Code);
+        Assert.Equal(["initialize"], Methods());
+        Assert.Empty(Directory.EnumerateFileSystemEntries(Path.Combine(root, "requests")));
     }
 
     [Fact]
@@ -640,7 +673,7 @@ public sealed class AgencyCliAnswerProviderTests : IDisposable
     }
 
     private AgencyCliAnswerProvider CreateProvider(string scenario = "success", TimeSpan? timeout = null,
-        bool prepareNext = false, string? model = null)
+        bool prepareNext = false, string? model = null, string? wrapperVersion = null, string engineVersion = "1.0.92")
     {
         var executable = Path.Combine(root, "agency.exe");
         File.WriteAllText(executable, "synthetic nonexecutable sentinel");
@@ -657,15 +690,24 @@ public sealed class AgencyCliAnswerProviderTests : IDisposable
                     "System32", "WindowsPowerShell", "v1.0", "powershell.exe");
                 info.ArgumentList.Clear();
                 var script = version
-                    ? $"[Console]::Out.WriteLine('{(scenario == "bad-wrapper" ? "unsupported" : AgencyCliLaunch.VersionPrefix + " (target: synthetic)")}')"
-                    : "$scenario='" + scenario + "'; $capture='" + root.Replace("'", "''") + "'; " + FakeServer;
+                    ? $"[Console]::Out.WriteLine('{wrapperVersion ?? "agency 2026.10.7.4 (commit: bcff2c0f)"} (target: synthetic)')"
+                    : "$scenario='" + scenario + "'; $engineVersion='" + engineVersion +
+                        "'; $capture='" + root.Replace("'", "''") + "'; " + FakeServer;
                 foreach (var value in new[] { "-NoProfile", "-NoLogo", "-NonInteractive", "-Command", script }) info.ArgumentList.Add(value);
                 return info;
             }, prepareNext);
     }
 
-    private string[] Methods() => File.Exists(Path.Combine(root, "methods.txt"))
-        ? File.ReadAllLines(Path.Combine(root, "methods.txt")) : [];
+    private string[] Methods()
+    {
+        var path = Path.Combine(root, "methods.txt");
+        if (!File.Exists(path)) return [];
+        using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        using var reader = new StreamReader(stream);
+        var methods = new List<string>();
+        while (reader.ReadLine() is { } method) methods.Add(method);
+        return methods.ToArray();
+    }
 
     private static async Task<List<AnswerEvent>> Read(AgencyCliAnswerProvider provider, AnswerRequest request, CancellationToken token = default)
     {
@@ -684,8 +726,12 @@ public sealed class AgencyCliAnswerProviderTests : IDisposable
           switch($r.method) {
             'initialize' {
               if($scenario -eq 'delay-initialize'){Start-Sleep -Seconds 90}
-              $version='1.0.92'; if($scenario -eq 'bad-engine'){$version='0.0.0'}
-              $result=@{protocolVersion=1;agentInfo=@{version=$version};agentCapabilities=@{sessionCapabilities=@{close=@{}}}}
+              $version=$engineVersion; if($scenario -eq 'bad-engine'){$version=''}
+              $result=@{protocolVersion=1;agentInfo=@{name='Copilot';version=$version};agentCapabilities=@{sessionCapabilities=@{close=@{}}}}
+              if($scenario -eq 'wrong-agent-name'){$result.agentInfo.name='Other'}
+              if($scenario -eq 'wrong-protocol'){$result.protocolVersion=2}
+              if($scenario -eq 'missing-close'){$result.agentCapabilities.sessionCapabilities.Remove('close')}
+              if($scenario -eq 'invalid-close'){$result.agentCapabilities.sessionCapabilities.close=$true}
             }
             'session/new' {
               if($scenario -eq 'delay-new-session'){Start-Sleep -Seconds 90}
@@ -702,6 +748,8 @@ public sealed class AgencyCliAnswerProviderTests : IDisposable
                 @{id='model';currentValue=$model},
                 @{id='reasoning_effort';currentValue=$effort},
                 @{id='agent';currentValue='';options=$agentChoices})
+              if($scenario -eq 'missing-setting'){$options=@($options|Where-Object{$_.id -ne 'allow_all'})}
+              if($scenario -eq 'unknown-setting'){$options+=@{id='future-permission';currentValue='on'}}
               $result=@{sessionId=$sid;configOptions=$options}
             }
             'session/set_config_option' {

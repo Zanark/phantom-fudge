@@ -93,12 +93,44 @@ Copilot login. If Agency's model-service credentials expire, do not assume the a
 every wrapper-managed auth surface: stop the request and resolve normal Agency access separately.
 An observed no-new-login run is not a universal guarantee about future Agency versions.
 
-The adapter pins the exercised Agency build **2026.10.7.4 / `bcff2c0f`** and verifies supported
-ACP configuration before prompting. Different versions fail until qualified. Question text is
+The source adapter validates Agency's version identity and the **runtime ACP contract**, rather
+than allowing only named release numbers. Compatible wrapper/engine updates do not need a new
+version-list entry. Preview 3 includes this correction; Preview 2 and older binaries retain the pins.
+Question text is
 serialized as a JSON data field; opted-in clarification history and previousAnswer use separate
 fields. Prior answer text is background data, never a new policy, task mode or tool permission.
 `@` is escaped, and command-like lines are not shell input.
 This supersedes the earlier blanket rejection of `@` and slash-like questions without granting tools.
+
+### Compatibility across Agency updates
+
+Version information identifies the executable; it does not prove compatibility or trust. Preparation
+still uses the same isolated profile and restrictive launch flags, then requires **ACP protocol 1**,
+the **Copilot** agent identity, bounded nonblank version metadata, and an object-valued
+**session-close capability**. An empty session must confirm the selected model, low reasoning,
+allow-all off, agent mode and the advertised/selected controlled answer role.
+([Wrapper identity](../src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs),
+[ACP checks](../src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs).)
+
+This is **conditional forward compatibility**, not a guarantee against every future breaking change.
+Additional capability metadata is harmless, but a different protocol, removed launch flag, missing
+close, unexpected configuration option, unsafe permission or changed notification contract can
+still stop preparation or the request. Tool/plan/reverse-capability requests, authentication notices,
+profile drift and incomplete terminal responses remain errors. There is no version-check bypass,
+automatic fallback, login, downgrade or automatic resend of the question.
+
+If Ask remains disabled after a nonblank draft, open **Setup / details**, use **Reload setup**, and
+read the preparation status. `agency_version` now means malformed/unreadable Agency identity;
+`agency_acp_contract` means required engine identity/protocol/close capability is absent;
+`agency_configuration` means the restricted session configuration was not confirmed.
+Fix the installation/settings or update Phantom Fudge for a genuine contract change; do not remove
+the safety flags. Reload and empty-session preparation send no model prompt.
+
+October11 validation exercised Agency **2026.10.8.13 / `59e43189`** with Copilot **1.0.93**.
+Fake peers also exercise older versions and hypothetical future versions with the same contract,
+plus rejection of incompatible protocol/capabilities/configuration. These are not claims that a
+future release was actually run. [Workstream63](../TODO/63_AGENCY_VERSION_COMPATIBILITY.todo)
+separates the current-host synthetic checks from real-meeting and release qualification.
 
 ### Observed integration result
 
@@ -347,7 +379,7 @@ streams only accepted records (`src/PhantomFudge.Core/Answers/AgencyCliAnswerPro
 `AgencyAnswerProfile` defines the minimal profile and explicit engine arguments
 (`src/PhantomFudge.Core/Answers/AgencyAnswerProfile.cs:21-37`).
 `AgencyCliLaunch` preserves Agency's normal AppData cache access while isolating child homes and
-excluding ambient tokens/provider settings (`src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs:40-60`).
+excluding ambient tokens/provider settings (`src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs:43-63`).
 Version checks and the authentication-notice guard constrain the tested
 wrapper, not an OS sandbox (`src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:425-454`;
 `src/PhantomFudge.Core/Answers/AgencyJsonProtocol.cs:50-68`).

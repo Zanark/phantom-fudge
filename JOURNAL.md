@@ -1669,3 +1669,52 @@ source, Git, authentication, audio, provider or context operation belongs to thi
 The new receipt remains outside atlas source discovery (`sourceKind=null`, not `evidence`);
 its classifier explanation is clarified rather than widened.
 (tools/Docs/source-atlas.mjs:11-12,36-46,58-66)
+
+## 2026-10-11 18:17-18:38 IST - Restore Ask and stop treating version numbers as compatibility
+
+The owner reported disabled **Ask provider** after using the source launcher. Content-free startup
+diagnostics showed `agency_version`, not missing question text or a transcription failure. Installed
+Agency2026.10.8.13/59e43189 had advanced past the wrapper pin; a no-prompt preparation then exposed
+the separate Copilot1.0.92 engine pin because the installed engine was1.0.93.
+
+An interim exact-version extension restored readiness and one explicitly authorized synthetic
+answer. The owner's follow-up made the lasting requirement clearer: compatible future updates
+should not require editing a version list. The final source instead checks Agency identity and
+the runtime ACP1/Copilot/close contract, retaining the exact restricted session configuration,
+isolated profile, tool denial, explicit submission and terminal/cleanup requirements.
+Malformed identities and genuine contract changes still fail with safe actionable messages.
+([Implementation](src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs),
+[recovery and limits](docs/ANSWER-PROVIDERS.md#compatibility-across-agency-updates).)
+
+Final Core809/809 and the synthetic WPF lifecycle/layout/context/keyboard checks passed.
+The first focused run caught a test-log sharing race: its reader now permits the fake peer's
+concurrent append instead of failing on Windows file sharing. This is a fixture correction,
+not a claimed cause of the owner's disabled button.
+([Regression fixture](tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs).)
+
+Two authorized cloud test questions were submitted across the interim and final implementations;
+the final complete answer took3223ms after12167ms empty-session preparation. A separate copied,
+hash-matched engine1.0.93 sent two synthetic requests only to a loopback mock: zero tools, one exact
+user envelope, no assistant history and the fixed policy in SYSTEM. The mock's reduced offline
+configuration is not production readiness evidence; the real production adapter supplied that.
+No real audio capture, meeting text, new login, account change, provider fallback or ordinary app
+restart was performed. This is a local source correction, not a republished installer or broad
+future-binary/capture/quality guarantee. [Workstream63](TODO/63_AGENCY_VERSION_COMPATIBILITY.todo)
+owns the maintained reference follow-up; Preview1/2 remain immutable.
+
+The maintained follow-up is complete locally:220source files,33,926lines and1,359annotation blocks;
+full709-page atlas and396-page handbook, with changed HTML/PDF pages and the lifecycle diagram
+reviewed. Source launch is rebuilt; no model call, publication or installer replacement remains.
+
+## 2026-10-11 20:29 IST - Publish the compatibility repair as the next preview
+
+The owner requested publication after the repair. Workstream64 prepares unsigned Windows11x64
+Preview3, retaining the established preview channel rather than treating bounded source checks as
+qualified-v1 evidence. Agency backward/forward compatibility means the required runtime contract,
+not a promise to support every incompatible historical or future release.
+
+Version metadata, installer defaults, two website download links and the current installation
+guide identify0.2.0-preview.3/Windows0.2.0.3. The tutorial/GIFs remain unchanged. Source-matched
+reference editions must be frozen before the clean package build; exact package checks, public
+asset verification and the separate maintained publication receipt are still pending here.
+Preview1/2 stay immutable. No real recording, new login or extra model request is needed for packaging.

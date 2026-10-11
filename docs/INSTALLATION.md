@@ -6,14 +6,14 @@ outline: deep
 
 # Install, update and remove Phantom Fudge
 
-**Installer edition: public, unsigned Windows 11 x64 prerelease.** Download
-[v0.2.0-preview.2](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.2).
-Preview 2 includes previous-answer context; all five downloaded release assets matched.
-Current-host synthetic package checks and a live website do not establish clean-VM or universal compatibility.
-Tutorial installer labels remain Preview 1; they do not identify the new package.
-See the [exact public receipt](release-0.2.0-preview.2.json), [release evidence](IMPLEMENTATION-STATUS.md) and completed [workstream62](../TODO/62_PUBLIC_PREVIEW_RELEASE.todo).
+**Installer edition: unsigned Windows 11 x64 v0.2.0-preview.3.** Check
+[the versioned release](https://github.com/Zanark/phantom-fudge/releases/tag/v0.2.0-preview.3) for downloadable assets.
+Preview 3 includes the Agency backward/forward compatibility repair and previous-answer context.
+Current-host synthetic evidence does not establish clean-VM, every future provider or universal capture compatibility.
+Tutorial installer labels remain Preview 1; they do not identify this package.
+See [provider compatibility](ANSWER-PROVIDERS.md#compatibility-across-agency-updates), [current evidence](IMPLEMENTATION-STATUS.md) and [workstream64](../TODO/64_COMPATIBILITY_PREVIEW_RELEASE.todo).
 
-**Published October11 at01:19:15UTC**, from clean source `2ad0fa03a8c699619bda24c33ef6aa0250d6ef38`.
+**Earlier Preview 2 evidence, not a Preview 3 test:** published October11 at01:19:15UTC from clean source `2ad0fa03a8c699619bda24c33ef6aa0250d6ef38`.
 Setup and Portable contain the committed391-page handbook, not later maintained documentation.
 The released709-page atlas is a separate attachment; exact PDF hashes are in the public receipt.
 Historical Preview 1's85runtime/55native tests and candidate-stage failures remain [dated evidence](IMPLEMENTATION-STATUS.md).
@@ -44,8 +44,8 @@ The installer removes the developer-tool setup burden, not the preview's qualifi
 It targets **Windows 11 x64** only. Windows 10, Windows on ARM, macOS and Linux are unsupported
 for this package. A compatible OS does not establish performance or device compatibility on every
 computer; no universal CPU, memory, microphone or capture guarantee is claimed. The release
-configuration pins `win-x64`, minimum Windows build22000, version `0.2.0-preview.2` and Windows
-file version `0.2.0.2`. (tools/Installer/release.json:1-8)
+configuration pins `win-x64`, minimum Windows build22000, version `0.2.0-preview.3` and Windows
+file version `0.2.0.3`. (tools/Installer/release.json:1-8)
 
 | Included by the installer | Not installed or configured for you |
 | --- | --- |
@@ -72,12 +72,12 @@ or evidence of capture exclusion. (scripts/Build-Installer.ps1:79-114)
 The versioned public release and checksum file identify the downloadable assets:
 
 1. Open the public versioned release above. Download
-   `PhantomFudge-0.2.0-preview.2-win-x64-Setup.exe` and `SHA256SUMS.txt`.
+   `PhantomFudge-0.2.0-preview.3-win-x64-Setup.exe` and `SHA256SUMS.txt`.
 2. Compare the EXE's SHA-256 with its exact filename in the checksum file. Windows PowerShell can
    perform this optional check; **PowerShell7 is not required to install or run the app**:
 
    ```powershell
-   Get-FileHash .\PhantomFudge-0.2.0-preview.2-win-x64-Setup.exe -Algorithm SHA256
+   Get-FileHash .\PhantomFudge-0.2.0-preview.3-win-x64-Setup.exe -Algorithm SHA256
    ```
 
 3. Run Setup as your normal Windows user. The default location is

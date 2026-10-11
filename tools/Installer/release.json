@@ -1,6 +1,6 @@
 {
-  "version": "0.2.0-preview.2",
-  "windowsVersion": "0.2.0.2",
+  "version": "0.2.0-preview.3",
+  "windowsVersion": "0.2.0.3",
   "runtime": "win-x64",
   "minimumWindowsBuild": 22000,
   "innoSetupVersion": "6.7.3",

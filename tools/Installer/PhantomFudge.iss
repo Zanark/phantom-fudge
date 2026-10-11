@@ -2,10 +2,10 @@
   #error PayloadDir must name the verified release payload.
 #endif
 #ifndef AppVersion
-  #define AppVersion "0.2.0-preview.2"
+  #define AppVersion "0.2.0-preview.3"
 #endif
 #ifndef WindowsVersion
-  #define WindowsVersion "0.2.0.2"
+  #define WindowsVersion "0.2.0.3"
 #endif
 #ifndef InstallerId
   #define InstallerId "PhantomFudge-7192D36D-377C-428A-A03E-2F47C90E4E8B"

@@ -143,7 +143,7 @@ synthetic sentence does not prove every cancellation path.
 
 Record source identity, environment, exact command, pass/failure, sample size and limitations.
 The implementation-status document is a bounded receipt, not a badge that everything is safe
-(`docs\IMPLEMENTATION-STATUS.md:1-292`).
+(`docs\IMPLEMENTATION-STATUS.md:1-296`).
 
 For capture, an in-process `RenderTargetBitmap` image proves UI appearance. A cropped GDI
 fixture proves only the sampled local path. Neither proves what a remote participant sees.

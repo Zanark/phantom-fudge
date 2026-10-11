@@ -14,7 +14,7 @@ This chapter teaches change analysis; it does **not** add runtime capabilities. 
 
 Missing settings select SnapshotOnly, and the parent restored that mode after stopping the owned login. The owner requests existing installed Agency, with no new login or organization-data access; LocalModel remains separate. The earlier Copilot smoke failed at the customization/tool gate and consumed its allowance because a model call cannot be ruled out. The successful Agency probe had new, separate authorization, not a retry of that allowance. (src\PhantomFudge.Core\Answers\AnswerConfiguration.cs:13-29, `Load`; src\PhantomFudge.Core\Answers\AnswerContracts.cs:33-39, modes.) See [provider boundaries](../../docs/ANSWER-PROVIDERS.md) and [workstream39](../../TODO/39_INSTALLED_CLI_ANSWERS.todo).
 
-The [marker smoke](../../docs/answer-provider-smoke.json) remains connectivity history. The completed authorized ledger records **48 client question submissions**, including failed/superseded trials; no further model calls are planned. Agency **2026.10.7.4** / Copilot **1.0.92** now defaults to the advertised and tested **`gpt-5.6-sol-fast` / low**. H's three prepared exact-text responses completed usefully in **4.066, 4.176 and 2.992 s**; all three implementations compiled and passed **33/33** checks. Two inputs used intended wording and one the owner's actual ASR string. These are provider observations, not app/voice acceptance or a universal SLO. LocalModel has mocks only; credentials may expire. (tools\AgencyProbe\results\summary-final.json:2-64, scope/results; tools\AgencyProbe\results\latency-suite-20261009-h-exact-fast.json:2-56, exact-text trials; tools\AgencyProbe\results\latency-suite-20261009-h-quality.json:2-186, compiled checks.)
+The [marker smoke](../../docs/answer-provider-smoke.json) remains connectivity history. The October9 authorized ledger records **48 client question submissions**, including failed/superseded trials, on Agency **2026.10.7.4** / Copilot **1.0.92**. It selected **`gpt-5.6-sol-fast` / low**; [current source gates on the runtime contract](../ANSWER-PROVIDERS.md#compatibility-across-agency-updates) rather than those version numbers. H's three prepared exact-text responses completed usefully in **4.066, 4.176 and 2.992 s**; all three implementations compiled and passed **33/33** checks. Two inputs used intended wording and one the owner's actual ASR string. These are provider observations, not app/voice acceptance or a universal SLO. LocalModel has mocks only; credentials may expire. (tools\AgencyProbe\results\summary-final.json:2-64, scope/results; tools\AgencyProbe\results\latency-suite-20261009-h-exact-fast.json:2-56, exact-text trials; tools\AgencyProbe\results\latency-suite-20261009-h-quality.json:2-186, compiled checks.)
 
 Keep the failed path visible. Haiku E's five fast original-variation responses were not exact owner-ASR evidence. Haiku F chose two wrong problems and appended one follow-up; mini G understood all six exact questions but failed ten full-range overflow checks. H's selected result does not erase either. Cold Haiku took **24.874 s**; first transport-only Asks took **5.041 s** on F and **6.470 s** on G. Never turn a prepared-session success into a cold-start promise. (tools\AgencyProbe\results\latency-suite-20261009-f-exact.json:2-98, retained failures; tools\AgencyProbe\results\summary-final.json:58-73, cold/transport boundaries; tools\AgencyProbe\results\summary-final.json:141-180, E–H comparison.)
 
@@ -137,7 +137,7 @@ reuses a question conversation and rotates the engine after at most 32 created s
 a model question. The alternative `WarmUpTransportAsync` prepares only transport and leaves session
 creation on Ask; it is not the current app readiness policy. The selected-default preparation took
 21.183 seconds with zero questions. Keep that readiness cost separate from prepared completion.
-(src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:41-122, reuse/session/prompt/close;
+(src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:40-125, reuse/session/prompt/close;
 tools\AgencyProbe\results\agency-selected-fast-default-preparation.json:2-16, empty-session preparation;
 tools\AgencyProbe\results\summary-final.json:210-224, cleanup and retention.)
 
@@ -147,8 +147,8 @@ reasoning effort and `allow_all=off`. CLI `--agent` alone was insufficient in pi
 fixed instructions plus JSON `userQuestion`, not a serialized snapshot. Normal Ask excludes history;
 only explicit Clarify first requests may include their bounded typed clarification exchanges.
 Validate Unicode and escape file-reference syntax while retaining the decoded exact question.
-(src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:61-96, agent selection/one prompt;
-src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:296-319, configuration validation;
+(src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:64-99, agent selection/one prompt;
+src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:299-322, configuration validation;
 src\PhantomFudge.Core\Answers\AgencyAnswerPrompt.cs:8-111, controlled policy and envelope.)
 
 The receiver rejects tools, permission/client requests and protocol plans instead of waiting.
@@ -158,8 +158,8 @@ A–C preserved slow/generic/clarification failures; D failed eight overflow che
 surrogate question set; F chose wrong problems; G omitted full-range arithmetic safeguards despite
 correct title interpretation. H passed the finite exact-text contract on the new selected model.
 Neither three successful samples nor first text establishes a universal complete-answer guarantee.
-(src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:213-265, rejected requests/plans;
-src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:330-354, heuristic;
+(src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:216-268, rejected requests/plans;
+src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:333-357, heuristic;
 src\PhantomFudge.Core\Answers\AgencyAnswerPrompt.cs:12-43, answer policy;
 tools\AgencyProbe\results\summary-final.json:109-180, retained failures and selected result.)
 

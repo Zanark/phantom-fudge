@@ -33,6 +33,23 @@ Preserve instructions, decisions, evidence, corrections, and cross-session owner
 
 ## Completion log
 
+- 2026-10-11 20:29 - Owner requested publication after the repair. Workstream64 prepares
+  unsigned Windows11x64 Preview3 in the existing channel, with bounded exact-package checks.
+  Source809/WPF/provider evidence is not a new package pass; earlier release assets stay immutable.
+  Packaging RID restore regenerated its required empty lock sections; the pre-existing diff was retained.
+- 2026-10-11 - Workstream63 completed locally with reviewed source annotations, current full
+  atlas709/handbook396-page editions and rendered HTML/PDF/diagram review. Source launch is rebuilt;
+  published packages/site remain unchanged. Compatibility means the same required runtime contract,
+  not an unconditional promise for every future binary. No further testing/model call is pending.
+- 2026-10-11 18:38 - Owner replaced the interim version-list fix with a forward-compatibility
+  requirement. Final source accepts valid Agency/Copilot identities with ACP1/close plus unchanged
+  restricted session/tool/profile guards. Core809 and synthetic WPF pass; final real synthetic
+  answer3223ms after12167ms readiness. Two authorized cloud prompts total, plus two offline mock
+  requests observing zero tools and exact SYSTEM/user separation. No capture/login/release mutation.
+- 2026-10-11 18:25 - Resumed for disabled Ask provider. Content-free local diagnostics identify
+  agency_version; installed wrapper2026.10.8.13/59e43189 differs from pinned2026.10.7.4/bcff2c0f.
+  Owner authorized synthetic provider testing and a fix. Workstream63 preserves exact-version,
+  no-tools, no-login and explicit-send boundaries; existing lockfile edits remain untouched.
 - 2026-10-11 self-contained website revision: full1080p30 tutorial compressed to86168722bytes,
   preserving original, complete timeline, chapters and decoded audio. Added five GIF sets (eight total).
   Release-free assembly and all14Nodecases pass even in a fresh tree containing public inputs only.

@@ -160,7 +160,7 @@ The final arrows describe qualification, not a prerequisite for honestly labelle
 prerelease access. They are deliberately not automatic. A passing local smoke test is not signing,
 distribution authorization, enterprise-policy acceptance or four-product capture qualification.
 The implementation-status document identifies the actual local candidate and its remaining
-boundaries (`docs\IMPLEMENTATION-STATUS.md:1-322`).
+boundaries (`docs\IMPLEMENTATION-STATUS.md:1-326`).
 
 ## Source checkout versus legacy extracted bundle
 
@@ -310,4 +310,4 @@ including this publication follow-up, must not replace those attachments.
 - `services\transcription\manage.py:114-268` — instance ownership, reuse and stop.
 - `src\PhantomFudge.App\Native\SingleInstance.cs:18-75` — window recovery channel.
 - `src\PhantomFudge.App\LocalFailureNotice.cs:1-30` — non-content failure notice.
-- `docs\IMPLEMENTATION-STATUS.md:1-322` — candidate evidence and limits.
+- `docs\IMPLEMENTATION-STATUS.md:1-326` — candidate evidence and limits.

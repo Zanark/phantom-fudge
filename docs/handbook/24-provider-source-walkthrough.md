@@ -59,7 +59,7 @@ The adapter distinction is intentional. Agency always uses `AgencyAnswerPrompt.C
 
 ## Controlled SYSTEM policy and the narrow task-mode exception
 
-Putting “do not use tools” in a user message alone is not the design. Agency writes a named agent definition containing `tools: []` and the fixed policy, launches with that name, requires the agent to be advertised, then explicitly selects it through `session/set_config_option`. The offline ACP probe separately inspects whether the policy appears in the actual model request's `system` message. The local fake peer tests the selection protocol, not that external role placement. (src/PhantomFudge.Core/Answers/AgencyAnswerProfile.cs:10) (src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:339) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:75) (tools/AgencyProbe/acp_probe.py:192)
+Putting “do not use tools” in a user message alone is not the design. Agency writes a named agent definition containing `tools: []` and the fixed policy, launches with that name, requires the agent to be advertised, then explicitly selects it through `session/set_config_option`. The offline ACP probe separately inspects whether the policy appears in the actual model request's `system` message. The local fake peer tests the selection protocol, not that external role placement. (src/PhantomFudge.Core/Answers/AgencyAnswerProfile.cs:10) (src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:339) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:78) (tools/AgencyProbe/acp_probe.py:192)
 
 The policy itself must permit the feature. Default requests answer immediately under a labelled reasonable assumption, without follow-up. Only app-generated `task.mode="interpret"` asks for restatement without solving, with at most one essential clarification. `answer_confirmed` returns to standalone answering. Earlier interpretations and text inside JSON remain data, never authority for workspace access or tools. (src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs:21) (src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs:33)
 
@@ -141,8 +141,8 @@ config:
 ---
 flowchart TD
     accTitle: Agency lifecycle and terminal evidence
-    accDescr: Version and initialization lead to an empty selected session. A single explicit prompt streams bounded text. End-turn and close are required before completion. Failure destroys the engine; success may prepare an empty next session.
-    A["Owned layout and wrapper check"] --> B["Initialize ACP"]
+    accDescr: Wrapper identity and the required ACP contract lead to an empty selected session without release-number pins. A single explicit prompt streams bounded text. End-turn and close are required before completion. Failure destroys the engine; success may prepare an empty next session.
+    A["Owned layout and Agency identity"] --> B["Verify ACP1 and close capability"]
     B --> C["New unique session"]
     C --> D["Validate and select agent"]
     D --> E["Empty session ready"]
@@ -152,7 +152,8 @@ flowchart TD
     H --> I["Close session acknowledged"]
     I --> J["Completed event"]
     J -->|Prepare only| C
-    D -->|Invalid configuration| X["Stop engine and delete owned tree"]
+    B -->|Incompatible contract| X["Stop engine and delete owned tree"]
+    D -->|Invalid configuration| X
     G -->|Tool or protocol failure| X
     H -->|Nonanswer or incomplete| X
     I -->|Close failure| X
@@ -169,9 +170,18 @@ flowchart TD
     style X fill:#2d333b,stroke:#6d5dfc,color:#e6edf3
 ```
 
-This diagram omits engine rotation for readability. Reuse requires a live process, session capacity and an unchanged executable metadata stamp. The engine rotates after 32 sessions; wrapper verification can remain cached if path/length/timestamps match. That cache is not a cryptographic binary identity. Reuse also revalidates owned settings/TOML/agent content and rejects extra customizations. The sole allowed settings addition is bounded cosmetic `companyAnnouncements`, never changed safety booleans. (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:42) (src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:246) (src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:399)
+This diagram omits engine rotation for readability. Reuse requires a live process, session capacity and an unchanged executable metadata stamp. The engine rotates after 32 sessions; wrapper verification can remain cached if path/length/timestamps match. That cache is not a cryptographic binary identity. Reuse also revalidates owned settings/TOML/agent content and rejects extra customizations. The sole allowed settings addition is bounded cosmetic `companyAnnouncements`, never changed safety booleans. (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:41) (src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:246) (src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:399)
 
-There are two version gates: Agency's wrapper prefix includes build/commit, while initialize requires ACP protocol 1, Copilot engine 1.0.92 and close capability. New-session configuration must contain exactly five unique option IDs: agent mode, allow-all off, requested model, low reasoning and the controlled agent. An initially empty agent selection is tolerated only before explicit selection, while the controlled name must already be advertised. Subsequent configuration updates are rechecked. (src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs:8) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:44) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:296)
+There are two identity/contract checks, not a release-number whitelist. Agency's version response must have its expected name, numeric version and hexadecimal commit shape; its actual version/commit is not compared with a pinned list. Initialize requires ACP protocol1, the Copilot name, bounded nonblank version metadata and object-valued close capability. Thus a new wrapper/engine version with the same contract can prepare automatically. New-session configuration still requires exactly five unique option IDs: agent mode, allow-all off, requested model, low reasoning and the controlled agent. An initially empty agent selection is tolerated only before explicit selection, while the controlled name must already be advertised. Subsequent configuration updates are rechecked. (src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs:9) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:43) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:299)
+
+The October11 correction follows an actual disabled-Ask report: the installed wrapper and engine
+had advanced beyond both original pins. Version-only acceptance was an interim step, superseded by
+the explicit request for forward compatibility. Additional capability metadata can be ignored, but
+unknown configuration identities, protocol changes, removed flags or changed notification semantics
+remain deliberate compatibility failures. No client can guarantee the behavior of every future
+binary; the fixed tools/permissions/profile and prompt/terminal guards remain independent layers.
+([Current compatibility and recovery](../ANSWER-PROVIDERS.md#compatibility-across-agency-updates),
+[workstream63](../../TODO/63_AGENCY_VERSION_COMPATIBILITY.todo).)
 
 ### Terminal success is deliberately stronger than “some text arrived”
 
@@ -183,9 +193,9 @@ completed = true;
 
 These statements run **after** prompt terminal validation and **before** yielding Completed. Close acknowledgement prevents a failed conversation teardown from becoming a reusable success; the cancellation check prevents a cancelled request from being promoted afterward. A failed or abandoned stream resets the engine, while success may prepare the next empty session without prompting. (src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:119) (src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs:125)
 
-Incoming RPCs with a method and ID are reverse client requests and fail rather than opening a permission/input loop. Updates must match the established session, and tool/plan kinds fail. Before answer text, both the disabled-tools notice and exact unknown-sentinel notice are required. Notice parsing checks shape and bounds, not an exhaustive expected tool inventory. Terminal requires matching RPC ID, `end_turn` and nonempty text. (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:213) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:232) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:276)
+Incoming RPCs with a method and ID are reverse client requests and fail rather than opening a permission/input loop. Updates must match the established session, and tool/plan kinds fail. Before answer text, both the disabled-tools notice and exact unknown-sentinel notice are required. Notice parsing checks shape and bounds, not an exhaustive expected tool inventory. Terminal requires matching RPC ID, `end_turn` and nonempty text. (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:216) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:235) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:279)
 
-Default/confirmed answers additionally pass a prose heuristic rejecting selected requests for more input. Code fences are skipped. Only unconfirmed interpretation bypasses that heuristic; it still requires every transport/tool/terminal check. Screening occurs at terminal, so rejected text may already have streamed and must remain labelled incomplete. This is not general semantic answer validation. (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:103) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:330) (tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs:326)
+Default/confirmed answers additionally pass a prose heuristic rejecting selected requests for more input. Code fences are skipped. Only unconfirmed interpretation bypasses that heuristic; it still requires every transport/tool/terminal check. Screening occurs at terminal, so rejected text may already have streamed and must remain labelled incomplete. This is not general semantic answer validation. (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:106) (src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs:333) (tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs:332)
 
 ## Process ownership and environment isolation are not a sandbox
 
@@ -198,11 +208,11 @@ The nonempty `--available-tools=phantom_fudge_no_tools` value is consequential. 
 | App-data roots | Redirected into owned home | Real APPDATA/LOCALAPPDATA retained for wrapper installation/authentication |
 | Engine lifetime | One answer process after a version process | Persistent ACP engine; fresh session per question |
 
-Both paths use shell-free redirected pipes and strip inherited credentials/routing overrides. LocalModel accepts only literal HTTP loopback `/v1` endpoints and supplies offline/provider variables; hostname aliases, encoded paths, credentials and query/fragment are rejected. Validation does not itself implement redirect policy or require an explicit port. Installed-CLI redirect behavior is a separate opt-in integration test. (src/PhantomFudge.Core/Answers/CopilotCliLaunch.cs:84) (src/PhantomFudge.Core/Answers/CopilotCliLaunch.cs:95) (src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs:40) (src/PhantomFudge.Core/Answers/AnswerContracts.cs:68) (tests/PhantomFudge.Core.Tests/CopilotOfflineIntegrationTests.cs:70)
+Both paths use shell-free redirected pipes and strip inherited credentials/routing overrides. LocalModel accepts only literal HTTP loopback `/v1` endpoints and supplies offline/provider variables; hostname aliases, encoded paths, credentials and query/fragment are rejected. Validation does not itself implement redirect policy or require an explicit port. Installed-CLI redirect behavior is a separate opt-in integration test. (src/PhantomFudge.Core/Answers/CopilotCliLaunch.cs:84) (src/PhantomFudge.Core/Answers/CopilotCliLaunch.cs:95) (src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs:43) (src/PhantomFudge.Core/Answers/AnswerContracts.cs:68) (tests/PhantomFudge.Core.Tests/CopilotOfflineIntegrationTests.cs:70)
 
 `CopilotOwnedProcess` creates a Windows kill-on-close Job, starts the child, then assigns it. Assignment failure kills/reaps instead of continuing unowned; this post-start assignment is not a suspended-start security sandbox. stderr drains concurrently under a 65,536-character cap, preventing a full stderr pipe from blocking stdout. Cancellation targets the owned process tree/Job, never all processes by name. Disposal bounds waiting and reports cleanup failure. (src/PhantomFudge.Core/Answers/CopilotOwnedProcess.cs:31) (src/PhantomFudge.Core/Answers/CopilotOwnedProcess.cs:57) (src/PhantomFudge.Core/Answers/CopilotOwnedProcess.cs:122)
 
-Deleting owned directories does not erase retained hosted-Copilot profile databases, Agency caches/authentication under real app-data roots, OS artifacts or remote retention. Authentication-marker detection reacts to observable output and cannot prove the wrapper had not already begun an external authentication action. No adapter deliberately launches a login command as recovery. (src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs:68) (src/PhantomFudge.Core/Answers/CopilotCliProfile.cs:76) (src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs:53) (src/PhantomFudge.Core/Answers/AgencyJsonProtocol.cs:54)
+Deleting owned directories does not erase retained hosted-Copilot profile databases, Agency caches/authentication under real app-data roots, OS artifacts or remote retention. Authentication-marker detection reacts to observable output and cannot prove the wrapper had not already begun an external authentication action. No adapter deliberately launches a login command as recovery. (src/PhantomFudge.Core/Answers/CopilotCliAnswerProvider.cs:68) (src/PhantomFudge.Core/Answers/CopilotCliProfile.cs:76) (src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs:56) (src/PhantomFudge.Core/Answers/AgencyJsonProtocol.cs:54)
 
 ## One-shot parsing and the final application state
 
@@ -212,7 +222,7 @@ Direct Copilot is not ACP. `CopilotJsonProtocol` requires one message/turn, matc
 
 ## What the tests and probes establish—and what they do not
 
-The large fake ACP script is part of the test logic: it emits full option sets, verifies agent selection, captures envelopes and injects reverse RPCs, wrong IDs, drift, notices, delays and bad terminals. Launch transformation substitutes PowerShell for a nonexecutable sentinel. These tests exercise actual application protocol/lifecycle code without qualifying a real model or binary. Process cases return early on non-Windows. (tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs:642) (tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs:677)
+The large fake ACP script is part of the test logic: it emits full option sets, verifies agent selection, captures envelopes and injects reverse RPCs, wrong IDs, drift, notices, delays and bad terminals. Launch transformation substitutes PowerShell for a nonexecutable sentinel. These tests exercise actual application protocol/lifecycle code without qualifying a real model or binary. Process cases return early on non-Windows. (tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs:675) (tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs:719)
 
 Other tests separately cover immutable history, raw-default versus clarification stdin, stale run events and fragmented framing. The installed-Copilot integration fixture requires an explicit executable environment variable; absent that variable, it returns without running. When authorized, its loopback SSE peer withholds terminal until the consumer sees the first delta, checks zero tools and no sentinel-file expansion, and observes redirect behavior. Reading these assertions is not reporting a fresh pass. (tests/PhantomFudge.Core.Tests/AnswerClarificationTests.cs:8) (tests/PhantomFudge.Core.Tests/CopilotCliAnswerProviderTests.cs:36) (tests/PhantomFudge.Core.Tests/CopilotJsonProtocolTests.cs:154) (tests/PhantomFudge.Core.Tests/CopilotOfflineIntegrationTests.cs:19) (tests/PhantomFudge.Core.Tests/CopilotOfflineIntegrationTests.cs:134)
 

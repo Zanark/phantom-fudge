@@ -34,12 +34,12 @@ reinterpret that authorization as an unused test. See [provider setup and bounda
 [privacy/identity](AI-ANSWER-PRIVACY.md) and [evaluation](AI-ANSWER-EVALUATION.md).
 
 The older [69.881-second Sonnet marker smoke](answer-provider-smoke.json) established connectivity,
-not useful-answer performance. The final authorized iteration ledger records **48 client question
+not useful-answer performance. The October9 iteration ledger records **48 client question
 submissions**, including failed and superseded trials, without audio, organization data or new login.
-ACP does not expose opaque upstream retry counts. Agency is pinned to **2026.10.7.4 / bcff2c0f**,
-with **Copilot 1.0.92**. The new default is **`gpt-5.6-sol-fast` / low**, catalog-advertised and
-actually exercised in H; explicit overrides remain explicit, with no silent fallback. No further
-model-question calls are planned. This is measured selection, not a name-based “fastest” claim.
+ACP does not expose opaque upstream retry counts. That benchmark used **Agency2026.10.7.4 / bcff2c0f**
+with **Copilot1.0.92**. Current source checks the [runtime contract](ANSWER-PROVIDERS.md#compatibility-across-agency-updates),
+not those release pins. The default remains **`gpt-5.6-sol-fast` / low**, actually exercised in H;
+explicit overrides have no silent fallback. This is measured selection, not a name-based “fastest” claim.
 (tools\AgencyProbe\results\summary-final.json:2-31, scope, selection and accounting;
 tools\AgencyProbe\results\summary-final.json:197-224, catalog, policy and isolation.)
 
@@ -356,9 +356,9 @@ JSON-RPC on stdio: initialize once, create a fresh session, verify its configura
 prompt, require `end_turn`, and acknowledge `session/close` before completing the request.
 The engine can remain alive; OS-pipe EOF would instead be an unexpected transport failure.
 Session IDs cannot be reused, and the engine rotates after at most 32 created sessions.
-(src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:7-88, initialization/session identity and bounds;
-src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:90-122, prompt and close;
-src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:157-176, premature EOF.)
+(src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:7-91, initialization/session identity and bounds;
+src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:93-125, prompt and close;
+src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:160-179, premature EOF.)
 
 **Normal configured startup/reveal deliberately uses `WarmUpAsync`: one empty fresh session,
 no model prompt.** The [app lifetime coordinator](../src/PhantomFudge.App/MainWindow.AnswerLifetime.cs)
@@ -418,8 +418,8 @@ question submission. The app-owned constant policy is installed in the **SYSTEM 
 single user text contains fixed policy text plus one JSON `userQuestion` envelope preserving
 `ExactText`. JSON escaping, including `@`, keeps command-like text data rather than a launcher
 argument. No `SourceRefs`, previous question or assistant history is added.
-(src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:61-96, explicit agent selection/one prompt;
-src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:296-319, configuration verification;
+(src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:64-99, explicit agent selection/one prompt;
+src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:299-322, configuration verification;
 src\PhantomFudge.Core\Answers\AgencyAnswerPrompt.cs:8-111, policy and serialization;
 tools\AgencyProbe\results\summary-final.json:197-219, observed SYSTEM-role and fresh-history evidence.)
 
@@ -432,9 +432,9 @@ for obvious missing-input requests and selected follow-up invitations; it is not
 The policy now distinguishes a corrupted coding-platform name from the requested problem title,
 without rewriting the exact input. Earlier failures remain evidence, not retroactive passes.
 (src\PhantomFudge.Core\Answers\AgencyAnswerPrompt.cs:9-43, direct-answer policy;
-src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:101-109, terminal nonanswer guard;
-src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:213-265, rejected capabilities/plans;
-src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:330-354, bounded nonanswer heuristic;
+src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:104-112, terminal nonanswer guard;
+src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:216-268, rejected capabilities/plans;
+src\PhantomFudge.Core\Answers\AgencyAcpConnection.cs:333-357, bounded nonanswer heuristic;
 tools\AgencyProbe\results\summary-final.json:109-180, retained batches.)
 
 The UI and Core validate before committing question changes: oversized selection, paste, editing

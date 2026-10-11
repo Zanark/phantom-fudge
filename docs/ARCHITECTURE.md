@@ -235,6 +235,13 @@ tool surface, implicit prior question history, implicit retry or automatic fallb
 previous-answer context is request data in that fresh session, not resumed provider history. Measured prepared
 answers and the much slower cold-preparation boundary are separated in QUALITY-UPDATE.md.
 
+Source workstream63 replaces wrapper/engine release-number pins with runtime-contract readiness.
+The wrapper must identify as Agency; initialize must identify Copilot, declare ACP1 and support
+session close. Strict session model/reasoning/permissions/agent selection and subsequent
+tool/notification/terminal checks remain unchanged. Version changes alone do not disable Ask;
+genuine contract changes still fail rather than bypassing protection or selecting another provider.
+Preview3 includes this correction; published Preview2 predates it. See ANSWER-PROVIDERS.md.
+
 No taskbar/Alt-Tab entry does not mean no process, no Task View presence, no tray icon if
 one is explicitly enabled, or no capture-picker entry. Measure those separately.
 

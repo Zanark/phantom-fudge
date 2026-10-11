@@ -9,8 +9,8 @@ config:
 ---
 flowchart TD
     accTitle: Agency lifecycle and terminal evidence
-    accDescr: Version and initialization lead to an empty selected session. A single explicit prompt streams bounded text. End-turn and close are required before completion. Failure destroys the engine; success may prepare an empty next session.
-    A["Owned layout and wrapper check"] --> B["Initialize ACP"]
+    accDescr: Wrapper identity and the required ACP contract lead to an empty selected session without release-number pins. A single explicit prompt streams bounded text. End-turn and close are required before completion. Failure destroys the engine; success may prepare an empty next session.
+    A["Owned layout and Agency identity"] --> B["Verify ACP1 and close capability"]
     B --> C["New unique session"]
     C --> D["Validate and select agent"]
     D --> E["Empty session ready"]
@@ -20,7 +20,8 @@ flowchart TD
     H --> I["Close session acknowledged"]
     I --> J["Completed event"]
     J -->|Prepare only| C
-    D -->|Invalid configuration| X["Stop engine and delete owned tree"]
+    B -->|Incompatible contract| X["Stop engine and delete owned tree"]
+    D -->|Invalid configuration| X
     G -->|Tool or protocol failure| X
     H -->|Nonanswer or incomplete| X
     I -->|Close failure| X

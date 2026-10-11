@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-10-11T01:51:37.197Z",
+  "generatedAtUtc": "2026-10-11T17:24:41.257Z",
   "complete": true,
   "counts": {
     "files": 220,
-    "lines": 33872,
-    "nonblankLines": 31588,
+    "lines": 33926,
+    "nonblankLines": 31641,
     "blocks": 1359,
     "groups": 11
   },
@@ -91,7 +91,7 @@
     "site/assets/media-manifest.json": "f2c2ac22a11654581d0929227f5167ea1c1d483bb0e5eb862b239e0c954bc200",
     "site/assets/transcript.json": "6add37cab5aa7777e32288840063fa9c795303eb68bf82b8de88546b6ba6b9d7",
     "site/assets/tutorial-data.mjs": "ca56cae64a40b47eef953749d31aa281cee11f1cfbce55be4f9d80e7011fe6c0",
-    "site/index.html": "8a7befbc654be804d4f0c43fb56222a8d1e40706aadf520c2140f973e656599d",
+    "site/index.html": "ea0425d09ea74146ff74ea0bc3f777d46f10cf80ed104b056d800d51f8a4c0a3",
     "site/media.json": "01d31083a080456bb22d59170a46ee79bd96ca8a40a71c86dd3bd9cda75eb891",
     "site/player-core.mjs": "043d50626931799324bf7d4a0a227172471772da0694d99c7d0fefce2179d109",
     "site/styles.css": "49597736b100afddf0d1201299ad7fce02c53641de545de308a81493c29193b4",
@@ -141,11 +141,11 @@
     "src/PhantomFudge.App/ThemeBrushes.cs": "538caca7b44d67284cf62546ea9b48be3c80fd1db3c9616ed3ff7985f5b09a71",
     "src/PhantomFudge.App/app.manifest": "47cda1ef84d641ae724ff2450465a52cb07588b461ff599823b54163891e9bc2",
     "src/PhantomFudge.App/packages.lock.json": "bd5df778f68aaa6b68bdcfee360758a879df14af63ac42eecfb341da1d4b7ac8",
-    "src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs": "dc763cef4a9ebda22822639b3c3c2fa10eacfbc436eca2c42ea22905fe5c7def",
+    "src/PhantomFudge.Core/Answers/AgencyAcpConnection.cs": "02ddfd6585347425daef003e7cc673c538767d022c6f83e8caa6f7952658a403",
     "src/PhantomFudge.Core/Answers/AgencyAnswerProfile.cs": "cde813f447e1d6bae8cc0288685b758dc2f1972d6d34db53005bc963b50c9b92",
     "src/PhantomFudge.Core/Answers/AgencyAnswerPrompt.cs": "f043648ecc2a5d8e174d23fb6d6d1c9a601e47cef52ab4c3e51cb9dcb3d6f353",
-    "src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs": "6580c4925f8720a14659dc86f8995b2c79f248317e99eb6ba584d7c207b5173c",
-    "src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs": "d2ccc29a11040cce058163907669872fa5ce570b03b14c6020cdece05e1024c8",
+    "src/PhantomFudge.Core/Answers/AgencyCliAnswerProvider.cs": "80eae39e07001d26fdaba5119ebf89dc1e60b6b8494da37f8cb00d925d394c34",
+    "src/PhantomFudge.Core/Answers/AgencyCliLaunch.cs": "eebccc17c4a1b461e3de9d87438c3cc9c01548e4ed7cebf10e5902c80cd90ee0",
     "src/PhantomFudge.Core/Answers/AgencyJsonProtocol.cs": "f4e0e811013685626d83cf83c19140d453a15dc6f65e0dd6e7a12afdc46b6ecf",
     "src/PhantomFudge.Core/Answers/AnswerClarification.cs": "87524209f907ebc3d5e562b09d7477f7877c6ad3782922b556c348f38377ef17",
     "src/PhantomFudge.Core/Answers/AnswerConfiguration.cs": "4ee3b0e6c5d8139a71b2db2b263b35e0cc97232985c2ea732f9813b8ff5b8b87",
@@ -190,7 +190,7 @@
     "tests/PhantomFudge.Audio.Tests/Program.cs": "cce136e4359110d48900b72b42e3ac0380fe9a3f771c0d39507b05537db0f60a",
     "tests/PhantomFudge.Audio.Tests/packages.lock.json": "532040f4ecd7957ddcdc61a8c32d639f668cd3ed315f015be635703867588483",
     "tests/PhantomFudge.Core.Tests/AgencyAnswerPromptTests.cs": "8f832212a06e85d97acb7c161d8228504feb524647dd5ecb34ddd7ddfc968c01",
-    "tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs": "a9a1da7959114351c67376b2a1b4c44c3ff30c102c609ba788a63179d86529eb",
+    "tests/PhantomFudge.Core.Tests/AgencyCliAnswerProviderTests.cs": "7d5e5c6b1c62dfd5afdd7a94cb6dcf257aa927b67c5650a79a3ff25c2fd46d24",
     "tests/PhantomFudge.Core.Tests/AgencyProtocolTests.cs": "2c11930d8d55142dd4f709de08275e380817ac58236953382f9aedf1ca0b0c64",
     "tests/PhantomFudge.Core.Tests/AnswerClarificationTests.cs": "be9c626c2c01167256ab4be688438de95de99c7ebba1cd32d26a25db70429ae5",
     "tests/PhantomFudge.Core.Tests/AnswerConfigurationTests.cs": "31a9d7f3a53736249333528207696f3ee14fac9f7c378de87970fc40bfb8af87",
@@ -267,9 +267,9 @@
     "tools/Docs/test-docs.mjs": "259877beb0d52eaef5dc0e8e94671cf1bc31cbfe499a54f8401724b1559bd8f6",
     "tools/DualSourceProbe/probe.py": "6ff0b3f74333cd01e7b8974bc094fe4fe148f23024550c8e538250f14e449c2c",
     "tools/DualSourceProbe/test_runtime_upgrade.py": "784e149ba6d9da2346fcf7c9b556e6bba6275649bd0a13fbc69c086536165b20",
-    "tools/Installer/PhantomFudge.iss": "665e2bf343931724b8f8b6aeabbde7498f538e30d81a20982589727f901b328c",
+    "tools/Installer/PhantomFudge.iss": "7b0757c24526e7f48b81d98f9116babfb9aceaab573bbb91e51965cdfc799275",
     "tools/Installer/bundle_runtime.py": "776de36307d68159ade74a88ad6d1e558c4b480b727102b2891a38180c7b4b56",
-    "tools/Installer/release.json": "ab60a929a5f8696e2f57503a793a5254089333c8f13a25e1f96a4d4c2292b662",
+    "tools/Installer/release.json": "839399c6b7418908bda1714434dd71236f22eef400fe2b2b42ad7643d02db819",
     "tools/Installer/runtime-contract.json": "b5ea3d2c2b80ef140b26f48b616e0f9122b4ee09d003cffe211e7f01dd237c99",
     "tools/Installer/runtime-lock.json": "4271b71567064386dfad426e5e1fbae4bb7d706b186a9e7cb034d4b5a63ebdc3",
     "tools/Installer/runtime_audit.py": "67e9ae694242e82186cee16bb81f6b9ed75eaab9c3b3631f82c6f980b4c6f4f2",
@@ -309,42 +309,42 @@
     "docs/source-atlas/annotations/domain.json": "d3872b18e1561f27cfd01d8eb0f3f81dfdeca0d841653e1706fcd7dba4a6d76f",
     "docs/handbook/23-domain-source-walkthrough.md": "a889e80bc7e049d39c57fea6cd03302221210fe6ed79fc2e35b435a2b9aafc6f",
     "docs/source-atlas/annotations/installer-launcher.json": "81fee755a82f54d07815d3cbd2b05dfab7889f6ef4f249fe47fb9ed26218ab67",
-    "docs/INSTALLATION.md": "7a85958b7d0abd4acda44d0e3a6b0ea8ba884561e421dfecbc59fe17e3684fef",
-    "docs/source-atlas/annotations/installer-packaging.json": "464344359aca61b429c070cf43751599e208aa1137dab215832c89375968947c",
+    "docs/INSTALLATION.md": "0a2b2958134973cd8c4e243d5439ba2d9c8cd08a57dd1ef2e9b25a11f8212895",
+    "docs/source-atlas/annotations/installer-packaging.json": "cebb58b309061e13045790a86d40b202be564d847ccf65a1462fcea6d2aa57b1",
     "docs/source-atlas/annotations/installer-runtime.json": "ecb12b9c7294f43db848e51f8ad495814a35c186e22d2ea8c4d94eb27d79f639",
     "docs/source-atlas/annotations/operations.json": "601157335dadb1f25339af4b80fd1c3c77a1f5d69b98b9b7f99c70faf81e8a30",
     "docs/handbook/27-operations-source-walkthrough.md": "8676e7113d74f176227ad39cfd2bb9a15fce7f0d22c2d6723273adb83ae756ed",
-    "docs/source-atlas/annotations/providers.json": "706152ec0a0b8515415cd0ce0089ac08140b012c770548b18679cae9af1de783",
-    "docs/handbook/24-provider-source-walkthrough.md": "e86ee4154887a2b47ff86d6ad84609d629b8f5c5b9998ee28a231613f54e193c",
+    "docs/source-atlas/annotations/providers.json": "3f2033b4944fe98da263e78f14c6e58448aaaf193c4d9f12820ed0b4a74816c7",
+    "docs/handbook/24-provider-source-walkthrough.md": "dd7e97704fb1151f5d5dda88c5592bb5f73f40076c6de7f766d7842680e0d6a0",
     "docs/source-atlas/annotations/speech.json": "60a0d4e854c0c7e3b3f0ae0c957a855d09a5eafe1d38b7d616b2b384ea58e87d",
     "docs/handbook/26-speech-source-walkthrough.md": "67b15177203aa36148103f112be7de2a623207ab9abdd718442b658dfcdd04d2",
-    "docs/source-atlas/annotations/website.json": "0baf2e99825dd03fe40813f78a79e1f4e2a27aade93b3ab3ac237fb6e07dc7ca",
-    "docs/WEBSITE.md": "df9d550324cb1160a81280d699e40c48da30327d69cece87ff60fdb3a0f9d850"
+    "docs/source-atlas/annotations/website.json": "3be6df8b6aee1b7f653f460750ff7fa037319f70084fb5c4490a35a38a3bfa49",
+    "docs/WEBSITE.md": "290d21b02f4ec747f961d79115e9df79d74cd722605c1d5610460410bf979915"
   },
   "pdf": {
     "file": "docs/source-atlas/Phantom-Fudge-Source-Atlas.pdf",
-    "sha256": "7e640ff75470f103e74cf3c468b784d4762bf4477ba9f7a0d65bfe1f582ea606",
+    "sha256": "cc1b14462fd93d44a6bc5f2c2110f63a2aedc74b45b23ff353e9ce63057c9b78",
     "pages": 709,
-    "bytes": 18848140
+    "bytes": 18857076
   },
   "artifacts": [
     {
       "file": "docs/source-atlas/Phantom-Fudge-Source-Atlas.pdf",
-      "sha256": "7e640ff75470f103e74cf3c468b784d4762bf4477ba9f7a0d65bfe1f582ea606",
+      "sha256": "cc1b14462fd93d44a6bc5f2c2110f63a2aedc74b45b23ff353e9ce63057c9b78",
       "pages": 709,
-      "bytes": 18848140
+      "bytes": 18857076
     },
     {
       "file": "docs/source-atlas/index.html",
-      "sha256": "5df1fb9e6249d8e262dcf218e21ebcd8467b2541e41843e34a89663f93086148"
+      "sha256": "43415c8784ec23f9e989f36778729d8d12a9220bffeb3d44a89c560d2bda051a"
     },
     {
       "file": "docs/source-atlas/coverage.json",
-      "sha256": "fa043aaeefb47acd6f9bf9aba6dd8f71f185167bc71fd0990e26565e7c2d543b"
+      "sha256": "b711420cb124070e3d3e06a71e6514d755f1c4c1c3f71a072b595a0af617a5fa"
     },
     {
       "file": "docs/source-atlas/README.md",
-      "sha256": "b0d4b0308262dc0b9b9e6ffc073c87e8b1932806967c927e553e1cf03235478e"
+      "sha256": "78ef4fdf6cd6bffd267f02a3718c64c3035d1f38b01682cf34e59ee9195f2d9f"
     }
   ]
 }

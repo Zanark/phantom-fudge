@@ -72,6 +72,11 @@ These are scripted, sample-data demonstrations using actual WPF frames and synth
 Preview 2 includes Previous answer; frozen tutorial installer labels still show Preview 1. Native installation,
 file-picker and provider steps in the tutorial are instructions, not recordings of those operations.
 
+Current source points both download links to Preview3 and names its Agency update compatibility fix.
+This changes release navigation only, not the frozen tutorial, captions, GIFs or playback behavior.
+Its deployment is a separate publication step; historical Preview2 deployment evidence below remains
+historical rather than being relabelled as a Preview3 observation. (`site/index.html:44,156`)
+
 The player behavior is implemented in [app.mjs](../site/app.mjs) and its
 [pure timing/search helpers](../site/player-core.mjs). The existing browser fixture exercises
 all chapter starts, search and caption controls; the Node tests check all 525 cue intervals.

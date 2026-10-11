@@ -267,7 +267,7 @@ public sealed class AgencyCliAnswerProvider : IAnswerProvider, IAsyncDisposable
             if (ExecutableStamp.Read(executable) != stamp)
                 throw new AnswerProviderException("agency_version", "Agency changed during version verification. No question was sent.");
             verifiedVersion = stamp;
-            Record(DiagnosticEvent.ProviderVersion, id, watch, "verified");
+            Record(DiagnosticEvent.ProviderVersion, id, watch, "identity_checked");
         }
         else Record(DiagnosticEvent.ProviderVersion, id, watch, "cached_unchanged");
         engineLifetime = new CancellationTokenSource();
@@ -442,9 +442,9 @@ public sealed class AgencyCliAnswerProvider : IAnswerProvider, IAsyncDisposable
             }
             process.CheckErrorLimit();
             if (await process.WaitAsync(token).ConfigureAwait(false) != 0 ||
-                !output.ToString().Trim().StartsWith(AgencyCliLaunch.VersionPrefix + " ", StringComparison.Ordinal))
+                !AgencyCliLaunch.HasVersionIdentity(output.ToString()))
                 throw new AnswerProviderException("agency_version",
-                    "This adapter requires the verified Agency 2026.10.7.4 build. No prompt was sent to an unverified version.");
+                    "The installed executable did not identify itself as Agency. Check the configured Agency path, then Reload setup; no question was sent.");
         }
         catch (OperationCanceledException) when (!caller.IsCancellationRequested && !IsStopping) { throw TimedOut(); }
         catch (Exception ex) when (ex is IOException or DecoderFallbackException)

@@ -8,7 +8,6 @@ namespace PhantomFudge.Core.Answers;
 // Only these qualified methods are emitted; incoming permission/tool requests fail closed.
 internal sealed class AgencyAcpConnection : IAsyncDisposable
 {
-    internal const string EngineVersion = "1.0.92";
     private readonly CopilotOwnedProcess process;
     private readonly IAsyncEnumerator<string> records;
     private long serial;
@@ -46,8 +45,12 @@ internal sealed class AgencyAcpConnection : IAsyncDisposable
         var result = await CallAsync("initialize", new { protocolVersion = 1, clientCapabilities = new { } }, token).ConfigureAwait(false);
         try
         {
+            var agent = result.GetProperty("agentInfo");
+            var version = agent.GetProperty("version").GetString();
             if (result.GetProperty("protocolVersion").GetInt32() != 1 ||
-                result.GetProperty("agentInfo").GetProperty("version").GetString() != EngineVersion ||
+                agent.GetProperty("name").GetString() != "Copilot" ||
+                string.IsNullOrWhiteSpace(version) || version.Length > 96 ||
+                version.Any(character => !(char.IsAsciiLetterOrDigit(character) || ".-+".Contains(character))) ||
                 result.GetProperty("agentCapabilities").GetProperty("sessionCapabilities")
                     .GetProperty("close").ValueKind != JsonValueKind.Object)
                 throw Version();
@@ -355,5 +358,5 @@ internal sealed class AgencyAcpConnection : IAsyncDisposable
 
     private static AnswerProviderException Protocol() => new("agency_protocol", "Agency returned an unsupported or malformed ACP stream.");
     private static AnswerProviderException Tools() => new("agency_tools", "Agency attempted a tool, plan, or client capability. The answer was stopped.");
-    private static AnswerProviderException Version() => new("agency_engine_version", "The installed Agency engine is not the qualified Copilot 1.0.92 ACP implementation. No question was sent.");
+    private static AnswerProviderException Version() => new("agency_acp_contract", "The installed Agency engine must identify as Copilot and support ACP protocol 1 with session close. Update Phantom Fudge for protocol changes, then Reload setup; no question was sent.");
 }

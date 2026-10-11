@@ -1,0 +1,59 @@
+# Agency Upgrade Compatibility
+
+Status: DONE
+Milestone: Restore configured Ask and tolerate contract-compatible Agency updates
+Dependencies: 39_INSTALLED_CLI_ANSWERS.todo, 42_DIRECT_FAST_ANSWERS.todo
+
+## Purpose
+
+Diagnose the disabled Ask provider button without bypassing provider readiness or silently
+accepting incompatible providers. Version changes alone should not block readiness; validate the
+runtime protocol, required capabilities and strict safety configuration before any question.
+
+## Tasks
+
+- [x] Trace Ask eligibility and inspect content-free startup diagnostics.
+- [x] Confirm installed wrapper version independently without prompting.
+- [x] Replace fixed wrapper/engine pins with version identity and runtime capability checks.
+- [x] Verify empty-session preparation and an explicitly authorized synthetic answer.
+- [x] Exercise older/current/future-compatible identities and breaking protocol/tool/configuration peers.
+- [x] Update affected guides, source annotations, handbook/atlas, index and development journal.
+
+## Acceptance criteria
+
+- [x] The installed build can reach readiness and complete a synthetic answer through the real adapter.
+- [x] Malformed identities, incompatible ACP and unsafe tool/configuration states remain rejected.
+- [x] No automatic question, provider fallback, new login, account change or live audio capture.
+- [x] Existing user edits and immutable Preview 1/2 assets remain unchanged.
+- [x] Evidence distinguishes local source correction from published binaries and live-meeting qualification.
+
+## Evidence
+
+- October11 source launches failed with agency_version before ProviderLaunch.
+- Isolated --version returned Agency2026.10.8.13/59e43189; source accepted only2026.10.7.4/bcff2c0f.
+- Owner explicitly authorized synthetic provider testing and subsequent debugging/fixing.
+- Exact-build interim correction reached readiness and completed one authorized synthetic answer.
+  It is superseded by the18:38 request for runtime-contract-based forward compatibility.
+- Final runtime: Core809/809, zero skipped, and full synthetic WPF checks passed; source build
+  completed without warnings/errors. Fake future wrapper2027.1.1.99/engine2.5.0 works under the
+  same contract; those are test identities, not released binaries.
+- Final Agency2026.10.8.13/engine1.0.93 synthetic answer completed in3223ms after12167ms preparation.
+  Two authorized cloud questions total include the interim exact-build test; no further prompts
+  were required. Timing is one current-host sample, not a guarantee.
+- A hash-matched copy of the actual1.0.93 engine sent two exact synthetic envelopes to a loopback
+  mock, with zero tools, no assistant history and the fixed policy in SYSTEM. Offline configuration
+  differs from hosted mode; actual production preparation/answer supplied hosted contract evidence.
+- First focused run:150passed/1failed due to concurrent methods.txt sharing in the fake fixture.
+  Reader now explicitly permits the peer's append writer;151/151then passed before final809/809.
+  This fixture race is not the cause of the owner's disabled Ask.
+- Reviewed source annotations cover220files/33926lines/1359blocks; atlas709pages and handbook396pages,
+  37chapters/75diagrams. Changed HTML/PDF pages and the lifecycle illustration were reviewed; browser
+  widths1440/768/390 fit with no page errors or external requests. Existing synthetic UI artwork
+  remains unchanged/current because no layout, rendering or screenshot-input source changed.
+- Source launcher rebuild is ready locally; no new installer, commit, push or release was requested.
+
+## Completion log
+
+- 2026-10-11 18:17 - Disabled Ask reported after running the source launcher.
+- 2026-10-11 18:25 - Owner confirmed proceeding with testing, debugging and fixing.
+- 2026-10-11 18:38 - Owner requests forward compatibility rather than debugging each version update.

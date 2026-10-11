@@ -1,11 +1,14 @@
 using System.Diagnostics;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PhantomFudge.Core.Answers;
 
 internal static class AgencyCliLaunch
 {
-    internal const string VersionPrefix = "agency 2026.10.7.4 (commit: bcff2c0f)";
+    internal static bool HasVersionIdentity(string output) => Regex.IsMatch(output.Trim(),
+        @"\Aagency [0-9]+(?:\.[0-9]+){2,3}(?:[-+][A-Za-z0-9.-]+)? \(commit: [0-9a-fA-F]{7,64}\)(?: [^\r\n]+)?\z",
+        RegexOptions.CultureInvariant | RegexOptions.NonBacktracking);
 
     internal static ProcessStartInfo Create(string executable, AnswerSettings settings, string workingDirectory,
         string home, string profile, string logDirectory, bool versionOnly = false)
